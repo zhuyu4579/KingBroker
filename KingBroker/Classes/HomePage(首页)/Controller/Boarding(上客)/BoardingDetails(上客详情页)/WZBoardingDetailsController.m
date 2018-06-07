@@ -683,7 +683,7 @@
     }else{
         [_titles setHidden:NO];
     }
-    long orderCreateTime = [[_order valueForKey:@"orderCreateTime"] longLongValue];
+    long orderCreateTime = [[_order valueForKey:@"orderCreateTime"] longValue];
     if (orderCreateTime != 0 ) {
         NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
         NSTimeInterval time=[date timeIntervalSince1970]*1000;

@@ -311,7 +311,8 @@ static NSString *size = @"20";
     NSIndexPath *indexpath = [self.tableView indexPathForRowAtPoint:point];
     WZBoaringCell *cell = [self.tableView cellForRowAtIndexPath:indexpath];
     NSString *sginStatus = cell.sginStatus;
-    long orderCreateTime = [cell.orderCreateTime longLongValue];
+    NSString *orderCreateTime1 = cell.orderCreateTime;
+    long orderCreateTime = [orderCreateTime1 longLongValue];
     
     if ([sginStatus isEqual:@"1"]) {
         [_titles setHidden:YES];

@@ -59,6 +59,7 @@
 @property(nonatomic,assign)UIButton *joinButton;
 //所属门店按钮
 @property(nonatomic,assign)UIButton *boaldingButton;
+
 @end
 
 @implementation WZMeViewController
