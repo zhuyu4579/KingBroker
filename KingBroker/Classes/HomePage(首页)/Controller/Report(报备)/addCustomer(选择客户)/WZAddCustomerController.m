@@ -105,7 +105,7 @@ static NSString *size = @"20";
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"userId"] = userId;
-    paraments[@"current"] = [NSString stringWithFormat:@"%zd",current];;
+    paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];;
     paraments[@"size"] = size;
     NSString *url = [NSString stringWithFormat:@"%@/order/contact",URL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {

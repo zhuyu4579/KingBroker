@@ -207,7 +207,7 @@
         str = [NSString stringWithFormat:@"%.1fKB",size/1000.0];
     }else if (size>0){
         //B
-        str = [NSString stringWithFormat:@"%zdB",size];
+        str = [NSString stringWithFormat:@"%ldB",(long)size];
     }
     return str;
 }

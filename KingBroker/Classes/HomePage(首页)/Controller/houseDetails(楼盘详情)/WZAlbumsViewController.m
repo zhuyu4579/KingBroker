@@ -9,7 +9,6 @@
 #import "WZAlbumsViewController.h"
 #import "UIView+Frame.h"
 #import "WZAlbumsCollectionView.h"
-#import <MJRefresh.h>
 #import <MJExtension.h>
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
@@ -29,13 +28,13 @@
     [super viewDidLoad];
     //设置导航栏
     [self setNavTitle];
-    //创建导航条
-    [self setUpNavView];
     //创建相册view
     [self setUpAlbumsView];
     //数据的请求
     [self finsDates];
+    
 }
+
 -(void)setNavTitle{
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"楼盘相册";
@@ -54,7 +53,7 @@
         //创建会话请求
         AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
         
-        mgr.requestSerializer.timeoutInterval = 60;
+        mgr.requestSerializer.timeoutInterval = 20;
         
         mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
         [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
@@ -66,9 +65,8 @@
             NSString *code = [responseObject valueForKey:@"code"];
             if ([code isEqual:@"200"]) {
                 NSDictionary *data = [responseObject valueForKey:@"data"];
-                NSArray *rows = [data valueForKey:@"rows"];
+                NSArray *rows = [data valueForKey:@"list"];
                 _array = rows;
-                
                 _collec.albumArray = [WZAlbumsItem mj_objectArrayWithKeyValuesArray:rows];
                 [_collec reloadData];
             }
@@ -80,15 +78,15 @@
         }];
     
 }
-//导航栏
--(void)setUpNavView{
-    UIView *narView = [[UIView alloc] initWithFrame:CGRectMake(0, 65, self.view.fWidth, 44)];
-    narView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:narView];
-    self.nView = narView;
-    //创建按钮
-    [self navButton:narView];
-}
+////导航栏
+//-(void)setUpNavView{
+//    UIView *narView = [[UIView alloc] initWithFrame:CGRectMake(0, 65, self.view.fWidth, 44)];
+//    narView.backgroundColor = [UIColor whiteColor];
+//    [self.view addSubview:narView];
+//    self.nView = narView;
+//    //创建按钮
+//    [self navButton:narView];
+//}
 -(void)navButton:(UIView *)view{
     UIButton *buttonOne = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, view.fHeight)];
     buttonOne.tag = 10;
@@ -156,7 +154,7 @@
 
 //创建相册
 -(void)setUpAlbumsView{
-    UIView *albumsView = [[UIView alloc] initWithFrame:CGRectMake(0, 111, self.view.fWidth, self.view.fHeight - 111)];
+    UIView *albumsView = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+45, self.view.fWidth, self.view.fHeight - kApplicationStatusBarHeight -45)];
     albumsView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:albumsView];
     
@@ -167,7 +165,7 @@
     layout.minimumLineSpacing = 16;
     layout.itemSize = CGSizeMake(165, 110);
     WZAlbumsCollectionView *albumsCV = [[WZAlbumsCollectionView alloc] initWithFrame:albumsView.bounds collectionViewLayout:layout];
-    
+    albumsCV.projectId = _ID;
     _collec = albumsCV;
     [albumsView addSubview:albumsCV];
 }

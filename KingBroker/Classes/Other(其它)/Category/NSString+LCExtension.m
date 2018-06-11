@@ -19,7 +19,7 @@
     NSInteger min = time / 60;
     // 秒
     NSInteger second = time % 60;
-    return [NSString stringWithFormat:@"%02zd:%02zd", min, second];
+    return [NSString stringWithFormat:@"%02ld:%02ld", (long)min, (long)second];
 }
 + (NSString *)getFilePathWithFileName:(NSString *)fileName
 {

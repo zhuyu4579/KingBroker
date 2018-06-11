@@ -105,6 +105,7 @@ static NSString *size = @"20";
 }
 #pragma mark -请求数据
 -(void)loadDate{
+    
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         NSString *uuid = [user objectForKey:@"uuid"];
         NSString *userId = [ user objectForKey:@"userId"];
@@ -122,7 +123,7 @@ static NSString *size = @"20";
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"userId"] = userId;
         paraments[@"types"] = @"1";
-        paraments[@"current"] = [NSString stringWithFormat:@"%zd",current];
+        paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
         paraments[@"size"] = size;
         NSString *url = [NSString stringWithFormat:@"%@/order/list",URL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
@@ -275,16 +276,7 @@ static NSString *size = @"20";
         make.width.mas_offset(196);
         make.height.mas_offset(196);
     }];
-    UILabel *Title = [[UILabel alloc] init];
-    Title.text = @"楼盘处带看扫码";
-    Title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    Title.textColor = UIColorRBG(153, 153, 153);
-    [codeView1 addSubview:Title];
-    [Title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(codeView1.mas_centerX);
-        make.top.equalTo(codeView2.mas_bottom).with.offset(10);
-        make.height.mas_offset(12);
-    }];
+
     UILabel *Titles = [[UILabel alloc] init];
     Titles.text = @"你所在门店未和该项目签约，可能无法结佣";
     Titles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
@@ -294,7 +286,7 @@ static NSString *size = @"20";
     [codeView1 addSubview:Titles];
     [Titles mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(codeView1.mas_centerX);
-        make.top.equalTo(Title.mas_bottom).with.offset(5);
+        make.top.equalTo(codeImage.mas_bottom).with.offset(10);
         make.height.mas_offset(13);
     }];
     UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(156, 461, 19, 19)];
@@ -312,7 +304,7 @@ static NSString *size = @"20";
     WZBoaringCell *cell = [self.tableView cellForRowAtIndexPath:indexpath];
     NSString *sginStatus = cell.sginStatus;
     NSString *orderCreateTime1 = cell.orderCreateTime;
-    long orderCreateTime = [orderCreateTime1 longLongValue];
+    long  orderCreateTime = [orderCreateTime1 longLongValue];
     
     if ([sginStatus isEqual:@"1"]) {
         [_titles setHidden:YES];

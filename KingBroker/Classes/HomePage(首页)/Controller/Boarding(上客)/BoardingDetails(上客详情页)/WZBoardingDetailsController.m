@@ -749,16 +749,6 @@
         make.width.mas_offset(196);
         make.height.mas_offset(196);
     }];
-    UILabel *Title = [[UILabel alloc] init];
-    Title.text = @"楼盘处带看扫码";
-    Title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    Title.textColor = UIColorRBG(153, 153, 153);
-    [codeView1 addSubview:Title];
-    [Title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(codeView1.mas_centerX);
-        make.top.equalTo(codeView2.mas_bottom).with.offset(16);
-        make.height.mas_offset(12);
-    }];
     UILabel *Titles = [[UILabel alloc] init];
     Titles.text = @"你所在门店未和该项目签约，可能无法结佣";
     Titles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
@@ -768,7 +758,7 @@
     [codeView1 addSubview:Titles];
     [Titles mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(codeView1.mas_centerX);
-        make.top.equalTo(Title.mas_bottom).with.offset(5);
+        make.top.equalTo(codeView.mas_bottom).with.offset(10);
         make.height.mas_offset(13);
     }];
     UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(156, 461, 19, 19)];
@@ -784,7 +774,7 @@
     }else{
         [_titles setHidden:NO];
     }
-    long orderCreateTime = [[_order valueForKey:@"orderCreateTime"] longLongValue];
+    long orderCreateTime = [[_order valueForKey:@"orderCreateTime"] longValue];
     if (orderCreateTime != 0 ) {
         NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
         NSTimeInterval time=[date timeIntervalSince1970]*1000;

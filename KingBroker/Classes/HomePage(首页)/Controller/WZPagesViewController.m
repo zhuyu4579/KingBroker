@@ -100,7 +100,7 @@
 
 #pragma mark -创建首页控件
 -(void)setViewController{
-    float n = [UIScreen mainScreen].bounds.size.height/667.0;
+    float n = [UIScreen mainScreen].bounds.size.width/375.0;
     //创建一个滚动视图
     _scrollView = [ [UIScrollView alloc ] initWithFrame:CGRectMake(0, -20, SCREEN_WIDTH, self.view.fHeight-30)];
     [self.view addSubview:_scrollView];

@@ -226,7 +226,7 @@ static NSString *size = @"20";
         paraments[@"buildingFeature"] = _buildingFeature;
         paraments[@"buildingRenovation"] = _buildingRenovation;
         paraments[@"location"] = _lnglat;
-        paraments[@"current"] = [NSString stringWithFormat:@"%zd",current];
+        paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
         paraments[@"size"] = size;
       
         NSString *url = [NSString stringWithFormat:@"%@/proProject/projectList",URL];
@@ -347,6 +347,7 @@ static NSString *size = @"20";
     for (int i = 0; i < 4; i++) {
         
         UIButton *title = [[UIButton alloc] init];
+        
         if (i == 0) {
             title.frame= CGRectMake(10+titleViewW*i, 0, 45, titleViewH);
         }else{

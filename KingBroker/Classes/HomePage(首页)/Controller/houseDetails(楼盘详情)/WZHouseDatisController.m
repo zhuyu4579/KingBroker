@@ -33,11 +33,14 @@
 #import "WZMainUnitItem.h"
 #import "NSString+LCExtension.h"
 #import "WZPeripheryItem.h"
+#import "WZAlbumPhonesViewController.h"
+#import "WZLBCollectionView.h"
+#import "WZLunBoItem.h"
 @interface WZHouseDatisController ()<WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate,MAMapViewDelegate>
 //总view
 @property(nonatomic,strong)UIScrollView *scrollView;
 //轮播图
-@property(nonatomic,strong)UIImageView *cycleView;
+@property(nonatomic,strong)WZLBCollectionView *cycleView;
 //底部按钮view
 @property(nonatomic,strong)UIView *buttonView;
 //导航栏view
@@ -88,6 +91,8 @@
 @property(nonatomic,strong)WZBankTableView *bank;
 //报备按钮
 @property(nonatomic,strong)UIButton *reportButton;
+
+@property(nonatomic,assign)CGFloat offor;
 @end
 
 @implementation WZHouseDatisController
@@ -212,7 +217,10 @@
     //项目ID
     _ID = [_houseDatils valueForKey:@"id"];
     //设置照片
-   [_cycleView sd_setImageWithURL:[NSURL URLWithString:[_houseDatils valueForKey:@"url"]] placeholderImage:[UIImage imageNamed:@"zlp_xq_pic"]];
+    NSArray *picCollect = [_houseDatils valueForKey:@"picCollect"];
+     _cycleView.arrayDatas = [WZLunBoItem mj_objectArrayWithKeyValuesArray:picCollect];
+    
+    [_cycleView reloadData];
     //设置页面张数
     NSString *alnumSum = [_houseDatils valueForKey:@"pictureNum"];
     [_album setTitle:[NSString stringWithFormat:@"共%@张",alnumSum] forState:UIControlStateNormal];
@@ -375,28 +383,24 @@
     [scrollView addSubview:viewSeven];
     scrollView.contentSize = CGSizeMake(0,viewSeven.fY + viewSeven.fHeight+10);
 }
+//轮播图
 -(void)getUpCycle{
-    float n = [UIScreen mainScreen].bounds.size.height/667.0;
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame: CGRectMake(0, -20, SCREEN_WIDTH,230*n)];
-    self.cycleView = imageView;
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickImage)];
-    [imageView addGestureRecognizer:tapGesture];
-    imageView.userInteractionEnabled = YES;
+    float n = [UIScreen mainScreen].bounds.size.width/375.0;
+    UIView *imageView = [[UIView alloc] initWithFrame: CGRectMake(0, -20, SCREEN_WIDTH,230*n)];
     [_scrollView addSubview:imageView];
+    //创建一个layout布局类
+    UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
+    //设置布局方向为水平流布局
+    layout.scrollDirection =  UICollectionViewScrollDirectionHorizontal;
+    layout.itemSize = CGSizeMake(imageView.fWidth, imageView.fHeight);
     
-    //初始化轮播图
-//    NSMutableArray *images = [[NSMutableArray alloc]init];
-//    for (NSInteger i = 1; i <= 5; ++i) {
-//        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"cycle_image%ld",(long)i]];
-//        [images addObject:image];
-//    }
-//
-//   WZCyclePhotoView  *cyclePlayView = [[WZCyclePhotoView alloc] initWithImages:images flag:NO];
-//    cyclePlayView.delegate = self;
-//    cyclePlayView.backgroundColor = [UIColor grayColor];
-//    [cycle addSubview:cyclePlayView];
+    layout.minimumLineSpacing = 0;
+    //创建collectionView 通过一个布局策略layout来创建
+    WZLBCollectionView *LBCV = [[WZLBCollectionView alloc]initWithFrame:CGRectMake(0, 0, imageView.fWidth, imageView.fHeight) collectionViewLayout:layout];
+    LBCV.projectId = _ID;
+    self.cycleView = LBCV;
+    [imageView addSubview:LBCV];
 }
-
 -(void)getUpTabButton{
     //创建返回按钮
     UIButton *popButton = [[UIButton alloc] initWithFrame:CGRectMake(15, 27, 30, 30)];
@@ -429,9 +433,24 @@
         
     }];
 }
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    
+    if (_offor >= 106) {
+        
+        return UIStatusBarStyleDefault;
+    }
+    
+    return UIStatusBarStyleLightContent;
+}
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    
+    return UIStatusBarAnimationFade;
+}
 //滑动触发事件
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat offsetY = scrollView.contentOffset.y - 106;
+    _offor = scrollView.contentOffset.y;
+     [self setNeedsStatusBarAppearanceUpdate];
     if(self.scrollView.contentOffset.y >= 106){
         self.tabView.backgroundColor =[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha: 1 - ((64 - offsetY) / 64)];
         self.ineView.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha: 1 - ((64 - offsetY) / 64)];
@@ -581,7 +600,6 @@
         make.height.offset(16);
     }];
     UILabel *ScLabelOnes = [[UILabel alloc] init];
-   
     ScLabelOnes.font =  [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     ScLabelOnes.textColor =UIColorRBG(153, 153, 153);
     self.ScLabelOnes = ScLabelOnes;
@@ -617,7 +635,6 @@
     buttonViewIneTwo.backgroundColor = UIColorRBG(3, 133, 219);
     [view addSubview:buttonViewIneTwo];
     self.buttonViewIneTwo = buttonViewIneTwo;
-    
     UILabel *ScLabelTwo = [[UILabel alloc] init];
     ScLabelTwo.text = @"上客";
     ScLabelTwo.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:16];
@@ -629,7 +646,6 @@
         make.height.offset(16);
     }];
     UILabel *ScLabelTwos = [[UILabel alloc] init];
-    
     ScLabelTwos.font =  [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     ScLabelTwos.textColor =UIColorRBG(153, 153, 153);
     self.ScLabelTwos = ScLabelTwos;
@@ -710,7 +726,7 @@
         make.width.equalTo(view.mas_width);
     }];
     UIView *Unit = [[UIView alloc] initWithFrame:CGRectMake(0, 75, view.fWidth, 193)];
-    Unit.backgroundColor = [UIColor redColor];
+    Unit.backgroundColor = [UIColor clearColor];
     [view addSubview:Unit];
     //创建一个layout布局类
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
@@ -721,7 +737,7 @@
     layout.sectionInset = UIEdgeInsetsMake(0, 15,0,15);
     layout.minimumLineSpacing = 15;
     //创建collectionView 通过一个布局策略layout来创建
-    WZMainUnitCollection * collect = [[WZMainUnitCollection alloc]initWithFrame:CGRectMake(0, 0, Unit.fWidth, Unit.fHeight) collectionViewLayout:layout];
+    WZMainUnitCollection * collect = [[WZMainUnitCollection alloc] initWithFrame:CGRectMake(0, 0, Unit.fWidth, Unit.fHeight) collectionViewLayout:layout];
     _collect = collect;
     [Unit addSubview:collect];
 }
@@ -884,24 +900,14 @@
     [view addSubview:titleUnderLine];
     self.titleUnderLine = titleUnderLine;
 }
-//点击图片事件
--(void)clickImage{
-    WZAlbumsViewController *albums = [[WZAlbumsViewController alloc] init];
-    albums.ID = _ID;
-    [self.navigationController pushViewController:albums animated:YES];
-}
+
 #pragma mark -相册
 -(void)albums{
     WZAlbumsViewController *albums = [[WZAlbumsViewController alloc] init];
     albums.ID = _ID;
     [self.navigationController pushViewController:albums animated:YES];
 }
-#pragma mark -点击图片触发操作
--(void)cyclePageClickAction:(NSInteger)clickIndex{
-    WZAlbumsViewController *albums = [[WZAlbumsViewController alloc] init];
-    albums.ID = _ID;
-    [self.navigationController pushViewController:albums animated:YES];
-}
+
 -(void)black{
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -914,7 +920,7 @@
         //创建会话请求
         AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
         
-        mgr.requestSerializer.timeoutInterval = 60;
+        mgr.requestSerializer.timeoutInterval = 20;
         
         mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
         [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
@@ -1083,5 +1089,13 @@
         [arrays addObject:data];
     }
     return arrays;
+}
+//根据URL获取图片
+-(UIImage *) getImageFromURL:(NSString *)fileURL
+{
+    UIImage * result;
+    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:fileURL]];
+    result = [UIImage imageWithData:data];
+    return result;
 }
 @end

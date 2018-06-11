@@ -102,7 +102,7 @@ static NSString *size = @"20";
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = @"1";
-    paraments[@"pageNumber"] = [NSString stringWithFormat:@"%zd",current];
+    paraments[@"pageNumber"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"pageSize"] = size;
     NSString *url = [NSString stringWithFormat:@"%@/userMessage/read/list",URL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {

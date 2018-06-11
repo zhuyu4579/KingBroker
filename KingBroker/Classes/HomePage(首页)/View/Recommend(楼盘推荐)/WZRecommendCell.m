@@ -18,7 +18,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    float n = [UIScreen mainScreen].bounds.size.height/667.0;
+    float n = [UIScreen mainScreen].bounds.size.width/375.0;
     _RecommendName.font = [UIFont fontWithName:@"PingFang-SC-Bold" size:32];
     self.backgroundColor = [UIColor clearColor];
     self.RecommendTitleOne.backgroundColor = UIColorRBG(242, 246, 237);

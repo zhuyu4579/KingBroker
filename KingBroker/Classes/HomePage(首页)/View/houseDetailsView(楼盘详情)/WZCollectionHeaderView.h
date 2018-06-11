@@ -12,8 +12,6 @@
 
 @property(nonatomic,strong)UILabel *headerTitle;
 
-@property (nonatomic, strong) NSArray *pictures;
-
-
+@property (nonatomic, strong) NSArray *picCollect;
 
 @end
