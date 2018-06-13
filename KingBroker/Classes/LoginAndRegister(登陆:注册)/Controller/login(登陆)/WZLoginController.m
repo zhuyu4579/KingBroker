@@ -24,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _headHeight.constant = kApplicationStatusBarHeight;
     //创建WZLoginRegistar
     WZLoginRegistar *lrV = [WZLoginRegistar loginRegistar];
     //传输数据

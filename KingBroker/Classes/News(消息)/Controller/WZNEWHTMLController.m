@@ -28,7 +28,7 @@
 }
 -(void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
-    _webView.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight);
+    _webView.frame = CGRectMake(0, kApplicationStatusBarHeight-20, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight+20);
     _pV.frame = CGRectMake(0, kApplicationStatusBarHeight+44, self.view.fWidth, 2);
 }
 - (void)createWebView

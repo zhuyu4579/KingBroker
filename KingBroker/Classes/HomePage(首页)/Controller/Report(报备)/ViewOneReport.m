@@ -72,7 +72,7 @@
 -(void)foundController{
     //创建一个UIScrollView
     UIScrollView *scrollView = [[UIScrollView alloc] init];
-    scrollView.frame = CGRectMake(self.view.fX, self.view.fY, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight-93);
+    scrollView.frame = CGRectMake(self.view.fX, self.view.fY, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight-93-JF_BOTTOM_SPACE);
     self.scrollView = scrollView;
     
     [self.view addSubview:scrollView];
@@ -110,7 +110,7 @@
     //点击按钮选择项目
     UIButton *titemNameButton = [[UIButton alloc] init];
     [titemNameButton setEnlargeEdge:44];
-    [titemNameButton setBackgroundImage:[UIImage imageNamed:@"more_unfold1"] forState:UIControlStateNormal];
+    [titemNameButton setBackgroundImage:[UIImage imageNamed:@"more_unfold"] forState:UIControlStateNormal];
     [titemNameButton addTarget:self action:@selector(itemNameButton) forControlEvents:UIControlEventTouchUpInside];
     _titemNameButton = titemNameButton;
     [_viewOne addSubview:titemNameButton];
@@ -241,7 +241,7 @@
         make.left.equalTo(self.view.mas_left);
         make.right.equalTo(self.view.mas_right);
         make.bottom.equalTo(self.view.mas_bottom);
-        make.height.mas_offset(49);
+        make.height.mas_offset(49+JF_BOTTOM_SPACE);
     }];
     
     //创建自定义的view

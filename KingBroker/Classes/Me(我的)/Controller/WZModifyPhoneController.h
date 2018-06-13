@@ -14,5 +14,6 @@
 //密码
 @property(nonatomic,strong)NSString *password;
 //密码
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 @property(nonatomic,strong)NSString *oldYZM;
 @end

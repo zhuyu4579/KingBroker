@@ -10,6 +10,7 @@
 
 @interface WZLoginController : UIViewController
 - (IBAction)closeLogin:(id)sender;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 
 @property (weak, nonatomic) IBOutlet UIView *millerLogin;
 //给数据传给我的页面

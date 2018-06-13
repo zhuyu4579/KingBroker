@@ -24,7 +24,7 @@
     WZFindPWView *FPWView = [WZFindPWView findPWView];
     FPWView.modityId = _modityID;
     [self.textFindPassWord addSubview:FPWView];
-    
+    _headHeight.constant = kApplicationStatusBarHeight + 94;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

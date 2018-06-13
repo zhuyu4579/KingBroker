@@ -12,7 +12,6 @@
 @interface WZablumController ()
 @property(nonatomic,strong)NSString *appVersion;
 @property(nonatomic,strong)NSString *newsVersion;
-
 @end
 
 @implementation WZablumController

@@ -133,7 +133,7 @@
     [self.view addSubview:textViewThree];
     _haveCodeView = [WZHaveCodeView haveCodeView];
     _haveCodeView.frame = textViewThree.bounds;
-   
+    _haveCodeView.type = _type;
     if (_registarBlock) {
         __weak typeof (self) weakSelf = self;
         _haveCodeView.stateBlock = ^(NSString *state) {
@@ -142,6 +142,7 @@
     }
     _noCodeView = [WZNoCodeView noCodeView];
     _noCodeView.frame = textViewThree.bounds;
+    _noCodeView.type = _type;
     [_noCodeView setHidden:YES];
     
     [textViewThree addSubview:_haveCodeView];

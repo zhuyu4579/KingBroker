@@ -147,6 +147,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"realname"] = _JName;
     paraments[@"storeCode"] = codeMa;
+    paraments[@"type"] = _type;
     NSString *url = [NSString stringWithFormat:@"%@/sysUser/companyAuthentication",URL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];

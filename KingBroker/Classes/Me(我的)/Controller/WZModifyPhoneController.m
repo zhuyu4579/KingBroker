@@ -40,6 +40,7 @@
 }
 //设置控件属性
 -(void)setController{
+    _headHeight.constant = kApplicationStatusBarHeight+129;
     //设置发送验证码按钮
     self.findYZM.backgroundColor = [UIColor colorWithRed:199.0/255.0 green:199.0/255.0 blue:205.0/255.0 alpha:1.0];
     self.findYZM.layer.cornerRadius = 3.0;
@@ -158,7 +159,7 @@
             int seconds = time % 60;
             dispatch_async(dispatch_get_main_queue(), ^{
                 //设置按钮显示读秒效果
-                [self.findYZM setTitle:[NSString stringWithFormat:@"重新发送(%.2d)", seconds] forState:UIControlStateNormal];
+                [self.findYZM setTitle:[NSString stringWithFormat:@"%.2d后重试", seconds] forState:UIControlStateNormal];
                 [self.findYZM setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 self.findYZM.enabled = NO;
                 self.findYZM.backgroundColor = UIColorRBG(199, 199, 205);

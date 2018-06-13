@@ -76,11 +76,12 @@
 -(void)ceartorController{
    
     UIView *view = [[UIView alloc] init];
-    view.frame = CGRectMake(15,108,self.view.fWidth-30,274);
+    view.frame = CGRectMake(15,kApplicationStatusBarHeight+88,self.view.fWidth-30,274);
     view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:view];
+    
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.frame = CGRectMake((self.view.fWidth-47)/2,84,47,47);
+    imageView.frame = CGRectMake((self.view.fWidth-47)/2,kApplicationStatusBarHeight+64,47,47);
     imageView.image = [UIImage imageNamed:@"succeed"];
     [self.view addSubview:imageView];
     
@@ -188,7 +189,7 @@
    
     //创建为你推荐
     UIView *likeView = [[UIView alloc] init];
-    likeView.frame = CGRectMake(0,400,self.view.fWidth,266);
+    likeView.frame = CGRectMake(0,view.fY+view.fHeight+10,self.view.fWidth,266);
     likeView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:likeView];
     UILabel *likelabel = [[UILabel alloc] init];

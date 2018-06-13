@@ -18,6 +18,7 @@
 @interface WZFindPWView()
 //用户名
 @property(nonatomic,strong)NSString *username;
+
 @end
 @implementation WZFindPWView
 
@@ -155,7 +156,7 @@
                 //设置按钮的样式
                 [self.findYZMTextTow setTitle:@"重新发送" forState:UIControlStateNormal];
                 [self.findYZMTextTow setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                self.findYZMTextTow.enabled = YES;
+                self.findYZMTextTow.userInteractionEnabled = YES;
                 self.findYZMTextTow.backgroundColor = UIColorRBG(3, 133, 219);
             });
             
@@ -163,9 +164,9 @@
             int seconds = time % 60;
             dispatch_async(dispatch_get_main_queue(), ^{
                 //设置按钮显示读秒效果
-                [self.findYZMTextTow setTitle:[NSString stringWithFormat:@"重新发送(%.2d)", seconds] forState:UIControlStateNormal];
+                [self.findYZMTextTow setTitle:[NSString stringWithFormat:@"%.2d后重试", seconds] forState:UIControlStateNormal];
                 [self.findYZMTextTow setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                self.findYZMTextTow.enabled = NO;
+                self.findYZMTextTow.userInteractionEnabled = NO;
                 self.findYZMTextTow.backgroundColor = UIColorRBG(199, 199, 205);
             });
             time--;

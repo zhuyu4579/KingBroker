@@ -45,8 +45,11 @@
 		1F47F4AF20CA77040012F5EF /* WZPhotoTypeNameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F47F4AE20CA77040012F5EF /* WZPhotoTypeNameView.m */; };
 		1F47F4B920CA85A30012F5EF /* WZAllPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F47F4B720CA85A30012F5EF /* WZAllPhotoCell.m */; };
 		1F47F4BA20CA85A30012F5EF /* WZAllPhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F47F4B820CA85A30012F5EF /* WZAllPhotoCell.xib */; };
+		1F489C4F20CE9669005889D8 /* WZUpdateStoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F489C4D20CE9669005889D8 /* WZUpdateStoreController.m */; };
+		1F489C5020CE9669005889D8 /* WZUpdateStoreController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F489C4E20CE9669005889D8 /* WZUpdateStoreController.xib */; };
 		1F4ABECC2080D42400DEA9A8 /* WZAuthenticationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4ABECA2080D42400DEA9A8 /* WZAuthenticationController.m */; };
 		1F4ABECD2080D42400DEA9A8 /* WZAuthenticationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4ABECB2080D42400DEA9A8 /* WZAuthenticationController.xib */; };
+		1F4B6D2B20CF6B0600E7F7F9 /* WZAuthenSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4B6D2A20CF6B0600E7F7F9 /* WZAuthenSuccessController.m */; };
 		1F533D9620C914ED0053FE4E /* WZAlbumPhonesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F533D9520C914ED0053FE4E /* WZAlbumPhonesViewController.m */; };
 		1F5B831E2081ECEF0083DEC2 /* WZQuestionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B831C2081ECEF0083DEC2 /* WZQuestionController.m */; };
 		1F5B831F2081ECEF0083DEC2 /* WZQuestionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B831D2081ECEF0083DEC2 /* WZQuestionController.xib */; };
@@ -277,9 +280,14 @@
 		1F47F4B620CA85A30012F5EF /* WZAllPhotoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZAllPhotoCell.h; sourceTree = "<group>"; };
 		1F47F4B720CA85A30012F5EF /* WZAllPhotoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAllPhotoCell.m; sourceTree = "<group>"; };
 		1F47F4B820CA85A30012F5EF /* WZAllPhotoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZAllPhotoCell.xib; sourceTree = "<group>"; };
+		1F489C4C20CE9669005889D8 /* WZUpdateStoreController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZUpdateStoreController.h; sourceTree = "<group>"; };
+		1F489C4D20CE9669005889D8 /* WZUpdateStoreController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZUpdateStoreController.m; sourceTree = "<group>"; };
+		1F489C4E20CE9669005889D8 /* WZUpdateStoreController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZUpdateStoreController.xib; sourceTree = "<group>"; };
 		1F4ABEC92080D42400DEA9A8 /* WZAuthenticationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZAuthenticationController.h; sourceTree = "<group>"; };
 		1F4ABECA2080D42400DEA9A8 /* WZAuthenticationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAuthenticationController.m; sourceTree = "<group>"; };
 		1F4ABECB2080D42400DEA9A8 /* WZAuthenticationController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZAuthenticationController.xib; sourceTree = "<group>"; };
+		1F4B6D2920CF6B0600E7F7F9 /* WZAuthenSuccessController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZAuthenSuccessController.h; sourceTree = "<group>"; };
+		1F4B6D2A20CF6B0600E7F7F9 /* WZAuthenSuccessController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAuthenSuccessController.m; sourceTree = "<group>"; };
 		1F533D9420C914ED0053FE4E /* WZAlbumPhonesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZAlbumPhonesViewController.h; sourceTree = "<group>"; };
 		1F533D9520C914ED0053FE4E /* WZAlbumPhonesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAlbumPhonesViewController.m; sourceTree = "<group>"; };
 		1F5B831B2081ECEF0083DEC2 /* WZQuestionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZQuestionController.h; sourceTree = "<group>"; };
@@ -705,6 +713,8 @@
 				1F09DDC62087100A00C4D0A3 /* WZSettingController.h */,
 				1F09DDC72087100A00C4D0A3 /* WZSettingController.m */,
 				1F09DDC82087100A00C4D0A3 /* WZSettingController.xib */,
+				1F4B6D2920CF6B0600E7F7F9 /* WZAuthenSuccessController.h */,
+				1F4B6D2A20CF6B0600E7F7F9 /* WZAuthenSuccessController.m */,
 				1F06AF13208AC8A400E774F0 /* WZablumController.h */,
 				1F06AF14208AC8A400E774F0 /* WZablumController.m */,
 				1F451C6F20B6C43E00075240 /* WZReadPassWordController.h */,
@@ -715,6 +725,9 @@
 				1F06AF18208AED4100E774F0 /* WZModifyPhoneController.xib */,
 				1F77530B20A45316003E1C07 /* WZBelongedStoreController.h */,
 				1F77530C20A45316003E1C07 /* WZBelongedStoreController.m */,
+				1F489C4C20CE9669005889D8 /* WZUpdateStoreController.h */,
+				1F489C4D20CE9669005889D8 /* WZUpdateStoreController.m */,
+				1F489C4E20CE9669005889D8 /* WZUpdateStoreController.xib */,
 				1F63E6E720A67BD0001A1B75 /* WZApplyStorePersonController.h */,
 				1F63E6E820A67BD0001A1B75 /* WZApplyStorePersonController.m */,
 				1F46104320BBA12D00216FDB /* WZPhonesController.h */,
@@ -1638,6 +1651,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FD9C4A1207DB91700BB0298 /* LaunchScreen.storyboard in Resources */,
+				1F489C5020CE9669005889D8 /* WZUpdateStoreController.xib in Resources */,
 				1FD9C67E207DBD2C00BB0298 /* WZTaskTagCell.xib in Resources */,
 				1FD9C624207DBD2C00BB0298 /* WZNoCodeView.xib in Resources */,
 				1F451C7820B6E58100075240 /* WZTaskCell.xib in Resources */,
@@ -1863,6 +1877,7 @@
 				1FD9C672207DBD2C00BB0298 /* WZSchoolTableView.m in Sources */,
 				1FD9C62A207DBD2C00BB0298 /* WZMallViewController.m in Sources */,
 				1FD9C605207DBD2C00BB0298 /* WZTabBarController.m in Sources */,
+				1F489C4F20CE9669005889D8 /* WZUpdateStoreController.m in Sources */,
 				1FD9C679207DBD2C00BB0298 /* WZDynamictableView.m in Sources */,
 				1FD9C60D207DBD2C00BB0298 /* UIView+Frame.m in Sources */,
 				1F77530220A41567003E1C07 /* WZCollectTableView.m in Sources */,
@@ -1897,6 +1912,7 @@
 				1F47F4AF20CA77040012F5EF /* WZPhotoTypeNameView.m in Sources */,
 				1FD9C690207DBD2C00BB0298 /* WZSetFindPWView.m in Sources */,
 				1FD9C640207DBD2C00BB0298 /* WZPickerView.m in Sources */,
+				1F4B6D2B20CF6B0600E7F7F9 /* WZAuthenSuccessController.m in Sources */,
 				1F3885A420A5700700402B23 /* ZDMapController.m in Sources */,
 				1FD9C674207DBD2C00BB0298 /* WZDynamicCell.m in Sources */,
 				1FD9C61A207DBD2C00BB0298 /* UIButton+WZEnlargeTouchAre.m in Sources */,

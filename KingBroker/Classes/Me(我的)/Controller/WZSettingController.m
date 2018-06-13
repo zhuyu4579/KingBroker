@@ -14,6 +14,7 @@
 #import "WZfindPassWordController.h"
 #import "WZReadPassWordController.h"
 #import "WZAuthenticationController.h"
+#import "WZAuthenSuccessController.h"
 @interface WZSettingController ()
 @property (strong, nonatomic) UIAlertAction *okAction;
 @property (strong, nonatomic) UIAlertAction *cancelAction;
@@ -27,6 +28,7 @@
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
     [super viewDidLoad];
+    _headHeight.constant = kApplicationStatusBarHeight+54;
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"设置";
     self.cacha.textColor = UIColorRBG(102, 102, 102);
@@ -167,6 +169,9 @@
             WZAuthenticationController *authen = [[WZAuthenticationController alloc] init];
             [self.navigationController pushViewController:authen animated:YES];
            
+        }else if(idcardStatus == 2){
+            WZAuthenSuccessController *authenSuccess = [[WZAuthenSuccessController alloc] init];
+            [self.navigationController pushViewController:authenSuccess animated:YES];
         }
     
 }

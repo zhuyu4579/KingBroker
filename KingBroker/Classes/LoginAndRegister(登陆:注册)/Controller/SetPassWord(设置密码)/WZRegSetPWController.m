@@ -20,7 +20,7 @@
 }
 #pragma mark -设置界面导航条设置
 -(void)setBcakSetPw{
-    
+    _headHeight.constant = kApplicationStatusBarHeight+94;
     //导航条标题
     self.navigationItem.title = @"设置密码";
      WZSetPassWordView  *regV = [WZSetPassWordView SetPWView];

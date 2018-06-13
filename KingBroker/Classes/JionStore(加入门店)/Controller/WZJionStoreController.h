@@ -11,4 +11,6 @@
 @interface WZJionStoreController : UIViewController
 //将数据传到注册设置密码页面
 @property(nonatomic,strong)void(^registarBlock)(NSString *state);
+//修改门店
+@property(nonatomic,strong)NSString *type;
 @end

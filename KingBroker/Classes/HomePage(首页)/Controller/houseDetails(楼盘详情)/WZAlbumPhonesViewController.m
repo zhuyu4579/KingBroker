@@ -99,7 +99,7 @@
     }];
     //创建返回按钮
     UIButton *black = [[UIButton alloc] init];
-    [black setImage:[UIImage imageNamed:@"more_unfold"] forState:UIControlStateNormal];
+    [black setImage:[UIImage imageNamed:@"more_unfold1"] forState:UIControlStateNormal];
     [black addTarget:self action:@selector(black) forControlEvents:UIControlEventTouchUpInside];
     [nav addSubview:black];
     [black mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -153,7 +153,7 @@
     //创造通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(change:) name:@"indexPath" object:nil];
     
-    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.fHeight-50, self.view.fWidth, 50)];
+    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.fHeight-50-JF_BOTTOM_SPACE, self.view.fWidth, 50+JF_BOTTOM_SPACE)];
     buttonView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:buttonView];
     //创建一个layout布局类

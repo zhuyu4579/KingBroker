@@ -10,6 +10,7 @@
 
 @interface WZRegSetPWController : UIViewController
 @property (weak, nonatomic) IBOutlet UIView *SetPassWord;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 @property(nonatomic,strong)NSMutableDictionary *registar;
 //将值传给上一个页面
 @property(nonatomic,strong)void(^regBlock)(NSDictionary *regs);

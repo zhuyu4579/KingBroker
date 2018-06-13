@@ -109,7 +109,6 @@
 {
     if (response.regeocode != nil)
     {
-        
         AMapReGeocode *regeo = response.regeocode;
        //地址组成要素
         AMapAddressComponent *address = regeo.addressComponent;

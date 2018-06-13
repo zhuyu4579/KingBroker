@@ -27,6 +27,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"实名认证";
+    _headHeight.constant = kApplicationStatusBarHeight+54;
     _titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     _titleLabel.textColor = UIColorRBG(153, 153, 153);
     _getUpButton.backgroundColor = UIColorRBG(3, 133, 219);

@@ -52,7 +52,7 @@
     paraments[@"telphone"] = phone;
     NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",URL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
-        [self openCountdown];
+        
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
              [SVProgressHUD showInfoWithStatus:@"已发送"];
@@ -63,7 +63,7 @@
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
         }
-        
+        [self openCountdown];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
@@ -87,17 +87,18 @@
                 //设置按钮的样式
                 [self.findYZMText setTitle:@"重新发送" forState:UIControlStateNormal];
                 [self.findYZMText setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                self.findYZMText.enabled = YES;
-                 self.findYZMText.backgroundColor = UIColorRBG(3, 133, 219);
+                self.findYZMText.userInteractionEnabled = YES;
+                self.findYZMText.backgroundColor = UIColorRBG(3, 133, 219);
             });
             
         }else{
+           
             int seconds = time % 60;
             dispatch_async(dispatch_get_main_queue(), ^{
+                self.findYZMText.userInteractionEnabled = NO;
                 //设置按钮显示读秒效果
-                [self.findYZMText setTitle:[NSString stringWithFormat:@"重新发送(%.2d)", seconds] forState:UIControlStateNormal];
+                [self.findYZMText setTitle:[NSString stringWithFormat:@"%.2d后重试", seconds] forState:UIControlStateNormal];
                 [self.findYZMText setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                self.findYZMText.enabled = NO;
                 self.findYZMText.backgroundColor = UIColorRBG(199, 199, 205);
             });
             time--;

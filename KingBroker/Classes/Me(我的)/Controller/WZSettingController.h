@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *aboutUs;
 //退出登录
 @property (weak, nonatomic) IBOutlet UIButton *ExitLogon;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 //退出登录
 - (IBAction)exitLogin:(id)sender;
 //关于我们

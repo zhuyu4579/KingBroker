@@ -26,6 +26,7 @@
     [_buttonFour setEnlargeEdge:15];
     [_buttonFive setEnlargeEdge:15];
     [_buttonSix setEnlargeEdge:15];
+    _headHeight.constant = kApplicationStatusBarHeight+44+16;
 }
 
 - (void)didReceiveMemoryWarning {

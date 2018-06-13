@@ -102,14 +102,14 @@
 -(ViewOneReport *)OneReportVc{
     if (_OneReportVc == nil) {
         _OneReportVc = [[ViewOneReport alloc] init];
-        _OneReportVc.view.frame = CGRectMake(0, 64, self.view.fWidth, self.view.fHeight-64);
+        _OneReportVc.view.frame = CGRectMake(0, kApplicationStatusBarHeight+44, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight-44);
     }
     return _OneReportVc;
 }
 -(WZBatchReport *)batchReportVc{
     if (_batchReportVc == nil) {
         _batchReportVc = [[WZBatchReport alloc] init];
-        _batchReportVc.view.frame = CGRectMake(0, 64, self.view.fWidth, self.view.fHeight-64);
+        _batchReportVc.view.frame = CGRectMake(0, kApplicationStatusBarHeight+44, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight-44);
     }
     
     return _batchReportVc;

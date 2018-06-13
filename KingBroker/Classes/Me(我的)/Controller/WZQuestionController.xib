@@ -19,6 +19,7 @@
                 <outlet property="buttonSix" destination="VFP-Ud-7QM" id="y17-3b-Idj"/>
                 <outlet property="buttonThree" destination="4iz-t4-w4d" id="Fe2-AC-EeY"/>
                 <outlet property="buttonTwo" destination="LBL-tF-2qa" id="RTc-Hb-jVQ"/>
+                <outlet property="headHeight" destination="rA9-MN-YFM" id="kTQ-CH-qEO"/>
                 <outlet property="labelThree" destination="f2E-Bw-GT7" id="lxy-Sa-S5z"/>
                 <outlet property="labelTwo" destination="2Cu-Nc-5OS" id="Gcl-Sz-JNg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

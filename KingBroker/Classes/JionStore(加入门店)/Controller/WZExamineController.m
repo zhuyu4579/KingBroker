@@ -40,7 +40,7 @@
     [self.view addSubview:imageV];
     [imageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
-        make.top.equalTo(self.view.mas_top).offset(105);
+        make.top.equalTo(self.view.mas_top).offset(kApplicationStatusBarHeight+95);
         make.width.offset(75);
         make.height.offset(75);
     }];

@@ -83,6 +83,7 @@ static NSString *size = @"20";
     
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    footer.mj_h +=JF_BOTTOM_SPACE + 20;
     self.tableView.mj_footer = footer;
     
 }

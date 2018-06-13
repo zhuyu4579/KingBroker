@@ -17,6 +17,7 @@
                 <outlet property="authenStatus" destination="tcM-3K-KaG" id="FDH-6M-t6J"/>
                 <outlet property="cacha" destination="MCc-Ez-Z6B" id="NqP-bH-b4B"/>
                 <outlet property="cleanCache" destination="pmD-wu-epU" id="W66-M7-bv2"/>
+                <outlet property="headHeight" destination="juy-Ha-hfu" id="5tn-FL-ySE"/>
                 <outlet property="modifyPassWord" destination="PrR-pO-VdS" id="3R1-bC-Ft0"/>
                 <outlet property="modifyTelephone" destination="maM-z7-ctd" id="YsU-Jb-2CZ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

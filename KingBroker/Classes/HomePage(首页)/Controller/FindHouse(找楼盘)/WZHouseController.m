@@ -139,7 +139,7 @@ static NSString *size = @"20";
              _typeTable.array = _typeArray;
         }
         //特色看房服务
-        if ([code isEqual:@"lpzx"]||[code isEqual:@"lpts"]||[code isEqual: @"hxting"]||[code isEqual:@"hxmj"]) {
+        if ([code isEqual:@"lpzx"]||[code isEqual:@"lpts"]||[code isEqual: @"hxshi"]||[code isEqual:@"hxmj"]) {
             WZScreenItem *item = [[WZScreenItem alloc] init];
             item.code = [obj valueForKey:@"code"];
             item.name = [obj valueForKey:@"name"];
@@ -330,7 +330,7 @@ static NSString *size = @"20";
     //创建菜单
     [self getUpMenu];
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _menu.fY+_menu.fHeight+1, SCREEN_WIDTH, SCREEN_HEIGHT - _menu.fY-_menu.fHeight-1)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _menu.fY+_menu.fHeight+1, SCREEN_WIDTH, SCREEN_HEIGHT - _menu.fY-_menu.fHeight-1-JF_BOTTOM_SPACE)];
     view.backgroundColor = [UIColor clearColor];
     [self.view addSubview:view];
     _viewTable = view;
@@ -389,7 +389,7 @@ static NSString *size = @"20";
     }
 }
 -(void)getUpMenuAlert{
-    UIView *framView = [[UIView alloc] initWithFrame:CGRectMake(0, 110, self.view.fWidth, self.view.fHeight - 110)];
+    UIView *framView = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+90, self.view.fWidth, self.view.fHeight - kApplicationStatusBarHeight-90)];
     [self.view addSubview:framView];
     _framView = framView;
     [self getUpCover];

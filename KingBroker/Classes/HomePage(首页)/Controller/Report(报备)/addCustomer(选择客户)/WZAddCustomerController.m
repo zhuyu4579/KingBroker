@@ -78,6 +78,7 @@ static NSString *size = @"20";
     self.tableView.mj_header = header;
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    footer.mj_h += JF_BOTTOM_SPACE+20;
     self.tableView.mj_footer = footer;
 }
 #pragma mark -下拉刷新或者加载数据
@@ -130,7 +131,7 @@ static NSString *size = @"20";
             }else{
                 [_views setHidden:NO];
             }
-          _arrayData =  [WZCustomerItem mj_objectArrayWithKeyValuesArray:rows];
+          _arrayData =  [WZCustomerItem mj_objectArrayWithKeyValuesArray:_custormerArray];
             
            [self.tableView reloadData];
            [self.tableView.mj_header endRefreshing];

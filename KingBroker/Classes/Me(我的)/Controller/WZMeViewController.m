@@ -184,7 +184,7 @@
         _joinButton.enabled = NO;
     }else if(state == 2){
         //已加入门店
-        [_images setHidden:YES];
+        _images.image = [UIImage imageNamed:@"wd_icon_5"];
         _joinButton.enabled = NO;
         [_storeName setHidden:YES];
         [ _boaldingButton setTitle:[_loginItem valueForKey:@"storeName"] forState:UIControlStateNormal];
@@ -343,8 +343,9 @@
     _joinButton = button;
     [views addSubview:button];
     //跳转所属门点按钮
-    UIButton *stores = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, views.fWidth, views.fHeight)];
+    UIButton *stores = [[UIButton alloc] initWithFrame:CGRectMake(60, 0, views.fWidth-120, views.fHeight)];
     _boaldingButton = stores;
+    stores.titleLabel.textAlignment = NSTextAlignmentLeft;
     [stores setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
     [stores addTarget:self action:@selector(BelongedStore) forControlEvents:UIControlEventTouchUpInside];
     [views addSubview:stores];

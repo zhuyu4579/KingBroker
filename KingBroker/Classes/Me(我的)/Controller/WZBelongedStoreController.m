@@ -7,12 +7,15 @@
 //
 
 #import "WZBelongedStoreController.h"
+#import "UIBarButtonItem+Item.h"
 #import "UIView+Frame.h"
 #import <Masonry.h>
+#import "GKCover.h"
 #import "WZAuthenticationController.h"
 #import <SVProgressHUD.h>
 #import "WZJionStoreController.h"
 #import "WZApplyStorePersonController.h"
+#import "WZUpdateStoreController.h"
 @interface WZBelongedStoreController ()
 @property(nonatomic,strong)UIButton *button;
 @end
@@ -29,12 +32,17 @@
     self.navigationItem.title = @"所属门店";
     //创建控件
     if ([_realtorStatus isEqual:@"2"]) {
+        self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(edit) title:@"编辑"] ;
         //已加入门店
         [self setUpStore];
     }else{
        // 未加入门店
         [self setUpNoStore];
     }
+}
+//编辑按钮
+-(void)edit{
+    
 }
 //未加入门店
 -(void)setUpNoStore{
@@ -74,6 +82,7 @@
 }
 //加入门店
 -(void)setUpStore{
+    
     UIView *viewOne = [[UIView alloc] init];
     viewOne.frame = CGRectMake(0, kApplicationStatusBarHeight+45, self.view.fWidth, 151);
     viewOne.backgroundColor = [UIColor whiteColor];
@@ -191,6 +200,7 @@
         make.top.equalTo(viewThree.mas_top).offset(18);
         make.height.offset(14);
     }];
+    
     UILabel *labelThreeAddr = [[UILabel alloc] init];
     labelThreeAddr.text = _cityName;
     labelThreeAddr.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
@@ -226,7 +236,21 @@
         make.top.equalTo(ineViews.mas_bottom).offset(18);
         make.height.offset(14);
     }];
-    
+    //更换门店
+    UIButton *updateStore = [[UIButton alloc] init];
+    [updateStore setTitle:@"更换绑定门店" forState:UIControlStateNormal];
+    [updateStore setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    updateStore.backgroundColor = UIColorRBG(3, 133, 219);
+    updateStore.titleLabel.font = [UIFont systemFontOfSize:16];
+    [updateStore addTarget:self action:@selector(updateStore) forControlEvents:UIControlEventTouchUpInside];
+    updateStore.layer.cornerRadius = 5.0;
+    [self.view addSubview:updateStore];
+    [updateStore mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.top.equalTo(viewThree.mas_bottom).offset(65);
+        make.height.offset(44);
+        make.width.offset(self.view.fWidth - 30);
+    }];
     
 }
 //申请门店负责人
@@ -253,6 +277,60 @@
         [self.navigationController pushViewController:applyVc animated:YES];
     }
    
+}
+//更换门店
+-(void)updateStore{
+    UIView *view = [[UIView alloc] init];
+    view.fSize = CGSizeMake(270, 457);
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, view.fWidth, 392)];
+    imageView.image = [UIImage imageNamed:@"pop_3"];
+    [view addSubview:imageView];
+    UILabel *labelOne = [[UILabel alloc] init];
+    labelOne.textColor = UIColorRBG(68, 68, 68);
+    labelOne.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+    labelOne.text = @"1.需填写将更换门店的门店编码\n\n2.更换绑定门店后，结佣事项将与更换后门店关联\n\n3.更换绑定门店后将在1个工作日内审核完成";
+    labelOne.numberOfLines = 0;
+    [view addSubview:labelOne];
+    [labelOne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(view.mas_top).offset(158);
+        make.width.offset(view.fWidth - 60);
+    }];
+    UIButton *storeUpdate = [[UIButton alloc] init];
+    [storeUpdate setTitle:@"确认更换门店" forState:UIControlStateNormal];
+    [storeUpdate setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [storeUpdate addTarget:self action:@selector(updateStores) forControlEvents:UIControlEventTouchUpInside];
+    storeUpdate.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    storeUpdate.backgroundColor = UIColorRBG(3, 133, 219);
+    storeUpdate.layer.cornerRadius = 4.0;
+    [view addSubview:storeUpdate];
+    [storeUpdate mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(labelOne.mas_bottom).offset(46);
+        make.width.offset(view.fWidth - 60);
+        make.height.offset(35);
+    }];
+    UIButton *closeButton = [[UIButton alloc] init];
+    [closeButton setBackgroundImage:[UIImage imageNamed:@"closes"] forState:UIControlStateNormal];
+    [closeButton addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:closeButton];
+    [closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(imageView.mas_bottom).offset(35);
+        make.width.offset(30);
+        make.height.offset(30);
+    }];
+    [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:NO];
+}
+//确认更换门店
+-(void)updateStores{
+    [self close];
+    WZUpdateStoreController *store = [[WZUpdateStoreController alloc] init];
+    [self.navigationController pushViewController:store animated:YES];
+}
+//关闭提示框
+-(void)close{
+    [GKCover hide];
 }
 -(void)joinStore{
     WZJionStoreController *jionStore = [[WZJionStoreController alloc] init];

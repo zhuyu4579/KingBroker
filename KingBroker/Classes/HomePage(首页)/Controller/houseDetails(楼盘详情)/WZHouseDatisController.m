@@ -259,7 +259,7 @@
             _reportButton.enabled = YES;
         }else{
             _dView.Commission.text = @"加入门店可见佣金";
-            _reportButton.enabled = NO;
+            _reportButton.enabled = YES;
         }
     }else{
         _dView.Commission.text = @"佣金不可见";
@@ -318,7 +318,7 @@
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
 }
 -(void)getUpScreen{
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49)];
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49-JF_BOTTOM_SPACE)];
     scrollView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:scrollView];
     self.scrollView = scrollView;
@@ -327,14 +327,14 @@
     //创建轮播图
     [self getUpCycle];
     //设置导航条
-    UIView *tabView =[[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 64)];
+    UIView *tabView =[[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kApplicationStatusBarHeight+44)];
     tabView.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0];
     self.tabView = tabView;
     [self.view addSubview:tabView];
     //创建导航条返回按钮
     [self getUpTabButton];
     //创建图片相册按钮
-    UIButton *album = [[UIButton alloc] initWithFrame:CGRectMake(self.view.fWidth -65, 174, 50, 20)];
+    UIButton *album = [[UIButton alloc] initWithFrame:CGRectMake(self.view.fWidth -65,194-kApplicationStatusBarHeight, 50, 20)];
     [album setBackgroundImage:[UIImage imageNamed:@"rounded-rectangle"] forState:UIControlStateNormal];
     [album addTarget:self action:@selector(albums) forControlEvents:UIControlEventTouchUpInside];
     [album setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -342,7 +342,7 @@
     self.album = album;
     [scrollView addSubview:album];
     //创建第二个view
-    UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight-20, scrollView.fWidth, 276)];
+    UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight-kApplicationStatusBarHeight, scrollView.fWidth, 276)];
     viewTwo.backgroundColor = [UIColor whiteColor];
     [scrollView addSubview:viewTwo];
     WZDetailsViewOne *dView = [WZDetailsViewOne detailViewTwo];
@@ -386,7 +386,7 @@
 //轮播图
 -(void)getUpCycle{
     float n = [UIScreen mainScreen].bounds.size.width/375.0;
-    UIView *imageView = [[UIView alloc] initWithFrame: CGRectMake(0, -20, SCREEN_WIDTH,230*n)];
+    UIView *imageView = [[UIView alloc] initWithFrame: CGRectMake(0, -kApplicationStatusBarHeight, SCREEN_WIDTH,230*n)];
     [_scrollView addSubview:imageView];
     //创建一个layout布局类
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
@@ -403,14 +403,14 @@
 }
 -(void)getUpTabButton{
     //创建返回按钮
-    UIButton *popButton = [[UIButton alloc] initWithFrame:CGRectMake(15, 27, 30, 30)];
+    UIButton *popButton = [[UIButton alloc] initWithFrame:CGRectMake(15,kApplicationStatusBarHeight+7, 30, 30)];
     [popButton setBackgroundImage:[UIImage imageNamed:@"back_2"] forState:UIControlStateNormal];
     [popButton setBackgroundImage:[UIImage imageNamed:@"back_2"] forState:UIControlStateHighlighted];
     self.popButton = popButton;
     [popButton addTarget:self action:@selector(black) forControlEvents:UIControlEventTouchUpInside];
     [self.tabView addSubview:popButton];
     //创建收藏按钮
-    UIButton *likeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.fWidth-45, 27, 30, 30)];
+    UIButton *likeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.fWidth-45, kApplicationStatusBarHeight+7, 30, 30)];
     [likeButton setBackgroundImage:[UIImage imageNamed:@"favorite"] forState:UIControlStateNormal];
     [likeButton setBackgroundImage:[UIImage imageNamed:@"favorite_2"] forState:UIControlStateSelected];
     self.likeButton = likeButton;
@@ -428,7 +428,7 @@
     [self.tabView addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.tabView.mas_centerX);
-        make.centerY.equalTo(self.tabView.mas_centerY).mas_offset(10);
+        make.top.equalTo(self.tabView.mas_top).mas_offset(kApplicationStatusBarHeight+15);
         make.height.offset(14);
         
     }];
@@ -957,7 +957,7 @@
     
 }
 -(void)getUpButton{
-    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-49, SCREEN_WIDTH, 49)];
+    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-49-JF_BOTTOM_SPACE, SCREEN_WIDTH, 49+JF_BOTTOM_SPACE)];
     buttonView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:buttonView];
     self.buttonView = buttonView;

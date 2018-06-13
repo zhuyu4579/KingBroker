@@ -49,7 +49,7 @@
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = UIColorRBG(242, 242, 242);
     
     [self setViewController];
     //获取最新版本
@@ -102,7 +102,8 @@
 -(void)setViewController{
     float n = [UIScreen mainScreen].bounds.size.width/375.0;
     //创建一个滚动视图
-    _scrollView = [ [UIScrollView alloc ] initWithFrame:CGRectMake(0, -20, SCREEN_WIDTH, self.view.fHeight-30)];
+    _scrollView = [ [UIScrollView alloc ] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, self.view.fHeight - JF_BOTTOM_SPACE-49)];
+    
     [self.view addSubview:_scrollView];
     _scrollView.delegate = self;
     _scrollView.bounces = YES;
@@ -126,7 +127,7 @@
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     _scrollView.mj_header = header;
     //创建轮播图view
-    _cycleView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, SCREEN_WIDTH, 190*n)];
+    _cycleView = [[UIView alloc] initWithFrame: CGRectMake(0, -kApplicationStatusBarHeight, SCREEN_WIDTH, 190*n)];
     _cycleView.backgroundColor = [UIColor clearColor];
     [_scrollView addSubview:_cycleView];
     //初始化轮播图
@@ -139,7 +140,7 @@
     self.cyclePlayView.backgroundColor = [UIColor grayColor];
     [_cycleView addSubview:self.cyclePlayView];
     //创建按钮栏
-    UIView *buttons = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight, SCREEN_WIDTH, 136)];
+    UIView *buttons = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight-kApplicationStatusBarHeight, SCREEN_WIDTH, 136)];
     buttons.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:buttons];
     WZPageButtonView *pageView = [WZPageButtonView pageButtons];

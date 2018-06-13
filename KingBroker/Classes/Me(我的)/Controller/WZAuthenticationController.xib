@@ -14,6 +14,7 @@
                 <outlet property="codeImage" destination="VEU-WM-EFT" id="ROh-U2-psw"/>
                 <outlet property="codeImageTitle" destination="z1m-fW-HwB" id="p2J-Dv-M7n"/>
                 <outlet property="getUpButton" destination="fkZ-Ck-f8x" id="ER5-ea-swE"/>
+                <outlet property="headHeight" destination="IvV-Sj-2pJ" id="SP6-08-Xaf"/>
                 <outlet property="idCode" destination="6pT-OA-sO2" id="ATn-jt-Emc"/>
                 <outlet property="name" destination="E4H-sG-5zW" id="oAz-F4-2Sb"/>
                 <outlet property="titleLabel" destination="gOg-HF-8az" id="tDh-UX-UGm"/>
