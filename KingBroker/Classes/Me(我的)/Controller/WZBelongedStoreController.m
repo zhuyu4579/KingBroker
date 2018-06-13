@@ -16,8 +16,11 @@
 #import "WZJionStoreController.h"
 #import "WZApplyStorePersonController.h"
 #import "WZUpdateStoreController.h"
+#import "UIButton+WZEnlargeTouchAre.h"
 @interface WZBelongedStoreController ()
 @property(nonatomic,strong)UIButton *button;
+@property(nonatomic,strong)UIButton *addrButton;
+@property(nonatomic,strong)UITextField *labelThreeAddress;
 @end
 
 @implementation WZBelongedStoreController
@@ -32,7 +35,7 @@
     self.navigationItem.title = @"所属门店";
     //创建控件
     if ([_realtorStatus isEqual:@"2"]) {
-        self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(edit) title:@"编辑"] ;
+        //self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(edit) title:@"编辑"];
         //已加入门店
         [self setUpStore];
     }else{
@@ -42,7 +45,17 @@
 }
 //编辑按钮
 -(void)edit{
-    
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(success) title:@"完成"] ;
+    _addrButton.enabled = YES;
+    [_addrButton setHidden:NO];
+    _labelThreeAddress.enabled = YES;
+}
+//完成按钮
+-(void)success{
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(edit) title:@"编辑"] ;
+    _addrButton.enabled = NO;
+    [_addrButton setHidden:YES];
+    _labelThreeAddress.enabled = NO;
 }
 //未加入门店
 -(void)setUpNoStore{
@@ -200,7 +213,7 @@
         make.top.equalTo(viewThree.mas_top).offset(18);
         make.height.offset(14);
     }];
-    
+   
     UILabel *labelThreeAddr = [[UILabel alloc] init];
     labelThreeAddr.text = _cityName;
     labelThreeAddr.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
@@ -211,6 +224,22 @@
         make.top.equalTo(viewThree.mas_top).offset(18);
         make.height.offset(14);
     }];
+    //选择门店位置
+    UIButton *addrButton = [[UIButton alloc] init];
+    [addrButton setBackgroundImage:[UIImage imageNamed:@"place"] forState:UIControlStateNormal];
+    [addrButton addTarget:self action:@selector(selectStoreAddress) forControlEvents:UIControlEventTouchUpInside];
+    [addrButton setEnlargeEdgeWithTop:16 right:200 bottom:16 left:200];
+    addrButton.enabled = NO;
+    [addrButton setHidden:YES];
+    _addrButton  = addrButton;
+    [viewThree addSubview:addrButton];
+    [addrButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(labelThreeAddr.mas_left).offset(-10);
+        make.top.equalTo(viewThree.mas_top).offset(15);
+        make.height.offset(21);
+        make.width.offset(17);
+    }];
+    
     UIView *ineViews = [[UIView alloc] init];
     ineViews.frame = CGRectMake(14, 50, viewTwo.fWidth-15, 1);
     ineViews.backgroundColor = UIColorRBG(243, 243, 243);
@@ -226,15 +255,21 @@
         make.top.equalTo(ineViews.mas_bottom).offset(18);
         make.height.offset(14);
     }];
-    UILabel *labelThreeAddress = [[UILabel alloc] init];
+    UITextField *labelThreeAddress = [[UITextField alloc] init];
+    labelThreeAddress.placeholder = @"必填";
     labelThreeAddress.text = _cityAdder;
+    labelThreeAddress.textAlignment = NSTextAlignmentRight;
+    _labelThreeAddress = labelThreeAddress;
+    labelThreeAddress.enabled = NO;
+    labelThreeAddress.keyboardType = UIKeyboardTypeDefault;
     labelThreeAddress.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     labelThreeAddress.textColor =UIColorRBG(68, 68, 68);
     [viewThree addSubview:labelThreeAddress];
     [labelThreeAddress mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(viewThree.mas_right).offset(-15);
-        make.top.equalTo(ineViews.mas_bottom).offset(18);
-        make.height.offset(14);
+        make.top.equalTo(ineViews.mas_bottom);
+        make.width.offset(280);
+        make.height.offset(50);
     }];
     //更换门店
     UIButton *updateStore = [[UIButton alloc] init];
@@ -251,6 +286,10 @@
         make.height.offset(44);
         make.width.offset(self.view.fWidth - 30);
     }];
+    
+}
+//选择门店位置
+-(void)selectStoreAddress{
     
 }
 //申请门店负责人
@@ -346,6 +385,9 @@
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     
 }
-
+#pragma mark -软件盘收回
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.labelThreeAddress resignFirstResponder];
+}
 
 @end

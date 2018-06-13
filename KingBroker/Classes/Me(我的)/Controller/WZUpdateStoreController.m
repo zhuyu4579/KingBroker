@@ -25,6 +25,7 @@
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
     _headHeight.constant = kApplicationStatusBarHeight+152;
+    self.navigationItem.title = @"更换门店";
     //设置属性
     [self setupAttribute];
     
@@ -158,6 +159,7 @@
         if ([code isEqual:@"200"]) {
             WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
             JionStore.type = @"2";
+            JionStore.navigationItem.title = @"更换门店";
             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
             [self.navigationController presentViewController:nav animated:YES completion:nil];
         }else{
