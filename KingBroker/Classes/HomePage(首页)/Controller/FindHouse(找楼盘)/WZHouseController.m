@@ -139,7 +139,7 @@ static NSString *size = @"20";
              _typeTable.array = _typeArray;
         }
         //特色看房服务
-        if ([code isEqual:@"lpzx"]||[code isEqual:@"lpts"]||[code isEqual: @"hxting"]||[code isEqual:@"hxmj"]) {
+        if ([code isEqual:@"lpzx"]||[code isEqual:@"lpts"]||[code isEqual: @"hxshi"]||[code isEqual:@"hxmj"]) {
             WZScreenItem *item = [[WZScreenItem alloc] init];
             item.code = [obj valueForKey:@"code"];
             item.name = [obj valueForKey:@"name"];

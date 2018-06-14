@@ -122,45 +122,48 @@ UICollectionViewDataSource>
 //滑动到底部
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    CGFloat height = scrollView.frame.size.height;
-    CGFloat contentYoffset = scrollView.contentOffset.y+height;
+    CGFloat contentYoffset = scrollView.contentOffset.y;
+    
+    CGRect bounds = scrollView.bounds;
+    
+    UIEdgeInsets inset = scrollView.contentInset;
+    
+    CGFloat currentOffset = contentYoffset + bounds.size.height-inset.bottom-10;
     
     UIButton *button = [self.superview.superview viewWithTag:11];
     UIButton *button1 = [self.superview.superview viewWithTag:10];
     UIButton *button2 = [self.superview.superview viewWithTag:12];
-    
     CGFloat offsets1 = [self offsets:3];
     CGFloat offsets2 = [self offsets:(_albumArray.count-1)];
- 
-    if (contentYoffset >= 0 && contentYoffset < offsets1) {
+    if ((bounds.size.height-inset.bottom-10)>=offsets2) {
+        return;
+    }
+    if (offsets1<(bounds.size.height-inset.bottom-10)) {
+        offsets1 = bounds.size.height-inset.bottom-10;
+    }
+    if (currentOffset >= 0 && currentOffset <= offsets1) {
         button1.selected = YES;
         button.selected = NO;
         button2.selected = NO;
     }
-    if (contentYoffset >= offsets1 && contentYoffset<offsets2) {
+    if (currentOffset > offsets1 && currentOffset<offsets2) {
         button1.selected = NO;
         button.selected = YES;
         button2.selected = NO;
     }
     
-    if (contentYoffset >= offsets2) {
+    if (currentOffset >= offsets2) {
         button.selected = NO;
         button1.selected = NO;
         button2.selected = YES;
     }
     
-} 
+}
 -(CGFloat)offsets:(NSInteger)n{
     NSIndexPath *cellIndexPath = [NSIndexPath indexPathForItem:0 inSection:n];
-    
     UICollectionViewLayoutAttributes *attr = [self.collectionViewLayout layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader atIndexPath:cellIndexPath];
-    UIEdgeInsets insets = self.scrollIndicatorInsets;
-    
     CGRect rect = attr.frame;
-    rect.size = self.frame.size;
-    rect.size.height -= insets.top + insets.bottom;
     CGFloat offset = rect.origin.y;
-    
     return offset;
 }
 @end
