@@ -791,6 +791,7 @@ static NSString *size = @"20";
         _buildingFeature = [dicty valueForKey:@"lpts"];
         _buildingRenovation = [dicty valueForKey:@"lpzx"];
         _area = [dicty valueForKey:@"hxmj"];
+      
        
     };
 }
@@ -823,10 +824,16 @@ static NSString *size = @"20";
 //更多确认选择
 -(void)buttonCilck{
     UIButton *but =  [_menu viewWithTag:13];
-    [but setTitle:[NSString stringWithFormat:(@"多选")] forState:UIControlStateNormal];
-    [but setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
     UIButton *but1 =  [_menu viewWithTag:23];
-    [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_3"] forState:UIControlStateNormal];
+    if (_area.count == 0&&_buildingRenovation.count == 0&&_buildingFeature.count == 0&&_room.count == 0) {
+        [but setTitle:@"筛选" forState: UIControlStateNormal];
+        [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
+        [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_2"] forState:UIControlStateNormal];
+    }else{
+        [but setTitle:[NSString stringWithFormat:(@"多选")] forState:UIControlStateNormal];
+        [but setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
+        [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_3"] forState:UIControlStateNormal];
+    }
     [self hideView];
     _projectListArray = [NSMutableArray array];
     current = 1;
