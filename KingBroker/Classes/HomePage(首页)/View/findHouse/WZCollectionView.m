@@ -97,13 +97,7 @@ UICollectionViewDataSource>
 //点击cell
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     CollectionViewCell *cell =(CollectionViewCell *) [collectionView cellForItemAtIndexPath:indexPath];
-     WZScreenItem *model = self.screenArray[indexPath.section];
-//    for (SubCategoryModel *sub in model.dicts) {
-//        if (sub.flag) {
-//            sub.flag = NO;
-//        }
-//        [self reloadData];
-//    }
+    WZScreenItem *model = self.screenArray[indexPath.section];
     SubCategoryModel *scModel = model.dicts[indexPath.row];
     scModel.flag = !scModel.flag;
     cell.model = scModel;

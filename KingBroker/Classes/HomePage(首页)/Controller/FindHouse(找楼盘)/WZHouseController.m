@@ -788,7 +788,7 @@ static NSString *size = @"20";
     [buttonView addSubview:button];
     
     _colles.selectBlock = ^(NSMutableDictionary *dicty) {
-        _room = [dicty valueForKey:@"hxting"];
+        _room = [dicty valueForKey:@"hxshi"];
         _buildingFeature = [dicty valueForKey:@"lpts"];
         _buildingRenovation = [dicty valueForKey:@"lpzx"];
         _area = [dicty valueForKey:@"hxmj"];
