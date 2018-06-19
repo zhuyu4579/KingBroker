@@ -214,7 +214,7 @@
         // 使用日期生成图片名称
         NSDateFormatter *formatters = [[NSDateFormatter alloc] init];
         formatters.dateFormat = @"yyyyMMddHHmmss";
-        NSString *fileNames = [NSString stringWithFormat:@"%@.png",[formatter stringFromDate:[NSDate date]]];
+        NSString *fileNames = [NSString stringWithFormat:@"%@.png",[formatters stringFromDate:[NSDate date]]];
         // 任意的二进制数据MIMEType application/octet-stream
         [formData appendPartWithFileData:imageDatas name:@"face" fileName:fileNames mimeType:@"image/png"];
 
