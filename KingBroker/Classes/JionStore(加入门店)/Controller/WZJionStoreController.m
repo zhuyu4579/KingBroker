@@ -28,8 +28,6 @@
     [super viewDidLoad];
     [self setNavTitle];
     [self markView];
-
-    
 }
 
 #pragma mark -设置导航栏标题

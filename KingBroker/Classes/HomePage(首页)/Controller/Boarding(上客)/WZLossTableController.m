@@ -217,10 +217,7 @@ static NSString *size = @"20";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    _listArray = [NSMutableArray array];
-    current = 1;
-    //请求数据->展示数据
-    [self loadDate];
+    [self.tableView.mj_header beginRefreshing];
 }
 
 @end

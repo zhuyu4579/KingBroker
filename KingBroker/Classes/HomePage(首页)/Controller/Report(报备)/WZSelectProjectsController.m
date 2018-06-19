@@ -41,8 +41,7 @@ static NSString *size = @"20";
     [self.tableView registerNib:[UINib nibWithNibName:@"WZSelectProjectCell" bundle:nil] forCellReuseIdentifier:ID];
     _projectListArray = [NSMutableArray array];
     current = 1;
-    //请求数据
-    [self loadData];
+ 
     [self headerRefresh];
 }
 //下拉刷新
@@ -64,7 +63,7 @@ static NSString *size = @"20";
     // 设置颜色
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     self.tableView.mj_header = header;
-    
+    [self.tableView.mj_header beginRefreshing];
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     footer.mj_h +=JF_BOTTOM_SPACE + 20;

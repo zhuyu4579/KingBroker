@@ -111,8 +111,7 @@
     [self getUpScreen];
     //创建分享和报备按钮
     [self getUpButton];
-    //数据请求
-    [self loadData];
+    
     //点击项目统计
     [self editClickNum];
     [self headerRefresh];
@@ -160,7 +159,7 @@
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.scrollView.mj_header = header;
-   
+    [self.scrollView.mj_header beginRefreshing];
 }
 #pragma mark -下拉刷新或者加载数据
 -(void)loadNewTopic:(id)refrech{

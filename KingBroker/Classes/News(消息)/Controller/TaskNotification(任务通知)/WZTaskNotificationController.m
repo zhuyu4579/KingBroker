@@ -233,8 +233,6 @@ static NSString *size = @"20";
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    _listArray = [NSMutableArray array];
-    current = 1;
-    [self loadDate];
+    [self.tableView.mj_header beginRefreshing];
 }
 @end

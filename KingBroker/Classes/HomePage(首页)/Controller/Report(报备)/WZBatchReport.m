@@ -928,7 +928,6 @@
     
     [self performSelector:@selector(loadData) withObject:self afterDelay:1];
     
-
 }
 -(void)loadData{
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];

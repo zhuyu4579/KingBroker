@@ -101,6 +101,7 @@
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    
     UIView *view = [[UIView alloc] init];
     [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];

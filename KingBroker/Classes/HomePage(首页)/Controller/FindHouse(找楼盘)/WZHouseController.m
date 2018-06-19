@@ -855,11 +855,9 @@ static NSString *size = @"20";
     UIButton *but1 =  [_menu viewWithTag:20];
     [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_2"] forState:UIControlStateNormal];
     _seachCityId = @"";
-    _projectListArray = [NSMutableArray array];
-    current = 1;
+    [_tableView.mj_header beginRefreshing];
+    [_tableViewC.mj_header beginRefreshing];
     //获取城市列表
     [self cityDatas];
-    //数据请求
-    [self loadData];
 }
 @end

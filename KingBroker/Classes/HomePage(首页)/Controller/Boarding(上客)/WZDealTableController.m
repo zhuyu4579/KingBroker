@@ -105,7 +105,7 @@ static NSString *size = @"20";
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"userId"] = userId;
         paraments[@"types"] = @"2";
-    paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
+        paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
         paraments[@"size"] = size;
         NSString *url = [NSString stringWithFormat:@"%@/order/list",URL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
@@ -217,10 +217,7 @@ static NSString *size = @"20";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    _listArray = [NSMutableArray array];
-    current = 1;
-    //请求数据->展示数据
-    [self loadDate];
+    [self.tableView.mj_header beginRefreshing];
 }
 
 @end

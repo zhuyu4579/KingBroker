@@ -211,7 +211,7 @@ static  NSString * const ID = @"NewCell";
     }else{
         [_viewNo setHidden:YES];
         //创建数据模型加载数据
-        [self loadDate];
+        [self.tableView.mj_header beginRefreshing];
     }
 }
 //登录

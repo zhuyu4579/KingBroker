@@ -61,8 +61,7 @@ static NSString *size = @"20";
     self.tableView.showsHorizontalScrollIndicator = YES;
     _listArray = [NSMutableArray array];
     current = 1;
-    //请求数据->展示数据
-    [self loadDate];
+    
     [self headerRefresh];
     
     [self setCodeViews];
@@ -87,6 +86,7 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.tableView.mj_header = header;
+    [self.tableView.mj_header beginRefreshing];
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     self.tableView.mj_footer = footer;
