@@ -84,6 +84,7 @@
         [SVProgressHUD showInfoWithStatus:@"定位失败"];
     }
     _lnglat = lnglat;
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:lnglat forKey:@"lnglat"];
     [defaults synchronize];

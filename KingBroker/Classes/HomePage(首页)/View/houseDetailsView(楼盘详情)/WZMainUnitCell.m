@@ -16,7 +16,7 @@
     NSInteger room = [item.room integerValue];
     NSInteger living = [item.living integerValue];
     NSInteger toilet = [item.toilet integerValue];
-    _mainUnitLabelOne.text = [NSString stringWithFormat:@"%ld房%ld厅%ld卫",(long)room,(long)living,(long)toilet];
+    _mainUnitLabelOne.text = [NSString stringWithFormat:@"%ld室%ld厅%ld卫",(long)room,(long)living,(long)toilet];
     if (item.area) {
          _mainUnitLabelThree.text = [NSString stringWithFormat:@"%@平",item.area];
     }
