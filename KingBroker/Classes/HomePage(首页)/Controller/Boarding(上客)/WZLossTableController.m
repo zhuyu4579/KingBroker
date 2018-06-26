@@ -46,7 +46,8 @@ static NSString *size = @"20";
     self.tableView.showsVerticalScrollIndicator = YES;
     self.tableView.showsHorizontalScrollIndicator = YES;
     [self headerRefresh];
-    
+    //创造通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewTopics) name:@"Refresh" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -68,6 +69,8 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.tableView.mj_header = header;
+    
+    [self.tableView.mj_header beginRefreshing];
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     self.tableView.mj_footer = footer;
@@ -79,6 +82,11 @@ static NSString *size = @"20";
     _listArray = [NSMutableArray array];
     current = 1;
     [self loadDate];
+}
+-(void)loadNewTopics{
+    
+    [self.tableView.mj_header beginRefreshing];
+    
 }
 -(void)loadMoreTopic{
     [self.tableView.mj_footer beginRefreshing];
@@ -217,7 +225,7 @@ static NSString *size = @"20";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.tableView.mj_header beginRefreshing];
+ 
 }
 
 @end

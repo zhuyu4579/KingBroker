@@ -26,6 +26,9 @@
 @property(nonatomic,strong)NSString *releaseDateStr;
 //展示类型
 @property(nonatomic,strong)NSString *viewType;
-
+//跳转指定的页面
+@property(nonatomic,strong)NSString *param;
+//项目ID
+@property(nonatomic,strong)NSString *additional;
 
 @end

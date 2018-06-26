@@ -107,14 +107,18 @@
         return;
     }
     NSString *idCode = _idCode.text;
-    if(!idCode || idCode.length!=18){
-        [SVProgressHUD showInfoWithStatus:@"请输入正确的身份证号码"];
+    
+    BOOL card = [NSString validateIDCardNumber:idCode];
+    if (!card) {
+        [SVProgressHUD showInfoWithStatus:@"身份证号格式错误"];
         return;
     }
-  
+    
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         NSString *uuid = [ user objectForKey:@"uuid"];
     
+        UIView *view = [[UIView alloc] init];
+        [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];
         [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
         [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3]];
         [SVProgressHUD showWithStatus:@"提交中"];
@@ -146,7 +150,8 @@
         } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             
             NSString *code = [responseObject valueForKey:@"code"];
-             button.enabled = NO;
+            button.enabled = YES;
+            [GKCover hide];
             [SVProgressHUD dismiss];
             if ([code isEqual:@"200"]) {
                 NSString *status = [responseObject valueForKey:@"data"];
@@ -163,7 +168,8 @@
                 [NSString isCode:self.navigationController code:code];
             }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            button.enabled = NO;
+            button.enabled = YES;
+            [GKCover hide];
             [SVProgressHUD dismiss];
             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
         }];

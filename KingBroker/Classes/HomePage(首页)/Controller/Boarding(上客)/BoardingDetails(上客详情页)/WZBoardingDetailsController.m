@@ -19,6 +19,7 @@
 #import <UIImageView+WebCache.h>
 #import "NSString+LCExtension.h"
 #import "WZHouseDatisController.h"
+#import "UIBarButtonItem+Item.h"
 @interface WZBoardingDetailsController ()<UIScrollViewDelegate>
 @property (nonatomic,weak)UIScrollView *scrollView;
 @property (nonatomic,weak)UILabel *name;
@@ -114,6 +115,7 @@
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"orderId"] = _ID;
+        
         NSString *url = [NSString stringWithFormat:@"%@/order/detail",URL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
@@ -174,6 +176,8 @@
     
     if (statu == 1) {
         if (ver == 3) {
+            _codeButton.enabled = YES;
+            [_codeButton setHidden:NO];
             _imageView1.backgroundColor = UIColorRBG(3, 133, 219);
             _stateTitle1.textColor = UIColorRBG(3, 133, 219);
         }else{
@@ -186,6 +190,7 @@
         _imageView1.backgroundColor = UIColorRBG(3, 133, 219);
         _stateTitle1.textColor = UIColorRBG(3, 133, 219);
         _comButton.backgroundColor = UIColorRBG(3, 133, 219);
+        _codeButton.enabled = NO;
         [_codeButton setHidden:YES];
         [_comButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_comButton setTitle:@"发起成交" forState: UIControlStateNormal];
@@ -209,6 +214,9 @@
         _imageView2.backgroundColor = UIColorRBG(3, 133, 219);
         _stateTitle2.textColor = UIColorRBG(3, 133, 219);
         if (ver == 3) {
+            _comButton.enabled = NO;
+            _comButton.hidden = YES;
+            _scrollView.fHeight = self.view.fHeight;
             _imageView3.backgroundColor = UIColorRBG(3, 133, 219);
             _stateTitle3.textColor = UIColorRBG(3, 133, 219);
         }
@@ -221,7 +229,13 @@
             _stateTitle3.textColor = UIColorRBG(153, 153, 153);
         }
     }
-    
+    if (statu == 4) {
+        if (ver == 3) {
+            [_comButton setTitle:@"重新报备" forState: UIControlStateNormal];
+            [_comButton removeTarget:self action:@selector(BoardingCilck) forControlEvents:UIControlEventTouchUpInside];
+            [_comButton addTarget:self action:@selector(NewReportCilck) forControlEvents:UIControlEventTouchUpInside];
+        }
+    }
     //设置条数
     _n = _list.count;
     //删除所有子控件
@@ -357,10 +371,12 @@
         make.height.mas_offset(12);
     }];
 
-    if ([_Identifier isEqualToString:@"BoadingCellOne"]) {
+    
         UIButton *codeButton = [[UIButton alloc] init];
         [codeButton setEnlargeEdge:44];
         [codeButton setBackgroundImage:[UIImage imageNamed:@"OR-code"] forState:UIControlStateNormal];
+        codeButton.enabled = NO;
+        [codeButton setHidden:YES];
         [codeButton addTarget:self action:@selector(codeButtons) forControlEvents:UIControlEventTouchUpInside];
         [viewOne addSubview:codeButton];
         self.codeButton = codeButton;
@@ -370,7 +386,7 @@
             make.height.mas_offset(23);
             make.width.mas_offset(23);
         }];
-    }
+    
     //绘制线
     UIView *ineViewTwo = [[UIView alloc] initWithFrame: CGRectMake(0,79, SCREEN_WIDTH, 1)];
     ineViewTwo.backgroundColor =UIColorRBG(242, 242, 242);
@@ -587,20 +603,7 @@
         make.bottom.equalTo(self.view.mas_bottom);
         make.height.mas_offset(49);
     }];
-    
-    if([_Identifier isEqualToString:@"BoadingCellTwo"]){
-        [confirmButton setTitle:@"发起成交" forState: UIControlStateNormal];
-        [confirmButton removeTarget:self action:@selector(BoardingCilck) forControlEvents:UIControlEventTouchUpInside];
-         [confirmButton addTarget:self action:@selector(LaunchDealCilck) forControlEvents:UIControlEventTouchUpInside];
-    }else if([_Identifier isEqualToString:@"BoadingCellThree"]){
-        confirmButton.enabled = NO;
-        confirmButton.hidden = YES;
-        scrollView.fHeight = self.view.fHeight;
-    }else if([_Identifier isEqualToString:@"BoadingCellFour"]){
-        [confirmButton setTitle:@"重新报备" forState: UIControlStateNormal];
-        [confirmButton removeTarget:self action:@selector(BoardingCilck) forControlEvents:UIControlEventTouchUpInside];
-        [confirmButton addTarget:self action:@selector(NewReportCilck) forControlEvents:UIControlEventTouchUpInside];
-    }
+
     [scrollView addSubview:viewTwo];
     //创建第三个view
     UIView *viewThree = [[UIView alloc] init];
@@ -683,7 +686,7 @@
     }else{
         [_titles setHidden:NO];
     }
-    long orderCreateTime = [[_order valueForKey:@"orderCreateTime"] longValue];
+    long orderCreateTime = [[_order valueForKey:@"orderCreateTime"] longLongValue];
     if (orderCreateTime != 0 ) {
         NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
         NSTimeInterval time=[date timeIntervalSince1970]*1000;
@@ -758,7 +761,7 @@
     [codeView1 addSubview:Titles];
     [Titles mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(codeView1.mas_centerX);
-        make.top.equalTo(codeView.mas_bottom).with.offset(10);
+        make.bottom.equalTo(codeView1.mas_bottom).with.offset(-20);
         make.height.mas_offset(13);
     }];
     UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(156, 461, 19, 19)];
@@ -774,13 +777,15 @@
     }else{
         [_titles setHidden:NO];
     }
-    long orderCreateTime = [[_order valueForKey:@"orderCreateTime"] longValue];
+    long orderCreateTime = [[_order valueForKey:@"orderCreateTime"] longLongValue];
     if (orderCreateTime != 0 ) {
         NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
         NSTimeInterval time=[date timeIntervalSince1970]*1000;
         long time1 = time - orderCreateTime;
         if (time1 >30*60*1000) {
             [GKCover translucentWindowCenterCoverContent:_codeView animated:YES notClick:YES];
+            //创造通知
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeAlerts) name:@"BoaringVC" object:nil];
         }else{
             [SVProgressHUD showInfoWithStatus:@"订单创建时间小于30分钟"];
         }
@@ -791,7 +796,11 @@
 -(void)closeAlert{
     [self loadData];
     [GKCover hide];
-    
+}
+-(void)closeAlerts{
+    [SVProgressHUD showInfoWithStatus:@"您好,您报备的订单已上客成功"];
+    [self loadData];
+    [GKCover hide];
 }
 #pragma mark -项目按钮
 -(void)ItemButtons:(UIButton *)button{
@@ -853,6 +862,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+
 }
 
 @end

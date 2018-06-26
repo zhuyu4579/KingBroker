@@ -16,6 +16,10 @@
 #import <Masonry.h>
 #import "UIView+Frame.h"
 #import "WZNEWHTMLController.h"
+#import "WZTabBarController.h"
+#import "WZSettingController.h"
+#import "WZAuthenSuccessController.h"
+#import "WZBoardingDetailsController.h"
 @interface WZSystemController (){
     //页数
     NSInteger current;
@@ -196,9 +200,47 @@ static NSString *size = @"20";
     NSString *ID = anCell.ID;
     [self read:ID];
     NSString *url = anCell.url;
-    WZNEWHTMLController *new = [[WZNEWHTMLController alloc] init];
-    new.url = url;
-    [self.navigationController pushViewController:new animated:YES];
+    //跳转类型
+    NSString *viewType = anCell.viewType;
+    //项目ID/订单ID
+    NSString *additional = anCell.additional;
+    
+    //指定页面
+    NSString *param = anCell.param;
+    if([viewType isEqual:@"1"]){
+        WZNEWHTMLController *new = [[WZNEWHTMLController alloc] init];
+        new.url = url;
+        [self.navigationController pushViewController:new animated:YES];
+    }else if ([viewType isEqual:@"2"]){
+        NSInteger paramId = [param integerValue];
+       
+        if (paramId == 100) {
+            //订单详情
+            WZBoardingDetailsController *boaringVC = [[WZBoardingDetailsController alloc] init];
+            boaringVC.ID = additional;
+            [self.navigationController pushViewController:boaringVC animated:YES];
+        }else if (paramId == 102){
+            //订单详情
+            WZBoardingDetailsController *boaringVC = [[WZBoardingDetailsController alloc] init];
+            boaringVC.ID = additional;
+            [self.navigationController pushViewController:boaringVC animated:YES];
+        }else if (paramId == 104){
+            //我的设置
+            WZSettingController *setting = [[WZSettingController alloc] init];
+            [self.navigationController pushViewController:setting animated:YES];
+        }else if (paramId == 105){
+            //我的页面
+            WZTabBarController *tabVC = [[WZTabBarController alloc] init];
+            tabVC.selectedViewController = [tabVC.viewControllers objectAtIndex:2];
+            [self.navigationController presentViewController:tabVC animated:YES completion:nil];
+            
+        }else if (paramId == 106){
+            //实名认证成功
+            WZAuthenSuccessController *success = [[WZAuthenSuccessController alloc] init];
+            [self.navigationController pushViewController:success animated:YES];
+        }
+    }
+   
 }
 //已读接口
 -(void)read:(NSString *)ID{

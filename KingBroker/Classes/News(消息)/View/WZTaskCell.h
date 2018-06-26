@@ -25,6 +25,10 @@
 @property(nonatomic,strong)NSString *url;
 //url
 @property(nonatomic,strong)NSString *ID;
+//跳转指定的页面
+@property(nonatomic,strong)NSString *param;
+//项目ID
+@property(nonatomic,strong)NSString *additional;
 //数据模型
 @property(nonatomic,strong)WZAnnNewItem *item;
 

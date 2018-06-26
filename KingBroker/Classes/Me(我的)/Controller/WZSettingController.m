@@ -15,6 +15,7 @@
 #import "WZReadPassWordController.h"
 #import "WZAuthenticationController.h"
 #import "WZAuthenSuccessController.h"
+#import "JPUSHService.h"
 @interface WZSettingController ()
 @property (strong, nonatomic) UIAlertAction *okAction;
 @property (strong, nonatomic) UIAlertAction *cancelAction;
@@ -44,6 +45,7 @@
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSInteger idcardStatus = [[user objectForKey:@"idcardStatus"] integerValue];
+    
     if (idcardStatus == 0||idcardStatus == 3) {
         _authenStatus.text = @"未认证";
        
@@ -118,7 +120,14 @@
                 }
             }
             [userDefaults synchronize];
+            //退出的时候删除别名
+            [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+                if (iResCode == 0) {
+                    NSLog(@"删除别名成功");
+                }
+            } seq:1];
             [self.navigationController popViewControllerAnimated:YES];
+            
         }else{
             [SVProgressHUD showInfoWithStatus:@"退出失败"];
         }
@@ -164,6 +173,7 @@
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSInteger idcardStatus = [[user objectForKey:@"idcardStatus"] integerValue];
+    
         if (idcardStatus == 0||idcardStatus == 3) {
             
             WZAuthenticationController *authen = [[WZAuthenticationController alloc] init];

@@ -361,6 +361,7 @@
     parament[@"lnglat"] = _lnglat;
     parament[@"adCode"] = _adCode;
     parament[@"type"] = _type;
+    
     NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/cardAuthentication",URL];
     [mgr POST:url parameters:parament constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         NSData *imageData = [WZAlertView imageProcessWithImage:_imageOne];//进行图片压缩

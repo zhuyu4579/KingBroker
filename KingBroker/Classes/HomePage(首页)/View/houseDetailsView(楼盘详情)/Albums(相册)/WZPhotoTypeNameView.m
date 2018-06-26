@@ -40,8 +40,8 @@ UICollectionViewDataSource>
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-   
-    return _array.count;
+    
+    return _arrays.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -51,7 +51,7 @@ UICollectionViewDataSource>
         cell.name.textColor = [UIColor whiteColor];
         cell.name.backgroundColor = UIColorRBG(3, 133, 219);
     }
-    WZAlbumsItem *item = self.array[indexPath.row];
+    WZAlbumsItem *item = self.arrays[indexPath.row];
     cell.item = item;
     return cell;
 }

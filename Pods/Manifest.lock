@@ -21,6 +21,9 @@ PODS:
     - AMapFoundation-NO-IDFA (~> 1.4)
   - BRPickerView (2.1.2):
     - MJExtension (~> 3.0.13)
+  - JCore (1.1.7)
+  - JPush (3.0.8):
+    - JCore (~> 1.1.7)
   - Masonry (1.1.0)
   - MJExtension (3.0.13)
   - MJRefresh (3.1.15.3)
@@ -34,6 +37,7 @@ DEPENDENCIES:
   - AMap2DMap-NO-IDFA (~> 5.6.0)
   - AMapSearch-NO-IDFA (~> 5.7.0)
   - BRPickerView (~> 2.1.2)
+  - JPush (~> 3.0.8)
   - Masonry
   - MJExtension (~> 3.0.13)
   - MJRefresh (~> 3.1.15.3)
@@ -46,12 +50,14 @@ SPEC CHECKSUMS:
   AMapFoundation-NO-IDFA: b6cbefab250ae8ab2e31aa9bb3dbbb98137cd76f
   AMapSearch-NO-IDFA: 612a92f75ff20544f42d376dfcf3c034da4ad0b6
   BRPickerView: d2901cc053c9a744b6c0457c2a32801241bc7c02
+  JCore: f7459c81c135281a874a6beafdd321666adcc834
+  JPush: 9574d072cc37e93fa293ba69b43ce763c440943a
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 5932755f451458eefa24239358817f8d291240c7
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
   SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 676d1300bd45f14b1bad8f8f925562d06d718508
+PODFILE CHECKSUM: 779118e09057d8f33a57237f4aa831c096313d9e
 
 COCOAPODS: 1.4.0

@@ -203,12 +203,6 @@
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            NSDictionary *dic = [userDefaults dictionaryRepresentation];
-            for (NSString *key in dic) {
-                [userDefaults removeObjectForKey:key];
-            }
-            [userDefaults synchronize];
             //返回登录页面
             [NSString isCode:self.navigationController code:@"401"];
         }else{
@@ -218,7 +212,7 @@
                 }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
     
 }

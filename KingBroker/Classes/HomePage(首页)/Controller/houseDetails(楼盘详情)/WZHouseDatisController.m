@@ -218,8 +218,13 @@
     //设置照片
     NSArray *picCollect = [_houseDatils valueForKey:@"picCollect"];
      _cycleView.arrayDatas = [WZLunBoItem mj_objectArrayWithKeyValuesArray:picCollect];
+    //[UIView setAnimationsEnabled:NO];
+    [UIView performWithoutAnimation:^{
+        //刷新界面
+       [_cycleView reloadData];
+        //[UIView setAnimationsEnabled:YES];
+    }];
     
-    [_cycleView reloadData];
     //设置页面张数
     NSString *alnumSum = [_houseDatils valueForKey:@"pictureNum"];
     [_album setTitle:[NSString stringWithFormat:@"共%@张",alnumSum] forState:UIControlStateNormal];

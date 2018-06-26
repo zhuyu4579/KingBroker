@@ -390,7 +390,7 @@
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     //定位当前位置信息
     [self locate];
-    [_scrollView.mj_header beginRefreshing];
+    [self loadDateTask];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

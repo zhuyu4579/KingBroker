@@ -15,7 +15,7 @@
 #import <AFNetworking.h>
 #import <MJRefresh.h>
 #import <MJExtension.h>
-
+#import "JPUSHService.h"
 @implementation WZSetPassWordView
 
 +(instancetype)SetPWView{
@@ -55,9 +55,16 @@
             //加入门店
             WZJionStoreController *JionVc = [[WZJionStoreController alloc] init];
              WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionVc];
+            JionVc.type = @"1";
             [Vc.navigationController presentViewController:nav animated:YES completion:nil];
             //将数据传入加入门店中
             NSMutableDictionary *regis = [responseObject valueForKey:@"data"];
+            [JPUSHService setAlias:[regis valueForKey:@"id"] completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+                if (iResCode == 0) {
+                    NSLog(@"添加别名成功");
+                }
+            } seq:1];
+
             //将uuid 持久化
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:[regis valueForKey:@"uuid"] forKey:@"uuid"];

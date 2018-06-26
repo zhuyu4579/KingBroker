@@ -239,6 +239,7 @@
 		1F28463020887C4F007CFC7C /* WZCustomerItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZCustomerItem.m; sourceTree = "<group>"; };
 		1F2846352088858C007CFC7C /* UIView+WZView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+WZView.h"; sourceTree = "<group>"; };
 		1F2846362088858C007CFC7C /* UIView+WZView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+WZView.m"; sourceTree = "<group>"; };
+		1F38020620DBAC4C00624185 /* KingBroker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KingBroker.entitlements; sourceTree = "<group>"; };
 		1F3885A220A5700700402B23 /* ZDMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZDMapController.h; sourceTree = "<group>"; };
 		1F3885A320A5700700402B23 /* ZDMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZDMapController.m; sourceTree = "<group>"; };
 		1F3885A520A5718500402B23 /* AMapTipAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMapTipAnnotation.h; sourceTree = "<group>"; };
@@ -625,6 +626,7 @@
 		1FD9C493207DB91700BB0298 /* KingBroker */ = {
 			isa = PBXGroup;
 			children = (
+				1F38020620DBAC4C00624185 /* KingBroker.entitlements */,
 				1FD9C4AF207DBD2B00BB0298 /* Classes */,
 				1FD9C49A207DB91700BB0298 /* Main.storyboard */,
 				1FD9C49D207DB91700BB0298 /* Assets.xcassets */,
@@ -1624,6 +1626,11 @@
 					1FD9C490207DB91700BB0298 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -2053,6 +2060,7 @@
 			baseConfigurationReference = A537EFEC32D312BA2D69C2F9 /* Pods-KingBroker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = KingBroker/KingBroker.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J2K489YL4Z;
@@ -2074,6 +2082,7 @@
 			baseConfigurationReference = 162D7BC404A4A373859D567F /* Pods-KingBroker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = KingBroker/KingBroker.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J2K489YL4Z;

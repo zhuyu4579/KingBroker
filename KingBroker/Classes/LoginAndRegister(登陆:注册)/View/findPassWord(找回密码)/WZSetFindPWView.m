@@ -51,12 +51,6 @@
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             button.enabled = YES;
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            NSDictionary *dic = [userDefaults dictionaryRepresentation];
-            for (NSString *key in dic) {
-                [userDefaults removeObjectForKey:key];
-            }
-            [userDefaults synchronize];
             //返回登录页面
             UIViewController *Vc = [UIViewController viewController:[self superview]];
             [NSString isCode:Vc.navigationController code:@"401"];

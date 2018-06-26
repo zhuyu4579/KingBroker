@@ -17,6 +17,7 @@
 #import <MJRefresh.h>
 #import <MJExtension.h>
 #import "WZTabBarController.h"
+#import "JPUSHService.h"
 @interface WZLoginRegistar()<UITextFieldDelegate>
 
 @end
@@ -88,9 +89,14 @@
         NSString *code = [responseObject valueForKey:@"code"];
         button.enabled = YES;
         if ([code isEqual:@"200"]) {
-            
              _loginItem = [responseObject valueForKey:@"data"];
             
+            [JPUSHService setAlias:[_loginItem valueForKey:@"id"] completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+                if (iResCode == 0) {
+                    NSLog(@"添加别名成功");
+                }
+            } seq:1];
+
             if(_login){
                 _login(_loginItem);
             }
@@ -106,6 +112,7 @@
             [defaults setObject:[_loginItem valueForKey:@"idcardStatus"] forKey:@"idcardStatus"];
             [defaults setObject:[_loginItem valueForKey:@"commissionFag"] forKey:@"commissionFag"];
             [defaults synchronize];
+            [self receivingNotification];
             WZTabBarController *tab = [[WZTabBarController alloc] init];
             [vc.navigationController presentViewController:tab animated:YES completion:nil];
         }else{
@@ -118,6 +125,29 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
         button.enabled = NO;
+    }];
+    
+}
+//开启接收通知
+-(void)receivingNotification{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 30;
+    
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+   
+    NSString *url = [NSString stringWithFormat:@"%@/sysJpush/findJpushhistoryList",URL];
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
     }];
     
 }

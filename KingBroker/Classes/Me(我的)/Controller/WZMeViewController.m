@@ -74,6 +74,8 @@
     [self setNavBar];
     //创建区域控件
     [self setUpMeView];
+    //创造通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"MeRefresh" object:nil];
 }
 -(void)setNavBar{
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
@@ -96,7 +98,7 @@
     [self loginSuccess];
     //创建其他
     [self setViews];
-    
+   
 }
 //获取数据
 -(void)loadData{
@@ -118,6 +120,7 @@
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"username"] = username;
         paraments[@"userId"] = userId;
+         NSLog(@"234");
         NSString *url = [NSString stringWithFormat:@"%@/sysUser/myInfo",URL];
         [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
@@ -136,9 +139,13 @@
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
-                [self hide];
-                [self.noLoginView setHidden:NO];
-                [_views setHidden:YES];
+                if ([code isEqual:@"401"]) {
+                    [self hide];
+                    [self.noLoginView setHidden:NO];
+                    [_views setHidden:YES];
+                    [NSString isCode:self.navigationController code:code];
+                }
+               
             }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             if (error.code == -1001) {
@@ -150,7 +157,6 @@
         [self.noLoginView setHidden:NO];
         [_views setHidden:YES];
     }
-    
     
 }
 //登录后判断加入门店状态
@@ -221,34 +227,36 @@
     self.noLoginView = noLoginView;
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.frame = noLoginView.bounds;
-    imageView.image = [UIImage imageNamed:@"background_2"];
+    imageView.image = [UIImage imageNamed:@"mebackground"];
     [noLoginView addSubview:imageView];
     UILabel *label = [[UILabel alloc] init];
-    label.frame = CGRectMake(15,87,200,17);
-    label.text = @"欢迎来到经服";
-    label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
+    label.frame = CGRectMake(15,87,200,19);
+    label.text = @"欢迎来到经服APP";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:19];
     label.textColor =[UIColor whiteColor];
     [noLoginView addSubview:label];
     //登录按钮
-    UIButton *login = [[UIButton alloc] initWithFrame:CGRectMake(_noLoginView.fWidth/2-70, 147, 55, 25)];
+    UIButton *login = [[UIButton alloc] initWithFrame:CGRectMake(_noLoginView.fWidth/2-115, 147, 95, 40)];
     [login setTitle:@"登录" forState:UIControlStateNormal];
-    [login setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    login.titleLabel.font = [UIFont boldSystemFontOfSize:14];
-    login.layer.borderWidth = 1;
-    login.layer.borderColor = [UIColor whiteColor].CGColor;
-    login.layer.cornerRadius = 4.0;
-    login.layer.masksToBounds = YES;
+    [login setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
+    login.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    login.backgroundColor = [UIColor whiteColor];
+    login.layer.cornerRadius = 20.0;
+    login.layer.shadowColor = [UIColor grayColor].CGColor;
+    login.layer.shadowOffset = CGSizeMake(2, 5);
+    login.layer.shadowOpacity = 0.5;
     [login addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     [noLoginView addSubview:login];
     //登录按钮
-    UIButton *regs = [[UIButton alloc] initWithFrame:CGRectMake(_noLoginView.fWidth/2+15, 147, 55, 25)];
+    UIButton *regs = [[UIButton alloc] initWithFrame:CGRectMake(_noLoginView.fWidth/2+20, 147, 95, 40)];
     [regs setTitle:@"注册" forState:UIControlStateNormal];
-    [regs setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    regs.titleLabel.font = [UIFont boldSystemFontOfSize:14];
-    regs.layer.borderWidth = 1;
-    regs.layer.borderColor = [UIColor whiteColor].CGColor;
-    regs.layer.cornerRadius = 4.0;
-    regs.layer.masksToBounds = YES;
+    [regs setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
+    regs.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    regs.backgroundColor = [UIColor whiteColor];
+    regs.layer.cornerRadius = 20.0;
+    regs.layer.shadowColor = [UIColor grayColor].CGColor;
+    regs.layer.shadowOffset = CGSizeMake(2, 5);
+    regs.layer.shadowOpacity = 0.5;
     [regs addTarget:self action:@selector(regs) forControlEvents:UIControlEventTouchUpInside];
     [noLoginView addSubview:regs];
 }
@@ -256,6 +264,7 @@
 
 //注册成功
 -(void)loginSuccess{
+    
     UIView *loginSuccessView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.scrollView.fWidth, 224)];
     loginSuccessView.backgroundColor = [UIColor whiteColor];
     [self.scrollView addSubview:loginSuccessView];
@@ -303,11 +312,16 @@
 }
 //创建其他
 -(void)setViews{
- 
-    [self createButtonView:CGRectMake(0, 270, (SCREEN_WIDTH-1)/2, 115) image:@"order" imageSize:CGSizeMake(20, 30) target:self action:@selector(myOrder) title:@"我的订单"];
-     [self createButtonView:CGRectMake(SCREEN_WIDTH/2, 270, (SCREEN_WIDTH-1)/2, 115) image:@"lable" imageSize:CGSizeMake(20, 31) target:self action:@selector(myLable) title:@"我的项目"];
-     [self createButtonView:CGRectMake(0, 416, (SCREEN_WIDTH-1)/2, 115) image:@"question" imageSize:CGSizeMake(21, 30) target:self action:@selector(question) title:@"问题小秘"];
-     [self createButtonView:CGRectMake(SCREEN_WIDTH/2, 416, (SCREEN_WIDTH-1)/2, 115) image:@"setting" imageSize:CGSizeMake(30, 30) target:self action:@selector(setting) title:@"我的设置"];
+    UIView *ineOne = [[UIView alloc] initWithFrame:CGRectMake(15, 422, self.view.fWidth-30, 1)];
+    ineOne.backgroundColor = UIColorRBG(242, 242, 242);
+    [_scrollView addSubview:ineOne];
+     [self createButtonView:CGRectMake(0, 285, (SCREEN_WIDTH-1)/2, 115) image:@"order" imageSize:CGSizeMake(20, 30) target:self action:@selector(myOrder) title:@"我的订单"];
+     [self createButtonView:CGRectMake(SCREEN_WIDTH/2, 285, (SCREEN_WIDTH-1)/2, 115) image:@"lable" imageSize:CGSizeMake(20, 31) target:self action:@selector(myLable) title:@"我的项目"];
+     [self createButtonView:CGRectMake(0, 448, (SCREEN_WIDTH-1)/2, 115) image:@"question" imageSize:CGSizeMake(21, 30) target:self action:@selector(question) title:@"问题小秘"];
+     [self createButtonView:CGRectMake(SCREEN_WIDTH/2, 448, (SCREEN_WIDTH-1)/2, 115) image:@"setting" imageSize:CGSizeMake(30, 30) target:self action:@selector(setting) title:@"我的设置"];
+    UIView *ineTwo = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2.0, 277, 1, 308)];
+    ineTwo.backgroundColor = UIColorRBG(242, 242, 242);
+    [_scrollView addSubview:ineTwo];
     //创建加入门店
     UIView *views = [[UIView alloc] initWithFrame:CGRectMake((self.view.fWidth-318)/2.0, 200, 318, 50)];
     views.backgroundColor = [UIColor whiteColor];
@@ -366,6 +380,7 @@
 -(void)JoinStore{
     WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
      WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
+    JionStore.type = @"1";
     [self.navigationController presentViewController:nav animated:YES completion:nil];
     JionStore.registarBlock = ^(NSString *state) {
         _loginState = [state integerValue];
@@ -460,7 +475,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
 }
 #pragma mark -不显示导航条
 -(void)viewWillAppear:(BOOL)animated{

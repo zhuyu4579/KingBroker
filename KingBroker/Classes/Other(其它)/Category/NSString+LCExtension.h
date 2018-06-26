@@ -14,4 +14,6 @@
 + (NSString *)getFilePathWithFileName:(NSString *)fileName;
 //判断状态码返回登录
 +(void)isCode:(id)target code:(NSString *)code;
+//校验身份证号码
++(BOOL)validateIDCardNumber:(NSString *)value;
 @end

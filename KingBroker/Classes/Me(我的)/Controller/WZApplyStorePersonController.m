@@ -187,10 +187,11 @@
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     
+    UIView *view = [[UIView alloc] init];
+    [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3]];
     [SVProgressHUD showWithStatus:@"提交中"];
-    
     button.enabled = NO;
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
@@ -220,7 +221,8 @@
 
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
-        button.enabled = NO;
+        [GKCover hide];
+        button.enabled = YES;
         [SVProgressHUD dismiss];
         if ([code isEqual:@"200"]) {
             NSString *data = [responseObject valueForKey:@"data"];
@@ -236,7 +238,8 @@
             [NSString isCode:self.navigationController code:code];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        button.enabled = NO;
+        [GKCover hide];
+        button.enabled = YES;
         [SVProgressHUD dismiss];
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
@@ -250,7 +253,5 @@
     [super didReceiveMemoryWarning];
     
 }
-
-
 
 @end

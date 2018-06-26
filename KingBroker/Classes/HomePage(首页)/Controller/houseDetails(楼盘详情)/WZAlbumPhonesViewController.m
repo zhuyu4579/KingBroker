@@ -71,12 +71,17 @@
             NSString *num = [data valueForKey:@"num"];
             _num = num;
             _page.text = [NSString stringWithFormat:@"1/%@",num];
-            NSArray *array = [WZAlbumsItem mj_objectArrayWithKeyValuesArray:rows];
-            _photosCV.array = array;
-            [_photosCV reloadData];
-            _photosName.array = array;
-            [_photosName reloadData];
-            [self selectPhoto];
+            
+                NSArray *array = [WZAlbumsItem mj_objectArrayWithKeyValuesArray:rows];
+                
+                _photosCV.array = array;
+                //[UIView setAnimationsEnabled:NO];
+                [UIView performWithoutAnimation:^{
+                    //刷新界面
+                    [_photosCV reloadData];
+                    //[UIView setAnimationsEnabled:YES];
+                }];
+                [self selectPhoto];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -86,6 +91,7 @@
     }];
     
 }
+
 //设置导航
 -(void)setNav{
     UIView *nav = [[UIView alloc] init];
@@ -189,7 +195,6 @@
     
     NSIndexPath *indexPath1 = [NSIndexPath indexPathForItem:indexPath.section inSection:0];
     
-    
     [_photosCV scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
     UICollectionViewLayoutAttributes *attr = [self.photosCV.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath];
     CGRect rect = attr.frame;
@@ -197,10 +202,15 @@
     NSInteger page = rect.origin.x/self.view.fWidth +1;
     _page.text = [NSString stringWithFormat:@"%ld/%@",(long)page,_num];
     
-    [_photosName scrollToItemAtIndexPath:indexPath1 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
     _oldIndexPath = indexPath1;
     _photosName.oldIndexPath = _oldIndexPath;
     _photosName.selectIndexPath = _oldIndexPath;
+    
+    _photosName.arrays = [WZAlbumsItem mj_objectArrayWithKeyValuesArray:_list];;
+    [_photosName reloadSections:[NSIndexSet indexSetWithIndex:0]];
+    [_photosName scrollToItemAtIndexPath:indexPath1 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    
+    
 }
 //1接收通知
 -(void)change:(NSNotification *)notFi{

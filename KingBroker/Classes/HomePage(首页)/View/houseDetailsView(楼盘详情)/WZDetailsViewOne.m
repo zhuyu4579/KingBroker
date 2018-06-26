@@ -17,7 +17,6 @@
 -(void)layoutSubviews{
     self.itemName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
     self.itemName.textColor = UIColorRBG(68, 68, 68);
-    _price.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
     _price.textColor =UIColorRBG(255, 127, 19);
     self.itemLabel.backgroundColor = UIColorRBG(240, 246, 236);
     self.itemLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];

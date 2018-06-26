@@ -155,6 +155,7 @@ static NSString *size = @"20";
          UIView *childsView = self.childViewControllers[titleButton.tag].view;
          childsView.frame = CGRectMake(self.scrollView.fWidth*titleButton.tag, _titlesView.fY+_titlesView.fHeight, self.scrollView.fWidth, self.scrollView.fHeight-_titlesView.fY-_titlesView.fHeight);
          [self.scrollView addSubview:childsView];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"Refresh" object:nil];
     }];
 }
 #pragma mark -设置下划线

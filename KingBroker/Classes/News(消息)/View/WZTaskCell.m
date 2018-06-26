@@ -42,6 +42,9 @@
     _title.text = item.title;
     _content.text = item.content;
     _ID = item.id;
+    _param = item.param;
+    _additional = item.additional;
+    _viewType = item.viewType;
     NSString *url = item.pictureIds;
     
     if (![url isEqual:@""]) {

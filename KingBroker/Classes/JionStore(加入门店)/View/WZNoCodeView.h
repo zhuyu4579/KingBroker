@@ -12,5 +12,6 @@
 +(instancetype)noCodeView;
 //经纪人真实姓名
 @property(nonatomic,strong)NSString *JName;
+
 @property(nonatomic,strong)NSString *type;
 @end

@@ -75,9 +75,7 @@
     _houseLabelThree.backgroundColor = UIColorRBG(240, 246, 236);
     _houseLabelThree.textColor = UIColorRBG(111, 182, 244);
     _houseCommission.textColor = UIColorRBG(244, 102, 30);
-    _housePriceLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
     _housePriceLabel.textColor = UIColorRBG(255, 127, 19);
-    _housePrice.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
     _housePrice.textColor = UIColorRBG(255, 127, 19);
     _houseCollectionSum.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
     _houseCollectionSum.textColor = UIColorRBG(153, 153, 153);

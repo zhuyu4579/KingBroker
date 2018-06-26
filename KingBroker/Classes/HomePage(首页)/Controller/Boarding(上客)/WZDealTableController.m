@@ -33,6 +33,7 @@ static NSString *size = @"20";
 @implementation WZDealTableController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
@@ -46,12 +47,13 @@ static NSString *size = @"20";
     self.tableView.showsVerticalScrollIndicator = YES;
     self.tableView.showsHorizontalScrollIndicator = YES;
     [self headerRefresh];
-    
+    //创造通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewTopics) name:@"Refresh" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
     //创建下拉刷新
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic:)];
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
     
     // 设置文字
     [header setTitle:@"刷新完毕..." forState:MJRefreshStateIdle];
@@ -68,17 +70,23 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.tableView.mj_header = header;
+     [self.tableView.mj_header beginRefreshing];
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     self.tableView.mj_footer = footer;
 }
 #pragma mark -下拉刷新或者加载数据
--(void)loadNewTopic:(id)refrech{
+-(void)loadNewTopic{
     
     [self.tableView.mj_header beginRefreshing];
     _listArray = [NSMutableArray array];
     current = 1;
     [self loadDate];
+}
+-(void)loadNewTopics{
+    
+    [self.tableView.mj_header beginRefreshing];
+    
 }
 -(void)loadMoreTopic{
     [self.tableView.mj_footer beginRefreshing];
@@ -217,7 +225,7 @@ static NSString *size = @"20";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.tableView.mj_header beginRefreshing];
+    
 }
 
 @end

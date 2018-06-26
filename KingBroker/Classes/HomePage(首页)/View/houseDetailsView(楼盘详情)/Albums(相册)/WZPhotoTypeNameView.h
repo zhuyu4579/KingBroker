@@ -9,7 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface WZPhotoTypeNameView : UICollectionView
-@property(nonatomic,strong)NSArray *array;
+
+@property(nonatomic,strong)NSArray *arrays;
+
 @property(nonatomic,strong)NSIndexPath *oldIndexPath;
+
 @property(nonatomic,strong)NSIndexPath *selectIndexPath;
 @end

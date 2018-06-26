@@ -26,6 +26,7 @@
     self.RecommendThree.backgroundColor = UIColorRBG(242, 246, 237);
     _cityName.textColor = UIColorRBG(102, 102, 102);
     _prices.textColor = UIColorRBG(255, 127, 19);
+    
      [self.Collection setEnlargeEdge:44];
     _imageHeight.constant = 230*n;
 }

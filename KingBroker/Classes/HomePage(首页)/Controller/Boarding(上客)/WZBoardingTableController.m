@@ -65,11 +65,14 @@ static NSString *size = @"20";
     [self headerRefresh];
     
     [self setCodeViews];
+    
+    //创造通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewTopics) name:@"Refresh" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
     //创建下拉刷新
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic:)];
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
     
     // 设置文字
     [header setTitle:@"刷新完毕..." forState:MJRefreshStateIdle];
@@ -92,12 +95,17 @@ static NSString *size = @"20";
     self.tableView.mj_footer = footer;
 }
 #pragma mark -下拉刷新或者加载数据
--(void)loadNewTopic:(id)refrech{
+-(void)loadNewTopic{
     
     [self.tableView.mj_header beginRefreshing];
     _listArray = [NSMutableArray array];
     current = 1;
     [self loadDate];
+}
+-(void)loadNewTopics{
+    
+    [self.tableView.mj_header beginRefreshing];
+   
 }
 -(void)loadMoreTopic{
     [self.tableView.mj_footer beginRefreshing];
@@ -286,7 +294,7 @@ static NSString *size = @"20";
     [codeView1 addSubview:Titles];
     [Titles mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(codeView1.mas_centerX);
-        make.top.equalTo(codeImage.mas_bottom).with.offset(10);
+        make.bottom.equalTo(codeView1.mas_bottom).with.offset(-20);
         make.height.mas_offset(13);
     }];
     UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(156, 461, 19, 19)];
@@ -321,6 +329,8 @@ static NSString *size = @"20";
         long time1 = time - orderCreateTime;
         if (time1 >30*60*1000) {
             [GKCover translucentWindowCenterCoverContent:_codeView animated:YES notClick:YES];
+            //创造通知
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeAlerts) name:@"BoaringVC" object:nil];
         }else{
             [SVProgressHUD showInfoWithStatus:@"订单创建时间小于30分钟"];
         }
@@ -329,6 +339,13 @@ static NSString *size = @"20";
 }
 #pragma mark -关闭二维码弹窗
 -(void)closeAlert{
+    [GKCover hide];
+    _listArray = [NSMutableArray array];
+    current = 1;
+    [self loadDate];
+}
+-(void)closeAlerts{
+    [SVProgressHUD showInfoWithStatus:@"您好,您报备的订单已上客成功"];
     [GKCover hide];
     _listArray = [NSMutableArray array];
     current = 1;
