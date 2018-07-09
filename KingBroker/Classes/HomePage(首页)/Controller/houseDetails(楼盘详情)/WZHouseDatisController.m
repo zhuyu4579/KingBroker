@@ -36,6 +36,8 @@
 #import "WZAlbumPhonesViewController.h"
 #import "WZLBCollectionView.h"
 #import "WZLunBoItem.h"
+#import "WZJionStoreController.h"
+#import "WZNavigationController.h"
 @interface WZHouseDatisController ()<WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate,MAMapViewDelegate>
 //总view
 @property(nonatomic,strong)UIScrollView *scrollView;
@@ -49,8 +51,13 @@
 @property(nonatomic,strong)UILabel *Bartitle;
 @property(nonatomic,strong)UIButton *likeButton;
 @property(nonatomic,strong)UIButton *popButton;
+//楼盘简介
+@property(nonatomic,strong)UIView *houseIntroduce;
+@property(nonatomic,strong)UILabel *contents;
+@property(nonatomic,strong)UIButton *moreButton;
 //相册按钮
 @property(nonatomic,strong)UIButton *album;
+@property(nonatomic,strong)UIView *viewFour;
 //分销流程
 @property(nonatomic,strong)UIView *viewFive;
 @property(nonatomic,strong)UIView *buttonViewIneOne;
@@ -93,6 +100,11 @@
 @property(nonatomic,strong)UIButton *reportButton;
 
 @property(nonatomic,assign)CGFloat offor;
+//打电话弹窗
+@property(nonatomic,strong)UIView *playView;
+@property(nonatomic,strong)UIButton *playTelphoneButton;
+//电话数据
+@property(nonatomic,strong)NSArray *telphoneArray;
 @end
 
 @implementation WZHouseDatisController
@@ -132,7 +144,7 @@
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"id"] = _ID;
-    NSString *url = [NSString stringWithFormat:@"%@/proProject/editClickNum",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/editClickNum",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -167,6 +179,7 @@
     [self.scrollView.mj_header beginRefreshing];
    
     [self loadData];
+    [self findCoustrom];
 }
 //数据请求
 -(void)loadData{
@@ -186,7 +199,7 @@
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"id"] = _ID;
-        NSString *url = [NSString stringWithFormat:@"%@/proProject/projectInfo",URL];
+        NSString *url = [NSString stringWithFormat:@"%@/proProject/projectInfo",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             //获取数据
             NSString *code = [responseObject valueForKey:@"code"];
@@ -257,33 +270,37 @@
              _dView.itemLabelThree.text = labelArray[2];
         }
     }
-    if([commissionFag isEqual:@"0"]){
-        if ([realtorStatus isEqual:@"2"]) {
-            _dView.Commission.text = [_houseDatils valueForKey:@"commission"];
+    
+    if ([realtorStatus isEqual:@"2"]) {
+        [_dView.JoinButton setHidden:YES];
+        [_dView.JoinButton setEnabled:NO];
+        [_dView.commissionButton setHidden:NO];
+        [_dView.Commission setHidden:NO];
+        if([commissionFag isEqual:@"0"]){
+             _dView.Commission.text = [_houseDatils valueForKey:@"commission"];
             _reportButton.enabled = YES;
         }else{
-            _dView.Commission.text = @"加入门店可见佣金";
+            _dView.Commission.text = @"佣金不可见";
             _reportButton.enabled = YES;
         }
     }else{
-        _dView.Commission.text = @"佣金不可见";
-        _reportButton.enabled = YES;
+        [_dView.JoinButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
+        [_dView.JoinButton setEnabled:YES];
+         _reportButton.enabled = YES;
     }
     
     _dView.address.text = [_houseDatils valueForKey:@"address"];
     _dView.phone.text = [_houseDatils valueForKey:@"telphone"];
-    //看房时间
-    _dView.seeHouseTime.text = [_houseDatils valueForKey:@"showings"];
-    //报销车费
-    NSString *isFare = [_houseDatils valueForKey:@"fareFlag"];
-    if ([isFare isEqual:@"1"]) {
-        _dView.isReimbursementfare.text = @"报销车费";
-    }else{
-        _dView.isReimbursementfare.text = @"不报销车费";
-    }
+    _dView.chargeMan.text = [_houseDatils valueForKey:@"chargeMan"];
+    //公司名称
+    _dView.companyName.text = [_houseDatils valueForKey:@"companyName"];
+   
+    
     //楼盘动态
     _dynamic.name = [_houseDatils valueForKey:@"dynamic"];
     [_dynamic reloadData];
+    //楼盘简介
+    _contents.text = [_houseDatils valueForKey:@"outlining"];
     //合同有效期
     _contract.text = [_houseDatils valueForKey:@"strCollEndTime"];
     //结佣时间
@@ -346,7 +363,7 @@
     self.album = album;
     [scrollView addSubview:album];
     //创建第二个view
-    UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight-kApplicationStatusBarHeight, scrollView.fWidth, 276)];
+    UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight-kApplicationStatusBarHeight, scrollView.fWidth, 232)];
     viewTwo.backgroundColor = [UIColor whiteColor];
     [scrollView addSubview:viewTwo];
     WZDetailsViewOne *dView = [WZDetailsViewOne detailViewTwo];
@@ -359,11 +376,21 @@
     //创建第三个view中的控件
     [self getUpThree:viewThree];
     [scrollView addSubview:viewThree];
+    
+    //楼盘简介
+    UIView *houseIntroduce = [[UIView alloc] initWithFrame:CGRectMake(0, viewThree.fY +viewThree.fHeight +10, scrollView.fWidth, 208)];
+    houseIntroduce.backgroundColor = [UIColor whiteColor];
+    _houseIntroduce = houseIntroduce;
+    [self houseIntroduce:houseIntroduce];
+    [scrollView addSubview:houseIntroduce];
+    
     //创建第四个view
-    UIView *viewFour = [[UIView alloc] initWithFrame:CGRectMake(0, viewThree.fY +viewThree.fHeight +10, scrollView.fWidth, 60)];
+    UIView *viewFour = [[UIView alloc] initWithFrame:CGRectMake(0, houseIntroduce.fY +houseIntroduce.fHeight +10, scrollView.fWidth, 60)];
     //创建第四个view中的控件
     [self getUpFour:viewFour];
+    _viewFour = viewFour;
     [scrollView addSubview:viewFour];
+   
     //创建第五个view
     UIView *viewFive = [[UIView alloc] initWithFrame:CGRectMake(0, viewFour.fY +viewFour.fHeight +10, scrollView.fWidth, 500)];
     viewFive.backgroundColor = [UIColor whiteColor];
@@ -387,6 +414,7 @@
     [scrollView addSubview:viewSeven];
     scrollView.contentSize = CGSizeMake(0,viewSeven.fY + viewSeven.fHeight+10);
 }
+
 //轮播图
 -(void)getUpCycle{
     float n = [UIScreen mainScreen].bounds.size.width/375.0;
@@ -504,6 +532,89 @@
         make.width.equalTo(view.mas_width);
         make.height.offset(150);
     }];
+}
+//楼盘简介
+-(void)houseIntroduce:(UIView *)view{
+    UILabel *labelTitle = [[UILabel alloc] init];
+    labelTitle.text = @"楼盘简介";
+    labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Bold" size:15];
+    labelTitle.textColor =  UIColorRBG(68, 68, 68);
+    [view addSubview:labelTitle];
+    [labelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).mas_offset(15);
+        make.top.equalTo(view.mas_top).mas_offset(20);
+        make.height.offset(15);
+    }];
+    UIView *ineView = [[UIView alloc] init];
+    ineView.backgroundColor = UIColorRBG(242, 242, 242);
+    [view addSubview:ineView];
+    [ineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left);
+        make.top.equalTo(labelTitle.mas_bottom).mas_offset(20);
+        make.height.offset(1);
+        make.width.equalTo(view.mas_width);
+    }];
+    UILabel *contents = [[UILabel alloc] init];
+    _contents = contents;
+
+    contents.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+    contents.numberOfLines = 5;
+    contents.textColor = UIColorRBG(102, 102, 102);
+    [view addSubview:contents];
+    [contents mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(ineView.mas_bottom).mas_offset(20);
+        make.width.offset(view.fWidth-30);
+    }];
+    UIButton *button = [[UIButton alloc] init];
+    [button setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
+    [button setTitle:@"更多简介" forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
+    [button addTarget:self action:@selector(MoreContents) forControlEvents:UIControlEventTouchUpInside];
+    _moreButton = button;
+    [view addSubview:button];
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.bottom.equalTo(view.mas_bottom).mas_offset(0);
+        make.width.offset(view.fWidth);
+        make.height.offset(40);
+    }];
+}
+//查看更多简介
+-(void)MoreContents{
+    _contents.numberOfLines = 0;
+    
+    [self performSelector:@selector(setContentHeight) withObject:self afterDelay:0.01];
+}
+-(void)setContentHeight{
+    CGFloat n = _contents.fHeight-91;
+    if (n>0) {
+        [_moreButton setTitle:@"收起简介" forState:UIControlStateNormal];
+        [_moreButton removeTarget:self action:@selector(MoreContents) forControlEvents:UIControlEventTouchUpInside];
+        [_moreButton addTarget:self action:@selector(takeUp) forControlEvents:UIControlEventTouchUpInside];
+        _houseIntroduce.fHeight += n;
+        _viewFour.fY +=n;
+        _viewFive.fY +=n;
+        _viewSix.fY +=n;
+        _viewSeven.fY += n;
+        _scrollView.contentSize = CGSizeMake(0,_viewSeven.fY + _viewSeven.fHeight+10);
+    }
+}
+//收起更多简介
+-(void)takeUp{
+    _contents.numberOfLines = 5;
+    CGFloat n = _contents.fHeight-91;
+    if (n>0) {
+        [_moreButton setTitle:@"更多简介" forState:UIControlStateNormal];
+        [_moreButton removeTarget:self action:@selector(takeUp) forControlEvents:UIControlEventTouchUpInside];
+        [_moreButton addTarget:self action:@selector(MoreContents) forControlEvents:UIControlEventTouchUpInside];
+        _houseIntroduce.fHeight -= n;
+        _viewFour.fY -=n;
+        _viewFive.fY -=n;
+        _viewSix.fY -=n;
+        _viewSeven.fY -= n;
+        _scrollView.contentSize = CGSizeMake(0,_viewSeven.fY + _viewSeven.fHeight+10);
+    }
 }
 //第四个view中的控件
 -(void)getUpFour:(UIView *)view{
@@ -701,8 +812,8 @@
 //动态修改模块的y值
 -(void)viewDidLayoutSubviews{
     [self.view layoutIfNeeded];
-    self.buttonViewIneOne.frame = CGRectMake(self.ScLabelOnes.fX-23, self.ScLabelOnes.fY-10, 1, self.ScLabelOnes.fHeight+30);
-    self.buttonViewIneTwo.frame = CGRectMake(self.ScLabelTwos.fX-23, self.ScLabelTwos.fY-10, 1, self.ScLabelTwos.fHeight+30);
+    self.buttonViewIneOne.frame = CGRectMake(self.ScLabelOnes.fX-23, self.ScLabelOnes.fY-12, 1, self.ScLabelOnes.fHeight+32);
+    self.buttonViewIneTwo.frame = CGRectMake(self.ScLabelTwos.fX-23, self.ScLabelTwos.fY-12, 1, self.ScLabelTwos.fHeight+32);
     self.viewFive.fHeight = _ScLabelThrees.fHeight+_ScLabelThrees.fY + 20;
     self.viewSix.fY = self.viewFive.fHeight + self.viewFive.fY +10;
     self.viewSeven.fY = self.viewSix.fHeight +self.viewSix.fY +10;
@@ -931,7 +1042,7 @@
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"id"] = _ID;
-        NSString *url = [NSString stringWithFormat:@"%@/proProject/collectProject",URL];
+        NSString *url = [NSString stringWithFormat:@"%@/proProject/collectProject",HTTPURL];
         button.enabled = NO;
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
@@ -965,22 +1076,48 @@
     buttonView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:buttonView];
     self.buttonView = buttonView;
-//    //创建分享按钮
-//    UIButton *but = [[UIButton alloc] initWithFrame:CGRectMake(40, 6, 16, 16)];
-//    [but setEnlargeEdgeWithTop:6 right:40 bottom:26 left:40];
-//    [but setBackgroundImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
-//    [but addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
-//    [buttonView addSubview:but];
-//
-//    UILabel *label = [[UILabel alloc] init];
-//    label.frame = CGRectMake(36,29,25,12);
-//    label.text = @"分享";
-//    [label setTextColor:UIColorRBG(3, 133, 219)];
-//    label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-//    label.textColor = UIColorRBG(3, 133, 219);
-//    [buttonView addSubview:label];
+    UIView *ineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 1)];
+    ineView.backgroundColor = UIColorRBG(242, 242, 242);
+    [buttonView addSubview:ineView];
+    //创建打电话按钮
+    UIImageView *playPhone = [[UIImageView alloc] initWithFrame:CGRectMake(30, 6, 19, 21)];
+    playPhone.image = [UIImage imageNamed:@"xmxq_phone"];
+    [buttonView addSubview:playPhone];
+
+    UILabel *labelP = [[UILabel alloc] init];
+    labelP.frame = CGRectMake(29,31,25,12);
+    labelP.text = @"电话";
+    [labelP setTextColor:UIColorRBG(3, 133, 219)];
+    labelP.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    labelP.textColor = UIColorRBG(3, 133, 219);
+    [buttonView addSubview:labelP];
+    
+    UIButton *playButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 75, buttonView.fHeight)];
+    _playTelphoneButton = playButton;
+    [playButton addTarget:self action:@selector(playPhones) forControlEvents:UIControlEventTouchUpInside];
+    [buttonView addSubview:playButton];
+    //按钮的分割线
+    UIView *ineViewTwo = [[UIView alloc] initWithFrame:CGRectMake(75, 5, 1, buttonView.fHeight-10)];
+    ineViewTwo.backgroundColor = UIColorRBG(242, 242, 242);
+    [buttonView addSubview:ineViewTwo];
+    //创建分享按钮
+    UIImageView *but = [[UIImageView alloc] initWithFrame:CGRectMake(101, 7, 19, 19)];
+    but.image = [UIImage imageNamed:@"share"];
+    [buttonView addSubview:but];
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(99,31,25,12);
+    label.text = @"分享";
+    [label setTextColor:UIColorRBG(3, 133, 219)];
+    label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    label.textColor = UIColorRBG(3, 133, 219);
+    [buttonView addSubview:label];
+    
+    UIButton *shareButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 0, 75, buttonView.fHeight)];
+     [shareButton addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+    [buttonView addSubview:shareButton];
     //创建报备客户按钮
-    UIButton *reportButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, buttonView.fWidth, buttonView.fHeight)];
+    UIButton *reportButton = [[UIButton alloc] initWithFrame:CGRectMake(150, 0, buttonView.fWidth-150, buttonView.fHeight)];
     [reportButton setTitle:@"报备客户" forState:UIControlStateNormal];
     reportButton.backgroundColor = UIColorRBG(3, 133, 219);
     _reportButton = reportButton;
@@ -989,8 +1126,163 @@
     [buttonView addSubview:reportButton];
     
 }
+//查询电话列表
+-(void)findCoustrom{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"id"] = _ID;
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/telList",HTTPURL];
+    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSArray *rows = [data valueForKey:@"rows"];
+            
+            if (rows.count>0) {
+                [self playViewPhone:rows];
+                _telphoneArray = rows;
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+    }];
+}
+//创建打电话弹框
+-(void)playViewPhone:(NSArray *)array{
+    NSInteger n = array.count;
+    //可见
+    UIView *views = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49-JF_BOTTOM_SPACE)];
+    views.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.4];
+    _playView = views;
+     [views addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closePlayViews)]];
+    [views setHidden:YES];
+    [self.view addSubview:views];
+    
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor whiteColor];
+    view.frame = CGRectMake(0,views.fHeight-50*n,self.view.fWidth, 50*n);
+    [views addSubview:view];
+    
+    for (int i = 0; i<n; i++) {
+        UILabel *name = [[UILabel alloc] init];
+        name.text = [array[i] valueForKey:@"linkman"];
+        name.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+        name.textColor = UIColorRBG(51, 51, 51);
+        [view addSubview:name];
+        [name mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(view.mas_left).offset(15);
+            make.top.equalTo(view.mas_top).offset(50*i+17);
+            make.height.offset(16);
+        }];
+        UILabel *type = [[UILabel alloc] init];
+        NSString *types = [array[i] valueForKey:@"type"];
+        if ([types isEqual:@"1"]) {
+            type.text = @" 负责人 ";
+            type.textColor = [UIColor whiteColor];
+            type.backgroundColor = UIColorRBG(86, 177, 255);
+        }else{
+            type.text = @" 报备对接人 ";
+            type.textColor = UIColorRBG(153, 153, 153);
+            type.backgroundColor = UIColorRBG(238, 238, 238);
+        }
+        type.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
+        [view addSubview:type];
+        [type mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(name.mas_right).offset(6);
+            make.top.equalTo(view.mas_top).offset(50*i+17);
+            make.height.offset(16);
+        }];
+        UIButton *pButton = [[UIButton alloc] init];
+        [pButton setBackgroundImage:[UIImage imageNamed:@"xmxq_phone"] forState:UIControlStateNormal];
+        pButton.tag = i;
+        [pButton addTarget:self action:@selector(playTelphone:) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:pButton];
+        [pButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(view.mas_right).offset(-15);
+            make.top.equalTo(view.mas_top).offset(50*i+15);
+            make.width.offset(19);
+            make.height.offset(21);
+        }];
+        
+        UILabel *cityName = [[UILabel alloc] init];
+        cityName.text = [array[i] valueForKey:@"cityName"];
+        cityName.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:14];
+        cityName.textColor = UIColorRBG(51, 51, 51);
+        cityName.textAlignment = NSTextAlignmentRight;
+        [view addSubview:cityName];
+        [cityName mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(pButton.mas_left).offset(-15);
+            make.top.equalTo(view.mas_top).offset(50*i+18);
+            make.height.offset(14);
+            make.width.offset(100);
+        }];
+        if (i>0) {
+            UIView *ineView = [[UIView alloc] init];
+            ineView.backgroundColor = UIColorRBG(242, 242, 242);
+            [view addSubview:ineView];
+            [ineView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(view.mas_left).offset(15);
+                make.top.equalTo(view.mas_top).offset(50*i);
+                make.height.offset(1);
+                make.width.offset(view.fWidth-15);
+            }];
+        }
+    }
+}
+-(void)hideViews{
+    [_playView setHidden:YES];
+}
+//打电话弹框
+-(void)playPhones{
+     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+     NSString *invisibleLinkmanFlag = [user objectForKey:@"invisibleLinkmanFlag"];
+    if ([invisibleLinkmanFlag isEqual:@"0"]) {
+        [_playView setHidden:NO];
+        [_playTelphoneButton removeTarget:self action:@selector(playPhones) forControlEvents:UIControlEventTouchUpInside];
+        [_playTelphoneButton addTarget:self action:@selector(closePlayViews) forControlEvents:UIControlEventTouchUpInside];
+    }else{
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"无法拨打电话" message:@"电话不可见，讲不能拨打电话，可联系门店负责人设置电话可见"  preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"我知道了" style:UIAlertActionStyleCancel
+                                                              handler:^(UIAlertAction * action) {
+                                                                  
+                                                              }];
+        [alert addAction:cancelAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    
+    
+}
+-(void)closePlayViews{
+    [_playView setHidden:YES];
+    [_playTelphoneButton removeTarget:self action:@selector(closePlayViews) forControlEvents:UIControlEventTouchUpInside];
+    [_playTelphoneButton addTarget:self action:@selector(playPhones) forControlEvents:UIControlEventTouchUpInside];
+}
+-(void)playTelphone:(UIButton *)button{
+    [self hideViews];
+    NSString *phone = [_telphoneArray[0] valueForKey:@"linkTelphone"];
+    if (![phone isEqual:@""]) {
+        NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", phone];
+        if (@available(iOS 10.0, *)) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone] options:@{} completionHandler:nil];
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone]];
+        }
+    }
+}
 #pragma mark -分享
 -(void)share{
+    [self hideViews];
     //弹出分享页
     UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(0,SCREEN_HEIGHT -250, self.view.fWidth, 250)];
     redView.backgroundColor = UIColorRBG(246, 246, 246);
@@ -1059,6 +1351,7 @@
 }
 #pragma mark -报备客户
 -(void)resport{
+    [self hideViews];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *realtorStatus = [user objectForKey:@"realtorStatus"];
     if ([realtorStatus isEqual:@"2"]){
@@ -1068,9 +1361,28 @@
         report.types = @"1";
         report.sginStatus = [_houseDatils valueForKey:@"sginStatus"];
         report.telphone = [_houseDatils valueForKey:@"telphone"];
+        report.name = @"";
+        report.phone = @"";
         [self.navigationController pushViewController:report animated:YES];
     }else{
-        [SVProgressHUD showInfoWithStatus:@"未加入门店"];
+        
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"未加入门店" message:@"你还没有加入经纪门店，不能进行更多操作"  preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"暂不加入" style:UIAlertActionStyleCancel
+                                                              handler:^(UIAlertAction * action) {
+                                                                  
+                                                              }];
+        UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action) {
+                                                                   WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
+                                                                   WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
+                                                                   JionStore.type = @"1";
+                                                                   [self presentViewController:nav animated:YES completion:nil];
+                                                               }];
+        
+        [alert addAction:defaultAction];
+        [alert addAction:cancelAction];
+        [self presentViewController:alert animated:YES completion:nil];
     }
     
 }
@@ -1086,10 +1398,10 @@
         return arrays;
     }
     for (int i = 0; i<array.count; i++) {
-        NSArray *strs = [array[i] componentsSeparatedByString:@"距"];
+        NSArray *strs = [array[i] componentsSeparatedByString:@"距离："];
         NSMutableDictionary *data = [NSMutableDictionary dictionary];
         data[@"name"] = [strs[0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        data[@"distance"] = [NSString stringWithFormat:@"距%@m",strs[1]];
+        data[@"distance"] = [NSString stringWithFormat:@"%@m",strs[1]];
         [arrays addObject:data];
     }
     return arrays;

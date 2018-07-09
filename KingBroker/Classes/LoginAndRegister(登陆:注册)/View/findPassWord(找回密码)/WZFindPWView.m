@@ -57,7 +57,7 @@
     paraments[@"type"] = types;
     paraments[@"telphone"] = phone;
     paraments[@"smsCode"] = YZM;
-    NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
         [self openCountdown];
         NSString *code = [responseObject valueForKey:@"code"];
@@ -120,7 +120,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = type;
     paraments[@"telphone"] = phone;
-    NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
         [self openCountdown];
         NSString *code = [responseObject valueForKey:@"code"];

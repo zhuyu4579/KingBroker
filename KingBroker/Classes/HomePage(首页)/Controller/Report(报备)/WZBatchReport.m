@@ -18,6 +18,7 @@
 #import <MJRefresh.h>
 #import <MJExtension.h>
 #import <SVProgressHUD.h>
+#import "WZNavigationController.h"
 #import "WZSelectProjectsController.h"
 @interface WZBatchReport ()<UIScrollViewDelegate,UITextFieldDelegate>
 
@@ -666,7 +667,7 @@
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"id"] = _itemId;
-        NSString *url = [NSString stringWithFormat:@"%@/proProject/planBoardingDate",URL];
+        NSString *url = [NSString stringWithFormat:@"%@/proProject/planBoardingDate",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             
@@ -938,9 +939,10 @@
     
     //申明请求的数据是json类型
     mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
-    NSString *url = [NSString stringWithFormat:@"%@/order/order",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/order/order",HTTPURL];
     [mgr POST:url  parameters:_paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         [GKCover hide];
@@ -952,7 +954,8 @@
             successVC.reportData = data;
             successVC.status = _sginStatu;
             successVC.telphone = _telphone;
-            [Vc.navigationController pushViewController:successVC animated:YES];
+             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:successVC];
+            [Vc.navigationController presentViewController:nav animated:YES completion:nil];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -1021,7 +1024,7 @@
             return NO;
         }
     }
-    if (toBeString.length>25) {
+    if (toBeString.length>15) {
         return NO;
     }
     

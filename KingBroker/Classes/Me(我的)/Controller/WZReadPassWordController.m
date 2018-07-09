@@ -74,7 +74,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"phone"] = phone;
     paraments[@"password"] = password;
-    NSString *url = [NSString stringWithFormat:@"%@/sysUser/changPhoneValidate",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/sysUser/changPhoneValidate",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {

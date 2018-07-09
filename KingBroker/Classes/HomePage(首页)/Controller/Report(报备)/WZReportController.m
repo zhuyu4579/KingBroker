@@ -65,7 +65,7 @@
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"storeId"] = storeId;
     
-        NSString *url = [NSString stringWithFormat:@"%@/projectCompany/projectList",URL];
+        NSString *url = [NSString stringWithFormat:@"%@/projectCompany/projectList",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             if ([code isEqual:@"200"]) {
@@ -147,6 +147,13 @@
     if (_itemID && _itemName) {
         _OneReportVc.ItemName.text = _itemName;
         _OneReportVc.itemId = _itemID;
+        _OneReportVc.customerName.text = _name;
+        if (![_phone isEqual:@""]) {
+            NSString *top = [_phone substringToIndex:3];
+            NSString *bottom = [_phone substringFromIndex:7];
+            _OneReportVc.topText.text = top;
+            _OneReportVc.bottomText.text = bottom;
+        }
         if ([_types isEqual:@"1"]) {
             [_OneReportVc.titemNameButton setHidden:YES];
             _OneReportVc.titemNameButton.enabled = NO;
@@ -176,6 +183,7 @@
         if (_itemID && _itemName) {
             _batchReportVc.ItemName.text = _itemName;
             _batchReportVc.itemId = _itemID;
+            
             if ([_types isEqual:@"1"]) {
                 [_batchReportVc.titemNameButton setHidden:YES];
                 _batchReportVc.titemNameButton.enabled = NO;

@@ -16,7 +16,7 @@
 #import "WZJionStoreController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZBoaringController.h"
-#import "WZHouseController.h"
+#import "WZHousePageController.h"
 #import "WZAuthenticationController.h"
 #import "WZQuestionController.h"
 #import "WZSetPersonalInforMationController.h"
@@ -27,6 +27,7 @@
 #import "WZSettingController.h"
 #import "NSString+LCExtension.h"
 #import "WZBelongedStoreController.h"
+#import "WZForwardController.h"
 @interface WZMeViewController ()
 //主view
 @property(nonatomic,strong)UIScrollView *scrollView;
@@ -66,30 +67,29 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
-    //设置导航条上内容
-    [self setNavBar];
     //创建区域控件
     [self setUpMeView];
     //创造通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"MeRefresh" object:nil];
+   
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"MeRefresh" object:nil];
+    
 }
--(void)setNavBar{
-    self.view.backgroundColor = UIColorRBG(242, 242, 242);
-}
+
 //创建控件
 -(void)setUpMeView{
     //创建第一个登录状态view//1.未登录，2.已登录未加入门店，3.已登录已加入门店
     //创建UIScrollView
-    UIScrollView *meScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(self.view.fX, -kApplicationStatusBarHeight, self.view.fWidth, self.view.fHeight-49+kApplicationStatusBarHeight)];
+    UIScrollView *meScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(self.view.fX,0, self.view.fWidth, self.view.fHeight-49-JF_BOTTOM_SPACE)];
     meScrollView.backgroundColor = [UIColor whiteColor];
     meScrollView.bounces = NO;
     meScrollView.showsVerticalScrollIndicator = NO;
     meScrollView.showsHorizontalScrollIndicator = NO;
-    meScrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight-44);
+   
     [self.view addSubview:meScrollView];
     self.scrollView = meScrollView;
     //创建未登录状态
@@ -106,6 +106,17 @@
       NSString *uuid = [ user objectForKey:@"uuid"];
       NSString *userId = [ user objectForKey:@"userId"];
       NSString *username = [ user objectForKey:@"username"];
+    
+    NSInteger count = [[ user objectForKey:@"newCount"] integerValue];
+    UITabBarItem *item=[self.tabBarController.tabBar.items objectAtIndex:1];
+    
+    if (count<100&&count>0) {
+        item.badgeValue= [NSString stringWithFormat:@"%ld",(long)count];
+    }else if(count>=100){
+        item.badgeValue= [NSString stringWithFormat:@"99+"];
+    }else{
+        item.badgeValue = nil;
+    }
      _uuid = uuid;
      if (uuid) {
         //创建会话请求
@@ -119,9 +130,8 @@
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"username"] = username;
-        paraments[@"userId"] = userId;
-         NSLog(@"234");
-        NSString *url = [NSString stringWithFormat:@"%@/sysUser/myInfo",URL];
+        paraments[@"userId"] = userId;      
+        NSString *url = [NSString stringWithFormat:@"%@/sysUser/myInfo",HTTPURL];
         [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             if ([code isEqual:@"200"]) {
@@ -132,6 +142,8 @@
                 [defaults setObject:[_loginItem valueForKey:@"storeId"] forKey:@"storeId"];
                 [defaults setObject:[_loginItem valueForKey:@"cityId"] forKey:@"cityId"];
                 [defaults setObject:[_loginItem valueForKey:@"commissionFag"] forKey:@"commissionFag"];
+                [defaults setObject:[_loginItem valueForKey:@"realname"] forKey:@"realname"];
+                [defaults setObject:[_loginItem valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
                 [defaults synchronize];
                 [self storeState];
             }else{
@@ -147,6 +159,7 @@
                 }
                
             }
+    
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             if (error.code == -1001) {
                 [SVProgressHUD showInfoWithStatus:@"网络不给力"];
@@ -181,7 +194,7 @@
         _images.image = [UIImage imageNamed:@"wd_icon"];
         _storeName.text = @"加入门店";
         [_labels setHidden:NO];
-         _labels.text = @"请上传相关证件";
+         _labels.text = @"点击加入";
         [_joinButton setHidden:NO];
         _joinButton.enabled = YES;
     }else if (state == 1) {
@@ -192,16 +205,16 @@
         //已加入门店
         _images.image = [UIImage imageNamed:@"wd_icon_5"];
         _joinButton.enabled = NO;
-        [_storeName setHidden:YES];
-        [ _boaldingButton setTitle:[_loginItem valueForKey:@"storeName"] forState:UIControlStateNormal];
+        _storeName.text =[_loginItem valueForKey:@"storeName"];
+        _storeName.textColor = UIColorRBG(3, 133, 219);
         [_boaldingButton setHidden:NO];
         _boaldingButton.enabled = YES;
     }else if(state == 3){
         _images.image = [UIImage imageNamed:@"wd_icon_3"];
-         _storeName.text = @"加入门店审核失败";
+         _storeName.text = @"审核失败";
         [_labels setHidden:NO];
         [_joinButton setHidden:NO];
-        _labels.text = @"请重新上传";
+        _labels.text = @"请重新加入";
         _joinButton.enabled = YES;
     }
 
@@ -221,7 +234,8 @@
 }
 //未登录状态
 -(void)noLogins{
-    UIView *noLoginView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.scrollView.fWidth, 224)];
+    float n = [UIScreen mainScreen].bounds.size.width/375.0;
+    UIView *noLoginView = [[UIView alloc] initWithFrame:CGRectMake(0, -kApplicationStatusBarHeight, self.scrollView.fWidth, 224*n)];
     noLoginView.backgroundColor = [UIColor whiteColor];
     [self.scrollView addSubview:noLoginView];
     self.noLoginView = noLoginView;
@@ -264,8 +278,8 @@
 
 //注册成功
 -(void)loginSuccess{
-    
-    UIView *loginSuccessView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.scrollView.fWidth, 224)];
+    float n = [UIScreen mainScreen].bounds.size.width/375.0;
+    UIView *loginSuccessView = [[UIView alloc] initWithFrame:CGRectMake(0, -kApplicationStatusBarHeight, self.scrollView.fWidth, 224*n)];
     loginSuccessView.backgroundColor = [UIColor whiteColor];
     [self.scrollView addSubview:loginSuccessView];
     self.loginSuccessView = loginSuccessView;
@@ -312,18 +326,31 @@
 }
 //创建其他
 -(void)setViews{
-    UIView *ineOne = [[UIView alloc] initWithFrame:CGRectMake(15, 422, self.view.fWidth-30, 1)];
+    float n = [UIScreen mainScreen].bounds.size.width/375.0;
+    float m = 224*n+25-kApplicationStatusBarHeight;
+    float h = (_scrollView.fHeight-224*n-25)/3.0;
+    
+     [self createButtonView:CGRectMake(0, m, (SCREEN_WIDTH-1)/2, h) image:@"order" imageSize:CGSizeMake(20, 30) target:self action:@selector(myOrder) title:@"我的订单"];
+     [self createButtonView:CGRectMake(SCREEN_WIDTH/2,m, (SCREEN_WIDTH-1)/2, h) image:@"lable" imageSize:CGSizeMake(20, 31) target:self action:@selector(myLable) title:@"我的项目"];
+    
+    [self createButtonView:CGRectMake(0, m+h, (SCREEN_WIDTH-1)/2, h) image:@"wallet" imageSize:CGSizeMake(20, 30) target:self action:@selector(myWallet) title:@"我的钱包"];
+    [self createButtonView:CGRectMake(SCREEN_WIDTH/2,m+h, (SCREEN_WIDTH-1)/2, h) image:@"store" imageSize:CGSizeMake(20, 31) target:self action:@selector(myStore) title:@"我的门店"];
+    
+     [self createButtonView:CGRectMake(0, m+h*2, (SCREEN_WIDTH-1)/2, h) image:@"question" imageSize:CGSizeMake(21, 30) target:self action:@selector(question) title:@"问题小秘"];
+     [self createButtonView:CGRectMake(SCREEN_WIDTH/2,m+h*2, (SCREEN_WIDTH-1)/2, h) image:@"setting" imageSize:CGSizeMake(30, 30) target:self action:@selector(setting) title:@"我的设置"];
+    
+    UIView *ineOne = [[UIView alloc] initWithFrame:CGRectMake(15, m+h, self.view.fWidth-30, 1)];
     ineOne.backgroundColor = UIColorRBG(242, 242, 242);
     [_scrollView addSubview:ineOne];
-     [self createButtonView:CGRectMake(0, 285, (SCREEN_WIDTH-1)/2, 115) image:@"order" imageSize:CGSizeMake(20, 30) target:self action:@selector(myOrder) title:@"我的订单"];
-     [self createButtonView:CGRectMake(SCREEN_WIDTH/2, 285, (SCREEN_WIDTH-1)/2, 115) image:@"lable" imageSize:CGSizeMake(20, 31) target:self action:@selector(myLable) title:@"我的项目"];
-     [self createButtonView:CGRectMake(0, 448, (SCREEN_WIDTH-1)/2, 115) image:@"question" imageSize:CGSizeMake(21, 30) target:self action:@selector(question) title:@"问题小秘"];
-     [self createButtonView:CGRectMake(SCREEN_WIDTH/2, 448, (SCREEN_WIDTH-1)/2, 115) image:@"setting" imageSize:CGSizeMake(30, 30) target:self action:@selector(setting) title:@"我的设置"];
-    UIView *ineTwo = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2.0, 277, 1, 308)];
+    UIView *ineThree = [[UIView alloc] initWithFrame:CGRectMake(15, m+2*h, self.view.fWidth-30, 1)];
+    ineThree.backgroundColor = UIColorRBG(242, 242, 242);
+    [_scrollView addSubview:ineThree];
+    
+    UIView *ineTwo = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2.0, m + 18, 1, _scrollView.fHeight - m - 55)];
     ineTwo.backgroundColor = UIColorRBG(242, 242, 242);
     [_scrollView addSubview:ineTwo];
     //创建加入门店
-    UIView *views = [[UIView alloc] initWithFrame:CGRectMake((self.view.fWidth-318)/2.0, 200, 318, 50)];
+    UIView *views = [[UIView alloc] initWithFrame:CGRectMake((self.view.fWidth-318)/2.0, 224*n-25-kApplicationStatusBarHeight, 318, 50)];
     views.backgroundColor = [UIColor whiteColor];
     views.layer.shadowColor = [UIColor grayColor].CGColor;
     views.layer.shadowOpacity = 0.5f;
@@ -338,7 +365,7 @@
   
     UILabel *storeName = [[UILabel alloc] initWithFrame:CGRectMake(imageViews.fX+imageViews.fWidth, 18, 130, 15)];
     storeName.textColor = UIColorRBG(68, 68, 68);
-    storeName.font = [UIFont systemFontOfSize:15];
+    storeName.font = [UIFont boldSystemFontOfSize:15];
     _storeName = storeName;
     [views addSubview:storeName];
     
@@ -350,19 +377,21 @@
     labels.font = [UIFont systemFontOfSize:12];
     [views addSubview:labels];
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(labels.fX+labels.fWidth+10, 16, 9, 17)];
-    [button setBackgroundImage:[UIImage imageNamed:@"icon_more_unfold"] forState:UIControlStateNormal];
-    [button setEnlargeEdgeWithTop:16 right:15 bottom:16 left:300];
-    [button addTarget:self action:@selector(JoinStore) forControlEvents:UIControlEventTouchUpInside];
-    _joinButton = button;
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(labels.fX+labels.fWidth+10, 20, 7, 11)];
+    [button setBackgroundImage:[UIImage imageNamed:@"more_u"] forState:UIControlStateNormal];
     [views addSubview:button];
+    UIButton *joinButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, views.fWidth, views.fHeight)];
+    _joinButton = joinButton;
+    [joinButton addTarget:self action:@selector(JoinStore) forControlEvents:UIControlEventTouchUpInside];
+    [views addSubview:joinButton];
+    
     //跳转所属门点按钮
-    UIButton *stores = [[UIButton alloc] initWithFrame:CGRectMake(60, 0, views.fWidth-120, views.fHeight)];
+    
+    UIButton *stores = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, views.fWidth, views.fHeight)];
     _boaldingButton = stores;
-    stores.titleLabel.textAlignment = NSTextAlignmentLeft;
-    [stores setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
     [stores addTarget:self action:@selector(BelongedStore) forControlEvents:UIControlEventTouchUpInside];
     [views addSubview:stores];
+     _scrollView.contentSize = CGSizeMake(0, _scrollView.fHeight-kApplicationStatusBarHeight);
 }
 //跳转所属门店
 -(void)BelongedStore{
@@ -382,30 +411,39 @@
      WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
     JionStore.type = @"1";
     [self.navigationController presentViewController:nav animated:YES completion:nil];
-    JionStore.registarBlock = ^(NSString *state) {
-        _loginState = [state integerValue];
-        [self storeState];
-    };
+//    JionStore.registarBlock = ^(NSString *state) {
+//        _loginState = [state integerValue];
+//        [self storeState];
+//    };
 }
 //创建一个按钮控件
 -(void)createButtonView:(CGRect)rect image:(NSString *)image imageSize:(CGSize)imageSize target:(id)target action:(SEL)action title:(NSString *)title{
     UIView *view = [[UIView alloc] init];
     view.backgroundColor = [UIColor whiteColor];
     view.frame = rect;
+    UITapGestureRecognizer *tapGesturRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:target action:action];
+    [view addGestureRecognizer:tapGesturRecognizer];
     
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake((view.fWidth-imageSize.width)/2, 30,imageSize.width , imageSize.height)];
-    [button setBackgroundImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
-    [button setEnlargeEdgeWithTop:30 right:20 bottom:30 left:20];
-    [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:button];
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = [UIImage imageNamed:image];
+    [imageView sizeToFit];
+    [view addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.bottom.equalTo(view.mas_bottom).offset(-65);
+    }];
     
     UILabel *titles = [[UILabel alloc] init];
-    titles.frame = CGRectMake(view.fWidth/2 - 90,view.fHeight-36,180,16);
     titles.text = title;
     titles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
     titles.textColor = UIColorRBG(68, 68, 68);
     titles.textAlignment = NSTextAlignmentCenter;
     [view addSubview:titles];
+    [titles mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.bottom.equalTo(view.mas_bottom).offset(-30);
+        make.height.offset(16);
+    }];
     [_scrollView addSubview:view];
 }
 //个人信息设置
@@ -422,7 +460,20 @@
             WZBoaringController *boarVc = [[WZBoaringController alloc] init];
             [self.navigationController pushViewController:boarVc animated:YES];
         }else{
-            [SVProgressHUD showInfoWithStatus:@"未加入门店"];
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"未加入门店" message:@"你还没有加入经纪门店，不能进行更多操作"  preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"暂不加入" style:UIAlertActionStyleCancel
+                                                                  handler:^(UIAlertAction * action) {
+                                                                      
+                                                                  }];
+            UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       [self JoinStore];
+                                                                   }];
+            
+            [alert addAction:defaultAction];
+            [alert addAction:cancelAction];
+            [self presentViewController:alert animated:YES completion:nil];
         }
     }else{
         [NSString isCode:self.navigationController code:@"401"];
@@ -432,15 +483,38 @@
 //我的收藏
 -(void)myLable{
     if (_uuid) {
-        WZHouseController *houseVc = [[WZHouseController alloc] init];
-        houseVc.navigationItem.title = @"我的项目";
-        houseVc.type = @"1";
+        WZHousePageController *houseVc = [[WZHousePageController alloc] init];
+        houseVc.status = 1;
         [self.navigationController pushViewController:houseVc animated:YES];
     }else{
         [NSString isCode:self.navigationController code:@"401"];
     }
 }
-
+//我的钱包
+-(void)myWallet{
+    if (_uuid) {
+        WZForwardController *forward = [[WZForwardController alloc] init];
+        [self.navigationController pushViewController:forward animated:YES];
+    }else{
+        [NSString isCode:self.navigationController code:@"401"];
+    }
+}
+//我的门店
+-(void)myStore{
+    if (_uuid) {
+        WZBelongedStoreController *boaring = [[WZBelongedStoreController alloc] init];
+        boaring.storeCode = [_loginItem valueForKey:@"storeCode"];
+        boaring.storeName =[_loginItem valueForKey:@"storeName"];
+        boaring.cityName = [_loginItem valueForKey:@"cityName"];
+        boaring.idcardStatus = [_loginItem valueForKey:@"idcardStatus"];
+        boaring.realtorStatus = [_loginItem valueForKey:@"realtorStatus"];
+        boaring.dutyFlag = [_loginItem valueForKey:@"dutyFlag"];
+        boaring.cityAdder = [_loginItem valueForKey:@"addr"];
+        [self.navigationController pushViewController:boaring animated:YES];
+    }else{
+        [NSString isCode:self.navigationController code:@"401"];
+    }
+}
 //问题小蜜
 -(void)question{
     if (_uuid) {
@@ -470,17 +544,17 @@
 -(void)regs{
     WZRegController *ragVc = [[WZRegController alloc] init];
     [self.navigationController pushViewController:ragVc animated:YES];
-
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
 #pragma mark -不显示导航条
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [self loadData];
+    
 }
-
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

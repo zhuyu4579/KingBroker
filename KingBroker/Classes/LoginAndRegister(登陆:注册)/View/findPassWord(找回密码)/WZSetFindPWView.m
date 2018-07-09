@@ -46,7 +46,7 @@
     paraments[@"password"] = password;
     paraments[@"phone"] = _phone;
     paraments[@"verificationCode"] = _YZM;
-    NSString *url = [NSString stringWithFormat:@"%@/sysUser/changPassword",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/sysUser/changPassword",HTTPURL];
     [mgr POST:url  parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {

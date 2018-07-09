@@ -327,7 +327,7 @@
     UILabel *labelOne = [[UILabel alloc] init];
     labelOne.textColor = UIColorRBG(68, 68, 68);
     labelOne.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
-    labelOne.text = @"1.需填写将更换门店的门店编码\n\n2.更换绑定门店后，结佣事项将与更换后门店关联\n\n3.更换绑定门店后将在1个工作日内审核完成";
+    labelOne.text = @"1.更换门店需要下一家门店的门店编码或名片\n\n2.更换门店前的订单、客户、业绩、佣金，只和上一家门店关联\n\n3.更换门店审核成功后的订单、客户、业绩、佣金将和新门店关联";
     labelOne.numberOfLines = 0;
     [view addSubview:labelOne];
     [labelOne mas_makeConstraints:^(MASConstraintMaker *make) {

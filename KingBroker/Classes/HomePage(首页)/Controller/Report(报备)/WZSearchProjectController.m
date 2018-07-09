@@ -119,7 +119,7 @@ static NSString *size = @"20";
     paraments[@"name"] = _name;
     paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"size"] = size;
-    NSString *url = [NSString stringWithFormat:@"%@/projectCompany/projectList",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/projectCompany/projectList",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
@@ -192,7 +192,7 @@ static NSString *size = @"20";
 
 #pragma mark - Table view data source
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 45;
+    return 68;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     

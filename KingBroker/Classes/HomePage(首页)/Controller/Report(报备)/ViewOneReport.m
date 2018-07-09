@@ -22,6 +22,7 @@
 #import "NSObject+Property.h"
 #import "UIViewController+WZFindController.h"
 #import "WZSelectProjectsController.h"
+#import "WZNavigationController.h"
 @interface ViewOneReport ()<UIScrollViewDelegate,UITextFieldDelegate>
 //
 @property (nonatomic, strong)UIScrollView *scrollView;
@@ -600,7 +601,7 @@
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"id"] = _itemId;
-        NSString *url = [NSString stringWithFormat:@"%@/proProject/planBoardingDate",URL];
+        NSString *url = [NSString stringWithFormat:@"%@/proProject/planBoardingDate",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             
@@ -796,7 +797,7 @@
     
     [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
     
-    NSString *url = [NSString stringWithFormat:@"%@/order/order",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/order/order",HTTPURL];
     
     [mgr POST:url parameters:_paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         
@@ -811,7 +812,8 @@
             successVC.reportData = data;
             successVC.status = _sginStatu;
             successVC.telphone = _telphone;
-            [Vc.navigationController pushViewController:successVC animated:YES];
+            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:successVC];
+            [Vc.navigationController presentViewController:nav animated:YES completion:nil];
         }else{
             [GKCover hide];
             [SVProgressHUD dismiss];

@@ -171,7 +171,7 @@
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"id"] = boaringId;
-    NSString *url = [NSString stringWithFormat:@"%@/order/dealOrder",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/order/dealOrder",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         
@@ -201,6 +201,9 @@
      report.itemID = _itemIdFour;
      report.sginStatus = _sginStatus;
      report.telphone = _proTelphone;
+     report.name = _nameFour.text;
+     report.phone = _telephoneFour.text;
+     report.types = @"1";
      [Vc.navigationController pushViewController:report animated:YES];
 }
 @end

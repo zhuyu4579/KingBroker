@@ -21,13 +21,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *phoneTitle;
 @property (weak, nonatomic) IBOutlet UILabel *phone;
 @property (weak, nonatomic) IBOutlet UILabel *seeHouse;
-@property (strong, nonatomic) IBOutlet UIButton *playButton;
-@property (weak, nonatomic) IBOutlet UILabel *seeHouseTime;
-@property (weak, nonatomic) IBOutlet UILabel *fareTitle;
-@property (weak, nonatomic) IBOutlet UILabel *isReimbursementfare;
+@property (strong, nonatomic) IBOutlet UIButton *JoinButton;
+@property (weak, nonatomic) IBOutlet UILabel *companyName;
+@property (weak, nonatomic) IBOutlet UILabel *chargeMan;
 @property (weak, nonatomic) IBOutlet UIView *ineViewOne;
 @property (weak, nonatomic) IBOutlet UIView *ineViewTwo;
 @property (weak, nonatomic) IBOutlet UIView *ineViewThree;
-@property (weak, nonatomic) IBOutlet UIView *ineViewFour;
-- (IBAction)playPhone:(id)sender;
+@property (strong, nonatomic) IBOutlet UIButton *commissionButton;
+
+- (IBAction)JoinStore:(id)sender;
 @end

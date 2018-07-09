@@ -15,4 +15,5 @@
 @property(nonatomic,strong)NSString *status;
 //项目负责人电话
 @property(nonatomic,strong)NSString *telphone;
+
 @end

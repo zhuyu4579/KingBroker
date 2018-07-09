@@ -105,7 +105,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = @"2";
     
-    NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/checkrealnameAuthentication",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/checkrealnameAuthentication",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         

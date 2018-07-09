@@ -118,7 +118,7 @@ static NSString *size = @"20";
 #pragma mark -设置标题栏按钮
 -(void)setupTitlesButton{
     //文字
-    NSArray *titles =@[@"待上客",@"待成交",@"已完成",@"已流失"];
+    NSArray *titles =@[@"待上客",@"待成交",@"已完成",@"已失效"];
     
     CGFloat titleButtonW = self.titlesView.fWidth/4;
     CGFloat titleButtonH =self.titlesView.fHeight;

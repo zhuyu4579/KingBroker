@@ -15,6 +15,7 @@
 #import <SVProgressHUD.h>
 #import <MJExtension.h>
 #import "WZLikeProjectItem.h"
+#import "WZTabBarController.h"
 @interface WZReportSuccessController ()
 //项目名
 @property (nonatomic,strong)UILabel *labelOne;
@@ -198,7 +199,7 @@
     likelabel.textColor =UIColorRBG(68, 68, 68);
     [likeView addSubview:likelabel];
     
-    UIView *sV = [[UIView alloc] initWithFrame:CGRectMake(0, 58, likeView.fWidth, 200)];
+    UIView *sV = [[UIView alloc] initWithFrame:CGRectMake(0, 58, likeView.fWidth, 205)];
     sV.backgroundColor =[UIColor clearColor];
     [likeView addSubview:sV];
     //自定义一个tableview
@@ -231,7 +232,7 @@
 }
 #pragma mark -继续报备
 -(void)report{
-     [self.navigationController popViewControllerAnimated:YES];
+     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark -查看订单
 -(void)order{
@@ -240,6 +241,9 @@
 }
 #pragma mark -完成
 -(void)success{
+    WZTabBarController *tar = [[WZTabBarController alloc] init];
+    tar.selectedViewController = [tar.viewControllers objectAtIndex:0];
+    [self.navigationController presentViewController:tar animated:YES completion:nil];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

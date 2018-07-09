@@ -149,7 +149,7 @@
     paraments[@"realname"] = _JName;
     paraments[@"storeCode"] = codeMa;
     paraments[@"type"] = _type;
-    NSString *url = [NSString stringWithFormat:@"%@/sysUser/companyAuthentication",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/sysUser/companyAuthentication",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         
@@ -160,10 +160,16 @@
             }
             [GKCover hide];
             [SVProgressHUD dismiss];
-            //跳转至我的页面
-            WZTabBarController *tar = [[WZTabBarController alloc] init];
-            tar.selectedViewController = [tar.viewControllers objectAtIndex:2];
-            [[UIViewController viewController:[self superview]].navigationController presentViewController:tar animated:YES completion:nil];
+            if ([_types isEqual:@"1"]) {
+                //跳转至首页
+                WZTabBarController *tar = [[WZTabBarController alloc] init];
+                tar.selectedViewController = [tar.viewControllers objectAtIndex:0];
+                [[UIViewController viewController:[self superview]].navigationController presentViewController:tar animated:YES completion:nil];
+            }else{
+                
+                [[UIViewController viewController:[self superview]].navigationController dismissViewControllerAnimated:YES completion:nil];
+            }
+            
             
         }else{
             [GKCover hide];

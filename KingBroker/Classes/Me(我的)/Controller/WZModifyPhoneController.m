@@ -100,7 +100,12 @@
    
     NSString *type = @"1";
     //判断手机格式是否正确
-    if (phone.length != 11) {
+    //判断手机格式是否正确
+    NSString *regex = @"^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    BOOL isMatch = [pred evaluateWithObject:phone];
+    
+    if (!isMatch) {
         [SVProgressHUD showInfoWithStatus:@"手机格式错误"];
         return;
     }
@@ -115,7 +120,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = type;
     paraments[@"telphone"] = phone;
-    NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
         [self openCountdown];
         NSString *code = [responseObject valueForKey:@"code"];
@@ -177,7 +182,11 @@
     NSString *NEWPhone = _NEWPhone.text;
      NSString *YZM = self.YZMPhone.text;
     //判断手机格式是否正确
-    if (NEWPhone.length != 11) {
+    //判断手机格式是否正确
+    NSString *regex = @"^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    BOOL isMatch = [pred evaluateWithObject:NEWPhone];
+    if (!isMatch) {
         [SVProgressHUD showInfoWithStatus:@"手机格式错误"];
         return;
     }
@@ -199,7 +208,7 @@
     paraments[@"password"] = _password;
     paraments[@"verificationCode"] = YZM;
     paraments[@"oldVerificationCode"] = _oldYZM;
-    NSString *url = [NSString stringWithFormat:@"%@/sysUser/changPhone",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/sysUser/changPhone",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {

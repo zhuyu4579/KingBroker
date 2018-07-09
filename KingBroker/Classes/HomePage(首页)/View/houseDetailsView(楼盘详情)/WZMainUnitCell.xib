@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -34,17 +34,8 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200万起" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="faI-JR-eqU">
-                        <rect key="frame" x="39" y="171" width="51" height="13"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="13" id="zdX-gR-IpS"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="90平" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3G-VI-Usy">
-                        <rect key="frame" x="98" y="137" width="25.5" height="11"/>
+                        <rect key="frame" x="6" y="155" width="25.5" height="11"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="11" id="0b9-0O-jne"/>
                         </constraints>
@@ -52,17 +43,26 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200万起" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="faI-JR-eqU">
+                        <rect key="frame" x="6" y="171" width="51" height="13"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="13" id="zdX-gR-IpS"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="faI-JR-eqU" firstAttribute="top" secondItem="VbP-3g-hBf" secondAttribute="bottom" constant="22" id="3QU-Uc-1Cc"/>
-                <constraint firstItem="H3G-VI-Usy" firstAttribute="top" secondItem="h4d-47-owX" secondAttribute="bottom" constant="9" id="H1a-do-my6"/>
-                <constraint firstItem="faI-JR-eqU" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="HoG-Qx-6Jn"/>
+                <constraint firstItem="H3G-VI-Usy" firstAttribute="top" secondItem="VbP-3g-hBf" secondAttribute="bottom" constant="6" id="433-0o-Pf2"/>
                 <constraint firstItem="VbP-3g-hBf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="6" id="PWL-TZ-6iV"/>
+                <constraint firstItem="faI-JR-eqU" firstAttribute="top" secondItem="H3G-VI-Usy" secondAttribute="bottom" constant="5" id="Stg-0a-ut8"/>
                 <constraint firstItem="h4d-47-owX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="W5W-zc-U74"/>
+                <constraint firstItem="faI-JR-eqU" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="6" id="ZR7-Cc-WNd"/>
                 <constraint firstItem="h4d-47-owX" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="diS-kr-5eO"/>
+                <constraint firstItem="H3G-VI-Usy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="6" id="fyP-87-Lr4"/>
                 <constraint firstItem="VbP-3g-hBf" firstAttribute="top" secondItem="h4d-47-owX" secondAttribute="bottom" constant="8" id="lVp-Qo-tsH"/>
-                <constraint firstAttribute="trailing" secondItem="H3G-VI-Usy" secondAttribute="trailing" constant="6" id="qyX-cC-PKp"/>
             </constraints>
             <connections>
                 <outlet property="houseImage" destination="h4d-47-owX" id="d2c-7k-7lh"/>

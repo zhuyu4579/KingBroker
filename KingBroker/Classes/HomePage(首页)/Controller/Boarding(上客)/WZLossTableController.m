@@ -113,9 +113,9 @@ static NSString *size = @"20";
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"userId"] = userId;
         paraments[@"types"] = @"4";
-        paraments[@"current"] = [NSString stringWithFormat:@"%zd",current];
+    paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
         paraments[@"size"] = size;
-        NSString *url = [NSString stringWithFormat:@"%@/order/list",URL];
+        NSString *url = [NSString stringWithFormat:@"%@/order/list",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             if ([code isEqual:@"200"]) {
@@ -185,9 +185,9 @@ static NSString *size = @"20";
     }];
     
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Table view data source
@@ -210,7 +210,6 @@ static NSString *size = @"20";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 119;
 }
-
 #pragma mark -跳转详情页
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //获取点击cell的数据
@@ -225,7 +224,5 @@ static NSString *size = @"20";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
- 
 }
-
 @end

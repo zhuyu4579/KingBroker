@@ -19,4 +19,8 @@
 @property(nonatomic,strong)NSString *sginStatus;
 //项目负责人电话
 @property(nonatomic,strong)NSString *telphone;
+//客户姓名
+@property(nonatomic,strong)NSString *name;
+//客户电话
+@property(nonatomic,strong)NSString *phone;
 @end

@@ -61,7 +61,7 @@
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"id"] = _projectId;
-    NSString *url = [NSString stringWithFormat:@"%@/proProjectPicture/pictureList",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/proProjectPicture/pictureList",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {

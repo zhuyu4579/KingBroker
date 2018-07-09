@@ -15,10 +15,15 @@
     [super awakeFromNib];
     self.layer.borderColor =[UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0].CGColor;
     self.layer.borderWidth = 1;
-    _labelTwo.textColor = UIColorRBG(111, 181, 243);
-    _labelThree.textColor = UIColorRBG(111, 181, 243);
-    _labelTwo.backgroundColor = UIColorRBG(240, 246, 236);
-    _labelThree.backgroundColor = UIColorRBG(240, 246, 236);
+    _labelTwo.textColor = UIColorRBG(40, 180, 230);
+    _labelThree.textColor = UIColorRBG(40, 180, 230);
+    _labelFour.textColor = UIColorRBG(40, 180, 230);
+    _labelTwo.backgroundColor = UIColorRBG(230, 244, 255);
+    _labelThree.backgroundColor = UIColorRBG(230, 244, 255);
+    _labelFour.backgroundColor = UIColorRBG(230, 244, 255);
+    _cityName.textColor = UIColorRBG(153, 153, 153);
+    _companyName.textColor = UIColorRBG(102, 102, 102);
+    _commission.textColor = UIColorRBG(244, 102, 30);
 }
 #pragma mark -点击cell做事情
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -43,7 +48,12 @@
         _labelTwo.text = array[0];
         if (array.count >1) {
             _labelThree.text = array[1];
+        }else if(array.count>2){
+            _labelFour.text = array[2];
         }
     }
+    _cityName.text = item.cityName;
+    _commission.text = item.commission;
+    _companyName.text = item.companyName;
 }
 @end

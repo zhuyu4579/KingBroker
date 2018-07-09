@@ -52,7 +52,6 @@ static  NSString * const IDR = @"cells";
     NSString *uuid = [ user objectForKey:@"uuid"];
     //点击跳转详情页
     UIViewController *vc = [UIViewController viewController:self];
-    
     if (uuid) {
         WZRecommendCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
@@ -61,6 +60,5 @@ static  NSString * const IDR = @"cells";
     }else{
         [NSString isCode:vc.navigationController code:@"401"];
     }
-    
 }
 @end

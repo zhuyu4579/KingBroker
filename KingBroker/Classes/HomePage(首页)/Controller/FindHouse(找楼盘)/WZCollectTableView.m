@@ -41,15 +41,34 @@ static  NSString * const ID = @"cells";
     WZFindHouseListItem *item = [[WZFindHouseListItem alloc] init];
     item = self.houseItem[indexPath.row];
     cell.item = item;
+    //取消收藏
+    cell.deleteblock = ^(UITableViewCell *currentCell){
+        
+        //获取准确的indexPath
+        
+        NSIndexPath *currentIndexPath = [tableView indexPathForCell:currentCell];
+  
+        [self.houseItem removeObjectAtIndex:currentIndexPath.row];
+        
+        
+        [tableView beginUpdates];
+        
+        
+        [tableView deleteRowsAtIndexPaths:@[currentIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        [tableView endUpdates];
+        
+    };
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     WZCollectHouseCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     //点击跳转详情页
-    UIViewController *vc = [UIViewController viewController:self];
+    UIViewController *vc = [UIViewController viewController:self.superview];
+    UIViewController *Vc = [UIViewController viewController:vc.view.superview];
     WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
     houseDatis.ID =  cell.ID;
-    [vc.navigationController pushViewController:houseDatis animated:YES];
+    [Vc.navigationController pushViewController:houseDatis animated:YES];
 }
 
 @end

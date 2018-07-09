@@ -13,8 +13,12 @@
 @property (strong, nonatomic) IBOutlet UILabel *projectName;
 //是否签约
 @property (strong, nonatomic) IBOutlet UILabel *signStatus;
+
+@property (strong, nonatomic) IBOutlet UILabel *companyName;
+
 //项目id
 @property(nonatomic,strong)NSString *projectId;
+
 //数据模型
 @property(nonatomic,strong)WZSelcetProjectItem *item;
 @end

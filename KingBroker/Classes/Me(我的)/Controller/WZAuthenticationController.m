@@ -30,6 +30,8 @@
     _headHeight.constant = kApplicationStatusBarHeight+54;
     _titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     _titleLabel.textColor = UIColorRBG(153, 153, 153);
+    NSMutableAttributedString *attributedString =  [self changeSomeText:@"清晰可见， 亮度均匀，易于识别" inText:_titleLabel.text withColor:UIColorRBG(3, 133, 219)];
+    _titleLabel.attributedText = attributedString;
     _getUpButton.backgroundColor = UIColorRBG(3, 133, 219);
     [_getUpButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_getUpButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
@@ -57,10 +59,16 @@
 //文本框编辑时
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     NSString * toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    
-    if (toBeString.length>20) {
-        return NO;
+    if(textField == _name){
+        if (toBeString.length>15) {
+            return NO;
+        }
+    }else{
+        if (toBeString.length>20) {
+            return NO;
+        }
     }
+   
     return YES;
 }
 - (void)didReceiveMemoryWarning {
@@ -136,7 +144,7 @@
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"realname"] =name;
         paraments[@"idCard"] = idCode;
-        NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/realnameAuthentication",URL];
+        NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/realnameAuthentication",HTTPURL];
         [mgr POST:url parameters:paraments constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
             
             NSData *imageData = [ZDAlertView imageProcessWithImage:_image];//进行图片压缩
@@ -175,4 +183,12 @@
         }];
    
 }
+- (NSMutableAttributedString *)changeSomeText:(NSString *)str inText:(NSString *)result withColor:(UIColor *)color {
+    NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:result];
+    NSRange colorRange = NSMakeRange([[attributeStr string] rangeOfString:str].location,[[attributeStr string] rangeOfString:str].length);
+    [attributeStr addAttribute:NSForegroundColorAttributeName value:color range:colorRange];
+    
+    return attributeStr;
+}
+
 @end

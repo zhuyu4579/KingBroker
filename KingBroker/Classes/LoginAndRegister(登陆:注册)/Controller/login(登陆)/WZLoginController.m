@@ -18,7 +18,8 @@
 
 #pragma mark -关闭登陆页面
 - (IBAction)closeLogin:(id)sender {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil ];
+    
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
    
 }
 

@@ -9,19 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @interface WZSettingController : UIViewController
-//修改密码
-@property (weak, nonatomic) IBOutlet UIButton *modifyPassWord;
-//修改绑定手机
-@property (weak, nonatomic) IBOutlet UIButton *modifyTelephone;
-//清除缓存
-@property (weak, nonatomic) IBOutlet UIButton *cleanCache;
+
+
 //缓存数据
 @property (weak, nonatomic) IBOutlet UILabel *cacha;
 //实名认证
 @property (strong, nonatomic) IBOutlet UILabel *authenStatus;
-@property (strong, nonatomic) IBOutlet UIButton *authen;
-//关于我们
-@property (weak, nonatomic) IBOutlet UIButton *aboutUs;
+@property (strong, nonatomic) IBOutlet UILabel *telphone;
+@property (strong, nonatomic) IBOutlet UIImageView *authenImage;
 //退出登录
 @property (weak, nonatomic) IBOutlet UIButton *ExitLogon;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;

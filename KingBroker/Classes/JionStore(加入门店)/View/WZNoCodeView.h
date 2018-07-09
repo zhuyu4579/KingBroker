@@ -14,4 +14,6 @@
 @property(nonatomic,strong)NSString *JName;
 
 @property(nonatomic,strong)NSString *type;
+//判断返回的页面
+@property(nonatomic,strong)NSString *types;
 @end

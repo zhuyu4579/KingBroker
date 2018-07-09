@@ -31,4 +31,7 @@
 @property(nonatomic,strong)NSString *totalPrice;
 //距离
 @property(nonatomic,strong)NSString *distance;
+//公司名称
+@property(nonatomic,strong)NSString *companyName;
+
 @end

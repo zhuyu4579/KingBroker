@@ -13,4 +13,6 @@
 @property(nonatomic,strong)void(^registarBlock)(NSString *state);
 //修改门店
 @property(nonatomic,strong)NSString *type;
+//判断返回的页面
+@property(nonatomic,strong)NSString *types;
 @end

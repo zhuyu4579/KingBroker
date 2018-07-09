@@ -116,7 +116,7 @@
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"orderId"] = _ID;
         
-        NSString *url = [NSString stringWithFormat:@"%@/order/detail",URL];
+        NSString *url = [NSString stringWithFormat:@"%@/order/detail",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             
@@ -822,7 +822,7 @@
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"id"] = boaringId;
-    NSString *url = [NSString stringWithFormat:@"%@/order/dealOrder",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/order/dealOrder",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         
@@ -847,6 +847,9 @@
     report.itemID = _itemId;
     report.sginStatus = _sginStatus;
     report.telphone = _proTelphone;
+    report.types = @"1";
+    report.name = _name.text;
+    report.phone = _telephone.text;
     [self.navigationController pushViewController:report animated:YES];
 }
 #pragma mark -设置导航条
@@ -854,9 +857,9 @@
     self.navigationItem.title = @"订单详情";
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 #pragma mark -不显示导航条
 -(void)viewWillAppear:(BOOL)animated{

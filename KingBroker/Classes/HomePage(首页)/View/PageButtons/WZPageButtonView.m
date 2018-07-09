@@ -10,12 +10,15 @@
 #import "WZReportController.h"
 #import "UIViewController+WZFindController.h"
 #import "WZBoaringController.h"
-#import "WZHouseController.h"
+#import "WZHousePageController.h"
 #import "NSString+LCExtension.h"
 #import <SVProgressHUD.h>
 #import "WZTaskNotificationController.h"
 #import "WZAnnouncemeController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
+#import "WZTaskController.h"
+#import "WZJionStoreController.h"
+#import "WZNavigationController.h"
 @interface WZPageButtonView()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *line2X;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *line1X;
@@ -38,11 +41,20 @@
 - (IBAction)answerTask:(id)sender {
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
+    NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
     _VC = [UIViewController viewController:[self superview]];
     if(uuid){
-        //跳转找楼盘页面
-        WZTaskNotificationController *annVc = [[WZTaskNotificationController alloc] init];
-        [_VC.navigationController pushViewController:annVc animated:YES];
+        if([realtorStatus isEqual:@"2"]){
+            //跳转
+            WZTaskController *task = [[WZTaskController alloc] init];
+            task.url = [NSString stringWithFormat:@"%@/dev/apptask/getuuid.html",HTTPH5];
+            [_VC.navigationController pushViewController:task animated:YES];
+        }else if([realtorStatus isEqual:@"0"] ||[realtorStatus isEqual:@"3"]){
+            [self store:_VC];
+        }else{
+            [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
+            [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+        }
     }else{
         [NSString isCode:_VC.navigationController code:@"401"];
     }
@@ -55,9 +67,8 @@
     _VC = [UIViewController viewController:[self superview]];
     if(uuid){
         //跳转找楼盘页面
-        WZHouseController *house = [[WZHouseController alloc] init];
-        house.type = @"0";
-        house.navigationItem.title = @"找楼盘";
+        WZHousePageController *house = [[WZHousePageController alloc] init];
+        house.status = 0;
         [_VC.navigationController pushViewController:house animated:YES];
     }else{
         [NSString isCode:_VC.navigationController code:@"401"];
@@ -75,8 +86,10 @@
             //跳转报备页面
             WZReportController *reportVC = [[WZReportController alloc] init];
             [_VC.navigationController pushViewController:reportVC animated:YES];
+        } else if([realtorStatus isEqual:@"0"] ||[realtorStatus isEqual:@"3"]){
+            [self store:_VC];
         }else{
-            [SVProgressHUD showInfoWithStatus:@"未加入门店"];
+            [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
             [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
         }
        
@@ -96,8 +109,11 @@
         if([realtorStatus isEqual:@"2"]){
             WZBoaringController *bVC = [[WZBoaringController alloc] init];
             [_VC.navigationController pushViewController:bVC animated:YES];
+        }else if([realtorStatus isEqual:@"0"] ||[realtorStatus isEqual:@"3"]){
+            
+            [self store:_VC];
         }else{
-            [SVProgressHUD showInfoWithStatus:@"未加入门店"];
+            [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
             [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
         }
     }else{
@@ -119,7 +135,26 @@
     }
    
 }
-
+//认证门店
+-(void)store:(UIViewController *)vc{
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"未加入门店" message:@"你还没有加入经纪门店，不能进行更多操作"  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"暂不加入" style:UIAlertActionStyleCancel
+                                                          handler:^(UIAlertAction * action) {
+                                                              
+                                                          }];
+    UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action) {
+                                                               WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
+                                                               WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
+                                                               JionStore.type = @"1";
+                                                               [vc presentViewController:nav animated:YES completion:nil];
+                                                           }];
+    
+    [alert addAction:defaultAction];
+    [alert addAction:cancelAction];
+    [vc presentViewController:alert animated:YES completion:nil];
+}
 +(instancetype)pageButtons{
     return [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass(self) owner:nil options:nil] firstObject];
 }

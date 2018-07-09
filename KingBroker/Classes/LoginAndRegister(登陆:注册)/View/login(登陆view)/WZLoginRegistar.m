@@ -83,7 +83,7 @@
     paraments[@"username"] = name;
     paraments[@"password"] = password;
     //3.发送请求
-    NSString *url = [NSString stringWithFormat:@"%@/app/login.api",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/login.api",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         //解析数据
         NSString *code = [responseObject valueForKey:@"code"];
@@ -111,6 +111,7 @@
             [defaults setObject:[_loginItem valueForKey:@"realtorStatus"] forKey:@"realtorStatus"];
             [defaults setObject:[_loginItem valueForKey:@"idcardStatus"] forKey:@"idcardStatus"];
             [defaults setObject:[_loginItem valueForKey:@"commissionFag"] forKey:@"commissionFag"];
+             [defaults setObject:[_loginItem valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
             [defaults synchronize];
             [self receivingNotification];
             WZTabBarController *tab = [[WZTabBarController alloc] init];
@@ -143,7 +144,7 @@
     ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
    
-    NSString *url = [NSString stringWithFormat:@"%@/sysJpush/findJpushhistoryList",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/sysJpush/findJpushhistoryList",HTTPURL];
     [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -227,7 +228,7 @@
 }
 //获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
-    textField.returnKeyType =UIReturnKeyDone;
+    textField.returnKeyType = UIReturnKeyDone;
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {

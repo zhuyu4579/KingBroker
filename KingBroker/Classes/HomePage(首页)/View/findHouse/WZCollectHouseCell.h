@@ -17,7 +17,15 @@
 @property (strong, nonatomic) IBOutlet UILabel *labelThree;
 @property (strong, nonatomic) IBOutlet UILabel *commsion;
 @property (strong, nonatomic) IBOutlet UILabel *cityName;
+@property (strong, nonatomic) IBOutlet UILabel *companyName;
+//距离
+@property (strong, nonatomic) IBOutlet UILabel *distance;
+@property (strong, nonatomic) IBOutlet UIImageView *commissionImage;
+@property (strong, nonatomic) IBOutlet UIButton *JoinStoreButton;
+@property (strong, nonatomic) IBOutlet UIButton *houseCollectionButton;
 @property(nonatomic,strong)NSString *ID;
 @property(nonatomic,strong)WZFindHouseListItem *item;
-
+- (IBAction)JoinStore:(UIButton *)sender;
+- (IBAction)houseCollectionClick:(id)sender;
+@property(nonatomic,strong)void(^deleteblock)(UITableViewCell *cell);
 @end

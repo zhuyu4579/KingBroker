@@ -13,7 +13,7 @@
 @property (nonatomic, strong)UITextField *customerName;
 //手机号前三位
 @property (nonatomic, strong)UITextField *topText;
-//手机号后三位
+//手机号后四位
 @property (nonatomic, strong)UITextField *bottomText;
 //项目名
 @property (nonatomic, copy)UILabel *ItemName;
@@ -27,6 +27,8 @@
 @property(nonatomic,strong)NSString *sginStatu;
 //项目负责人电话
 @property(nonatomic,strong)NSString *telphone;
+
 -(void)selectCustoms:(NSArray *)array;
+
 -(void)loadTimeData;
 @end

@@ -46,7 +46,7 @@
     [mgr.requestSerializer didChangeValueForKey:@"timeoutInterval"];
    
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-     NSString *url = [NSString stringWithFormat:@"%@/sysUser/register",URL];
+     NSString *url = [NSString stringWithFormat:@"%@/sysUser/register",HTTPURL];
     [mgr POST:url parameters:_registDictionary progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSMutableDictionary *  _Nullable responseObject) {
         button.enabled = YES;
         NSString *code = [responseObject valueForKey:@"code"];
@@ -56,6 +56,7 @@
             WZJionStoreController *JionVc = [[WZJionStoreController alloc] init];
              WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionVc];
             JionVc.type = @"1";
+            JionVc.types= @"1";
             [Vc.navigationController presentViewController:nav animated:YES completion:nil];
             //将数据传入加入门店中
             NSMutableDictionary *regis = [responseObject valueForKey:@"data"];
@@ -75,6 +76,7 @@
             [defaults setObject:[regis valueForKey:@"storeId"] forKey:@"storeId"];
             [defaults setObject:[regis valueForKey:@"realtorStatus"] forKey:@"realtorStatus"];
             [defaults setObject:[regis valueForKey:@"idcardStatus"] forKey:@"idcardStatus"];
+            [defaults setObject:[regis valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
             [defaults synchronize];
             //传值给上一个页面
             if (_setPWBlock) {

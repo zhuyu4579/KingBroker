@@ -12,21 +12,13 @@
 +(instancetype)setInforation;
 @property (weak, nonatomic) IBOutlet UIImageView *headImage;
 @property (strong, nonatomic) IBOutlet UITextField *name;
-@property (weak, nonatomic) IBOutlet UILabel *telephone;
-@property (weak, nonatomic) IBOutlet UILabel *storeName;
-@property (weak, nonatomic) IBOutlet UILabel *storeID;
+
 @property (weak, nonatomic) IBOutlet UILabel *sex;
 @property (weak, nonatomic) IBOutlet UILabel *birthDate;
 @property (weak, nonatomic) IBOutlet UILabel *birthAddress;
 @property (weak, nonatomic) IBOutlet UILabel *employmentTime;
 @property (weak, nonatomic) IBOutlet UILabel *entryTime;
 @property (weak, nonatomic) IBOutlet UIButton *headImageButton;
-@property (weak, nonatomic) IBOutlet UIButton *storeButton;
-@property (weak, nonatomic) IBOutlet UIButton *sexButton;
-@property (weak, nonatomic) IBOutlet UIButton *birthButton;
-@property (weak, nonatomic) IBOutlet UIButton *birthAdressButton;
-@property (weak, nonatomic) IBOutlet UIButton *employmentTimeButton;
-@property (weak, nonatomic) IBOutlet UIButton *entryTimeButton;
 //门店位置
 @property(nonatomic,strong)NSString *cityName;
 //门店地址
@@ -43,7 +35,7 @@
 @property(nonatomic,strong)NSString *url;
 
 - (IBAction)setUpHeadImage:(UIButton *)sender;
-- (IBAction)setUpStoreAndId:(UIButton *)sender;
+
 - (IBAction)setUpSex:(UIButton *)sender;
 - (IBAction)setUpBirthDate:(UIButton *)sender;
 - (IBAction)setUpEmploymentTime:(UIButton *)sender;

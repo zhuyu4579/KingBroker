@@ -34,29 +34,32 @@
     self.navigationItem.title = @"设置";
     self.cacha.textColor = UIColorRBG(102, 102, 102);
     _authenStatus.textColor = UIColorRBG(102, 102, 102);
+    _telphone.textColor = UIColorRBG(102, 102, 102);
+    [_authenImage sizeToFit];
     [self.ExitLogon setTitleColor:UIColorRBG(255, 105, 110) forState:UIControlStateNormal];
     
-     [_modifyPassWord setEnlargeEdgeWithTop:10 right:10 bottom:10 left:300];
-     [_aboutUs setEnlargeEdgeWithTop:10 right:10 bottom:10 left:300];
-     [_modifyTelephone setEnlargeEdgeWithTop:10 right:10 bottom:10 left:300];
-     [_cleanCache setEnlargeEdgeWithTop:10 right:10 bottom:10 left:300];
-     [_authen setEnlargeEdgeWithTop:10 right:10 bottom:10 left:300];
      _cacha.text = [self sizeStr];
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSInteger idcardStatus = [[user objectForKey:@"idcardStatus"] integerValue];
-    
+    NSString *username = [user objectForKey:@"username"];
+    NSString *realname = [user objectForKey:@"realname"];
+    NSString *top = [username substringToIndex:3];
+    NSString *bottom = [username substringFromIndex:7];
+    _telphone.text = [NSString stringWithFormat:@"%@****%@",top,bottom];
     if (idcardStatus == 0||idcardStatus == 3) {
-        _authenStatus.text = @"未认证";
+        _authenStatus.text = @"手持身份证";
        
         if (idcardStatus == 3) {
-            _authenStatus.text = @"认证失败";
+            _authenStatus.text = @"手持身份证";
+            _authenImage.image = [UIImage imageNamed:@"authenticated_2"];
         }
     }else if(idcardStatus == 1){
-        
-        _authenStatus.text = @"认证审核中";
+        _authenStatus.text = @"审核中";
     }else{
-        _authenStatus.text = @"认证成功";
+        NSString *realnames = [realname substringFromIndex:1];
+        _authenStatus.text = [NSString stringWithFormat:@"*%@",realnames];
+        _authenImage.image = [UIImage imageNamed:@"authenticated"];
     }
 }
 
@@ -105,7 +108,7 @@
     mgr.requestSerializer=[AFJSONRequestSerializer serializer];
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    NSString *url = [NSString stringWithFormat:@"%@/app/logout.api",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/logout.api",HTTPURL];
     [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {

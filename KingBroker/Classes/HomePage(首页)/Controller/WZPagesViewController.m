@@ -12,12 +12,8 @@
 #import "WZPageButtonView.h"
 #import <Masonry.h>
 #import <AFNetworking.h>
-#import "WZTaskController.h"
-#import "WZTaskTagItem.h"
 #import <MJExtension.h>
-#import "WZTaskTagCell.h"
 #import "WZRecommendTableView.h"
-#import "WZTaskTableView.h"
 #import <MJRefresh.h>
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "NSString+LCExtension.h"
@@ -26,11 +22,13 @@
 #import "WZFindHouseListItem.h"
 #import "WZNEWHTMLController.h"
 #import "GKCover.h"
+#import "WZTaskController.h"
+#import "WZJionStoreController.h"
+#import "WZNavigationController.h"
 @interface WZPagesViewController ()<WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate,CLLocationManagerDelegate>
 @property(nonatomic,strong)UIView *cycleView;
 @property (nonatomic, strong)WZCyclePhotoView *cyclePlayView;
 @property (nonatomic, strong)NSMutableArray *tags;
-@property (nonatomic, strong)WZTaskTableView *tableVC;
 @property (nonatomic, strong)WZRecommendTableView *recommendTV;
 @property (nonatomic, strong)UIScrollView *scrollView;
 //使用定位
@@ -56,8 +54,10 @@
     [self findversion];
     
     [self dictList];
-   
+    
+  
 }
+
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
@@ -138,13 +138,16 @@
     WZPageButtonView *pageView = [WZPageButtonView pageButtons];
     pageView.frame = buttons.bounds;
     [buttons addSubview:pageView];
-//    //创建任务中心
-//    UIView *task = [[UIView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 388)];
-//    task.backgroundColor = [UIColor clearColor];
-//    [_scrollView addSubview:task];
+    //创建任务中心
+    UIImageView *task = [[UIImageView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 90*n)];
+    task.image = [UIImage imageNamed:@"task"];
+    UITapGestureRecognizer *topRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(Tacks)];
+    [task addGestureRecognizer:topRecognizer];
+    task.userInteractionEnabled = YES;
+    [_scrollView addSubview:task];
 
     //创建为你推荐
-    UIView *Recommend = [[UIView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 740*n)];
+    UIView *Recommend = [[UIView alloc] initWithFrame:CGRectMake(0, task.fY+task.fHeight+10, SCREEN_WIDTH, 740*n)];
     Recommend.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:Recommend];
     //创建为你推荐图标
@@ -184,7 +187,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"location"] = _lnglat;
     paraments[@"num"] = @"2";
-    NSString *url = [NSString stringWithFormat:@"%@/proProject/recommend/projectList",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/recommend/projectList",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
@@ -220,12 +223,51 @@
         return NO;
     }
 }
-
+//点击任务模块
+-(void)Tacks{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
+    
+    if(uuid){
+        if([realtorStatus isEqual:@"2"]){
+            //跳转
+            WZTaskController *task = [[WZTaskController alloc] init];
+            task.url = [NSString stringWithFormat:@"%@/dev/apptask/getuuid.html",HTTPH5];
+            [self.navigationController pushViewController:task animated:YES];
+        }else if([realtorStatus isEqual:@"0"] ||[realtorStatus isEqual:@"3"]){
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"未加入门店" message:@"你还没有加入经纪门店，不能进行更多操作"  preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"暂不加入" style:UIAlertActionStyleCancel
+                                                                  handler:^(UIAlertAction * action) {
+                                                                      
+                                                                  }];
+            UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
+                                                                       WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
+                                                                       JionStore.type = @"1";
+                                                                       [self presentViewController:nav animated:YES completion:nil];
+                                                                   }];
+            
+            [alert addAction:defaultAction];
+            [alert addAction:cancelAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }else{
+            [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
+            [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+        }
+    }else{
+        [NSString isCode:self.navigationController code:@"401"];
+    }
+  
+    
+}
 #pragma mark -点击图片事件
 - (void)cyclePageClickAction:(NSInteger)clickIndex
 {
     WZNEWHTMLController *html = [[WZNEWHTMLController alloc] init];
-    html.url = @"https://www.jingfuapp.com/apph5/noticemessage.html";
+    html.url = [NSString stringWithFormat:@"%@/apph5/noticemessage.html",HTTPH5];
     [self.navigationController pushViewController:html animated:YES];
 }
 #pragma mark -去刷新或者加载数据
@@ -249,7 +291,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = @"2";
     paraments[@"app"] = @"2";
-    NSString *url = [NSString stringWithFormat:@"%@/version/versionUp",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/version/versionUp",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
@@ -347,6 +389,7 @@
     NSString *downAddress = [ user objectForKey:@"downAddress"];
     [application openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?mt=8",downAddress]]];
 }
+
 //获取字典
 -(void)dictList{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -365,7 +408,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"version"] = version;
     paraments[@"type"] = @"1";
-    NSString *url = [NSString stringWithFormat:@"%@/version/dictList",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/version/dictList",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSDictionary *data = [responseObject valueForKey:@"data"];
         NSMutableArray *array = [data valueForKey:@"dictGroups"];
@@ -388,12 +431,27 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSInteger count = [[ user objectForKey:@"newCount"] integerValue];
+    UITabBarItem *item=[self.tabBarController.tabBar.items objectAtIndex:1];
+    
+    if (count<100&&count>0) {
+        item.badgeValue= [NSString stringWithFormat:@"%ld",(long)count];
+    }else if(count>=100){
+        item.badgeValue= [NSString stringWithFormat:@"99+"];
+    }else{
+        item.badgeValue = nil;
+    }
     //定位当前位置信息
     [self locate];
     [self loadDateTask];
+    
+    
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 #pragma mark -将数据写入文件
 -(void)loadDateURl:(NSArray *)array plistName:(NSString *)plistName name:(NSString *)name{

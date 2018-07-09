@@ -39,7 +39,8 @@
 @property(nonatomic,strong)UILabel *district;
 //地址显示
 @property(nonatomic,strong)UILabel *township;
-
+//当前位置
+@property(nonatomic,assign)CLLocationCoordinate2D touchMap;
 @end
 
 @implementation ZDMapController
@@ -159,6 +160,7 @@
         CLLocation *location = userLocation.location;
         
         CLLocationCoordinate2D touchMapCoordinate = location.coordinate;
+        _touchMap  = touchMapCoordinate;
          [_mapView setCenterCoordinate:touchMapCoordinate animated:YES];
         //编译坐标的位置
         [self setLocationWithLatitude:touchMapCoordinate.latitude AndLongitude:touchMapCoordinate.longitude];
@@ -399,5 +401,14 @@
     addrsName.font = [UIFont systemFontOfSize:14];
     _township = addrsName;
     [addrView addSubview:addrsName];
+    
+    UIButton *location = [[UIButton alloc] initWithFrame:CGRectMake(self.view.fWidth-65, self.view.fHeight -189-kApplicationStatusBarHeight, 50, 50)];
+    [location setBackgroundImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
+    [location addTarget:self action:@selector(blackMeaddrs) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:location];
+    
+}
+-(void)blackMeaddrs{
+    [_mapView setCenterCoordinate:_touchMap animated:YES];
 }
 @end

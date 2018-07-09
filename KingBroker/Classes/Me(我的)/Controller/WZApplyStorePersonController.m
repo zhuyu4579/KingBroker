@@ -105,6 +105,7 @@
 }
 
 -(void)setIdCard{
+    
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.image = [UIImage imageNamed:@"empty"];
     [self.view addSubview:imageView];
@@ -201,7 +202,7 @@
     mgr.responseSerializer = [AFJSONResponseSerializer serializer];
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/leaderAuthentication",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/leaderAuthentication",HTTPURL];
     [mgr POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         NSData *imageData = [ZDAlertView imageProcessWithImage:_image];//进行图片压缩
         // 使用日期生成图片名称

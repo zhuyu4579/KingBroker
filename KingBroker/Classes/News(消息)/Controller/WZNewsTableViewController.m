@@ -20,12 +20,14 @@
 #import "NSString+LCExtension.h"
 #import <Masonry.h>
 #import "UIView+Frame.h"
+#import "WZTabBarController.h"
 static  NSString * const ID = @"NewCell";
 @interface WZNewsTableViewController ()
 @property (nonatomic,strong)NSArray *Item;
 @property (nonatomic,strong)NSArray *ZDArray;
 //无数据页面
 @property(nonatomic,strong)UIView *viewNo;
+
 @end
 
 @implementation WZNewsTableViewController
@@ -56,10 +58,9 @@ static  NSString * const ID = @"NewCell";
       
     }
     [self setNoData];
-   
-   
-    [self headerRefresh];
     
+    [self headerRefresh];
+  
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -97,7 +98,7 @@ static  NSString * const ID = @"NewCell";
     ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    NSString *url = [NSString stringWithFormat:@"%@/userMessage/read/readAllCount",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/userMessage/read/readAllCount",HTTPURL];
     [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
@@ -204,6 +205,16 @@ static  NSString * const ID = @"NewCell";
     [super viewWillAppear:animated];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
+    NSInteger count = [[ user objectForKey:@"newCount"] integerValue];
+    UITabBarItem *item=[self.tabBarController.tabBar.items objectAtIndex:1];
+    
+    if (count<100&&count>0) {
+        item.badgeValue= [NSString stringWithFormat:@"%ld",(long)count];
+    }else if(count>=100){
+        item.badgeValue= [NSString stringWithFormat:@"99+"];
+    }else{
+        item.badgeValue = nil;
+    }
     if(!uuid){
         [_viewNo setHidden:NO];
         _Item = [NSArray array];
@@ -214,6 +225,7 @@ static  NSString * const ID = @"NewCell";
         [self.tableView.mj_header beginRefreshing];
     }
 }
+
 //登录
 -(void)login{
      [NSString isCode:self.navigationController code:@"401"];

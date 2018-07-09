@@ -13,5 +13,7 @@
 @property(nonatomic,strong)NSString *name;
 @property(nonatomic,strong)NSString *url;
 @property(nonatomic,strong)NSArray *tags;
-
+@property(nonatomic,strong)NSString *commission;
+@property(nonatomic,strong)NSString *cityName;
+@property(nonatomic,strong)NSString *companyName;
 @end

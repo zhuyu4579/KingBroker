@@ -36,10 +36,15 @@
     
     NSString *type = @"1";
     //判断手机格式是否正确
-    if (phone.length != 11) {
+    NSString *regex = @"^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    BOOL isMatch = [pred evaluateWithObject:phone];
+    
+    if (!isMatch) {
         [SVProgressHUD showInfoWithStatus:@"手机格式错误"];
         return;
     }
+    
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -50,7 +55,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = type;
     paraments[@"telphone"] = phone;
-    NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
         
         NSString *code = [responseObject valueForKey:@"code"];
@@ -111,7 +116,7 @@
 - (IBAction)seeAgreement:(id)sender {
     WZNEWHTMLController *html = [[WZNEWHTMLController alloc] init];
     UIViewController *Vc = [UIViewController viewController:[self superview]];
-    html.url = @"https://www.jingfuapp.com/apph5/agreement.html";
+    html.url = [NSString stringWithFormat:@"%@/apph5/agreement.html",HTTPH5];
     [Vc.navigationController pushViewController:html animated:YES];
 }
 #pragma mark -下一页
@@ -122,7 +127,17 @@
     WZRegSetPWController *ragSetPwVc = [[WZRegSetPWController alloc] init];
     //获取手机号和验证码存储带到下个页面
     NSMutableDictionary *dicty = [NSMutableDictionary dictionary];
+    
     NSString *telephone = _regAdminText.text;
+    //判断手机格式是否正确
+    NSString *regex = @"^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    BOOL isMatch = [pred evaluateWithObject:telephone];
+    
+    if (!isMatch) {
+        [SVProgressHUD showInfoWithStatus:@"手机格式错误"];
+        return;
+    }
     //暂时
     dicty[@"phone"] = telephone;
     
@@ -142,7 +157,7 @@
     paraments[@"type"] = @"1";
     paraments[@"telphone"] = telephone;
     paraments[@"smsCode"] = _regPasswordText.text;
-    NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
         [self openCountdown];
         NSString *code = [responseObject valueForKey:@"code"];

@@ -40,23 +40,14 @@
 -(void)layoutSubviews{
     _name.textColor = UIColorRBG(102, 102, 102);
     _name.keyboardType = UIKeyboardTypeDefault;
-    _name.textAlignment = NSTextAlignmentRight;
     _name.delegate = self;
-    _telephone.textColor = UIColorRBG(102, 102, 102);
-    _storeName.textColor = UIColorRBG(102, 102, 102);
-    _storeID.textColor = UIColorRBG(102, 102, 102);
+   
     _sex.textColor = UIColorRBG(102, 102, 102);
     _birthDate.textColor = UIColorRBG(102, 102, 102);
     _birthAddress.textColor = UIColorRBG(102, 102, 102);
     _employmentTime.textColor = UIColorRBG(102, 102, 102);
     _entryTime.textColor = UIColorRBG(102, 102, 102);
-    [_headImageButton setEnlargeEdgeWithTop:20 right:15 bottom:20 left:300];
-     [_storeButton setEnlargeEdgeWithTop:20 right:15 bottom:20 left:300];
-    [_sexButton setEnlargeEdgeWithTop:20 right:15 bottom:20 left:300];
-    [_birthButton setEnlargeEdgeWithTop:20 right:15 bottom:20 left:300];
-    [_birthAdressButton setEnlargeEdgeWithTop:20 right:15 bottom:20 left:300];
-    [_entryTimeButton setEnlargeEdgeWithTop:20 right:15 bottom:20 left:300];
-    [_employmentTimeButton setEnlargeEdgeWithTop:20 right:15 bottom:20 left:300];
+   
     _headImage.layer.cornerRadius=self.headImage.frame.size.width/2;//裁成圆角
     _headImage.layer.masksToBounds=YES;//隐藏裁剪掉的部分
     _headImage.layer.borderWidth = 0.5f;//边框宽度
@@ -84,7 +75,7 @@
     paraments[@"hiredate"] = _hiredate;
     paraments[@"startWorkTime"] = _startWorkTime;
     paraments[@"birthday"] = _birthday;
-    NSString *url = [NSString stringWithFormat:@"%@/sysUser/update",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/sysUser/update",HTTPURL];
     [mgr POST:url parameters:paraments constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         if (image) {
             NSData *imageData = [ZDAlertView imageProcessWithImage:image];//进行图片压缩
@@ -124,13 +115,6 @@
     
     //姓名
     _name.text = [_loginItem valueForKey:@"realname"];
-    NSString *idcardStatus = [_loginItem valueForKey:@"idcardStatus"];
-    _idcardStatus = idcardStatus;
-    if ([idcardStatus isEqual:@"2"]) {
-        _name.enabled = NO;
-    }
-    //电话
-    _telephone.text = [_loginItem valueForKey:@"phone"];
     //性别
     NSString *sex = [_loginItem valueForKey:@"sex"];
     if ([sex isEqual:@"1"]) {
@@ -186,23 +170,23 @@
      _relname = textField.text;
      [self loadData:nil];
 }
-//设置门店
-- (IBAction)setUpStoreAndId:(UIButton *)sender {
-    WZBelongedStoreController *belong = [[WZBelongedStoreController alloc] init];
-    belong.storeCode = _storeID.text;
-    belong.storeName = _storeName.text;
-    belong.cityName = _cityName;
-    belong.idcardStatus = _idcardStatus;
-    belong.realtorStatus = _realtorStatus;
-    belong.dutyFlag = _dutyFlag;
-    belong.cityAdder = _storeAddr;
-    UIViewController *vc = [UIViewController viewController:self.superview.superview];
-    if([_realtorStatus isEqual:@"1"]){
-        [SVProgressHUD showInfoWithStatus:@"门店正在审核中"];
-    }else{
-       [vc.navigationController pushViewController:belong animated:YES];
-    }
+//获取焦点
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    textField.returnKeyType =UIReturnKeyDone;
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+//文本框编辑时
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    NSString * toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string];
     
+    if (toBeString.length>15) {
+        return NO;
+    }
+    return YES;
 }
 //选择性别
 - (IBAction)setUpSex:(UIButton *)sender {
