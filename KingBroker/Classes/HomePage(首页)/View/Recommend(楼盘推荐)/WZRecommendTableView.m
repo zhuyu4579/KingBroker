@@ -31,6 +31,7 @@ static  NSString * const IDR = @"cells";
     [self registerNib:[UINib nibWithNibName:@"WZRecommendCell" bundle:nil] forCellReuseIdentifier:IDR];
     //设置分割线
     self.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.bounces = NO;
     return self;
 }
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{

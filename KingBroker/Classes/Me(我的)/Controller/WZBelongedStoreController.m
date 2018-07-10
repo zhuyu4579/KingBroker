@@ -17,6 +17,7 @@
 #import "WZApplyStorePersonController.h"
 #import "WZUpdateStoreController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
+#import "WZStoreAdministrationController.h"
 @interface WZBelongedStoreController ()
 @property(nonatomic,strong)UIButton *button;
 @property(nonatomic,strong)UIButton *addrButton;
@@ -120,24 +121,28 @@
         make.height.offset(13);
     }];
     UIButton *button = [[UIButton alloc] init];
+    [button setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:14];
+    button.layer.borderWidth = 1.0;
+    button.layer.borderColor = UIColorRBG(3, 133, 219).CGColor;
+    button.layer.cornerRadius = 12.5;
+    [button addTarget:self action:@selector(ApplyStoreDuty) forControlEvents:UIControlEventTouchUpInside];
     if ([_dutyFlag isEqual:@"0"]) {
         [button setTitle:@"申请门店负责人" forState:UIControlStateNormal];
     }else if([_dutyFlag isEqual:@"2"]){
-        [button setTitle:@"已是门店负责人" forState:UIControlStateNormal];
-         button.enabled = NO;
+        [button setTitle:@"门店管理" forState:UIControlStateNormal];
+        button.enabled = YES;
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        button.backgroundColor = UIColorRBG(3, 133, 219);
+        [button removeTarget:self action:@selector(ApplyStoreDuty) forControlEvents:UIControlEventTouchUpInside];
+        [button addTarget:self action:@selector(storeAdministration) forControlEvents:UIControlEventTouchUpInside];
     }else if([_dutyFlag isEqual:@"1"]){
         [button setTitle:@"门店负责人认证中" forState:UIControlStateNormal];
         button.enabled = NO;
     }else{
         [button setTitle:@"门店负责人认证失败" forState:UIControlStateNormal];
     }
-    [button setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
     _button = button;
-    button.titleLabel.font = [UIFont systemFontOfSize:14];
-    button.layer.borderWidth = 1.0;
-    button.layer.borderColor = UIColorRBG(3, 133, 219).CGColor;
-    button.layer.cornerRadius = 12.5;
-    [button addTarget:self action:@selector(ApplyStoreDuty) forControlEvents:UIControlEventTouchUpInside];
     [viewOne addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(viewOne.mas_centerX);
@@ -294,9 +299,7 @@
 }
 //申请门店负责人
 -(void)ApplyStoreDuty{
-    if([_idcardStatus isEqual:@"1"]){
-        [SVProgressHUD showInfoWithStatus:@"实名认证审核中"];
-    }else{
+   
        //跳转申请负责人
         WZApplyStorePersonController *applyVc = [[WZApplyStorePersonController alloc] init];
         applyVc.idCardstatus = _idcardStatus;
@@ -304,8 +307,12 @@
             if ([status isEqual:@"0"]) {
                 [_button setTitle:@"申请门店负责人" forState:UIControlStateNormal];
             }else if([status isEqual:@"2"]){
-                [_button setTitle:@"已是门店负责人" forState:UIControlStateNormal];
-                _button.enabled = NO;
+                [_button setTitle:@"门店管理" forState:UIControlStateNormal];
+                _button.enabled = YES;
+                [_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                _button.backgroundColor = UIColorRBG(3, 133, 219);
+                [_button removeTarget:self action:@selector(ApplyStoreDuty) forControlEvents:UIControlEventTouchUpInside];
+                [_button addTarget:self action:@selector(storeAdministration) forControlEvents:UIControlEventTouchUpInside];
             }else if([status isEqual:@"1"]){
                 [_button setTitle:@"门店负责人认证中" forState:UIControlStateNormal];
                 _button.enabled = NO;
@@ -314,8 +321,12 @@
             }
         };
         [self.navigationController pushViewController:applyVc animated:YES];
-    }
-   
+}
+//门店管理
+-(void)storeAdministration{
+    WZStoreAdministrationController *store = [[WZStoreAdministrationController alloc] init];
+    store.url = @"";
+    [self.navigationController presentViewController:store animated:YES completion:nil];
 }
 //更换门店
 -(void)updateStore{

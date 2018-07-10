@@ -38,6 +38,9 @@
 }
 -(void)setItem:(WZLikeProjectItem *)item{
     _item = item;
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *commissionFag = [ user objectForKey:@"commissionFag"];
+    
     NSString *url = item.url;
     
     [_image sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"bb_5_pic"]];
@@ -53,7 +56,12 @@
         }
     }
     _cityName.text = item.cityName;
-    _commission.text = item.commission;
+    if([commissionFag isEqual:@"0"]){
+        _commission.text = item.commission;
+    }else{
+        _commission.text = @"佣金不可见";
+    }
+    
     _companyName.text = item.companyName;
 }
 @end

@@ -124,7 +124,7 @@
     [_scrollView addSubview:_cycleView];
     //初始化轮播图
     NSMutableArray *images = [[NSMutableArray alloc]init];
-    UIImage *image = [UIImage imageNamed:@"banner-1"];
+    UIImage *image = [UIImage imageNamed:@"sy_banner"];
     [images addObject:image];
     self.cyclePlayView = [[WZCyclePhotoView alloc] initWithImages:images withFrame:CGRectMake(0, 0, _cycleView.fWidth, _cycleView.fHeight)];
     self.cyclePlayView.delegate = self;
@@ -140,14 +140,14 @@
     [buttons addSubview:pageView];
     //创建任务中心
     UIImageView *task = [[UIImageView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 90*n)];
-    task.image = [UIImage imageNamed:@"task"];
+    task.image = [UIImage imageNamed:@"rw_banner"];
     UITapGestureRecognizer *topRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(Tacks)];
     [task addGestureRecognizer:topRecognizer];
     task.userInteractionEnabled = YES;
     [_scrollView addSubview:task];
 
     //创建为你推荐
-    UIView *Recommend = [[UIView alloc] initWithFrame:CGRectMake(0, task.fY+task.fHeight+10, SCREEN_WIDTH, 740*n)];
+    UIView *Recommend = [[UIView alloc] initWithFrame:CGRectMake(0, task.fY+task.fHeight+10, SCREEN_WIDTH, 732+210*(n-1)+10)];
     Recommend.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:Recommend];
     //创建为你推荐图标
@@ -161,7 +161,7 @@
     recommendLable.textColor = UIColorRBG(68, 68, 68);
     [Recommend addSubview:recommendLable];
     //创建为你推荐房源view62
-    _recommendTV = [[WZRecommendTableView alloc] initWithFrame:CGRectMake(0, recommendLable.fY+recommendLable.fHeight, Recommend.fWidth, 708*n)];
+    _recommendTV = [[WZRecommendTableView alloc] initWithFrame:CGRectMake(0, recommendLable.fY+recommendLable.fHeight, Recommend.fWidth, 700+210*(n-1)+10)];
     
     [Recommend addSubview:_recommendTV];
 
@@ -233,8 +233,10 @@
         if([realtorStatus isEqual:@"2"]){
             //跳转
             WZTaskController *task = [[WZTaskController alloc] init];
-            task.url = [NSString stringWithFormat:@"%@/dev/apptask/getuuid.html",HTTPH5];
-            [self.navigationController pushViewController:task animated:YES];
+            task.url = [NSString stringWithFormat:@"%@/gatest/apptask/getuuid.html",HTTPH5];
+             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
+            [self.navigationController presentViewController:nav animated:YES completion:nil];
+            
         }else if([realtorStatus isEqual:@"0"] ||[realtorStatus isEqual:@"3"]){
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"未加入门店" message:@"你还没有加入经纪门店，不能进行更多操作"  preferredStyle:UIAlertControllerStyleAlert];
             

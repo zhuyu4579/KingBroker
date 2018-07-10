@@ -36,13 +36,10 @@
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"申请门店负责人";
     //创建页面
-    if([_idCardstatus isEqual:@"2"]){
-        //已经实名认证
-        [self setCard];
-    }else{
-        //未实名认证
-        [self setIdCard];
-    }
+    
+    
+    [self setCard];
+  
 }
 //申请门店负责人
 -(void)setCard{

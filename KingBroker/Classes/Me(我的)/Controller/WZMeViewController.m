@@ -289,7 +289,7 @@
     [loginSuccessView addSubview:imageView];
     //头像
     UIImageView *headImageView = [[UIImageView alloc] init];
-    headImageView.frame = CGRectMake((SCREEN_WIDTH-75)/2, 70, 75, 75);
+    headImageView.frame = CGRectMake((SCREEN_WIDTH-75)/2, 70*n, 75, 75);
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickImage)];
     [headImageView addGestureRecognizer:tapGesture];
     headImageView.layer.cornerRadius= headImageView.frame.size.width/2;//裁成圆角
@@ -299,23 +299,26 @@
     headImageView.userInteractionEnabled = YES;
     [loginSuccessView addSubview:headImageView];
      _headImageViewTwo  = headImageView;
+    
     UILabel *labelName = [[UILabel alloc] init];
     _name = labelName;
     labelName.textColor = [UIColor whiteColor];
     labelName.textAlignment = NSTextAlignmentRight;
+    labelName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     [loginSuccessView addSubview:labelName];
     [labelName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(loginSuccessView.mas_centerX);
-        make.top.equalTo(headImageView.mas_bottom).offset(15);
+        make.top.equalTo(headImageView.mas_bottom).offset(17*n);
         make.height.offset(13);
     }];
+    
     //性别
     UIImageView *genderImageView = [[UIImageView alloc] init];
     _sexImage = genderImageView;
     [loginSuccessView addSubview:genderImageView];
     [genderImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(labelName.mas_right).offset(5);
-        make.top.equalTo(headImageView.mas_bottom).offset(15);
+        make.top.equalTo(headImageView.mas_bottom).offset(15*n);
         make.height.offset(16);
         make.width.offset(16);
     }];
@@ -331,7 +334,7 @@
     float h = (_scrollView.fHeight-224*n-25)/3.0;
     
      [self createButtonView:CGRectMake(0, m, (SCREEN_WIDTH-1)/2, h) image:@"order" imageSize:CGSizeMake(20, 30) target:self action:@selector(myOrder) title:@"我的订单"];
-     [self createButtonView:CGRectMake(SCREEN_WIDTH/2,m, (SCREEN_WIDTH-1)/2, h) image:@"lable" imageSize:CGSizeMake(20, 31) target:self action:@selector(myLable) title:@"我的项目"];
+     [self createButtonView:CGRectMake(SCREEN_WIDTH/2,m, (SCREEN_WIDTH-1)/2, h) image:@"lable" imageSize:CGSizeMake(20, 31) target:self action:@selector(myLable) title:@"我的楼盘"];
     
     [self createButtonView:CGRectMake(0, m+h, (SCREEN_WIDTH-1)/2, h) image:@"wallet" imageSize:CGSizeMake(20, 30) target:self action:@selector(myWallet) title:@"我的钱包"];
     [self createButtonView:CGRectMake(SCREEN_WIDTH/2,m+h, (SCREEN_WIDTH-1)/2, h) image:@"store" imageSize:CGSizeMake(20, 31) target:self action:@selector(myStore) title:@"我的门店"];
@@ -363,14 +366,14 @@
     _images = imageViews;
     [views addSubview:imageViews];
   
-    UILabel *storeName = [[UILabel alloc] initWithFrame:CGRectMake(imageViews.fX+imageViews.fWidth, 18, 130, 15)];
+    UILabel *storeName = [[UILabel alloc] initWithFrame:CGRectMake(imageViews.fX+imageViews.fWidth, 18, 140, 15)];
     storeName.textColor = UIColorRBG(68, 68, 68);
     storeName.font = [UIFont boldSystemFontOfSize:15];
     _storeName = storeName;
     [views addSubview:storeName];
     
     
-    UILabel *labels = [[UILabel alloc] initWithFrame:CGRectMake(storeName.fX+storeName.fWidth, 19, 86, 12)];
+    UILabel *labels = [[UILabel alloc] initWithFrame:CGRectMake(storeName.fX+storeName.fWidth, 19, 70, 12)];
     labels.textColor = UIColorRBG(102, 102, 102);
     labels.textAlignment = NSTextAlignmentRight;
     _labels = labels;
@@ -386,7 +389,6 @@
     [views addSubview:joinButton];
     
     //跳转所属门点按钮
-    
     UIButton *stores = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, views.fWidth, views.fHeight)];
     _boaldingButton = stores;
     [stores addTarget:self action:@selector(BelongedStore) forControlEvents:UIControlEventTouchUpInside];

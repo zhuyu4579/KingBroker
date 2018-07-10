@@ -171,6 +171,7 @@
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.scrollView.mj_header = header;
+    
     [self.scrollView.mj_header beginRefreshing];
 }
 #pragma mark -下拉刷新或者加载数据
@@ -206,15 +207,15 @@
             if ([code isEqual:@"200"]) {
                 _houseDatils = [responseObject valueForKey:@"data"];
                 [self setData];
-                [self.scrollView.mj_header endRefreshing];
+                
             }else{
                 NSString *msg = [responseObject valueForKey:@"msg"];
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
                 [NSString isCode:self.navigationController code:code];
-                [self.scrollView.mj_header endRefreshing];
             }
+            [self.scrollView.mj_header endRefreshing];
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
             [self.scrollView.mj_header endRefreshing];
@@ -284,8 +285,12 @@
             _reportButton.enabled = YES;
         }
     }else{
-        [_dView.JoinButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
+        [_dView.JoinButton setHidden:NO];
         [_dView.JoinButton setEnabled:YES];
+        [_dView.commissionButton setHidden:YES];
+        [_dView.Commission setHidden:YES];
+        [_dView.JoinButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
+        
          _reportButton.enabled = YES;
     }
     

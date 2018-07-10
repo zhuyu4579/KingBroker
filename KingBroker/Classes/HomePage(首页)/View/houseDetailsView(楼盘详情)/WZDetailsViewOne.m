@@ -34,8 +34,7 @@
     
     self.Commission.textColor = UIColorRBG(244, 102, 30);
     [self.JoinButton setTitleColor:UIColorRBG(244, 102, 30) forState:UIControlStateNormal];
-    [_Commission setHidden:YES];
-    [_commissionButton setHidden:YES];
+  
     
     self.ineViewOne.backgroundColor = UIColorRBG(242, 242, 242);
     self.ineViewTwo.backgroundColor = UIColorRBG(242, 242, 242);

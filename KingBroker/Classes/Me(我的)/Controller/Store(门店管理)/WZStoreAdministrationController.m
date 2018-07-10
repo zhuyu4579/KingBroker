@@ -1,26 +1,24 @@
 //
-//  WZTaskController.m
+//  WZStoreAdministrationController.m
 //  KingBroker
 //
-//  Created by 朱玉隆 on 2018/6/26.
+//  Created by 朱玉隆 on 2018/7/10.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
-#import "WZTaskController.h"
 #import <WebKit/WebKit.h>
 #import "UIView+Frame.h"
-#import "WZShareController.h"
-@interface WZTaskController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
+#import "WZStoreAdministrationController.h"
+
+@interface WZStoreAdministrationController()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
 @property(nonatomic,strong)WKWebView *webView;
 @property(nonatomic,strong)UIProgressView *pV;
 
 @end
 
-@implementation WZTaskController
+@implementation WZStoreAdministrationController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.view.backgroundColor = [UIColor whiteColor];
     
     UIProgressView *pV = [[UIProgressView alloc] init];
@@ -28,9 +26,8 @@
     pV.backgroundColor = UIColorRBG(3, 133, 219);
     
     [self.view addSubview:pV];
-    
-   
 }
+
 -(void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
     _webView.frame = CGRectMake(0, kApplicationStatusBarHeight-20, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight+20);
@@ -57,7 +54,7 @@
     
     [webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     
-     [[webView configuration].userContentController addScriptMessageHandler:self name:@"black"];
+    [[webView configuration].userContentController addScriptMessageHandler:self name:@"black"];
     
 }
 //页面加载完成时调用
@@ -75,42 +72,28 @@
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
     
-    NSString *url = navigationAction.request.URL.absoluteString;
-    if ([url rangeOfString:@"share.html"].location == NSNotFound) {
-        
-        NSURL *URL = navigationAction.request.URL;
-        NSString *scheme = [URL scheme];
-        if ([scheme isEqualToString:@"tel"]) {
-            NSString *resourceSpecifier = [URL resourceSpecifier];
-            NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", resourceSpecifier];
-            /// 防止iOS 10及其之后，拨打电话系统弹出框延迟出现
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone]];
-            });
-        }
-       
-        decisionHandler(WKNavigationActionPolicyAllow);
-    }else{
-        //跳转分享页面
-        NSString *param = navigationAction.request.URL.query;
-        if(param.length>0){
-            NSString *ID = [param substringFromIndex:3];
-            
-            WZShareController *shareVC= [[WZShareController alloc] init];
-            shareVC.ID = ID;
-            [self.navigationController pushViewController:shareVC animated:YES];
-        }
-        decisionHandler(WKNavigationActionPolicyCancel);
-        
+    
+    
+    NSURL *URL = navigationAction.request.URL;
+    NSString *scheme = [URL scheme];
+    if ([scheme isEqualToString:@"tel"]) {
+        NSString *resourceSpecifier = [URL resourceSpecifier];
+        NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", resourceSpecifier];
+        /// 防止iOS 10及其之后，拨打电话系统弹出框延迟出现
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone]];
+        });
     }
+    
+    decisionHandler(WKNavigationActionPolicyAllow);
+    
     
 }
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message
 {
     
     if ([message.name isEqualToString:@"black"]) {
-        
-         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
     
 }
@@ -143,13 +126,14 @@
 -(void)dealloc{
     [_webView removeObserver:self forKeyPath:@"title"];
     [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
-      [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"closeWindow"];
+    [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"closeWindow"];
 }
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-    [self createWebView];
+    //[self createWebView];
 }
+
 
 @end

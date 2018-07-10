@@ -136,8 +136,7 @@
             NSDictionary *data = [responseObject valueForKey:@"data"];
             
             _coolingTime = [data valueForKey:@"coolingTime"];
-            NSLog(@"1");
-            NSLog(@"%@",data);
+           
             NSDictionary *share = [data valueForKey:@"share"];
             //创建view
             [self createView:share];

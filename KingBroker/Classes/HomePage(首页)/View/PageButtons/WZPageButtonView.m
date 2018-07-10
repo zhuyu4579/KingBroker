@@ -19,6 +19,7 @@
 #import "WZTaskController.h"
 #import "WZJionStoreController.h"
 #import "WZNavigationController.h"
+#import "WZNavigationController.h"
 @interface WZPageButtonView()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *line2X;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *line1X;
@@ -47,8 +48,10 @@
         if([realtorStatus isEqual:@"2"]){
             //跳转
             WZTaskController *task = [[WZTaskController alloc] init];
-            task.url = [NSString stringWithFormat:@"%@/dev/apptask/getuuid.html",HTTPH5];
-            [_VC.navigationController pushViewController:task animated:YES];
+            task.url = [NSString stringWithFormat:@"%@/gatest/apptask/getuuid.html",HTTPH5];
+            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
+            [_VC.navigationController presentViewController:nav animated:YES completion:nil];
+            
         }else if([realtorStatus isEqual:@"0"] ||[realtorStatus isEqual:@"3"]){
             [self store:_VC];
         }else{

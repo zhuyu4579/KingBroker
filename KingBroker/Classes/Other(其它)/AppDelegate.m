@@ -19,6 +19,7 @@
 #import "WZNavigationController.h"
 #import "WZSystemController.h"
 #import "WZBoardingDetailsController.h"
+#import "NSString+LCExtension.h"
 #import <WXApi.h>
 #import <AFNetworking.h>
 #import <SVProgressHUD.h>
@@ -43,7 +44,7 @@
     
     NSString *advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
     
-    [JPUSHService setupWithOption:launchOptions appKey:@"52c508b6346f9a9c20f4dd73"
+    [JPUSHService setupWithOption:launchOptions appKey:@"2c971480b42a2584471eaadb"
                           channel:@"App Store"
                  apsForProduction:0
             advertisingIdentifier:advertisingId];
@@ -203,7 +204,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler  API_AVAILABLE(ios(10.0)){
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     [JPUSHService setBadge:0];
-    
+        
     NSDictionary *userInfo = response.notification.request.content.userInfo;
     //自定义内容
     //NSLog(@"收到的推送消息 userinfo %@",userInfo);
@@ -258,29 +259,38 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSString *viewType = [userInfo valueForKey:@"viewType"];
     //h5地址
     NSString *url = [userInfo valueForKey:@"url"];
+   
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    if (!uuid) {
+        [NSString isCode:self.window.rootViewController.navigationController code:@"401"];
+        return;
+    }
     //跳转页面
     if([viewType isEqual:@"1"]){
         if([param isEqual:@"111"]){
             //跳转H5
             WZTaskController *task = [[WZTaskController alloc] init];
-            task.url = url;
-            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
-            [nav.topViewController.navigationController pushViewController:nav animated:YES];
+            task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
+           WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
+           [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
+            
         }else{
             //跳转H5
             WZNEWHTMLController *new = [[WZNEWHTMLController alloc] init];
             new.url = url;
-            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:new];
-            [nav.topViewController.navigationController pushViewController:nav animated:YES];
+            WZTabBarController *tabBarVc =(WZTabBarController *) self.window.rootViewController;
+            tabBarVc.selectedViewController = [tabBarVc.viewControllers objectAtIndex:0];
+            if ([tabBarVc isKindOfClass:[WZTabBarController class]]) {
+                WZNavigationController *nav =(WZNavigationController *) tabBarVc.selectedViewController;
+                
+                [nav.topViewController.navigationController pushViewController:new animated:YES];
+            }
         }
         
     }else if([viewType isEqual:@"2"]){
         //跳转原生
         if ([param isEqual:@"108"]) {
-            NSUserDefaults *pushJudge = [NSUserDefaults standardUserDefaults];
-            [pushJudge setObject:@"push" forKey:@"push"];
-            [pushJudge synchronize];
-        
             //系统列表页面
             WZSystemController *system = [[WZSystemController alloc] init];
             WZTabBarController *tabBarVc =(WZTabBarController *) self.window.rootViewController;
