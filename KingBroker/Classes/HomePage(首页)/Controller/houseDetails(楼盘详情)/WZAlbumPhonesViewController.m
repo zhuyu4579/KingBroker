@@ -18,13 +18,17 @@
 #import "WZAlbumsItem.h"
 #import "WZPhotoTypeNameView.h"
 #import "WZPhotoNameCell.h"
-@interface WZAlbumPhonesViewController ()
+@interface WZAlbumPhonesViewController (){
+    CGFloat _lastScale;
+}
 @property(nonatomic,strong)WZAllPhotosCollectionView *photosCV;
 @property(nonatomic,strong)WZPhotoTypeNameView *photosName;
 @property(nonatomic,strong)UILabel *page;
 @property(nonatomic,strong)NSString *num;
 @property(nonatomic,strong)NSIndexPath *oldIndexPath;
 @property(nonatomic,strong)NSArray *list;
+@property(nonatomic,strong)UIView *views;
+@property (nonatomic,assign) CGFloat totalScale;
 @end
 
 @implementation WZAlbumPhonesViewController
@@ -50,7 +54,7 @@
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
-    
+    self.totalScale = 1.0;
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -145,7 +149,13 @@
     float n = [UIScreen mainScreen].bounds.size.width/375.0;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, (self.view.fHeight - 280*n)/2.0, self.view.fWidth, 280*n)];
     view.backgroundColor = [UIColor clearColor];
+    _views = view;
     [self.view addSubview:view];
+   
+    
+    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
+    [view addGestureRecognizer:pinch];
+    
     //创建一个layout布局类
     UICollectionViewFlowLayout *layouts = [[UICollectionViewFlowLayout alloc] init];
     //设置布局方向为水平流布局
@@ -174,6 +184,40 @@
     [buttonView addSubview:photoName];
     //创造通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changes:) name:@"indexPaths" object:nil];
+}
+
+- (void)pinch:(UIPinchGestureRecognizer *)recognizer{
+    
+    UIGestureRecognizerState state = [recognizer state];
+    
+    if(state == UIGestureRecognizerStateBegan) {
+        // Reset the last scale, necessary if there are multiple objects with different scales
+        //获取最后的比例
+        _lastScale = [recognizer scale];
+    }
+    
+    if (state == UIGestureRecognizerStateBegan ||
+        state == UIGestureRecognizerStateChanged) {
+        //获取当前的比例
+        CGFloat currentScale = [[[recognizer view].layer valueForKeyPath:@"transform.scale"] floatValue];
+        
+        // Constants to adjust the max/min values of zoom
+        //设置最大最小的比例
+        const CGFloat kMaxScale = 3.0;
+        const CGFloat kMinScale = 1.0;
+        //设置
+        
+        //获取上次比例减去想去得到的比例
+        CGFloat newScale = 1 -  (_lastScale - [recognizer scale]);
+        newScale = MIN(newScale, kMaxScale / currentScale);
+        newScale = MAX(newScale, kMinScale / currentScale);
+        CGAffineTransform transform = CGAffineTransformScale([[recognizer view] transform], newScale, newScale);
+        [recognizer view].transform = transform;
+        // Store the previous scale factor for the next pinch gesture call
+        //获取最后比例 下次再用
+        _lastScale = [recognizer scale];
+    }
+    
 }
 //默认选择的照片
 -(void)selectPhoto{

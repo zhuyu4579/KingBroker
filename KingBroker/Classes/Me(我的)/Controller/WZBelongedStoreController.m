@@ -16,6 +16,7 @@
 #import "WZJionStoreController.h"
 #import "WZApplyStorePersonController.h"
 #import "WZUpdateStoreController.h"
+#import "WZNavigationController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZStoreAdministrationController.h"
 @interface WZBelongedStoreController ()
@@ -325,8 +326,9 @@
 //门店管理
 -(void)storeAdministration{
     WZStoreAdministrationController *store = [[WZStoreAdministrationController alloc] init];
-    store.url = @"";
-    [self.navigationController presentViewController:store animated:YES completion:nil];
+    store.url = [NSString stringWithFormat:@"%@/gatest/store/getuuid.html",HTTPH5];
+    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:store];
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 //更换门店
 -(void)updateStore{

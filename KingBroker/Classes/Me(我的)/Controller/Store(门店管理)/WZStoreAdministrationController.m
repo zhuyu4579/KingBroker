@@ -7,6 +7,7 @@
 //
 #import <WebKit/WebKit.h>
 #import "UIView+Frame.h"
+#import "NSString+LCExtension.h"
 #import "WZStoreAdministrationController.h"
 
 @interface WZStoreAdministrationController()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
@@ -55,7 +56,7 @@
     [webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     
     [[webView configuration].userContentController addScriptMessageHandler:self name:@"black"];
-    
+    [[webView configuration].userContentController addScriptMessageHandler:self name:@"login"];
 }
 //页面加载完成时调用
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
@@ -93,7 +94,10 @@
 {
     
     if ([message.name isEqualToString:@"black"]) {
+        
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    }else if([message.name isEqualToString:@"login"]){
+        [NSString isCode:self.navigationController code:@"401"];
     }
     
 }
@@ -132,7 +136,7 @@
     
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-    //[self createWebView];
+    [self createWebView];
 }
 
 

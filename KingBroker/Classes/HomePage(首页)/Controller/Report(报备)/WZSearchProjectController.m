@@ -22,6 +22,7 @@ static  NSString * const ID = @"cell";
     //页数
     NSInteger current;
 }
+@property (strong, nonatomic) UISearchBar *searchBar;
 //项目列表数据
 @property(nonatomic,strong)NSMutableArray *projectListArray;
 //项目列表数据s
@@ -47,11 +48,11 @@ static NSString *size = @"20";
     searchBar.searchBarStyle = UISearchBarStyleMinimal;
     searchBar.returnKeyType = UIReturnKeySearch;
     searchBar.delegate = self;
+    _searchBar = searchBar;
     UITextField *searchField1 = [searchBar valueForKey:@"_searchField"];
     [searchField1 setValue:[UIFont boldSystemFontOfSize:13] forKeyPath:@"_placeholderLabel.font"];
     searchField1.backgroundColor = [UIColor whiteColor];
     searchBar.tintColor = [UIColor blackColor];
-    [searchBar becomeFirstResponder];
     [searchView addSubview:searchBar];
     
     self.navigationItem.titleView = searchView;
@@ -61,6 +62,13 @@ static NSString *size = @"20";
     [self.tableView registerNib:[UINib nibWithNibName:@"WZSelectProjectCell" bundle:nil] forCellReuseIdentifier:ID];
     
      [self headerRefresh];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self performSelector:@selector(setCorrectFocus) withObject:NULL afterDelay:0.5];
+}
+-(void) setCorrectFocus {
+    [self.searchBar becomeFirstResponder];
 }
 //下拉刷新
 -(void)headerRefresh{

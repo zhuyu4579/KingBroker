@@ -56,7 +56,7 @@
     [defaultCenter addObserver:self selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
     
     //注册微信
-    [WXApi registerApp:@"wxf9f2d146837a3ce1"];
+    [WXApi registerApp:@"wx46cd1a6aa3e53de1"];
     //1.创建窗口
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     //2.设置窗口根控制器

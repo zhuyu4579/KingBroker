@@ -8,9 +8,10 @@
 
 #import "WZPhonesController.h"
 #import <UIImageView+WebCache.h>
-#define MaxSCale 2.0  //最大缩放比例
-#define MinScale 0.5  //最小缩放比例
-@interface WZPhonesController ()
+
+@interface WZPhonesController (){
+    CGFloat _lastScale;
+}
 @property (nonatomic,assign) CGFloat totalScale;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @end
@@ -44,21 +45,35 @@
 }
 - (void)pinch:(UIPinchGestureRecognizer *)recognizer{
     
-    CGFloat scale = recognizer.scale;
+    UIGestureRecognizerState state = [recognizer state];
     
-    //放大情况
-    if(scale > 1.0){
-        if(self.totalScale > MaxSCale) return;
+    if(state == UIGestureRecognizerStateBegan) {
+        // Reset the last scale, necessary if there are multiple objects with different scales
+        //获取最后的比例
+        _lastScale = [recognizer scale];
     }
     
-    //缩小情况
-    if (scale < 1.0) {
-        if (self.totalScale < MinScale) return;
+    if (state == UIGestureRecognizerStateBegan ||
+        state == UIGestureRecognizerStateChanged) {
+        //获取当前的比例
+        CGFloat currentScale = [[[recognizer view].layer valueForKeyPath:@"transform.scale"] floatValue];
+        
+        // Constants to adjust the max/min values of zoom
+        //设置最大最小的比例
+        const CGFloat kMaxScale = 3.0;
+        const CGFloat kMinScale = 1.0;
+        //设置
+        
+        //获取上次比例减去想去得到的比例
+        CGFloat newScale = 1 -  (_lastScale - [recognizer scale]);
+        newScale = MIN(newScale, kMaxScale / currentScale);
+        newScale = MAX(newScale, kMinScale / currentScale);
+        CGAffineTransform transform = CGAffineTransformScale([[recognizer view] transform], newScale, newScale);
+        [recognizer view].transform = transform;
+        // Store the previous scale factor for the next pinch gesture call
+        //获取最后比例 下次再用
+        _lastScale = [recognizer scale];
     }
-    
-    self.imageView.transform = CGAffineTransformScale(self.imageView.transform, scale, scale);
-    self.totalScale *=scale;
-    recognizer.scale = 1.0;
     
 }
 -(void)event{

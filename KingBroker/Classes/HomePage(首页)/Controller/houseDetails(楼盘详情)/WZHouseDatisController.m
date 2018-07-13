@@ -38,6 +38,7 @@
 #import "WZLunBoItem.h"
 #import "WZJionStoreController.h"
 #import "WZNavigationController.h"
+#import "WZShareHouseController.h"
 @interface WZHouseDatisController ()<WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate,MAMapViewDelegate>
 //总view
 @property(nonatomic,strong)UIScrollView *scrollView;
@@ -123,7 +124,6 @@
     [self getUpScreen];
     //创建分享和报备按钮
     [self getUpButton];
-    
     //点击项目统计
     [self editClickNum];
     [self headerRefresh];
@@ -1119,7 +1119,7 @@
     [buttonView addSubview:label];
     
     UIButton *shareButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 0, 75, buttonView.fHeight)];
-     [shareButton addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+     [shareButton addTarget:self action:@selector(shares) forControlEvents:UIControlEventTouchUpInside];
     [buttonView addSubview:shareButton];
     //创建报备客户按钮
     UIButton *reportButton = [[UIButton alloc] initWithFrame:CGRectMake(150, 0, buttonView.fWidth-150, buttonView.fHeight)];
@@ -1286,6 +1286,11 @@
     }
 }
 #pragma mark -分享
+-(void)shares{
+    WZShareHouseController *shareVc = [[WZShareHouseController alloc] init];
+    shareVc.ID = _ID;
+    [self.navigationController pushViewController:shareVc animated:YES];
+}
 -(void)share{
     [self hideViews];
     //弹出分享页

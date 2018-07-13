@@ -56,6 +56,6 @@
         _titleIne.constant = 18;
         _contentIne.constant = 18;
     }
-    
+    _url = item.url;
 }
 @end

@@ -15,7 +15,8 @@
 #import <MJExtension.h>
 #import <Masonry.h>
 #import "UIView+Frame.h"
-#import "WZNEWHTMLController.h"
+#import "WZTaskController.h"
+#import "WZNavigationController.h"
 @interface WZTaskNotificationController (){
     //页数
     NSInteger current;
@@ -41,7 +42,7 @@ static NSString *size = @"20";
     [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
     [self setNoData];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
-    self.navigationItem.title = @"任务通知";
+    self.navigationItem.title = @"悬赏通知";
    
     //注册cell
     [self.tableView registerNib:[UINib nibWithNibName:@"WZTaskCell" bundle:nil] forCellReuseIdentifier:ID];
@@ -112,6 +113,7 @@ static NSString *size = @"20";
         if ([code isEqual:@"200"]) {
             NSMutableDictionary *data = [responseObject valueForKey:@"data"];
             NSMutableArray *rows = [data valueForKey:@"rows"];
+            
             //将数据转换成模型
             if (rows.count == 0) {
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];
@@ -199,13 +201,17 @@ static NSString *size = @"20";
 #pragma mark -点击cell事件
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     WZTaskCell *anCell = [tableView cellForRowAtIndexPath:indexPath];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [user objectForKey:@"uuid"];
     NSString *ID = anCell.ID;
     [self read:ID];
     NSString *url = anCell.url;
     
-    WZNEWHTMLController *new = [[WZNEWHTMLController alloc] init];
-    new.url = url;
-    [self.navigationController pushViewController:new animated:YES];
+    //跳转H5
+    WZTaskController *task = [[WZTaskController alloc] init];
+    task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
+    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 //已读接口
 -(void)read:(NSString *)ID{

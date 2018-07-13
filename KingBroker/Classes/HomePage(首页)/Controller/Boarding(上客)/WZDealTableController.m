@@ -24,6 +24,7 @@
 @property(nonatomic,weak)WZBoaringCell *cell;
 //订单列表数据
 @property(nonatomic,strong)NSMutableArray *listArray;
+
 //无数据页面
 @property(nonatomic,strong)UIView *viewNo;
 @end
@@ -33,7 +34,6 @@ static NSString *size = @"20";
 @implementation WZDealTableController
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];

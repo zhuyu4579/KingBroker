@@ -14,5 +14,9 @@
     [super awakeFromNib];
     
 }
-
+-(void)setSelected:(BOOL)selected{
+    [super setSelected:selected];
+    self.layer.borderColor = UIColorRBG(0, 160, 233).CGColor;
+    self.layer.borderWidth = 0;
+}
 @end

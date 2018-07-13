@@ -1,12 +1,12 @@
 //
-//  WZShareController.m
+//  WZHouseShareDetailController.m
 //  KingBroker
 //
-//  Created by 朱玉隆 on 2018/6/27.
+//  Created by 朱玉隆 on 2018/7/11.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
 
-#import "WZShareController.h"
+#import "WZHouseShareDetailController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "NSString+LCExtension.h"
@@ -25,7 +25,7 @@
 #import <WXApi.h>
 #import <WXApiObject.h>
 #import <AssetsLibrary/AssetsLibrary.h>
-@interface WZShareController ()
+@interface WZHouseShareDetailController ()
 @property(nonatomic,strong)UIScrollView *scrollView;
 
 @property (nonatomic, strong) SelVideoPlayer *player;
@@ -49,14 +49,15 @@
 @property(nonatomic,strong) NSString *type;
 //分享弹框
 @property(nonatomic,strong) UIView *redView;
-//冷却时间
-@property(nonatomic,strong)NSString *coolingTime;
+//悬赏类型
+@property(nonatomic,strong)NSString *taskType;
 //点击分享按钮
 @property (nonatomic, strong) UIButton *shareButton;
+//分享按钮赏字
+@property (nonatomic, strong) UIImageView *imageViewDetail;
 @end
 
-@implementation WZShareController
-
+@implementation WZHouseShareDetailController
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -71,41 +72,13 @@
     UIScrollView *scollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, self.view.fHeight)];
     _scrollView = scollView;
     [self.view addSubview:scollView];
+   
     
-    //[self headerRefresh];
     [self loadData];
     //创造通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shareSuccess) name:@"taskShare" object:nil];
 }
-//下拉刷新
--(void)headerRefresh{
-    //创建下拉刷新
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
-    // 设置文字
-    [header setTitle:@"刷新完毕..." forState:MJRefreshStateIdle];
-    [header setTitle:@"下拉刷新" forState:MJRefreshStatePulling];
-    [header setTitle:@"刷新中..." forState:MJRefreshStateRefreshing];
-    // 隐藏时间
-    header.lastUpdatedTimeLabel.hidden = YES;
-    header.mj_h = 30;
-    // 设置字体
-    header.stateLabel.font = [UIFont systemFontOfSize:15];
-    header.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:14];
-    
-    // 设置颜色
-    header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
-    
-    self.scrollView.mj_header = header;
-    
-    [self.scrollView.mj_header beginRefreshing];
-}
-#pragma mark -下拉刷新或者加载数据
--(void)loadNewTopic{
-    
-    [self.scrollView.mj_header beginRefreshing];
 
-    [self loadData];
-}
 //请求数据
 -(void)loadData{
     
@@ -126,6 +99,7 @@
     ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
     
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"id"] = _ID;
     NSString *url = [NSString stringWithFormat:@"%@/taskSource/taskSourceInfo",HTTPURL];
@@ -135,24 +109,23 @@
             
             NSDictionary *data = [responseObject valueForKey:@"data"];
             
-            _coolingTime = [data valueForKey:@"coolingTime"];
-           
+            
             NSDictionary *share = [data valueForKey:@"share"];
+            
+            _taskType = [share valueForKey:@"taskType"];
             //创建view
             [self createView:share];
-            
-            [self openCountdown];
-            
+            [self shareTasks];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                 [SVProgressHUD showInfoWithStatus:msg];
             }
         }
-        //[_scrollView.mj_header endRefreshing];
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-        //[_scrollView.mj_header endRefreshing];
+        
     }];
 }
 #pragma mark -初始化控件
@@ -366,25 +339,39 @@
     label.textColor = UIColorRBG(102, 102, 102);
     [redView addSubview:label];
     //创建微信按钮
-    UIButton *WXButton = [[UIButton alloc] initWithFrame:CGRectMake(106, 67, 50, 50)];
+    UIButton *WXButton = [[UIButton alloc] initWithFrame:CGRectMake(redView.fWidth/2.0-87, 67, 50, 50)];
     [WXButton setBackgroundImage:[UIImage imageNamed:@"wewhat"] forState:UIControlStateNormal];
     [WXButton addTarget:self action:@selector(WXShare) forControlEvents:UIControlEventTouchUpInside];
     [redView addSubview:WXButton];
     
     UILabel *labelOne = [[UILabel alloc] init];
-    labelOne.frame = CGRectMake(107,126,50,12);
+    labelOne.frame = CGRectMake(redView.fWidth/2.0-87,126,50,12);
+    labelOne.textAlignment = NSTextAlignmentCenter;
     labelOne.text = @"微信好友";
     labelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     labelOne.textColor = UIColorRBG(68, 68, 68);
     [redView addSubview:labelOne];
+    
+    //创建悬赏标识
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(redView.fWidth/2.0+42, 41, 37, 21)];
+    if ([_taskType isEqual:@"1"]) {
+        imageView.image = [UIImage imageNamed:@""];
+    }else if([_taskType isEqual:@"2"]){
+        imageView.image = [UIImage imageNamed:@"label"];
+    }else{
+        imageView.image = [UIImage imageNamed:@"label_2"];
+    }
+    _imageViewDetail = imageView;
+    [redView addSubview:imageView];
     //创建朋友圈按钮
-    UIButton *friendsButton = [[UIButton alloc] initWithFrame:CGRectMake(220, 67, 50, 50)];
+    UIButton *friendsButton = [[UIButton alloc] initWithFrame:CGRectMake(redView.fWidth/2.0+37, 67, 50, 50)];
     [friendsButton setBackgroundImage:[UIImage imageNamed:@"circle-of-friend"] forState:UIControlStateNormal];
     [friendsButton addTarget:self action:@selector(friendsButton) forControlEvents:UIControlEventTouchUpInside];
     [redView addSubview:friendsButton];
     
     UILabel *labelTwo = [[UILabel alloc] init];
-    labelTwo.frame = CGRectMake(227,126,38,12);
+    labelTwo.frame = CGRectMake(redView.fWidth/2.0+37,126,50,12);
+    labelTwo.textAlignment = NSTextAlignmentCenter;
     labelTwo.text = @"朋友圈";
     labelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     labelTwo.textColor =  UIColorRBG(68, 68, 68);
@@ -400,33 +387,11 @@
     
     [cleanButton addTarget:self action:@selector(closeGkCover) forControlEvents:UIControlEventTouchUpInside];
     [redView addSubview:cleanButton];
-   
+    
 }
 //分享
 -(void)shareTask{
-    //1.创建多媒体消息结构体
-    WXMediaMessage *mediaMsg = [WXMediaMessage message];
-    if ([_type isEqual:@"1"]) {
-        //2.创建多媒体消息中包含的图片数据对象
-        WXImageObject *imgObj = [WXImageObject object];
-        //图片真实数据
-        imgObj.imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_url]];
-        //多媒体数据对象
-        mediaMsg.mediaObject = imgObj;
-        //3.创建发送消息至微信终端程序的消息结构体
-        SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
-        //多媒体消息的内容
-        req.message = mediaMsg;
-        //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
-        req.bText = NO;
-        //指定发送到会话(朋友圈界面)
-        req.scene = WXSceneTimeline;
-        //发送请求到微信,等待微信返回onResp
-        [WXApi sendReq:req];
-        
-    }else {
-        [self downloadVideo];
-    }
+    [GKCover translucentCoverFrom:self.view content:_redView animated:YES];
 }
 //分享到微信
 -(void)WXShare{
@@ -452,7 +417,7 @@
         
         [self closeGkCover];
     }else {
-
+        
         [self downloadVideo];
     }
     
@@ -479,7 +444,7 @@
         req.scene = WXSceneTimeline;
         //发送请求到微信,等待微信返回onResp
         [WXApi sendReq:req];
-    
+        [self closeGkCover];
     }else {
         [self downloadVideo];
     }
@@ -614,18 +579,18 @@
     NSString *uuid = [ user objectForKey:@"uuid"];
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-
+    
     mgr.requestSerializer.timeoutInterval = 10;
     //申明返回的结果是json类型
     mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-
+    
     //申明请求的数据是json类型
     mgr.requestSerializer=[AFJSONRequestSerializer serializer];
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"id"] = _ID;
-     paraments[@"num"] = @"";
+    paraments[@"num"] = @"";
     NSString *url = [NSString stringWithFormat:@"%@/projectTask/callback",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
@@ -636,46 +601,7 @@
         [SVProgressHUD valueForKey:@"网络不给力"];
     }];
 }
-// 开启倒计时效果
--(void)openCountdown{
-    
-    if ( !_coolingTime || [_coolingTime isEqual:@""]) {
-        return;
-    }
-   
-    __block NSInteger time = [_coolingTime integerValue]/1000; //倒计时时间
-    
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-    
-    dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
-    
-    dispatch_source_set_event_handler(_timer, ^{
-        
-        if(time <= 0){ //倒计时结束，关闭
-            dispatch_source_cancel(_timer);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                //设置按钮的样式
-                [_shareButton setTitle:@"点击分享" forState:UIControlStateNormal];
-                [_shareButton setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
-                _shareButton.layer.borderColor = UIColorRBG(3, 133, 219).CGColor;
-                _shareButton.userInteractionEnabled = YES;
-            });
-            
-        }else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _shareButton.userInteractionEnabled = NO;
-                //设置按钮显示读秒效果
-                NSString *timeStr = [self ConvertStrToTime:time];
-                [_shareButton setTitle:[NSString stringWithFormat:@"%@后分享",timeStr] forState:UIControlStateNormal];
-                [_shareButton setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
-                _shareButton.layer.borderColor = UIColorRBG(102, 102, 102).CGColor;
-            });
-            time--;
-        }
-    });
-    dispatch_resume(_timer);
-}
+
 //请求数据
 -(void)loadDatas{
     
@@ -705,9 +631,16 @@
             
             NSDictionary *data = [responseObject valueForKey:@"data"];
             
-            _coolingTime = [data valueForKey:@"coolingTime"];
+            NSDictionary *share = [data valueForKey:@"share"];
             
-            [self openCountdown];
+            _taskType = [share valueForKey:@"taskType"];
+            if ([_taskType isEqual:@"1"]) {
+                _imageViewDetail.image = [UIImage imageNamed:@""];
+            }else if([_taskType isEqual:@"2"]){
+                _imageViewDetail.image = [UIImage imageNamed:@"label"];
+            }else{
+                _imageViewDetail.image = [UIImage imageNamed:@"label_2"];
+            }
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -738,7 +671,7 @@
 }
 //将毫秒数转换成时间
 -(NSString *)ConvertStrToTime:(NSInteger)time{
-    NSInteger times = time;
+    NSInteger times = time/1000;
     NSString *str_hour = [NSString stringWithFormat:@"%02ld",times/3600];
     
     NSString *str_minute = [NSString stringWithFormat:@"%02ld",(times%3600)/60];
@@ -746,8 +679,9 @@
     NSString *str_second = [NSString stringWithFormat:@"%02ld",times%60];
     
     NSString *format_time = [NSString stringWithFormat:@"%@:%@:%@",str_hour,str_minute,str_second];
-
+    
     return format_time;
 }
+
 
 @end

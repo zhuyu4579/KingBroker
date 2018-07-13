@@ -1,69 +1,58 @@
 //
-//  WZBoaringController.m
-//  WZJJ
+//  WZShareHouseController.m
+//  KingBroker
 //
-//  Created by 朱玉隆 on 2018/3/29.
+//  Created by 朱玉隆 on 2018/7/10.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
-#import "WZBoaringController.h"
-#import "UIBarButtonItem+Item.h"
+#import <Masonry.h>
 #import "UIView+Frame.h"
 #import "UIView+Center.h"
-#import "WZLossTableController.h"
-#import "WZBoardingTableController.h"
-#import "WZCompleteTableController.h"
-#import "WZDealTableController.h"
-#import "WZReportController.h"
+#import "WZShareHouseController.h"
+#import "WZShareVideoController.h"
+#import "WZSharePhoneController.h"
+#import "WZShareHouseDatisController.h"
+@interface WZShareHouseController ()<UIScrollViewDelegate>
+@property(nonatomic,weak)UIView *titlesView;
 
+@property(nonatomic,weak)UIButton *previousClickButton;
 
-@interface WZBoaringController ()<UIScrollViewDelegate>
+@property(nonatomic,weak)UIView *titleUnderLine;
 
-@property(nonatomic,strong)UIView *titlesView;
+@property(nonatomic,weak) UIScrollView *scrollView;
 
-@property(nonatomic,strong)UIButton *previousClickButton;
-
-@property(nonatomic,strong)UIView *titleUnderLine;
-
-@property(nonatomic,strong) UIScrollView *scrollView;
-
-@property(nonatomic,strong) WZBoardingTableController *boading;
-@property(nonatomic,strong) WZDealTableController *deal;
-@property(nonatomic,strong) WZCompleteTableController *complete;
-@property(nonatomic,strong) WZLossTableController *loss;
+@property(nonatomic,strong) WZShareVideoController *shareVideoVc;
+@property(nonatomic,strong) WZSharePhoneController *sharePhoneVc;
+@property(nonatomic,strong) WZShareHouseDatisController *shareHouseDatisVc;
 @end
 
-@implementation WZBoaringController
+@implementation WZShareHouseController
 
 - (void)viewDidLoad {
-  
     [super viewDidLoad];
-    //设置导航栏
-    [self setNavItem];
+    self.view.backgroundColor = UIColorRBG(242, 242, 242);
+    self.navigationItem.title = @"分享";
     //初始化子控制器
     [self setupAllChilds];
     //创建一个UIScrollView
     [self setUIScrollView];
     //创建标题栏
     [self setTitlesView];
-    
-    
 }
-
 #pragma mark -初始化子控制器
 -(void)setupAllChilds{
-   WZBoardingTableController *boaring  = [[WZBoardingTableController alloc] init];
-    _boading = boaring;
-    [self addChildViewController:boaring];
-    WZDealTableController *deal = [[WZDealTableController alloc] init];
-    _deal = deal;
-    [self addChildViewController:deal];
-    WZCompleteTableController *complele = [[WZCompleteTableController alloc] init];
-    _complete = complele;
-    [self addChildViewController:complele];
-    WZLossTableController *loss = [[WZLossTableController alloc] init];
-    _loss = loss;
-    [self addChildViewController:loss];
+    WZShareVideoController *shareVideoVc  = [[WZShareVideoController alloc] init];
+    _shareVideoVc = shareVideoVc;
+    shareVideoVc.projectId = _ID;
+    [self addChildViewController:shareVideoVc];
+    WZSharePhoneController *sharePhoneVc = [[WZSharePhoneController alloc] init];
+    _sharePhoneVc = sharePhoneVc;
+    sharePhoneVc.projectId = _ID;
+    [self addChildViewController:sharePhoneVc];
+    WZShareHouseDatisController *shareHouseDatisVc = [[WZShareHouseDatisController alloc] init];
+    _shareHouseDatisVc = shareHouseDatisVc;
+    shareHouseDatisVc.projectId = _ID;
+    [self addChildViewController:shareHouseDatisVc];
    
 }
 #pragma mark -创建UIScrollView
@@ -82,7 +71,6 @@
     [self.view addSubview:scrollView];
     scrollView.contentSize =CGSizeMake(scrollView.fWidth*4,0);
 }
-
 #pragma mark -创建标题栏
 -(void)setTitlesView{
     UIView *titlesView = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+45, self.view.fWidth, 44)];
@@ -94,16 +82,15 @@
     //设置下划线
     [self setupTitlesUnderline];
 }
-
 #pragma mark -设置标题栏按钮
 -(void)setupTitlesButton{
     //文字
-    NSArray *titles =@[@"待上客",@"待成交",@"已完成",@"已失效"];
+    NSArray *titles =@[@"视频",@"图片",@"楼盘"];
     
-    CGFloat titleButtonW = self.titlesView.fWidth/4;
+    CGFloat titleButtonW = self.titlesView.fWidth/3;
     CGFloat titleButtonH =self.titlesView.fHeight;
     
-    for (NSInteger i = 0; i<4; i++) {
+    for (NSInteger i = 0; i<3; i++) {
         UIButton *titleButton = [[UIButton alloc] init];
         titleButton.tag = i;
         [self.titlesView addSubview:titleButton];
@@ -132,10 +119,10 @@
         //联动
         self.scrollView.contentOffset = CGPointMake(self.scrollView.fWidth * titleButton.tag, self.scrollView.contentOffset.y);
     }completion:^(BOOL finished) {
-         UIView *childsView = self.childViewControllers[titleButton.tag].view;
-         childsView.frame = CGRectMake(self.scrollView.fWidth*titleButton.tag, _titlesView.fY+_titlesView.fHeight, self.scrollView.fWidth, self.scrollView.fHeight-_titlesView.fY-_titlesView.fHeight);
-         [self.scrollView addSubview:childsView];
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"Refresh" object:nil];
+        UIView *childsView = self.childViewControllers[titleButton.tag].view;
+        childsView.frame = CGRectMake(self.scrollView.fWidth*titleButton.tag, _titlesView.fY+_titlesView.fHeight, self.scrollView.fWidth, self.scrollView.fHeight-_titlesView.fY-_titlesView.fHeight);
+        [self.scrollView addSubview:childsView];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"RefreshShare" object:nil];
     }];
 }
 #pragma mark -设置下划线
@@ -145,24 +132,10 @@
     titleUnderLine.fHeight = 2;
     titleUnderLine.fWidth = 65;
     titleUnderLine.fY = self.titlesView.fHeight - titleUnderLine.fHeight;
-    titleUnderLine.cX = self.titlesView.fWidth/8;
+    titleUnderLine.cX = self.titlesView.fWidth/6;
     titleUnderLine.backgroundColor = [firstTitleButton  titleColorForState:UIControlStateSelected];
     [self.titlesView addSubview:titleUnderLine];
     self.titleUnderLine = titleUnderLine;
-}
-#pragma mark -设置导航栏
--(void)setNavItem{
-    self.view.backgroundColor = UIColorRBG(242, 242, 242);
-    self.navigationItem.title = @"我的订单";
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"add_3"] highImage:[UIImage imageNamed:@"add_3"] target:self action:@selector(addModel)];
-}
--(void)addModel{
-    WZReportController *report = [[WZReportController alloc] init];
-    [self.navigationController pushViewController:report animated:YES];
-}
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
 }
 #pragma mark -滑动结束
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
@@ -172,7 +145,10 @@
     
     [self titleButtonClick:titleButton];
 }
-
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    
+}
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];

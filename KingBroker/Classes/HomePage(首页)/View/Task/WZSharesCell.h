@@ -12,5 +12,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *playButton;
 @property (strong, nonatomic) IBOutlet UIImageView *photo;
 @property (strong, nonatomic) IBOutlet UIView *voidView;
-
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *videoWidth;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *videoHeight;
 @end

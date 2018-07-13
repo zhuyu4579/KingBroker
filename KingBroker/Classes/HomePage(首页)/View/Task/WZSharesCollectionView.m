@@ -11,6 +11,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <UIImageView+WebCache.h>
 #import "WZSharesCell.h"
+#import "UIView+Frame.h"
 static NSString * const ID = @"AlCell";
 @interface WZSharesCollectionView () <UICollectionViewDelegateFlowLayout,
 UICollectionViewDataSource>
@@ -28,6 +29,7 @@ UICollectionViewDataSource>
     self.backgroundColor = [UIColor whiteColor];
     [self setCollectionViewLayout:layout];
     self.frame = frame;
+    
     //注册cell
     [self registerNib:[UINib nibWithNibName:@"WZSharesCell" bundle:nil] forCellWithReuseIdentifier:ID];
     return self;
@@ -49,17 +51,25 @@ UICollectionViewDataSource>
         [cell.photo sd_setImageWithURL:[NSURL URLWithString:_urls[indexPath.row]] placeholderImage:[UIImage imageNamed:@"zlp_xq_pic"]];
     }else{
         [cell.photo setHidden:YES];
-        [self createAVPlayer:_urls[indexPath.row] view:cell.voidView];
+        float n = [UIScreen mainScreen].bounds.size.width/375.0;
+        
+        cell.videoWidth.constant = 153*n;
+        cell.videoHeight.constant = 88*n;
+        [self createAVPlayer:_urls[indexPath.row] view:cell.voidView frame:cell.bounds];
     }
     return cell;
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    WZSharesCell *cell = (WZSharesCell *) [collectionView cellForItemAtIndexPath:indexPath];
+    
+    cell.layer.borderColor = UIColorRBG(0, 160, 233).CGColor;
+    cell.layer.borderWidth = 2.0;
     if (_selectBlock) {
         _selectBlock(_urls[indexPath.row]);
     }
 }
 #pragma mark - MPMoviePlayerController
-- (void)createAVPlayer:(NSString *)url view:(UIView *)view{
+- (void)createAVPlayer:(NSString *)url view:(UIView *)view frame:(CGRect)frame{
     //在使用 AVPlayer 播放视频时，提供视频信息的是 AVPlayerItem，一个 AVPlayerItem 对应着一个URL视频资源
     // 1、得到视频的URL
     NSURL *movieURL = [NSURL URLWithString:url];
@@ -69,9 +79,9 @@ UICollectionViewDataSource>
     self.player     = [AVPlayer playerWithPlayerItem:self.playerItem];
     // 4、AVPlayerLayer 显示视频。
     AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
-    playerLayer.frame  = view.bounds;
+    playerLayer.frame  = frame;
     //设置边界显示方式
-    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    playerLayer.videoGravity = AVLayerVideoGravityResize;
     [view.layer addSublayer:playerLayer];
 }
 @end

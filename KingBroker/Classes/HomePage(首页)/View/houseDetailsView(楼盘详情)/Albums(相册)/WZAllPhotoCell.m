@@ -8,10 +8,14 @@
 
 #import "WZAllPhotoCell.h"
 
+@interface WZAllPhotoCell()
+
+@end
 @implementation WZAllPhotoCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
 }
 
 @end
