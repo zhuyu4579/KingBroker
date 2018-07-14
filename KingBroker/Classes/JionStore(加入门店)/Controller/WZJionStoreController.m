@@ -217,7 +217,6 @@
         tar.selectedViewController = [tar.viewControllers objectAtIndex:0];
         [self.navigationController presentViewController:tar animated:YES completion:nil];
     }else{
-        
        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
     

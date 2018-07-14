@@ -47,7 +47,7 @@ static  NSString * const ID = @"cell";
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     [self setNoData];
     self.view.backgroundColor = [UIColor clearColor];
     //设置分割线
@@ -58,6 +58,8 @@ static  NSString * const ID = @"cell";
     self.tableView.showsHorizontalScrollIndicator = YES;
     [self headerRefresh];
     [self shareTasks];
+    //创造通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewTopics) name:@"RefreshShare" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -119,7 +121,7 @@ static  NSString * const ID = @"cell";
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"id"] = _projectId;
-    paraments[@"type"] = @"2";
+    paraments[@"type"] = @"3";
     paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"size"] = size;
     NSString *url = [NSString stringWithFormat:@"%@/proProject/share",HTTPURL];
@@ -128,7 +130,6 @@ static  NSString * const ID = @"cell";
         if ([code isEqual:@"200"]) {
             NSMutableDictionary *data = [responseObject valueForKey:@"data"];
             NSMutableArray *rows = [data valueForKey:@"rows"];
-            
             //将数据转换成模型
             if (rows.count == 0) {
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];
@@ -217,8 +218,8 @@ static  NSString * const ID = @"cell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     _detailShareContents = _listArray[indexPath.row];
-    //[GKCover translucentCoverFrom:self.view.superview content:_redView animated:YES];
-    [GKCover translucentWindowCenterCoverContent:_redView animated:YES];
+    [GKCover translucentCoverFrom:[self.view superview].superview content:_redView animated:YES];
+    //[GKCover translucentWindowCenterCoverContent:_redView animated:YES];
 }
 //分享弹框
 -(void)shareTasks{
@@ -275,6 +276,9 @@ static  NSString * const ID = @"cell";
 }
 //分享到微信
 -(void)WXShare{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:@"1" forKey:@"shareSuccessType"];
+    [defaults synchronize];
     //1.创建多媒体消息结构体
     WXMediaMessage *mediaMsg = [WXMediaMessage message];
     mediaMsg.title = [_detailShareContents valueForKey:@"name"];
@@ -303,6 +307,9 @@ static  NSString * const ID = @"cell";
 }
 //分享到朋友圈
 -(void)friendsButton{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:@"0" forKey:@"shareSuccessType"];
+    [defaults synchronize];
     //1.创建多媒体消息结构体
     WXMediaMessage *mediaMsg = [WXMediaMessage message];
     
@@ -336,8 +343,7 @@ static  NSString * const ID = @"cell";
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
-
 
 @end

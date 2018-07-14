@@ -23,4 +23,5 @@
 @property(nonatomic,strong)NSString *cityAdder;
 //门店负责人
 @property(nonatomic,strong)NSString *dutyFlag;
+
 @end

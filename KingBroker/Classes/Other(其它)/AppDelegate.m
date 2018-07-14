@@ -77,6 +77,7 @@
 #pragma mark 获取自定义消息内容
 
 - (void)networkDidReceiveMessage:(NSNotification *)notification {
+    
     [self setloadData];
     
     NSDictionary *userInfo = [notification userInfo];
@@ -87,15 +88,12 @@
     
     NSString *param = [extras valueForKey:@"param"];
     
-    
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRefresh" object:nil];
     if ([param isEqual:@"100"]) {
         //通知二维码关闭
         [[NSNotificationCenter defaultCenter] postNotificationName:@"BoaringVC" object:nil];
     }else if([param isEqual:@"104"] || [param isEqual:@"105"] || [param isEqual:@"106"]){
         //通知刷新我的页面
-        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MeRefresh" object:nil];
     }
    
@@ -189,10 +187,16 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 -(void)onResp:(BaseResp *)resp{
     if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *shareSuccessType = [defaults valueForKey:@"shareSuccessType"];
+        
         if (resp.errCode == 0) {
             //通知回调
-            [SVProgressHUD showInfoWithStatus:@"分享成功"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"taskShare" object:nil];
+            if ([shareSuccessType isEqual:@"0"]) {
+                [SVProgressHUD showInfoWithStatus:@"分享悬赏成功"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"taskShare" object:nil];
+            }
+            
         }else{
             
             [SVProgressHUD showInfoWithStatus:@"分享失败"];
@@ -209,7 +213,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     //自定义内容
     //NSLog(@"收到的推送消息 userinfo %@",userInfo);
     if ([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-        
         [JPUSHService handleRemoteNotification:userInfo];
         // NSLog(@"前台收到消息1");
        [self setControllers:userInfo]; //收到推送消息，需要调整的界面
@@ -253,7 +256,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     //自定义的内容
     //参数跳转
     NSString *param = [userInfo valueForKey:@"param"];
-    //项目ID或订单ID
+    //楼盘ID或订单ID
     NSString *additional = [userInfo valueForKey:@"additional"];
     //展示类型
     NSString *viewType = [userInfo valueForKey:@"viewType"];

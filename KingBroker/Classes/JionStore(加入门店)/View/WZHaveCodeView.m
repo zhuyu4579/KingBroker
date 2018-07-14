@@ -100,7 +100,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     
     UIView *view = [[UIView alloc] init];
     [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];
@@ -122,17 +122,19 @@
     [textName resignFirstResponder];
     //判断经纪人姓名
     if ([_JName isEqual:@""]||!_JName) {
-        [SVProgressHUD showInfoWithStatus:@"经纪人姓名不能为空"];
         [GKCover hide];
         [SVProgressHUD dismiss];
+        [SVProgressHUD showInfoWithStatus:@"经纪人姓名不能为空"];
+       
         return;
     }
     //判断门店编码
     NSString *codeMa = _textHF.text;
     if ([codeMa isEqual:@""]) {
-        [SVProgressHUD showInfoWithStatus:@"门店编码不能为空"];
         [GKCover hide];
         [SVProgressHUD dismiss];
+        [SVProgressHUD showInfoWithStatus:@"门店编码不能为空"];
+        
         return;
     }
     //创建会话请求
@@ -152,35 +154,35 @@
     NSString *url = [NSString stringWithFormat:@"%@/sysUser/companyAuthentication",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
-        
+        [GKCover hide];
+        [SVProgressHUD dismiss];
         if ([code isEqual:@"200"]) {
             NSString *state  = [responseObject valueForKey:@"data"];
             if (_stateBlock) {
                 _stateBlock(state);
             }
-            [GKCover hide];
-            [SVProgressHUD dismiss];
+            
             if ([_types isEqual:@"1"]) {
                 //跳转至首页
                 WZTabBarController *tar = [[WZTabBarController alloc] init];
                 tar.selectedViewController = [tar.viewControllers objectAtIndex:0];
                 [[UIViewController viewController:[self superview]].navigationController presentViewController:tar animated:YES completion:nil];
             }else{
-                
                 [[UIViewController viewController:[self superview]].navigationController dismissViewControllerAnimated:YES completion:nil];
             }
             
             
         }else{
-            [GKCover hide];
+        
             NSString *msg = [responseObject valueForKey:@"msg"];
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [GKCover hide];
+        [SVProgressHUD dismiss];
         if (error.code == -1001) {
-             [GKCover hide];
             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
         }
     }];

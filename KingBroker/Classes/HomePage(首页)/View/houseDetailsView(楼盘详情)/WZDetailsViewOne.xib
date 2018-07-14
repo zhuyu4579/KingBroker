@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="232"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="项目名称" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YF3-4q-eRp">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="楼盘名称" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YF3-4q-eRp">
                     <rect key="frame" x="15" y="20" width="73.5" height="17"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="17" id="SDg-Oj-HZD"/>
@@ -74,17 +74,11 @@
                     <state key="normal" backgroundImage="佣"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vrl-C0-k48">
-                    <rect key="frame" x="37" y="71" width="40.5" height="16"/>
+                    <rect key="frame" x="37" y="71" width="0.0" height="16"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="16" id="l9C-tR-Ios"/>
                     </constraints>
-                    <attributedString key="attributedText">
-                        <fragment content="12%">
-                            <attributes>
-                                <font key="NSFont" size="20" name="PingFangSC-Semibold"/>
-                            </attributes>
-                        </fragment>
-                    </attributedString>
+                    <attributedString key="attributedText"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hbk-7I-C1z">
@@ -178,7 +172,6 @@
                         <constraint firstAttribute="height" constant="16" id="9xd-Rz-qXc"/>
                         <constraint firstAttribute="width" constant="150" id="G39-UX-tH5"/>
                     </constraints>
-                    <state key="normal" title="加入门店可见佣金"/>
                     <connections>
                         <action selector="JoinStore:" destination="iN0-l3-epB" eventType="touchUpInside" id="0we-zc-kX1"/>
                     </connections>

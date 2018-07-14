@@ -30,4 +30,5 @@
     _shareDetailTitle.text = item.name;
     _shareDetailContent.text = item.outlining;
 }
+
 @end

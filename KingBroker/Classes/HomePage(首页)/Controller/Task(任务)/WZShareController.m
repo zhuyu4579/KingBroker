@@ -53,6 +53,8 @@
 @property(nonatomic,strong)NSString *coolingTime;
 //点击分享按钮
 @property (nonatomic, strong) UIButton *shareButton;
+//分享类型
+@property(nonatomic,strong)NSString *shareSuccessType;
 @end
 
 @implementation WZShareController
@@ -63,7 +65,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"分享任务";
@@ -423,7 +425,9 @@
         req.scene = WXSceneTimeline;
         //发送请求到微信,等待微信返回onResp
         [WXApi sendReq:req];
-        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:@"0" forKey:@"shareSuccessType"];
+        [defaults synchronize];
     }else {
         [self downloadVideo];
     }

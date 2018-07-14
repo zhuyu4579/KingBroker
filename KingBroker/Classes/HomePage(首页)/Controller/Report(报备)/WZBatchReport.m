@@ -65,7 +65,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     _tags = 20;
     //创建控件
@@ -107,7 +107,7 @@
         make.top.equalTo(_viewOne.mas_top).with.offset(15);
         make.height.mas_offset(15);
     }];
-    //点击按钮选择项目
+    //点击按钮选择楼盘
     UIButton *titemNameButton = [[UIButton alloc] init];
     [titemNameButton setEnlargeEdge:44];
     [titemNameButton setBackgroundImage:[UIImage imageNamed:@"more_unfold"] forState:UIControlStateNormal];
@@ -613,9 +613,9 @@
     }
     
 }
-#pragma mark -选择项目
+#pragma mark -选择楼盘
 -(void)itemNameButton{
-    //跳转选择项目列表
+    //跳转选择楼盘列表
     WZSelectProjectsController *projectVC = [[WZSelectProjectsController alloc] init];
     UIViewController *Vc = [UIViewController viewController:self.view.superview];
     projectVC.projectBlock = ^(NSDictionary *dicty) {
@@ -632,11 +632,11 @@
 -(void)loadTimeButton:(UIButton *)button{
     [self findSubView:self.view];
     if ([_ItemName.text isEqual:@"请选择"]) {
-        [SVProgressHUD showInfoWithStatus:@"请先选择项目"];
+        [SVProgressHUD showInfoWithStatus:@"请先选择楼盘"];
         return;
     }
     if (!_itemId) {
-        [SVProgressHUD showInfoWithStatus:@"请先选择项目"];
+        [SVProgressHUD showInfoWithStatus:@"请先选择楼盘"];
         return;
     }
     if (_timeArray.count==0) {
@@ -813,7 +813,7 @@
 
 }
 
-#pragma mark -获取项目名
+#pragma mark -获取楼盘名
 -(void)getItemName:(NSNotification *)notification{
     
     NSMutableDictionary *item = [notification object];
@@ -823,10 +823,10 @@
 }
 #pragma mark -确认添加
 -(void)confrimButton{
-    //项目名称
+    //楼盘名称
     NSString *projectName = _ItemName.text;
     if ([projectName isEqual:@"请选择"]||!projectName) {
-        [SVProgressHUD showInfoWithStatus:@"项目名称未选择"];
+        [SVProgressHUD showInfoWithStatus:@"楼盘名称未选择"];
         return;
     }
     //预计上客时间
@@ -835,7 +835,7 @@
         [SVProgressHUD showInfoWithStatus:@"上客时间未选择"];
         return;
     }
-    //项目ID
+    //楼盘ID
     NSString *projectId = _itemId;
     //出发城市
     NSString *departureCity = _setOutCity.text;

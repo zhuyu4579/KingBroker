@@ -11,6 +11,6 @@
 @interface WZLBCollectionView : UICollectionView
 //数据源
 @property(nonatomic,strong)NSArray *arrayDatas;
-//项目ID
+//楼盘ID
 @property(nonatomic,strong)NSString *projectId;
 @end

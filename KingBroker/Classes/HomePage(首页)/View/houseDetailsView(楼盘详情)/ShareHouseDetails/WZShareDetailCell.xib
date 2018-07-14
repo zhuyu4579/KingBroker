@@ -26,7 +26,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oV3-1h-Q8a">
-                        <rect key="frame" x="143" y="29" width="216" height="17"/>
+                        <rect key="frame" x="143" y="29" width="174" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="85C-56-B1C"/>
                         </constraints>
@@ -40,7 +40,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h94-iH-a6w">
-                        <rect key="frame" x="143" y="58" width="216" height="14"/>
+                        <rect key="frame" x="143" y="58" width="174" height="14"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14" id="3Q6-BE-Ial"/>
                         </constraints>
@@ -48,16 +48,26 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TJ8-c8-mk1">
+                        <rect key="frame" x="333" y="47" width="26" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="26" id="6eT-Oa-jkB"/>
+                            <constraint firstAttribute="height" constant="26" id="gJj-8e-9wd"/>
+                        </constraints>
+                        <state key="normal" backgroundImage="share_iiPhone"/>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="Gwg-Tr-X8q" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="3HO-RC-EJX"/>
                     <constraint firstItem="h94-iH-a6w" firstAttribute="top" secondItem="oV3-1h-Q8a" secondAttribute="bottom" constant="12" id="6Uw-Hr-SeF"/>
                     <constraint firstItem="h94-iH-a6w" firstAttribute="leading" secondItem="Gwg-Tr-X8q" secondAttribute="trailing" constant="16" id="C4B-Zl-gFJ"/>
+                    <constraint firstItem="TJ8-c8-mk1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="47" id="DVI-dI-t6B"/>
                     <constraint firstItem="oV3-1h-Q8a" firstAttribute="leading" secondItem="Gwg-Tr-X8q" secondAttribute="trailing" constant="16" id="Joe-NL-yRW"/>
-                    <constraint firstAttribute="trailing" secondItem="oV3-1h-Q8a" secondAttribute="trailing" constant="16" id="MO9-mm-2R2"/>
+                    <constraint firstItem="TJ8-c8-mk1" firstAttribute="leading" secondItem="oV3-1h-Q8a" secondAttribute="trailing" constant="16" id="MO9-mm-2R2"/>
                     <constraint firstItem="Gwg-Tr-X8q" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="Uyh-Hg-7Yh"/>
                     <constraint firstItem="oV3-1h-Q8a" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="29" id="dO4-aC-yF1"/>
-                    <constraint firstAttribute="trailing" secondItem="h94-iH-a6w" secondAttribute="trailing" constant="16" id="vQh-a7-gjU"/>
+                    <constraint firstAttribute="trailing" secondItem="TJ8-c8-mk1" secondAttribute="trailing" constant="16" id="kv0-Ch-0bb"/>
+                    <constraint firstItem="TJ8-c8-mk1" firstAttribute="leading" secondItem="h94-iH-a6w" secondAttribute="trailing" constant="16" id="vQh-a7-gjU"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -68,4 +78,7 @@
             <point key="canvasLocation" x="33.5" y="95"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="share_iiPhone" width="19" height="19"/>
+    </resources>
 </document>

@@ -34,7 +34,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     
     self.view.backgroundColor  = [UIColor whiteColor];
     self.navigationItem.title = @"我的钱包";
@@ -65,7 +65,10 @@
             NSDictionary *data = [responseObject valueForKey:@"data"];
             NSString *forwardPrice = [data valueForKey:@"forwardPrice"];
             _price = forwardPrice;
-            _moneys.text = [NSString stringWithFormat:@"¥%@",forwardPrice];
+            if(![forwardPrice isEqual:@""]||forwardPrice){
+                _moneys.text = [NSString stringWithFormat:@"¥%@",forwardPrice];
+            }
+            
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){

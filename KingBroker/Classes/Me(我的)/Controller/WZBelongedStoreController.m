@@ -32,7 +32,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"所属门店";
     //创建控件
@@ -326,7 +326,7 @@
 //门店管理
 -(void)storeAdministration{
     WZStoreAdministrationController *store = [[WZStoreAdministrationController alloc] init];
-    store.url = [NSString stringWithFormat:@"%@/gatest/store/getuuid.html",HTTPH5];
+    store.url = [NSString stringWithFormat:@"%@/store/getuuid.html",HTTPH5];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:store];
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 }

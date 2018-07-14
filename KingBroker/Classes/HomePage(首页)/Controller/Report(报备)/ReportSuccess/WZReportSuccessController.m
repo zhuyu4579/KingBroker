@@ -17,7 +17,7 @@
 #import "WZLikeProjectItem.h"
 #import "WZTabBarController.h"
 @interface WZReportSuccessController ()
-//项目名
+//楼盘名
 @property (nonatomic,strong)UILabel *labelOne;
 
 //上客时间
@@ -47,7 +47,7 @@
     //设置弹框样式
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
 
 }
 -(void)Datas{
@@ -112,7 +112,7 @@
     label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
     label.textColor = UIColorRBG(187, 187, 187);
     label.numberOfLines = 0;
-    label.text = @"你所在经纪门店未和该项目签约， 在最晚上客时间内项目负责人会联系你确认签约事宜，或你可致电";
+    label.text = @"你所在经纪门店未和该楼盘签约， 在最晚上客时间内楼盘负责人会联系你确认签约事宜，或你可致电";
     _labels = label;
     [view addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -139,7 +139,7 @@
     labelRed.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
     labelRed.textColor = UIColorRBG(255, 107, 1);
     labelRed.numberOfLines = 0;
-    labelRed.text = @"注意:项目只会和门店签约,未签约时上客有可能无法结佣";
+    labelRed.text = @"注意:楼盘只会和门店签约,未签约时上客有可能无法结佣";
     _labelRed = labelRed;
     [view addSubview:labelRed];
     [labelRed mas_makeConstraints:^(MASConstraintMaker *make) {

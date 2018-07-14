@@ -71,13 +71,11 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     //创建区域控件
     [self setUpMeView];
     //创造通知
-   
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"MeRefresh" object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"MeRefresh" object:nil];
 }
 
 //创建控件
@@ -102,10 +100,10 @@
 }
 //获取数据
 -(void)loadData{
-      NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-      NSString *uuid = [ user objectForKey:@"uuid"];
-      NSString *userId = [ user objectForKey:@"userId"];
-      NSString *username = [ user objectForKey:@"username"];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    NSString *userId = [ user objectForKey:@"userId"];
+    NSString *username = [ user objectForKey:@"username"];
     
     NSInteger count = [[ user objectForKey:@"newCount"] integerValue];
     UITabBarItem *item=[self.tabBarController.tabBar.items objectAtIndex:1];
@@ -135,6 +133,7 @@
         [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             if ([code isEqual:@"200"]) {
+    
                 _loginItem = [responseObject valueForKey:@"data"];
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 [defaults setObject:[_loginItem valueForKey:@"realtorStatus"] forKey:@"realtorStatus"];
@@ -144,6 +143,15 @@
                 [defaults setObject:[_loginItem valueForKey:@"commissionFag"] forKey:@"commissionFag"];
                 [defaults setObject:[_loginItem valueForKey:@"realname"] forKey:@"realname"];
                 [defaults setObject:[_loginItem valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
+                //门店名称
+                [defaults setObject:[_loginItem valueForKey:@"storeName"] forKey:@"storeName"];
+                //门店编码
+                [defaults setObject:[_loginItem valueForKey:@"storeCode"] forKey:@"storeCode"];
+                //门店位置
+                [defaults setObject:[_loginItem valueForKey:@"cityName"] forKey:@"cityName"];
+                //门店地址
+                [defaults setObject:[_loginItem valueForKey:@"addr"] forKey:@"addr"];
+                
                 [defaults synchronize];
                 [self storeState];
             }else{
@@ -274,8 +282,6 @@
     [regs addTarget:self action:@selector(regs) forControlEvents:UIControlEventTouchUpInside];
     [noLoginView addSubview:regs];
 }
-
-
 //注册成功
 -(void)loginSuccess{
     float n = [UIScreen mainScreen].bounds.size.width/375.0;
@@ -412,6 +418,7 @@
     WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
      WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
     JionStore.type = @"1";
+    JionStore.types = @"";
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 //    JionStore.registarBlock = ^(NSString *state) {
 //        _loginState = [state integerValue];

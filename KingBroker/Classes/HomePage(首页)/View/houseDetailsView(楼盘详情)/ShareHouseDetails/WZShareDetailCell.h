@@ -14,4 +14,5 @@
 @property (strong, nonatomic) IBOutlet UILabel *shareDetailContent;
 @property(nonatomic,strong)WZShareDetailsItem *item;
 
+
 @end

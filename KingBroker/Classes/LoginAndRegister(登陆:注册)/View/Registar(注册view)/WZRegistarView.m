@@ -29,7 +29,7 @@
 - (void)obtainYZMVerificationCode:(id)sender {
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
 
     //获取手机文本框的手机号码
    NSString  *phone = _regAdminText.text;
@@ -62,13 +62,14 @@
         if ([code isEqual:@"200"]) {
              [SVProgressHUD showInfoWithStatus:@"已发送"];
             //修改按钮内容倒计时一分钟
+             [self openCountdown];
         }else{
              NSString *msg = [responseObject valueForKey:@"msg"];
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
         }
-        [self openCountdown];
+       
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
@@ -123,7 +124,7 @@
 - (void)nextAction:(id)sender {
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     WZRegSetPWController *ragSetPwVc = [[WZRegSetPWController alloc] init];
     //获取手机号和验证码存储带到下个页面
     NSMutableDictionary *dicty = [NSMutableDictionary dictionary];

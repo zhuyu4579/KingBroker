@@ -51,7 +51,7 @@ static NSString *size = @"20";
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     [self setNoData];
     self.view.backgroundColor = [UIColor clearColor];
     //设置分割线
@@ -103,9 +103,7 @@ static NSString *size = @"20";
     [self loadDate];
 }
 -(void)loadNewTopics{
-    
     [self.tableView.mj_header beginRefreshing];
-   
 }
 -(void)loadMoreTopic{
     [self.tableView.mj_footer beginRefreshing];
@@ -287,7 +285,7 @@ static NSString *size = @"20";
     }];
 
     UILabel *Titles = [[UILabel alloc] init];
-    Titles.text = @"你所在门店未和该项目签约，可能无法结佣";
+    Titles.text = @"你所在门店未和该楼盘签约，可能无法结佣";
     Titles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     [Titles setHidden:YES];
     _titles = Titles;

@@ -20,6 +20,7 @@
 #import "WZSettingController.h"
 #import "WZAuthenSuccessController.h"
 #import "WZBoardingDetailsController.h"
+#import "WZBelongedStoreController.h"
 @interface WZSystemController (){
     //页数
     NSInteger current;
@@ -41,7 +42,7 @@ static NSString *size = @"20";
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     [self setNoData];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"系统通知";
@@ -231,13 +232,20 @@ static NSString *size = @"20";
     NSString *url = anCell.url;
     //跳转类型
     NSString *viewType = anCell.viewType;
-    //项目ID/订单ID
+    //楼盘ID/订单ID
     NSString *additional = anCell.additional;
+    NSLog(@"%@",additional);
     //指定页面
     NSString *param = anCell.param;
     //查询未读消息
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
+    NSString *storeName = [ user objectForKey:@"storeName"];
+    NSString *storeCode = [ user objectForKey:@"uuid"];
+    NSString *addr = [ user objectForKey:@"uuid"];
+    NSString *cityName = [ user objectForKey:@"cityName"];
+    NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
+    
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -274,14 +282,17 @@ static NSString *size = @"20";
             boaringVC.ID = additional;
             [self.navigationController pushViewController:boaringVC animated:YES];
         }else if (paramId == 102){
+            
             //订单详情
             WZBoardingDetailsController *boaringVC = [[WZBoardingDetailsController alloc] init];
             boaringVC.ID = additional;
             [self.navigationController pushViewController:boaringVC animated:YES];
+            
         }else if (paramId == 104){
             //我的设置
             WZSettingController *setting = [[WZSettingController alloc] init];
             [self.navigationController pushViewController:setting animated:YES];
+            
         }else if (paramId == 105){
             //我的页面
             WZTabBarController *tabVC = [[WZTabBarController alloc] init];
@@ -292,6 +303,16 @@ static NSString *size = @"20";
             //实名认证成功
             WZAuthenSuccessController *success = [[WZAuthenSuccessController alloc] init];
             [self.navigationController pushViewController:success animated:YES];
+            
+        }else if(paramId == 103){
+            //所属门店
+            WZBelongedStoreController *store = [[WZBelongedStoreController alloc] init];
+            store.cityName = cityName;
+            store.storeCode = storeCode;
+            store.storeName = storeName;
+            store.cityAdder = addr;
+            store.realtorStatus = realtorStatus;
+            [self.navigationController pushViewController:store animated:YES];
         }
     }
 }

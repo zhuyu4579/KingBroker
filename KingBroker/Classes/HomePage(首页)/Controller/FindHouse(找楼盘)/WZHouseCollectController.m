@@ -90,7 +90,7 @@ static NSString * const ID = @"Citycell";
 @property(nonatomic,strong)NSArray *buildingRenovation;
 //面积
 @property(nonatomic,strong)NSArray *area;
-//项目列表数据
+//楼盘列表数据
 @property(nonatomic,strong)NSMutableArray *projectListArray;
 //无数据页面
 @property(nonatomic,strong)UIView *viewNo;
@@ -107,7 +107,7 @@ static NSString *size = @"20";
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     
     _projectListArray = [NSMutableArray array];
     current = 1;
@@ -296,7 +296,7 @@ static NSString *size = @"20";
         make.height.offset(96);
     }];
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"还没有任何项目哦~";
+    label.text = @"还没有任何楼盘哦~";
     label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     label.textColor = UIColorRBG(158, 158, 158);
     label.textAlignment = NSTextAlignmentCenter;
@@ -357,7 +357,7 @@ static NSString *size = @"20";
         [menuV addSubview:titleButton];
     }
 }
-//项目列表
+//楼盘列表
 -(void)getUpTableView{
         WZCollectTableView *tableView = [[WZCollectTableView alloc] initWithFrame:CGRectMake(0,0, _viewTable.fWidth, _viewTable.fHeight)];
         tableView.backgroundColor = [UIColor clearColor];

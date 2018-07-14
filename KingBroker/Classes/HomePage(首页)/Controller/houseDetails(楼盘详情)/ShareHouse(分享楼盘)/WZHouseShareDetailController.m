@@ -64,7 +64,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"分享任务";
@@ -398,6 +398,9 @@
     //1.创建多媒体消息结构体
     WXMediaMessage *mediaMsg = [WXMediaMessage message];
     if ([_type isEqual:@"1"]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:@"1" forKey:@"shareSuccessType"];
+        [defaults synchronize];
         //2.创建多媒体消息中包含的图片数据对象
         WXImageObject *imgObj = [WXImageObject object];
         //图片真实数据
@@ -416,6 +419,7 @@
         [WXApi sendReq:req];
         
         [self closeGkCover];
+        
     }else {
         
         [self downloadVideo];
@@ -428,6 +432,9 @@
     //1.创建多媒体消息结构体
     WXMediaMessage *mediaMsg = [WXMediaMessage message];
     if ([_type isEqual:@"1"]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:@"0" forKey:@"shareSuccessType"];
+        [defaults synchronize];
         //2.创建多媒体消息中包含的图片数据对象
         WXImageObject *imgObj = [WXImageObject object];
         //图片真实数据
@@ -445,6 +452,7 @@
         //发送请求到微信,等待微信返回onResp
         [WXApi sendReq:req];
         [self closeGkCover];
+       
     }else {
         [self downloadVideo];
     }

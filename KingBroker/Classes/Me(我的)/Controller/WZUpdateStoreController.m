@@ -23,7 +23,7 @@
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     _headHeight.constant = kApplicationStatusBarHeight+152;
     self.navigationItem.title = @"更换门店";
     //设置属性
@@ -37,7 +37,7 @@
     NSString *top = [username substringToIndex:3];
     NSString *bottom = [username substringFromIndex:7];
     _telphone.text = [NSString stringWithFormat:@"请输入%@****%@收到的短信验证码",top,bottom];
-    _telphone.textColor = UIColorRBG(199, 199, 205);
+    _telphone.textColor = UIColorRBG(68, 68, 68);
     _verificationCode.textColor = UIColorRBG(68, 68, 68);
     _verificationCode.keyboardType = UIKeyboardTypeNumberPad;
     _verificationCode.clearButtonMode = UITextFieldViewModeWhileEditing;

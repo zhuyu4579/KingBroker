@@ -46,7 +46,8 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
+    
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     
     [self setViewController];
@@ -194,7 +195,6 @@
             NSDictionary *data = [responseObject valueForKey:@"data"];
             NSArray *rows = [data valueForKey:@"rows"];
             if (rows.count != 0) {
-                
                 _recommendTV.listArray = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:rows];
                 [_recommendTV  reloadData];
             }
@@ -233,7 +233,7 @@
         if([realtorStatus isEqual:@"2"]){
             //跳转
             WZTaskController *task = [[WZTaskController alloc] init];
-            task.url = [NSString stringWithFormat:@"%@/gatest/apptask/getuuid.html",HTTPH5];
+            task.url = [NSString stringWithFormat:@"%@/apptask/getuuid.html",HTTPH5];
              WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
             [self.navigationController presentViewController:nav animated:YES completion:nil];
             
@@ -249,6 +249,7 @@
                                                                        WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
                                                                        WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
                                                                        JionStore.type = @"1";
+                                                                       
                                                                        [self presentViewController:nav animated:YES completion:nil];
                                                                    }];
             
@@ -257,7 +258,7 @@
             [self presentViewController:alert animated:YES completion:nil];
         }else{
             [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
-            [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+            [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
         }
     }else{
         [NSString isCode:self.navigationController code:@"401"];

@@ -13,6 +13,6 @@
 @property(nonatomic,strong)NSArray *albumArray;
 
 @property(nonatomic,assign)NSString *isLoaded;
-//项目ID
+//楼盘ID
 @property(nonatomic,assign)NSString *projectId;
 @end

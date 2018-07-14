@@ -34,7 +34,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     
 }
 
@@ -48,7 +48,7 @@
         if([realtorStatus isEqual:@"2"]){
             //跳转
             WZTaskController *task = [[WZTaskController alloc] init];
-            task.url = [NSString stringWithFormat:@"%@/gatest/apptask/getuuid.html",HTTPH5];
+            task.url = [NSString stringWithFormat:@"%@/apptask/getuuid.html",HTTPH5];
             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
             [_VC.navigationController presentViewController:nav animated:YES completion:nil];
             
@@ -56,7 +56,7 @@
             [self store:_VC];
         }else{
             [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
-            [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+            [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
         }
     }else{
         [NSString isCode:_VC.navigationController code:@"401"];
@@ -93,7 +93,7 @@
             [self store:_VC];
         }else{
             [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
-            [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+            [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
         }
        
     }else{
@@ -117,7 +117,7 @@
             [self store:_VC];
         }else{
             [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
-            [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+            [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
         }
     }else{
         [NSString isCode:_VC.navigationController code:@"401"];

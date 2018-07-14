@@ -27,7 +27,7 @@
     _telephoneTwo.text =item.missContacto;
     _telephoneThree.text = item.missContacto;
     _telephoneFour.text = item.missContacto;
-    //项目名称
+    //楼盘名称
     _ItemNameOne.text = item.projectName;
     _ItemNameTwo.text = item.projectName;
     _ItemNameThree.text = item.projectName;
@@ -65,7 +65,7 @@
         }
     }
     
-    //项目ID
+    //楼盘ID
     _itemIdOne = item.projectId;
     _itemIdTwo = item.projectId;
     _itemIdThree = item.projectId;
@@ -154,7 +154,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
 
     UIButton *button = sender;
   

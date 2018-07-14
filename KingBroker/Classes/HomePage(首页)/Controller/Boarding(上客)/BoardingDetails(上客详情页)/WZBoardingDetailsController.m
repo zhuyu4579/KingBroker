@@ -72,11 +72,11 @@
 @property (nonatomic,assign) NSInteger n;
 //预计上客时间
 @property (nonatomic,weak)UILabel *label1;
-//项目ID
+//楼盘ID
 @property(nonatomic,strong)NSString *itemId;
-//项目签约状态
+//楼盘签约状态
 @property(nonatomic,strong)NSString *sginStatus;
-//项目电话
+//楼盘电话
 @property(nonatomic,strong)NSString *proTelphone;
 @end
 
@@ -93,7 +93,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
 }
 //请求数据
 -(void)loadData{
@@ -156,10 +156,10 @@
     _telephone.text = [_order valueForKey:@"missContacto"];
      _telephones.text = [_order valueForKey:@"missContacto"];
     NSString *status = [_order valueForKey:@"dealStatus"];
-    //项目名
+    //楼盘名
     _ItemName.text = [_order valueForKey:@"projectName"];
     _ItemNames.text = [_order valueForKey:@"projectName"];
-    //项目ID
+    //楼盘ID
     _itemId = [_order valueForKey:@"projectId"];
     //设置按钮
     NSString *verify = [_order valueForKey:@"verify"];
@@ -753,7 +753,7 @@
         make.height.mas_offset(196);
     }];
     UILabel *Titles = [[UILabel alloc] init];
-    Titles.text = @"你所在门店未和该项目签约，可能无法结佣";
+    Titles.text = @"你所在门店未和该楼盘签约，可能无法结佣";
     Titles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     [Titles setHidden:YES];
     _titles = Titles;
@@ -802,7 +802,7 @@
     [self loadData];
     [GKCover hide];
 }
-#pragma mark -项目按钮
+#pragma mark -楼盘按钮
 -(void)ItemButtons:(UIButton *)button{
     WZHouseDatisController *datis = [[WZHouseDatisController alloc] init];
     datis.ID = _itemId;

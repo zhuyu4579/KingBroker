@@ -27,7 +27,7 @@
 @property (nonatomic, strong)UIViewController *currentVc;
 //导航栏
 @property (nonatomic, strong)UISegmentedControl *segmented;
-//获取项目字典数组
+//获取楼盘字典数组
 @property (nonatomic, strong)NSMutableArray *itemArray;
 @end
 
@@ -37,7 +37,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
 
     [super viewDidLoad];
 
@@ -46,7 +46,7 @@
     
 }
 
-//获取项目名数据
+//获取楼盘名数据
 -(void)findItem{
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         NSString *uuid = [ user objectForKey:@"uuid"];

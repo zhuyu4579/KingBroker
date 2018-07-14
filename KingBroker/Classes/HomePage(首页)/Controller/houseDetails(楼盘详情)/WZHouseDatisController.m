@@ -114,7 +114,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
 
     [AMapServices sharedServices].apiKey = @"3bb40a8380b1fdd9927ccac85bcd9a6d";
     [super viewDidLoad];
@@ -124,7 +124,7 @@
     [self getUpScreen];
     //创建分享和报备按钮
     [self getUpButton];
-    //点击项目统计
+    //点击楼盘统计
     [self editClickNum];
     [self headerRefresh];
 }
@@ -227,7 +227,7 @@
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *realtorStatus = [user objectForKey:@"realtorStatus"];
     NSString *commissionFag = [ user objectForKey:@"commissionFag"];
-    //项目ID
+    //楼盘ID
     _ID = [_houseDatils valueForKey:@"id"];
     //设置照片
     NSArray *picCollect = [_houseDatils valueForKey:@"picCollect"];
@@ -249,7 +249,7 @@
     }else{
         _likeButton.selected = YES;
     }
-    //设置项目名
+    //设置楼盘名
     _dView.itemName.text = [_houseDatils valueForKey:@"name"];
     //设置单价
     //总价
@@ -460,7 +460,7 @@
     UILabel *title= [[UILabel alloc] init];
     title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
     title.textColor =[UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha:0];
-    title.text = @"项目详情";
+    title.text = @"楼盘详情";
     self.Bartitle = title;
     [self.tabView addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -1056,7 +1056,7 @@
                 NSString *collect = [data valueForKey:@"collect"];
                 if ([collect isEqual:@"1"]) {
                     _likeButton.selected = YES;
-                    [SVProgressHUD showInfoWithStatus:@"加入我的项目成功"];
+                    [SVProgressHUD showInfoWithStatus:@"加入我的楼盘成功"];
                 }else{
                     _likeButton.selected = NO;
                 }
@@ -1287,78 +1287,12 @@
 }
 #pragma mark -分享
 -(void)shares{
+    [self hideViews];
     WZShareHouseController *shareVc = [[WZShareHouseController alloc] init];
     shareVc.ID = _ID;
     [self.navigationController pushViewController:shareVc animated:YES];
 }
--(void)share{
-    [self hideViews];
-    //弹出分享页
-    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(0,SCREEN_HEIGHT -250, self.view.fWidth, 250)];
-    redView.backgroundColor = UIColorRBG(246, 246, 246);
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.frame = CGRectMake(16,16,50,12);
-    label.text = @"分享至：";
-    label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    label.textColor = UIColorRBG(102, 102, 102);
-    [redView addSubview:label];
-    //创建微信按钮
-    UIButton *WXButton = [[UIButton alloc] initWithFrame:CGRectMake(106, 67, 50, 50)];
-    [WXButton setBackgroundImage:[UIImage imageNamed:@"wewhat"] forState:UIControlStateNormal];
-    [WXButton addTarget:self action:@selector(WXShare) forControlEvents:UIControlEventTouchUpInside];
-    [redView addSubview:WXButton];
-    
-    UILabel *labelOne = [[UILabel alloc] init];
-    labelOne.frame = CGRectMake(107,126,50,12);
-    labelOne.text = @"微信好友";
-    labelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    labelOne.textColor = UIColorRBG(68, 68, 68);
-    [redView addSubview:labelOne];
-    //创建朋友圈按钮
-    UIButton *friendsButton = [[UIButton alloc] initWithFrame:CGRectMake(220, 67, 50, 50)];
-    [friendsButton setBackgroundImage:[UIImage imageNamed:@"circle-of-friend"] forState:UIControlStateNormal];
-    [friendsButton addTarget:self action:@selector(friendsButton) forControlEvents:UIControlEventTouchUpInside];
-    [redView addSubview:friendsButton];
-    
-    UILabel *labelTwo = [[UILabel alloc] init];
-    labelTwo.frame = CGRectMake(227,126,38,12);
-    labelTwo.text = @"朋友圈";
-    labelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    labelTwo.textColor =  UIColorRBG(68, 68, 68);
-    [redView addSubview:labelTwo];
-    
-    UIView *ineView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, redView.fWidth, 1)];
-    ineView.backgroundColor = UIColorRBG(242, 242, 242);
-    [redView addSubview:ineView];
-    //创建取消按钮
-    UIButton *cleanButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 201, redView.fWidth, 49)];
-    [cleanButton setTitle:@"取消" forState:UIControlStateNormal];
-    [cleanButton setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
-    
-    [cleanButton addTarget:self action:@selector(closeGkCover) forControlEvents:UIControlEventTouchUpInside];
-    [redView addSubview:cleanButton];
-    [GKCover coverFrom:self.view
-           contentView:redView
-                 style:GKCoverStyleTranslucent
-             showStyle:GKCoverShowStyleBottom
-             animStyle:GKCoverAnimStyleBottom
-              notClick:NO
-     ];
-    
-}
-//关闭分享
--(void)closeGkCover{
-    [GKCover hide];
-}
-//分享到微信
--(void)WXShare{
-    
-}
-//分享到朋友圈
--(void)friendsButton{
-    
-}
+
 #pragma mark -报备客户
 -(void)resport{
     [self hideViews];
