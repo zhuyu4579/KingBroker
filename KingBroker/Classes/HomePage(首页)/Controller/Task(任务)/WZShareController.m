@@ -411,6 +411,9 @@
 }
 //分享
 -(void)shareTask{
+    //复制内容
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = _content.text;
     //1.创建多媒体消息结构体
     WXMediaMessage *mediaMsg = [WXMediaMessage message];
     if ([_type isEqual:@"1"]) {

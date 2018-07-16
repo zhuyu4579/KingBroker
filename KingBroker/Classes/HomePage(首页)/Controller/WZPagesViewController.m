@@ -125,7 +125,7 @@
     [_scrollView addSubview:_cycleView];
     //初始化轮播图
     NSMutableArray *images = [[NSMutableArray alloc]init];
-    UIImage *image = [UIImage imageNamed:@"sy_banner"];
+    UIImage *image = [UIImage imageNamed:@"banner_1"];
     [images addObject:image];
     self.cyclePlayView = [[WZCyclePhotoView alloc] initWithImages:images withFrame:CGRectMake(0, 0, _cycleView.fWidth, _cycleView.fHeight)];
     self.cyclePlayView.delegate = self;
@@ -141,7 +141,7 @@
     [buttons addSubview:pageView];
     //创建中心
     UIImageView *task = [[UIImageView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 90*n)];
-    task.image = [UIImage imageNamed:@"rw_banner"];
+    task.image = [UIImage imageNamed:@"task1"];
     UITapGestureRecognizer *topRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(Tacks)];
     [task addGestureRecognizer:topRecognizer];
     task.userInteractionEnabled = YES;

@@ -55,7 +55,6 @@ static NSString *size = @"20";
     _listArray = [NSMutableArray array];
     current = 1;
     
-    
     [self headerRefresh];
     
 }
@@ -219,12 +218,14 @@ static NSString *size = @"20";
     NSString *ID = anCell.ID;
     [self read:ID];
     NSString *url = anCell.url;
-    
-    //跳转H5
-    WZTaskController *task = [[WZTaskController alloc] init];
-    task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
-    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
-    [self.navigationController presentViewController:nav animated:YES completion:nil];
+    if(![url isEqual:@""]){
+        //跳转H5
+        WZTaskController *task = [[WZTaskController alloc] init];
+        task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
+        WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
+        [self.navigationController presentViewController:nav animated:YES completion:nil];
+    }
+   
 }
 //已读接口
 -(void)read:(NSString *)ID{
@@ -285,6 +286,8 @@ static NSString *size = @"20";
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+    _listArray = [NSMutableArray array];
+    current = 1;
     [self loadDate];
 }
 @end

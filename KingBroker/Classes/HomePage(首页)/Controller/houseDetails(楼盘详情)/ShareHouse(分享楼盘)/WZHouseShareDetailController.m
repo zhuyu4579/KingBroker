@@ -395,6 +395,8 @@
 }
 //分享
 -(void)shareTask{
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = _content.text;
     [GKCover translucentCoverFrom:self.view content:_redView animated:YES];
 }
 //分享到微信

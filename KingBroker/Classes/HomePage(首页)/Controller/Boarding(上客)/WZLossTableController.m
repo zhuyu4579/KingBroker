@@ -47,6 +47,7 @@ static NSString *size = @"20";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.showsVerticalScrollIndicator = YES;
     self.tableView.showsHorizontalScrollIndicator = YES;
+    _isRequestFinish = YES;
     _listArray = [NSMutableArray array];
     current = 1;
     [self loadDate];
@@ -240,7 +241,9 @@ static NSString *size = @"20";
     detailVC.ID = item.id;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
 }
+
 @end

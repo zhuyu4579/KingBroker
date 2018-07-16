@@ -22,6 +22,8 @@
 @property(nonatomic,strong)NSMutableArray *detailedArray;
 
 @property(nonatomic,strong)NSMutableArray *array;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
 @end
 
 static  NSString * const ID = @"cell";
@@ -35,8 +37,10 @@ static NSString *size = @"20";
     self.navigationItem.title = @"明细";
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
      _array = [NSMutableArray array];
+    _isRequestFinish = YES;
     _detailedArray = [NSMutableArray array];
     current = 1;
+    [self loadData];
     //注册cell
     [self.tableView registerNib:[UINib nibWithNibName:@"WZFrowardDetailedCell" bundle:nil] forCellReuseIdentifier:ID];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -62,7 +66,7 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.tableView.mj_header = header;
-    [self.tableView.mj_header beginRefreshing];
+    
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     footer.mj_h += JF_BOTTOM_SPACE+20;
@@ -81,6 +85,10 @@ static NSString *size = @"20";
     [self loadData];
 }
 -(void)loadData{
+    if (!_isRequestFinish) {
+        return;
+    }
+    _isRequestFinish = NO;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
@@ -130,10 +138,12 @@ static NSString *size = @"20";
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
         }
+        _isRequestFinish = YES;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
+        _isRequestFinish = YES;
     }];
     
 }

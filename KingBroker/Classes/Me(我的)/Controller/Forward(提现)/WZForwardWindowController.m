@@ -178,6 +178,26 @@
         make.height.offset(14);
         make.width.offset(55);
     }];
+    //提示
+    UIImageView *imageView  = [[UIImageView alloc] init];
+    imageView.image = [UIImage imageNamed:@"hint-1"];
+    [self.view addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left).offset(15);
+        make.top.equalTo(viewTwo.mas_bottom).offset(8);
+        make.height.offset(11);
+        make.width.offset(6);
+    }];
+    UILabel *labels = [[UILabel alloc] init];
+    labels.font = [UIFont fontWithName:@"PingFang-SC-Light" size:12];
+    labels.textColor = UIColorRBG(153, 153, 153);
+    labels.text = @"内测期间不限制单次最低提现金额";
+    [self.view addSubview:labels];
+    [labels mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(imageView.mas_right).offset(5);
+        make.top.equalTo(viewTwo.mas_bottom).offset(7);
+        make.height.offset(12);
+    }];
     //确定按钮
     UIButton *confirm = [[UIButton alloc] init];
     [confirm setTitle:@"确定" forState:UIControlStateNormal];

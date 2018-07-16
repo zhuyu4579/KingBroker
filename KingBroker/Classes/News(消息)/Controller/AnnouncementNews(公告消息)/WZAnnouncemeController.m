@@ -209,9 +209,12 @@ static NSString *size = @"20";
     NSString *ID = anCell.ID;
     [self read:ID];
     NSString *url = anCell.url;
-    WZNEWHTMLController *new = [[WZNEWHTMLController alloc] init];
-    new.url = url;
-    [self.navigationController pushViewController:new animated:YES];
+    if (![url isEqual:@""]) {
+        WZNEWHTMLController *new = [[WZNEWHTMLController alloc] init];
+        new.url = url;
+        [self.navigationController pushViewController:new animated:YES];
+    }
+    
 }
 //已读接口
 -(void)read:(NSString *)ID{
@@ -233,6 +236,7 @@ static NSString *size = @"20";
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
+            
             [self NoreadNews];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -271,6 +275,8 @@ static NSString *size = @"20";
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+    _listArray = [NSMutableArray array];
+    current = 1;
     [self loadDate];
 }
 @end

@@ -104,6 +104,7 @@ static NSString *size = @"20";
         return;
     }
     _isRequestFinish = NO;
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [user objectForKey:@"uuid"];
     //创建会话请求
@@ -321,6 +322,8 @@ static NSString *size = @"20";
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+    _listArray = [NSMutableArray array];
+    current = 1;
     [self loadDate];
 }
 @end

@@ -459,6 +459,8 @@
         if(_loginState == 2){
             WZBoaringController *boarVc = [[WZBoaringController alloc] init];
             [self.navigationController pushViewController:boarVc animated:YES];
+        }else if(_loginState == 1){
+            [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
         }else{
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"未加入门店" message:@"你还没有加入经纪门店，不能进行更多操作"  preferredStyle:UIAlertControllerStyleAlert];
             
