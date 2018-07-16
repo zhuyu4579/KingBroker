@@ -139,7 +139,7 @@
     WZPageButtonView *pageView = [WZPageButtonView pageButtons];
     pageView.frame = buttons.bounds;
     [buttons addSubview:pageView];
-    //创建任务中心
+    //创建中心
     UIImageView *task = [[UIImageView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 90*n)];
     task.image = [UIImage imageNamed:@"rw_banner"];
     UITapGestureRecognizer *topRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(Tacks)];
@@ -223,7 +223,7 @@
         return NO;
     }
 }
-//点击任务模块
+//点击模块
 -(void)Tacks{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
@@ -435,21 +435,53 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSInteger count = [[ user objectForKey:@"newCount"] integerValue];
-    UITabBarItem *item=[self.tabBarController.tabBar.items objectAtIndex:1];
-    
-    if (count<100&&count>0) {
-        item.badgeValue= [NSString stringWithFormat:@"%ld",(long)count];
-    }else if(count>=100){
-        item.badgeValue= [NSString stringWithFormat:@"99+"];
-    }else{
-        item.badgeValue = nil;
-    }
     //定位当前位置信息
     [self locate];
     [self loadDateTask];
     
+    [self setloadData];
+    
+}
+//查询未读消息
+-(void)setloadData{
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    NSString *url = [NSString stringWithFormat:@"%@/userMessage/read/notreadCount",HTTPURL];
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSString *count = [data valueForKey:@"count"] ;
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:count forKey:@"newCount"];
+            [defaults synchronize];
+            NSLog(@"%@",count);
+            NSInteger counts = [count integerValue];
+            
+            UITabBarItem *item =[self.tabBarController.tabBar.items objectAtIndex:1];
+            
+            if (counts<100&&counts>0) {
+                item.badgeValue= [NSString stringWithFormat:@"%ld",(long)counts];
+            }else if(counts>=100){
+                item.badgeValue= [NSString stringWithFormat:@"99+"];
+            }else{
+                item.badgeValue = nil;
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
     
 }
 -(void)viewDidDisappear:(BOOL)animated{

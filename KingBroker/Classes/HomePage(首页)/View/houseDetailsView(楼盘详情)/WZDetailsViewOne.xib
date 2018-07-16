@@ -74,11 +74,18 @@
                     <state key="normal" backgroundImage="佣"/>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vrl-C0-k48">
-                    <rect key="frame" x="37" y="71" width="0.0" height="16"/>
+                    <rect key="frame" x="37" y="71" width="25" height="16"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="16" id="l9C-tR-Ios"/>
                     </constraints>
-                    <attributedString key="attributedText"/>
+                    <attributedString key="attributedText">
+                        <fragment content="111">
+                            <attributes>
+                                <font key="NSFont" size="20" name="PingFangSC-Semibold"/>
+                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                            </attributes>
+                        </fragment>
+                    </attributedString>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hbk-7I-C1z">

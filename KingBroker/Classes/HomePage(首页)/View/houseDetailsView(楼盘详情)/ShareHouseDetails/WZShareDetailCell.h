@@ -13,6 +13,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *shareDetailTitle;
 @property (strong, nonatomic) IBOutlet UILabel *shareDetailContent;
 @property(nonatomic,strong)WZShareDetailsItem *item;
-
+@property (strong, nonatomic) IBOutlet UIButton *shareDetail;
 
 @end

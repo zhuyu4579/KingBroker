@@ -15,17 +15,17 @@
 @property (nonatomic, strong)UITextField *topText;
 //手机号后四位
 @property (nonatomic, strong)UITextField *bottomText;
-//项目名
+//楼盘名
 @property (nonatomic, copy)UILabel *ItemName;
-//项目ID
+//楼盘ID
 @property(nonatomic,strong)NSString *itemId;
 //数据数组
 @property(nonatomic,strong)NSArray *itemNameArray;
-//选择项目按钮
+//选择楼盘按钮
 @property (nonatomic, strong)UIButton *titemNameButton;
-//项目是否签约
+//楼盘是否签约
 @property(nonatomic,strong)NSString *sginStatu;
-//项目负责人电话
+//楼盘负责人电话
 @property(nonatomic,strong)NSString *telphone;
 
 -(void)selectCustoms:(NSArray *)array;

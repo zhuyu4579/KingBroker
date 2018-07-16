@@ -21,9 +21,9 @@ static  NSString * const ID = @"cell";
     //页数
     NSInteger current;
 }
-//项目列表数据
+//楼盘列表数据
 @property(nonatomic,strong)NSMutableArray *projectListArray;
-//项目列表数据s
+//楼盘列表数据s
 @property(nonatomic,strong)NSMutableArray *projectListArrays;
 @end
 //查询条数
@@ -33,7 +33,7 @@ static NSString *size = @"20";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"选择项目";
+    self.navigationItem.title = @"选择楼盘";
     self.tableView.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"search_1"] highImage:[UIImage imageNamed:@"search"] target:self action:@selector(searchProject)];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -127,7 +127,13 @@ static NSString *size = @"20";
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
-            [NSString isCode:self.navigationController code:code];
+            if ([code isEqual:@"401"]) {
+                
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
         }
@@ -138,7 +144,7 @@ static NSString *size = @"20";
         [self.tableView.mj_footer endRefreshing];
     }];
 }
-//搜索项目
+//搜索楼盘
 -(void)searchProject{
     WZSearchProjectController *searchVc = [[WZSearchProjectController alloc] init];
     searchVc.blockItem = ^(NSDictionary *dicty) {

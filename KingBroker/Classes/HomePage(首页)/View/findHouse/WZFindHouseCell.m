@@ -44,9 +44,9 @@
     //总价
     NSString *totalPrice = item.totalPrice;
     if (totalPrice && ![totalPrice isEqual:@""]) {
-        _housePrice.text = [NSString stringWithFormat:@"总价：%@",totalPrice];
+        _housePrice.text = totalPrice;
     }else{
-        _housePrice.text = [NSString stringWithFormat:@"单价：%@",item.averagePrice];
+        _housePrice.text = item.averagePrice;
     }
     
     NSString *collect = item.collect;

@@ -17,7 +17,7 @@
 @property(nonatomic,strong)NSString *missContacto;
 //订单时间
 @property(nonatomic,strong)NSString *updateDate;
-//项目名
+//楼盘名
 @property(nonatomic,strong)NSString *projectName;
 //交易状态
 @property(nonatomic,strong)NSString *dealStatus;
@@ -25,7 +25,7 @@
 @property(nonatomic,strong)NSString *verify;
 //标签
 @property(nonatomic,strong)NSString *projectType;
-//项目Id
+//楼盘Id
 @property(nonatomic,strong)NSString *projectId;
 //二维码
 @property(nonatomic,strong)NSString *url;

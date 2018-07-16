@@ -47,7 +47,7 @@
     _webView = webView;
     webView.navigationDelegate = self;
     webView.UIDelegate = self;
-    
+    [(UIScrollView *)[[webView subviews] objectAtIndex:0] setBounces:NO];
     [self.view addSubview:webView];
     
     NSURL *url = [NSURL URLWithString:_url];

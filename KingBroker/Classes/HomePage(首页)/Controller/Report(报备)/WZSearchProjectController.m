@@ -23,9 +23,9 @@ static  NSString * const ID = @"cell";
     NSInteger current;
 }
 @property (strong, nonatomic) UISearchBar *searchBar;
-//项目列表数据
+//楼盘列表数据
 @property(nonatomic,strong)NSMutableArray *projectListArray;
-//项目列表数据s
+//楼盘列表数据s
 @property(nonatomic,strong)NSMutableArray *projectListArrays;
 //搜索内容
 @property(nonatomic,strong)NSString *name;
@@ -43,7 +43,7 @@ static NSString *size = @"20";
     UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth-40, 45)];
     
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, searchView.fWidth, 44)];
-    searchBar.placeholder = @"请输入项目名称";
+    searchBar.placeholder = @"请输入楼盘名称";
     searchBar.barTintColor = [UIColor whiteColor];
     searchBar.searchBarStyle = UISearchBarStyleMinimal;
     searchBar.returnKeyType = UIReturnKeySearch;
@@ -152,7 +152,13 @@ static NSString *size = @"20";
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
-            [NSString isCode:self.navigationController code:code];
+            if ([code isEqual:@"401"]) {
+                
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
         }

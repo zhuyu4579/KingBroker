@@ -43,9 +43,8 @@
 - (IBAction)findPassWordAction:(id)sender {
     WZfindPassWordController *findPWVc = [[WZfindPassWordController alloc] init];
     findPWVc.navigationItem.title = @"忘记密码";
-     UIViewController *Vc = [UIViewController viewController:[self superview]];
-     [Vc.navigationController pushViewController:findPWVc animated:YES];
-
+    UIViewController *Vc = [UIViewController viewController:[self superview]];
+    [Vc.navigationController pushViewController:findPWVc animated:YES];
 }
 #pragma mark -登陆
 - (IBAction)login:(id)sender{
@@ -90,7 +89,7 @@
         button.enabled = YES;
         if ([code isEqual:@"200"]) {
              _loginItem = [responseObject valueForKey:@"data"];
-            
+
             [JPUSHService setAlias:[_loginItem valueForKey:@"id"] completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
                 if (iResCode == 0) {
                     NSLog(@"添加别名成功");
@@ -129,6 +128,7 @@
     }];
     
 }
+
 //开启接收通知
 -(void)receivingNotification{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -159,7 +159,6 @@
 }
 #pragma mark -注册
 - (IBAction)registar:(id)sender {
-   
   WZRegController *ragVc = [[WZRegController alloc] init];
   UIViewController *Vc = [UIViewController viewController:[self superview]];
  [Vc.navigationController pushViewController:ragVc animated:YES];
@@ -196,7 +195,6 @@
     
     [self.showHIdePassWord setEnlargeEdge:20];
 }
-
 #pragma mark -设置输入框
 -(void)setTextFeildbords{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -248,7 +246,6 @@
     }
     return YES;
 }
-
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.loginAdmin resignFirstResponder];

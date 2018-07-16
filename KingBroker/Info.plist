@@ -47,7 +47,7 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>使用应用期间允许访问位置信息获取周边项目列表</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>使用应用期间允许访问位置信息获取周边项目列表</string>
+	<string>使用应用期间允许访问位置信息获取周边楼盘列表</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>使用应用期间允许访问位置信息获取周边项目列表</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

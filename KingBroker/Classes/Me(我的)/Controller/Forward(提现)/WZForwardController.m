@@ -75,7 +75,11 @@
                 [SVProgressHUD showInfoWithStatus:msg];
             }
             if ([code isEqual:@"401"]) {
+                
                 [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
             }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

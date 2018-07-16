@@ -28,7 +28,7 @@
 @property(nonatomic,strong)NSString *viewType;
 //跳转指定的页面
 @property(nonatomic,strong)NSString *param;
-//项目ID
+//楼盘ID
 @property(nonatomic,strong)NSString *additional;
 
 @end

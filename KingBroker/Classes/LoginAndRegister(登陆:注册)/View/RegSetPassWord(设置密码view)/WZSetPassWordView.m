@@ -52,6 +52,7 @@
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             [SVProgressHUD showInfoWithStatus:@"注册成功"];
+            [self setloadData];
             //加入门店
             WZJionStoreController *JionVc = [[WZJionStoreController alloc] init];
              WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionVc];
@@ -65,7 +66,6 @@
                     NSLog(@"添加别名成功");
                 }
             } seq:1];
-
             //将uuid 持久化
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:[regis valueForKey:@"uuid"] forKey:@"uuid"];
@@ -102,6 +102,37 @@
         }
     }];
 
+}
+//查询未读消息
+-(void)setloadData{
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    NSString *url = [NSString stringWithFormat:@"%@/userMessage/read/notreadCount",HTTPURL];
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSString *count = [data valueForKey:@"count"] ;
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:count forKey:@"newCount"];
+            [defaults synchronize];
+           
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+    
 }
 #pragma mark -设置按钮
 -(void)drawRect:(CGRect)rect{

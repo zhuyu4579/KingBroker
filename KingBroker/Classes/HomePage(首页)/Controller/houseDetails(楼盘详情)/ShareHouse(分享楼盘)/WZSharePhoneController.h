@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface WZSharePhoneController : UITableViewController
-//项目ID
+//楼盘ID
 @property(nonatomic,strong)NSString *projectId;
 
 @end

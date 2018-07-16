@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface WZShareDetailsItem : NSObject
-//任务ID
+//悬赏ID
 @property(nonatomic,strong)NSString *projectTaskId;
 //标题(图片，视频返回值)
 @property(nonatomic,strong)NSString *title;

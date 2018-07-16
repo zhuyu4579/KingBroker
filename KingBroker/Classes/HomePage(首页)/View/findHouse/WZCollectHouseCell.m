@@ -23,6 +23,7 @@
     //设置ID
     _ID = item.id;
     _projectName.text = item.name;
+    
     _distance.text = item.distance;
     
     if ([realtorStatus isEqual:@"2"]) {
@@ -46,9 +47,9 @@
     NSString *totalPrice = item.totalPrice;
     
     if (totalPrice && ![totalPrice isEqual:@""]) {
-         _prices.text = [NSString stringWithFormat:@"总价：%@",totalPrice];
+        _prices.text = totalPrice;
     }else{
-         _prices.text = [NSString stringWithFormat:@"均价：%@",item.averagePrice];
+        _prices.text = item.averagePrice;
     }
     
     NSString *collect = item.collect;

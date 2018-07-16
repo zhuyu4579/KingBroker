@@ -20,9 +20,24 @@
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZStoreAdministrationController.h"
 @interface WZBelongedStoreController ()
+
 @property(nonatomic,strong)UIButton *button;
 @property(nonatomic,strong)UIButton *addrButton;
 @property(nonatomic,strong)UITextField *labelThreeAddress;
+
+//门店认证
+@property(nonatomic,strong)NSString *realtorStatus;
+//门店编码
+@property(nonatomic,strong)NSString *storeCode;
+//门店名称
+@property(nonatomic,strong)NSString *storeName;
+//门店位置
+@property(nonatomic,strong)NSString *cityName;
+//门店地址
+@property(nonatomic,strong)NSString *cityAdder;
+//门店负责人
+@property(nonatomic,strong)NSString *dutyFlag;
+
 @end
 
 @implementation WZBelongedStoreController
@@ -35,6 +50,14 @@
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"所属门店";
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    _dutyFlag = [ user objectForKey:@"dutyFlag"];
+    _storeName = [ user objectForKey:@"storeName"];
+    _storeCode = [ user objectForKey:@"storeCode"];
+    _cityAdder = [ user objectForKey:@"addr"];
+    _cityName = [ user objectForKey:@"cityName"];
+    _realtorStatus = [ user objectForKey:@"realtorStatus"];
+    
     //创建控件
     if ([_realtorStatus isEqual:@"2"]) {
         //self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(edit) title:@"编辑"];
@@ -300,10 +323,8 @@
 }
 //申请门店负责人
 -(void)ApplyStoreDuty{
-   
        //跳转申请负责人
         WZApplyStorePersonController *applyVc = [[WZApplyStorePersonController alloc] init];
-        applyVc.idCardstatus = _idcardStatus;
         applyVc.statusBlock = ^(NSString *status) {
             if ([status isEqual:@"0"]) {
                 [_button setTitle:@"申请门店负责人" forState:UIControlStateNormal];

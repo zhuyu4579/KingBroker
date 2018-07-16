@@ -72,6 +72,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="detailImageView" destination="Gwg-Tr-X8q" id="TRG-r2-Psa"/>
+                <outlet property="shareDetail" destination="TJ8-c8-mk1" id="ED2-l2-DlT"/>
                 <outlet property="shareDetailContent" destination="h94-iH-a6w" id="YEf-jw-qlt"/>
                 <outlet property="shareDetailTitle" destination="oV3-1h-Q8a" id="UKW-DB-t5N"/>
             </connections>

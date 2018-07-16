@@ -45,7 +45,7 @@ NSString *storyboard;
     launch.backgroundColor = [UIColor whiteColor];
     return launch;
 }
-#pragma mark - 用storyboard创建的项目时调用，不带button
+#pragma mark - 用storyboard创建的楼盘时调用，不带button
 + (instancetype)sharedWithStoryboardName:(NSString *)storyboardName images:(NSArray *)imageNames {
     images = imageNames;
     storyboard = storyboardName;
@@ -54,7 +54,7 @@ NSString *storyboard;
     launch.backgroundColor = [UIColor whiteColor];
     return launch;
 }
-#pragma mark - 用storyboard创建的项目时调用，带button
+#pragma mark - 用storyboard创建的楼盘时调用，带button
 + (instancetype)sharedWithStoryboard:(NSString *)storyboardName images:(NSArray *)imageNames buttonImage:(NSString *)buttonImageName buttonFrame:(CGRect)frame{
     images = imageNames;
     isScrollOut = NO;

@@ -129,7 +129,15 @@
                     NSLog(@"删除别名成功");
                 }
             } seq:1];
+            NSLog(@"12345");
+            
+            //获取指定item
+            UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];
+            
+            item.badgeValue= nil;
+            
             [self.navigationController popViewControllerAnimated:YES];
+            
             
         }else{
             [SVProgressHUD showInfoWithStatus:@"退出失败"];

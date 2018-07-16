@@ -44,9 +44,9 @@
     _webView = webView;
     webView.navigationDelegate = self;
     webView.UIDelegate = self;
-    
     [self.view addSubview:webView];
     
+    [(UIScrollView *)[[webView subviews] objectAtIndex:0] setBounces:NO];
     NSURL *url = [NSURL URLWithString:_url];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [webView loadRequest:request];
@@ -72,9 +72,6 @@
 }
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
-    
-    
-    
     NSURL *URL = navigationAction.request.URL;
     NSString *scheme = [URL scheme];
     if ([scheme isEqualToString:@"tel"]) {

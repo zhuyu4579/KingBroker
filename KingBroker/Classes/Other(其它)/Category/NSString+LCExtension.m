@@ -7,6 +7,7 @@
 //
 
 #import "NSString+LCExtension.h"
+#import "WZTabBarController.h"
 #import "WZLoginController.h"
 #import "WZNavigationController.h"
 #import "JPUSHService.h"
@@ -43,7 +44,6 @@
     if ([code isEqual:@"401"]) {
        
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        
         NSDictionary *dic = [userDefaults dictionaryRepresentation];
         for (NSString *key in dic) {
             if (![key isEqual:@"oldName"]&&![key isEqual:@"appVersion"]) {
@@ -57,6 +57,7 @@
                 NSLog(@"删除别名成功");
             }
         } seq:1];
+       
         //跳转登录页面
         WZLoginController *login = [[WZLoginController alloc] init];
         WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:login];

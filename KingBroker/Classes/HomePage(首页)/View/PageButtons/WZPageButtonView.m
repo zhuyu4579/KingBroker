@@ -38,7 +38,7 @@
     
 }
 
-#pragma mark -接任务
+#pragma mark -接悬赏
 - (IBAction)answerTask:(id)sender {
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];

@@ -11,7 +11,7 @@
 @interface WZAlbumPhonesViewController : UIViewController
 //相册识别标记
 @property(nonatomic,strong)NSString *type;
-//项目ID
+//楼盘ID
 @property(nonatomic,strong)NSString *projectId;
 //图片Id
 @property(nonatomic,strong)NSString *photoId;

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface WZShareController : UIViewController
-//任务ID
+//ID
 @property(nonatomic,strong)NSString *ID;
 
 @end

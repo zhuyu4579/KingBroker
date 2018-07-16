@@ -7,7 +7,6 @@
 //
 
 #import "WZApplyStorePersonController.h"
-#import "WZAuthenticationController.h"
 #import "UIView+Frame.h"
 #import <Masonry.h>
 #import <SVProgressHUD.h>
@@ -100,44 +99,6 @@
         make.height.offset(44);
     }];
 }
-
--(void)setIdCard{
-    
-    UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [UIImage imageNamed:@"empty"];
-    [self.view addSubview:imageView];
-    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view.mas_centerX);
-        make.top.equalTo(self.view.mas_top).offset(kApplicationStatusBarHeight+44+103);
-        make.width.offset(129);
-        make.height.offset(86);
-    }];
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"你还没有完成实名认证，实名认证后\n才能申请门店负责人~";
-    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
-    label.textColor = UIColorRBG(158, 158, 158);
-    label.textAlignment = NSTextAlignmentCenter;
-    label.numberOfLines = 0;
-    [self.view addSubview:label];
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view.mas_centerX);
-        make.top.equalTo(imageView.mas_bottom).offset(29);
-    }];
-    UIButton *button = [[UIButton alloc] init];
-    [button setTitle:@"实名认证" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont systemFontOfSize:16];
-    button.backgroundColor = UIColorRBG(3, 133, 219);
-    button.layer.cornerRadius = 4.0;
-    [button addTarget:self action:@selector(idCard) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:button];
-    [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view.mas_centerX);
-        make.top.equalTo(label.mas_bottom).offset(140);
-        make.width.offset(215);
-        make.height.offset(49);
-    }];
-}
 //上传名片
 -(void)clickImage{
     WZAlertView *redView = [WZAlertView new];
@@ -201,6 +162,7 @@
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/leaderAuthentication",HTTPURL];
     [mgr POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
         NSData *imageData = [ZDAlertView imageProcessWithImage:_image];//进行图片压缩
         // 使用日期生成图片名称
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -233,7 +195,13 @@
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
-            [NSString isCode:self.navigationController code:code];
+            if ([code isEqual:@"401"]) {
+                
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [GKCover hide];
@@ -242,11 +210,7 @@
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
 }
-//实名认证
--(void)idCard{
-    WZAuthenticationController *authen = [[WZAuthenticationController alloc] init];
-    [self.navigationController pushViewController:authen animated:YES];
-}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     

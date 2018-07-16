@@ -242,7 +242,7 @@ static NSString *size = @"20";
     NSString *uuid = [ user objectForKey:@"uuid"];
     NSString *storeName = [ user objectForKey:@"storeName"];
     NSString *storeCode = [ user objectForKey:@"uuid"];
-    NSString *addr = [ user objectForKey:@"uuid"];
+    NSString *addr = [ user objectForKey:@"addr"];
     NSString *cityName = [ user objectForKey:@"cityName"];
     NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
     
@@ -307,11 +307,6 @@ static NSString *size = @"20";
         }else if(paramId == 103){
             //所属门店
             WZBelongedStoreController *store = [[WZBelongedStoreController alloc] init];
-            store.cityName = cityName;
-            store.storeCode = storeCode;
-            store.storeName = storeName;
-            store.cityAdder = addr;
-            store.realtorStatus = realtorStatus;
             [self.navigationController pushViewController:store animated:YES];
         }
     }

@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface WZFindHouseListItem : NSObject
-//项目id
+//楼盘id
 @property(nonatomic,strong)NSString *id;
-//项目照片
+//楼盘照片
 @property(nonatomic,strong)NSString *url;
-//项目名称
+//楼盘名称
 @property(nonatomic,strong)NSString *name;
 //均价
 @property(nonatomic,strong)NSString *averagePrice;

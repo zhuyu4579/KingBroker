@@ -113,7 +113,13 @@ static  NSString * const ID = @"NewCell";
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
-            [NSString isCode:self.navigationController code:code];
+            if ([code isEqual:@"401"]) {
+                
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
             [self.tableView.mj_header endRefreshing];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -203,18 +209,10 @@ static  NSString * const ID = @"NewCell";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
-    NSInteger count = [[ user objectForKey:@"newCount"] integerValue];
-    UITabBarItem *item=[self.tabBarController.tabBar.items objectAtIndex:1];
-    
-    if (count<100&&count>0) {
-        item.badgeValue= [NSString stringWithFormat:@"%ld",(long)count];
-    }else if(count>=100){
-        item.badgeValue= [NSString stringWithFormat:@"99+"];
-    }else{
-        item.badgeValue = nil;
-    }
+    [self setloadData];
     if(!uuid){
         [_viewNo setHidden:NO];
         _Item = [NSArray array];
@@ -225,7 +223,49 @@ static  NSString * const ID = @"NewCell";
         [self.tableView.mj_header beginRefreshing];
     }
 }
-
+//查询未读消息
+-(void)setloadData{
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    NSString *url = [NSString stringWithFormat:@"%@/userMessage/read/notreadCount",HTTPURL];
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSString *count = [data valueForKey:@"count"] ;
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:count forKey:@"newCount"];
+            [defaults synchronize];
+            NSLog(@"1234");
+            NSLog(@"%@",count);
+            NSInteger counts = [count integerValue];
+            
+            UITabBarItem *item =[self.tabBarController.tabBar.items objectAtIndex:1];
+            
+            if (counts<100&&counts>0) {
+                item.badgeValue= [NSString stringWithFormat:@"%ld",(long)counts];
+            }else if(counts>=100){
+                item.badgeValue= [NSString stringWithFormat:@"99+"];
+            }else{
+                item.badgeValue = nil;
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+    
+}
 //登录
 -(void)login{
      [NSString isCode:self.navigationController code:@"401"];

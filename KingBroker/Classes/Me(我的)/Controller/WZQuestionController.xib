@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -82,9 +82,10 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uOe-kn-VQu">
                     <rect key="frame" x="0.0" y="154" width="375" height="50"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="报备后为什么不能立即上客？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Cu-Nc-5OS">
-                            <rect key="frame" x="15" y="17.5" width="199" height="15"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我报备客户，系统提醒我可能无法结算佣金是什么意思？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Cu-Nc-5OS">
+                            <rect key="frame" x="15" y="17.5" width="311" height="15"/>
                             <constraints>
+                                <constraint firstAttribute="width" constant="311" id="MSO-MC-27e"/>
                                 <constraint firstAttribute="height" constant="15" id="eaO-uI-fa7"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -122,7 +123,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="piS-qW-PUn">
                     <rect key="frame" x="0.0" y="205" width="375" height="50"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一个客户被多个经纪人报备上客，成交后佣金归属谁？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f2E-Bw-GT7">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我报备了客户，为什么不能立即上客？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f2E-Bw-GT7">
                             <rect key="frame" x="15" y="18" width="311" height="15"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="311" id="CR1-9Q-xKS"/>
@@ -163,7 +164,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WT1-CS-sCL">
                     <rect key="frame" x="0.0" y="256" width="375" height="50"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已报备保护期和已上客保护期的规则是什么？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="974-ZG-smE">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="同一个客户被多个经纪人报备怎么办？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="974-ZG-smE">
                             <rect key="frame" x="15" y="18" width="311" height="15"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="311" id="34i-R5-HxE"/>
@@ -204,7 +205,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PVg-cv-ptU">
                     <rect key="frame" x="0.0" y="307" width="375" height="50"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="订单在上一家门店生成，经纪人更换门店后，订单归属哪家门店？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YSZ-PX-JKb">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="报备有效期和上客保护期是什么？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YSZ-PX-JKb">
                             <rect key="frame" x="15" y="18" width="311" height="15"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="311" id="rZT-X4-4C2"/>
@@ -245,7 +246,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lh6-Ay-OaV">
                     <rect key="frame" x="0.0" y="358" width="375" height="50"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="订单成交后怎么结佣金？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hYN-Qb-H6h">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="经纪人在一家中介公司成交后离职，佣金发下来算谁的？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hYN-Qb-H6h">
                             <rect key="frame" x="15" y="18" width="311" height="15"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="311" id="QN5-6s-SIv"/>
@@ -283,27 +284,115 @@
                         <constraint firstItem="hYN-Qb-H6h" firstAttribute="top" secondItem="lh6-Ay-OaV" secondAttribute="top" constant="17.5" id="thv-hJ-KWM"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="05D-ot-KYs">
+                    <rect key="frame" x="0.0" y="409" width="375" height="50"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="订单在上一家门店生成，经纪人更换门店后，订单归属哪家" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3M-ue-lxv">
+                            <rect key="frame" x="15" y="18" width="311" height="15"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="311" id="caz-mb-q9B"/>
+                                <constraint firstAttribute="height" constant="15" id="vfh-CH-eKa"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qld-J9-ePA">
+                            <rect key="frame" x="351" y="17.5" width="9" height="15"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="9" id="2T4-k5-iXc"/>
+                                <constraint firstAttribute="height" constant="15" id="fI3-do-SJu"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="more_unfold"/>
+                        </button>
+                        <button opaque="NO" tag="16" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L5U-T3-GYG">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                            <connections>
+                                <action selector="actionButton:" destination="-1" eventType="touchUpInside" id="tbu-JL-pXH"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="k3M-ue-lxv" firstAttribute="top" secondItem="05D-ot-KYs" secondAttribute="top" constant="17.5" id="1Ok-wj-Xrx"/>
+                        <constraint firstItem="k3M-ue-lxv" firstAttribute="leading" secondItem="05D-ot-KYs" secondAttribute="leading" constant="15" id="88P-8D-6Py"/>
+                        <constraint firstItem="L5U-T3-GYG" firstAttribute="leading" secondItem="05D-ot-KYs" secondAttribute="leading" id="H1I-hy-DAq"/>
+                        <constraint firstAttribute="trailing" secondItem="qld-J9-ePA" secondAttribute="trailing" constant="15" id="ZLm-We-2d8"/>
+                        <constraint firstAttribute="trailing" secondItem="L5U-T3-GYG" secondAttribute="trailing" id="ZnG-3i-fcN"/>
+                        <constraint firstItem="qld-J9-ePA" firstAttribute="top" secondItem="05D-ot-KYs" secondAttribute="top" constant="17.5" id="hN0-Vo-nzT"/>
+                        <constraint firstAttribute="bottom" secondItem="L5U-T3-GYG" secondAttribute="bottom" id="ib0-BA-U9o"/>
+                        <constraint firstItem="L5U-T3-GYG" firstAttribute="top" secondItem="05D-ot-KYs" secondAttribute="top" id="mSB-4i-pjw"/>
+                        <constraint firstAttribute="height" constant="50" id="mca-65-LKq"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WSj-Ke-45J">
+                    <rect key="frame" x="0.0" y="460" width="375" height="50"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="怎样结算佣金？" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7VP-uv-TNj">
+                            <rect key="frame" x="15" y="18" width="311" height="15"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="311" id="Zwd-bI-RqM"/>
+                                <constraint firstAttribute="height" constant="15" id="hz0-Qr-QiL"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mDI-SG-Pas">
+                            <rect key="frame" x="351" y="17.5" width="9" height="15"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="9" id="a4q-79-0ew"/>
+                                <constraint firstAttribute="height" constant="15" id="gSH-Fh-YuQ"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="more_unfold"/>
+                        </button>
+                        <button opaque="NO" tag="17" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D8H-xx-Gff">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                            <connections>
+                                <action selector="actionButton:" destination="-1" eventType="touchUpInside" id="RmZ-f6-jq9"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="mDI-SG-Pas" firstAttribute="top" secondItem="WSj-Ke-45J" secondAttribute="top" constant="17.5" id="5wD-hO-Zdl"/>
+                        <constraint firstItem="7VP-uv-TNj" firstAttribute="top" secondItem="WSj-Ke-45J" secondAttribute="top" constant="17.5" id="5zz-6w-AfQ"/>
+                        <constraint firstAttribute="bottom" secondItem="D8H-xx-Gff" secondAttribute="bottom" id="LFS-nC-In1"/>
+                        <constraint firstAttribute="height" constant="50" id="P1u-uJ-qkL"/>
+                        <constraint firstAttribute="trailing" secondItem="mDI-SG-Pas" secondAttribute="trailing" constant="15" id="Pgm-Ls-fAG"/>
+                        <constraint firstItem="D8H-xx-Gff" firstAttribute="leading" secondItem="WSj-Ke-45J" secondAttribute="leading" id="Ybf-vX-Hen"/>
+                        <constraint firstItem="7VP-uv-TNj" firstAttribute="leading" secondItem="WSj-Ke-45J" secondAttribute="leading" constant="15" id="jhw-p5-3Ps"/>
+                        <constraint firstAttribute="trailing" secondItem="D8H-xx-Gff" secondAttribute="trailing" id="wQ9-mw-wCy"/>
+                        <constraint firstItem="D8H-xx-Gff" firstAttribute="top" secondItem="WSj-Ke-45J" secondAttribute="top" id="xWR-KA-Q9R"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="CWq-fV-xey" firstAttribute="top" secondItem="57a-X0-mJf" secondAttribute="bottom" constant="11" id="3Ok-3p-O3z"/>
                 <constraint firstItem="57a-X0-mJf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="4ct-Pr-3VY"/>
+                <constraint firstItem="WSj-Ke-45J" firstAttribute="top" secondItem="05D-ot-KYs" secondAttribute="bottom" constant="1" id="63j-p2-hgz"/>
                 <constraint firstAttribute="trailing" secondItem="uOe-kn-VQu" secondAttribute="trailing" id="ASU-zI-Qx0"/>
                 <constraint firstItem="piS-qW-PUn" firstAttribute="top" secondItem="uOe-kn-VQu" secondAttribute="bottom" constant="1" id="CS7-ap-ZqV"/>
+                <constraint firstAttribute="trailing" secondItem="05D-ot-KYs" secondAttribute="trailing" id="D5d-7i-UG9"/>
                 <constraint firstItem="lh6-Ay-OaV" firstAttribute="top" secondItem="PVg-cv-ptU" secondAttribute="bottom" constant="1" id="Hrr-W2-hI4"/>
                 <constraint firstItem="PVg-cv-ptU" firstAttribute="top" secondItem="WT1-CS-sCL" secondAttribute="bottom" constant="1" id="Hvk-dy-cBz"/>
                 <constraint firstItem="lh6-Ay-OaV" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="LMG-k5-GQV"/>
                 <constraint firstAttribute="trailing" secondItem="lh6-Ay-OaV" secondAttribute="trailing" id="NOb-Qy-LkV"/>
                 <constraint firstAttribute="trailing" secondItem="WT1-CS-sCL" secondAttribute="trailing" id="SsC-NA-4KN"/>
                 <constraint firstItem="CWq-fV-xey" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="UId-5u-Hkp"/>
+                <constraint firstItem="05D-ot-KYs" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Yg1-us-6BN"/>
                 <constraint firstItem="uOe-kn-VQu" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="bOj-Qa-XkY"/>
+                <constraint firstAttribute="trailing" secondItem="WSj-Ke-45J" secondAttribute="trailing" id="cbT-Tc-wGa"/>
                 <constraint firstAttribute="trailing" secondItem="piS-qW-PUn" secondAttribute="trailing" id="eyZ-FJ-bgQ"/>
+                <constraint firstItem="05D-ot-KYs" firstAttribute="top" secondItem="lh6-Ay-OaV" secondAttribute="bottom" constant="1" id="hRQ-Pq-SFB"/>
                 <constraint firstItem="piS-qW-PUn" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="i9S-Nb-RL9"/>
                 <constraint firstAttribute="trailing" secondItem="CWq-fV-xey" secondAttribute="trailing" id="j9W-6N-siY"/>
                 <constraint firstItem="WT1-CS-sCL" firstAttribute="top" secondItem="piS-qW-PUn" secondAttribute="bottom" constant="1" id="joK-NA-e39"/>
                 <constraint firstItem="uOe-kn-VQu" firstAttribute="top" secondItem="CWq-fV-xey" secondAttribute="bottom" constant="1" id="kzy-l1-a1B"/>
                 <constraint firstItem="WT1-CS-sCL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="m4X-s9-IOU"/>
                 <constraint firstItem="57a-X0-mJf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="rA9-MN-YFM"/>
+                <constraint firstItem="WSj-Ke-45J" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="wA3-pF-Vsy"/>
                 <constraint firstItem="PVg-cv-ptU" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="y5r-Qi-y4b"/>
                 <constraint firstAttribute="trailing" secondItem="PVg-cv-ptU" secondAttribute="trailing" id="zt6-Vd-IHr"/>
             </constraints>

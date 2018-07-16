@@ -9,15 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @interface WZReportController : UIViewController
-//项目ID
+//楼盘ID
 @property(nonatomic,strong)NSString *itemID;
-//项目名称
+//楼盘名称
 @property(nonatomic,strong)NSString *itemName;
-//项目报备标识
+//楼盘报备标识
 @property(nonatomic,strong)NSString *types;
-//项目是否签约
+//楼盘是否签约
 @property(nonatomic,strong)NSString *sginStatus;
-//项目负责人电话
+//楼盘负责人电话
 @property(nonatomic,strong)NSString *telphone;
 //客户姓名
 @property(nonatomic,strong)NSString *name;

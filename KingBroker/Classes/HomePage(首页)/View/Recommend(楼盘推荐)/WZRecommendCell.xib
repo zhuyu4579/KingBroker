@@ -125,7 +125,6 @@
                             <constraint firstAttribute="height" constant="14" id="M8U-Wg-vZJ"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <state key="normal" title="登录可见佣金"/>
                         <connections>
                             <action selector="JoinStore:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="2QV-T4-mpa"/>
                         </connections>

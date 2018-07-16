@@ -41,7 +41,7 @@
 - (IBAction)actionButton:(UIButton *)sender {
     NSInteger tag = sender.tag;
     WZNEWHTMLController *html = [[WZNEWHTMLController alloc] init];
-    NSArray *urlArray = @[[NSString stringWithFormat:@"%@/apph5/faq1.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq2.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq3.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq4.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq5.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq6.html",HTTPH5]];
+    NSArray *urlArray = @[[NSString stringWithFormat:@"%@/apph5/faq1.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq2.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq3.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq4.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq5.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq6.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq7.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq8.html",HTTPH5]];
     html.url = urlArray[tag-10];
     [self.navigationController pushViewController:html animated:YES];
 }

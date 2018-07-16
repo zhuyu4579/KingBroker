@@ -213,7 +213,13 @@
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
+                if ([code isEqual:@"401"]) {
+                
                 [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
             }
             [self.scrollView.mj_header endRefreshing];
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -256,9 +262,9 @@
     NSString *totalPrice = [_houseDatils valueForKey:@"totalPrice"];
      NSString *price = [_houseDatils valueForKey:@"averagePrice"];
     if (totalPrice && ![totalPrice isEqual:@""]) {
-        _dView.price.text = [NSString stringWithFormat:@"总价:%@",totalPrice];
+        _dView.price.text = totalPrice;
     }else{
-        _dView.price.text = [NSString stringWithFormat:@"均价:%@",price];
+        _dView.price.text = price;
     }
 
     NSArray *labelArray = [_houseDatils valueForKey:@"tage"];
@@ -1257,7 +1263,7 @@
         [_playTelphoneButton removeTarget:self action:@selector(playPhones) forControlEvents:UIControlEventTouchUpInside];
         [_playTelphoneButton addTarget:self action:@selector(closePlayViews) forControlEvents:UIControlEventTouchUpInside];
     }else{
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"无法拨打电话" message:@"电话不可见，讲不能拨打电话，可联系门店负责人设置电话可见"  preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"无法拨打电话" message:@"电话不可见，将不能拨打电话，可联系门店负责人设置电话可见"  preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"我知道了" style:UIAlertActionStyleCancel
                                                               handler:^(UIAlertAction * action) {
                                                                   

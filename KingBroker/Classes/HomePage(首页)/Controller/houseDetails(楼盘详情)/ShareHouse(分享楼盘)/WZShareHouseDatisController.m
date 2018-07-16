@@ -154,7 +154,13 @@ static  NSString * const ID = @"cell";
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                 [SVProgressHUD showInfoWithStatus:msg];
             }
-            [NSString isCode:self.navigationController code:code];
+            if ([code isEqual:@"401"]) {
+                
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
         }
@@ -206,6 +212,7 @@ static  NSString * const ID = @"cell";
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     WZShareDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    [cell.shareDetail addTarget:self action:@selector(shareTaskDetail) forControlEvents:UIControlEventTouchUpInside];
     WZShareDetailsItem *item = _detailItem[indexPath.row];
     cell.item = item;
     self.cell = cell;
@@ -220,6 +227,9 @@ static  NSString * const ID = @"cell";
     _detailShareContents = _listArray[indexPath.row];
     [GKCover translucentCoverFrom:[self.view superview].superview content:_redView animated:YES];
     //[GKCover translucentWindowCenterCoverContent:_redView animated:YES];
+}
+-(void)shareTaskDetail{
+    [GKCover translucentCoverFrom:[self.view superview].superview content:_redView animated:YES];
 }
 //分享弹框
 -(void)shareTasks{
@@ -291,18 +301,18 @@ static  NSString * const ID = @"cell";
     webpageObject.webpageUrl = [_detailShareContents valueForKey:@"shareUrl"];
     mediaMsg.mediaObject = webpageObject;
     
-        //3.创建发送消息至微信终端程序的消息结构体
-        SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
-        //多媒体消息的内容
-        req.message = mediaMsg;
-        //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
-        req.bText = NO;
-        //指定发送到会话(聊天界面)
-        req.scene = WXSceneSession;
-        //发送请求到微信,等待微信返回onResp
-        [WXApi sendReq:req];
-        
-        [self closeGkCover];
+    //3.创建发送消息至微信终端程序的消息结构体
+    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+    //多媒体消息的内容
+    req.message = mediaMsg;
+    //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
+    req.bText = NO;
+    //指定发送到会话(聊天界面)
+    req.scene = WXSceneSession;
+    //发送请求到微信,等待微信返回onResp
+    [WXApi sendReq:req];
+    
+    [self closeGkCover];
    
 }
 //分享到朋友圈
@@ -324,17 +334,17 @@ static  NSString * const ID = @"cell";
     webpageObject.webpageUrl = [_detailShareContents valueForKey:@"shareUrl"];
     mediaMsg.mediaObject = webpageObject;
     
-        //3.创建发送消息至微信终端程序的消息结构体
-        SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
-        //多媒体消息的内容
-        req.message = mediaMsg;
-        //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
-        req.bText = NO;
-        //指定发送到会话(聊天界面)
-        req.scene = WXSceneTimeline;
-        //发送请求到微信,等待微信返回onResp
-        [WXApi sendReq:req];
-        [self closeGkCover];
+    //3.创建发送消息至微信终端程序的消息结构体
+    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+    //多媒体消息的内容
+    req.message = mediaMsg;
+    //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
+    req.bText = NO;
+    //指定发送到会话(聊天界面)
+    req.scene = WXSceneTimeline;
+    //发送请求到微信,等待微信返回onResp
+    [WXApi sendReq:req];
+    [self closeGkCover];
   
 }
 //关闭分享

@@ -68,7 +68,7 @@
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"分享任务";
+    self.navigationItem.title = @"分享";
     
     UIScrollView *scollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, self.view.fHeight)];
     _scrollView = scollView;

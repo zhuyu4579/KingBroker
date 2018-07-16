@@ -13,7 +13,7 @@
 @property(nonatomic,strong)NSDictionary *reportData;
 //签约状态
 @property(nonatomic,strong)NSString *status;
-//项目负责人电话
+//楼盘负责人电话
 @property(nonatomic,strong)NSString *telphone;
 
 @end

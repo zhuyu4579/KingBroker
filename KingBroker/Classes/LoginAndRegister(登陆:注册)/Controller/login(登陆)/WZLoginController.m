@@ -11,14 +11,15 @@
 #import "UIBarButtonItem+Item.h"
 @interface WZLoginController()<UIGestureRecognizerDelegate>
 
-
+@property(nonatomic,strong)WZLoginRegistar *lrv;
 @end
 
 @implementation WZLoginController
 
 #pragma mark -关闭登陆页面
 - (IBAction)closeLogin:(id)sender {
-    
+    [_lrv.loginAdmin resignFirstResponder];
+    [_lrv.loginPassword resignFirstResponder];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
    
 }
@@ -28,6 +29,7 @@
     _headHeight.constant = kApplicationStatusBarHeight;
     //创建WZLoginRegistar
     WZLoginRegistar *lrV = [WZLoginRegistar loginRegistar];
+    _lrv = lrV;
     //传输数据
     if(_loginBlock){
         lrV.login = ^(NSDictionary *login) {

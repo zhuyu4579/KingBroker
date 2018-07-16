@@ -100,21 +100,13 @@
 }
 //获取数据
 -(void)loadData{
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     NSString *userId = [ user objectForKey:@"userId"];
     NSString *username = [ user objectForKey:@"username"];
     
-    NSInteger count = [[ user objectForKey:@"newCount"] integerValue];
-    UITabBarItem *item=[self.tabBarController.tabBar.items objectAtIndex:1];
-    
-    if (count<100&&count>0) {
-        item.badgeValue= [NSString stringWithFormat:@"%ld",(long)count];
-    }else if(count>=100){
-        item.badgeValue= [NSString stringWithFormat:@"99+"];
-    }else{
-        item.badgeValue = nil;
-    }
+   
      _uuid = uuid;
      if (uuid) {
         //创建会话请求
@@ -151,7 +143,8 @@
                 [defaults setObject:[_loginItem valueForKey:@"cityName"] forKey:@"cityName"];
                 //门店地址
                 [defaults setObject:[_loginItem valueForKey:@"addr"] forKey:@"addr"];
-                
+                //门店负责人
+                [defaults setObject:[_loginItem valueForKey:@"dutyFlag"] forKey:@"dutyFlag"];
                 [defaults synchronize];
                 [self storeState];
             }else{
@@ -163,7 +156,10 @@
                     [self hide];
                     [self.noLoginView setHidden:NO];
                     [_views setHidden:YES];
-                    [NSString isCode:self.navigationController code:code];
+                   [NSString isCode:self.navigationController code:code];
+                    //更新指定item
+                    UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                    item.badgeValue= nil;
                 }
                
             }
@@ -213,6 +209,7 @@
         //已加入门店
         _images.image = [UIImage imageNamed:@"wd_icon_5"];
         _joinButton.enabled = NO;
+        _storeName.fWidth = 200;
         _storeName.text =[_loginItem valueForKey:@"storeName"];
         _storeName.textColor = UIColorRBG(3, 133, 219);
         [_boaldingButton setHidden:NO];
@@ -404,13 +401,6 @@
 //跳转所属门店
 -(void)BelongedStore{
     WZBelongedStoreController *boaring = [[WZBelongedStoreController alloc] init];
-    boaring.storeCode = [_loginItem valueForKey:@"storeCode"];
-    boaring.storeName =[_loginItem valueForKey:@"storeName"];
-    boaring.cityName = [_loginItem valueForKey:@"cityName"];
-    boaring.idcardStatus = [_loginItem valueForKey:@"idcardStatus"];
-    boaring.realtorStatus = [_loginItem valueForKey:@"realtorStatus"];
-    boaring.dutyFlag = [_loginItem valueForKey:@"dutyFlag"];
-    boaring.cityAdder = [_loginItem valueForKey:@"addr"];
     [self.navigationController pushViewController:boaring animated:YES];
 }
 //跳转加入门店
@@ -512,13 +502,6 @@
 -(void)myStore{
     if (_uuid) {
         WZBelongedStoreController *boaring = [[WZBelongedStoreController alloc] init];
-        boaring.storeCode = [_loginItem valueForKey:@"storeCode"];
-        boaring.storeName =[_loginItem valueForKey:@"storeName"];
-        boaring.cityName = [_loginItem valueForKey:@"cityName"];
-        boaring.idcardStatus = [_loginItem valueForKey:@"idcardStatus"];
-        boaring.realtorStatus = [_loginItem valueForKey:@"realtorStatus"];
-        boaring.dutyFlag = [_loginItem valueForKey:@"dutyFlag"];
-        boaring.cityAdder = [_loginItem valueForKey:@"addr"];
         [self.navigationController pushViewController:boaring animated:YES];
     }else{
         [NSString isCode:self.navigationController code:@"401"];
@@ -560,6 +543,48 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [self loadData];
+    [self setloadData];
+}
+//查询未读消息
+-(void)setloadData{
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    NSString *url = [NSString stringWithFormat:@"%@/userMessage/read/notreadCount",HTTPURL];
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSString *count = [data valueForKey:@"count"] ;
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:count forKey:@"newCount"];
+            [defaults synchronize];
+           
+            NSInteger counts = [count integerValue];
+            
+            UITabBarItem *item =[self.tabBarController.tabBar.items objectAtIndex:1];
+            
+            if (counts<100&&counts>0) {
+                item.badgeValue= [NSString stringWithFormat:@"%ld",(long)counts];
+            }else if(counts>=100){
+                item.badgeValue= [NSString stringWithFormat:@"99+"];
+            }else{
+                item.badgeValue = nil;
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
     
 }
 -(void)viewDidDisappear:(BOOL)animated{

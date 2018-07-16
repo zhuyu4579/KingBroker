@@ -64,7 +64,7 @@
     }];
      //创建lable二
     UILabel *texthavelabelTwo = [[UILabel alloc] init];
-    texthavelabelTwo.text = @"2.加入门店后报备客户，成交后可赚取佣金；经服APP内做任务赚取现金奖励";
+    texthavelabelTwo.text = @"2.加入门店后报备客户，成交后可赚取佣金；经服APP内完成悬赏赚取现金奖励";
     texthavelabelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     texthavelabelTwo.textColor = UIColorRBG(153, 153, 153);
     texthavelabelTwo.numberOfLines = 0;

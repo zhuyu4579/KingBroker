@@ -20,9 +20,9 @@
     _reads.layer.cornerRadius = 3.5;
     _title.textColor = UIColorRBG(68, 68, 68);
     _content.textColor = UIColorRBG(153, 153, 153);
-    _views.layer.shadowColor = [UIColor grayColor].CGColor;
-    _views.layer.shadowOpacity = 0.8f;
-    _views.layer.shadowRadius = 4.0f;
+//    _views.layer.shadowColor = [UIColor grayColor].CGColor;
+//    _views.layer.shadowOpacity = 0.8f;
+//    _views.layer.shadowRadius = 4.0f;
     [_seeButton setEnlargeEdgeWithTop:20 right:15 bottom:20 left:100];
 }
 
