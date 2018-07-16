@@ -218,6 +218,7 @@ static NSString *size = @"20";
     NSString *ID = anCell.ID;
     [self read:ID];
     NSString *url = anCell.url;
+    
     if(![url isEqual:@""]){
         //跳转H5
         WZTaskController *task = [[WZTaskController alloc] init];

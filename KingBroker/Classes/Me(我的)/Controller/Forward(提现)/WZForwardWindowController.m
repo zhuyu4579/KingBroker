@@ -255,8 +255,8 @@
 -(void)confirmZFB:(UIButton *)button{
     [_prices resignFirstResponder];
     NSString *str = _prices.text;
-    if ([str isEqual:@""] || [str intValue] == 0) {
-        [SVProgressHUD showInfoWithStatus:@"输入金额有误"];
+    if ([str isEqual:@""] || [str floatValue] == 0.00) {
+        [SVProgressHUD showInfoWithStatus:@"提现金额不能小于0元"];
         return;
     }
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];

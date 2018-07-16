@@ -204,7 +204,7 @@ static NSString *size = @"20";
         make.height.offset(105);
     }];
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"还没有任何订单哦~\n\n赶快去创建吧～";
+    label.text = @"还没有任何订单哦~";
     label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     label.textColor = UIColorRBG(158, 158, 158);
     label.textAlignment = NSTextAlignmentCenter;
