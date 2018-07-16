@@ -106,6 +106,7 @@
 @property(nonatomic,strong)UIButton *playTelphoneButton;
 //电话数据
 @property(nonatomic,strong)NSArray *telphoneArray;
+
 @end
 
 @implementation WZHouseDatisController
@@ -172,7 +173,6 @@
     
     self.scrollView.mj_header = header;
     
-    [self.scrollView.mj_header beginRefreshing];
 }
 #pragma mark -下拉刷新或者加载数据
 -(void)loadNewTopic:(id)refrech{
@@ -180,7 +180,7 @@
     [self.scrollView.mj_header beginRefreshing];
    
     [self loadData];
-    [self findCoustrom];
+    
 }
 //数据请求
 -(void)loadData{
@@ -1139,6 +1139,7 @@
 }
 //查询电话列表
 -(void)findCoustrom{
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     
@@ -1340,6 +1341,8 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [self loadData];
+    [self findCoustrom];
 }
 //数据分解
 -(NSMutableArray *)setString:(NSArray *)array{

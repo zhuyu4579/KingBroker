@@ -25,6 +25,9 @@ static  NSString * const ID = @"cell";
 @property(nonatomic,strong)NSMutableArray *projectListArray;
 //楼盘列表数据s
 @property(nonatomic,strong)NSMutableArray *projectListArrays;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
+
 @end
 //查询条数
 static NSString *size = @"20";
@@ -41,7 +44,7 @@ static NSString *size = @"20";
     [self.tableView registerNib:[UINib nibWithNibName:@"WZSelectProjectCell" bundle:nil] forCellReuseIdentifier:ID];
     _projectListArray = [NSMutableArray array];
     current = 1;
- 
+    _isRequestFinish = YES;
     [self headerRefresh];
 }
 //下拉刷新
@@ -63,7 +66,7 @@ static NSString *size = @"20";
     // 设置颜色
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     self.tableView.mj_header = header;
-    [self.tableView.mj_header beginRefreshing];
+    [self loadData];
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     footer.mj_h +=JF_BOTTOM_SPACE + 20;
@@ -84,6 +87,10 @@ static NSString *size = @"20";
 }
 //请求数据列表
 -(void)loadData{
+    if (!_isRequestFinish) {
+        return;
+    }
+    _isRequestFinish = NO;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     NSString *storeId = [ user objectForKey:@"storeId"];
@@ -137,11 +144,12 @@ static NSString *size = @"20";
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
         }
-        
+        _isRequestFinish = YES;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
+        _isRequestFinish = YES;
     }];
 }
 //搜索楼盘

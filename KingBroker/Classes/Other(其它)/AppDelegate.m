@@ -82,8 +82,6 @@
     
     NSDictionary *userInfo = [notification userInfo];
     
-    NSLog(@"自定义message:%@",userInfo);
-    
     NSDictionary *extras = [userInfo valueForKey:@"extras"];
     
     NSString *param = [extras valueForKey:@"param"];

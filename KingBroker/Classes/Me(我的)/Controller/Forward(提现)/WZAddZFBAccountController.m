@@ -36,7 +36,8 @@
 //创建内容
 -(void)createContents{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *realname = [ user objectForKey:@"realname"];
+    NSString *realname = [ user objectForKey:@"name"];
+    
     UILabel *lanbelOne = [[UILabel alloc] init];
     lanbelOne.textColor = UIColorRBG(135, 134, 140);
     lanbelOne.text = @"为了资金安全，只能绑定当前实名认证人的支付宝";
@@ -136,7 +137,7 @@
     }
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
-    NSString *realname = [ user objectForKey:@"realname"];
+    NSString *realname = [ user objectForKey:@"name"];
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     

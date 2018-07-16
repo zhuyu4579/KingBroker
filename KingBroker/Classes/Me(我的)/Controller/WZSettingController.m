@@ -43,7 +43,7 @@
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSInteger idcardStatus = [[user objectForKey:@"idcardStatus"] integerValue];
     NSString *username = [user objectForKey:@"username"];
-    NSString *realname = [user objectForKey:@"realname"];
+    NSString *name = [user objectForKey:@"name"];
     NSString *top = [username substringToIndex:3];
     NSString *bottom = [username substringFromIndex:7];
     _telphone.text = [NSString stringWithFormat:@"%@****%@",top,bottom];
@@ -57,9 +57,15 @@
     }else if(idcardStatus == 1){
         _authenStatus.text = @"审核中";
     }else{
-        NSString *realnames = [realname substringFromIndex:1];
-        _authenStatus.text = [NSString stringWithFormat:@"*%@",realnames];
+        if(name.length>1){
+            NSString *realnames = [name substringFromIndex:1];
+            _authenStatus.text = [NSString stringWithFormat:@"*%@",realnames];
+            
+        }else{
+            _authenStatus.text = @"";
+        }
         _authenImage.image = [UIImage imageNamed:@"authenticated"];
+        
     }
 }
 
@@ -129,7 +135,7 @@
                     NSLog(@"删除别名成功");
                 }
             } seq:1];
-            NSLog(@"12345");
+            
             
             //获取指定item
             UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];

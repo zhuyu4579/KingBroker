@@ -27,6 +27,9 @@
 @property(nonatomic,strong)NSMutableArray *listArray;
 //无数据页面
 @property(nonatomic,strong)UIView *viewNo;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
+
 @end
 static  NSString * const ID = @"cell";
 //查询条数
@@ -48,6 +51,11 @@ static NSString *size = @"20";
     [self.tableView registerNib:[UINib nibWithNibName:@"WZTaskCell" bundle:nil] forCellReuseIdentifier:ID];
     //设置分割线
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _isRequestFinish = YES;
+    _listArray = [NSMutableArray array];
+    current = 1;
+    
+    
     [self headerRefresh];
     
 }
@@ -91,6 +99,10 @@ static NSString *size = @"20";
 //请求数据
 #pragma mark -请求数据
 -(void)loadDate{
+    if (!_isRequestFinish) {
+        return;
+    }
+    _isRequestFinish = NO;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [user objectForKey:@"uuid"];
     //创建会话请求
@@ -143,11 +155,12 @@ static NSString *size = @"20";
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
         }
-        
+        _isRequestFinish = YES;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
+        _isRequestFinish = YES;
     }];
     
 }
@@ -272,6 +285,6 @@ static NSString *size = @"20";
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [self.tableView.mj_header beginRefreshing];
+    [self loadDate];
 }
 @end

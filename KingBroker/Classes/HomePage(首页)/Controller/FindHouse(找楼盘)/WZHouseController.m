@@ -96,6 +96,8 @@ static NSString * const ID = @"Citycell";
 @property(nonatomic,strong)UIView *viewNo;
 //定位坐标
 @property(nonatomic,strong)NSString *lnglat;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
 @end
 //查询条数
 static NSString *size = @"20";
@@ -107,7 +109,7 @@ static NSString *size = @"20";
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
-
+    _isRequestFinish = YES;
     _projectListArray = [NSMutableArray array];
     current = 1;
     [super viewDidLoad];
@@ -118,11 +120,11 @@ static NSString *size = @"20";
     [self getUpTableView];
    
      //遍历数组
-      NSMutableArray *screenArray = [NSMutableArray array];
-     _SXArray = screenArray;
+    NSMutableArray *screenArray = [NSMutableArray array];
+    _SXArray = screenArray;
     //创建菜单弹框
     [self getUpMenuAlert];
-  
+    
     //读取数据字典
     NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
     NSString *fileName = [path stringByAppendingPathComponent:@"dictGroup.plist"];
@@ -145,8 +147,9 @@ static NSString *size = @"20";
             [screenArray addObject:item];
         }
     }
-   
-     [self headerRefresh];
+    
+    
+   [self headerRefresh];
     
 }
 -(void)loadRefreshs{
@@ -162,10 +165,10 @@ static NSString *size = @"20";
     UIButton *but1 =  [_menu viewWithTag:20];
     [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_2"] forState:UIControlStateNormal];
     _seachCityId = @"";
+    [self loadData];
     //获取城市列表
     [self cityDatas];
     
-     [_tableView.mj_header beginRefreshing];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -213,7 +216,11 @@ static NSString *size = @"20";
 }
 //数据请求
 -(void)loadData{
-
+    if (!_isRequestFinish) {
+        return;
+    }
+    _isRequestFinish = NO;
+    
         //创建会话请求
         AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
         
@@ -291,12 +298,13 @@ static NSString *size = @"20";
                 [_tableView.mj_footer endRefreshing];
                 
             }
+            _isRequestFinish = YES;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
              [SVProgressHUD showInfoWithStatus:@"网络不给力"];
             
                 [_tableView.mj_header endRefreshing];
                 [_tableView.mj_footer endRefreshing];
-           
+            _isRequestFinish = YES;
         }];
    
 }

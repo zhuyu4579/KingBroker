@@ -220,7 +220,7 @@ static  NSString * const ID = @"NewCell";
     }else{
         [_viewNo setHidden:YES];
         //创建数据模型加载数据
-        [self.tableView.mj_header beginRefreshing];
+        [self loadDate];
     }
 }
 //查询未读消息
@@ -246,8 +246,7 @@ static  NSString * const ID = @"NewCell";
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:count forKey:@"newCount"];
             [defaults synchronize];
-            NSLog(@"1234");
-            NSLog(@"%@",count);
+            
             NSInteger counts = [count integerValue];
             
             UITabBarItem *item =[self.tabBarController.tabBar.items objectAtIndex:1];

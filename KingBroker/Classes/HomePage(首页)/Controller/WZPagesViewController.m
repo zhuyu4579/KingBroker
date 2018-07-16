@@ -465,7 +465,7 @@
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:count forKey:@"newCount"];
             [defaults synchronize];
-            NSLog(@"%@",count);
+            
             NSInteger counts = [count integerValue];
             
             UITabBarItem *item =[self.tabBarController.tabBar.items objectAtIndex:1];

@@ -283,7 +283,12 @@
     }];
     //选择视频
     UILabel *labelTwo = [[UILabel alloc] init];
-    labelTwo.text = @"视频选择";
+    if ([type isEqual:@"1"]) {
+        labelTwo.text = @"图片选择";
+    }else{
+        labelTwo.text = @"视频选择";
+    }
+    
     labelTwo.font = [UIFont fontWithName:@"PingFang-SC-Bold" size:16];
     labelTwo.textColor = UIColorRBG(51, 51, 51);
     [_scrollView addSubview:labelTwo];

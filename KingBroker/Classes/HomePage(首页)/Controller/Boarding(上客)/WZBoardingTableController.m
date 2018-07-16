@@ -39,6 +39,8 @@
 @property (nonatomic,weak)UILabel *ItemNames;
 
 @property (nonatomic,weak)UILabel *titles;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
 @end
 //查询条数
 static NSString *size = @"20";
@@ -61,19 +63,20 @@ static NSString *size = @"20";
     self.tableView.showsHorizontalScrollIndicator = YES;
     _listArray = [NSMutableArray array];
     current = 1;
+    _isRequestFinish = YES;
+    
+    [self loadDate];
     
     [self headerRefresh];
     
     [self setCodeViews];
-    
     //创造通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewTopics) name:@"Refresh" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDate) name:@"Refresh" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
     //创建下拉刷新
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
-    
     // 设置文字
     [header setTitle:@"刷新完毕..." forState:MJRefreshStateIdle];
     [header setTitle:@"下拉刷新" forState:MJRefreshStatePulling];
@@ -89,14 +92,13 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.tableView.mj_header = header;
-    [self.tableView.mj_header beginRefreshing];
+
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     self.tableView.mj_footer = footer;
 }
 #pragma mark -下拉刷新或者加载数据
 -(void)loadNewTopic{
-    
     [self.tableView.mj_header beginRefreshing];
     _listArray = [NSMutableArray array];
     current = 1;
@@ -111,7 +113,10 @@ static NSString *size = @"20";
 }
 #pragma mark -请求数据
 -(void)loadDate{
-    
+        if (!_isRequestFinish) {
+            return;
+        }
+        _isRequestFinish = NO;
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         NSString *uuid = [user objectForKey:@"uuid"];
         NSString *userId = [ user objectForKey:@"userId"];
@@ -131,6 +136,7 @@ static NSString *size = @"20";
         paraments[@"types"] = @"1";
         paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
         paraments[@"size"] = size;
+    
         NSString *url = [NSString stringWithFormat:@"%@/order/list",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
@@ -172,11 +178,12 @@ static NSString *size = @"20";
                 [self.tableView.mj_header endRefreshing];
                 [self.tableView.mj_footer endRefreshing];
             }
-            
+            _isRequestFinish = YES;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
+            _isRequestFinish = YES;
         }];
     
 }

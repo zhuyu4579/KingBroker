@@ -134,6 +134,7 @@
                 [defaults setObject:[_loginItem valueForKey:@"cityId"] forKey:@"cityId"];
                 [defaults setObject:[_loginItem valueForKey:@"commissionFag"] forKey:@"commissionFag"];
                 [defaults setObject:[_loginItem valueForKey:@"realname"] forKey:@"realname"];
+                [defaults setObject:[_loginItem valueForKey:@"name"] forKey:@"name"];
                 [defaults setObject:[_loginItem valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
                 //门店名称
                 [defaults setObject:[_loginItem valueForKey:@"storeName"] forKey:@"storeName"];

@@ -26,6 +26,8 @@
 @property(nonatomic,strong)NSMutableArray *listArray;
 //无数据页面
 @property(nonatomic,strong)UIView *viewNo;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
 @end
 //查询条数
 static NSString *size = @"20";
@@ -45,9 +47,13 @@ static NSString *size = @"20";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.showsVerticalScrollIndicator = YES;
     self.tableView.showsHorizontalScrollIndicator = YES;
+    _listArray = [NSMutableArray array];
+    current = 1;
+    [self loadDate];
+    
     [self headerRefresh];
     //创造通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewTopics) name:@"Refresh" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDate) name:@"Refresh" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -70,7 +76,6 @@ static NSString *size = @"20";
     
     self.tableView.mj_header = header;
     
-    [self.tableView.mj_header beginRefreshing];
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     self.tableView.mj_footer = footer;
@@ -94,6 +99,11 @@ static NSString *size = @"20";
 }
 #pragma mark -请求数据
 -(void)loadDate{
+    if (!_isRequestFinish) {
+        return;
+    }
+    _isRequestFinish = NO;
+    
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         NSString *uuid = [ user objectForKey:@"uuid"];
         NSString *userId = [ user objectForKey:@"userId"];
@@ -113,7 +123,7 @@ static NSString *size = @"20";
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"userId"] = userId;
         paraments[@"types"] = @"4";
-    paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
+        paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
         paraments[@"size"] = size;
         NSString *url = [NSString stringWithFormat:@"%@/order/list",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
@@ -155,10 +165,12 @@ static NSString *size = @"20";
                 [self.tableView.mj_header endRefreshing];
                 [self.tableView.mj_footer endRefreshing];
             }
+            _isRequestFinish = YES;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
              [SVProgressHUD showInfoWithStatus:@"网络不给力"];
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
+            _isRequestFinish = YES;
         }];
     
 }
