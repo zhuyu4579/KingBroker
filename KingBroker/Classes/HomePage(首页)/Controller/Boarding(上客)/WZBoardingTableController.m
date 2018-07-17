@@ -39,6 +39,8 @@
 @property (nonatomic,weak)UILabel *ItemNames;
 
 @property (nonatomic,weak)UILabel *titles;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
 @end
 //查询条数
 static NSString *size = @"20";
@@ -51,7 +53,7 @@ static NSString *size = @"20";
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     [self setNoData];
     self.view.backgroundColor = [UIColor clearColor];
     //设置分割线
@@ -61,17 +63,20 @@ static NSString *size = @"20";
     self.tableView.showsHorizontalScrollIndicator = YES;
     _listArray = [NSMutableArray array];
     current = 1;
-    //请求数据->展示数据
+    _isRequestFinish = YES;
+    
     [self loadDate];
+    
     [self headerRefresh];
     
     [self setCodeViews];
+    //创造通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDate) name:@"Refresh" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
     //创建下拉刷新
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic:)];
-    
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic)];
     // 设置文字
     [header setTitle:@"刷新完毕..." forState:MJRefreshStateIdle];
     [header setTitle:@"下拉刷新" forState:MJRefreshStatePulling];
@@ -87,17 +92,20 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.tableView.mj_header = header;
+
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     self.tableView.mj_footer = footer;
 }
 #pragma mark -下拉刷新或者加载数据
--(void)loadNewTopic:(id)refrech{
-    
+-(void)loadNewTopic{
     [self.tableView.mj_header beginRefreshing];
     _listArray = [NSMutableArray array];
     current = 1;
     [self loadDate];
+}
+-(void)loadNewTopics{
+    [self.tableView.mj_header beginRefreshing];
 }
 -(void)loadMoreTopic{
     [self.tableView.mj_footer beginRefreshing];
@@ -105,6 +113,10 @@ static NSString *size = @"20";
 }
 #pragma mark -请求数据
 -(void)loadDate{
+        if (!_isRequestFinish) {
+            return;
+        }
+        _isRequestFinish = NO;
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         NSString *uuid = [user objectForKey:@"uuid"];
         NSString *userId = [ user objectForKey:@"userId"];
@@ -122,9 +134,10 @@ static NSString *size = @"20";
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"userId"] = userId;
         paraments[@"types"] = @"1";
-        paraments[@"current"] = [NSString stringWithFormat:@"%zd",current];
+        paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
         paraments[@"size"] = size;
-        NSString *url = [NSString stringWithFormat:@"%@/order/list",URL];
+    
+        NSString *url = [NSString stringWithFormat:@"%@/order/list",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             if ([code isEqual:@"200"]) {
@@ -155,15 +168,22 @@ static NSString *size = @"20";
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
+                if ([code isEqual:@"401"]) {
+                
                 [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
                 [self.tableView.mj_header endRefreshing];
                 [self.tableView.mj_footer endRefreshing];
             }
-            
+            _isRequestFinish = YES;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
+            _isRequestFinish = YES;
         }];
     
 }
@@ -184,7 +204,7 @@ static NSString *size = @"20";
         make.height.offset(105);
     }];
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"还没有任何订单哦~\n\n赶快去创建吧～";
+    label.text = @"还没有任何订单哦~";
     label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     label.textColor = UIColorRBG(158, 158, 158);
     label.textAlignment = NSTextAlignmentCenter;
@@ -196,8 +216,9 @@ static NSString *size = @"20";
     }];
     
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Table view data source
@@ -275,18 +296,9 @@ static NSString *size = @"20";
         make.width.mas_offset(196);
         make.height.mas_offset(196);
     }];
-    UILabel *Title = [[UILabel alloc] init];
-    Title.text = @"楼盘处带看扫码";
-    Title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    Title.textColor = UIColorRBG(153, 153, 153);
-    [codeView1 addSubview:Title];
-    [Title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(codeView1.mas_centerX);
-        make.top.equalTo(codeView2.mas_bottom).with.offset(10);
-        make.height.mas_offset(12);
-    }];
+
     UILabel *Titles = [[UILabel alloc] init];
-    Titles.text = @"你所在门店未和该项目签约，可能无法结佣";
+    Titles.text = @"你所在门店未和该楼盘签约，可能无法结佣";
     Titles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     [Titles setHidden:YES];
     _titles = Titles;
@@ -294,7 +306,7 @@ static NSString *size = @"20";
     [codeView1 addSubview:Titles];
     [Titles mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(codeView1.mas_centerX);
-        make.top.equalTo(Title.mas_bottom).with.offset(5);
+        make.bottom.equalTo(codeView1.mas_bottom).with.offset(-20);
         make.height.mas_offset(13);
     }];
     UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(156, 461, 19, 19)];
@@ -311,7 +323,8 @@ static NSString *size = @"20";
     NSIndexPath *indexpath = [self.tableView indexPathForRowAtPoint:point];
     WZBoaringCell *cell = [self.tableView cellForRowAtIndexPath:indexpath];
     NSString *sginStatus = cell.sginStatus;
-    long orderCreateTime = [cell.orderCreateTime longLongValue];
+    NSString *orderCreateTime1 = cell.orderCreateTime;
+    long  orderCreateTime = [orderCreateTime1 longLongValue];
     
     if ([sginStatus isEqual:@"1"]) {
         [_titles setHidden:YES];
@@ -328,6 +341,8 @@ static NSString *size = @"20";
         long time1 = time - orderCreateTime;
         if (time1 >30*60*1000) {
             [GKCover translucentWindowCenterCoverContent:_codeView animated:YES notClick:YES];
+            //创造通知
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeAlerts) name:@"BoaringVC" object:nil];
         }else{
             [SVProgressHUD showInfoWithStatus:@"订单创建时间小于30分钟"];
         }
@@ -336,6 +351,13 @@ static NSString *size = @"20";
 }
 #pragma mark -关闭二维码弹窗
 -(void)closeAlert{
+    [GKCover hide];
+    _listArray = [NSMutableArray array];
+    current = 1;
+    [self loadDate];
+}
+-(void)closeAlerts{
+    [SVProgressHUD showInfoWithStatus:@"您好,您报备的订单已上客成功"];
     [GKCover hide];
     _listArray = [NSMutableArray array];
     current = 1;

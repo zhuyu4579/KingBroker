@@ -14,6 +14,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelOne;
 @property (weak, nonatomic) IBOutlet UILabel *labelTwo;
 @property (weak, nonatomic) IBOutlet UILabel *labelThree;
-@property (weak, nonatomic) IBOutlet WZLikeProjectItem *item;
+@property (strong, nonatomic) IBOutlet UILabel *labelFour;
+
+@property (strong, nonatomic) IBOutlet UILabel *cityName;
+@property (strong, nonatomic) IBOutlet UILabel *companyName;
+@property (strong, nonatomic) IBOutlet UILabel *commission;
+
+
+@property (strong, nonatomic) WZLikeProjectItem *item;
 @property(nonatomic,strong)NSString *projectId;
 @end

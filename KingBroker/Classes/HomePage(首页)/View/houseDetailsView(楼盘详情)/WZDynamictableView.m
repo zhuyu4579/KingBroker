@@ -33,7 +33,6 @@ static  NSString * const ID = @"Dcell";
     return 1;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     WZDynamicCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     cell.DynamicTime.text = @"";
     cell.DynamicTitle.text = @"";

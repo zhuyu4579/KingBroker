@@ -27,8 +27,11 @@
     [super viewDidLoad];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"实名认证";
+    _headHeight.constant = kApplicationStatusBarHeight+54;
     _titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     _titleLabel.textColor = UIColorRBG(153, 153, 153);
+    NSMutableAttributedString *attributedString =  [self changeSomeText:@"清晰可见， 亮度均匀，易于识别" inText:_titleLabel.text withColor:UIColorRBG(3, 133, 219)];
+    _titleLabel.attributedText = attributedString;
     _getUpButton.backgroundColor = UIColorRBG(3, 133, 219);
     [_getUpButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_getUpButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
@@ -56,10 +59,16 @@
 //文本框编辑时
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     NSString * toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    
-    if (toBeString.length>20) {
-        return NO;
+    if(textField == _name){
+        if (toBeString.length>15) {
+            return NO;
+        }
+    }else{
+        if (toBeString.length>20) {
+            return NO;
+        }
     }
+   
     return YES;
 }
 - (void)didReceiveMemoryWarning {
@@ -106,14 +115,18 @@
         return;
     }
     NSString *idCode = _idCode.text;
-    if(!idCode || idCode.length!=18){
-        [SVProgressHUD showInfoWithStatus:@"请输入正确的身份证号码"];
+    
+    BOOL card = [NSString validateIDCardNumber:idCode];
+    if (!card) {
+        [SVProgressHUD showInfoWithStatus:@"身份证号格式错误"];
         return;
     }
-  
+    
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         NSString *uuid = [ user objectForKey:@"uuid"];
     
+        UIView *view = [[UIView alloc] init];
+        [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];
         [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
         [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3]];
         [SVProgressHUD showWithStatus:@"提交中"];
@@ -131,7 +144,7 @@
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"realname"] =name;
         paraments[@"idCard"] = idCode;
-        NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/realnameAuthentication",URL];
+        NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/realnameAuthentication",HTTPURL];
         [mgr POST:url parameters:paraments constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
             
             NSData *imageData = [ZDAlertView imageProcessWithImage:_image];//进行图片压缩
@@ -145,7 +158,8 @@
         } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             
             NSString *code = [responseObject valueForKey:@"code"];
-             button.enabled = NO;
+            button.enabled = YES;
+            [GKCover hide];
             [SVProgressHUD dismiss];
             if ([code isEqual:@"200"]) {
                 NSString *status = [responseObject valueForKey:@"data"];
@@ -159,13 +173,28 @@
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
+                if ([code isEqual:@"401"]) {
+                
                 [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
             }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            button.enabled = NO;
+            button.enabled = YES;
+            [GKCover hide];
             [SVProgressHUD dismiss];
             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
         }];
    
 }
+- (NSMutableAttributedString *)changeSomeText:(NSString *)str inText:(NSString *)result withColor:(UIColor *)color {
+    NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:result];
+    NSRange colorRange = NSMakeRange([[attributeStr string] rangeOfString:str].location,[[attributeStr string] rangeOfString:str].length);
+    [attributeStr addAttribute:NSForegroundColorAttributeName value:color range:colorRange];
+    
+    return attributeStr;
+}
+
 @end

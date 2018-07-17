@@ -33,13 +33,14 @@
 - (void)viewDidLoad {
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     [super viewDidLoad];
     //设置控件属性
     [self setController];
 }
 //设置控件属性
 -(void)setController{
+    _headHeight.constant = kApplicationStatusBarHeight+129;
     //设置发送验证码按钮
     self.findYZM.backgroundColor = [UIColor colorWithRed:199.0/255.0 green:199.0/255.0 blue:205.0/255.0 alpha:1.0];
     self.findYZM.layer.cornerRadius = 3.0;
@@ -99,7 +100,12 @@
    
     NSString *type = @"1";
     //判断手机格式是否正确
-    if (phone.length != 11) {
+    //判断手机格式是否正确
+    NSString *regex = @"^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    BOOL isMatch = [pred evaluateWithObject:phone];
+    
+    if (!isMatch) {
         [SVProgressHUD showInfoWithStatus:@"手机格式错误"];
         return;
     }
@@ -114,7 +120,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = type;
     paraments[@"telphone"] = phone;
-    NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
         [self openCountdown];
         NSString *code = [responseObject valueForKey:@"code"];
@@ -158,7 +164,7 @@
             int seconds = time % 60;
             dispatch_async(dispatch_get_main_queue(), ^{
                 //设置按钮显示读秒效果
-                [self.findYZM setTitle:[NSString stringWithFormat:@"重新发送(%.2d)", seconds] forState:UIControlStateNormal];
+                [self.findYZM setTitle:[NSString stringWithFormat:@"%.2d后重试", seconds] forState:UIControlStateNormal];
                 [self.findYZM setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 self.findYZM.enabled = NO;
                 self.findYZM.backgroundColor = UIColorRBG(199, 199, 205);
@@ -176,7 +182,11 @@
     NSString *NEWPhone = _NEWPhone.text;
      NSString *YZM = self.YZMPhone.text;
     //判断手机格式是否正确
-    if (NEWPhone.length != 11) {
+    //判断手机格式是否正确
+    NSString *regex = @"^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    BOOL isMatch = [pred evaluateWithObject:NEWPhone];
+    if (!isMatch) {
         [SVProgressHUD showInfoWithStatus:@"手机格式错误"];
         return;
     }
@@ -198,16 +208,10 @@
     paraments[@"password"] = _password;
     paraments[@"verificationCode"] = YZM;
     paraments[@"oldVerificationCode"] = _oldYZM;
-    NSString *url = [NSString stringWithFormat:@"%@/sysUser/changPhone",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/sysUser/changPhone",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            NSDictionary *dic = [userDefaults dictionaryRepresentation];
-            for (NSString *key in dic) {
-                [userDefaults removeObjectForKey:key];
-            }
-            [userDefaults synchronize];
             //返回登录页面
             [NSString isCode:self.navigationController code:@"401"];
         }else{
@@ -217,7 +221,7 @@
                 }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
     
 }

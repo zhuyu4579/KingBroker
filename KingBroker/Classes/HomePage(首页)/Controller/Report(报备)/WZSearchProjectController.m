@@ -22,9 +22,10 @@ static  NSString * const ID = @"cell";
     //页数
     NSInteger current;
 }
-//项目列表数据
+@property (strong, nonatomic) UISearchBar *searchBar;
+//楼盘列表数据
 @property(nonatomic,strong)NSMutableArray *projectListArray;
-//项目列表数据s
+//楼盘列表数据s
 @property(nonatomic,strong)NSMutableArray *projectListArrays;
 //搜索内容
 @property(nonatomic,strong)NSString *name;
@@ -42,16 +43,16 @@ static NSString *size = @"20";
     UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth-40, 45)];
     
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, searchView.fWidth, 44)];
-    searchBar.placeholder = @"请输入项目名称";
+    searchBar.placeholder = @"请输入楼盘名称";
     searchBar.barTintColor = [UIColor whiteColor];
     searchBar.searchBarStyle = UISearchBarStyleMinimal;
     searchBar.returnKeyType = UIReturnKeySearch;
     searchBar.delegate = self;
+    _searchBar = searchBar;
     UITextField *searchField1 = [searchBar valueForKey:@"_searchField"];
     [searchField1 setValue:[UIFont boldSystemFontOfSize:13] forKeyPath:@"_placeholderLabel.font"];
     searchField1.backgroundColor = [UIColor whiteColor];
     searchBar.tintColor = [UIColor blackColor];
-    [searchBar becomeFirstResponder];
     [searchView addSubview:searchBar];
     
     self.navigationItem.titleView = searchView;
@@ -59,7 +60,15 @@ static NSString *size = @"20";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //注册cell
     [self.tableView registerNib:[UINib nibWithNibName:@"WZSelectProjectCell" bundle:nil] forCellReuseIdentifier:ID];
+    
      [self headerRefresh];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self performSelector:@selector(setCorrectFocus) withObject:NULL afterDelay:0.5];
+}
+-(void) setCorrectFocus {
+    [self.searchBar becomeFirstResponder];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -80,9 +89,10 @@ static NSString *size = @"20";
     // 设置颜色
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     self.tableView.mj_header = header;
-    
+     
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    footer.mj_h +=JF_BOTTOM_SPACE + 20;
     self.tableView.mj_footer = footer;
     
 }
@@ -115,9 +125,9 @@ static NSString *size = @"20";
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"storeId"] = storeId;
     paraments[@"name"] = _name;
-    paraments[@"current"] = [NSString stringWithFormat:@"%zd",current];
+    paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"size"] = size;
-    NSString *url = [NSString stringWithFormat:@"%@/projectCompany/projectList",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/projectCompany/projectList",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
@@ -142,7 +152,13 @@ static NSString *size = @"20";
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
-            [NSString isCode:self.navigationController code:code];
+            if ([code isEqual:@"401"]) {
+                
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
         }
@@ -190,7 +206,7 @@ static NSString *size = @"20";
 
 #pragma mark - Table view data source
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 45;
+    return 68;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     

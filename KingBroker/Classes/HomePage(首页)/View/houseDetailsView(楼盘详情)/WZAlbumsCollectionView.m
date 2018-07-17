@@ -12,6 +12,8 @@
 #import "WZCollectionHeaderView.h"
 #import "NSObject+Property.h"
 #import <UIImageView+WebCache.h>
+#import "WZAlbumPhonesViewController.h"
+#import "UIViewController+WZFindController.h"
 static NSString * const ID = @"AlCell";
 @interface WZAlbumsCollectionView () <UICollectionViewDelegateFlowLayout,
 UICollectionViewDataSource>
@@ -64,16 +66,19 @@ UICollectionViewDataSource>
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     WZAlbumsItem *model = self.albumArray[section];
-    return model.pictures.count;
+    return model.picCollect.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     WZCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ID forIndexPath:indexPath];
     WZAlbumsItem *mdel = self.albumArray[indexPath.section];
-    NSString *url = mdel.pictures[indexPath.row];
+    NSDictionary *data = mdel.picCollect[indexPath.row];
+    NSString *url = [data valueForKey:@"url"];
+    NSString *IDs  = [data valueForKey:@"id"];
     //转换图片地址
     [cell.imageV sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"zlp_pic"]];
+    cell.ID = IDs;
     return cell;
 }
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
@@ -92,7 +97,7 @@ UICollectionViewDataSource>
     if ([kind isEqualToString:UICollectionElementKindSectionHeader])
     {
         WZAlbumsItem *model = self.albumArray[indexPath.section];
-        view.pictures = model.pictures;
+        view.picCollect = model.picCollect;
         NSString *type = model.type;
         for (NSDictionary *dicty in _albumType) {
             NSString *value = [dicty valueForKey:@"value"];
@@ -119,7 +124,18 @@ UICollectionViewDataSource>
         self.isLoaded = @"1";
     }
 }
-//滑动到底部
+//
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    WZCollectionViewCell *cell = (WZCollectionViewCell *) [collectionView cellForItemAtIndexPath:indexPath];
+    NSString *photoId = cell.ID;
+    WZAlbumPhonesViewController *albums = [[WZAlbumPhonesViewController alloc] init];
+    albums.type = @"1";
+    albums.projectId = _projectId;
+    albums.photoId = photoId;
+    UIViewController *Vc = [UIViewController viewController:self.superview];
+    [Vc.navigationController pushViewController:albums animated:YES];
+}
+//滑动到改变按钮颜色
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     CGFloat contentYoffset = scrollView.contentOffset.y;

@@ -19,6 +19,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *buttonFour;
 @property (strong, nonatomic) IBOutlet UIButton *buttonFive;
 @property (strong, nonatomic) IBOutlet UIButton *buttonSix;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 - (IBAction)actionButton:(UIButton *)sender;
 
 

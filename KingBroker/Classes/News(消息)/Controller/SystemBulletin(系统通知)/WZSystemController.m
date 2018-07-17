@@ -16,6 +16,11 @@
 #import <Masonry.h>
 #import "UIView+Frame.h"
 #import "WZNEWHTMLController.h"
+#import "WZTabBarController.h"
+#import "WZSettingController.h"
+#import "WZAuthenSuccessController.h"
+#import "WZBoardingDetailsController.h"
+#import "WZBelongedStoreController.h"
 @interface WZSystemController (){
     //页数
     NSInteger current;
@@ -26,6 +31,8 @@
 @property(nonatomic,strong)NSMutableArray *listArray;
 //无数据页面
 @property(nonatomic,strong)UIView *viewNo;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
 @end
 static  NSString * const ID = @"cell";
 //查询条数
@@ -37,7 +44,7 @@ static NSString *size = @"20";
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     [self setNoData];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"系统通知";
@@ -45,6 +52,10 @@ static NSString *size = @"20";
     [self.tableView registerNib:[UINib nibWithNibName:@"WZTaskCell" bundle:nil] forCellReuseIdentifier:ID];
     //设置分割线
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _isRequestFinish = YES;
+    _listArray = [NSMutableArray array];
+    current = 1;
+    
     [self headerRefresh];
     
 }
@@ -71,6 +82,7 @@ static NSString *size = @"20";
     self.tableView.mj_header = header;
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    footer.mj_h +=JF_BOTTOM_SPACE + 20;
     self.tableView.mj_footer = footer;
 }
 #pragma mark -下拉刷新或者加载数据
@@ -88,6 +100,11 @@ static NSString *size = @"20";
 //请求数据
 #pragma mark -请求数据
 -(void)loadDate{
+    if (!_isRequestFinish) {
+        return;
+    }
+    _isRequestFinish = NO;
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [user objectForKey:@"uuid"];
     //创建会话请求
@@ -102,9 +119,9 @@ static NSString *size = @"20";
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = @"1";
-    paraments[@"pageNumber"] = [NSString stringWithFormat:@"%zd",current];
+    paraments[@"pageNumber"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"pageSize"] = size;
-    NSString *url = [NSString stringWithFormat:@"%@/userMessage/read/list",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/userMessage/read/list",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
@@ -139,11 +156,12 @@ static NSString *size = @"20";
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
         }
-        
+        _isRequestFinish = YES;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
+        _isRequestFinish = YES;
     }];
     
 }
@@ -192,15 +210,13 @@ static NSString *size = @"20";
 #pragma mark -点击cell事件
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     WZTaskCell *anCell = [tableView cellForRowAtIndexPath:indexPath];
-    NSString *ID = anCell.ID;
-    [self read:ID];
-    NSString *url = anCell.url;
-    WZNEWHTMLController *new = [[WZNEWHTMLController alloc] init];
-    new.url = url;
-    [self.navigationController pushViewController:new animated:YES];
+    [self read:anCell];
+    
 }
 //已读接口
--(void)read:(NSString *)ID{
+-(void)read:(WZTaskCell *)anCell{
+    NSString *ID = anCell.ID;
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [user objectForKey:@"uuid"];
     //创建会话请求
@@ -215,12 +231,93 @@ static NSString *size = @"20";
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"id"] = ID;
-    NSString *url = [NSString stringWithFormat:@"%@/userMessage/readFinish",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/userMessage/readFinish",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        [self NoreadNews:anCell];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+}
+//查询未读消息
+-(void)NoreadNews:(WZTaskCell *)anCell{
+    
+    NSString *url = anCell.url;
+    //跳转类型
+    NSString *viewType = anCell.viewType;
+    //楼盘ID/订单ID
+    NSString *additional = anCell.additional;
+    NSLog(@"%@",additional);
+    //指定页面
+    NSString *param = anCell.param;
+    //查询未读消息
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+ 
+    
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    NSString *urls = [NSString stringWithFormat:@"%@/userMessage/read/notreadCount",HTTPURL];
+    [mgr GET:urls parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSString *counts = [data valueForKey:@"count"];
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:counts forKey:@"newCount"];
+            [defaults synchronize];
+        }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
+   //跳转对应页面
+    if([viewType isEqual:@"1"]){
+        WZNEWHTMLController *new = [[WZNEWHTMLController alloc] init];
+        new.url = url;
+        [self.navigationController pushViewController:new animated:YES];
+    }else if ([viewType isEqual:@"2"]){
+        NSInteger paramId = [param integerValue];
+        
+        if (paramId == 100) {
+            //订单详情
+            WZBoardingDetailsController *boaringVC = [[WZBoardingDetailsController alloc] init];
+            boaringVC.ID = additional;
+            [self.navigationController pushViewController:boaringVC animated:YES];
+        }else if (paramId == 102){
+            
+            //订单详情
+            WZBoardingDetailsController *boaringVC = [[WZBoardingDetailsController alloc] init];
+            boaringVC.ID = additional;
+            [self.navigationController pushViewController:boaringVC animated:YES];
+            
+        }else if (paramId == 104){
+            //我的设置
+            WZSettingController *setting = [[WZSettingController alloc] init];
+            [self.navigationController pushViewController:setting animated:YES];
+            
+        }else if (paramId == 105){
+            //我的页面
+            WZTabBarController *tabVC = [[WZTabBarController alloc] init];
+            tabVC.selectedViewController = [tabVC.viewControllers objectAtIndex:2];
+            [self.navigationController presentViewController:tabVC animated:YES completion:nil];
+            
+        }else if (paramId == 106){
+            //实名认证成功
+            WZAuthenSuccessController *success = [[WZAuthenSuccessController alloc] init];
+            [self.navigationController pushViewController:success animated:YES];
+            
+        }else if(paramId == 103){
+            //所属门店
+            WZBelongedStoreController *store = [[WZBelongedStoreController alloc] init];
+            [self.navigationController pushViewController:store animated:YES];
+        }
+    }
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

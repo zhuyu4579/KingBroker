@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface WZAlbumsViewController : UIViewController
-//项目ID
+//楼盘ID
 @property(nonatomic,strong)NSString *ID;
 @end

@@ -10,6 +10,7 @@
 
 @interface WZSetNewPassWordController : UIViewController
 @property (weak, nonatomic) IBOutlet UIView *passWordTextFile;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 //账号
 @property(nonatomic,strong)NSString *phone;
 //验证码

@@ -12,4 +12,5 @@
 
 @property (nonatomic, strong) UIImageView *imageV;
 
+@property (nonatomic, strong) NSString *ID;
 @end

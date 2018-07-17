@@ -61,7 +61,7 @@
     UILabel *textNolabel = [[UILabel alloc] init];
     textNolabel.text = @"门店名称：";
     textNolabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    textNolabel.textColor = UIColorRBG(153, 153, 153);
+    textNolabel.textColor = UIColorRBG(199, 199, 205);
     [textNoView addSubview:textNolabel];
     [textNolabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(textNoView.mas_left).with.offset(15);
@@ -92,7 +92,7 @@
     UILabel *textNolabelAddr = [[UILabel alloc] init];
     textNolabelAddr.text = @"门店位置：";
     textNolabelAddr.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    textNolabelAddr.textColor = UIColorRBG(153, 153, 153);
+    textNolabelAddr.textColor = UIColorRBG(199, 199, 205);
     [textNoView addSubview:textNolabelAddr];
     [textNolabelAddr mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(textNoView.mas_left).with.offset(15);
@@ -128,7 +128,7 @@
     UILabel *labelAddress = [[UILabel alloc] init];
     labelAddress.text = @"门店地址：";
     labelAddress.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    labelAddress.textColor = UIColorRBG(153, 153, 153);
+    labelAddress.textColor = UIColorRBG(199, 199, 205);
     [textNoView addSubview:labelAddress];
     [labelAddress mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(textNoView.mas_left).with.offset(15);
@@ -197,18 +197,18 @@
     }];
     //创建self的lable
     UILabel *labelOne = [[UILabel alloc] init];
-    labelOne.text = @"1.上传名片正反面照片，拍摄时确保名片边缘完整，字体清晰，亮度均匀\n2.照片必须真实拍摄，不得使用复印件和扫描件";
+    NSString *strs = @"1.上传名片正反面照片，拍摄时确保名片边缘完整，字体清晰，亮度均匀\n2.照片必须真实拍摄，不得使用复印件和扫描件";
     labelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     labelOne.textColor = UIColorRBG(153, 153, 153);
     [labelOne setNumberOfLines:0];
-    
+     NSMutableAttributedString *attributedString =  [self changeSomeText:@"边缘完整，字体清晰，亮度均匀" inText:strs withColor:UIColorRBG(3, 133, 219)];
+    labelOne.attributedText = attributedString;
     labelOne.lineBreakMode = NSLineBreakByWordWrapping;
     [self addSubview:labelOne];
     [labelOne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).with.offset(15);
         make.right.equalTo(self.mas_right).with.offset(-15);
         make.top.equalTo(textNoViewTwo.mas_bottom).with.offset(5);
-       
     }];
     //按钮一
     UIButton *noSubitemButton = [[UIButton alloc] init];
@@ -294,7 +294,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     UIView *view = [[UIView alloc] init];
     [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
@@ -360,8 +360,8 @@
     parament[@"storeName"] = storeName;
     parament[@"lnglat"] = _lnglat;
     parament[@"adCode"] = _adCode;
-    
-    NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/cardAuthentication",URL];
+    parament[@"type"] = _type;
+    NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/cardAuthentication",HTTPURL];
     [mgr POST:url parameters:parament constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         NSData *imageData = [WZAlertView imageProcessWithImage:_imageOne];//进行图片压缩
         // 使用日期生成图片名称
@@ -403,5 +403,12 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.textStoreName resignFirstResponder];
     [self.address resignFirstResponder];
+}
+- (NSMutableAttributedString *)changeSomeText:(NSString *)str inText:(NSString *)result withColor:(UIColor *)color {
+    NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:result];
+    NSRange colorRange = NSMakeRange([[attributeStr string] rangeOfString:str].location,[[attributeStr string] rangeOfString:str].length);
+    [attributeStr addAttribute:NSForegroundColorAttributeName value:color range:colorRange];
+    
+    return attributeStr;
 }
 @end

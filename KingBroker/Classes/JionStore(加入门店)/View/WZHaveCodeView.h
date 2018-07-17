@@ -14,5 +14,8 @@
 @property(nonatomic,strong)NSString *JName;
 //返回值给上一个页面
 @property(nonatomic,strong)void(^stateBlock)(NSString *state);
-
+//修改门店
+@property(nonatomic,strong)NSString *type;
+//判断返回的页面
+@property(nonatomic,strong)NSString *types;
 @end

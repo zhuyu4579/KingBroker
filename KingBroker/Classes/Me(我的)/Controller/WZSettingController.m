@@ -14,6 +14,8 @@
 #import "WZfindPassWordController.h"
 #import "WZReadPassWordController.h"
 #import "WZAuthenticationController.h"
+#import "WZAuthenSuccessController.h"
+#import "JPUSHService.h"
 @interface WZSettingController ()
 @property (strong, nonatomic) UIAlertAction *okAction;
 @property (strong, nonatomic) UIAlertAction *cancelAction;
@@ -25,34 +27,45 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     [super viewDidLoad];
+    _headHeight.constant = kApplicationStatusBarHeight+54;
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"设置";
     self.cacha.textColor = UIColorRBG(102, 102, 102);
     _authenStatus.textColor = UIColorRBG(102, 102, 102);
+    _telphone.textColor = UIColorRBG(102, 102, 102);
+    [_authenImage sizeToFit];
     [self.ExitLogon setTitleColor:UIColorRBG(255, 105, 110) forState:UIControlStateNormal];
     
-     [_modifyPassWord setEnlargeEdgeWithTop:10 right:10 bottom:10 left:300];
-     [_aboutUs setEnlargeEdgeWithTop:10 right:10 bottom:10 left:300];
-     [_modifyTelephone setEnlargeEdgeWithTop:10 right:10 bottom:10 left:300];
-     [_cleanCache setEnlargeEdgeWithTop:10 right:10 bottom:10 left:300];
-     [_authen setEnlargeEdgeWithTop:10 right:10 bottom:10 left:300];
      _cacha.text = [self sizeStr];
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSInteger idcardStatus = [[user objectForKey:@"idcardStatus"] integerValue];
+    NSString *username = [user objectForKey:@"username"];
+    NSString *name = [user objectForKey:@"name"];
+    NSString *top = [username substringToIndex:3];
+    NSString *bottom = [username substringFromIndex:7];
+    _telphone.text = [NSString stringWithFormat:@"%@****%@",top,bottom];
     if (idcardStatus == 0||idcardStatus == 3) {
-        _authenStatus.text = @"未认证";
+        _authenStatus.text = @"手持身份证";
        
         if (idcardStatus == 3) {
-            _authenStatus.text = @"认证失败";
+            _authenStatus.text = @"手持身份证";
+            _authenImage.image = [UIImage imageNamed:@"authenticated_2"];
         }
     }else if(idcardStatus == 1){
-        
-        _authenStatus.text = @"认证审核中";
+        _authenStatus.text = @"审核中";
     }else{
-        _authenStatus.text = @"认证成功";
+        if(name.length>1){
+            NSString *realnames = [name substringFromIndex:1];
+            _authenStatus.text = [NSString stringWithFormat:@"*%@",realnames];
+            
+        }else{
+            _authenStatus.text = @"";
+        }
+        _authenImage.image = [UIImage imageNamed:@"authenticated"];
+        
     }
 }
 
@@ -101,7 +114,7 @@
     mgr.requestSerializer=[AFJSONRequestSerializer serializer];
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    NSString *url = [NSString stringWithFormat:@"%@/app/logout.api",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/logout.api",HTTPURL];
     [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
@@ -116,7 +129,22 @@
                 }
             }
             [userDefaults synchronize];
+            //退出的时候删除别名
+            [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+                if (iResCode == 0) {
+                    NSLog(@"删除别名成功");
+                }
+            } seq:1];
+            
+            
+            //获取指定item
+            UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];
+            
+            item.badgeValue= nil;
+            
             [self.navigationController popViewControllerAnimated:YES];
+            
+            
         }else{
             [SVProgressHUD showInfoWithStatus:@"退出失败"];
         }
@@ -162,11 +190,15 @@
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSInteger idcardStatus = [[user objectForKey:@"idcardStatus"] integerValue];
+    
         if (idcardStatus == 0||idcardStatus == 3) {
             
             WZAuthenticationController *authen = [[WZAuthenticationController alloc] init];
             [self.navigationController pushViewController:authen animated:YES];
            
+        }else if(idcardStatus == 2){
+            WZAuthenSuccessController *authenSuccess = [[WZAuthenSuccessController alloc] init];
+            [self.navigationController pushViewController:authenSuccess animated:YES];
         }
     
 }
@@ -207,7 +239,7 @@
         str = [NSString stringWithFormat:@"%.1fKB",size/1000.0];
     }else if (size>0){
         //B
-        str = [NSString stringWithFormat:@"%zdB",size];
+        str = [NSString stringWithFormat:@"%ldB",(long)size];
     }
     return str;
 }

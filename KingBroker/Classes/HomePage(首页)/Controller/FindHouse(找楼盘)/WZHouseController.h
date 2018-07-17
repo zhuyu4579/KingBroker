@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface WZHouseController : UIViewController
-//判断是找楼盘还是收藏列表
-@property(nonatomic,strong)NSString *type;
 
+-(void)loadRefreshs;
 @end

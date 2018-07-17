@@ -28,8 +28,6 @@
     [super viewDidLoad];
     [self setNavTitle];
     [self markView];
-
-    
 }
 
 #pragma mark -设置导航栏标题
@@ -49,9 +47,9 @@
     [self.view addSubview:textView];
     
     UILabel *labelName = [[UILabel alloc] init];
-    labelName.text = @"姓   名：";
+    labelName.text = @"经纪人姓名：";
     labelName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    labelName.textColor = UIColorRBG(153, 153, 153);
+    labelName.textColor = UIColorRBG(199, 199, 205);
     [textView addSubview:labelName];
     [labelName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(textView.mas_left).with.offset(15);
@@ -85,7 +83,7 @@
     UILabel *textlabel = [[UILabel alloc] init];
     textlabel.text = @"经纪门店编码";
     textlabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    textlabel.textColor = UIColorRBG(133, 133, 133);
+    textlabel.textColor = UIColorRBG(68, 68, 68);
     [textViewTwo addSubview:textlabel];
     [textlabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(textViewTwo).with.offset(15);
@@ -133,7 +131,8 @@
     [self.view addSubview:textViewThree];
     _haveCodeView = [WZHaveCodeView haveCodeView];
     _haveCodeView.frame = textViewThree.bounds;
-   
+    _haveCodeView.type = _type;
+    _haveCodeView.types = _types;
     if (_registarBlock) {
         __weak typeof (self) weakSelf = self;
         _haveCodeView.stateBlock = ^(NSString *state) {
@@ -142,6 +141,8 @@
     }
     _noCodeView = [WZNoCodeView noCodeView];
     _noCodeView.frame = textViewThree.bounds;
+    _noCodeView.type = _type;
+    _noCodeView.types = _types;
     [_noCodeView setHidden:YES];
     
     [textViewThree addSubview:_haveCodeView];
@@ -209,12 +210,15 @@
 }
 //关闭加入门店-将注册信息传入我的页面
 -(void)closeVc{
-    WZTabBarController *tar = [[WZTabBarController alloc] init];
-    tar.selectedViewController = [tar.viewControllers objectAtIndex:2];
-    [self.navigationController presentViewController:tar animated:YES completion:nil];
-    //传输注册返回信息到我的页面
-    if (_registarBlock) {
-        _registarBlock(@"0");
+    [self.textF resignFirstResponder];
+    if ([_types isEqual:@"1"]) {
+        //跳转至我的页面
+        WZTabBarController *tar = [[WZTabBarController alloc] init];
+        tar.selectedViewController = [tar.viewControllers objectAtIndex:0];
+        [self.navigationController presentViewController:tar animated:YES completion:nil];
+    }else{
+       [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
+    
 }
 @end

@@ -50,9 +50,10 @@ static  NSString * const ID = @"cells";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     WZFindHouseCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     //点击跳转详情页
-    UIViewController *vc = [UIViewController viewController:self];
+    UIViewController *vc = [UIViewController viewController:self.superview];
+    UIViewController *Vc = [UIViewController viewController:vc.view.superview];
     WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
     houseDatis.ID =  cell.ID;
-    [vc.navigationController pushViewController:houseDatis animated:YES];
+    [Vc.navigationController pushViewController:houseDatis animated:YES];
 }
 @end

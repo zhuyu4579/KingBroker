@@ -14,7 +14,7 @@
 
 @property (nonatomic, copy) NSString *name;
 
-@property (nonatomic, copy) NSArray *pictures;
+@property (nonatomic, copy) NSArray *picCollect;
 
 @end
 

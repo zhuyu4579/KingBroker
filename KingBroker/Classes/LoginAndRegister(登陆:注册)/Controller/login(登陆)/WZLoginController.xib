@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WZLoginController">
             <connections>
+                <outlet property="headHeight" destination="OSN-Nu-rZ8" id="wxz-1E-uxq"/>
                 <outlet property="millerLogin" destination="hfC-T3-alC" id="w2J-VJ-dxE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

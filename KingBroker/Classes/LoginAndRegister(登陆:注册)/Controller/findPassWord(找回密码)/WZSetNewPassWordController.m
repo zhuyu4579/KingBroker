@@ -20,6 +20,7 @@
     [self setNavTitle];
 }
 -(void)setNavTitle{
+    _headHeight.constant = kApplicationStatusBarHeight+94;
     //导航条标题
     self.navigationItem.title = @"设置密码";
     WZSetFindPWView *setNewFindPWView =  [WZSetFindPWView SetNewPW];

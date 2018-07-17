@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="323" id="MzG-QI-czy" customClass="WZSharePhoneCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="258"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MzG-QI-czy" id="yAV-sl-YO0">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="257.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Xx-hP-5ks">
+                        <rect key="frame" x="0.0" y="26" width="375" height="145"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="145" id="jQ8-QZ-6cY"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DBU-pf-IEo">
+                        <rect key="frame" x="16" y="192" width="285" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="7vD-zh-zbe"/>
+                        </constraints>
+                        <attributedString key="attributedText">
+                            <fragment content="Label">
+                                <attributes>
+                                    <font key="NSFont" size="16" name="PingFangSC-Semibold"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Odk-F0-gqE">
+                        <rect key="frame" x="16" y="218" width="285" height="13"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="13" id="8nW-Q6-2Qg"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tTA-uC-Lez">
+                        <rect key="frame" x="333" y="202" width="26" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="26" id="IF8-MY-lQX"/>
+                            <constraint firstAttribute="height" constant="26" id="J64-CA-ZPq"/>
+                        </constraints>
+                        <state key="normal" backgroundImage="share_iiPhone"/>
+                        <connections>
+                            <action selector="shareAction:" destination="MzG-QI-czy" eventType="touchUpInside" id="xKh-Rb-oxf"/>
+                        </connections>
+                    </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="label_2" translatesAutoresizingMaskIntoConstraints="NO" id="vej-Uy-CWN">
+                        <rect key="frame" x="329" y="179" width="32" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="lBB-3B-R1F"/>
+                            <constraint firstAttribute="width" constant="32" id="pX1-H5-7mn"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="DBU-pf-IEo" firstAttribute="leading" secondItem="yAV-sl-YO0" secondAttribute="leading" constant="16" id="285-Qf-7zx"/>
+                    <constraint firstAttribute="bottom" secondItem="tTA-uC-Lez" secondAttribute="bottom" constant="29.5" id="2pI-oH-Rz7"/>
+                    <constraint firstAttribute="trailing" secondItem="vej-Uy-CWN" secondAttribute="trailing" constant="14" id="4jv-k3-cBb"/>
+                    <constraint firstItem="2Xx-hP-5ks" firstAttribute="top" secondItem="yAV-sl-YO0" secondAttribute="top" constant="26" id="8D1-yi-J7K"/>
+                    <constraint firstAttribute="trailing" secondItem="tTA-uC-Lez" secondAttribute="trailing" constant="16" id="8GL-dy-va2"/>
+                    <constraint firstItem="Odk-F0-gqE" firstAttribute="leading" secondItem="yAV-sl-YO0" secondAttribute="leading" constant="16" id="INb-o6-Q5f"/>
+                    <constraint firstItem="2Xx-hP-5ks" firstAttribute="leading" secondItem="yAV-sl-YO0" secondAttribute="leading" id="Le0-qf-Gi3"/>
+                    <constraint firstItem="tTA-uC-Lez" firstAttribute="top" secondItem="2Xx-hP-5ks" secondAttribute="bottom" constant="31" id="QV5-O4-ZaK"/>
+                    <constraint firstItem="tTA-uC-Lez" firstAttribute="leading" secondItem="Odk-F0-gqE" secondAttribute="trailing" constant="32" id="SIP-n5-gwt"/>
+                    <constraint firstItem="DBU-pf-IEo" firstAttribute="top" secondItem="2Xx-hP-5ks" secondAttribute="bottom" constant="21" id="TJz-Uo-YNN"/>
+                    <constraint firstItem="tTA-uC-Lez" firstAttribute="leading" secondItem="DBU-pf-IEo" secondAttribute="trailing" constant="32" id="TYi-f6-7N8"/>
+                    <constraint firstAttribute="trailing" secondItem="2Xx-hP-5ks" secondAttribute="trailing" id="TfG-dk-QH9"/>
+                    <constraint firstItem="Odk-F0-gqE" firstAttribute="top" secondItem="DBU-pf-IEo" secondAttribute="bottom" constant="10" id="Yub-QD-RNz"/>
+                    <constraint firstItem="vej-Uy-CWN" firstAttribute="top" secondItem="2Xx-hP-5ks" secondAttribute="bottom" constant="8" id="hdZ-EL-LCR"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="content" destination="Odk-F0-gqE" id="Sp4-Rk-Fau"/>
+                <outlet property="phoneView" destination="2Xx-hP-5ks" id="mkj-4T-lvd"/>
+                <outlet property="shareButton" destination="tTA-uC-Lez" id="1PV-XR-qv6"/>
+                <outlet property="taskImage" destination="vej-Uy-CWN" id="5cF-d7-ZE7"/>
+                <outlet property="title" destination="DBU-pf-IEo" id="Wa8-Yv-ayL"/>
+                <outlet property="videoHeight" destination="jQ8-QZ-6cY" id="gDc-nL-098"/>
+            </connections>
+            <point key="canvasLocation" x="33.5" y="91.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="label_2" width="32" height="21"/>
+        <image name="share_iiPhone" width="19" height="19"/>
+    </resources>
+</document>

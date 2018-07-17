@@ -37,7 +37,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *boaringTimeFour;
 @property (weak, nonatomic) IBOutlet UILabel *stateFour;
 @property (weak, nonatomic) IBOutlet UIButton *buttonFour;
-//项目ID
+//楼盘ID
 @property(nonatomic,strong)NSString *itemIdOne;
 @property(nonatomic,strong)NSString *itemIdTwo;
 @property(nonatomic,strong)NSString *itemIdThree;

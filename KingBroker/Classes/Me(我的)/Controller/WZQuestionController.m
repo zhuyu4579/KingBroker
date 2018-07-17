@@ -26,6 +26,7 @@
     [_buttonFour setEnlargeEdge:15];
     [_buttonFive setEnlargeEdge:15];
     [_buttonSix setEnlargeEdge:15];
+    _headHeight.constant = kApplicationStatusBarHeight+44+16;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,7 +41,7 @@
 - (IBAction)actionButton:(UIButton *)sender {
     NSInteger tag = sender.tag;
     WZNEWHTMLController *html = [[WZNEWHTMLController alloc] init];
-    NSArray *urlArray = @[@"https://www.jingfuapp.com/apph5/faq1.html",@"https://www.jingfuapp.com/apph5/faq2.html",@"https://www.jingfuapp.com/apph5/faq3.html",@"https://www.jingfuapp.com/apph5/faq4.html",@"https://www.jingfuapp.com/apph5/faq5.html",@"https://www.jingfuapp.com/apph5/faq6.html"];
+    NSArray *urlArray = @[[NSString stringWithFormat:@"%@/apph5/faq1.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq2.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq3.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq4.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq5.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq6.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq7.html",HTTPH5],[NSString stringWithFormat:@"%@/apph5/faq8.html",HTTPH5]];
     html.url = urlArray[tag-10];
     [self.navigationController pushViewController:html animated:YES];
 }

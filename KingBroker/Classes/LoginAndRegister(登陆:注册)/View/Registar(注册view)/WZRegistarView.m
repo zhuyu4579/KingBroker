@@ -29,17 +29,22 @@
 - (void)obtainYZMVerificationCode:(id)sender {
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
 
     //获取手机文本框的手机号码
    NSString  *phone = _regAdminText.text;
     
     NSString *type = @"1";
     //判断手机格式是否正确
-    if (phone.length != 11) {
+    NSString *regex = @"^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    BOOL isMatch = [pred evaluateWithObject:phone];
+    
+    if (!isMatch) {
         [SVProgressHUD showInfoWithStatus:@"手机格式错误"];
         return;
     }
+    
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -50,20 +55,21 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = type;
     paraments[@"telphone"] = phone;
-    NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
-        [self openCountdown];
+        
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
              [SVProgressHUD showInfoWithStatus:@"已发送"];
             //修改按钮内容倒计时一分钟
+             [self openCountdown];
         }else{
              NSString *msg = [responseObject valueForKey:@"msg"];
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
         }
-        
+       
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
@@ -87,17 +93,18 @@
                 //设置按钮的样式
                 [self.findYZMText setTitle:@"重新发送" forState:UIControlStateNormal];
                 [self.findYZMText setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                self.findYZMText.enabled = YES;
-                 self.findYZMText.backgroundColor = UIColorRBG(3, 133, 219);
+                self.findYZMText.userInteractionEnabled = YES;
+                self.findYZMText.backgroundColor = UIColorRBG(3, 133, 219);
             });
             
         }else{
+           
             int seconds = time % 60;
             dispatch_async(dispatch_get_main_queue(), ^{
+                self.findYZMText.userInteractionEnabled = NO;
                 //设置按钮显示读秒效果
-                [self.findYZMText setTitle:[NSString stringWithFormat:@"重新发送(%.2d)", seconds] forState:UIControlStateNormal];
+                [self.findYZMText setTitle:[NSString stringWithFormat:@"%.2d后重试", seconds] forState:UIControlStateNormal];
                 [self.findYZMText setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                self.findYZMText.enabled = NO;
                 self.findYZMText.backgroundColor = UIColorRBG(199, 199, 205);
             });
             time--;
@@ -110,18 +117,28 @@
 - (IBAction)seeAgreement:(id)sender {
     WZNEWHTMLController *html = [[WZNEWHTMLController alloc] init];
     UIViewController *Vc = [UIViewController viewController:[self superview]];
-    html.url = @"https://www.jingfuapp.com/apph5/agreement.html";
+    html.url = [NSString stringWithFormat:@"%@/apph5/agreement.html",HTTPH5];
     [Vc.navigationController pushViewController:html animated:YES];
 }
 #pragma mark -下一页
 - (void)nextAction:(id)sender {
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     WZRegSetPWController *ragSetPwVc = [[WZRegSetPWController alloc] init];
     //获取手机号和验证码存储带到下个页面
     NSMutableDictionary *dicty = [NSMutableDictionary dictionary];
+    
     NSString *telephone = _regAdminText.text;
+    //判断手机格式是否正确
+    NSString *regex = @"^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    BOOL isMatch = [pred evaluateWithObject:telephone];
+    
+    if (!isMatch) {
+        [SVProgressHUD showInfoWithStatus:@"手机格式错误"];
+        return;
+    }
     //暂时
     dicty[@"phone"] = telephone;
     
@@ -141,7 +158,7 @@
     paraments[@"type"] = @"1";
     paraments[@"telphone"] = telephone;
     paraments[@"smsCode"] = _regPasswordText.text;
-    NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
         [self openCountdown];
         NSString *code = [responseObject valueForKey:@"code"];

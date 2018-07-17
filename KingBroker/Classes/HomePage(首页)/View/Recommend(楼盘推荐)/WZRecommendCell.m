@@ -14,20 +14,28 @@
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
 #import "NSString+LCExtension.h"
+#import "WZJionStoreController.h"
+#import "WZNavigationController.h"
 @implementation WZRecommendCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    float n = [UIScreen mainScreen].bounds.size.height/667.0;
-    _RecommendName.font = [UIFont fontWithName:@"PingFang-SC-Bold" size:32];
+    float n = [UIScreen mainScreen].bounds.size.width/375.0;
     self.backgroundColor = [UIColor clearColor];
-    self.RecommendTitleOne.backgroundColor = UIColorRBG(242, 246, 237);
-    self.RecommendTitleTwo.backgroundColor = UIColorRBG(242, 246, 237);
-    self.RecommendThree.backgroundColor = UIColorRBG(242, 246, 237);
-    _cityName.textColor = UIColorRBG(102, 102, 102);
+    self.RecommendTitleOne.backgroundColor = UIColorRBG(230, 244, 255);
+    self.RecommendTitleTwo.backgroundColor = UIColorRBG(230, 244, 255);
+    self.RecommendThree.backgroundColor = UIColorRBG(230, 244, 255);
+    self.RecommendTitleOne.textColor = UIColorRBG(40, 180, 230);
+    self.RecommendTitleTwo.textColor = UIColorRBG(40, 180, 230);
+    self.RecommendThree.textColor = UIColorRBG(40, 180, 230);
+    _cityName.textColor = UIColorRBG(153, 153, 153);
     _prices.textColor = UIColorRBG(255, 127, 19);
+    [_joinButton setTitleColor:UIColorRBG(244, 102, 30) forState:UIControlStateNormal];
+    [_commissonImage setHidden:YES];
+    [_Commission setHidden:YES];
+     _companyName.textColor = UIColorRBG(102, 102, 102);
      [self.Collection setEnlargeEdge:44];
-    _imageHeight.constant = 230*n;
+    _imageHeight.constant = 210*n;
 }
 -(void)setItem:(WZFindHouseListItem *)item{
     _item = item;
@@ -39,26 +47,32 @@
     _ID = item.id;
     _RecommendName.text = item.name;
     if (uuid) {
-        if([commissionFag isEqual:@"0"]){
-            if ([realtorStatus isEqual:@"2"]) {
-                _Commission.text = item.commission;
+        if ([realtorStatus isEqual:@"2"]) {
+            [_joinButton setHidden:YES];
+            [_joinButton setEnabled:NO];
+            [_commissonImage setHidden:NO];
+            [_Commission setHidden:NO];
+            if([commissionFag isEqual:@"0"]){
+                 _Commission.text = item.commission;
             }else{
-                _Commission.text = @"加入门店可见佣金";
+                _Commission.text = @"佣金不可见";
             }
         }else{
-            _Commission.text = @"佣金不可见";
+            [_joinButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
+            [_joinButton setEnabled:YES];
         }
         
     }else{
-         _Commission.text = @"登录可见佣金";
+        [_joinButton setTitle:@"登录可见佣金" forState:UIControlStateNormal];
+        [_joinButton setEnabled:NO];
     }
    
     //总价
     NSString *totalPrice = item.totalPrice;
     if (totalPrice &&![totalPrice isEqual:@""]) {
-        _prices.text = [NSString stringWithFormat:@"总价：%@",totalPrice];
+        _prices.text = totalPrice;
     }else{
-        _prices.text = [NSString stringWithFormat:@"均价：%@",item.averagePrice];
+        _prices.text = item.averagePrice;
     }
     
     NSString *collect = item.collect;
@@ -69,7 +83,7 @@
         _Collection.selected = YES;
     }
     _cityName.text = item.cityName;
-    _collectionSum.text = [NSString stringWithFormat:@"%@",item.collectNum];
+    _companyName.text = item.companyName;
     [_RecommendImage sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"sy_wntj_pic"]];
     
     if (item.tage.count!=0) {
@@ -84,17 +98,13 @@
         }
     }
 }
--(void)setFrame:(CGRect)frame{
-    [super setFrame:frame];
-}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
      self.selectionStyle = UITableViewCellSelectionStyleNone;
    
 }
-
-    - (IBAction)collection:(UIButton *)sender {
+- (IBAction)collection:(UIButton *)sender {
         UIButton *but = sender;
         but.enabled = NO;
         //请求数据
@@ -116,7 +126,7 @@
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"id"] = _ID;
-        NSString *url = [NSString stringWithFormat:@"%@/proProject/collectProject",URL];
+        NSString *url = [NSString stringWithFormat:@"%@/proProject/collectProject",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             
             NSString *code = [responseObject valueForKey:@"code"];
@@ -125,7 +135,7 @@
                 NSString *collect = [data valueForKey:@"collect"];
                 if ([collect isEqual:@"1"]) {
                     but.selected = YES;
-                    [SVProgressHUD showInfoWithStatus:@"加入我的项目成功"];
+                    [SVProgressHUD showInfoWithStatus:@"加入我的楼盘成功"];
                 }else{
                     but.selected = NO;
                 }
@@ -145,5 +155,14 @@
              but.enabled = YES;
         }];
     }
+
+- (IBAction)JoinStore:(UIButton *)sender {
+    WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
+    UIViewController *vc = [UIViewController viewController:self.superview.superview];
+    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
+    JionStore.type = @"1";
+    [vc presentViewController:nav animated:YES completion:nil];
+}
+
 @end
   

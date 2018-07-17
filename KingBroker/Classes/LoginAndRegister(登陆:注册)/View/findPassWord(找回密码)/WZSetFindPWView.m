@@ -29,7 +29,7 @@
     button.enabled = NO;
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     //1.获取文本框内容
@@ -46,17 +46,11 @@
     paraments[@"password"] = password;
     paraments[@"phone"] = _phone;
     paraments[@"verificationCode"] = _YZM;
-    NSString *url = [NSString stringWithFormat:@"%@/sysUser/changPassword",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/sysUser/changPassword",HTTPURL];
     [mgr POST:url  parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             button.enabled = YES;
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            NSDictionary *dic = [userDefaults dictionaryRepresentation];
-            for (NSString *key in dic) {
-                [userDefaults removeObjectForKey:key];
-            }
-            [userDefaults synchronize];
             //返回登录页面
             UIViewController *Vc = [UIViewController viewController:[self superview]];
             [NSString isCode:Vc.navigationController code:@"401"];

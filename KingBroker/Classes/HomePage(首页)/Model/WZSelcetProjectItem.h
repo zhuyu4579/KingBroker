@@ -17,4 +17,6 @@
 @property(nonatomic,strong)NSString *signStatus;
 
 @property(nonatomic,strong)NSString *tel;
+
+@property(nonatomic,strong)NSString *companyName;
 @end

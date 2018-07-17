@@ -20,9 +20,9 @@
     _reads.layer.cornerRadius = 3.5;
     _title.textColor = UIColorRBG(68, 68, 68);
     _content.textColor = UIColorRBG(153, 153, 153);
-    _views.layer.shadowColor = [UIColor grayColor].CGColor;
-    _views.layer.shadowOpacity = 0.8f;
-    _views.layer.shadowRadius = 4.0f;
+//    _views.layer.shadowColor = [UIColor grayColor].CGColor;
+//    _views.layer.shadowOpacity = 0.8f;
+//    _views.layer.shadowRadius = 4.0f;
     [_seeButton setEnlargeEdgeWithTop:20 right:15 bottom:20 left:100];
 }
 
@@ -42,6 +42,9 @@
     _title.text = item.title;
     _content.text = item.content;
     _ID = item.id;
+    _param = item.param;
+    _additional = item.additional;
+    _viewType = item.viewType;
     NSString *url = item.pictureIds;
     
     if (![url isEqual:@""]) {
@@ -53,6 +56,6 @@
         _titleIne.constant = 18;
         _contentIne.constant = 18;
     }
-    
+    _url = item.url;
 }
 @end

@@ -26,6 +26,8 @@
 @property(nonatomic,strong)NSMutableArray *listArray;
 //无数据页面
 @property(nonatomic,strong)UIView *viewNo;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
 @end
 //查询条数
 static NSString *size = @"20";
@@ -37,7 +39,7 @@ static NSString *size = @"20";
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     [self setNoData];
     self.view.backgroundColor = [UIColor clearColor];
     
@@ -45,8 +47,14 @@ static NSString *size = @"20";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.showsVerticalScrollIndicator = YES;
     self.tableView.showsHorizontalScrollIndicator = YES;
-    [self headerRefresh];
+    _isRequestFinish = YES;
+    _listArray = [NSMutableArray array];
+    current = 1;
+    [self loadDate];
     
+    [self headerRefresh];
+    //创造通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDate) name:@"Refresh" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -68,6 +76,7 @@ static NSString *size = @"20";
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     
     self.tableView.mj_header = header;
+    
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     self.tableView.mj_footer = footer;
@@ -80,12 +89,22 @@ static NSString *size = @"20";
     current = 1;
     [self loadDate];
 }
+-(void)loadNewTopics{
+    
+    [self.tableView.mj_header beginRefreshing];
+    
+}
 -(void)loadMoreTopic{
     [self.tableView.mj_footer beginRefreshing];
     [self loadDate];
 }
 #pragma mark -请求数据
 -(void)loadDate{
+    if (!_isRequestFinish) {
+        return;
+    }
+    _isRequestFinish = NO;
+    
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         NSString *uuid = [ user objectForKey:@"uuid"];
         NSString *userId = [ user objectForKey:@"userId"];
@@ -105,9 +124,9 @@ static NSString *size = @"20";
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"userId"] = userId;
         paraments[@"types"] = @"4";
-        paraments[@"current"] = [NSString stringWithFormat:@"%zd",current];
+        paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
         paraments[@"size"] = size;
-        NSString *url = [NSString stringWithFormat:@"%@/order/list",URL];
+        NSString *url = [NSString stringWithFormat:@"%@/order/list",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             if ([code isEqual:@"200"]) {
@@ -137,14 +156,22 @@ static NSString *size = @"20";
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
+                if ([code isEqual:@"401"]) {
+                
                 [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
                 [self.tableView.mj_header endRefreshing];
                 [self.tableView.mj_footer endRefreshing];
             }
+            _isRequestFinish = YES;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
              [SVProgressHUD showInfoWithStatus:@"网络不给力"];
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
+            _isRequestFinish = YES;
         }];
     
 }
@@ -177,9 +204,9 @@ static NSString *size = @"20";
     }];
     
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Table view data source
@@ -202,7 +229,6 @@ static NSString *size = @"20";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 119;
 }
-
 #pragma mark -跳转详情页
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //获取点击cell的数据
@@ -215,12 +241,9 @@ static NSString *size = @"20";
     detailVC.ID = item.id;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    _listArray = [NSMutableArray array];
-    current = 1;
-    //请求数据->展示数据
-    [self loadDate];
 }
 
 @end

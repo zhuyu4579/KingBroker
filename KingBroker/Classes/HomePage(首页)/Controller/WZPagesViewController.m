@@ -12,12 +12,8 @@
 #import "WZPageButtonView.h"
 #import <Masonry.h>
 #import <AFNetworking.h>
-#import "WZTaskController.h"
-#import "WZTaskTagItem.h"
 #import <MJExtension.h>
-#import "WZTaskTagCell.h"
 #import "WZRecommendTableView.h"
-#import "WZTaskTableView.h"
 #import <MJRefresh.h>
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "NSString+LCExtension.h"
@@ -26,11 +22,13 @@
 #import "WZFindHouseListItem.h"
 #import "WZNEWHTMLController.h"
 #import "GKCover.h"
+#import "WZTaskController.h"
+#import "WZJionStoreController.h"
+#import "WZNavigationController.h"
 @interface WZPagesViewController ()<WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate,CLLocationManagerDelegate>
 @property(nonatomic,strong)UIView *cycleView;
 @property (nonatomic, strong)WZCyclePhotoView *cyclePlayView;
 @property (nonatomic, strong)NSMutableArray *tags;
-@property (nonatomic, strong)WZTaskTableView *tableVC;
 @property (nonatomic, strong)WZRecommendTableView *recommendTV;
 @property (nonatomic, strong)UIScrollView *scrollView;
 //使用定位
@@ -48,16 +46,19 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
-    self.view.backgroundColor = [UIColor whiteColor];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
+    
+    self.view.backgroundColor = UIColorRBG(242, 242, 242);
     
     [self setViewController];
     //获取最新版本
     [self findversion];
     
     [self dictList];
-   
+    
+  
 }
+
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
@@ -67,8 +68,8 @@
         _locationManager=[[CLLocationManager alloc] init];
         _locationManager.delegate=self;
         _locationManager.desiredAccuracy=kCLLocationAccuracyBest;
-        _locationManager.distanceFilter = 10;
-        [_locationManager requestWhenInUseAuthorization];
+        _locationManager.distanceFilter=10;
+        [_locationManager requestWhenInUseAuthorization];//使用程序其间允许访问位置数据（iOS8定位需要）
         [_locationManager startUpdatingLocation];//开启定位
 }
 //获取定位信息
@@ -84,6 +85,7 @@
         [SVProgressHUD showInfoWithStatus:@"定位失败"];
     }
     _lnglat = lnglat;
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:lnglat forKey:@"lnglat"];
     [defaults synchronize];
@@ -91,9 +93,10 @@
 
 #pragma mark -创建首页控件
 -(void)setViewController{
-    float n = [UIScreen mainScreen].bounds.size.height/667.0;
+    float n = [UIScreen mainScreen].bounds.size.width/375.0;
     //创建一个滚动视图
-    _scrollView = [ [UIScrollView alloc ] initWithFrame:CGRectMake(0, -20, SCREEN_WIDTH, self.view.fHeight-30)];
+    _scrollView = [ [UIScrollView alloc ] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, self.view.fHeight - JF_BOTTOM_SPACE-49)];
+    
     [self.view addSubview:_scrollView];
     _scrollView.delegate = self;
     _scrollView.bounces = YES;
@@ -117,12 +120,12 @@
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     _scrollView.mj_header = header;
     //创建轮播图view
-    _cycleView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, SCREEN_WIDTH, 190*n)];
+    _cycleView = [[UIView alloc] initWithFrame: CGRectMake(0, -kApplicationStatusBarHeight, SCREEN_WIDTH, 190*n)];
     _cycleView.backgroundColor = [UIColor clearColor];
     [_scrollView addSubview:_cycleView];
     //初始化轮播图
     NSMutableArray *images = [[NSMutableArray alloc]init];
-    UIImage *image = [UIImage imageNamed:@"banner-1"];
+    UIImage *image = [UIImage imageNamed:@"banner_1"];
     [images addObject:image];
     self.cyclePlayView = [[WZCyclePhotoView alloc] initWithImages:images withFrame:CGRectMake(0, 0, _cycleView.fWidth, _cycleView.fHeight)];
     self.cyclePlayView.delegate = self;
@@ -130,19 +133,22 @@
     self.cyclePlayView.backgroundColor = [UIColor grayColor];
     [_cycleView addSubview:self.cyclePlayView];
     //创建按钮栏
-    UIView *buttons = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight, SCREEN_WIDTH, 136)];
+    UIView *buttons = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight-kApplicationStatusBarHeight, SCREEN_WIDTH, 136)];
     buttons.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:buttons];
     WZPageButtonView *pageView = [WZPageButtonView pageButtons];
     pageView.frame = buttons.bounds;
     [buttons addSubview:pageView];
-//    //创建任务中心
-//    UIView *task = [[UIView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 388)];
-//    task.backgroundColor = [UIColor clearColor];
-//    [_scrollView addSubview:task];
+    //创建中心
+    UIImageView *task = [[UIImageView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 90*n)];
+    task.image = [UIImage imageNamed:@"task1"];
+    UITapGestureRecognizer *topRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(Tacks)];
+    [task addGestureRecognizer:topRecognizer];
+    task.userInteractionEnabled = YES;
+    [_scrollView addSubview:task];
 
     //创建为你推荐
-    UIView *Recommend = [[UIView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 740*n)];
+    UIView *Recommend = [[UIView alloc] initWithFrame:CGRectMake(0, task.fY+task.fHeight+10, SCREEN_WIDTH, 732+210*(n-1)+10)];
     Recommend.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:Recommend];
     //创建为你推荐图标
@@ -156,7 +162,7 @@
     recommendLable.textColor = UIColorRBG(68, 68, 68);
     [Recommend addSubview:recommendLable];
     //创建为你推荐房源view62
-    _recommendTV = [[WZRecommendTableView alloc] initWithFrame:CGRectMake(0, recommendLable.fY+recommendLable.fHeight, Recommend.fWidth, 708*n)];
+    _recommendTV = [[WZRecommendTableView alloc] initWithFrame:CGRectMake(0, recommendLable.fY+recommendLable.fHeight, Recommend.fWidth, 700+210*(n-1)+10)];
     
     [Recommend addSubview:_recommendTV];
 
@@ -182,14 +188,13 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"location"] = _lnglat;
     paraments[@"num"] = @"2";
-    NSString *url = [NSString stringWithFormat:@"%@/proProject/recommend/projectList",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/recommend/projectList",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             NSDictionary *data = [responseObject valueForKey:@"data"];
             NSArray *rows = [data valueForKey:@"rows"];
             if (rows.count != 0) {
-                
                 _recommendTV.listArray = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:rows];
                 [_recommendTV  reloadData];
             }
@@ -218,12 +223,54 @@
         return NO;
     }
 }
-
+//点击模块
+-(void)Tacks{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
+    
+    if(uuid){
+        if([realtorStatus isEqual:@"2"]){
+            //跳转
+            WZTaskController *task = [[WZTaskController alloc] init];
+            task.url = [NSString stringWithFormat:@"%@/apptask/getuuid.html",HTTPH5];
+             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
+            [self.navigationController presentViewController:nav animated:YES completion:nil];
+            
+        }else if([realtorStatus isEqual:@"0"] ||[realtorStatus isEqual:@"3"]){
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"未加入门店" message:@"你还没有加入经纪门店，不能进行更多操作"  preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"暂不加入" style:UIAlertActionStyleCancel
+                                                                  handler:^(UIAlertAction * action) {
+                                                                      
+                                                                  }];
+            UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
+                                                                       WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
+                                                                       JionStore.type = @"1";
+                                                                       
+                                                                       [self presentViewController:nav animated:YES completion:nil];
+                                                                   }];
+            
+            [alert addAction:defaultAction];
+            [alert addAction:cancelAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }else{
+            [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
+            [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
+        }
+    }else{
+        [NSString isCode:self.navigationController code:@"401"];
+    }
+  
+    
+}
 #pragma mark -点击图片事件
 - (void)cyclePageClickAction:(NSInteger)clickIndex
 {
     WZNEWHTMLController *html = [[WZNEWHTMLController alloc] init];
-    html.url = @"https://www.jingfuapp.com/apph5/noticemessage.html";
+    html.url = [NSString stringWithFormat:@"%@/apph5/noticemessage.html",HTTPH5];
     [self.navigationController pushViewController:html animated:YES];
 }
 #pragma mark -去刷新或者加载数据
@@ -247,7 +294,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = @"2";
     paraments[@"app"] = @"2";
-    NSString *url = [NSString stringWithFormat:@"%@/version/versionUp",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/version/versionUp",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
@@ -345,6 +392,7 @@
     NSString *downAddress = [ user objectForKey:@"downAddress"];
     [application openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?mt=8",downAddress]]];
 }
+
 //获取字典
 -(void)dictList{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -363,7 +411,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"version"] = version;
     paraments[@"type"] = @"1";
-    NSString *url = [NSString stringWithFormat:@"%@/version/dictList",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/version/dictList",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSDictionary *data = [responseObject valueForKey:@"data"];
         NSMutableArray *array = [data valueForKey:@"dictGroups"];
@@ -386,12 +434,59 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+    
     //定位当前位置信息
     [self locate];
     [self loadDateTask];
+    
+    [self setloadData];
+    
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+//查询未读消息
+-(void)setloadData{
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    NSString *url = [NSString stringWithFormat:@"%@/userMessage/read/notreadCount",HTTPURL];
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSString *count = [data valueForKey:@"count"] ;
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:count forKey:@"newCount"];
+            [defaults synchronize];
+            
+            NSInteger counts = [count integerValue];
+            
+            UITabBarItem *item =[self.tabBarController.tabBar.items objectAtIndex:1];
+            
+            if (counts<100&&counts>0) {
+                item.badgeValue= [NSString stringWithFormat:@"%ld",(long)counts];
+            }else if(counts>=100){
+                item.badgeValue= [NSString stringWithFormat:@"99+"];
+            }else{
+                item.badgeValue = nil;
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+    
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 #pragma mark -将数据写入文件
 -(void)loadDateURl:(NSArray *)array plistName:(NSString *)plistName name:(NSString *)name{

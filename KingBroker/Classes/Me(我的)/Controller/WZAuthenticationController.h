@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *codeImage;
 //标题
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 //提交
 @property (weak, nonatomic) IBOutlet UIButton *getUpButton;
 

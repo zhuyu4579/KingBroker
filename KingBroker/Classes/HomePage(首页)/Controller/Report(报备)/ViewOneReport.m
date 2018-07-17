@@ -22,6 +22,7 @@
 #import "NSObject+Property.h"
 #import "UIViewController+WZFindController.h"
 #import "WZSelectProjectsController.h"
+#import "WZNavigationController.h"
 @interface ViewOneReport ()<UIScrollViewDelegate,UITextFieldDelegate>
 //
 @property (nonatomic, strong)UIScrollView *scrollView;
@@ -65,14 +66,14 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
   
 }
 #pragma mark -创建控件
 -(void)foundController{
     //创建一个UIScrollView
     UIScrollView *scrollView = [[UIScrollView alloc] init];
-    scrollView.frame = CGRectMake(self.view.fX, self.view.fY, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight-93);
+    scrollView.frame = CGRectMake(self.view.fX, self.view.fY, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight-93-JF_BOTTOM_SPACE);
     self.scrollView = scrollView;
     
     [self.view addSubview:scrollView];
@@ -107,7 +108,7 @@
         make.top.equalTo(_viewOne.mas_top).with.offset(15);
         make.height.mas_offset(15);
     }];
-    //点击按钮选择项目
+    //点击按钮选择楼盘
     UIButton *titemNameButton = [[UIButton alloc] init];
     [titemNameButton setEnlargeEdge:44];
     [titemNameButton setBackgroundImage:[UIImage imageNamed:@"more_unfold"] forState:UIControlStateNormal];
@@ -241,7 +242,7 @@
         make.left.equalTo(self.view.mas_left);
         make.right.equalTo(self.view.mas_right);
         make.bottom.equalTo(self.view.mas_bottom);
-        make.height.mas_offset(49);
+        make.height.mas_offset(49+JF_BOTTOM_SPACE);
     }];
     
     //创建自定义的view
@@ -545,9 +546,9 @@
     return view;
 }
 
-#pragma mark -选择项目
+#pragma mark -选择楼盘
 -(void)itemNameButton{
-    //跳转选择项目列表
+    //跳转选择楼盘列表
     WZSelectProjectsController *projectVC = [[WZSelectProjectsController alloc] init];
     UIViewController *Vc = [UIViewController viewController:self.view.superview];
     projectVC.projectBlock = ^(NSDictionary *dicty) {
@@ -565,11 +566,11 @@
      [self findSubView:self.view];
     
     if ([_ItemName.text isEqual:@"请选择"]) {
-        [SVProgressHUD showInfoWithStatus:@"请先选择项目"];
+        [SVProgressHUD showInfoWithStatus:@"请先选择楼盘"];
         return;
     }
     if (!_itemId) {
-        [SVProgressHUD showInfoWithStatus:@"请先选择项目"];
+        [SVProgressHUD showInfoWithStatus:@"请先选择楼盘"];
         return;
     }
     if (_timeArray.count==0) {
@@ -600,7 +601,7 @@
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"id"] = _itemId;
-        NSString *url = [NSString stringWithFormat:@"%@/proProject/planBoardingDate",URL];
+        NSString *url = [NSString stringWithFormat:@"%@/proProject/planBoardingDate",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             
@@ -676,10 +677,10 @@
 //确认添加数据请求
 -(void)cobfrimData{
     
-    //项目名称
+    //楼盘名称
     NSString *projectName = _ItemName.text;
     if ([projectName isEqual:@"请选择"]) {
-        [SVProgressHUD showInfoWithStatus:@"项目名称未选择"];
+        [SVProgressHUD showInfoWithStatus:@"楼盘名称未选择"];
         return;
     }
     //预计上客时间
@@ -688,7 +689,7 @@
         [SVProgressHUD showInfoWithStatus:@"上客时间未选择"];
         return;
     }
-    //项目ID
+    //楼盘ID
     NSString *projectId = _itemId;
     //出发城市
     NSString *departureCity = _setOutCity.text;
@@ -796,7 +797,7 @@
     
     [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
     
-    NSString *url = [NSString stringWithFormat:@"%@/order/order",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/order/order",HTTPURL];
     
     [mgr POST:url parameters:_paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         
@@ -811,7 +812,8 @@
             successVC.reportData = data;
             successVC.status = _sginStatu;
             successVC.telphone = _telphone;
-            [Vc.navigationController pushViewController:successVC animated:YES];
+            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:successVC];
+            [Vc.navigationController presentViewController:nav animated:YES completion:nil];
         }else{
             [GKCover hide];
             [SVProgressHUD dismiss];

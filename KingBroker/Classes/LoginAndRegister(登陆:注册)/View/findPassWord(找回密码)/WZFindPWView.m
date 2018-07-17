@@ -18,6 +18,7 @@
 @interface WZFindPWView()
 //用户名
 @property(nonatomic,strong)NSString *username;
+
 @end
 @implementation WZFindPWView
 
@@ -56,7 +57,7 @@
     paraments[@"type"] = types;
     paraments[@"telphone"] = phone;
     paraments[@"smsCode"] = YZM;
-    NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
         [self openCountdown];
         NSString *code = [responseObject valueForKey:@"code"];
@@ -92,7 +93,7 @@
 - (void)findYZMAction:(id)sender {
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
 
     //获取手机文本框的手机号码
     NSString  *phone = _findPSText.text;
@@ -119,7 +120,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = type;
     paraments[@"telphone"] = phone;
-    NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
         [self openCountdown];
         NSString *code = [responseObject valueForKey:@"code"];
@@ -155,7 +156,7 @@
                 //设置按钮的样式
                 [self.findYZMTextTow setTitle:@"重新发送" forState:UIControlStateNormal];
                 [self.findYZMTextTow setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                self.findYZMTextTow.enabled = YES;
+                self.findYZMTextTow.userInteractionEnabled = YES;
                 self.findYZMTextTow.backgroundColor = UIColorRBG(3, 133, 219);
             });
             
@@ -163,9 +164,9 @@
             int seconds = time % 60;
             dispatch_async(dispatch_get_main_queue(), ^{
                 //设置按钮显示读秒效果
-                [self.findYZMTextTow setTitle:[NSString stringWithFormat:@"重新发送(%.2d)", seconds] forState:UIControlStateNormal];
+                [self.findYZMTextTow setTitle:[NSString stringWithFormat:@"%.2d后重试", seconds] forState:UIControlStateNormal];
                 [self.findYZMTextTow setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                self.findYZMTextTow.enabled = NO;
+                self.findYZMTextTow.userInteractionEnabled = NO;
                 self.findYZMTextTow.backgroundColor = UIColorRBG(199, 199, 205);
             });
             time--;

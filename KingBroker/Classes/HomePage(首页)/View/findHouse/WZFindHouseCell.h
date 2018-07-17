@@ -15,18 +15,21 @@
 @property (weak, nonatomic) IBOutlet UILabel *houseLabelTwo;
 @property (strong, nonatomic) IBOutlet UILabel *houseLabelThree;
 //佣金
-@property (weak, nonatomic) IBOutlet UILabel *houseCommission;
+@property (strong, nonatomic) IBOutlet UILabel *houseCommission;
 //单价
-@property (weak, nonatomic) IBOutlet UILabel *housePriceLabel;
-@property (weak, nonatomic) IBOutlet UILabel *housePrice;
-@property (weak, nonatomic) IBOutlet UIButton *houseCollectionButton;
-@property (weak, nonatomic) IBOutlet UILabel *houseCollectionSum;
+@property (strong, nonatomic) IBOutlet UILabel *companyName;
+@property (strong, nonatomic) IBOutlet UILabel *housePrice;
+@property (strong, nonatomic) IBOutlet UIButton *houseCollectionButton;
+@property (strong, nonatomic) IBOutlet UIButton *JoinStoreButton;
+
 @property (strong, nonatomic) IBOutlet UILabel *cityName;
 //距离
 @property (strong, nonatomic) IBOutlet UILabel *distance;
+@property (strong, nonatomic) IBOutlet UIImageView *commissionImage;
 
 @property(nonatomic,strong)NSString *ID;
 
+- (IBAction)JoinStore:(UIButton *)sender;
 @property(nonatomic,strong)WZFindHouseListItem *item;
 - (IBAction)houseCollectionClick:(id)sender;
 

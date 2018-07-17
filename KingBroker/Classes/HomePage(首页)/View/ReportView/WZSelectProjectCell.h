@@ -9,12 +9,16 @@
 #import <UIKit/UIKit.h>
 @class WZSelcetProjectItem;
 @interface WZSelectProjectCell : UITableViewCell
-//项目名称
+//楼盘名称
 @property (strong, nonatomic) IBOutlet UILabel *projectName;
 //是否签约
 @property (strong, nonatomic) IBOutlet UILabel *signStatus;
-//项目id
+
+@property (strong, nonatomic) IBOutlet UILabel *companyName;
+
+//楼盘id
 @property(nonatomic,strong)NSString *projectId;
+
 //数据模型
 @property(nonatomic,strong)WZSelcetProjectItem *item;
 @end

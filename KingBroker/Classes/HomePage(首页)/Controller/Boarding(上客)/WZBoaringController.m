@@ -14,49 +14,29 @@
 #import "WZBoardingTableController.h"
 #import "WZCompleteTableController.h"
 #import "WZDealTableController.h"
-#import <AFNetworking.h>
-#import <MJRefresh.h>
-#import <MJExtension.h>
 #import "WZReportController.h"
-#import <SVProgressHUD.h>
-#import "WZBoardingItem.h"
 
-@interface WZBoaringController ()<UIScrollViewDelegate>{
-    //页数
-    NSInteger current;
-}
-//数据列表
-@property(nonatomic,strong)NSArray *boaringItem;
-//订单列表数据
-@property(nonatomic,strong)NSMutableArray *listArray;
-//无数据页面
-@property(nonatomic,strong)UIView *viewNo;
 
-@property(nonatomic,weak)UIView *titlesView;
+@interface WZBoaringController ()<UIScrollViewDelegate>
 
-@property(nonatomic,weak)UIButton *previousClickButton;
+@property(nonatomic,strong)UIView *titlesView;
 
-@property(nonatomic,weak)UIView *titleUnderLine;
+@property(nonatomic,strong)UIButton *previousClickButton;
 
-@property(nonatomic,weak) UIScrollView *scrollView;
+@property(nonatomic,strong)UIView *titleUnderLine;
 
-@property(nonatomic,weak) WZBoardingTableController *boading;
-@property(nonatomic,weak) WZDealTableController *deal;
-@property(nonatomic,weak) WZCompleteTableController *complete;
-@property(nonatomic,weak) WZLossTableController *loss;
+@property(nonatomic,strong) UIScrollView *scrollView;
+
+@property(nonatomic,strong) WZBoardingTableController *boading;
+@property(nonatomic,strong) WZDealTableController *deal;
+@property(nonatomic,strong) WZCompleteTableController *complete;
+@property(nonatomic,strong) WZLossTableController *loss;
 @end
-//查询条数
-static NSString *size = @"20";
 
 @implementation WZBoaringController
 
 - (void)viewDidLoad {
-    
-    [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
-    [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
-    
+  
     [super viewDidLoad];
     //设置导航栏
     [self setNavItem];
@@ -64,7 +44,7 @@ static NSString *size = @"20";
     [self setupAllChilds];
     //创建一个UIScrollView
     [self setUIScrollView];
-   //创建标题栏
+    //创建标题栏
     [self setTitlesView];
     
     
@@ -118,7 +98,7 @@ static NSString *size = @"20";
 #pragma mark -设置标题栏按钮
 -(void)setupTitlesButton{
     //文字
-    NSArray *titles =@[@"待上客",@"待成交",@"已完成",@"已流失"];
+    NSArray *titles =@[@"待上客",@"待成交",@"已完成",@"已失效"];
     
     CGFloat titleButtonW = self.titlesView.fWidth/4;
     CGFloat titleButtonH =self.titlesView.fHeight;
@@ -155,6 +135,7 @@ static NSString *size = @"20";
          UIView *childsView = self.childViewControllers[titleButton.tag].view;
          childsView.frame = CGRectMake(self.scrollView.fWidth*titleButton.tag, _titlesView.fY+_titlesView.fHeight, self.scrollView.fWidth, self.scrollView.fHeight-_titlesView.fY-_titlesView.fHeight);
          [self.scrollView addSubview:childsView];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"Refresh" object:nil];
     }];
 }
 #pragma mark -设置下划线

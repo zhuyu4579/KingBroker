@@ -27,7 +27,7 @@
     _telephoneTwo.text =item.missContacto;
     _telephoneThree.text = item.missContacto;
     _telephoneFour.text = item.missContacto;
-    //项目名称
+    //楼盘名称
     _ItemNameOne.text = item.projectName;
     _ItemNameTwo.text = item.projectName;
     _ItemNameThree.text = item.projectName;
@@ -65,7 +65,7 @@
         }
     }
     
-    //项目ID
+    //楼盘ID
     _itemIdOne = item.projectId;
     _itemIdTwo = item.projectId;
     _itemIdThree = item.projectId;
@@ -154,7 +154,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
 
     UIButton *button = sender;
   
@@ -171,7 +171,7 @@
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"id"] = boaringId;
-    NSString *url = [NSString stringWithFormat:@"%@/order/dealOrder",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/order/dealOrder",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         
@@ -201,6 +201,9 @@
      report.itemID = _itemIdFour;
      report.sginStatus = _sginStatus;
      report.telphone = _proTelphone;
+     report.name = _nameFour.text;
+     report.phone = _telephoneFour.text;
+     report.types = @"1";
      [Vc.navigationController pushViewController:report animated:YES];
 }
 @end

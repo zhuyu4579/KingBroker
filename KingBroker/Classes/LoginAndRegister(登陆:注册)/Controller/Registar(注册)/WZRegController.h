@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface WZRegController : UIViewController
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 @property (weak, nonatomic) IBOutlet UIView *registarOne;
 //逆传值给我的界面
 @property (nonatomic,strong)void(^registarDataBlock)(NSDictionary *registarData);

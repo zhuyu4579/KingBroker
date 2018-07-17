@@ -14,5 +14,7 @@ target 'KingBroker' do
    pod 'SVProgressHUD', '~> 2.2.5'
    pod 'BRPickerView', '~> 2.1.2'
    pod 'AMapSearch-NO-IDFA', '~> 5.7.0'	
-   pod 'AMap2DMap-NO-IDFA', '~> 5.6.0'	
+   pod 'AMap2DMap-NO-IDFA', '~> 5.6.0'
+   pod 'JPush', '~> 3.0.8'
+   pod 'WechatOpenSDK', '~> 1.8.1'	
 end

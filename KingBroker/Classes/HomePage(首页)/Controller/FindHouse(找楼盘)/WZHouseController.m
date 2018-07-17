@@ -60,8 +60,6 @@ static NSString * const ID = @"Citycell";
 @property (nonatomic, strong)NSIndexPath *indexPath;
 //保存数据数组
 @property (nonatomic, strong)WZFindHouseTableView *tableView;
-//保存数据数组
-@property (nonatomic, strong)WZCollectTableView *tableViewC;
 //城市ID
 @property(nonatomic,strong)NSString *cityId;
 //UUID
@@ -92,12 +90,14 @@ static NSString * const ID = @"Citycell";
 @property(nonatomic,strong)NSArray *buildingRenovation;
 //面积
 @property(nonatomic,strong)NSArray *area;
-//项目列表数据
+//楼盘列表数据
 @property(nonatomic,strong)NSMutableArray *projectListArray;
 //无数据页面
 @property(nonatomic,strong)UIView *viewNo;
 //定位坐标
 @property(nonatomic,strong)NSString *lnglat;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
 @end
 //查询条数
 static NSString *size = @"20";
@@ -108,8 +108,8 @@ static NSString *size = @"20";
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
-
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
+    _isRequestFinish = YES;
     _projectListArray = [NSMutableArray array];
     current = 1;
     [super viewDidLoad];
@@ -120,11 +120,11 @@ static NSString *size = @"20";
     [self getUpTableView];
    
      //遍历数组
-      NSMutableArray *screenArray = [NSMutableArray array];
-     _SXArray = screenArray;
+    NSMutableArray *screenArray = [NSMutableArray array];
+    _SXArray = screenArray;
     //创建菜单弹框
     [self getUpMenuAlert];
-  
+    
     //读取数据字典
     NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
     NSString *fileName = [path stringByAppendingPathComponent:@"dictGroup.plist"];
@@ -147,11 +147,29 @@ static NSString *size = @"20";
             [screenArray addObject:item];
         }
     }
-   
-     [self headerRefresh];
+    
+    
+   [self headerRefresh];
     
 }
-
+-(void)loadRefreshs{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    _uuid = uuid;
+    NSString *cityId = [ user objectForKey:@"cityId"];
+    _cityId = cityId;
+    _lnglat = [user objectForKey:@"lnglat"];
+    UIButton *but =  [_menu viewWithTag:10];
+    [but setTitle:@"城市" forState:UIControlStateNormal];
+    [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
+    UIButton *but1 =  [_menu viewWithTag:20];
+    [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_2"] forState:UIControlStateNormal];
+    _seachCityId = @"";
+    [self loadData];
+    //获取城市列表
+    [self cityDatas];
+    
+}
 //下拉刷新
 -(void)headerRefresh{
     //创建下拉刷新
@@ -171,17 +189,16 @@ static NSString *size = @"20";
     // 设置颜色
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     _tableView.mj_header = header;
-    _tableViewC.mj_header = header;
+   
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     _tableView.mj_footer = footer;
-    _tableViewC.mj_footer = footer;
+    
 }
 #pragma mark -下拉刷新或者加载数据
 -(void)loadNewTopic:(id)refrech{
  
  [_tableView.mj_header beginRefreshing];
- [_tableViewC.mj_header beginRefreshing];
  _projectListArray = [NSMutableArray array];
  current = 1;
  [self loadData];
@@ -192,13 +209,18 @@ static NSString *size = @"20";
  
 }
 -(void)loadMoreTopic{
+    
     [_tableView.mj_footer beginRefreshing];
-    [_tableViewC.mj_footer beginRefreshing];
+    
     [self loadData];
 }
 //数据请求
 -(void)loadData{
-
+    if (!_isRequestFinish) {
+        return;
+    }
+    _isRequestFinish = NO;
+    
         //创建会话请求
         AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
         
@@ -214,7 +236,7 @@ static NSString *size = @"20";
         [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-        if ((!_seachCityId||[_seachCityId isEqual:@""])&&[_type isEqual:@"0"]) {
+        if (!_seachCityId||[_seachCityId isEqual:@""]) {
              paraments[@"cityId"] = _cityId;
         }
         paraments[@"seachCityId"] = _seachCityId;
@@ -226,13 +248,11 @@ static NSString *size = @"20";
         paraments[@"buildingFeature"] = _buildingFeature;
         paraments[@"buildingRenovation"] = _buildingRenovation;
         paraments[@"location"] = _lnglat;
-        paraments[@"current"] = [NSString stringWithFormat:@"%zd",current];
+        paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
         paraments[@"size"] = size;
       
-        NSString *url = [NSString stringWithFormat:@"%@/proProject/projectList",URL];
-        if ([_type isEqual:@"1"]) {
-            url =  [NSString stringWithFormat:@"%@/proProject/collectProList",URL];
-        }
+        NSString *url = [NSString stringWithFormat:@"%@/proProject/projectList",HTTPURL];
+    
         [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             
@@ -243,55 +263,48 @@ static NSString *size = @"20";
                
                 if (houseDatas.count == 0) {
                     [_tableView.mj_footer endRefreshingWithNoMoreData];
-                    [_tableViewC.mj_footer endRefreshingWithNoMoreData];
+                    
                 }else{
                     for (int i=0; i<houseDatas.count; i++) {
                         [_projectListArray addObject:houseDatas[i]];
                     }
                     current +=1;
                     [_tableView.mj_footer endRefreshing];
-                    [_tableViewC.mj_footer endRefreshing];
                 }
                 if (_projectListArray.count != 0) {
                     [_viewNo setHidden:YES];
                 }else{
                     [_viewNo setHidden:NO];
                 }
-                 
-                if ([_type isEqual:@"0"]) {
-                    _tableView.houseItem = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:_projectListArray];
-                    [_tableView reloadData];
-                    [_tableView.mj_header endRefreshing];
-                }else{
-                    _tableViewC.houseItem = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:_projectListArray];
-                    [_tableViewC reloadData];
-                    [_tableViewC.mj_header endRefreshing];
-                }
-               
+                
+                _tableView.houseItem = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:_projectListArray];
+                [_tableView reloadData];
+                [_tableView.mj_header endRefreshing];
+    
             }else{
                 
                 NSString *msg = [responseObject valueForKey:@"msg"];
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
+                if ([code isEqual:@"401"]) {
+                
                 [NSString isCode:self.navigationController code:code];
-                if ([_type isEqual:@"0"]) {
-                    [_tableView.mj_header endRefreshing];
-                    [_tableView.mj_footer endRefreshing];
-                }else{
-                    [_tableViewC.mj_header endRefreshing];
-                    [_tableViewC.mj_footer endRefreshing];
-                }
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
             }
+                [_tableView.mj_header endRefreshing];
+                [_tableView.mj_footer endRefreshing];
+                
+            }
+            _isRequestFinish = YES;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
              [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-            if ([_type isEqual:@"0"]) {
+            
                 [_tableView.mj_header endRefreshing];
-                 [_tableView.mj_footer endRefreshing];
-            }else{
-                 [_tableViewC.mj_header endRefreshing];
-                 [_tableViewC.mj_footer endRefreshing];
-            }
+                [_tableView.mj_footer endRefreshing];
+            _isRequestFinish = YES;
         }];
    
 }
@@ -312,7 +325,7 @@ static NSString *size = @"20";
         make.height.offset(96);
     }];
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"还没有任何项目哦~";
+    label.text = @"还没有任何楼盘哦~";
     label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     label.textColor = UIColorRBG(158, 158, 158);
     label.textAlignment = NSTextAlignmentCenter;
@@ -330,7 +343,7 @@ static NSString *size = @"20";
     //创建菜单
     [self getUpMenu];
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _menu.fY+_menu.fHeight+1, SCREEN_WIDTH, SCREEN_HEIGHT - _menu.fY-_menu.fHeight-1)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _menu.fY+_menu.fHeight+1, SCREEN_WIDTH, SCREEN_HEIGHT - _menu.fY-_menu.fHeight-1-JF_BOTTOM_SPACE)];
     view.backgroundColor = [UIColor clearColor];
     [self.view addSubview:view];
     _viewTable = view;
@@ -347,6 +360,7 @@ static NSString *size = @"20";
     for (int i = 0; i < 4; i++) {
         
         UIButton *title = [[UIButton alloc] init];
+        
         if (i == 0) {
             title.frame= CGRectMake(10+titleViewW*i, 0, 45, titleViewH);
         }else{
@@ -372,23 +386,17 @@ static NSString *size = @"20";
         [menuV addSubview:titleButton];
     }
 }
-//项目列表
+//楼盘列表
 -(void)getUpTableView{
 
-    if ([_type isEqual:@"0"]) {
         WZFindHouseTableView *tableView = [[WZFindHouseTableView alloc] initWithFrame:CGRectMake(0,0, _viewTable.fWidth, _viewTable.fHeight)];
         tableView.backgroundColor = [UIColor clearColor];
         _tableView = tableView;
         [_viewTable addSubview:tableView];
-    }else{
-        WZCollectTableView *tableView = [[WZCollectTableView alloc] initWithFrame:CGRectMake(0,0, _viewTable.fWidth, _viewTable.fHeight)];
-        tableView.backgroundColor = [UIColor clearColor];
-        _tableViewC = tableView;
-        [_viewTable addSubview:tableView];
-    }
+    
 }
 -(void)getUpMenuAlert{
-    UIView *framView = [[UIView alloc] initWithFrame:CGRectMake(0, 110, self.view.fWidth, self.view.fHeight - 110)];
+    UIView *framView = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+90, self.view.fWidth, self.view.fHeight - kApplicationStatusBarHeight-90)];
     [self.view addSubview:framView];
     _framView = framView;
     [self getUpCover];
@@ -495,13 +503,10 @@ static NSString *size = @"20";
         [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-        NSString *url = @"";
-        if ([_type isEqual:@"0"]) {
-             paraments[@"location"] = _lnglat;
-             url = [NSString stringWithFormat:@"%@/proProject/cityList",URL];
-        }else{
-             url =  [NSString stringWithFormat:@"%@/proProject/collectCityList",URL];
-        }
+    
+        paraments[@"location"] = _lnglat;
+        NSString *url = [NSString stringWithFormat:@"%@/proProject/cityList",HTTPURL];
+     
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             if ([code isEqual:@"200"]) {
@@ -843,23 +848,6 @@ static NSString *size = @"20";
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
-    _uuid = uuid;
-    NSString *cityId = [ user objectForKey:@"cityId"];
-    _cityId = cityId;
-    _lnglat = [user objectForKey:@"lnglat"];
-    UIButton *but =  [_menu viewWithTag:10];
-    [but setTitle:@"城市" forState:UIControlStateNormal];
-    [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
-    UIButton *but1 =  [_menu viewWithTag:20];
-    [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_2"] forState:UIControlStateNormal];
-    _seachCityId = @"";
-    _projectListArray = [NSMutableArray array];
-    current = 1;
-    //获取城市列表
-    [self cityDatas];
-    //数据请求
-    [self loadData];
+    
 }
 @end

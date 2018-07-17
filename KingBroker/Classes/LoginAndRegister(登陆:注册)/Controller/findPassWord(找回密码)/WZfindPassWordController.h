@@ -10,6 +10,7 @@
 
 @interface WZfindPassWordController : UIViewController
 @property (weak, nonatomic) IBOutlet UIView *textFindPassWord;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 - (IBAction)artificialService:(id)sender;
 //判定是修改绑定手机号
 @property(nonatomic,strong)NSString *modityID;

@@ -27,7 +27,7 @@
 @property (nonatomic, strong)UIViewController *currentVc;
 //导航栏
 @property (nonatomic, strong)UISegmentedControl *segmented;
-//获取项目字典数组
+//获取楼盘字典数组
 @property (nonatomic, strong)NSMutableArray *itemArray;
 @end
 
@@ -37,7 +37,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
 
     [super viewDidLoad];
 
@@ -46,7 +46,7 @@
     
 }
 
-//获取项目名数据
+//获取楼盘名数据
 -(void)findItem{
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         NSString *uuid = [ user objectForKey:@"uuid"];
@@ -65,7 +65,7 @@
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"storeId"] = storeId;
     
-        NSString *url = [NSString stringWithFormat:@"%@/projectCompany/projectList",URL];
+        NSString *url = [NSString stringWithFormat:@"%@/projectCompany/projectList",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             if ([code isEqual:@"200"]) {
@@ -88,7 +88,13 @@
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
-                 [NSString isCode:self.navigationController code:code];
+                 if ([code isEqual:@"401"]) {
+                
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
             }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             if (error.code == -1001) {
@@ -102,14 +108,14 @@
 -(ViewOneReport *)OneReportVc{
     if (_OneReportVc == nil) {
         _OneReportVc = [[ViewOneReport alloc] init];
-        _OneReportVc.view.frame = CGRectMake(0, 64, self.view.fWidth, self.view.fHeight-64);
+        _OneReportVc.view.frame = CGRectMake(0, kApplicationStatusBarHeight+44, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight-44);
     }
     return _OneReportVc;
 }
 -(WZBatchReport *)batchReportVc{
     if (_batchReportVc == nil) {
         _batchReportVc = [[WZBatchReport alloc] init];
-        _batchReportVc.view.frame = CGRectMake(0, 64, self.view.fWidth, self.view.fHeight-64);
+        _batchReportVc.view.frame = CGRectMake(0, kApplicationStatusBarHeight+44, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight-44);
     }
     
     return _batchReportVc;
@@ -147,6 +153,13 @@
     if (_itemID && _itemName) {
         _OneReportVc.ItemName.text = _itemName;
         _OneReportVc.itemId = _itemID;
+        _OneReportVc.customerName.text = _name;
+        if (![_phone isEqual:@""]) {
+            NSString *top = [_phone substringToIndex:3];
+            NSString *bottom = [_phone substringFromIndex:7];
+            _OneReportVc.topText.text = top;
+            _OneReportVc.bottomText.text = bottom;
+        }
         if ([_types isEqual:@"1"]) {
             [_OneReportVc.titemNameButton setHidden:YES];
             _OneReportVc.titemNameButton.enabled = NO;
@@ -176,6 +189,7 @@
         if (_itemID && _itemName) {
             _batchReportVc.ItemName.text = _itemName;
             _batchReportVc.itemId = _itemID;
+            
             if ([_types isEqual:@"1"]) {
                 [_batchReportVc.titemNameButton setHidden:YES];
                 _batchReportVc.titemNameButton.enabled = NO;

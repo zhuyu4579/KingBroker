@@ -19,6 +19,7 @@
 #import <UIImageView+WebCache.h>
 #import "NSString+LCExtension.h"
 #import "WZHouseDatisController.h"
+#import "UIBarButtonItem+Item.h"
 @interface WZBoardingDetailsController ()<UIScrollViewDelegate>
 @property (nonatomic,weak)UIScrollView *scrollView;
 @property (nonatomic,weak)UILabel *name;
@@ -71,11 +72,11 @@
 @property (nonatomic,assign) NSInteger n;
 //预计上客时间
 @property (nonatomic,weak)UILabel *label1;
-//项目ID
+//楼盘ID
 @property(nonatomic,strong)NSString *itemId;
-//项目签约状态
+//楼盘签约状态
 @property(nonatomic,strong)NSString *sginStatus;
-//项目电话
+//楼盘电话
 @property(nonatomic,strong)NSString *proTelphone;
 @end
 
@@ -92,7 +93,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
 }
 //请求数据
 -(void)loadData{
@@ -114,7 +115,8 @@
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"orderId"] = _ID;
-        NSString *url = [NSString stringWithFormat:@"%@/order/detail",URL];
+        
+        NSString *url = [NSString stringWithFormat:@"%@/order/detail",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             
@@ -136,7 +138,13 @@
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
-                 [NSString isCode:self.navigationController code:code];
+                 if ([code isEqual:@"401"]) {
+                
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
             }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
@@ -154,10 +162,10 @@
     _telephone.text = [_order valueForKey:@"missContacto"];
      _telephones.text = [_order valueForKey:@"missContacto"];
     NSString *status = [_order valueForKey:@"dealStatus"];
-    //项目名
+    //楼盘名
     _ItemName.text = [_order valueForKey:@"projectName"];
     _ItemNames.text = [_order valueForKey:@"projectName"];
-    //项目ID
+    //楼盘ID
     _itemId = [_order valueForKey:@"projectId"];
     //设置按钮
     NSString *verify = [_order valueForKey:@"verify"];
@@ -174,6 +182,8 @@
     
     if (statu == 1) {
         if (ver == 3) {
+            _codeButton.enabled = YES;
+            [_codeButton setHidden:NO];
             _imageView1.backgroundColor = UIColorRBG(3, 133, 219);
             _stateTitle1.textColor = UIColorRBG(3, 133, 219);
         }else{
@@ -186,6 +196,7 @@
         _imageView1.backgroundColor = UIColorRBG(3, 133, 219);
         _stateTitle1.textColor = UIColorRBG(3, 133, 219);
         _comButton.backgroundColor = UIColorRBG(3, 133, 219);
+        _codeButton.enabled = NO;
         [_codeButton setHidden:YES];
         [_comButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_comButton setTitle:@"发起成交" forState: UIControlStateNormal];
@@ -209,6 +220,9 @@
         _imageView2.backgroundColor = UIColorRBG(3, 133, 219);
         _stateTitle2.textColor = UIColorRBG(3, 133, 219);
         if (ver == 3) {
+            _comButton.enabled = NO;
+            _comButton.hidden = YES;
+            _scrollView.fHeight = self.view.fHeight;
             _imageView3.backgroundColor = UIColorRBG(3, 133, 219);
             _stateTitle3.textColor = UIColorRBG(3, 133, 219);
         }
@@ -221,7 +235,13 @@
             _stateTitle3.textColor = UIColorRBG(153, 153, 153);
         }
     }
-    
+    if (statu == 4) {
+        if (ver == 3) {
+            [_comButton setTitle:@"重新报备" forState: UIControlStateNormal];
+            [_comButton removeTarget:self action:@selector(BoardingCilck) forControlEvents:UIControlEventTouchUpInside];
+            [_comButton addTarget:self action:@selector(NewReportCilck) forControlEvents:UIControlEventTouchUpInside];
+        }
+    }
     //设置条数
     _n = _list.count;
     //删除所有子控件
@@ -357,10 +377,12 @@
         make.height.mas_offset(12);
     }];
 
-    if ([_Identifier isEqualToString:@"BoadingCellOne"]) {
+    
         UIButton *codeButton = [[UIButton alloc] init];
         [codeButton setEnlargeEdge:44];
         [codeButton setBackgroundImage:[UIImage imageNamed:@"OR-code"] forState:UIControlStateNormal];
+        codeButton.enabled = NO;
+        [codeButton setHidden:YES];
         [codeButton addTarget:self action:@selector(codeButtons) forControlEvents:UIControlEventTouchUpInside];
         [viewOne addSubview:codeButton];
         self.codeButton = codeButton;
@@ -370,7 +392,7 @@
             make.height.mas_offset(23);
             make.width.mas_offset(23);
         }];
-    }
+    
     //绘制线
     UIView *ineViewTwo = [[UIView alloc] initWithFrame: CGRectMake(0,79, SCREEN_WIDTH, 1)];
     ineViewTwo.backgroundColor =UIColorRBG(242, 242, 242);
@@ -587,20 +609,7 @@
         make.bottom.equalTo(self.view.mas_bottom);
         make.height.mas_offset(49);
     }];
-    
-    if([_Identifier isEqualToString:@"BoadingCellTwo"]){
-        [confirmButton setTitle:@"发起成交" forState: UIControlStateNormal];
-        [confirmButton removeTarget:self action:@selector(BoardingCilck) forControlEvents:UIControlEventTouchUpInside];
-         [confirmButton addTarget:self action:@selector(LaunchDealCilck) forControlEvents:UIControlEventTouchUpInside];
-    }else if([_Identifier isEqualToString:@"BoadingCellThree"]){
-        confirmButton.enabled = NO;
-        confirmButton.hidden = YES;
-        scrollView.fHeight = self.view.fHeight;
-    }else if([_Identifier isEqualToString:@"BoadingCellFour"]){
-        [confirmButton setTitle:@"重新报备" forState: UIControlStateNormal];
-        [confirmButton removeTarget:self action:@selector(BoardingCilck) forControlEvents:UIControlEventTouchUpInside];
-        [confirmButton addTarget:self action:@selector(NewReportCilck) forControlEvents:UIControlEventTouchUpInside];
-    }
+
     [scrollView addSubview:viewTwo];
     //创建第三个view
     UIView *viewThree = [[UIView alloc] init];
@@ -749,18 +758,8 @@
         make.width.mas_offset(196);
         make.height.mas_offset(196);
     }];
-    UILabel *Title = [[UILabel alloc] init];
-    Title.text = @"楼盘处带看扫码";
-    Title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    Title.textColor = UIColorRBG(153, 153, 153);
-    [codeView1 addSubview:Title];
-    [Title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(codeView1.mas_centerX);
-        make.top.equalTo(codeView2.mas_bottom).with.offset(16);
-        make.height.mas_offset(12);
-    }];
     UILabel *Titles = [[UILabel alloc] init];
-    Titles.text = @"你所在门店未和该项目签约，可能无法结佣";
+    Titles.text = @"你所在门店未和该楼盘签约，可能无法结佣";
     Titles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     [Titles setHidden:YES];
     _titles = Titles;
@@ -768,7 +767,7 @@
     [codeView1 addSubview:Titles];
     [Titles mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(codeView1.mas_centerX);
-        make.top.equalTo(Title.mas_bottom).with.offset(5);
+        make.bottom.equalTo(codeView1.mas_bottom).with.offset(-20);
         make.height.mas_offset(13);
     }];
     UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(156, 461, 19, 19)];
@@ -791,6 +790,8 @@
         long time1 = time - orderCreateTime;
         if (time1 >30*60*1000) {
             [GKCover translucentWindowCenterCoverContent:_codeView animated:YES notClick:YES];
+            //创造通知
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeAlerts) name:@"BoaringVC" object:nil];
         }else{
             [SVProgressHUD showInfoWithStatus:@"订单创建时间小于30分钟"];
         }
@@ -801,9 +802,13 @@
 -(void)closeAlert{
     [self loadData];
     [GKCover hide];
-    
 }
-#pragma mark -项目按钮
+-(void)closeAlerts{
+    [SVProgressHUD showInfoWithStatus:@"您好,您报备的订单已上客成功"];
+    [self loadData];
+    [GKCover hide];
+}
+#pragma mark -楼盘按钮
 -(void)ItemButtons:(UIButton *)button{
     WZHouseDatisController *datis = [[WZHouseDatisController alloc] init];
     datis.ID = _itemId;
@@ -823,7 +828,7 @@
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"id"] = boaringId;
-    NSString *url = [NSString stringWithFormat:@"%@/order/dealOrder",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/order/dealOrder",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         
@@ -848,6 +853,9 @@
     report.itemID = _itemId;
     report.sginStatus = _sginStatus;
     report.telphone = _proTelphone;
+    report.types = @"1";
+    report.name = _name.text;
+    report.phone = _telephone.text;
     [self.navigationController pushViewController:report animated:YES];
 }
 #pragma mark -设置导航条
@@ -855,14 +863,15 @@
     self.navigationItem.title = @"订单详情";
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 #pragma mark -不显示导航条
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+
 }
 
 @end

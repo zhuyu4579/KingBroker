@@ -18,9 +18,9 @@
     _readFlag.backgroundColor = UIColorRBG(241, 48, 48);
     _readFlag.layer.cornerRadius = 3.5;
     _readFlag.layer.masksToBounds = YES;
-    _readFlag.layer.shadowColor = [UIColor grayColor].CGColor;
-    _readFlag.layer.shadowOpacity = 0.8f;
-    _readFlag.layer.shadowRadius = 3.0f;
+//    _readFlag.layer.shadowColor = [UIColor grayColor].CGColor;
+//    _readFlag.layer.shadowOpacity = 0.8f;
+//    _readFlag.layer.shadowRadius = 3.0f;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

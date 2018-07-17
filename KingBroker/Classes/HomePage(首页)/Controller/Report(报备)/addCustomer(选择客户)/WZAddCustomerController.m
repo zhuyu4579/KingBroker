@@ -78,6 +78,7 @@ static NSString *size = @"20";
     self.tableView.mj_header = header;
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    footer.mj_h += JF_BOTTOM_SPACE+20;
     self.tableView.mj_footer = footer;
 }
 #pragma mark -下拉刷新或者加载数据
@@ -105,9 +106,9 @@ static NSString *size = @"20";
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"userId"] = userId;
-    paraments[@"current"] = [NSString stringWithFormat:@"%zd",current];;
+    paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];;
     paraments[@"size"] = size;
-    NSString *url = [NSString stringWithFormat:@"%@/order/contact",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/order/contact",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         
@@ -130,7 +131,7 @@ static NSString *size = @"20";
             }else{
                 [_views setHidden:NO];
             }
-          _arrayData =  [WZCustomerItem mj_objectArrayWithKeyValuesArray:rows];
+          _arrayData =  [WZCustomerItem mj_objectArrayWithKeyValuesArray:_custormerArray];
             
            [self.tableView reloadData];
            [self.tableView.mj_header endRefreshing];
@@ -139,7 +140,13 @@ static NSString *size = @"20";
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
-            [NSString isCode:self.navigationController code:code];
+            if ([code isEqual:@"401"]) {
+                
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
         }

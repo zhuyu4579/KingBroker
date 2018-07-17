@@ -41,7 +41,12 @@
             }
         }
     }
-    _newsTitle.text = item.title;
+    
+    if ([item.title isEqual:@""]) {
+        _newsTitle.text = @"暂无消息";
+    }else{
+        _newsTitle.text = item.title;
+    }
     NSString *count = item.count;
     if(![count isEqual:@"0"]){
          [_sumButton setHidden:NO];

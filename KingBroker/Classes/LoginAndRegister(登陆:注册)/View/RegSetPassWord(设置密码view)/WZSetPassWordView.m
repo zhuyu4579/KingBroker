@@ -15,7 +15,7 @@
 #import <AFNetworking.h>
 #import <MJRefresh.h>
 #import <MJExtension.h>
-
+#import "JPUSHService.h"
 @implementation WZSetPassWordView
 
 +(instancetype)SetPWView{
@@ -27,7 +27,7 @@
     UIViewController *Vc = [UIViewController viewController:self];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
 
     //获取两个文本框的数据
     NSString *pass1 = _passWordOne.text;
@@ -46,18 +46,26 @@
     [mgr.requestSerializer didChangeValueForKey:@"timeoutInterval"];
    
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-     NSString *url = [NSString stringWithFormat:@"%@/sysUser/register",URL];
+     NSString *url = [NSString stringWithFormat:@"%@/sysUser/register",HTTPURL];
     [mgr POST:url parameters:_registDictionary progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSMutableDictionary *  _Nullable responseObject) {
         button.enabled = YES;
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             [SVProgressHUD showInfoWithStatus:@"注册成功"];
+            [self setloadData];
             //加入门店
             WZJionStoreController *JionVc = [[WZJionStoreController alloc] init];
              WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionVc];
+            JionVc.type = @"1";
+            JionVc.types= @"1";
             [Vc.navigationController presentViewController:nav animated:YES completion:nil];
             //将数据传入加入门店中
             NSMutableDictionary *regis = [responseObject valueForKey:@"data"];
+            [JPUSHService setAlias:[regis valueForKey:@"id"] completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+                if (iResCode == 0) {
+                    NSLog(@"添加别名成功");
+                }
+            } seq:1];
             //将uuid 持久化
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:[regis valueForKey:@"uuid"] forKey:@"uuid"];
@@ -68,6 +76,7 @@
             [defaults setObject:[regis valueForKey:@"storeId"] forKey:@"storeId"];
             [defaults setObject:[regis valueForKey:@"realtorStatus"] forKey:@"realtorStatus"];
             [defaults setObject:[regis valueForKey:@"idcardStatus"] forKey:@"idcardStatus"];
+            [defaults setObject:[regis valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
             [defaults synchronize];
             //传值给上一个页面
             if (_setPWBlock) {
@@ -93,6 +102,37 @@
         }
     }];
 
+}
+//查询未读消息
+-(void)setloadData{
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    NSString *url = [NSString stringWithFormat:@"%@/userMessage/read/notreadCount",HTTPURL];
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSString *count = [data valueForKey:@"count"] ;
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:count forKey:@"newCount"];
+            [defaults synchronize];
+           
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+    
 }
 #pragma mark -设置按钮
 -(void)drawRect:(CGRect)rect{

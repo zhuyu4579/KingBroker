@@ -17,6 +17,7 @@
 #import <MJRefresh.h>
 #import <MJExtension.h>
 #import "WZTabBarController.h"
+#import "JPUSHService.h"
 @interface WZLoginRegistar()<UITextFieldDelegate>
 
 @end
@@ -42,9 +43,8 @@
 - (IBAction)findPassWordAction:(id)sender {
     WZfindPassWordController *findPWVc = [[WZfindPassWordController alloc] init];
     findPWVc.navigationItem.title = @"忘记密码";
-     UIViewController *Vc = [UIViewController viewController:[self superview]];
-     [Vc.navigationController pushViewController:findPWVc animated:YES];
-
+    UIViewController *Vc = [UIViewController viewController:[self superview]];
+    [Vc.navigationController pushViewController:findPWVc animated:YES];
 }
 #pragma mark -登陆
 - (IBAction)login:(id)sender{
@@ -82,15 +82,20 @@
     paraments[@"username"] = name;
     paraments[@"password"] = password;
     //3.发送请求
-    NSString *url = [NSString stringWithFormat:@"%@/app/login.api",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/login.api",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         //解析数据
         NSString *code = [responseObject valueForKey:@"code"];
         button.enabled = YES;
         if ([code isEqual:@"200"]) {
-            
              _loginItem = [responseObject valueForKey:@"data"];
-            
+
+            [JPUSHService setAlias:[_loginItem valueForKey:@"id"] completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+                if (iResCode == 0) {
+                    NSLog(@"添加别名成功");
+                }
+            } seq:1];
+
             if(_login){
                 _login(_loginItem);
             }
@@ -105,7 +110,9 @@
             [defaults setObject:[_loginItem valueForKey:@"realtorStatus"] forKey:@"realtorStatus"];
             [defaults setObject:[_loginItem valueForKey:@"idcardStatus"] forKey:@"idcardStatus"];
             [defaults setObject:[_loginItem valueForKey:@"commissionFag"] forKey:@"commissionFag"];
+             [defaults setObject:[_loginItem valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
             [defaults synchronize];
+            [self receivingNotification];
             WZTabBarController *tab = [[WZTabBarController alloc] init];
             [vc.navigationController presentViewController:tab animated:YES completion:nil];
         }else{
@@ -121,6 +128,30 @@
     }];
     
 }
+
+//开启接收通知
+-(void)receivingNotification{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 30;
+    
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+   
+    NSString *url = [NSString stringWithFormat:@"%@/sysJpush/findJpushhistoryList",HTTPURL];
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+    
+}
 - (BOOL)isPureInt:(NSString *)string{
     NSScanner* scan = [NSScanner scannerWithString:string];
     int val;
@@ -128,7 +159,6 @@
 }
 #pragma mark -注册
 - (IBAction)registar:(id)sender {
-   
   WZRegController *ragVc = [[WZRegController alloc] init];
   UIViewController *Vc = [UIViewController viewController:[self superview]];
  [Vc.navigationController pushViewController:ragVc animated:YES];
@@ -165,7 +195,6 @@
     
     [self.showHIdePassWord setEnlargeEdge:20];
 }
-
 #pragma mark -设置输入框
 -(void)setTextFeildbords{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -197,7 +226,7 @@
 }
 //获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
-    textField.returnKeyType =UIReturnKeyDone;
+    textField.returnKeyType = UIReturnKeyDone;
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -217,7 +246,6 @@
     }
     return YES;
 }
-
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.loginAdmin resignFirstResponder];

@@ -18,6 +18,7 @@
 #import <MJRefresh.h>
 #import <MJExtension.h>
 #import <SVProgressHUD.h>
+#import "WZNavigationController.h"
 #import "WZSelectProjectsController.h"
 @interface WZBatchReport ()<UIScrollViewDelegate,UITextFieldDelegate>
 
@@ -64,7 +65,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumDismissTimeInterval:2.0f];
+    [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     _tags = 20;
     //创建控件
@@ -74,7 +75,7 @@
 -(void)foundController{
     //创建一个UIScrollView
     UIScrollView *scrollView = [[UIScrollView alloc] init];
-    scrollView.frame = CGRectMake(self.view.fX, self.view.fY, self.view.fWidth, self.view.fHeight-64 - 49);
+    scrollView.frame = CGRectMake(self.view.fX, self.view.fY, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight - 93-JF_BOTTOM_SPACE);
     self.scrollView = scrollView;
     [self.view addSubview:scrollView];
     scrollView.delegate =self;
@@ -106,7 +107,7 @@
         make.top.equalTo(_viewOne.mas_top).with.offset(15);
         make.height.mas_offset(15);
     }];
-    //点击按钮选择项目
+    //点击按钮选择楼盘
     UIButton *titemNameButton = [[UIButton alloc] init];
     [titemNameButton setEnlargeEdge:44];
     [titemNameButton setBackgroundImage:[UIImage imageNamed:@"more_unfold"] forState:UIControlStateNormal];
@@ -162,7 +163,7 @@
         make.left.equalTo(self.view.mas_left);
         make.right.equalTo(self.view.mas_right);
         make.bottom.equalTo(self.view.mas_bottom);
-        make.height.mas_offset(49);
+        make.height.mas_offset(49+JF_BOTTOM_SPACE);
     }];
     
     
@@ -612,9 +613,9 @@
     }
     
 }
-#pragma mark -选择项目
+#pragma mark -选择楼盘
 -(void)itemNameButton{
-    //跳转选择项目列表
+    //跳转选择楼盘列表
     WZSelectProjectsController *projectVC = [[WZSelectProjectsController alloc] init];
     UIViewController *Vc = [UIViewController viewController:self.view.superview];
     projectVC.projectBlock = ^(NSDictionary *dicty) {
@@ -631,11 +632,11 @@
 -(void)loadTimeButton:(UIButton *)button{
     [self findSubView:self.view];
     if ([_ItemName.text isEqual:@"请选择"]) {
-        [SVProgressHUD showInfoWithStatus:@"请先选择项目"];
+        [SVProgressHUD showInfoWithStatus:@"请先选择楼盘"];
         return;
     }
     if (!_itemId) {
-        [SVProgressHUD showInfoWithStatus:@"请先选择项目"];
+        [SVProgressHUD showInfoWithStatus:@"请先选择楼盘"];
         return;
     }
     if (_timeArray.count==0) {
@@ -666,7 +667,7 @@
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"id"] = _itemId;
-        NSString *url = [NSString stringWithFormat:@"%@/proProject/planBoardingDate",URL];
+        NSString *url = [NSString stringWithFormat:@"%@/proProject/planBoardingDate",HTTPURL];
         [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             
@@ -812,7 +813,7 @@
 
 }
 
-#pragma mark -获取项目名
+#pragma mark -获取楼盘名
 -(void)getItemName:(NSNotification *)notification{
     
     NSMutableDictionary *item = [notification object];
@@ -822,10 +823,10 @@
 }
 #pragma mark -确认添加
 -(void)confrimButton{
-    //项目名称
+    //楼盘名称
     NSString *projectName = _ItemName.text;
     if ([projectName isEqual:@"请选择"]||!projectName) {
-        [SVProgressHUD showInfoWithStatus:@"项目名称未选择"];
+        [SVProgressHUD showInfoWithStatus:@"楼盘名称未选择"];
         return;
     }
     //预计上客时间
@@ -834,7 +835,7 @@
         [SVProgressHUD showInfoWithStatus:@"上客时间未选择"];
         return;
     }
-    //项目ID
+    //楼盘ID
     NSString *projectId = _itemId;
     //出发城市
     NSString *departureCity = _setOutCity.text;
@@ -928,7 +929,6 @@
     
     [self performSelector:@selector(loadData) withObject:self afterDelay:1];
     
-
 }
 -(void)loadData{
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
@@ -939,9 +939,10 @@
     
     //申明请求的数据是json类型
     mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
-    NSString *url = [NSString stringWithFormat:@"%@/order/order",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/order/order",HTTPURL];
     [mgr POST:url  parameters:_paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         [GKCover hide];
@@ -953,7 +954,8 @@
             successVC.reportData = data;
             successVC.status = _sginStatu;
             successVC.telphone = _telphone;
-            [Vc.navigationController pushViewController:successVC animated:YES];
+             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:successVC];
+            [Vc.navigationController presentViewController:nav animated:YES completion:nil];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -1022,7 +1024,7 @@
             return NO;
         }
     }
-    if (toBeString.length>25) {
+    if (toBeString.length>15) {
         return NO;
     }
     

@@ -21,10 +21,13 @@ static  NSString * const ID = @"cell";
     //页数
     NSInteger current;
 }
-//项目列表数据
+//楼盘列表数据
 @property(nonatomic,strong)NSMutableArray *projectListArray;
-//项目列表数据s
+//楼盘列表数据s
 @property(nonatomic,strong)NSMutableArray *projectListArrays;
+//数据请求是否完毕
+@property (nonatomic, assign) BOOL isRequestFinish;
+
 @end
 //查询条数
 static NSString *size = @"20";
@@ -33,7 +36,7 @@ static NSString *size = @"20";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"选择项目";
+    self.navigationItem.title = @"选择楼盘";
     self.tableView.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"search_1"] highImage:[UIImage imageNamed:@"search"] target:self action:@selector(searchProject)];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -41,8 +44,7 @@ static NSString *size = @"20";
     [self.tableView registerNib:[UINib nibWithNibName:@"WZSelectProjectCell" bundle:nil] forCellReuseIdentifier:ID];
     _projectListArray = [NSMutableArray array];
     current = 1;
-    //请求数据
-    [self loadData];
+    _isRequestFinish = YES;
     [self headerRefresh];
 }
 //下拉刷新
@@ -64,9 +66,10 @@ static NSString *size = @"20";
     // 设置颜色
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     self.tableView.mj_header = header;
-    
+    [self loadData];
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
+    footer.mj_h +=JF_BOTTOM_SPACE + 20;
     self.tableView.mj_footer = footer;
     
 }
@@ -84,6 +87,10 @@ static NSString *size = @"20";
 }
 //请求数据列表
 -(void)loadData{
+    if (!_isRequestFinish) {
+        return;
+    }
+    _isRequestFinish = NO;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     NSString *storeId = [ user objectForKey:@"storeId"];
@@ -99,9 +106,9 @@ static NSString *size = @"20";
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"storeId"] = storeId;
     paraments[@"name"] = @"";
-    paraments[@"current"] = [NSString stringWithFormat:@"%zd",current];
+    paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"size"] = size;
-    NSString *url = [NSString stringWithFormat:@"%@/projectCompany/projectList",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/projectCompany/projectList",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
@@ -127,18 +134,25 @@ static NSString *size = @"20";
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
-            [NSString isCode:self.navigationController code:code];
+            if ([code isEqual:@"401"]) {
+                
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
         }
-        
+        _isRequestFinish = YES;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
+        _isRequestFinish = YES;
     }];
 }
-//搜索项目
+//搜索楼盘
 -(void)searchProject{
     WZSearchProjectController *searchVc = [[WZSearchProjectController alloc] init];
     searchVc.blockItem = ^(NSDictionary *dicty) {
@@ -150,7 +164,7 @@ static NSString *size = @"20";
 }
 #pragma mark - Table view data source
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 45;
+    return 68;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 

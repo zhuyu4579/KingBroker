@@ -41,5 +41,4 @@ typedef NS_ENUM(int,CCCycleScrollPageViewPosition){
 - (instancetype)initWithImages:(NSArray *)images withFrame:(CGRect)frame;
 - (instancetype)initWithImages:(NSArray *)images withPageViewLocation:(CCCycleScrollPageViewPosition)pageLocation withPageChangeTime:(NSTimeInterval)changeTime withFrame:(CGRect)frame;
 
-
 @end

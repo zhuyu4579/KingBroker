@@ -52,7 +52,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"username"] = username;
     paraments[@"userId"] = userId;
-    NSString *url = [NSString stringWithFormat:@"%@/sysUser/myInfo",URL];
+    NSString *url = [NSString stringWithFormat:@"%@/sysUser/myInfo",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
@@ -63,7 +63,12 @@
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
-            [NSString isCode:self.navigationController code:code];
+            if ([code isEqual:@"401"]) {
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (error.code == -1001) {
@@ -82,23 +87,12 @@
     [_infoView.headImage sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"head"]];
     //姓名
     _infoView.name.text = [_loginItem valueForKey:@"realname"];
-    NSString *idcardStatus = [_loginItem valueForKey:@"idcardStatus"];
-    _infoView.idcardStatus = idcardStatus;
-    if ([idcardStatus isEqual:@"2"]) {
-         _infoView.name.enabled = NO;
-    }
     //门店位置
     _infoView.cityName = [_loginItem valueForKey:@"cityName"];
     //门店地址
     _infoView.storeAddr = [_loginItem valueForKey:@"addr"];
     //经纪人认证状态
     _infoView.realtorStatus = [_loginItem valueForKey:@"realtorStatus"];
-    //电话
-    _infoView.telephone.text = [_loginItem valueForKey:@"phone"];
-    //所属门店
-    _infoView.storeName.text = [_loginItem valueForKey:@"storeName"];
-    //门店ID
-    _infoView.storeID.text = [_loginItem valueForKey:@"storeCode"];
     //门店负责人
     _infoView.dutyFlag = [_loginItem valueForKey:@"dutyFlag"];
     //性别

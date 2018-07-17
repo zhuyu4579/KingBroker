@@ -14,6 +14,7 @@
     [super awakeFromNib];
     _signStatus.textColor = UIColorRBG(111, 182, 244);
     _signStatus.backgroundColor = UIColorRBG(240, 246, 236);
+    _companyName.textColor = UIColorRBG(153, 153, 153);
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
@@ -27,6 +28,7 @@
     _item = item;
     _projectId = item.projectId;
     _projectName.text = item.projectName;
+    _companyName.text = item.companyName;
     NSString *type = item.signStatus;
     if ([type isEqual:@"1"]) {
         [_signStatus setHidden:NO];
