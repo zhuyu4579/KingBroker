@@ -87,7 +87,7 @@
     [scrollView addSubview:_viewOne];
     //创建第一个view中的lable
     UILabel *itemNameLabel = [[UILabel alloc] init];
-    itemNameLabel.text = @"项 目 名：";
+    itemNameLabel.text = @"楼 盘 名：";
     itemNameLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     itemNameLabel.textColor = UIColorRBG(153, 153, 153);
     [_viewOne addSubview:itemNameLabel];

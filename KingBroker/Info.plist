@@ -45,11 +45,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>使用APP时需要相机拍照上传经纪人身份实名认证，管理者身份名片认证的资料和修改个人信息头像的资料，您是否允许打开相机？</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>使用应用期间允许访问位置信息获取周边项目列表</string>
+	<string>使用应用期间允许访问位置信息获取周边楼盘列表</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>使用应用期间允许访问位置信息获取周边楼盘列表</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>使用应用期间允许访问位置信息获取周边项目列表</string>
+	<string>使用应用期间允许访问位置信息获取周边楼盘列表</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>需要访问相册保存视频/修改头像</string>
 	<key>NSPhotoLibraryUsageDescription</key>
