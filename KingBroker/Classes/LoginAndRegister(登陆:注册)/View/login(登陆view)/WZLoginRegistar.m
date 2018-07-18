@@ -63,6 +63,7 @@
         [SVProgressHUD showInfoWithStatus:@"账号格式错误"];
         return;
     }
+    
     //判断密码的长度
     if(password.length<6||password.length>16){
          [SVProgressHUD showInfoWithStatus:@"密码长度6-20个字符"];

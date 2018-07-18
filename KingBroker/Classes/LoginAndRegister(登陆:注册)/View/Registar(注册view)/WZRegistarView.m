@@ -32,15 +32,12 @@
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
 
     //获取手机文本框的手机号码
-   NSString  *phone = _regAdminText.text;
+    NSString  *phone = _regAdminText.text;
     
     NSString *type = @"1";
     //判断手机格式是否正确
-    NSString *regex = @"^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$";
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
-    BOOL isMatch = [pred evaluateWithObject:phone];
-    
-    if (!isMatch) {
+    NSString *str = [phone substringToIndex:1];
+    if (phone.length != 11 || ![str isEqual:@"1"]) {
         [SVProgressHUD showInfoWithStatus:@"手机格式错误"];
         return;
     }
@@ -131,11 +128,8 @@
     
     NSString *telephone = _regAdminText.text;
     //判断手机格式是否正确
-    NSString *regex = @"^((13[0-9])|(15[^4,\\D])|(18[0,0-9]))\\d{8}$";
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
-    BOOL isMatch = [pred evaluateWithObject:telephone];
-    
-    if (!isMatch) {
+    NSString *str = [telephone substringToIndex:1];
+    if (telephone.length != 11 || ![str isEqual:@"1"]) {
         [SVProgressHUD showInfoWithStatus:@"手机格式错误"];
         return;
     }
