@@ -148,7 +148,7 @@
     [_scrollView addSubview:task];
 
     //创建为你推荐
-    UIView *Recommend = [[UIView alloc] initWithFrame:CGRectMake(0, task.fY+task.fHeight+10, SCREEN_WIDTH, 732+210*(n-1)+10)];
+    UIView *Recommend = [[UIView alloc] initWithFrame:CGRectMake(0, task.fY+task.fHeight+10, SCREEN_WIDTH, 732+210*(n-1)*2)];
     Recommend.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:Recommend];
     //创建为你推荐图标
@@ -162,7 +162,7 @@
     recommendLable.textColor = UIColorRBG(68, 68, 68);
     [Recommend addSubview:recommendLable];
     //创建为你推荐房源view62
-    _recommendTV = [[WZRecommendTableView alloc] initWithFrame:CGRectMake(0, recommendLable.fY+recommendLable.fHeight, Recommend.fWidth, 700+210*(n-1)+10)];
+    _recommendTV = [[WZRecommendTableView alloc] initWithFrame:CGRectMake(0, recommendLable.fY+recommendLable.fHeight, Recommend.fWidth, 700+210*(n-1)*2)];
     
     [Recommend addSubview:_recommendTV];
 
