@@ -225,6 +225,7 @@ static  NSString * const ID = @"cell";
     WZShareDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     [cell.shareDetail addTarget:self action:@selector(shareTaskDetail) forControlEvents:UIControlEventTouchUpInside];
     WZShareDetailsItem *item = _detailItem[indexPath.row];
+    _detailShareContents = _listArray[indexPath.row];
     cell.item = item;
     self.cell = cell;
     return cell;
@@ -236,10 +237,13 @@ static  NSString * const ID = @"cell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     _detailShareContents = _listArray[indexPath.row];
+    
+    [self closeGkCover];
     [GKCover translucentCoverFrom:[self.view superview].superview content:_redView animated:YES];
     //[GKCover translucentWindowCenterCoverContent:_redView animated:YES];
 }
 -(void)shareTaskDetail{
+    [self closeGkCover];
     [GKCover translucentCoverFrom:[self.view superview].superview content:_redView animated:YES];
 }
 //分享弹框
@@ -297,6 +301,7 @@ static  NSString * const ID = @"cell";
 }
 //分享到微信
 -(void)WXShare{
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:@"1" forKey:@"shareSuccessType"];
     [defaults synchronize];
@@ -304,8 +309,7 @@ static  NSString * const ID = @"cell";
     WXMediaMessage *mediaMsg = [WXMediaMessage message];
     mediaMsg.title = [_detailShareContents valueForKey:@"name"];
     mediaMsg.description = [_detailShareContents valueForKey:@"outlining"];
-    NSData *data = [NSData  dataWithContentsOfURL:[NSURL URLWithString:[_detailShareContents valueForKey:@"url"]]];
-    UIImage *image =  [UIImage imageWithData:data];
+    UIImage *image =  [self handleImageWithURLStr:[_detailShareContents valueForKey:@"url"]];
     [mediaMsg setThumbImage:image];
     //分享网站
     WXWebpageObject *webpageObject = [WXWebpageObject object];
@@ -336,8 +340,7 @@ static  NSString * const ID = @"cell";
     
     mediaMsg.title = [_detailShareContents valueForKey:@"name"];
     mediaMsg.description = [_detailShareContents valueForKey:@"outlining"];
-    NSData *data = [NSData  dataWithContentsOfURL:[NSURL URLWithString:[_detailShareContents valueForKey:@"url"]]];
-    UIImage *image =  [UIImage imageWithData:data];
+    UIImage *image =  [self handleImageWithURLStr:[_detailShareContents valueForKey:@"url"]];
     [mediaMsg setThumbImage:image];
     
     //2.分享网站
@@ -365,6 +368,22 @@ static  NSString * const ID = @"cell";
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
+}
+- (UIImage *)handleImageWithURLStr:(NSString *)imageURLStr {
+    
+    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLStr]];
+    NSData *newImageData = imageData;
+    // 压缩图片data大小
+    newImageData = UIImageJPEGRepresentation([UIImage imageWithData:newImageData scale:0.1], 0.1f);
+    UIImage *image = [UIImage imageWithData:newImageData];
+    
+    // 压缩图片分辨率(因为data压缩到一定程度后，如果图片分辨率不缩小的话还是不行)
+    CGSize newSize = CGSizeMake(200, 200);
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,(NSInteger)newSize.width, (NSInteger)newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 @end
