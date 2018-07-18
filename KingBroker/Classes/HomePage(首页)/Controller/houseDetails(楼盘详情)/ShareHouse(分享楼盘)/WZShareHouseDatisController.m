@@ -237,7 +237,6 @@ static  NSString * const ID = @"cell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     _detailShareContents = _listArray[indexPath.row];
-    
     [self closeGkCover];
     [GKCover translucentCoverFrom:[self.view superview].superview content:_redView animated:YES];
     //[GKCover translucentWindowCenterCoverContent:_redView animated:YES];
