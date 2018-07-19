@@ -85,6 +85,7 @@
 @property(nonatomic,strong)UIView *dynamicView;
 @property(nonatomic,strong)WZDynamictableView *dynamic;
 @property(nonatomic,strong)UILabel *dyname;
+@property(nonatomic,assign)CGFloat titleHeight;
 //合同有效期
 @property(nonatomic,strong)UILabel *contract;
 //结佣时间
@@ -354,7 +355,13 @@
 -(void)setDynamicHeight{
     
     CGSize titleSize = [_dyname.text sizeWithFont:_dyname.font constrainedToSize:CGSizeMake(_dyname.frame.size.width, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
+    
     CGFloat n = titleSize.height+91;
+    if (n == _titleHeight) {
+        return;
+    }
+    _titleHeight = n;
+    
     if(n>210){
         _dynamicView.fHeight +=n-210;
         _houseIntroduce.fY += n-210;
