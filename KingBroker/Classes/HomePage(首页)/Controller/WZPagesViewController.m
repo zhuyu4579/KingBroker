@@ -339,7 +339,7 @@
     [cleanButton setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
     [cleanButton addTarget:self action:@selector(closeVersion) forControlEvents:UIControlEventTouchUpInside];
     [cleanButton setEnlargeEdge:44];
-    NSString *isno_up = [dicy valueForKey:@"isno_up"];
+    NSString *isno_up = [dicy valueForKey:@"isnoUp"];
     if ([isno_up isEqual:@"1"]) {
         [cleanButton setHidden:YES];
         cleanButton.enabled = NO;
@@ -355,7 +355,7 @@
         make.width.offset(22);
     }];
     UILabel *description = [[UILabel alloc] init];
-    description.text = [dicy valueForKey:@"version_description"];
+    description.text = [dicy valueForKey:@"versionDescription"];
     description.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     description.textColor = UIColorRBG(153, 153, 153);
     description.numberOfLines = 0;
