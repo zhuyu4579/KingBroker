@@ -715,7 +715,6 @@
         make.height.offset(12);
     }];
     UILabel *CommissionTime = [[UILabel alloc] init];
-    
     _settlement = CommissionTime;
     CommissionTime.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     CommissionTime.textColor = UIColorRBG(3, 133, 219);
@@ -724,6 +723,7 @@
         make.centerX.equalTo(twoView.mas_centerX);
         make.top.equalTo(labelTwo.mas_bottom).mas_offset(13);
         make.height.offset(15);
+        make.width.offset((view.fWidth-10)/2);
     }];
     
 }
