@@ -282,6 +282,7 @@
 -(void)findversion{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [user objectForKey:@"uuid"];
+    //当前版本
     NSString *appVersion = [user objectForKey:@"appVersion"];
     
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
@@ -302,7 +303,25 @@
             //最新版本号
             NSString *newVersion = [data valueForKey:@"version"];
             NSString *downAddress = [data valueForKey:@"downAddress"];
-            if (![appVersion isEqual: newVersion]) {
+            
+            NSArray * array1 = [appVersion componentsSeparatedByString:@"."];
+            NSInteger currentVersionInt = 0;
+            if (array1.count == 3)//默认版本号1.0.0类型
+            {
+                currentVersionInt = [array1[0] integerValue]*100 + [array1[1] integerValue]*10 + [array1[2] integerValue];
+            }else if(array1.count == 2){
+                currentVersionInt = [array1[0] integerValue]*100 + [array1[1] integerValue]*10;
+            }
+            NSArray * array2 = [newVersion componentsSeparatedByString:@"."];
+            NSInteger lineVersionInt = 0;
+            if (array2.count == 3)
+            {
+                lineVersionInt = [array2[0] integerValue]*100 + [array2[1] integerValue]*10 + [array2[2] integerValue];
+            }else if(array2.count == 2){
+                lineVersionInt = [array2[0] integerValue]*100 + [array2[1] integerValue]*10;
+            }
+         
+            if (lineVersionInt>currentVersionInt) {
                 [self updateVersion:data];
             }
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
