@@ -11,6 +11,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "NSString+LCExtension.h"
 #import "UIButton+WZEnlargeTouchAre.h"
+#import "UIBarButtonItem+Item.h"
 #import <SVProgressHUD.h>
 #import "UIView+Frame.h"
 #import <AFNetworking.h>
@@ -69,6 +70,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"分享";
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backItemWithImage:[UIImage imageNamed:@"navigationButtonReturn"] highImage:[UIImage imageNamed:@"navigationButtonReturn"] target:self action:@selector(back)];
     
     UIScrollView *scollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, self.view.fHeight)];
     _scrollView = scollView;
@@ -78,6 +80,10 @@
     [self loadData];
     //创造通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shareSuccess) name:@"taskShare" object:nil];
+}
+//返回上一页
+-(void)back{
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -741,6 +747,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+    
 }
 - (void)viewDidDisappear:(BOOL)animated
 {

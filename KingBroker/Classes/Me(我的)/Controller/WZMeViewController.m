@@ -75,7 +75,7 @@
     //创建区域控件
     [self setUpMeView];
     //创造通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"MeRefresh" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(meRefresh) name:@"MeRefresh" object:nil];
 }
 
 //创建控件
@@ -98,15 +98,17 @@
     [self setViews];
    
 }
+//推送刷新
+-(void)meRefresh{
+    [self loadData];
+    [self setloadData];
+}
 //获取数据
 -(void)loadData{
-    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     NSString *userId = [ user objectForKey:@"userId"];
     NSString *username = [ user objectForKey:@"username"];
-    
-   
      _uuid = uuid;
      if (uuid) {
         //创建会话请求
@@ -120,13 +122,14 @@
         //2.拼接参数
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"username"] = username;
-        paraments[@"userId"] = userId;      
+        paraments[@"userId"] = userId;
+        NSLog(@"%@",paraments);
         NSString *url = [NSString stringWithFormat:@"%@/sysUser/myInfo",HTTPURL];
         [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             if ([code isEqual:@"200"]) {
-    
                 _loginItem = [responseObject valueForKey:@"data"];
+                NSLog(@"%@",_loginItem);
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 [defaults setObject:[_loginItem valueForKey:@"realtorStatus"] forKey:@"realtorStatus"];
                 [defaults setObject:[_loginItem valueForKey:@"idcardStatus"] forKey:@"idcardStatus"];
@@ -550,7 +553,7 @@
 }
 //查询未读消息
 -(void)setloadData{
-    
+    NSLog(@"tuisong");
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     //创建会话请求
@@ -567,6 +570,7 @@
         
         if ([code isEqual:@"200"]) {
             NSDictionary *data = [responseObject valueForKey:@"data"];
+            
             NSString *count = [data valueForKey:@"count"] ;
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:count forKey:@"newCount"];

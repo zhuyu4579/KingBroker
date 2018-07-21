@@ -246,14 +246,13 @@ static NSString *size = @"20";
     NSString *viewType = anCell.viewType;
     //楼盘ID/订单ID
     NSString *additional = anCell.additional;
-    NSLog(@"%@",additional);
+    
     //指定页面
     NSString *param = anCell.param;
     //查询未读消息
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
  
-    
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -290,7 +289,7 @@ static NSString *size = @"20";
             boaringVC.ID = additional;
             [self.navigationController pushViewController:boaringVC animated:YES];
         }else if (paramId == 102){
-            
+
             //订单详情
             WZBoardingDetailsController *boaringVC = [[WZBoardingDetailsController alloc] init];
             boaringVC.ID = additional;
@@ -317,6 +316,11 @@ static NSString *size = @"20";
             WZBelongedStoreController *store = [[WZBelongedStoreController alloc] init];
             [self.navigationController pushViewController:store animated:YES];
         }
+    }else{
+        
+        _listArray = [NSMutableArray array];
+        current = 1;
+        [self loadDate];
     }
 }
 -(void)viewWillAppear:(BOOL)animated{

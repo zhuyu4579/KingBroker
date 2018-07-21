@@ -225,6 +225,10 @@ static NSString *size = @"20";
         task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
         WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
         [self.navigationController presentViewController:nav animated:YES completion:nil];
+    }else{
+        _listArray = [NSMutableArray array];
+        current = 1;
+        [self loadDate];
     }
    
 }

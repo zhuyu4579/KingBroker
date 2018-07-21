@@ -11,6 +11,7 @@
 #import "UIView+Frame.h"
 #import "WZShareController.h"
 #import "NSString+LCExtension.h"
+#import "WZNavigationController.h"
 @interface WZTaskController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
 @property(nonatomic,strong)WKWebView *webView;
 @property(nonatomic,strong)UIProgressView *pV;
@@ -99,7 +100,8 @@
             
             WZShareController *shareVC= [[WZShareController alloc] init];
             shareVC.ID = ID;
-            [self.navigationController pushViewController:shareVC animated:YES];
+            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:shareVC];
+            [self.navigationController presentViewController:nav animated:YES completion:nil];
         }
         decisionHandler(WKNavigationActionPolicyCancel);
         
@@ -148,7 +150,6 @@
       [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"closeWindow"];
 }
 -(void)viewWillAppear:(BOOL)animated{
-    
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [self createWebView];

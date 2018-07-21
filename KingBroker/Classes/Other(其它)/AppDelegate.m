@@ -75,7 +75,6 @@
 }
 
 #pragma mark 获取自定义消息内容
-
 - (void)networkDidReceiveMessage:(NSNotification *)notification {
     
     [self setloadData];
@@ -91,6 +90,7 @@
         //通知二维码关闭
         [[NSNotificationCenter defaultCenter] postNotificationName:@"BoaringVC" object:nil];
     }else if([param isEqual:@"104"] || [param isEqual:@"105"] || [param isEqual:@"106"]){
+       // NSLog(@"%@",userInfo);
         //通知刷新我的页面
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MeRefresh" object:nil];
     }
@@ -225,20 +225,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [JPUSHService setBadge:0];
     
     NSDictionary * userInfo = notification.request.content.userInfo;
-
-    //自定义内容
-//    NSLog(@"收到的推送消息 userinfo %@",userInfo);
-//
-//    //判断应用是在前台还是后台
-//
-//    if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-//
-//        //     前台收到消息后，做的对应页面跳转操作
-//        [self setControllers:userInfo];
-//        // [[NSNotificationCenter defaultCenter]postNotificationName:@"REFRESHYUJING" object:nil];
-//        NSLog(@"前台收到消息");
-//    }
-//
+    [self setloadData];
     if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         
         [JPUSHService handleRemoteNotification:userInfo];
@@ -248,7 +235,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 }
 
 -(void)setControllers:(NSDictionary *)userInfo{
-    [self setloadData];
+    
     //自定义的内容
     //参数跳转
     NSString *param = [userInfo valueForKey:@"param"];

@@ -213,6 +213,10 @@ static NSString *size = @"20";
         WZNEWHTMLController *new = [[WZNEWHTMLController alloc] init];
         new.url = url;
         [self.navigationController pushViewController:new animated:YES];
+    }else{
+        _listArray = [NSMutableArray array];
+        current = 1;
+        [self loadDate];
     }
     
 }
