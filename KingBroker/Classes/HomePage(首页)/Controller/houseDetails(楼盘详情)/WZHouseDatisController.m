@@ -350,6 +350,7 @@
     _shop.array =  [WZPeripheryItem mj_objectArrayWithKeyValuesArray:shops];
     [_shop reloadData];
     [self setDynamicHeight];
+    [_reportButton setEnabled:YES];
 }
 //动态修改楼盘动态高度
 -(void)setDynamicHeight{
@@ -1181,6 +1182,7 @@
     [reportButton setTitle:@"报备客户" forState:UIControlStateNormal];
     reportButton.backgroundColor = UIColorRBG(3, 133, 219);
     _reportButton = reportButton;
+    [reportButton setEnabled:NO];
     reportButton.titleLabel.textColor = [UIColor whiteColor];
     [reportButton addTarget:self action:@selector(resport) forControlEvents:UIControlEventTouchUpInside];
     [buttonView addSubview:reportButton];
@@ -1357,7 +1359,7 @@
     if ([realtorStatus isEqual:@"2"]){
         WZReportController *report = [[WZReportController alloc] init];
         report.itemID = _ID;
-        report.itemName = _dView.itemName.text;
+        report.itemName = [_houseDatils valueForKey:@"name"];
         report.types = @"1";
         report.sginStatus = [_houseDatils valueForKey:@"sginStatus"];
         report.telphone = [_houseDatils valueForKey:@"telphone"];

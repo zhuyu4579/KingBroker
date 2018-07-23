@@ -170,13 +170,11 @@
 		1FD9C64B207DBD2C00BB0298 /* WZAlbumsItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C56F207DBD2B00BB0298 /* WZAlbumsItem.m */; };
 		1FD9C64C207DBD2C00BB0298 /* WZCityItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C571207DBD2B00BB0298 /* WZCityItem.m */; };
 		1FD9C64D207DBD2C00BB0298 /* WZReportSuccessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C574207DBD2B00BB0298 /* WZReportSuccessCell.xib */; };
-		1FD9C64E207DBD2C00BB0298 /* WZCustomerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C575207DBD2B00BB0298 /* WZCustomerView.m */; };
 		1FD9C64F207DBD2C00BB0298 /* WZAddCustormCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C576207DBD2B00BB0298 /* WZAddCustormCell.xib */; };
 		1FD9C650207DBD2C00BB0298 /* WZReportSuccessTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C577207DBD2B00BB0298 /* WZReportSuccessTableView.m */; };
 		1FD9C651207DBD2C00BB0298 /* WZTelePhoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C579207DBD2B00BB0298 /* WZTelePhoneCell.m */; };
 		1FD9C652207DBD2C00BB0298 /* WZTelephoneTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C57B207DBD2B00BB0298 /* WZTelephoneTableView.m */; };
 		1FD9C653207DBD2C00BB0298 /* WZTelePhoneCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C57C207DBD2B00BB0298 /* WZTelePhoneCell.xib */; };
-		1FD9C654207DBD2C00BB0298 /* WZCustomerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C57D207DBD2B00BB0298 /* WZCustomerView.xib */; };
 		1FD9C655207DBD2C00BB0298 /* WZReportSuccessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C57F207DBD2B00BB0298 /* WZReportSuccessCell.m */; };
 		1FD9C656207DBD2C00BB0298 /* WZAddCustormCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C581207DBD2B00BB0298 /* WZAddCustormCell.m */; };
 		1FD9C657207DBD2C00BB0298 /* WZRecommendTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C586207DBD2B00BB0298 /* WZRecommendTableView.m */; };
@@ -540,7 +538,6 @@
 		1FD9C570207DBD2B00BB0298 /* WZTaskTagItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZTaskTagItem.h; sourceTree = "<group>"; };
 		1FD9C571207DBD2B00BB0298 /* WZCityItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZCityItem.m; sourceTree = "<group>"; };
 		1FD9C574207DBD2B00BB0298 /* WZReportSuccessCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZReportSuccessCell.xib; sourceTree = "<group>"; };
-		1FD9C575207DBD2B00BB0298 /* WZCustomerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZCustomerView.m; sourceTree = "<group>"; };
 		1FD9C576207DBD2B00BB0298 /* WZAddCustormCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZAddCustormCell.xib; sourceTree = "<group>"; };
 		1FD9C577207DBD2B00BB0298 /* WZReportSuccessTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZReportSuccessTableView.m; sourceTree = "<group>"; };
 		1FD9C578207DBD2B00BB0298 /* WZReportSuccessCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZReportSuccessCell.h; sourceTree = "<group>"; };
@@ -548,8 +545,6 @@
 		1FD9C57A207DBD2B00BB0298 /* WZAddCustormCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZAddCustormCell.h; sourceTree = "<group>"; };
 		1FD9C57B207DBD2B00BB0298 /* WZTelephoneTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZTelephoneTableView.m; sourceTree = "<group>"; };
 		1FD9C57C207DBD2B00BB0298 /* WZTelePhoneCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZTelePhoneCell.xib; sourceTree = "<group>"; };
-		1FD9C57D207DBD2B00BB0298 /* WZCustomerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZCustomerView.xib; sourceTree = "<group>"; };
-		1FD9C57E207DBD2B00BB0298 /* WZCustomerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZCustomerView.h; sourceTree = "<group>"; };
 		1FD9C57F207DBD2B00BB0298 /* WZReportSuccessCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZReportSuccessCell.m; sourceTree = "<group>"; };
 		1FD9C580207DBD2B00BB0298 /* WZReportSuccessTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZReportSuccessTableView.h; sourceTree = "<group>"; };
 		1FD9C581207DBD2B00BB0298 /* WZAddCustormCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZAddCustormCell.m; sourceTree = "<group>"; };
@@ -1526,9 +1521,6 @@
 				1FD9C579207DBD2B00BB0298 /* WZTelePhoneCell.m */,
 				1FD9C583207DBD2B00BB0298 /* WZTelePhoneCell.h */,
 				1FD9C57C207DBD2B00BB0298 /* WZTelePhoneCell.xib */,
-				1FD9C57E207DBD2B00BB0298 /* WZCustomerView.h */,
-				1FD9C575207DBD2B00BB0298 /* WZCustomerView.m */,
-				1FD9C57D207DBD2B00BB0298 /* WZCustomerView.xib */,
 				1F3D658720B29BBF003AEF39 /* WZSelectProjectCell.h */,
 				1F3D658820B29BBF003AEF39 /* WZSelectProjectCell.m */,
 				1F3D658920B29BBF003AEF39 /* WZSelectProjectCell.xib */,
@@ -1895,7 +1887,6 @@
 				1FD9C653207DBD2C00BB0298 /* WZTelePhoneCell.xib in Resources */,
 				1F4D6DD720F6E8E0008A9514 /* WZShareDetailCell.xib in Resources */,
 				1FD9C631207DBD2C00BB0298 /* WZAnnouCell.xib in Resources */,
-				1FD9C654207DBD2C00BB0298 /* WZCustomerView.xib in Resources */,
 				1F4D6DEC20FCF232008A9514 /* WZMainUnitCell.xib in Resources */,
 				1FD9C665207DBD2C00BB0298 /* WZTypeViewCell.xib in Resources */,
 				1FD9C677207DBD2C00BB0298 /* WZDynamicCell.xib in Resources */,
@@ -2108,7 +2099,6 @@
 				1FFA9FAC20E32D6300F34B3B /* WZShareController.m in Sources */,
 				1FD9C65F207DBD2C00BB0298 /* WZTypeTableView.m in Sources */,
 				1FD9C68D207DBD2C00BB0298 /* WZFindPWView.m in Sources */,
-				1FD9C64E207DBD2C00BB0298 /* WZCustomerView.m in Sources */,
 				1FD9C6A0207DED0F00BB0298 /* WZBatchReport.m in Sources */,
 				1FD9C689207DBD2C00BB0298 /* WZLoginRegistar.m in Sources */,
 				1FD9C650207DBD2C00BB0298 /* WZReportSuccessTableView.m in Sources */,
