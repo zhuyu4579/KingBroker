@@ -316,6 +316,7 @@ static NSString *size = @"20";
     [codeView addSubview:closeButton];
 }
 //上客弹出二维码
+#warning 修改上客时间
 - (void)boaringButtonOne:(UIButton *)button {
     
     CGPoint point = button.center;

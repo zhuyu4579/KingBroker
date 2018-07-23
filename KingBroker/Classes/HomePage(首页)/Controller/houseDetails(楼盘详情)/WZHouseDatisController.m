@@ -236,6 +236,7 @@
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *realtorStatus = [user objectForKey:@"realtorStatus"];
     NSString *commissionFag = [ user objectForKey:@"commissionFag"];
+    NSString *invisibleLinkmanFlag = [user objectForKey:@"invisibleLinkmanFlag"];
     //楼盘ID
     _ID = [_houseDatils valueForKey:@"id"];
     //设置照片
@@ -304,6 +305,11 @@
     }
     
     _dView.address.text = [_houseDatils valueForKey:@"address"];
+    if ([invisibleLinkmanFlag isEqual:@"0"]) {
+         _dView.phone.text = [_houseDatils valueForKey:@"telphone"];
+    }else{
+         _dView.phone.text = @"电话不可见";
+    }
     _dView.phone.text = [_houseDatils valueForKey:@"telphone"];
     _dView.chargeMan.text = [_houseDatils valueForKey:@"chargeMan"];
     //公司名称
@@ -356,6 +362,7 @@
 -(void)setDynamicHeight{
     
     CGSize titleSize = [_dyname.text sizeWithFont:_dyname.font constrainedToSize:CGSizeMake(_dyname.frame.size.width, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
+    
     CGFloat n = titleSize.height+91;
     if (n==_dynameHeight) {
         return;
@@ -1188,6 +1195,7 @@
     [buttonView addSubview:reportButton];
     
 }
+
 //查询电话列表
 -(void)findCoustrom{
     
@@ -1236,7 +1244,6 @@
     view.backgroundColor = [UIColor whiteColor];
     view.frame = CGRectMake(0,views.fHeight-50*n,self.view.fWidth, 50*n);
     [views addSubview:view];
-    
     for (int i = 0; i<n; i++) {
         UILabel *name = [[UILabel alloc] init];
         name.text = [array[i] valueForKey:@"linkman"];
