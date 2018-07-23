@@ -331,7 +331,7 @@
         make.height.mas_offset(14);
     }];
     UITextField *eatPeople = [[UITextField alloc] init];
-    eatPeople.placeholder = @"必填";
+    eatPeople.placeholder = @"可选填";
     eatPeople.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     eatPeople.textColor = UIColorRBG(68, 68, 68);
     eatPeople.delegate = self;

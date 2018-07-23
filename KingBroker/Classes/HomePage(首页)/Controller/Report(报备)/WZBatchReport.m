@@ -86,7 +86,7 @@
     [scrollView addSubview:_viewOne];
     //创建第一个view中的lable
     UILabel *itemNameLabel = [[UILabel alloc] init];
-    itemNameLabel.text = @"项 目 名：";
+    itemNameLabel.text = @"楼 盘 名：";
     itemNameLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     itemNameLabel.textColor = UIColorRBG(153, 153, 153);
     [_viewOne addSubview:itemNameLabel];
@@ -252,7 +252,7 @@
         make.height.mas_offset(14);
     }];
     UITextField *eatPeople = [[UITextField alloc] init];
-    eatPeople.placeholder = @"必填";
+    eatPeople.placeholder = @"可选填";
     eatPeople.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     eatPeople.textColor = UIColorRBG(68, 68, 68);
     eatPeople.delegate = self;
@@ -844,7 +844,7 @@
     //用餐人数
     NSString *lunch_flag = _eatPeople.text;
     NSString *partWay = [NSString stringWithFormat:@"%ld",(_tags-19)];
-    if ([projectId isEqual:@""] || [departureCity isEqual:@""] || [partPersonNum isEqual:@""]|| [partWay isEqual:@""]||[lunch_flag isEqual:@""]) {
+    if ([projectId isEqual:@""] || [departureCity isEqual:@""] || [partPersonNum isEqual:@""]|| [partWay isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"请填写完整数据"];
         return;
     }

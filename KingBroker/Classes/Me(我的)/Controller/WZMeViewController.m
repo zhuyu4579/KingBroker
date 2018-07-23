@@ -123,13 +123,13 @@
         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
         paraments[@"username"] = username;
         paraments[@"userId"] = userId;
-        NSLog(@"%@",paraments);
+        
         NSString *url = [NSString stringWithFormat:@"%@/sysUser/myInfo",HTTPURL];
         [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
             if ([code isEqual:@"200"]) {
                 _loginItem = [responseObject valueForKey:@"data"];
-                NSLog(@"%@",_loginItem);
+                
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 [defaults setObject:[_loginItem valueForKey:@"realtorStatus"] forKey:@"realtorStatus"];
                 [defaults setObject:[_loginItem valueForKey:@"idcardStatus"] forKey:@"idcardStatus"];
@@ -553,7 +553,7 @@
 }
 //查询未读消息
 -(void)setloadData{
-    NSLog(@"tuisong");
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     //创建会话请求
