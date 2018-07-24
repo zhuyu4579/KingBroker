@@ -46,7 +46,7 @@
     
     [JPUSHService setupWithOption:launchOptions appKey:@"2c971480b42a2584471eaadb"
                           channel:@"App Store"
-                 apsForProduction:1
+                 apsForProduction:0
             advertisingIdentifier:advertisingId];
     
    

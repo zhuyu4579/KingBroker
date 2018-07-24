@@ -153,7 +153,7 @@
     paraments[@"telphone"] = phone;
     paraments[@"type"] = @"5";
     paraments[@"smsCode"] = verification;
-    NSString *url = [NSString stringWithFormat:@"%@/sysUser/changPhone",HTTPURL];
+    NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {

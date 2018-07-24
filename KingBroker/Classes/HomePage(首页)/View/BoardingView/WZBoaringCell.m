@@ -75,6 +75,7 @@
     _sginStatus = item.sginStatus;
     _proTelphone = item.proTelphone;
     _orderCreateTime = item.orderCreateTime;
+    _boardingLimitTime = item.boardingLimitTime;
 }
 - (void)awakeFromNib {
     [super awakeFromNib];

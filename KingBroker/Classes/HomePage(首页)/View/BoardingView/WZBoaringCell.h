@@ -59,4 +59,6 @@
 @property(nonatomic,strong)NSString *proTelphone;
 //创建时间
 @property(nonatomic,strong)NSString *orderCreateTime;
+//冷却时间
+@property(nonatomic,strong)NSString *boardingLimitTime;
 @end

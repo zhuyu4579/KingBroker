@@ -316,7 +316,6 @@ static NSString *size = @"20";
     [codeView addSubview:closeButton];
 }
 //上客弹出二维码
-#warning 修改上客时间
 - (void)boaringButtonOne:(UIButton *)button {
     
     CGPoint point = button.center;
@@ -324,6 +323,9 @@ static NSString *size = @"20";
     NSIndexPath *indexpath = [self.tableView indexPathForRowAtPoint:point];
     WZBoaringCell *cell = [self.tableView cellForRowAtIndexPath:indexpath];
     NSString *sginStatus = cell.sginStatus;
+    
+    int boardingLimitTime = [cell.boardingLimitTime intValue];
+    
     NSString *orderCreateTime1 = cell.orderCreateTime;
     long  orderCreateTime = [orderCreateTime1 longLongValue];
     
@@ -340,12 +342,12 @@ static NSString *size = @"20";
         NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
         NSTimeInterval time=[date timeIntervalSince1970]*1000;
         long time1 = time - orderCreateTime;
-        if (time1 >30*60*1000) {
+        if (time1 >boardingLimitTime*60*1000) {
             [GKCover translucentWindowCenterCoverContent:_codeView animated:YES notClick:YES];
             //创造通知
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeAlerts) name:@"BoaringVC" object:nil];
         }else{
-            [SVProgressHUD showInfoWithStatus:@"订单创建时间小于30分钟"];
+            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"订单创建时间小于%d分钟",boardingLimitTime]];
         }
     }
     
