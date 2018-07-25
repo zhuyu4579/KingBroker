@@ -323,9 +323,7 @@ static NSString *size = @"20";
     NSIndexPath *indexpath = [self.tableView indexPathForRowAtPoint:point];
     WZBoaringCell *cell = [self.tableView cellForRowAtIndexPath:indexpath];
     NSString *sginStatus = cell.sginStatus;
-    
     int boardingLimitTime = [cell.boardingLimitTime intValue];
-    
     NSString *orderCreateTime1 = cell.orderCreateTime;
     long  orderCreateTime = [orderCreateTime1 longLongValue];
     

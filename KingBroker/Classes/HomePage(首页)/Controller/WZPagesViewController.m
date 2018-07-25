@@ -31,6 +31,8 @@
 @property (nonatomic, strong)NSMutableArray *tags;
 @property (nonatomic, strong)WZRecommendTableView *recommendTV;
 @property (nonatomic, strong)UIScrollView *scrollView;
+//动态模块
+@property (nonatomic, strong)WZPageButtonView *pageView;
 //使用定位
 @property (nonatomic , strong)CLLocationManager *locationManager;
 //定位
@@ -56,6 +58,7 @@
     
     [self dictList];
     
+    [self loadNewsAnnounceme];
   
 }
 
@@ -138,7 +141,9 @@
     [_scrollView addSubview:buttons];
     WZPageButtonView *pageView = [WZPageButtonView pageButtons];
     pageView.frame = buttons.bounds;
+    _pageView = pageView;
     [buttons addSubview:pageView];
+    
     //创建中心
     UIImageView *task = [[UIImageView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 90*n)];
     task.image = [UIImage imageNamed:@"task1"];
@@ -169,7 +174,34 @@
     _scrollView.contentSize = CGSizeMake(0, Recommend.fY+Recommend.fHeight);
     
 }
-
+#pragma mark -查询最新动态公告
+-(void)loadNewsAnnounceme{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 10;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    NSString *url = [NSString stringWithFormat:@"%@/userMessage/announcement",HTTPURL];
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        NSLog(@"%@",responseObject);
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSLog(@"%@",[data valueForKey:@"title"]);
+            _pageView.anNewLabel.text = [data valueForKey:@"title"];
+            
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+}
 #pragma mark -请求数据查询为你推荐
 -(void)loadDateTask{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -263,8 +295,7 @@
     }else{
         [NSString isCode:self.navigationController code:@"401"];
     }
-  
-    
+
 }
 #pragma mark -点击图片事件
 - (void)cyclePageClickAction:(NSInteger)clickIndex
@@ -277,6 +308,7 @@
 -(void)loadNewTopic:(id)refrech{
     [_scrollView.mj_header beginRefreshing];
     [self loadDateTask];
+    [self loadNewsAnnounceme];
 }
 //获取版本号
 -(void)findversion{
@@ -457,7 +489,6 @@
     //定位当前位置信息
     [self locate];
     [self loadDateTask];
-    
     [self setloadData];
     
 }

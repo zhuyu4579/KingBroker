@@ -144,7 +144,6 @@
     _noCodeView.type = _type;
     _noCodeView.types = _types;
     [_noCodeView setHidden:YES];
-    
     [textViewThree addSubview:_haveCodeView];
     [textViewThree addSubview:_noCodeView];
    
@@ -193,7 +192,6 @@
     [self setButtonBG:_textButton HideBt:_textButtonTwo];
     [_noCodeView setHidden:YES];
     [_haveCodeView setHidden:NO];
-    
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

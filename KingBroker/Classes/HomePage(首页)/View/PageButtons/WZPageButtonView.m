@@ -31,6 +31,7 @@
     _line1X.constant =(SCREEN_WIDTH - 210)/3-2;
     _line2X.constant =(SCREEN_WIDTH - 210)/3-2;
     [_newsLable setEnlargeEdge:20];
+    
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];

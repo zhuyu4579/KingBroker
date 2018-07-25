@@ -417,6 +417,7 @@
 }
 //分享
 -(void)shareTask{
+    [_shareButton setEnabled:NO];
     //复制内容
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     pasteboard.string = _content.text;
@@ -445,6 +446,11 @@
     }else {
         [self downloadVideo];
     }
+   [self performSelector:@selector(setButton) withObject:self afterDelay:3];
+}
+//设置按钮
+-(void)setButton{
+    [_shareButton setEnabled:YES];
 }
 //分享到微信
 -(void)WXShare{

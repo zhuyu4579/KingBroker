@@ -121,21 +121,23 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂无公告" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozZ-aH-7qL">
+                    <rect key="frame" x="87" y="112" width="273" height="12"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="12" id="Rsl-Lk-riC"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.20520988109999999" green="0.4727372527" blue="0.96475177999999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jg7-Za-65t">
-                    <rect key="frame" x="87" y="112" width="200" height="12"/>
+                    <rect key="frame" x="87" y="112" width="273" height="12"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="12" id="IOR-cq-hTi"/>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="dbF-0U-EaP"/>
+                        <constraint firstAttribute="width" constant="273" id="dbF-0U-EaP"/>
                     </constraints>
                     <state key="normal">
-                        <attributedString key="attributedTitle">
-                            <fragment content="百闻不如一见，经服APP正式上线了！">
-                                <attributes>
-                                    <font key="NSFont" size="11" name=".PingFangSC-Regular"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
+                        <attributedString key="attributedTitle"/>
                     </state>
                     <connections>
                         <action selector="seeNews:" destination="iN0-l3-epB" eventType="touchUpInside" id="FLJ-cS-RY3"/>
@@ -146,6 +148,7 @@
             <constraints>
                 <constraint firstItem="bGK-Ua-f9v" firstAttribute="top" secondItem="kat-uS-mUj" secondAttribute="bottom" constant="25" id="2tu-s3-3ia"/>
                 <constraint firstItem="Gj2-2F-HkC" firstAttribute="leading" secondItem="bGK-Ua-f9v" secondAttribute="trailing" constant="6" id="3wl-YF-Aci"/>
+                <constraint firstItem="ozZ-aH-7qL" firstAttribute="top" secondItem="QRs-jq-Sft" secondAttribute="bottom" constant="26" id="6io-LX-FW5"/>
                 <constraint firstItem="kat-uS-mUj" firstAttribute="top" secondItem="7ka-GD-QEi" secondAttribute="bottom" constant="8" id="BeG-zv-b3b"/>
                 <constraint firstItem="QRs-jq-Sft" firstAttribute="top" secondItem="aI0-mX-In8" secondAttribute="bottom" constant="8" id="Cbd-gF-S8o"/>
                 <constraint firstItem="7ka-GD-QEi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="FeG-7r-mum"/>
@@ -166,12 +169,15 @@
                 <constraint firstItem="aI0-mX-In8" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="jnO-Oh-pqb"/>
                 <constraint firstItem="xMa-HI-tKe" firstAttribute="centerX" secondItem="5Bq-ly-Clu" secondAttribute="centerX" id="n5G-Fb-iwA"/>
                 <constraint firstItem="5Bq-ly-Clu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="qIX-X9-3c0"/>
+                <constraint firstAttribute="trailing" secondItem="ozZ-aH-7qL" secondAttribute="trailing" constant="15" id="uKe-4Z-etK"/>
+                <constraint firstItem="ozZ-aH-7qL" firstAttribute="leading" secondItem="cKt-Ls-clk" secondAttribute="trailing" constant="7" id="ug3-P5-Nit"/>
                 <constraint firstItem="xMa-HI-tKe" firstAttribute="top" secondItem="5Bq-ly-Clu" secondAttribute="bottom" constant="8" id="xB6-fO-i0B"/>
                 <constraint firstItem="Jg7-Za-65t" firstAttribute="leading" secondItem="cKt-Ls-clk" secondAttribute="trailing" constant="7" id="xlc-1m-Icv"/>
                 <constraint firstItem="cKt-Ls-clk" firstAttribute="top" secondItem="kat-uS-mUj" secondAttribute="bottom" constant="27" id="zA0-03-MrR"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="anNewLabel" destination="ozZ-aH-7qL" id="Q5A-sK-i8H"/>
                 <outlet property="buttonFour" destination="5Bq-ly-Clu" id="88v-DD-ZMJ"/>
                 <outlet property="buttonOne" destination="7ka-GD-QEi" id="4rQ-6O-pZs"/>
                 <outlet property="buttonThree" destination="cJD-wU-7RB" id="0Le-5Y-wed"/>

@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonThree;
 @property (weak, nonatomic) IBOutlet UIButton *buttonFour;
 @property (weak, nonatomic) IBOutlet UIButton *newsLable;
+@property (strong, nonatomic) IBOutlet UILabel *anNewLabel;
 - (IBAction)answerTask:(id)sender;
 - (IBAction)findHouses:(id)sender;
 - (IBAction)Report:(id)sender;
