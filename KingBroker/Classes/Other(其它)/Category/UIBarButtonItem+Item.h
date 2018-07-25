@@ -11,6 +11,7 @@
 @interface UIBarButtonItem (Item)
 //给导航条添加一个按钮
 +(UIBarButtonItem *)itemWithImage:(UIImage *)image highImage:(UIImage *)highImage target:(id)target action:(SEL)action;
++(UIBarButtonItem *)itemWithButtons:(id)target action:(SEL)action title:(NSString *)title;
 //创建一个返回按钮
 +(UIBarButtonItem *)backItemWithImage:(UIImage *)image highImage:(UIImage *)highImage target:(id)target action:(SEL)action;
 //创建一个文字按钮

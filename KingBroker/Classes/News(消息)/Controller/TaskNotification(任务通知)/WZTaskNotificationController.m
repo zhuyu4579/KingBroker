@@ -17,6 +17,7 @@
 #import "UIView+Frame.h"
 #import "WZTaskController.h"
 #import "WZNavigationController.h"
+#import "UIBarButtonItem+Item.h"
 @interface WZTaskNotificationController (){
     //页数
     NSInteger current;
@@ -46,7 +47,7 @@ static NSString *size = @"20";
     [self setNoData];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"悬赏通知";
-   
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButtons:self action:@selector(readAll) title:@"一键已读"];
     //注册cell
     [self.tableView registerNib:[UINib nibWithNibName:@"WZTaskCell" bundle:nil] forCellReuseIdentifier:ID];
     //设置分割线
@@ -57,6 +58,40 @@ static NSString *size = @"20";
     
     [self headerRefresh];
     
+}
+//一键已读
+-(void)readAll{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    mgr.requestSerializer.timeoutInterval = 10;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"type"] = @"0";
+    NSString *url = [NSString stringWithFormat:@"%@/userMessage/setFullReading",HTTPURL];
+    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        
+        if ([code isEqual:@"200"]) {
+            
+            _listArray = [NSMutableArray array];
+            current = 1;
+            [self loadDate];
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
 }
 //下拉刷新
 -(void)headerRefresh{

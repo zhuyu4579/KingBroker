@@ -12,6 +12,19 @@
 @implementation UIBarButtonItem (Item)
 
 #pragma mark -给导航条添加一个按钮
++(UIBarButtonItem *)itemWithButtons:(id)target action:(SEL)action title:(NSString *)title {
+    //创建一个button
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 62, 15)];
+    
+    [btn setTitle:title forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor colorWithRed:3/255.0 green:133/255.0 blue:219/255.0 alpha:1.0] forState:UIControlStateNormal];
+    [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    btn.titleLabel.font = [UIFont systemFontOfSize:15];
+    UIView *containView = [[UIView alloc] initWithFrame:btn.bounds];
+    [containView addSubview:btn];
+    return  [[UIBarButtonItem alloc] initWithCustomView:containView];
+}
+
 +(UIBarButtonItem *)itemWithImage:(UIImage *)image highImage:(UIImage *)highImage target:(id)target action:(SEL)action{
     //创建一个button
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
