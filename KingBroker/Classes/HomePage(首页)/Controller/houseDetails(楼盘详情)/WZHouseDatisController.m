@@ -24,6 +24,8 @@
 #import "WZBankTableView.h"
 #import "WZReportController.h"
 #import "GKCover.h"
+#import <WXApi.h>
+#import <WXApiObject.h>
 #import "WZAlbumsViewController.h"
 #import <MJRefresh.h>
 #import <MJExtension.h>
@@ -51,6 +53,8 @@
 @property(nonatomic,strong)UIView *ineView;
 @property(nonatomic,strong)UILabel *Bartitle;
 @property(nonatomic,strong)UIButton *likeButton;
+@property(nonatomic,strong)UIButton *shareButtons;
+@property(nonatomic,strong)UIView *redView;
 @property(nonatomic,strong)UIButton *popButton;
 //楼盘简介
 @property(nonatomic,strong)UIView *houseIntroduce;
@@ -109,7 +113,8 @@
 @property(nonatomic,strong)UIButton *playTelphoneButton;
 //电话数据
 @property(nonatomic,strong)NSArray *telphoneArray;
-
+//分享内容
+@property(nonatomic,strong)NSDictionary *detailShareContents;
 @end
 
 @implementation WZHouseDatisController
@@ -131,6 +136,8 @@
     //点击楼盘统计
     [self editClickNum];
     [self headerRefresh];
+    //分享弹框
+    [self shareTasks];
 }
 
 -(void)editClickNum{
@@ -294,28 +301,29 @@
             _dView.Commission.text = @"佣金不可见";
             _reportButton.enabled = YES;
         }
+        if ([invisibleLinkmanFlag isEqual:@"0"]) {
+            _dView.chargeMan.text = [_houseDatils valueForKey:@"chargeMan"];
+            _dView.phone.text = [_houseDatils valueForKey:@"telphone"];
+        }else{
+            _dView.chargeMan.text = @"电话不可见";
+            _dView.phone.text = @"";
+        }
     }else{
         [_dView.JoinButton setHidden:NO];
         [_dView.JoinButton setEnabled:YES];
         [_dView.commissionButton setHidden:YES];
         [_dView.Commission setHidden:YES];
         [_dView.JoinButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
-        
          _reportButton.enabled = YES;
+        _dView.chargeMan.text = @"加入门店可见电话";
+        _dView.phone.text = @"";
     }
     
     _dView.address.text = [_houseDatils valueForKey:@"address"];
-    if ([invisibleLinkmanFlag isEqual:@"0"]) {
-         _dView.phone.text = [_houseDatils valueForKey:@"telphone"];
-    }else{
-         _dView.phone.text = @"电话不可见";
-    }
-    _dView.phone.text = [_houseDatils valueForKey:@"telphone"];
-    _dView.chargeMan.text = [_houseDatils valueForKey:@"chargeMan"];
+
     //公司名称
     _dView.companyName.text = [_houseDatils valueForKey:@"companyName"];
-   
-    
+
     //楼盘动态
 //    _dynamic.name = [_houseDatils valueForKey:@"dynamic"];
 //    [_dynamic reloadData];
@@ -463,7 +471,7 @@
     UIView *viewSeven = [[UIView alloc] initWithFrame:CGRectMake(0, viewSix.fY +viewSix.fHeight +10, scrollView.fWidth, 646)];
     viewSeven.backgroundColor = [UIColor whiteColor];
     self.viewSeven = viewSeven;
-   //创建第七个view的控件
+    //创建第七个view的控件
     [self getUpSeven:viewSeven];
     [scrollView addSubview:viewSeven];
     scrollView.contentSize = CGSizeMake(0,viewSeven.fY + viewSeven.fHeight+10);
@@ -495,6 +503,13 @@
     self.popButton = popButton;
     [popButton addTarget:self action:@selector(black) forControlEvents:UIControlEventTouchUpInside];
     [self.tabView addSubview:popButton];
+    //创建分享按钮
+    UIButton *shareButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.fWidth-90, kApplicationStatusBarHeight+7, 30, 30)];
+    [shareButton setBackgroundImage:[UIImage imageNamed:@"share_2"] forState:UIControlStateNormal];
+    self.shareButtons = shareButton;
+    [shareButton addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+    [self.tabView addSubview:shareButton];
+    
     //创建收藏按钮
     UIButton *likeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.fWidth-45, kApplicationStatusBarHeight+7, 30, 30)];
     [likeButton setBackgroundImage:[UIImage imageNamed:@"favorite"] forState:UIControlStateNormal];
@@ -502,6 +517,8 @@
     self.likeButton = likeButton;
     [likeButton addTarget:self action:@selector(like:) forControlEvents:UIControlEventTouchUpInside];
     [self.tabView addSubview:likeButton];
+    
+    
     UIView *ine = [[UIView alloc] initWithFrame:CGRectMake(0, self.tabView.fHeight, self.tabView.fWidth, 1)];
     ine.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:0];
     self.ineView = ine;
@@ -545,6 +562,7 @@
         [_popButton setBackgroundImage:[UIImage imageNamed:@"black"] forState:UIControlStateHighlighted];
         [_likeButton setBackgroundImage:[UIImage imageNamed:@"favorite_3"] forState:UIControlStateNormal];
         [_likeButton setBackgroundImage:[UIImage imageNamed:@"favorite_2(2)"] forState:UIControlStateSelected];
+        [_shareButtons setBackgroundImage:[UIImage imageNamed:@"share-1"] forState:UIControlStateNormal];
     }else{
         self.tabView.backgroundColor =[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0];
         self.ineView.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:0];
@@ -553,6 +571,7 @@
         [_popButton setBackgroundImage:[UIImage imageNamed:@"back_2"] forState:UIControlStateHighlighted];
         [_likeButton setBackgroundImage:[UIImage imageNamed:@"favorite"] forState:UIControlStateNormal];
         [_likeButton setBackgroundImage:[UIImage imageNamed:@"favorite_2"] forState:UIControlStateSelected];
+        [_shareButtons setBackgroundImage:[UIImage imageNamed:@"share_2"] forState:UIControlStateNormal];
     }
 }
 //第三个view中的控件
@@ -1317,19 +1336,41 @@
 -(void)playPhones{
      NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
      NSString *invisibleLinkmanFlag = [user objectForKey:@"invisibleLinkmanFlag"];
-    if ([invisibleLinkmanFlag isEqual:@"0"]) {
-        [_playView setHidden:NO];
-        [_playTelphoneButton removeTarget:self action:@selector(playPhones) forControlEvents:UIControlEventTouchUpInside];
-        [_playTelphoneButton addTarget:self action:@selector(closePlayViews) forControlEvents:UIControlEventTouchUpInside];
+    NSString *realtorStatus = [user objectForKey:@"realtorStatus"];
+    if([realtorStatus isEqual:@"2"]){
+        if ([invisibleLinkmanFlag isEqual:@"0"]) {
+            [_playView setHidden:NO];
+            [_playTelphoneButton removeTarget:self action:@selector(playPhones) forControlEvents:UIControlEventTouchUpInside];
+            [_playTelphoneButton addTarget:self action:@selector(closePlayViews) forControlEvents:UIControlEventTouchUpInside];
+        }else{
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"无法拨打电话" message:@"电话不可见，将不能拨打电话，可联系门店负责人设置电话可见"  preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"我知道了" style:UIAlertActionStyleCancel
+                                                                  handler:^(UIAlertAction * action) {
+                                                                      
+                                                                  }];
+            [alert addAction:cancelAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
     }else{
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"无法拨打电话" message:@"电话不可见，将不能拨打电话，可联系门店负责人设置电话可见"  preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"我知道了" style:UIAlertActionStyleCancel
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"无法拨打电话" message:@"你还没有加入经纪门店，将不能拨打电话"  preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"暂不加入" style:UIAlertActionStyleCancel
                                                               handler:^(UIAlertAction * action) {
                                                                   
                                                               }];
+        UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action) {
+                                                                   WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
+                                                                   WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
+                                                                   JionStore.type = @"1";
+                                                                   [self presentViewController:nav animated:YES completion:nil];
+                                                               }];
+        
+        [alert addAction:defaultAction];
         [alert addAction:cancelAction];
         [self presentViewController:alert animated:YES completion:nil];
     }
+    
     
     
 }
@@ -1349,6 +1390,173 @@
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone]];
         }
     }
+}
+//查询分享数据
+-(void)findShare{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    mgr.requestSerializer.timeoutInterval = 60;
+    
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"id"] = _ID;
+    
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/projectInfoShare",HTTPURL];
+    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        NSLog(@"%@",responseObject);
+        if ([code isEqual:@"200"]) {
+            NSMutableDictionary *data = [responseObject valueForKey:@"data"];
+            
+            _detailShareContents = data;
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+}
+//分享弹框
+-(void)shareTasks{
+    //弹出分享页
+    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(0,SCREEN_HEIGHT -250, self.view.fWidth, 250)];
+    redView.backgroundColor = UIColorRBG(246, 246, 246);
+    _redView = redView;
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(16,16,50,12);
+    label.text = @"分享至：";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    label.textColor = UIColorRBG(102, 102, 102);
+    [redView addSubview:label];
+    //创建微信按钮
+    UIButton *WXButton = [[UIButton alloc] initWithFrame:CGRectMake(redView.fWidth/2.0-87, 67, 50, 50)];
+    [WXButton setBackgroundImage:[UIImage imageNamed:@"wewhat"] forState:UIControlStateNormal];
+    [WXButton addTarget:self action:@selector(WXShare) forControlEvents:UIControlEventTouchUpInside];
+    [redView addSubview:WXButton];
+    
+    UILabel *labelOne = [[UILabel alloc] init];
+    labelOne.frame = CGRectMake(redView.fWidth/2.0-87,126,50,12);
+    labelOne.textAlignment = NSTextAlignmentCenter;
+    labelOne.text = @"微信好友";
+    labelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    labelOne.textColor = UIColorRBG(68, 68, 68);
+    [redView addSubview:labelOne];
+    
+    
+    //创建朋友圈按钮
+    UIButton *friendsButton = [[UIButton alloc] initWithFrame:CGRectMake(redView.fWidth/2.0+37, 67, 50, 50)];
+    [friendsButton setBackgroundImage:[UIImage imageNamed:@"circle-of-friend"] forState:UIControlStateNormal];
+    [friendsButton addTarget:self action:@selector(friendsButton) forControlEvents:UIControlEventTouchUpInside];
+    [redView addSubview:friendsButton];
+    
+    UILabel *labelTwo = [[UILabel alloc] init];
+    labelTwo.frame = CGRectMake(redView.fWidth/2.0+37,126,50,12);
+    labelTwo.textAlignment = NSTextAlignmentCenter;
+    labelTwo.text = @"朋友圈";
+    labelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    labelTwo.textColor =  UIColorRBG(68, 68, 68);
+    [redView addSubview:labelTwo];
+    
+    UIView *ineView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, redView.fWidth, 1)];
+    ineView.backgroundColor = UIColorRBG(242, 242, 242);
+    [redView addSubview:ineView];
+    //创建取消按钮
+    UIButton *cleanButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 201, redView.fWidth, 49)];
+    [cleanButton setTitle:@"取消" forState:UIControlStateNormal];
+    [cleanButton setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
+    
+    [cleanButton addTarget:self action:@selector(closeGkCover) forControlEvents:UIControlEventTouchUpInside];
+    [redView addSubview:cleanButton];
+    
+}
+//分享到微信
+-(void)WXShare{
+    
+    //1.创建多媒体消息结构体
+    WXMediaMessage *mediaMsg = [WXMediaMessage message];
+    mediaMsg.title = [_detailShareContents valueForKey:@"name"];
+    mediaMsg.description = [_detailShareContents valueForKey:@"outlining"];
+    UIImage *image =  [self handleImageWithURLStr:[_detailShareContents valueForKey:@"url"]];
+    [mediaMsg setThumbImage:image];
+    //分享网站
+    WXWebpageObject *webpageObject = [WXWebpageObject object];
+    webpageObject.webpageUrl = [_detailShareContents valueForKey:@"shareUrl"];
+    mediaMsg.mediaObject = webpageObject;
+    
+    //3.创建发送消息至微信终端程序的消息结构体
+    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+    //多媒体消息的内容
+    req.message = mediaMsg;
+    //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
+    req.bText = NO;
+    //指定发送到会话(聊天界面)
+    req.scene = WXSceneSession;
+    //发送请求到微信,等待微信返回onResp
+    [WXApi sendReq:req];
+    
+    [self closeGkCover];
+    
+}
+//分享到朋友圈
+-(void)friendsButton{
+    
+    //1.创建多媒体消息结构体
+    WXMediaMessage *mediaMsg = [WXMediaMessage message];
+    
+    mediaMsg.title = [_detailShareContents valueForKey:@"name"];
+    mediaMsg.description = [_detailShareContents valueForKey:@"outlining"];
+    
+    UIImage *image =  [self handleImageWithURLStr:[_detailShareContents valueForKey:@"url"]];
+    [mediaMsg setThumbImage:image];
+    
+    //2.分享网站
+    WXWebpageObject *webpageObject = [WXWebpageObject object];
+    webpageObject.webpageUrl = [_detailShareContents valueForKey:@"shareUrl"];
+    mediaMsg.mediaObject = webpageObject;
+    //3.创建发送消息至微信终端程序的消息结构体
+    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+    //多媒体消息的内容
+    req.message = mediaMsg;
+    //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
+    req.bText = NO;
+    //指定发送到会话(聊天界面)
+    req.scene = WXSceneTimeline;
+    //发送请求到微信,等待微信返回onResp
+    [WXApi sendReq:req];
+    [self closeGkCover];
+    
+}
+//详情分享
+-(void)share{
+    [GKCover translucentCoverFrom:self.view content:_redView animated:YES];
+}
+//关闭分享
+-(void)closeGkCover{
+    [GKCover hide];
+}
+//分享图片压缩
+- (UIImage *)handleImageWithURLStr:(NSString *)imageURLStr {
+    
+    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURLStr]];
+    NSData *newImageData = imageData;
+    // 压缩图片data大小
+    newImageData = UIImageJPEGRepresentation([UIImage imageWithData:newImageData scale:0.1], 0.1f);
+    UIImage *image = [UIImage imageWithData:newImageData];
+    
+    // 压缩图片分辨率(因为data压缩到一定程度后，如果图片分辨率不缩小的话还是不行)
+    CGSize newSize = CGSizeMake(200, 200);
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,(NSInteger)newSize.width, (NSInteger)newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 #pragma mark -分享
 -(void)shares{
@@ -1374,7 +1582,6 @@
         report.phone = @"";
         [self.navigationController pushViewController:report animated:YES];
     }else{
-        
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"未加入门店" message:@"你还没有加入经纪门店，不能进行更多操作"  preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"暂不加入" style:UIAlertActionStyleCancel
@@ -1401,6 +1608,7 @@
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [self loadData];
     [self findCoustrom];
+    [self findShare];
 }
 //数据分解
 -(NSMutableArray *)setString:(NSArray *)array{
