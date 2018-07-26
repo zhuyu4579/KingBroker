@@ -39,6 +39,8 @@
 @property(nonatomic,strong)NSString *lnglat;
 //
 @property(nonatomic,strong)UIView *updateView;
+//状态栏
+@property(nonatomic,strong)UIView *stateView;
 @end
 
 @implementation WZPagesViewController
@@ -59,12 +61,12 @@
     [self dictList];
     
     [self loadNewsAnnounceme];
-  
+    
 }
 
--(UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
-}
+//-(UIStatusBarStyle)preferredStatusBarStyle{
+//    return UIStatusBarStyleLightContent;
+//}
 //开启定位
 -(void)locate{
         //定位初始化
@@ -191,10 +193,10 @@
     NSString *url = [NSString stringWithFormat:@"%@/userMessage/announcement",HTTPURL];
     [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
-        NSLog(@"%@",responseObject);
+        
         if ([code isEqual:@"200"]) {
             NSDictionary *data = [responseObject valueForKey:@"data"];
-            NSLog(@"%@",[data valueForKey:@"title"]);
+            
             _pageView.anNewLabel.text = [data valueForKey:@"title"];
             
         }
@@ -243,18 +245,44 @@
         [_scrollView.mj_header endRefreshing];
     }];
 }
-#pragma mark -滑动scrollview触发事件
+#pragma mark -滑动scrollview触发事件修改状态栏背景颜色
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    [self prefersStatusBarHidden];
+    //[self prefersStatusBarHidden];
+    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+    if(scrollView.contentOffset.y>190){
+        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+            statusBar.backgroundColor = [UIColor whiteColor];
+        }
+    }else{
+        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+            statusBar.backgroundColor = [UIColor clearColor];
+        }
+    }
+    
     [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
 }
--(BOOL)prefersStatusBarHidden{
-    if(_scrollView.contentOffset.y>190){
-        return YES;
-    }else{
-        return NO;
+//-(BOOL)prefersStatusBarHidden{
+//    if(_scrollView.contentOffset.y>190){
+//        return YES;
+//    }else{
+//        return NO;
+//    }
+//}
+//修改状态栏字体颜色
+- (UIStatusBarStyle)preferredStatusBarStyle {
+   
+    if (_scrollView.contentOffset.y>190) {
+       
+        return UIStatusBarStyleDefault;
+        
     }
+    return UIStatusBarStyleLightContent;
 }
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    
+    return UIStatusBarAnimationFade;
+}
+
 //点击模块
 -(void)Tacks{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
