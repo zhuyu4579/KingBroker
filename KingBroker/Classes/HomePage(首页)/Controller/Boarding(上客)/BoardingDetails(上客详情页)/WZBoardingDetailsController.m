@@ -801,7 +801,7 @@
             //创造通知
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeAlerts) name:@"BoaringVC" object:nil];
         }else{
-            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"订单创建时间小于%d分钟",boardingLimitTime]];
+            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"报备%d分钟后才能上客",boardingLimitTime]];
         }
     }
     
