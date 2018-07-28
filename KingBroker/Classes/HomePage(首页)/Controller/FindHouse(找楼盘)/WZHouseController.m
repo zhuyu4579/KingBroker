@@ -165,6 +165,9 @@ static NSString *size = @"20";
     UIButton *but1 =  [_menu viewWithTag:20];
     [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_2"] forState:UIControlStateNormal];
     _seachCityId = @"";
+    _projectListArray = [NSMutableArray array];
+    current = 1;
+    _isRequestFinish = YES;
     [self loadData];
     //获取城市列表
     [self cityDatas];
@@ -760,7 +763,7 @@ static NSString *size = @"20";
 #pragma mark -筛选菜单
 -(void)screenMenu{
     UIView *view = [[UIView alloc] init];
-    view.frame = CGRectMake(SCREEN_WIDTH - 360, 0, 360, _framView.fHeight);
+    view.frame = CGRectMake(SCREEN_WIDTH - 360, 0, 360, _framView.fHeight-JF_BOTTOM_SPACE);
     view.backgroundColor =UIColorRBG(242, 242, 242);
     [_framView addSubview:view];
       _screenView = view;

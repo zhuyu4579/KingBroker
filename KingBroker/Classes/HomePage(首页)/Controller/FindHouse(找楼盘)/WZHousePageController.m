@@ -66,16 +66,11 @@
     // 设置点击后恢复原样，默认为NO，点击后一直保持选中状态
     [segmented setMomentary:NO];
     self.navigationItem.titleView = segmented;
-    if (_status == 0) {
-        [self.view addSubview:self.allHouseVC.view];
-        [_allHouseVC loadRefreshs];
-    }else{
-        [self.view addSubview:self.collectHouseVC.view];
-        [_collectHouseVC loadRefreshs];
-    }
+    
 }
 //点击切换子控制器
 -(void)selectItem:(UISegmentedControl *)segmend{
+    _status = segmend.selectedSegmentIndex;
     if(segmend.selectedSegmentIndex == 0){
         [self.collectHouseVC.view removeFromSuperview];
         [self.view addSubview:self.allHouseVC.view];
@@ -93,6 +88,13 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+    if (_status == 0) {
+        [self.view addSubview:self.allHouseVC.view];
+        [_allHouseVC loadRefreshs];
+    }else{
+        [self.view addSubview:self.collectHouseVC.view];
+        [_collectHouseVC loadRefreshs];
+    }
 }
 
 @end

@@ -71,7 +71,7 @@ static NSString *size = @"20";
     
     [self setCodeViews];
     //创造通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDate) name:@"Refresh" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewTopics) name:@"Refresh" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -105,7 +105,9 @@ static NSString *size = @"20";
     [self loadDate];
 }
 -(void)loadNewTopics{
-    [self.tableView.mj_header beginRefreshing];
+    _listArray = [NSMutableArray array];
+    current = 1;
+    [self loadDate];
 }
 -(void)loadMoreTopic{
     [self.tableView.mj_footer beginRefreshing];

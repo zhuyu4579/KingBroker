@@ -27,6 +27,7 @@
 }
 #pragma mark -获取验证码
 - (void)obtainYZMVerificationCode:(id)sender {
+
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];

@@ -249,6 +249,7 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     //[self prefersStatusBarHidden];
     UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+    _stateView = statusBar;
     if(scrollView.contentOffset.y>190){
         if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
             statusBar.backgroundColor = [UIColor whiteColor];
@@ -513,7 +514,9 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-    
+    if (_scrollView.contentOffset.y>190) {
+        _stateView.backgroundColor = [UIColor whiteColor];
+    }
     //定位当前位置信息
     [self locate];
     [self loadDateTask];
@@ -565,6 +568,7 @@
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _stateView.backgroundColor = [UIColor clearColor];
 }
 #pragma mark -将数据写入文件
 -(void)loadDateURl:(NSArray *)array plistName:(NSString *)plistName name:(NSString *)name{

@@ -52,12 +52,12 @@ static NSString *size = @"20";
     _listArray = [NSMutableArray array];
     current = 1;
     _isRequestFinish = YES;
-    [self loadDate];
+   // [self loadDate];
     
     
     [self headerRefresh];
     //创造通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDate) name:@"Refresh" object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewTopics) name:@"Refresh" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -93,8 +93,9 @@ static NSString *size = @"20";
     [self loadDate];
 }
 -(void)loadNewTopics{
-    
-    [self.tableView.mj_header beginRefreshing];
+    _listArray = [NSMutableArray array];
+    current = 1;
+    [self loadDate];
     
 }
 -(void)loadMoreTopic{
@@ -246,6 +247,6 @@ static NSString *size = @"20";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-  
+    [self loadNewTopics];
 }
 @end

@@ -432,10 +432,14 @@
         make.width.mas_offset(9);
     }];
     UIView *views = [[UIView alloc] init];
-    views.frame = CGRectMake(0,195,375,1);
     views.backgroundColor = UIColorRBG(242, 242, 242);
     [self.view addSubview:views];
-    
+    [views mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left);
+        make.top.equalTo(viewOne.mas_bottom);
+        make.height.mas_offset(1);
+        make.width.mas_offset(self.view.fWidth);
+    }];
     
     //创建第二个view的高由状态改变每次整加77
     UIView *viewTwo = [[UIView alloc] init];
@@ -607,7 +611,7 @@
         make.left.equalTo(self.view.mas_left);
         make.right.equalTo(self.view.mas_right);
         make.bottom.equalTo(self.view.mas_bottom);
-        make.height.mas_offset(49);
+        make.height.mas_offset(49+JF_BOTTOM_SPACE);
     }];
 
     [scrollView addSubview:viewTwo];
@@ -840,6 +844,7 @@
             [SVProgressHUD showInfoWithStatus:@"发起成交成功"];
     
             [self loadData];
+            
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){

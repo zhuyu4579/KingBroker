@@ -59,7 +59,7 @@
     
     [webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     
-     [[webView configuration].userContentController addScriptMessageHandler:self name:@"black"];
+    [[webView configuration].userContentController addScriptMessageHandler:self name:@"black"];
     [[webView configuration].userContentController addScriptMessageHandler:self name:@"login"];
 }
 //页面加载完成时调用
@@ -147,7 +147,8 @@
 -(void)dealloc{
     [_webView removeObserver:self forKeyPath:@"title"];
     [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
-      [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"closeWindow"];
+    [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"black"];
+     [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"login"];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

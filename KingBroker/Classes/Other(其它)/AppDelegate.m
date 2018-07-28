@@ -235,7 +235,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 }
 
 -(void)setControllers:(NSDictionary *)userInfo{
-    
     //自定义的内容
     //参数跳转
     NSString *param = [userInfo valueForKey:@"param"];

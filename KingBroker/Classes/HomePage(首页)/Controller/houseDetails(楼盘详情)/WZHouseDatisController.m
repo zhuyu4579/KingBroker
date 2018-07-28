@@ -1167,12 +1167,12 @@
     ineView.backgroundColor = UIColorRBG(242, 242, 242);
     [buttonView addSubview:ineView];
     //创建打电话按钮
-    UIImageView *playPhone = [[UIImageView alloc] initWithFrame:CGRectMake(30, 6, 19, 21)];
+    UIImageView *playPhone = [[UIImageView alloc] initWithFrame:CGRectMake(30, (buttonView.fHeight-37)/2.0, 19, 21)];
     playPhone.image = [UIImage imageNamed:@"xmxq_phone"];
     [buttonView addSubview:playPhone];
 
     UILabel *labelP = [[UILabel alloc] init];
-    labelP.frame = CGRectMake(29,31,25,12);
+    labelP.frame = CGRectMake(29,playPhone.fY+25,25,12);
     labelP.text = @"电话";
     [labelP setTextColor:UIColorRBG(3, 133, 219)];
     labelP.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
@@ -1188,12 +1188,12 @@
     ineViewTwo.backgroundColor = UIColorRBG(242, 242, 242);
     [buttonView addSubview:ineViewTwo];
     //创建分享按钮
-    UIImageView *but = [[UIImageView alloc] initWithFrame:CGRectMake(101, 7, 19, 19)];
+    UIImageView *but = [[UIImageView alloc] initWithFrame:CGRectMake(101, (buttonView.fHeight-37)/2.0, 19, 19)];
     but.image = [UIImage imageNamed:@"share"];
     [buttonView addSubview:but];
     
     UILabel *label = [[UILabel alloc] init];
-    label.frame = CGRectMake(99,31,25,12);
+    label.frame = CGRectMake(99,but.fY+25,25,12);
     label.text = @"分享";
     [label setTextColor:UIColorRBG(3, 133, 219)];
     label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
@@ -1413,7 +1413,7 @@
     NSString *url = [NSString stringWithFormat:@"%@/proProject/projectInfoShare",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
-        NSLog(@"%@",responseObject);
+        
         if ([code isEqual:@"200"]) {
             NSMutableDictionary *data = [responseObject valueForKey:@"data"];
             

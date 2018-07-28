@@ -96,7 +96,6 @@
            
             NSDictionary *data = [responseObject valueForKey:@"data"];
             _loginItem = data;
-            
             [self setDatas];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
@@ -149,6 +148,7 @@
 }
 //设置头像
 - (IBAction)setUpHeadImage:(UIButton *)sender {
+    [self.name resignFirstResponder];
     ZDAlertView  *redView = [ZDAlertView new];
     redView.url = _url;
     redView.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:0.8];
@@ -190,6 +190,7 @@
 }
 //选择性别
 - (IBAction)setUpSex:(UIButton *)sender {
+    [self.name resignFirstResponder];
     [BRStringPickerView showStringPickerWithTitle:@"选择性别" dataSource:@[@"男",@"女"] defaultSelValue:@"男" resultBlock:^(id selectValue) {
         
         NSString *sex = selectValue;
@@ -205,6 +206,7 @@
 }
 //出生日期
 - (IBAction)setUpBirthDate:(UIButton *)sender {
+    [self.name resignFirstResponder];
     [BRDatePickerView showDatePickerWithTitle:@"出生日期" dateType:UIDatePickerModeDate defaultSelValue:nil resultBlock:^(NSString *selectValue) {
         _birthday = selectValue;
         [self loadData:nil];
@@ -212,6 +214,7 @@
 }
 
 - (IBAction)setUpEmploymentTime:(UIButton *)sender {
+    [self.name resignFirstResponder];
     [BRDatePickerView showDatePickerWithTitle:@"从业时间" dateType:UIDatePickerModeDate defaultSelValue:nil resultBlock:^(NSString *selectValue) {
         _startWorkTime = selectValue;
         [self loadData:nil];
@@ -219,6 +222,7 @@
 }
 
 - (IBAction)setUpBirthAddress:(id)sender {
+    [self.name resignFirstResponder];
     [BRAddressPickerView showAddressPickerWithShowType:BRAddressPickerModeArea defaultSelected:@[@"浙江省",@"杭州市",@"西湖区"] isAutoSelect:NO themeColor:nil resultBlock:^(NSArray *selectAddressArr) {
         NSString *addr = @"";
         for (NSString *str in selectAddressArr) {
