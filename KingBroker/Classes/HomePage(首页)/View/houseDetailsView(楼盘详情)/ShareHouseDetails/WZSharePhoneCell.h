@@ -11,11 +11,11 @@
 @interface WZSharePhoneCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UIView *phoneView;
 @property (strong, nonatomic) IBOutlet UILabel *title;
-@property (strong, nonatomic) IBOutlet UILabel *content;
 @property (strong, nonatomic) IBOutlet UIButton *shareButton;
 @property (strong, nonatomic) IBOutlet UIImageView *taskImage;
-- (IBAction)shareAction:(UIButton *)sender;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *videoHeight;
 @property(nonatomic,strong)WZShareDetailsItem *item;
 @property(nonatomic,strong)NSString *projectTaskId;
+//选择的图片
+@property(nonatomic,strong)NSString *url;
 @end

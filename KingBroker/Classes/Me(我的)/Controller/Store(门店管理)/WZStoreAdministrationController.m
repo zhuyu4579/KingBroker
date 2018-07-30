@@ -27,8 +27,16 @@
     pV.backgroundColor = UIColorRBG(3, 133, 219);
     
     [self.view addSubview:pV];
+    //创造通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeAlerts) name:@"BoaringVC" object:nil];
 }
-
+//关闭二维码
+-(void)closeAlerts{
+    
+    [_webView evaluateJavaScript:@"reflash()" completionHandler:^(id _Nullable response, NSError * _Nullable error) {
+        //NSLog(@"%@",response);
+    }];
+}
 -(void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
     _webView.frame = CGRectMake(0, kApplicationStatusBarHeight-20, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight+20);

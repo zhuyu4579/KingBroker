@@ -11,11 +11,14 @@
 @interface WZShareVideoCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UIView *videoView;
 @property (strong, nonatomic) IBOutlet UILabel *title;
-@property (strong, nonatomic) IBOutlet UILabel *content;
 @property (strong, nonatomic) IBOutlet UIButton *shareButton;
 @property (strong, nonatomic) IBOutlet UIImageView *taskImage;
-- (IBAction)shareAction:(UIButton *)sender;
+@property (strong, nonatomic) IBOutlet UIButton *playButton;
+@property(nonatomic,strong)NSString *type;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *videoHeight;
+- (IBAction)playVideo:(UIButton *)sender;
 @property(nonatomic,strong)WZShareDetailsItem *item;
 @property(nonatomic,strong)NSString *projectTaskId;
+@property(nonatomic,strong)NSString *url;
+
 @end

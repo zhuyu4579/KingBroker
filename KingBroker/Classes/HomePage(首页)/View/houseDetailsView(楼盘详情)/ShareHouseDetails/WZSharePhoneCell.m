@@ -8,6 +8,7 @@
 #import "UIView+Frame.h"
 #import "WZShareDetailsItem.h"
 #import "WZSharePhoneCell.h"
+#import "UIButton+WZEnlargeTouchAre.h"
 #import "WZSharePhoneCollectionView.h"
 #import "WZHouseShareDetailController.h"
 #import "UIViewController+WZFindController.h"
@@ -16,7 +17,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
      float n = [UIScreen mainScreen].bounds.size.width/375.0;
-    _content.textColor = UIColorRBG(102, 102, 102);
+    [_shareButton setEnlargeEdge:44];
     _videoHeight.constant = 145*n;
 }
 -(void)setFrame:(CGRect)frame{
@@ -33,7 +34,6 @@
     
     float n = [UIScreen mainScreen].bounds.size.width/375.0;
     _projectTaskId = item.projectTaskId;
-    _content.text = item.title;
     NSArray *urls = item.attachmentIds;
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -45,7 +45,9 @@
     WZSharePhoneCollectionView *phoneCv = [[WZSharePhoneCollectionView alloc] initWithFrame:CGRectMake(0, 0, _phoneView.fWidth, 145*n) collectionViewLayout:layout];
     phoneCv.array = urls;
     [_phoneView addSubview:phoneCv];
-    
+    phoneCv.selectPhone = ^(NSString *url) {
+        _url = url;
+    };
     _title.text = item.shareName;
     NSString *type = item.type;
     if ([type isEqual:@"1"]) {
@@ -54,10 +56,6 @@
         _taskImage.image = [UIImage imageNamed:@"label"];
     }
 }
-- (IBAction)shareAction:(UIButton *)sender {
-    WZHouseShareDetailController *shareVc = [[WZHouseShareDetailController alloc] init];
-    shareVc.ID = _projectTaskId;
-    UIViewController *Vc =  [UIViewController viewController:[self superview].superview];
-    [Vc.navigationController pushViewController:shareVc animated:YES];
-}
+
+
 @end

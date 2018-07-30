@@ -6,6 +6,9 @@
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
 #import <Masonry.h>
+#import <WXApi.h>
+#import "GKCover.h"
+#import <WXApiObject.h>
 #import "UIView+Frame.h"
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
@@ -29,6 +32,10 @@
 @property(nonatomic,strong)UIView *viewNo;
 //数据请求是否完毕
 @property (nonatomic, assign) BOOL isRequestFinish;
+//分享弹框
+@property(nonatomic,strong) UIView *redView;
+//分享图片
+@property(nonatomic,strong) NSString *url;
 @end
 //查询条数
 static NSString *size = @"20";
@@ -57,6 +64,8 @@ static  NSString * const ID = @"cell";
     [self loadDate];
     
     [self headerRefresh];
+    
+    [self shareTasks];
     //创造通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDate) name:@"RefreshShare" object:nil];
 }
@@ -213,6 +222,7 @@ static  NSString * const ID = @"cell";
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     WZSharePhoneCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    [cell.shareButton addTarget:self action:@selector(shares:) forControlEvents:UIControlEventTouchUpInside];
     WZShareDetailsItem *item = _videoItem[indexPath.row];
     cell.item = item;
     self.cell = cell;
@@ -220,19 +230,142 @@ static  NSString * const ID = @"cell";
 }
 
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 316;
+    return 233;
 }
 #pragma mark -跳转详情页
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //获取点击cell的数据
-    WZSharePhoneCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    WZHouseShareDetailController *shareVc = [[WZHouseShareDetailController alloc] init];
-    shareVc.ID = cell.projectTaskId;
-    [self.navigationController pushViewController:shareVc animated:YES];
+//    WZSharePhoneCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+//    WZHouseShareDetailController *shareVc = [[WZHouseShareDetailController alloc] init];
+//    shareVc.ID = cell.projectTaskId;
+//    [self.navigationController pushViewController:shareVc animated:YES];
+}
+#pragma mark-分享
+-(void)shares:(UIButton *)button{
+    CGPoint point = button.center;
+    point = [self.tableView convertPoint:point fromView:button.superview];
+    NSIndexPath *indexpath = [self.tableView indexPathForRowAtPoint:point];
+    WZSharePhoneCell *cell = [self.tableView cellForRowAtIndexPath:indexpath];
+    _url = cell.url;
+    if([_url isEqual:@""]){
+        [SVProgressHUD showInfoWithStatus:@"请选择分享图片"];
+        return;
+    }
+    [GKCover translucentCoverFrom:[self.view superview].superview content:_redView animated:YES];
+}
+
+//分享弹框
+-(void)shareTasks{
+    //弹出分享页
+    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(0,SCREEN_HEIGHT -250, self.view.fWidth, 250)];
+    redView.backgroundColor = UIColorRBG(246, 246, 246);
+    _redView = redView;
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(16,16,50,12);
+    label.text = @"分享至：";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    label.textColor = UIColorRBG(102, 102, 102);
+    [redView addSubview:label];
+    //创建微信按钮
+    UIButton *WXButton = [[UIButton alloc] initWithFrame:CGRectMake(redView.fWidth/2.0-87, 67, 50, 50)];
+    [WXButton setBackgroundImage:[UIImage imageNamed:@"wewhat"] forState:UIControlStateNormal];
+    [WXButton addTarget:self action:@selector(WXShare) forControlEvents:UIControlEventTouchUpInside];
+    [redView addSubview:WXButton];
     
+    UILabel *labelOne = [[UILabel alloc] init];
+    labelOne.frame = CGRectMake(redView.fWidth/2.0-87,126,50,12);
+    labelOne.textAlignment = NSTextAlignmentCenter;
+    labelOne.text = @"微信好友";
+    labelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    labelOne.textColor = UIColorRBG(68, 68, 68);
+    [redView addSubview:labelOne];
+    //创建朋友圈按钮
+    UIButton *friendsButton = [[UIButton alloc] initWithFrame:CGRectMake(redView.fWidth/2.0+37, 67, 50, 50)];
+    [friendsButton setBackgroundImage:[UIImage imageNamed:@"circle-of-friend"] forState:UIControlStateNormal];
+    [friendsButton addTarget:self action:@selector(friendsButton) forControlEvents:UIControlEventTouchUpInside];
+    [redView addSubview:friendsButton];
+    
+    UILabel *labelTwo = [[UILabel alloc] init];
+    labelTwo.frame = CGRectMake(redView.fWidth/2.0+37,126,50,12);
+    labelTwo.textAlignment = NSTextAlignmentCenter;
+    labelTwo.text = @"朋友圈";
+    labelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    labelTwo.textColor =  UIColorRBG(68, 68, 68);
+    [redView addSubview:labelTwo];
+    
+    UIView *ineView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, redView.fWidth, 1)];
+    ineView.backgroundColor = UIColorRBG(242, 242, 242);
+    [redView addSubview:ineView];
+    //创建取消按钮
+    UIButton *cleanButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 201, redView.fWidth, 49)];
+    [cleanButton setTitle:@"取消" forState:UIControlStateNormal];
+    [cleanButton setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
+    
+    [cleanButton addTarget:self action:@selector(closeGkCover) forControlEvents:UIControlEventTouchUpInside];
+    [redView addSubview:cleanButton];
+    
+}
+//分享到微信
+-(void)WXShare{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:@"1" forKey:@"shareSuccessType"];
+    [defaults synchronize];
+    //1.创建多媒体消息结构体
+    WXMediaMessage *mediaMsg = [WXMediaMessage message];
+    //2.创建多媒体消息中包含的图片数据对象
+    WXImageObject *imgObj = [WXImageObject object];
+    //图片真实数据
+    imgObj.imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_url]];
+    //多媒体数据对象
+    mediaMsg.mediaObject = imgObj;
+    //3.创建发送消息至微信终端程序的消息结构体
+    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+    //多媒体消息的内容
+    req.message = mediaMsg;
+    //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
+    req.bText = NO;
+    //指定发送到会话(聊天界面)
+    req.scene = WXSceneTimeline;
+    //发送请求到微信,等待微信返回onResp
+    [WXApi sendReq:req];
+    [self closeGkCover];
+    
+}
+//分享到朋友圈
+-(void)friendsButton{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:@"0" forKey:@"shareSuccessType"];
+    [defaults synchronize];
+    //1.创建多媒体消息结构体
+    WXMediaMessage *mediaMsg = [WXMediaMessage message];
+    
+    //2.创建多媒体消息中包含的图片数据对象
+    WXImageObject *imgObj = [WXImageObject object];
+    //图片真实数据
+    imgObj.imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_url]];
+    //多媒体数据对象
+    mediaMsg.mediaObject = imgObj;
+    //3.创建发送消息至微信终端程序的消息结构体
+    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+    //多媒体消息的内容
+    req.message = mediaMsg;
+    //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
+    req.bText = NO;
+    //指定发送到会话(朋友圈界面)
+    req.scene = WXSceneTimeline;
+    //发送请求到微信,等待微信返回onResp
+    [WXApi sendReq:req];
+    [self closeGkCover];
+    
+}
+//关闭分享
+-(void)closeGkCover{
+    [GKCover hide];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    
 }
+
 
 @end

@@ -16,5 +16,9 @@
     self.layer.borderWidth = 1.0;
    
 }
-
+-(void)setSelected:(BOOL)selected{
+    [super setSelected:selected];
+    _phoneImage.layer.borderWidth = 0;
+    _phoneImage.layer.borderColor = [UIColor clearColor].CGColor;
+}
 @end

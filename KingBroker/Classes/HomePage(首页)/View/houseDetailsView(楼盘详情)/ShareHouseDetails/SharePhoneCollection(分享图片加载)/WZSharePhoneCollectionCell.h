@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface WZSharePhoneCollectionCell : UICollectionViewCell
+
 @property (strong, nonatomic) IBOutlet UIImageView *phoneImage;
 
 @end

@@ -46,7 +46,7 @@
     
     [JPUSHService setupWithOption:launchOptions appKey:@"2c971480b42a2584471eaadb"
                           channel:@"App Store"
-                 apsForProduction:1
+                 apsForProduction:0
             advertisingIdentifier:advertisingId];
     
    
@@ -86,7 +86,8 @@
     NSString *param = [extras valueForKey:@"param"];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRefresh" object:nil];
-    if ([param isEqual:@"100"]) {
+    //NSLog(@"%@",userInfo);
+    if ([param isEqual:@"100"]||[param isEqual:@"101"]) {
         //通知二维码关闭
         [[NSNotificationCenter defaultCenter] postNotificationName:@"BoaringVC" object:nil];
     }else if([param isEqual:@"104"] || [param isEqual:@"105"] || [param isEqual:@"106"]){
