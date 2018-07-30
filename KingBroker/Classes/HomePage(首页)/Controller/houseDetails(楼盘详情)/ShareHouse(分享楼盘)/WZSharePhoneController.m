@@ -140,6 +140,7 @@ static  NSString * const ID = @"cell";
         if ([code isEqual:@"200"]) {
             NSMutableDictionary *data = [responseObject valueForKey:@"data"];
             NSMutableArray *rows = [data valueForKey:@"rows"];
+            NSLog(@"%@",rows);
             //将数据转换成模型
             if (rows.count == 0) {
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];

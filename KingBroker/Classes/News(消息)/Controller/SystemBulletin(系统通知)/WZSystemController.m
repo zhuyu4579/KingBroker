@@ -15,6 +15,7 @@
 #import <MJExtension.h>
 #import <Masonry.h>
 #import "UIView+Frame.h"
+#import "WZJionStoreController.h"
 #import "WZNEWHTMLController.h"
 #import "WZTabBarController.h"
 #import "WZSettingController.h"
@@ -22,6 +23,7 @@
 #import "WZAuthenSuccessController.h"
 #import "WZBoardingDetailsController.h"
 #import "WZBelongedStoreController.h"
+#import "WZNavigationController.h"
 @interface WZSystemController (){
     //页数
     NSInteger current;
@@ -350,6 +352,11 @@ static NSString *size = @"20";
             //所属门店
             WZBelongedStoreController *store = [[WZBelongedStoreController alloc] init];
             [self.navigationController pushViewController:store animated:YES];
+        }else if(paramId == 115){
+            WZJionStoreController *jionStore = [[WZJionStoreController alloc] init];
+            jionStore.type = @"1";
+             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:jionStore];
+            [self.navigationController presentViewController:nav animated:YES completion:nil];
         }
     }else{
         

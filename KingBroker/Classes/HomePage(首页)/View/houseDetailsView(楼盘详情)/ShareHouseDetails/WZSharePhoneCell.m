@@ -48,7 +48,7 @@
     phoneCv.selectPhone = ^(NSString *url) {
         _url = url;
     };
-    _title.text = item.shareName;
+    _title.text = item.title;
     NSString *type = item.type;
      _type = type;
     if ([type isEqual:@"1"]) {

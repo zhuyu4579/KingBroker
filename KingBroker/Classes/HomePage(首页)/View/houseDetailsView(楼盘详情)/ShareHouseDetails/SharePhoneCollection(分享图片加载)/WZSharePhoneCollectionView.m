@@ -38,16 +38,17 @@ UICollectionViewDataSource>
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 1;
+    return self.array.count;
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return self.array.count;
+    return 1;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     WZSharePhoneCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ID forIndexPath:indexPath];
     //转换图片地址
+    NSLog(@"%@",_array[indexPath.row]);
     [cell.phoneImage sd_setImageWithURL:[NSURL URLWithString:_array[indexPath.row]] placeholderImage:[UIImage imageNamed:@""]];
     
     return cell;

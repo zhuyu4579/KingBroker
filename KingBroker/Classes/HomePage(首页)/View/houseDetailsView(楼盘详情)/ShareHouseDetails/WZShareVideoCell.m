@@ -73,7 +73,7 @@
         [self createAVPlayer:urls[0]];
         _url = urls[0];
     }
-    _title.text = item.shareName;
+    _title.text = item.title;
     NSString *type = item.type;
     _type = type;
     if ([type isEqual:@"1"]) {
