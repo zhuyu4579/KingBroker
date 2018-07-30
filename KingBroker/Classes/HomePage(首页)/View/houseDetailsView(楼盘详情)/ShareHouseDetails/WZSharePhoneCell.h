@@ -18,4 +18,5 @@
 @property(nonatomic,strong)NSString *projectTaskId;
 //选择的图片
 @property(nonatomic,strong)NSString *url;
+@property(nonatomic,strong)NSString *type;
 @end

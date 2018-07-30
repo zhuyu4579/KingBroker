@@ -50,6 +50,7 @@
     };
     _title.text = item.shareName;
     NSString *type = item.type;
+     _type = type;
     if ([type isEqual:@"1"]) {
         _taskImage.image = [UIImage imageNamed:@""];
     }else if([type isEqual:@"2"]){

@@ -272,7 +272,7 @@ static  NSString * const ID = @"cell";
     [redView addSubview:labelOne];
     
     //创建悬赏标识
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(redView.fWidth/2.0+42, 41, 27, 18)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(redView.fWidth/2.0+48, 45, 27, 18)];
     if ([taskType isEqual:@"1"]) {
         imageView.image = [UIImage imageNamed:@""];
     }else if([taskType isEqual:@"2"]){

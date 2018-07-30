@@ -174,7 +174,7 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7gG-2B-Hdw">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7gG-2B-Hdw">
                     <rect key="frame" x="15" y="72" width="150" height="16"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="16" id="9xd-Rz-qXc"/>

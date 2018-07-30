@@ -36,6 +36,8 @@
 @property(nonatomic,strong) UIView *redView;
 //分享图片
 @property(nonatomic,strong) NSString *url;
+//分享按钮赏字
+@property (nonatomic, strong) UIImageView *imageViewDetail;
 @end
 //查询条数
 static NSString *size = @"20";
@@ -64,8 +66,7 @@ static  NSString * const ID = @"cell";
     [self loadDate];
     
     [self headerRefresh];
-    
-    [self shareTasks];
+
     //创造通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDate) name:@"RefreshShare" object:nil];
 }
@@ -251,11 +252,16 @@ static  NSString * const ID = @"cell";
         [SVProgressHUD showInfoWithStatus:@"请选择分享图片"];
         return;
     }
-    [GKCover translucentCoverFrom:[self.view superview].superview content:_redView animated:YES];
+    NSString *type = cell.type;
+    _url = cell.url;
+    //删除弹框
+    [_redView removeFromSuperview];
+    
+    [self shareTasks:type];
 }
 
 //分享弹框
--(void)shareTasks{
+-(void)shareTasks:(NSString *)taskType{
     //弹出分享页
     UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(0,SCREEN_HEIGHT -250, self.view.fWidth, 250)];
     redView.backgroundColor = UIColorRBG(246, 246, 246);
@@ -285,6 +291,18 @@ static  NSString * const ID = @"cell";
     [friendsButton addTarget:self action:@selector(friendsButton) forControlEvents:UIControlEventTouchUpInside];
     [redView addSubview:friendsButton];
     
+    //创建悬赏标识
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(redView.fWidth/2.0+48, 45, 27, 18)];
+    if ([taskType isEqual:@"1"]) {
+        imageView.image = [UIImage imageNamed:@""];
+    }else if([taskType isEqual:@"2"]){
+        imageView.image = [UIImage imageNamed:@"label"];
+    }else{
+        imageView.image = [UIImage imageNamed:@"label_2"];
+    }
+    _imageViewDetail = imageView;
+    [redView addSubview:imageView];
+    
     UILabel *labelTwo = [[UILabel alloc] init];
     labelTwo.frame = CGRectMake(redView.fWidth/2.0+37,126,50,12);
     labelTwo.textAlignment = NSTextAlignmentCenter;
@@ -303,7 +321,7 @@ static  NSString * const ID = @"cell";
     
     [cleanButton addTarget:self action:@selector(closeGkCover) forControlEvents:UIControlEventTouchUpInside];
     [redView addSubview:cleanButton];
-    
+    [GKCover translucentCoverFrom:[self.view superview].superview content:_redView animated:YES];
 }
 //分享到微信
 -(void)WXShare{
