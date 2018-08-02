@@ -61,6 +61,7 @@
         [SVProgressHUD showInfoWithStatus:@"手机格式错误"];
         return;
     }
+    [self openCountdown];
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -73,7 +74,7 @@
     paraments[@"telphone"] = phone;
     NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
-        [self openCountdown];
+        
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             [SVProgressHUD showInfoWithStatus:@"已发送"];
@@ -88,6 +89,7 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
+    
 }
 // 开启倒计时效果
 -(void)openCountdown{

@@ -197,7 +197,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
             }
             
         }else{
-            
             [SVProgressHUD showInfoWithStatus:@"分享取消"];
         }
     }

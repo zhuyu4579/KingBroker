@@ -45,11 +45,13 @@
     }
     NSString *YZM = self.findArgeementText.text;
     
+    //[self openCountdown];
+    
     UIViewController *Vc = [UIViewController viewController:[self superview]];
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
-    mgr.requestSerializer.timeoutInterval = 20;
+    mgr.requestSerializer.timeoutInterval = 10;
     
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     //2.拼接参数
@@ -59,7 +61,7 @@
     paraments[@"smsCode"] = YZM;
     NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
-        [self openCountdown];
+        
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             //判定是否是修改手机号
@@ -86,7 +88,7 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
-    
+   
 }
 
 #pragma mark -获取验证码
@@ -110,6 +112,7 @@
         [SVProgressHUD showInfoWithStatus:@"手机格式错误"];
         return;
     }
+    [self openCountdown];
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -122,7 +125,7 @@
     paraments[@"telphone"] = phone;
     NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
-        [self openCountdown];
+       
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             [SVProgressHUD showInfoWithStatus:@"已发送"];
@@ -135,8 +138,9 @@
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
+   
 }
 // 开启倒计时效果
 -(void)openCountdown{

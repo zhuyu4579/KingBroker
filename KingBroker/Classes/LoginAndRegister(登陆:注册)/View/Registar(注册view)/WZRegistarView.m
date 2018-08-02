@@ -42,7 +42,8 @@
         [SVProgressHUD showInfoWithStatus:@"手机格式错误"];
         return;
     }
-    
+    //修改按钮内容倒计时一分钟
+    [self openCountdown];
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -59,8 +60,6 @@
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
              [SVProgressHUD showInfoWithStatus:@"已发送"];
-            //修改按钮内容倒计时一分钟
-             [self openCountdown];
         }else{
              NSString *msg = [responseObject valueForKey:@"msg"];
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -69,9 +68,10 @@
         }
        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
-    }
+   
+ }
 
 // 开启倒计时效果
 -(void)openCountdown{
@@ -142,10 +142,12 @@
     ragSetPwVc.registar = dicty;
     //跳转下一个页面
     UIViewController *Vc = [UIViewController viewController:[self superview]];
+    
+    //[self openCountdown];
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
-    mgr.requestSerializer.timeoutInterval = 20;
+    mgr.requestSerializer.timeoutInterval = 10;
     
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     //2.拼接参数
@@ -155,7 +157,7 @@
     paraments[@"smsCode"] = _regPasswordText.text;
     NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
-        [self openCountdown];
+        
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             [Vc.navigationController pushViewController:ragSetPwVc animated:YES];
@@ -169,6 +171,7 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
+   
     //传值
     if (_registarBlock) {
         ragSetPwVc.regBlock = ^(NSDictionary *regs) {
