@@ -30,7 +30,7 @@
     [super awakeFromNib];
     float n = [UIScreen mainScreen].bounds.size.width/375.0;
     [_shareButton setEnlargeEdge:44];
-    _videoHeight.constant = 220*n;
+    _videoHeight.constant = 200*n;
     
 }
 -(void)setFrame:(CGRect)frame{
@@ -40,8 +40,8 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-   
 }
+
 #pragma mark - MPMoviePlayerController
 - (void)createAVPlayer:(NSString *)url{
     //在使用 AVPlayer 播放视频时，提供视频信息的是 AVPlayerItem，一个 AVPlayerItem 对应着一个URL视频资源
@@ -49,7 +49,8 @@
     if (_videoView.subviews.count>0) {
         [_videoView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     }
-    
+     float n = [UIScreen mainScreen].bounds.size.width/375.0;
+    _videoView.bounds = CGRectMake(0, 0, 375*n, 200*n);
     NSURL *movieURL = [NSURL URLWithString:url];
     SelPlayerConfiguration *configuration = [[SelPlayerConfiguration alloc]init];
     _configuration = configuration;
@@ -59,7 +60,7 @@
     configuration.repeatPlay = YES;
     configuration.statusBarHideState = SelStatusBarHideStateFollowControls;
     configuration.sourceUrl = movieURL;
-    configuration.videoGravity = SelVideoGravityResize;
+    configuration.videoGravity = SelVideoGravityResizeAspect;
     _player = [[SelVideoPlayer alloc] initWithFrame:_videoView.bounds configuration:configuration];
     [_videoView addSubview:_player];
     

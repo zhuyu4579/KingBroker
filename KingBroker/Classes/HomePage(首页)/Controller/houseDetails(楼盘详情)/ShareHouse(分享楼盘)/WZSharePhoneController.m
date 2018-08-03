@@ -68,7 +68,7 @@ static  NSString * const ID = @"cell";
     [self headerRefresh];
 
     //创造通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDate) name:@"RefreshShare" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewTopics) name:@"RefreshShare" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -103,7 +103,9 @@ static  NSString * const ID = @"cell";
 }
 
 -(void)loadNewTopics{
-    [self.tableView.mj_header beginRefreshing];
+    _listArray = [NSMutableArray array];
+    current = 1;
+    [self loadDate];
 }
 -(void)loadMoreTopic{
     [self.tableView.mj_footer beginRefreshing];
@@ -140,7 +142,7 @@ static  NSString * const ID = @"cell";
         if ([code isEqual:@"200"]) {
             NSMutableDictionary *data = [responseObject valueForKey:@"data"];
             NSMutableArray *rows = [data valueForKey:@"rows"];
-            NSLog(@"%@",rows);
+            
             //将数据转换成模型
             if (rows.count == 0) {
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];

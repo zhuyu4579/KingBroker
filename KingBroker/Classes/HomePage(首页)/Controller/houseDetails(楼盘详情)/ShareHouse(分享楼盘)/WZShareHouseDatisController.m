@@ -64,7 +64,7 @@ static  NSString * const ID = @"cell";
     [self headerRefresh];
     [self shareTasks];
     //创造通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDate) name:@"RefreshShare" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadNewTopics) name:@"RefreshShare" object:nil];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -101,7 +101,9 @@ static  NSString * const ID = @"cell";
 }
 -(void)loadNewTopics{
     
-    [self.tableView.mj_header beginRefreshing];
+    _listArray = [NSMutableArray array];
+    current = 1;
+    [self loadDate];
     
 }
 -(void)loadMoreTopic{
