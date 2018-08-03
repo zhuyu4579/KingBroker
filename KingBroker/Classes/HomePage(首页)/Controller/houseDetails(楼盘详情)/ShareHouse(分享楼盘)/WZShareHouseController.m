@@ -69,7 +69,7 @@
     
     self.scrollView = scrollView;
     [self.view addSubview:scrollView];
-    scrollView.contentSize =CGSizeMake(scrollView.fWidth*4,0);
+    scrollView.contentSize =CGSizeMake(scrollView.fWidth*3,0);
 }
 #pragma mark -创建标题栏
 -(void)setTitlesView{

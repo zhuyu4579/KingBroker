@@ -165,7 +165,7 @@
             if ([_types isEqual:@"1"]) {
                 //跳转至首页
                 WZTabBarController *tar = [[WZTabBarController alloc] init];
-                tar.selectedViewController = [tar.viewControllers objectAtIndex:0];
+                tar.selectedViewController = [tar.viewControllers objectAtIndex:2];
                 [[UIViewController viewController:[self superview]].navigationController presentViewController:tar animated:YES completion:nil];
             }else{
                 [[UIViewController viewController:[self superview]].navigationController dismissViewControllerAnimated:YES completion:nil];
