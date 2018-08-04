@@ -60,6 +60,7 @@
        
         //跳转登录页面
         WZLoginAndRegistarController *login = [[WZLoginAndRegistarController alloc] init];
+        login.type = @"0";
         WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:login];
         [target presentViewController:nav animated:YES completion:nil];
     }

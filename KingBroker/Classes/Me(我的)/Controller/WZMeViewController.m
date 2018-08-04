@@ -535,13 +535,16 @@
 #pragma mark -跳转登录页面
 -(void)login{
     WZLoginAndRegistarController *loginVc = [[WZLoginAndRegistarController alloc] init];
+    loginVc.type = @"0";
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:loginVc];
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 //注册页面
 -(void)regs{
-    WZRegController *ragVc = [[WZRegController alloc] init];
-    [self.navigationController pushViewController:ragVc animated:YES];
+    WZLoginAndRegistarController *loginVc = [[WZLoginAndRegistarController alloc] init];
+    loginVc.type = @"1";
+    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:loginVc];
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 
 #pragma mark -不显示导航条

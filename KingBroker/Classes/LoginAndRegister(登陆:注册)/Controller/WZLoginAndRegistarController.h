@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface WZLoginAndRegistarController : UIViewController
+//默认页签
+@property(nonatomic,strong)NSString *type;
 
 @end

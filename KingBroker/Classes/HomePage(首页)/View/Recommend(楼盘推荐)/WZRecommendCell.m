@@ -46,7 +46,7 @@
     //设置ID
     _ID = item.id;
     _RecommendName.text = item.name;
-    if (uuid) {
+    if (![uuid isEqual:@""] && uuid) {
         if ([realtorStatus isEqual:@"2"]) {
             [_joinButton setHidden:YES];
             [_joinButton setEnabled:NO];
@@ -63,6 +63,9 @@
         }
         
     }else{
+        [_joinButton setHidden:NO];
+        [_commissonImage setHidden:YES];
+        [_Commission setHidden:YES];
         [_joinButton setTitle:@"登录可见佣金" forState:UIControlStateNormal];
         [_joinButton setEnabled:NO];
     }

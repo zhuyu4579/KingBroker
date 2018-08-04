@@ -70,7 +70,6 @@
         return;
     }
     //进行数据请求
-    //创建会话请求
     button.enabled = NO;
     
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
