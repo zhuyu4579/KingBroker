@@ -100,6 +100,7 @@
 		1F77530720A415C6003E1C07 /* WZCollectHouseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F77530520A415C6003E1C07 /* WZCollectHouseCell.xib */; };
 		1F77530A20A42CAA003E1C07 /* ZDAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F77530820A42CA9003E1C07 /* ZDAlertView.m */; };
 		1F77530D20A45316003E1C07 /* WZBelongedStoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F77530C20A45316003E1C07 /* WZBelongedStoreController.m */; };
+		1F8C357B2115381D002E0C8B /* WZLoginAndRegistarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F8C357A2115381D002E0C8B /* WZLoginAndRegistarController.m */; };
 		1FD9C49C207DB91700BB0298 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C49A207DB91700BB0298 /* Main.storyboard */; };
 		1FD9C49E207DB91700BB0298 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C49D207DB91700BB0298 /* Assets.xcassets */; };
 		1FD9C4A1207DB91700BB0298 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C49F207DB91700BB0298 /* LaunchScreen.storyboard */; };
@@ -408,6 +409,8 @@
 		1F77530920A42CA9003E1C07 /* ZDAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZDAlertView.h; sourceTree = "<group>"; };
 		1F77530B20A45316003E1C07 /* WZBelongedStoreController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZBelongedStoreController.h; sourceTree = "<group>"; };
 		1F77530C20A45316003E1C07 /* WZBelongedStoreController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZBelongedStoreController.m; sourceTree = "<group>"; };
+		1F8C35792115381D002E0C8B /* WZLoginAndRegistarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZLoginAndRegistarController.h; sourceTree = "<group>"; };
+		1F8C357A2115381D002E0C8B /* WZLoginAndRegistarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZLoginAndRegistarController.m; sourceTree = "<group>"; };
 		1FD9C491207DB91700BB0298 /* KingBroker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KingBroker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FD9C49B207DB91700BB0298 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1FD9C49D207DB91700BB0298 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1672,6 +1675,8 @@
 				1FD9C5D6207DBD2B00BB0298 /* findPassWord(找回密码) */,
 				1FD9C5DD207DBD2B00BB0298 /* SetPassWord(设置密码) */,
 				1FD9C5E1207DBD2B00BB0298 /* Registar(注册) */,
+				1F8C35792115381D002E0C8B /* WZLoginAndRegistarController.h */,
+				1F8C357A2115381D002E0C8B /* WZLoginAndRegistarController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2098,6 +2103,7 @@
 				1F3D658A20B29BBF003AEF39 /* WZSelectProjectCell.m in Sources */,
 				1FFA9FAC20E32D6300F34B3B /* WZShareController.m in Sources */,
 				1FD9C65F207DBD2C00BB0298 /* WZTypeTableView.m in Sources */,
+				1F8C357B2115381D002E0C8B /* WZLoginAndRegistarController.m in Sources */,
 				1FD9C68D207DBD2C00BB0298 /* WZFindPWView.m in Sources */,
 				1FD9C6A0207DED0F00BB0298 /* WZBatchReport.m in Sources */,
 				1FD9C689207DBD2C00BB0298 /* WZLoginRegistar.m in Sources */,

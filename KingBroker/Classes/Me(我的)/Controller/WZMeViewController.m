@@ -9,7 +9,7 @@
 #import "WZMeViewController.h"
 #import "UIBarButtonItem+Item.h"
 #import "WZSetTableController.h"
-#import "WZLoginController.h"
+#import "WZLoginAndRegistarController.h"
 #import "WZNavigationController.h"
 #import "WZRegController.h"
 #import "UIView+Frame.h"
@@ -534,7 +534,7 @@
 }
 #pragma mark -跳转登录页面
 -(void)login{
-    WZLoginController *loginVc = [[WZLoginController alloc] init];
+    WZLoginAndRegistarController *loginVc = [[WZLoginAndRegistarController alloc] init];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:loginVc];
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 }

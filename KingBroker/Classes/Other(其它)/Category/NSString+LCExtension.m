@@ -8,7 +8,7 @@
 
 #import "NSString+LCExtension.h"
 #import "WZTabBarController.h"
-#import "WZLoginController.h"
+#import "WZLoginAndRegistarController.h"
 #import "WZNavigationController.h"
 #import "JPUSHService.h"
 @implementation NSString (LCExtension)
@@ -59,7 +59,7 @@
         } seq:1];
        
         //跳转登录页面
-        WZLoginController *login = [[WZLoginController alloc] init];
+        WZLoginAndRegistarController *login = [[WZLoginAndRegistarController alloc] init];
         WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:login];
         [target presentViewController:nav animated:YES completion:nil];
     }
