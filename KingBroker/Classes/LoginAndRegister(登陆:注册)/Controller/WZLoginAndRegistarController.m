@@ -10,6 +10,7 @@
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
 #import "JPUSHService.h"
+#import "WZNEWHTMLController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZLoginAndRegistarController.h"
 
@@ -36,6 +37,8 @@
 @property(nonatomic,strong)UIButton *YZMButton;
 //注册-选中协议
 @property(nonatomic,strong)UIButton *selectAgreement;
+//定时器
+@property(nonatomic,weak)NSTimer *timer;
 @end
 
 @implementation WZLoginAndRegistarController
@@ -184,7 +187,6 @@
     loginName.textColor = UIColorRBG(255, 224, 0);
     loginName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     loginName.delegate = self;
-    [loginName becomeFirstResponder];
     loginName.keyboardType = UIKeyboardTypeNumberPad;
     [[loginName valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
     loginName.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -401,6 +403,7 @@
     findYZM.layer.masksToBounds = YES;
     findYZM.layer.borderColor = UIColorRBG(255, 224, 0).CGColor;
     findYZM.layer.borderWidth = 1.0;
+    [findYZM addTarget:self action:@selector(findYZM:) forControlEvents:UIControlEventTouchUpInside];
     _YZMButton = findYZM;
     [registarView addSubview:findYZM];
     [findYZM mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -437,6 +440,7 @@
     [findAgreement setTitle:@"《经服用户服务协议》" forState:UIControlStateNormal];
     [findAgreement setTitleColor:UIColorRBG(68, 68, 68) forState:UIControlStateNormal];
     findAgreement.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
+    [findAgreement addTarget:self action:@selector(findAgreement) forControlEvents:UIControlEventTouchUpInside];
     [registarView addSubview:findAgreement];
     [findAgreement mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(aLabel.mas_right);
@@ -462,6 +466,7 @@
 }
 #pragma mark -点击切换登录模块
 -(void)loginButton:(UIButton *)button{
+    [self touches];
     [_registarButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
     _ineRegistar.backgroundColor = [UIColor clearColor];
     [button setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
@@ -471,6 +476,7 @@
 }
 #pragma mark -点击切换注册模块
 -(void)registarButton:(UIButton *)button{
+    [self touches];
     [_loginButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
     _ineLogin.backgroundColor = [UIColor clearColor];
     [button setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
@@ -550,7 +556,7 @@
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-        button.enabled = NO;
+        button.enabled = YES;
     }];
     
 }
@@ -558,9 +564,140 @@
 -(void)selectAgreement:(UIButton *)button{
     button.selected = !button.selected;
 }
-
+#pragma mark -注册-查看协议
+-(void)findAgreement{
+    WZNEWHTMLController *html = [[WZNEWHTMLController alloc] init];
+    html.url = [NSString stringWithFormat:@"%@/apph5/agreement.html",HTTPH5];
+    [self.navigationController pushViewController:html animated:YES];
+}
+#pragma mark -获取验证码
+-(void)findYZM:(UIButton *)button{
+    NSString *telphone = _registarName.text;
+    if ([telphone isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"手机号不能为空"];
+        return;
+    }
+    NSString *str = [telphone substringToIndex:1];
+    if (telphone.length != 11 || ![str isEqual:@"1"]) {
+        [SVProgressHUD showInfoWithStatus:@"手机号格式错误"];
+        return;
+    }
+    //修改按钮内容倒计时一分钟
+    [self openCountdown];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 10;
+    
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"type"] = @"1";
+    paraments[@"telphone"] = telphone;
+    NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",HTTPURL];
+    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
+        
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            [SVProgressHUD showInfoWithStatus:@"已发送"];
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+    }];
+    
+}
+#pragma mark -验证码倒计时
+-(void)openCountdown{
+    
+    __block NSInteger time = 59; //倒计时时间
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    
+    dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
+    
+    dispatch_source_set_event_handler(_timer, ^{
+        
+        if(time <= 0){ //倒计时结束，关闭
+            dispatch_source_cancel(_timer);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //设置按钮的样式
+                [_YZMButton setTitle:@"重新发送" forState:UIControlStateNormal];
+                [_YZMButton setTitleColor:UIColorRBG(255, 224, 0) forState:UIControlStateNormal];
+                _YZMButton.userInteractionEnabled = YES;
+                _YZMButton.layer.borderColor = UIColorRBG(255, 224, 0).CGColor;
+                _YZMButton.layer.borderWidth = 1.0;
+            });
+            
+        }else{
+            int seconds = time % 60;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _YZMButton.userInteractionEnabled = NO;
+                //设置按钮显示读秒效果
+                [_YZMButton setTitle:[NSString stringWithFormat:@"还剩%.2ds", seconds] forState:UIControlStateNormal];
+                [_YZMButton setTitleColor:UIColorRBG(204, 204, 204) forState:UIControlStateNormal];
+                _YZMButton.layer.borderColor = UIColorRBG(102, 102, 102).CGColor;
+                _YZMButton.layer.borderWidth = 1.0;
+            });
+            time--;
+        }
+    });
+    dispatch_resume(_timer);
+}
 #pragma mark -下一步
 -(void)next{
+    NSString *telphone = _registarName.text;
+    if ([telphone isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"手机号不能为空"];
+        return;
+    }
+    NSString *str = [telphone substringToIndex:1];
+    if (telphone.length != 11 || ![str isEqual:@"1"]) {
+        [SVProgressHUD showInfoWithStatus:@"手机号格式错误"];
+        return;
+    }
+    NSString *YZM = _registarYZM.text;
+    if (YZM.length != 6) {
+        [SVProgressHUD showInfoWithStatus:@"验证码格式不正确"];
+        return;
+    }
+    if(_selectAgreement.selected != YES){
+        [SVProgressHUD showInfoWithStatus:@"请同意协议"];
+        return;
+    }
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 10;
+    
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"type"] = @"1";
+    paraments[@"telphone"] = telphone;
+    paraments[@"smsCode"] = YZM;
+    NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",HTTPURL];
+    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
+        
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+           // [Vc.navigationController pushViewController:ragSetPwVc animated:YES];
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+    }];
     
 }
 #pragma mark -开启接收通知
@@ -632,6 +769,12 @@
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [_loginName resignFirstResponder];
+    [_loginPassWord resignFirstResponder];
+    [_registarName resignFirstResponder];
+    [_registarYZM resignFirstResponder];
+}
+-(void)touches{
     [_loginName resignFirstResponder];
     [_loginPassWord resignFirstResponder];
     [_registarName resignFirstResponder];

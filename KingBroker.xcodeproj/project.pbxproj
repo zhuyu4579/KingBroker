@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F044D682115A7AF001C104F /* WZForgetPassWordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F044D672115A7AF001C104F /* WZForgetPassWordController.m */; };
 		1F06AF15208AC8A400E774F0 /* WZablumController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F06AF14208AC8A400E774F0 /* WZablumController.m */; };
 		1F06AF19208AED4100E774F0 /* WZModifyPhoneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F06AF17208AED4100E774F0 /* WZModifyPhoneController.m */; };
 		1F06AF1A208AED4100E774F0 /* WZModifyPhoneController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F06AF18208AED4100E774F0 /* WZModifyPhoneController.xib */; };
@@ -243,6 +244,8 @@
 
 /* Begin PBXFileReference section */
 		162D7BC404A4A373859D567F /* Pods-KingBroker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KingBroker.release.xcconfig"; path = "Pods/Target Support Files/Pods-KingBroker/Pods-KingBroker.release.xcconfig"; sourceTree = "<group>"; };
+		1F044D662115A7AF001C104F /* WZForgetPassWordController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZForgetPassWordController.h; sourceTree = "<group>"; };
+		1F044D672115A7AF001C104F /* WZForgetPassWordController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZForgetPassWordController.m; sourceTree = "<group>"; };
 		1F06AF13208AC8A400E774F0 /* WZablumController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZablumController.h; sourceTree = "<group>"; };
 		1F06AF14208AC8A400E774F0 /* WZablumController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZablumController.m; sourceTree = "<group>"; };
 		1F06AF16208AED4100E774F0 /* WZModifyPhoneController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZModifyPhoneController.h; sourceTree = "<group>"; };
@@ -1677,6 +1680,8 @@
 				1FD9C5E1207DBD2B00BB0298 /* Registar(注册) */,
 				1F8C35792115381D002E0C8B /* WZLoginAndRegistarController.h */,
 				1F8C357A2115381D002E0C8B /* WZLoginAndRegistarController.m */,
+				1F044D662115A7AF001C104F /* WZForgetPassWordController.h */,
+				1F044D672115A7AF001C104F /* WZForgetPassWordController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2138,6 +2143,7 @@
 				1F3885AA20A5719000402B23 /* POIAnnotation.m in Sources */,
 				1FD9C629207DBD2C00BB0298 /* WZSetTableController.m in Sources */,
 				1FD9C63B207DBD2C00BB0298 /* WZLossTableController.m in Sources */,
+				1F044D682115A7AF001C104F /* WZForgetPassWordController.m in Sources */,
 				1FD9C610207DBD2C00BB0298 /* UIView+Center.m in Sources */,
 				1F4D6DE420FCEAD4008A9514 /* SelPlaybackControls.m in Sources */,
 				1FFA9FA920E1CBCD00F34B3B /* WZTaskController.m in Sources */,
