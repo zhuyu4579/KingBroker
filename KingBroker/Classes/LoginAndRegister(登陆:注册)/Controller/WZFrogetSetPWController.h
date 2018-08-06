@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface WZFrogetSetPWController : UIViewController
-
+//账号
+@property(nonatomic,strong)NSString *telphone;
+//验证码
+@property(nonatomic,strong)NSString *YZM;
 @end

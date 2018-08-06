@@ -9,6 +9,7 @@
 #import "UIView+Frame.h"
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
+#import "WZFrogetSetPWController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZForgetPassWordController.h"
 
@@ -272,7 +273,6 @@
         [SVProgressHUD showInfoWithStatus:@"验证码格式不正确"];
         return;
     }
-    
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -289,7 +289,10 @@
         
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
-            // [Vc.navigationController pushViewController:ragSetPwVc animated:YES];
+            WZFrogetSetPWController *setPw = [[WZFrogetSetPWController alloc] init];
+            setPw.telphone = telphone;
+            setPw.YZM = YZM;
+           [self.navigationController pushViewController:setPw animated:YES];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
