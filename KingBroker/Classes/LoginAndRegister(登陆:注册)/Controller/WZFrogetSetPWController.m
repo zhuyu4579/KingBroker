@@ -13,7 +13,7 @@
 #import "WZFrogetSetPWController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 @interface WZFrogetSetPWController ()<UITextFieldDelegate>
-//登录的密码
+//密码
 @property(nonatomic,strong)UITextField *loginPassWord;
 //确认密码
 @property(nonatomic,strong)UITextField *loginPassWordTwo;
