@@ -261,7 +261,7 @@
                     NSLog(@"添加别名成功");
                 }
             } seq:1];
-            //将uuid 持久化
+            //将数据持久化
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:[regis valueForKey:@"uuid"] forKey:@"uuid"];
             [defaults setObject:[regis valueForKey:@"username"] forKey:@"username"];
