@@ -11,6 +11,7 @@
 #import <AFNetworking.h>
 #import "JPUSHService.h"
 #import "WZNEWHTMLController.h"
+#import "WZForgetPassWordController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZLoginAndRegistarController.h"
 
@@ -290,6 +291,7 @@
     [findPassWord setTitle:@"忘记密码" forState:UIControlStateNormal];
     [findPassWord setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
     findPassWord.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:11];
+    [findPassWord addTarget:self action:@selector(forgetPw) forControlEvents:UIControlEventTouchUpInside];
     [loginView addSubview:findPassWord];
     [findPassWord mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(loginButton.mas_right).offset(16);
@@ -493,6 +495,11 @@
         [_loginPassWord setSecureTextEntry:NO];
     }
 }
+#pragma mark -登录-忘记密码
+-(void)forgetPw{
+    WZForgetPassWordController *fPW = [[WZForgetPassWordController alloc] init];
+    [self.navigationController pushViewController:fPW animated:YES];
+}
 #pragma mark -登录
 -(void)logins:(UIButton *)button{
     NSString *name = _loginName.text;
@@ -641,8 +648,8 @@
                 _YZMButton.userInteractionEnabled = NO;
                 //设置按钮显示读秒效果
                 [_YZMButton setTitle:[NSString stringWithFormat:@"还剩%.2ds", seconds] forState:UIControlStateNormal];
-                [_YZMButton setTitleColor:UIColorRBG(204, 204, 204) forState:UIControlStateNormal];
-                _YZMButton.layer.borderColor = UIColorRBG(102, 102, 102).CGColor;
+                [_YZMButton setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
+                _YZMButton.layer.borderColor = UIColorRBG(204, 204, 204).CGColor;
                 _YZMButton.layer.borderWidth = 1.0;
             });
             time--;

@@ -76,6 +76,7 @@
 		1F4D6DE820FCEAD4008A9514 /* SelVideoSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4D6DE320FCEAD4008A9514 /* SelVideoSlider.m */; };
 		1F4D6DEC20FCF232008A9514 /* WZMainUnitCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4D6DEB20FCF232008A9514 /* WZMainUnitCell.xib */; };
 		1F4D6DF020FD7348008A9514 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F4D6DEF20FD7347008A9514 /* Info.plist */; };
+		1F5130512117D8B500C16679 /* WZFrogetSetPWController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5130502117D8B500C16679 /* WZFrogetSetPWController.m */; };
 		1F533D9620C914ED0053FE4E /* WZAlbumPhonesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F533D9520C914ED0053FE4E /* WZAlbumPhonesViewController.m */; };
 		1F5B831E2081ECEF0083DEC2 /* WZQuestionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B831C2081ECEF0083DEC2 /* WZQuestionController.m */; };
 		1F5B831F2081ECEF0083DEC2 /* WZQuestionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B831D2081ECEF0083DEC2 /* WZQuestionController.xib */; };
@@ -368,6 +369,8 @@
 		1F4D6DE320FCEAD4008A9514 /* SelVideoSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelVideoSlider.m; sourceTree = "<group>"; };
 		1F4D6DEB20FCF232008A9514 /* WZMainUnitCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZMainUnitCell.xib; sourceTree = "<group>"; };
 		1F4D6DEF20FD7347008A9514 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F51304F2117D8B500C16679 /* WZFrogetSetPWController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZFrogetSetPWController.h; sourceTree = "<group>"; };
+		1F5130502117D8B500C16679 /* WZFrogetSetPWController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZFrogetSetPWController.m; sourceTree = "<group>"; };
 		1F533D9420C914ED0053FE4E /* WZAlbumPhonesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZAlbumPhonesViewController.h; sourceTree = "<group>"; };
 		1F533D9520C914ED0053FE4E /* WZAlbumPhonesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAlbumPhonesViewController.m; sourceTree = "<group>"; };
 		1F5B831B2081ECEF0083DEC2 /* WZQuestionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZQuestionController.h; sourceTree = "<group>"; };
@@ -1682,6 +1685,8 @@
 				1F8C357A2115381D002E0C8B /* WZLoginAndRegistarController.m */,
 				1F044D662115A7AF001C104F /* WZForgetPassWordController.h */,
 				1F044D672115A7AF001C104F /* WZForgetPassWordController.m */,
+				1F51304F2117D8B500C16679 /* WZFrogetSetPWController.h */,
+				1F5130502117D8B500C16679 /* WZFrogetSetPWController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2148,6 +2153,7 @@
 				1F4D6DE420FCEAD4008A9514 /* SelPlaybackControls.m in Sources */,
 				1FFA9FA920E1CBCD00F34B3B /* WZTaskController.m in Sources */,
 				1FD9C680207DBD2C00BB0298 /* WZLoginController.m in Sources */,
+				1F5130512117D8B500C16679 /* WZFrogetSetPWController.m in Sources */,
 				1FD9C622207DBD2C00BB0298 /* WZHaveCodeView.m in Sources */,
 				1FD9C693207DBD2C00BB0298 /* WZRegistarView.m in Sources */,
 				1F4D6DD620F6E8E0008A9514 /* WZShareDetailCell.m in Sources */,
