@@ -411,4 +411,9 @@
 -(void)blackMeaddrs{
     [_mapView setCenterCoordinate:_touchMap animated:YES];
 }
+#pragma mark -显示导航条
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
 @end

@@ -23,7 +23,7 @@
 #import "WZNEWHTMLController.h"
 #import "GKCover.h"
 #import "WZTaskController.h"
-#import "WZJionStoreController.h"
+#import "WZJionStoreAndStoreHeadController.h"
 #import "WZNavigationController.h"
 @interface WZPagesViewController ()<WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate,CLLocationManagerDelegate>
 @property(nonatomic,strong)UIView *cycleView;
@@ -307,10 +307,10 @@
                                                                   }];
             UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action) {
-                                                                       WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
+                                                                       WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
                                                                        WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
                                                                        JionStore.type = @"1";
-                                                                       
+                                                                       JionStore.jionType = @"1";
                                                                        [self presentViewController:nav animated:YES completion:nil];
                                                                    }];
             

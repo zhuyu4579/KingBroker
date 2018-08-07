@@ -12,6 +12,7 @@
 #import "JPUSHService.h"
 #import "WZNEWHTMLController.h"
 #import "WZForgetPassWordController.h"
+#import "WZRegistarSetPWController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZLoginAndRegistarController.h"
 
@@ -57,7 +58,7 @@
 }
 #pragma mark - 创建控件
 -(void)createControl{
-   // float n = [UIScreen mainScreen].bounds.size.width/375.0;
+  
     //关闭按钮
     UIButton *closeButton = [[UIButton alloc] init];
     [closeButton setBackgroundImage:[UIImage imageNamed:@"close_login"] forState:UIControlStateNormal];
@@ -694,7 +695,10 @@
         
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
-           // [Vc.navigationController pushViewController:ragSetPwVc animated:YES];
+            WZRegistarSetPWController *registar = [[WZRegistarSetPWController alloc] init];
+            registar.telphone = telphone;
+            registar.YZM = YZM;
+            [self.navigationController pushViewController:registar animated:YES];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){

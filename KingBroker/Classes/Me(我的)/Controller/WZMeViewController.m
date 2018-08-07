@@ -13,7 +13,7 @@
 #import "WZNavigationController.h"
 #import "WZRegController.h"
 #import "UIView+Frame.h"
-#import "WZJionStoreController.h"
+#import "WZJionStoreAndStoreHeadController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZBoaringController.h"
 #import "WZHousePageController.h"
@@ -409,15 +409,12 @@
 }
 //跳转加入门店
 -(void)JoinStore{
-    WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
-     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
+    WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
     JionStore.type = @"1";
-    JionStore.types = @"";
+    JionStore.jionType = @"1";
+     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
     [self.navigationController presentViewController:nav animated:YES completion:nil];
-//    JionStore.registarBlock = ^(NSString *state) {
-//        _loginState = [state integerValue];
-//        [self storeState];
-//    };
+
 }
 //创建一个按钮控件
 -(void)createButtonView:(CGRect)rect image:(NSString *)image imageSize:(CGSize)imageSize target:(id)target action:(SEL)action title:(NSString *)title{

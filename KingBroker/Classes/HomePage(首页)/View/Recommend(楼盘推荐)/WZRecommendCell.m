@@ -14,7 +14,7 @@
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
 #import "NSString+LCExtension.h"
-#import "WZJionStoreController.h"
+#import "WZJionStoreAndStoreHeadController.h"
 #import "WZNavigationController.h"
 @implementation WZRecommendCell
 
@@ -160,10 +160,11 @@
     }
 
 - (IBAction)JoinStore:(UIButton *)sender {
-    WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
+    WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
     UIViewController *vc = [UIViewController viewController:self.superview.superview];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
     JionStore.type = @"1";
+    JionStore.jionType = @"1";
     [vc presentViewController:nav animated:YES completion:nil];
 }
 
