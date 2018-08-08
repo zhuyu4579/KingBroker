@@ -406,8 +406,13 @@
     [GKCover hide];
 }
 -(void)joinStore{
-    WZJionStoreController *jionStore = [[WZJionStoreController alloc] init];
-    [self.navigationController pushViewController:jionStore animated:YES];
+    if ([_realtorStatus isEqual:@"1"]) {
+        [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
+    }else{
+        WZJionStoreController *jionStore = [[WZJionStoreController alloc] init];
+        [self.navigationController pushViewController:jionStore animated:YES];
+    }
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

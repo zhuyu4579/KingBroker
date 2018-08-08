@@ -1351,6 +1351,8 @@
             [alert addAction:cancelAction];
             [self presentViewController:alert animated:YES completion:nil];
         }
+    }else if([realtorStatus isEqual:@"1"]){
+        [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
     }else{
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"无法拨打电话" message:@"你还没有加入经纪门店，将不能拨打电话"  preferredStyle:UIAlertControllerStyleAlert];
         
@@ -1581,6 +1583,8 @@
         report.name = @"";
         report.phone = @"";
         [self.navigationController pushViewController:report animated:YES];
+    }else if([realtorStatus isEqual:@"1"]){
+        [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
     }else{
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"未加入门店" message:@"你还没有加入经纪门店，不能进行更多操作"  preferredStyle:UIAlertControllerStyleAlert];
         

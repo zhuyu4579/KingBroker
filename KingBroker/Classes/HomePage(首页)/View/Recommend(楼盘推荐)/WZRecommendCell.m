@@ -59,6 +59,7 @@
             }
         }else{
             [_joinButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
+            
             [_joinButton setEnabled:YES];
         }
         
@@ -160,6 +161,12 @@
     }
 
 - (IBAction)JoinStore:(UIButton *)sender {
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
+    if ([realtorStatus isEqual:@"1"]) {
+        [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
+        return;
+    }
     WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
     UIViewController *vc = [UIViewController viewController:self.superview.superview];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];

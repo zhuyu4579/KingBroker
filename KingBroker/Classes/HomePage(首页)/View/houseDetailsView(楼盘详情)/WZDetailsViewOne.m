@@ -49,6 +49,12 @@
     self.chargeMan.textColor = UIColorRBG(68, 68, 68);
 }
 - (IBAction)JoinStore:(id)sender {
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
+    if ([realtorStatus isEqual:@"1"]) {
+        [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
+        return;
+    }
     WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
     UIViewController *vc = [UIViewController viewController:self.superview];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
