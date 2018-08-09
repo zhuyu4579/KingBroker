@@ -13,11 +13,11 @@
 #import "GKCover.h"
 #import "WZAuthenticationController.h"
 #import <SVProgressHUD.h>
-#import "WZJionStoreController.h"
 #import "WZApplyStorePersonController.h"
 #import "WZUpdateStoreController.h"
 #import "WZNavigationController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
+#import "WZJionStoreAndStoreHeadController.h"
 #import "WZStoreAdministrationController.h"
 @interface WZBelongedStoreController ()
 
@@ -409,8 +409,11 @@
     if ([_realtorStatus isEqual:@"1"]) {
         [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
     }else{
-        WZJionStoreController *jionStore = [[WZJionStoreController alloc] init];
-        [self.navigationController pushViewController:jionStore animated:YES];
+        WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
+        JionStore.type = @"1";
+        JionStore.jionType = @"1";
+        WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
+        [self.navigationController presentViewController:nav animated:YES completion:nil];
     }
     
 }

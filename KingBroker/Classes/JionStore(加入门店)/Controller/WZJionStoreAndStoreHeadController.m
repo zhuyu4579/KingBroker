@@ -512,16 +512,23 @@
         make.height.offset(1);
         make.width.offset(self.view.fWidth-97);
     }];
-    UIButton *position = [[UIButton alloc] init];
-    [position setBackgroundImage:[UIImage imageNamed:@"zc_map"] forState:UIControlStateNormal];
-    [position addTarget:self action:@selector(headPositionButton:) forControlEvents:UIControlEventTouchUpInside];
-    [position setEnlargeEdge:44];
-    [view addSubview:position];
-    [position mas_makeConstraints:^(MASConstraintMaker *make) {
+    UIImageView *poImage = [[UIImageView alloc] init];
+    poImage.image = [UIImage imageNamed:@"zc_map"];
+    [view addSubview:poImage];
+    [poImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(storePosition.mas_right).offset(14);
         make.top.equalTo(positionLabel.mas_bottom).offset(11);
         make.height.offset(26);
         make.width.offset(20);
+    }];
+    UIButton *position = [[UIButton alloc] init];
+    [position addTarget:self action:@selector(positionButton:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:position];
+    [position mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(18);
+        make.top.equalTo(positionLabel.mas_bottom);
+        make.height.offset(45);
+        make.width.offset(self.view.fWidth-62);
     }];
     //下划线
     UIView  *positionInes = [[UIView alloc] init];
@@ -529,7 +536,7 @@
     [view addSubview:positionInes];
     [positionInes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(storePosition.mas_right).offset(14);
-        make.top.equalTo(position.mas_bottom).offset(9);
+        make.top.equalTo(poImage.mas_bottom).offset(9);
         make.height.offset(1);
         make.width.offset(21);
     }];
@@ -750,16 +757,23 @@
         make.height.offset(1);
         make.width.offset(self.view.fWidth-97);
     }];
-    UIButton *position = [[UIButton alloc] init];
-    [position setBackgroundImage:[UIImage imageNamed:@"zc_map"] forState:UIControlStateNormal];
-    [position addTarget:self action:@selector(positionButton:) forControlEvents:UIControlEventTouchUpInside];
-    [position setEnlargeEdge:44];
-    [view addSubview:position];
-    [position mas_makeConstraints:^(MASConstraintMaker *make) {
+    UIImageView *poImage = [[UIImageView alloc] init];
+    poImage.image = [UIImage imageNamed:@"zc_map"];
+    [view addSubview:poImage];
+    [poImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(storePosition.mas_right).offset(14);
         make.top.equalTo(positionLabel.mas_bottom).offset(11);
         make.height.offset(26);
         make.width.offset(20);
+    }];
+    UIButton *position = [[UIButton alloc] init];
+    [position addTarget:self action:@selector(positionButton:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:position];
+    [position mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(18);
+        make.top.equalTo(positionLabel.mas_bottom);
+        make.height.offset(45);
+        make.width.offset(self.view.fWidth-62);
     }];
     //下划线
     UIView  *positionInes = [[UIView alloc] init];
@@ -767,7 +781,7 @@
     [view addSubview:positionInes];
     [positionInes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(storePosition.mas_right).offset(14);
-        make.top.equalTo(position.mas_bottom).offset(9);
+        make.top.equalTo(poImage.mas_bottom).offset(9);
         make.height.offset(1);
         make.width.offset(21);
     }];
