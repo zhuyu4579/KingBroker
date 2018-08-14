@@ -57,7 +57,7 @@
     }];
     UITextField *telphone = [[UITextField alloc] init];
     telphone.placeholder = @"请输入手机号";
-    telphone.textColor = UIColorRBG(255, 224, 0);
+    telphone.textColor = UIColorRBG(255, 204, 0);
     telphone.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     telphone.delegate = self;
     telphone.keyboardType = UIKeyboardTypeNumberPad;
@@ -73,7 +73,7 @@
     }];
     //下划线
     UIView  *registarIne = [[UIView alloc] init];
-    registarIne.backgroundColor = UIColorRBG(255, 224, 0);
+    registarIne.backgroundColor = UIColorRBG(255, 204, 0);
     [self.view addSubview:registarIne];
     [registarIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(57);
@@ -94,7 +94,7 @@
     //验证码
     UITextField *registarYZM = [[UITextField alloc] init];
     registarYZM.placeholder = @"请输入验证码";
-    registarYZM.textColor = UIColorRBG(255, 224, 0);
+    registarYZM.textColor = UIColorRBG(255, 204, 0);
     registarYZM.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     registarYZM.delegate = self;
     registarYZM.keyboardType = UIKeyboardTypeNumberPad;
@@ -110,7 +110,7 @@
     }];
     //下划线
     UIView  *registarInes = [[UIView alloc] init];
-    registarInes.backgroundColor = UIColorRBG(255, 224, 0);
+    registarInes.backgroundColor = UIColorRBG(255, 204, 0);
     [self.view addSubview:registarInes];
     [registarInes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(57);
@@ -121,11 +121,11 @@
     //获取验证码
     UIButton *findYZM = [[UIButton alloc] init];
     [findYZM setTitle:@"获取验证码" forState:UIControlStateNormal];
-    [findYZM setTitleColor:UIColorRBG(255, 224, 0) forState:UIControlStateNormal];
+    [findYZM setTitleColor:UIColorRBG(255, 204, 0) forState:UIControlStateNormal];
     findYZM.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     findYZM.layer.cornerRadius = 12;
     findYZM.layer.masksToBounds = YES;
-    findYZM.layer.borderColor = UIColorRBG(255, 224, 0).CGColor;
+    findYZM.layer.borderColor = UIColorRBG(255, 204, 0).CGColor;
     findYZM.layer.borderWidth = 1.0;
     [findYZM addTarget:self action:@selector(findYZM:) forControlEvents:UIControlEventTouchUpInside];
     _YZMButton = findYZM;
@@ -140,7 +140,7 @@
     UIButton *nextButton = [[UIButton alloc] init];
     [nextButton setBackgroundImage:[UIImage imageNamed:@"zc_button"] forState:UIControlStateNormal];
     [nextButton setTitle:@"下一步" forState:UIControlStateNormal];
-    [nextButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [nextButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     nextButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     nextButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 10, 0);
     [nextButton addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
@@ -164,7 +164,7 @@
     //人工
     UIButton *buttonLabel = [[UIButton alloc] init];
     [buttonLabel setTitle:@"人工客服" forState:UIControlStateNormal];
-    [buttonLabel setTitleColor:UIColorRBG(255, 224, 0) forState:UIControlStateNormal];
+    [buttonLabel setTitleColor:UIColorRBG(255, 204, 0) forState:UIControlStateNormal];
     buttonLabel.titleLabel.font =  [UIFont fontWithName:@"PingFang-SC-Medium" size:11];
     [buttonLabel addTarget:self action:@selector(buttonLabel) forControlEvents:UIControlEventTouchUpInside];
     [buttonLabel setEnlargeEdge:44];
@@ -235,9 +235,9 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 //设置按钮的样式
                 [_YZMButton setTitle:@"重新发送" forState:UIControlStateNormal];
-                [_YZMButton setTitleColor:UIColorRBG(255, 224, 0) forState:UIControlStateNormal];
+                [_YZMButton setTitleColor:UIColorRBG(255, 204, 0) forState:UIControlStateNormal];
                 _YZMButton.userInteractionEnabled = YES;
-                _YZMButton.layer.borderColor = UIColorRBG(255, 224, 0).CGColor;
+                _YZMButton.layer.borderColor = UIColorRBG(255, 204, 0).CGColor;
                 _YZMButton.layer.borderWidth = 1.0;
             });
             

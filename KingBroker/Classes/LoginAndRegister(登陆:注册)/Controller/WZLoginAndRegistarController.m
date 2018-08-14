@@ -149,11 +149,11 @@
     [self registar];
     if ([_type isEqual:@"0"]) {
         [loginButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-        ineLogin.backgroundColor = UIColorRBG(255, 224, 0);
+        ineLogin.backgroundColor = UIColorRBG(255, 204, 0);
         [_loginView setHidden:NO];
     }else{
         [registarButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-        ineRegistar.backgroundColor = UIColorRBG(255, 224, 0);
+        ineRegistar.backgroundColor = UIColorRBG(255, 204, 0);
         [_registarView setHidden:NO];
     }
 }
@@ -186,7 +186,7 @@
     if (![oldName isEqual:@""] || oldName) {
         loginName.text = oldName;
     }
-    loginName.textColor = UIColorRBG(255, 224, 0);
+    loginName.textColor = UIColorRBG(49, 35, 6);
     loginName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     loginName.delegate = self;
     loginName.keyboardType = UIKeyboardTypeNumberPad;
@@ -203,7 +203,7 @@
     }];
     //下划线
     UIView  *loginIne = [[UIView alloc] init];
-    loginIne.backgroundColor = UIColorRBG(255, 224, 0);
+    loginIne.backgroundColor = UIColorRBG(255, 204, 0);
     [loginView addSubview:loginIne];
     [loginIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(loginView.mas_left).offset(57);
@@ -224,7 +224,7 @@
     }];
     UITextField *loginPassWord = [[UITextField alloc] init];
     loginPassWord.placeholder = @"请输入密码";
-    loginPassWord.textColor = UIColorRBG(255, 224, 0);
+    loginPassWord.textColor = UIColorRBG(49, 35, 6);
     loginPassWord.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     loginPassWord.delegate = self;
     loginPassWord.keyboardType = UIKeyboardTypeASCIICapable;
@@ -241,7 +241,7 @@
     }];
     //下划线
     UIView  *loginInes = [[UIView alloc] init];
-    loginInes.backgroundColor = UIColorRBG(255, 224, 0);
+    loginInes.backgroundColor = UIColorRBG(255, 204, 0);
     [loginView addSubview:loginInes];
     [loginInes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(loginView.mas_left).offset(57);
@@ -264,7 +264,7 @@
     }];
     //下划线
     UIView  *showIne = [[UIView alloc] init];
-    showIne.backgroundColor = UIColorRBG(255, 224, 0);
+    showIne.backgroundColor = UIColorRBG(255, 204, 0);
     [loginView addSubview:showIne];
     [showIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(loginInes.mas_right).offset(6);
@@ -276,7 +276,7 @@
     UIButton *loginButton = [[UIButton alloc] init];
     [loginButton setBackgroundImage:[UIImage imageNamed:@"zc_button"] forState:UIControlStateNormal];
     [loginButton setTitle:@"登录" forState:UIControlStateNormal];
-    [loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [loginButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     loginButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     loginButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 10, 0);
     [loginButton addTarget:self action:@selector(logins:) forControlEvents:UIControlEventTouchUpInside];
@@ -301,7 +301,7 @@
     }];
     //下划线
     UIView  *findIne = [[UIView alloc] init];
-    findIne.backgroundColor = UIColorRBG(255, 224, 0);
+    findIne.backgroundColor = UIColorRBG(255, 204, 0);
     [loginView addSubview:findIne];
     [findIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(loginButton.mas_right).offset(16);
@@ -335,7 +335,7 @@
     }];
     UITextField *telphone = [[UITextField alloc] init];
     telphone.placeholder = @"请输入手机号";
-    telphone.textColor = UIColorRBG(255, 224, 0);
+    telphone.textColor = UIColorRBG(49, 35, 6);
     telphone.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     telphone.delegate = self;
     telphone.keyboardType = UIKeyboardTypeNumberPad;
@@ -352,7 +352,7 @@
     }];
     //下划线
     UIView  *registarIne = [[UIView alloc] init];
-    registarIne.backgroundColor = UIColorRBG(255, 224, 0);
+    registarIne.backgroundColor = UIColorRBG(255, 204, 0);
     [registarView addSubview:registarIne];
     [registarIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(registarView.mas_left).offset(57);
@@ -373,7 +373,7 @@
     //验证码
     UITextField *registarYZM = [[UITextField alloc] init];
     registarYZM.placeholder = @"请输入验证码";
-    registarYZM.textColor = UIColorRBG(255, 224, 0);
+    registarYZM.textColor = UIColorRBG(49, 35, 6);
     registarYZM.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     registarYZM.delegate = self;
     registarYZM.keyboardType = UIKeyboardTypeNumberPad;
@@ -389,7 +389,7 @@
     }];
     //下划线
     UIView  *registarInes = [[UIView alloc] init];
-    registarInes.backgroundColor = UIColorRBG(255, 224, 0);
+    registarInes.backgroundColor = UIColorRBG(255, 204, 0);
     [registarView addSubview:registarInes];
     [registarInes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(registarView.mas_left).offset(57);
@@ -400,11 +400,11 @@
     //获取验证码
     UIButton *findYZM = [[UIButton alloc] init];
     [findYZM setTitle:@"获取验证码" forState:UIControlStateNormal];
-    [findYZM setTitleColor:UIColorRBG(255, 224, 0) forState:UIControlStateNormal];
+    [findYZM setTitleColor:UIColorRBG(255, 204, 0) forState:UIControlStateNormal];
     findYZM.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     findYZM.layer.cornerRadius = 12;
     findYZM.layer.masksToBounds = YES;
-    findYZM.layer.borderColor = UIColorRBG(255, 224, 0).CGColor;
+    findYZM.layer.borderColor = UIColorRBG(255, 204, 0).CGColor;
     findYZM.layer.borderWidth = 1.0;
     [findYZM addTarget:self action:@selector(findYZM:) forControlEvents:UIControlEventTouchUpInside];
     _YZMButton = findYZM;
@@ -455,7 +455,7 @@
     UIButton *nextButton = [[UIButton alloc] init];
     [nextButton setBackgroundImage:[UIImage imageNamed:@"zc_button"] forState:UIControlStateNormal];
     [nextButton setTitle:@"下一步" forState:UIControlStateNormal];
-    [nextButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [nextButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     nextButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     nextButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 10, 0);
     [nextButton addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
@@ -473,7 +473,7 @@
     [_registarButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
     _ineRegistar.backgroundColor = [UIColor clearColor];
     [button setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-    _ineLogin.backgroundColor = UIColorRBG(255, 224, 0);
+    _ineLogin.backgroundColor = UIColorRBG(255, 204, 0);
     [_registarView setHidden:YES];
     [_loginView setHidden:NO];
 }
@@ -483,7 +483,7 @@
     [_loginButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
     _ineLogin.backgroundColor = [UIColor clearColor];
     [button setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-    _ineRegistar.backgroundColor = UIColorRBG(255, 224, 0);
+    _ineRegistar.backgroundColor = UIColorRBG(255, 204, 0);
     [_loginView setHidden:YES];
     [_registarView setHidden:NO];
 }
@@ -637,9 +637,9 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 //设置按钮的样式
                 [_YZMButton setTitle:@"重新发送" forState:UIControlStateNormal];
-                [_YZMButton setTitleColor:UIColorRBG(255, 224, 0) forState:UIControlStateNormal];
+                [_YZMButton setTitleColor:UIColorRBG(255, 204, 0) forState:UIControlStateNormal];
                 _YZMButton.userInteractionEnabled = YES;
-                _YZMButton.layer.borderColor = UIColorRBG(255, 224, 0).CGColor;
+                _YZMButton.layer.borderColor = UIColorRBG(255, 204, 0).CGColor;
                 _YZMButton.layer.borderWidth = 1.0;
             });
             

@@ -188,8 +188,8 @@
     [self createName];
     //创建按钮
     UIButton *button = [[UIButton alloc] init];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    button.backgroundColor = UIColorRBG(255, 224, 0);
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    button.backgroundColor = UIColorRBG(255, 204, 0);
     _button = button;
     [self.view addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -289,12 +289,12 @@
     [self headView];
     if ([_jionType isEqual:@"1"]) {
         [agentButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-        ineAgent.backgroundColor = UIColorRBG(255, 224, 0);
+        ineAgent.backgroundColor = UIColorRBG(255, 204, 0);
         [_viewThree setHidden:YES];
         [_viewTwo setHidden:NO];
     }else{
         [headButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-        ineHead.backgroundColor = UIColorRBG(255, 224, 0);
+        ineHead.backgroundColor = UIColorRBG(255, 204, 0);
         [_viewTwo setHidden:YES];
         [_viewThree setHidden:NO];
     }
@@ -326,7 +326,7 @@
     }];
     //下划线
     UIView  *nameIne = [[UIView alloc] init];
-    nameIne.backgroundColor = UIColorRBG(255, 224, 0);
+    nameIne.backgroundColor = UIColorRBG(255, 204, 0);
     [view addSubview:nameIne];
     [nameIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -417,14 +417,14 @@
         [noCodeButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
         ineNoCode.backgroundColor = [UIColor clearColor];
         [codeButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-        ineCode.backgroundColor = UIColorRBG(255, 224, 0);
+        ineCode.backgroundColor = UIColorRBG(255, 204, 0);
         [_codeViews setHidden:NO];
         [_noCodeViews setHidden:YES];
     }else{
         [codeButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
         ineCode.backgroundColor = [UIColor clearColor];
         [noCodeButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-        ineNoCode.backgroundColor = UIColorRBG(255, 224, 0);
+        ineNoCode.backgroundColor = UIColorRBG(255, 204, 0);
         [_codeViews setHidden:YES];
         [_noCodeViews setHidden:NO];
     }
@@ -471,7 +471,7 @@
     }];
     //下划线
     UIView  *nameIne = [[UIView alloc] init];
-    nameIne.backgroundColor = UIColorRBG(255, 224, 0);
+    nameIne.backgroundColor = UIColorRBG(255, 204, 0);
     [view addSubview:nameIne];
     [nameIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -504,7 +504,7 @@
     }];
     //下划线
     UIView  *positionIne = [[UIView alloc] init];
-    positionIne.backgroundColor = UIColorRBG(255, 224, 0);
+    positionIne.backgroundColor = UIColorRBG(255, 204, 0);
     [view addSubview:positionIne];
     [positionIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -532,7 +532,7 @@
     }];
     //下划线
     UIView  *positionInes = [[UIView alloc] init];
-    positionInes.backgroundColor = UIColorRBG(255, 224, 0);
+    positionInes.backgroundColor = UIColorRBG(255, 204, 0);
     [view addSubview:positionInes];
     [positionInes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(storePosition.mas_right).offset(14);
@@ -568,7 +568,7 @@
     }];
     //下划线
     UIView  *addressIne = [[UIView alloc] init];
-    addressIne.backgroundColor = UIColorRBG(255, 224, 0);
+    addressIne.backgroundColor = UIColorRBG(255, 204, 0);
     [view addSubview:addressIne];
     [addressIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -667,7 +667,7 @@
     }];
     //下划线
     UIView  *nameIne = [[UIView alloc] init];
-    nameIne.backgroundColor = UIColorRBG(255, 224, 0);
+    nameIne.backgroundColor = UIColorRBG(255, 204, 0);
     [view addSubview:nameIne];
     [nameIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -716,7 +716,7 @@
     }];
     //下划线
     UIView  *nameIne = [[UIView alloc] init];
-    nameIne.backgroundColor = UIColorRBG(255, 224, 0);
+    nameIne.backgroundColor = UIColorRBG(255, 204, 0);
     [view addSubview:nameIne];
     [nameIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -749,7 +749,7 @@
     }];
     //下划线
     UIView  *positionIne = [[UIView alloc] init];
-    positionIne.backgroundColor = UIColorRBG(255, 224, 0);
+    positionIne.backgroundColor = UIColorRBG(255, 204, 0);
     [view addSubview:positionIne];
     [positionIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -777,7 +777,7 @@
     }];
     //下划线
     UIView  *positionInes = [[UIView alloc] init];
-    positionInes.backgroundColor = UIColorRBG(255, 224, 0);
+    positionInes.backgroundColor = UIColorRBG(255, 204, 0);
     [view addSubview:positionInes];
     [positionInes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(storePosition.mas_right).offset(14);
@@ -813,7 +813,7 @@
     }];
     //下划线
     UIView  *addressIne = [[UIView alloc] init];
-    addressIne.backgroundColor = UIColorRBG(255, 224, 0);
+    addressIne.backgroundColor = UIColorRBG(255, 204, 0);
     [view addSubview:addressIne];
     [addressIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -885,7 +885,7 @@
     [_headButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
     _ineHead.backgroundColor = [UIColor clearColor];
     [button setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-    _ineAgent.backgroundColor = UIColorRBG(255, 224, 0);
+    _ineAgent.backgroundColor = UIColorRBG(255, 204, 0);
     [_viewThree setHidden:YES];
     [_viewTwo setHidden:NO];
     if([_codeType isEqual:@"0"]){
@@ -913,7 +913,7 @@
     [_agentButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
     _ineAgent.backgroundColor = [UIColor clearColor];
     [button setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-    _ineHead.backgroundColor = UIColorRBG(255, 224, 0);
+    _ineHead.backgroundColor = UIColorRBG(255, 204, 0);
     [_viewThree setHidden:NO];
     [_viewTwo setHidden:YES];
     //设置文字
@@ -933,7 +933,7 @@
     [_noCodeButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
     _ineNoCode.backgroundColor = [UIColor clearColor];
     [button setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-    _ineCode.backgroundColor = UIColorRBG(255, 224, 0);
+    _ineCode.backgroundColor = UIColorRBG(255, 204, 0);
     _codeImageView.frame = CGRectMake(0, 0, self.view.fWidth-26, 139);
     _codeImageView.image = [UIImage imageNamed:@"rz_background_3"];
     _codeType = @"0";
@@ -952,7 +952,7 @@
     [_codeButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
     _ineCode.backgroundColor = [UIColor clearColor];
     [button setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-    _ineNoCode.backgroundColor = UIColorRBG(255, 224, 0);
+    _ineNoCode.backgroundColor = UIColorRBG(255, 204, 0);
     _codeImageView.frame = CGRectMake(0, 0, self.view.fWidth-26, 286);
     _codeImageView.image = [UIImage imageNamed:@"rz_wbm_pic_2"];
     _codeType = @"1";
