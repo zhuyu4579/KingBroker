@@ -42,6 +42,7 @@
 		1F3D658A20B29BBF003AEF39 /* WZSelectProjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3D658820B29BBF003AEF39 /* WZSelectProjectCell.m */; };
 		1F3D658B20B29BBF003AEF39 /* WZSelectProjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F3D658920B29BBF003AEF39 /* WZSelectProjectCell.xib */; };
 		1F3D658E20B2A35C003AEF39 /* WZSearchProjectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3D658D20B2A35C003AEF39 /* WZSearchProjectController.m */; };
+		1F3F3E372123C06A005F28EC /* WZNewReportController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F3E362123C06A005F28EC /* WZNewReportController.m */; };
 		1F451C7220B6C43E00075240 /* WZReadPassWordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F451C7020B6C43E00075240 /* WZReadPassWordController.m */; };
 		1F451C7320B6C43E00075240 /* WZReadPassWordController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F451C7120B6C43E00075240 /* WZReadPassWordController.xib */; };
 		1F451C7720B6E58100075240 /* WZTaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F451C7520B6E58100075240 /* WZTaskCell.m */; };
@@ -314,6 +315,8 @@
 		1F3D658920B29BBF003AEF39 /* WZSelectProjectCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZSelectProjectCell.xib; sourceTree = "<group>"; };
 		1F3D658C20B2A35C003AEF39 /* WZSearchProjectController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZSearchProjectController.h; sourceTree = "<group>"; };
 		1F3D658D20B2A35C003AEF39 /* WZSearchProjectController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZSearchProjectController.m; sourceTree = "<group>"; };
+		1F3F3E352123C06A005F28EC /* WZNewReportController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZNewReportController.h; sourceTree = "<group>"; };
+		1F3F3E362123C06A005F28EC /* WZNewReportController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZNewReportController.m; sourceTree = "<group>"; };
 		1F451C6F20B6C43E00075240 /* WZReadPassWordController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZReadPassWordController.h; sourceTree = "<group>"; };
 		1F451C7020B6C43E00075240 /* WZReadPassWordController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZReadPassWordController.m; sourceTree = "<group>"; };
 		1F451C7120B6C43E00075240 /* WZReadPassWordController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZReadPassWordController.xib; sourceTree = "<group>"; };
@@ -1389,6 +1392,8 @@
 				1FD9C69C207DECC500BB0298 /* ViewOneReport.m */,
 				1FD9C69E207DED0F00BB0298 /* WZBatchReport.h */,
 				1FD9C69F207DED0F00BB0298 /* WZBatchReport.m */,
+				1F3F3E352123C06A005F28EC /* WZNewReportController.h */,
+				1F3F3E362123C06A005F28EC /* WZNewReportController.m */,
 				1F3D658120B29704003AEF39 /* WZSelectProjectsController.h */,
 				1F3D658220B29704003AEF39 /* WZSelectProjectsController.m */,
 				1F3D658C20B2A35C003AEF39 /* WZSearchProjectController.h */,
@@ -2050,6 +2055,7 @@
 				1FD9C608207DBD2C00BB0298 /* UIView+Dimension.m in Sources */,
 				1F06FAAE20B575CD008D2CA2 /* WZAnnNewItem.m in Sources */,
 				1FD9C673207DBD2C00BB0298 /* WZCollectionViewCell.m in Sources */,
+				1F3F3E372123C06A005F28EC /* WZNewReportController.m in Sources */,
 				1FD9C62B207DBD2C00BB0298 /* WZTaskNotificationController.m in Sources */,
 				1F09951A20F48D4500524361 /* WZShareVideoController.m in Sources */,
 				1FD9C69A207DDEFB00BB0298 /* WZCollectionHeaderView.m in Sources */,
