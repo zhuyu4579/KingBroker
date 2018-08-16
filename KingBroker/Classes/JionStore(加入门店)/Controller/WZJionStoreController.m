@@ -210,10 +210,15 @@
 -(void)closeVc{
     [self.textF resignFirstResponder];
     if ([_types isEqual:@"1"]) {
-        //跳转至我的页面
-        WZTabBarController *tar = [[WZTabBarController alloc] init];
-        tar.selectedViewController = [tar.viewControllers objectAtIndex:0];
-        [self.navigationController presentViewController:tar animated:YES completion:nil];
+        
+        if ([_type isEqual:@"2"]) {
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        }else{
+            //跳转至我的页面
+            WZTabBarController *tar = [[WZTabBarController alloc] init];
+            tar.selectedViewController = [tar.viewControllers objectAtIndex:0];
+            [self.navigationController presentViewController:tar animated:YES completion:nil];
+        }
     }else{
        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
