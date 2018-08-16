@@ -405,7 +405,6 @@
     customNameLabel.text = @"客户姓名：";
     customNameLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     customNameLabel.textColor = UIColorRBG(153, 153, 153);
-    
     [customerView addSubview:customNameLabel];
     [customNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(customerView.mas_left).with.offset(15);

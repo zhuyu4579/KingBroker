@@ -10,14 +10,46 @@
 #import <MJExtension.h>
 #import "UIView+Frame.h"
 #import <AFNetworking.h>
+#import "WZPickerView.h"
 #import <SVProgressHUD.h>
 #import "WZCustomerItem.h"
 #import "NSString+LCExtension.h"
 #import "UIBarButtonItem+Item.h"
 #import "WZNewReportController.h"
-
-@interface WZNewReportController ()
-
+#import "WZAddCustomerController.h"
+#import "WZSelectProjectsController.h"
+#import "UIButton+WZEnlargeTouchAre.h"
+@interface WZNewReportController ()<UIScrollViewDelegate,UITextFieldDelegate>
+//按钮View
+@property (nonatomic, strong)UIView *buttonView;
+//滑动页面
+@property (nonatomic, strong)UIScrollView *scrollView;
+//单个报备按钮
+@property (nonatomic, strong)UILabel *reportLabel;
+//批量报备按钮
+@property (nonatomic, strong)UILabel *batchReportLabel;
+//第一个view
+@property (nonatomic, strong)UIView *viewOne;
+//默认第一个客户姓名
+@property (nonatomic, strong)UITextField *custormName;
+//默认第一个客户电话
+@property (nonatomic, strong)UITextField *telphone;
+//增加客户view
+@property (nonatomic, strong)UIView *addCustomerView;
+//其他view
+@property (nonatomic, strong)UIView *otherView;
+//上客时间
+@property (nonatomic, strong)UILabel *loadTime;
+//出行人数
+@property (nonatomic, strong)UITextField *peopleSum;
+//用餐人数
+@property (nonatomic, strong)UITextField *eatPeople;
+//出发城市
+@property (nonatomic, strong)UITextField *setOutCity;
+//时间数组
+@property (nonatomic, strong)NSArray *timeArray;
+//出行方式
+@property(nonatomic,assign)NSInteger tags;
 @end
 
 @implementation WZNewReportController
@@ -28,25 +60,817 @@
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
-    
+    //设置导航栏
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
-    
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed: @"add"] highImage:[UIImage imageNamed:@"add"] target:self action:@selector(addCustomer)];
+    //创建控件
+    [self createControl];
+}
+#pragma mark -选择客户
+-(void)createControl{
+    //创建报备按钮view
+    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, kApplicationStatusBarHeight+76)];
+    buttonView.backgroundColor = [UIColor whiteColor];
+    _buttonView = buttonView;
+    [self.view addSubview:buttonView];
+    [self createButtonView];
+    //创建一个UIScrollView
+    UIScrollView *scrollView = [[UIScrollView alloc] init];
+    scrollView.frame = CGRectMake(0,kApplicationStatusBarHeight+76, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight-125-JF_BOTTOM_SPACE);
+    self.scrollView = scrollView;
+    [self.view addSubview:scrollView];
+    scrollView.delegate =self;
+    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.showsHorizontalScrollIndicator = NO;
+    //创建报备view
+    [self createView];
+    //创建报备按钮
+    UIButton *reportButton = [[UIButton alloc] init];
+    [reportButton setTitle:@"确认报备" forState:UIControlStateNormal];
+    [reportButton setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+    reportButton.backgroundColor = UIColorRBG(255, 204, 0);
+    reportButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    [reportButton addTarget:self action:@selector(report:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:reportButton];
+    [reportButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left);
+        make.bottom.equalTo(self.view.mas_bottom);
+        make.width.offset(self.view.fWidth);
+        make.height.offset(49+JF_BOTTOM_SPACE);
+    }];
+}
+#pragma mark -创建按钮
+-(void)createButtonView{
+    //创建返回按钮
+    UIButton *backButton = [[UIButton alloc] init];
+    [backButton setBackgroundImage:[UIImage imageNamed:@"navigationButtonReturn"] forState:UIControlStateNormal];
+    [backButton setEnlargeEdgeWithTop:10 right:20 bottom:10 left:15];
+    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [_buttonView addSubview:backButton];
+    [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_buttonView.mas_left).offset(15);
+        make.top.equalTo(_buttonView.mas_top).offset(kApplicationStatusBarHeight+9);
+        make.width.offset(11);
+        make.height.offset(20);
+    }];
+    //创建选择客户按钮
+    UIButton *selectButton = [[UIButton alloc] init];
+    [selectButton setBackgroundImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+    [selectButton setEnlargeEdgeWithTop:10 right:15 bottom:10 left:20];
+    [selectButton addTarget:self action:@selector(addCustomer) forControlEvents:UIControlEventTouchUpInside];
+    [_buttonView addSubview:selectButton];
+    [selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_buttonView.mas_right).offset(-15);
+        make.top.equalTo(_buttonView.mas_top).offset(kApplicationStatusBarHeight+9);
+        make.width.offset(18);
+        make.height.offset(20);
+    }];
+    //单个报备按钮
+    UILabel *reportLabel = [[UILabel alloc] init];
+    reportLabel.text = @"报备";
+    reportLabel.textColor = UIColorRBG(51, 51, 51);
+    reportLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:20];
+    _reportLabel = reportLabel;
+    [_buttonView addSubview:reportLabel];
+    [reportLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_buttonView.mas_left).offset(17);
+        make.bottom.equalTo(_buttonView.mas_bottom).offset(-13);
+        make.height.offset(20);
+        make.width.offset(40);
+    }];
+    UIButton *reportButton = [[UIButton alloc] init];
+    [reportButton addTarget:self action:@selector(reportButtons) forControlEvents:UIControlEventTouchUpInside];
+    [_buttonView addSubview:reportButton];
+    [reportButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_buttonView.mas_left);
+        make.bottom.equalTo(_buttonView.mas_bottom);
+        make.height.offset(33);
+        make.width.offset(70);
+    }];
+    //批量报备按钮
+    UILabel *batchReportLabel = [[UILabel alloc] init];
+    batchReportLabel.text = @"批量报备";
+    batchReportLabel.textColor = UIColorRBG(204, 204, 204);
+    batchReportLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    _batchReportLabel = batchReportLabel ;
+    [_buttonView addSubview:batchReportLabel];
+    [batchReportLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(reportLabel.mas_right).offset(29);
+        make.bottom.equalTo(_buttonView.mas_bottom).offset(-13);
+        make.height.offset(20);
+    }];
+    UIButton *batchReportButton = [[UIButton alloc] init];
+    [batchReportButton addTarget:self action:@selector(batchReportButtons) forControlEvents:UIControlEventTouchUpInside];
+    [_buttonView addSubview:batchReportButton];
+    [batchReportButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(reportButton.mas_right);
+        make.bottom.equalTo(_buttonView.mas_bottom);
+        make.height.offset(33);
+        make.width.offset(80);
+    }];
+}
+#pragma mark -创建报备view
+-(void)createView{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 8, _scrollView.fWidth, 165)];
+    view.backgroundColor = [UIColor whiteColor];
+    _viewOne = view;
+    [_scrollView addSubview:view];
+    //选择楼盘
+    UILabel *itemNameLabel = [[UILabel alloc] init];
+    itemNameLabel.text = @"楼  盘 名";
+    itemNameLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    itemNameLabel.textColor = UIColorRBG(51, 51, 51);
+    [view addSubview:itemNameLabel];
+    [itemNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).with.offset(15);
+        make.top.equalTo(view.mas_top).with.offset(20);
+        make.height.mas_offset(13);
+    }];
+    //楼盘名称
+    UILabel *itemName = [[UILabel alloc] init];
+    _ItemName = itemName;
+    itemName.text = @"选择报备楼盘";
+    itemName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    itemName.textColor = UIColorRBG(204, 204, 204);
+    [view addSubview:itemName];
+    [itemName mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(itemNameLabel.mas_right).with.offset(40);
+        make.top.equalTo(view.mas_top).with.offset(20);
+        make.height.mas_offset(13);
+    }];
+    //下划线
+    UIView *ineOne = [[UIView alloc] init];
+    ineOne.backgroundColor = UIColorRBG(240, 240, 240);
+    [view addSubview:ineOne];
+    [ineOne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(15);
+        make.bottom.equalTo(itemName.mas_bottom).offset(15);
+        make.height.offset(1);
+        make.width.offset(self.view.fWidth-80);
+    }];
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = [UIImage imageNamed:@"bb_more_unfold"];
+    [view addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view.mas_right).with.offset(-29);
+        make.top.equalTo(view.mas_top).with.offset(20);
+        make.height.mas_offset(15);
+        make.width.mas_offset(9);
+    }];
+    //下划线
+    UIView  *ineTwo = [[UIView alloc] init];
+    ineTwo.backgroundColor = UIColorRBG(255, 204, 0);
+    [view addSubview:ineTwo];
+    [ineTwo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view.mas_right).offset(-15);
+        make.bottom.equalTo(itemName.mas_bottom).offset(15);
+        make.height.offset(1);
+        make.width.offset(36);
+    }];
+    //点击按钮选择楼盘
+    UIButton *titemNameButton = [[UIButton alloc] init];
+    [titemNameButton addTarget:self action:@selector(itemNameButton) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:titemNameButton];
+    [titemNameButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).with.offset(15);
+        make.top.equalTo(view.mas_top);
+        make.height.mas_offset(48);
+        make.width.mas_offset(_scrollView.fWidth-30);
+    }];
+    //客户名称
+    UILabel *customNameLabel = [[UILabel alloc] init];
+    customNameLabel.text = @"客户姓名";
+    customNameLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    customNameLabel.textColor = UIColorRBG(51, 51, 51);
+    [view addSubview:customNameLabel];
+    [customNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).with.offset(15);
+        make.top.equalTo(ineOne.mas_bottom).with.offset(20);
+        make.height.mas_offset(13);
+    }];
+    //创建客户姓名的文本框
+    UITextField *customerName = [[UITextField alloc] init];
+    customerName.placeholder = @"必填";
+    customerName.delegate = self;
+    customerName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    customerName.textColor = UIColorRBG(68, 68, 68);
+    customerName.keyboardType = UIKeyboardTypeDefault;
+    customerName.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _custormName = customerName;
+     [view addSubview:customerName];
+    [customerName mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(customNameLabel.mas_right).with.offset(40);
+        make.top.equalTo(ineOne.mas_bottom).with.offset(5);
+        make.height.mas_offset(43);
+        make.width.mas_offset(view.fWidth-120);
+    }];
+    //下划线
+    UIView  *ineOnes = [[UIView alloc] init];
+    ineOnes.backgroundColor = UIColorRBG(240, 240, 240);
+    [view addSubview:ineOnes];
+    [ineOnes mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(15);
+        make.bottom.equalTo(customerName.mas_bottom);
+        make.height.offset(1);
+        make.width.offset(view.fWidth-30);
+    }];
+    //客户电话
+    UILabel *telphoneLabel = [[UILabel alloc] init];
+    telphoneLabel.text = @"客户电话";
+    telphoneLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    telphoneLabel.textColor = UIColorRBG(51, 51, 51);
+    [view addSubview:telphoneLabel];
+    [telphoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).with.offset(15);
+        make.top.equalTo(ineOnes.mas_bottom).with.offset(20);
+        make.height.mas_offset(13);
+    }];
+    //电话
+    UITextField *telphone = [[UITextField alloc] init];
+    telphone.placeholder = @"输入手机号";
+    telphone.delegate = self;
+    telphone.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    telphone.textColor = UIColorRBG(68, 68, 68);
+    telphone.keyboardType = UIKeyboardTypeNumberPad;
+    _telphone = telphone;
+    [view addSubview:telphone];
+    [telphone mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(telphoneLabel.mas_right).with.offset(40);
+        make.top.equalTo(ineOnes.mas_bottom).with.offset(5);
+        make.height.mas_offset(43);
+        make.width.mas_offset(205);
+    }];
+    //下划线
+    UIView  *ineTwos = [[UIView alloc] init];
+    ineTwos.backgroundColor = UIColorRBG(240, 240, 240);
+    [view addSubview:ineTwos];
+    [ineTwos mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(15);
+        make.top.equalTo(telphone.mas_bottom);
+        make.height.offset(1);
+        make.width.offset(view.fWidth-80);
+    }];
+    //创建增加号码按钮
+    UIButton *addTelephone = [[UIButton alloc] init];
+    [addTelephone setEnlargeEdge:44];
+    [addTelephone setBackgroundImage:[UIImage imageNamed:@"bb_add-1"] forState:UIControlStateNormal];
+    [addTelephone addTarget:self action:@selector(addTelephones:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:addTelephone];
+    [addTelephone mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view.mas_right).offset(-26);
+        make.top.equalTo(ineOnes.mas_bottom).offset(21);
+        make.height.offset(15);
+        make.width.offset(15);
+    }];
+    //下划线
+    UIView  *ineThree = [[UIView alloc] init];
+    ineThree.backgroundColor = UIColorRBG(255, 204, 0);
+    [view addSubview:ineThree];
+    [ineThree mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view.mas_right).offset(-15);
+        make.top.equalTo(telphone.mas_bottom);
+        make.height.offset(1);
+        make.width.offset(36);
+    }];
+    //创建增加客户按钮
+    UIView *addCustomerView = [[UIView alloc] initWithFrame:CGRectMake(0, view.fY+view.fHeight, _scrollView.fWidth, 47)];
+    addCustomerView.backgroundColor = [UIColor whiteColor];
+    _addCustomerView = addCustomerView;
+    [addCustomerView setHidden:YES];
+    [_scrollView addSubview:addCustomerView];
+    //按钮
+    UIButton *addCustomerButton = [[UIButton alloc] init];
+    [addCustomerButton setImage:[UIImage imageNamed:@"bb_addition"] forState:UIControlStateNormal];
+    [addCustomerButton setTitle:@" 添加客户" forState:UIControlStateNormal];
+    [addCustomerButton setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+    addCustomerButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
+    addCustomerButton.layer.borderWidth = 1.0;
+    addCustomerButton.layer.borderColor = UIColorRBG(102, 221, 85).CGColor;
+    addCustomerButton.layer.cornerRadius = 3.0;
+    [addCustomerButton setEnlargeEdgeWithTop:20 right:20 bottom:20 left:20];
+    [addCustomerView addSubview:addCustomerButton];
+    [addCustomerButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(addCustomerView.mas_centerX);
+        make.top.equalTo(addCustomerView.mas_top).offset(2);
+        make.height.offset(24);
+        make.width.offset(85);
+    }];
+    //其他view
+    UIView *otherView = [[UIView alloc] initWithFrame:CGRectMake(0, view.fHeight+view.fY+8, _scrollView.fWidth, 261)];
+    otherView.backgroundColor = [UIColor whiteColor];
+    _otherView = otherView;
+    [_scrollView addSubview:otherView];
+    [self createOtherView];
+    _scrollView.contentSize = CGSizeMake(0, otherView.fY+otherView.fHeight);
+}
+#pragma mark -创建其他
+-(void)createOtherView{
+    //创建上客时间
+    UILabel *loadTimeLabel = [[UILabel alloc] init];
+    loadTimeLabel.text = @"上客时间";
+    loadTimeLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    loadTimeLabel.textColor = UIColorRBG(51, 51, 51);
+    [_otherView addSubview:loadTimeLabel];
+    [loadTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_otherView.mas_left).with.offset(15);
+        make.top.equalTo(_otherView.mas_top).with.offset(25);
+        make.height.mas_offset(13);
+    }];
+    
+    _loadTime = [[UILabel alloc] init];
+    _loadTime.text = @"选择预计上客时间";
+    _loadTime.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    _loadTime.textColor = UIColorRBG(204, 204, 204);
+    [_otherView addSubview:_loadTime];
+    [_loadTime mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(loadTimeLabel.mas_right).with.offset(40);
+        make.top.equalTo(_otherView.mas_top).with.offset(25);
+        make.height.mas_offset(13);
+    }];
+    //点击按钮选择时间
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = [UIImage imageNamed:@"bb_more_unfold"];
+    [_otherView addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_otherView.mas_right).with.offset(-29);
+        make.top.equalTo(_otherView.mas_top).with.offset(24);
+        make.height.mas_offset(15);
+        make.width.mas_offset(9);
+    }];
+    UIButton *loadTimeButton = [[UIButton alloc] init];
+    [loadTimeButton addTarget:self action:@selector(loadTimeButton:) forControlEvents:UIControlEventTouchUpInside];
+    [_otherView addSubview:loadTimeButton];
+    [loadTimeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_otherView.mas_left).with.offset(15);
+        make.top.equalTo(_otherView.mas_top);
+        make.height.mas_offset(53);
+        make.width.mas_offset(_otherView.fWidth-30);
+    }];
+    //绘制线
+    UIView *ineView3 = [[UIView alloc] init];
+    ineView3.backgroundColor = UIColorRBG(242, 242, 242);
+    [_otherView addSubview:ineView3];
+    [ineView3 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_otherView.mas_left).with.offset(15);
+        make.top.equalTo(loadTimeLabel.mas_bottom).with.offset(15);
+        make.height.mas_offset(1);
+        make.width.mas_offset(_otherView.fWidth-30);
+    }];
+    //创建第二个view中的text
+    UILabel  *peopleSumLabel = [[UILabel alloc] init];
+    peopleSumLabel.text = @"出行人数";
+    peopleSumLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    peopleSumLabel.textColor = UIColorRBG(51, 51, 51);
+    [_otherView addSubview:peopleSumLabel];
+    [peopleSumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_otherView.mas_left).with.offset(15);
+        make.top.equalTo(ineView3.mas_bottom).with.offset(20);
+        make.height.mas_offset(13);
+    }];
+    UITextField *peopleSum = [[UITextField alloc] init];
+    peopleSum.placeholder = @"必填";
+    peopleSum.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    peopleSum.textColor = UIColorRBG(68, 68, 68);
+    peopleSum.keyboardType = UIKeyboardTypeNumberPad;
+    peopleSum.delegate = self;
+    _peopleSum = peopleSum;
+    [_otherView addSubview:peopleSum];
+    [peopleSum mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(peopleSumLabel.mas_right).with.offset(40);
+        make.top.equalTo(ineView3.mas_bottom).with.offset(0);
+        make.height.mas_offset(53);
+        make.width.mas_offset(_otherView.fWidth-121);
+    }];
+    //绘制线
+    UIView *ineView4 = [[UIView alloc] init];
+    ineView4.backgroundColor =UIColorRBG(242, 242, 242);
+    [_otherView addSubview:ineView4];
+    [ineView4 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_otherView.mas_left).with.offset(15);
+        make.top.equalTo(peopleSum.mas_bottom);
+        make.height.mas_offset(1);
+        make.width.mas_offset(_otherView.fWidth-30);
+    }];
+    //创建第二个view中的用餐人数
+    UILabel *eatPeopleLabel = [[UILabel alloc] init];
+    eatPeopleLabel.text = @"用餐人数";
+    eatPeopleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    eatPeopleLabel.textColor = UIColorRBG(51, 51, 51);
+    [_otherView addSubview:eatPeopleLabel];
+    [eatPeopleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_otherView.mas_left).with.offset(15);
+        make.top.equalTo(ineView4.mas_bottom).with.offset(20);
+        make.height.mas_offset(13);
+    }];
+    UITextField *eatPeople = [[UITextField alloc] init];
+    eatPeople.placeholder = @"可选填";
+    eatPeople.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    eatPeople.textColor = UIColorRBG(68, 68, 68);
+    eatPeople.delegate = self;
+    //键盘设置
+    eatPeople.keyboardType = UIKeyboardTypeNumberPad;
+    _eatPeople = eatPeople;
+    [_otherView addSubview:eatPeople];
+    [eatPeople mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(eatPeopleLabel.mas_right).with.offset(40);
+        make.top.equalTo(ineView4.mas_bottom).with.offset(0);
+        make.height.mas_offset(53);
+        make.width.mas_offset(_otherView.fWidth-121);
+    }];
+    
+    //绘制线
+    UIView *ineView5 = [[UIView alloc] init];
+    ineView5.backgroundColor =UIColorRBG(242, 242, 242);
+    [_otherView addSubview:ineView5];
+    [ineView5 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_otherView.mas_left).with.offset(15);
+        make.top.equalTo(eatPeople.mas_bottom);
+        make.height.mas_offset(1);
+        make.width.mas_offset(_otherView.fWidth-30);
+    }];
+    
+    UILabel *setOutCityLabel = [[UILabel alloc] init];
+    setOutCityLabel.text = @"出发城市";
+    setOutCityLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    setOutCityLabel.textColor = UIColorRBG(51, 51, 51);
+    [_otherView addSubview:setOutCityLabel];
+    [setOutCityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_otherView.mas_left).with.offset(15);
+        make.top.equalTo(ineView5.mas_bottom).with.offset(20);
+        make.height.mas_offset(13);
+    }];
+    
+    //创建第三个view中出发城市
+    _setOutCity = [[UITextField alloc] init];
+    _setOutCity.placeholder = @"必填";
+    _setOutCity.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    _setOutCity.textColor = UIColorRBG(68, 68, 68);
+    //键盘设置
+    _setOutCity.keyboardType = UIKeyboardTypeDefault;
+    _setOutCity.delegate = self;
+    [_otherView addSubview:_setOutCity];
+    [_setOutCity mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(setOutCityLabel.mas_right).with.offset(40);
+        make.top.equalTo(ineView5.mas_bottom);
+        make.width.mas_offset(_otherView.fWidth-121);
+        make.height.mas_offset(53);
+    }];
+    //绘制线
+    UIView *ineView6 = [[UIView alloc] init];
+    ineView6.backgroundColor =UIColorRBG(242, 242, 242);
+    [_otherView addSubview:ineView6];
+    [ineView6 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_otherView.mas_left).with.offset(15);
+        make.top.equalTo(_setOutCity.mas_bottom);
+        make.height.mas_offset(1);
+        make.width.mas_offset(_otherView.fWidth-30);
+    }];
+    
+    
+    UIView *viewFour = [[UIView alloc] init];
+    viewFour.backgroundColor = [UIColor whiteColor];
+    [_otherView addSubview:viewFour];
+    [viewFour mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_otherView.mas_left);
+        make.top.equalTo(ineView6.mas_bottom);
+        make.height.mas_offset(53);
+        make.width.mas_offset(_otherView.fWidth);
+    }];
+    
+    UILabel *modeLable = [[UILabel alloc] init];
+    modeLable.text = @"到达方式";
+    modeLable.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    modeLable.textColor = UIColorRBG(51, 51, 51);
+    [viewFour addSubview:modeLable];
+    [modeLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(viewFour.mas_left).with.offset(15);
+        make.top.equalTo(viewFour.mas_top).with.offset(20);
+        make.height.mas_offset(13);
+    }];
+    //方式按钮
+    UIButton *modeButtonOne = [[UIButton alloc] init];
+    [modeButtonOne setEnlargeEdge:30];
+    [modeButtonOne setBackgroundImage:[UIImage imageNamed:@"choose_2"] forState:UIControlStateNormal];
+    [modeButtonOne setBackgroundImage:[UIImage imageNamed:@"bb_choose-1"] forState:UIControlStateSelected];
+    modeButtonOne.tag = 20;
+    modeButtonOne.selected = YES;
+    [modeButtonOne addTarget:self action:@selector(modeButton:) forControlEvents:UIControlEventTouchUpInside];
+    [viewFour addSubview:modeButtonOne];
+    [modeButtonOne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(modeLable.mas_right).with.offset(40);
+        make.top.equalTo(viewFour.mas_top).with.offset(17);
+        make.height.mas_offset(19);
+        make.width.mas_offset(19);
+    }];
+    UILabel *modeOne = [[UILabel alloc] init];
+    modeOne.text = @"自驾";
+    modeOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    modeOne.textColor = UIColorRBG(68, 68, 68);
+    [viewFour addSubview:modeOne];
+    [modeOne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(modeButtonOne.mas_right).with.offset(10);
+        make.top.equalTo(viewFour.mas_top).with.offset(20);
+        make.height.mas_offset(13);
+    }];
+    
+    UIButton *modeButtonTwo = [[UIButton alloc] init];
+    [modeButtonTwo setEnlargeEdge:30];
+    [modeButtonTwo setBackgroundImage:[UIImage imageNamed:@"choose_2"] forState:UIControlStateNormal];
+    [modeButtonTwo setBackgroundImage:[UIImage imageNamed:@"bb_choose-1"] forState:UIControlStateSelected];
+    modeButtonTwo.tag = 21;
+    [modeButtonTwo addTarget:self action:@selector(modeButton:) forControlEvents:UIControlEventTouchUpInside];
+    [viewFour addSubview:modeButtonTwo];
+    [modeButtonTwo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(modeOne.mas_right).with.offset(23);
+        make.top.equalTo(viewFour.mas_top).with.offset(17);
+        make.height.mas_offset(19);
+        make.width.mas_offset(19);
+    }];
+    UILabel *modeTwo = [[UILabel alloc] init];
+    modeTwo.text = @"班车";
+    modeTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    modeTwo.textColor = UIColorRBG(68, 68, 68);
+    [viewFour addSubview:modeTwo];
+    [modeTwo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(modeButtonTwo.mas_right).with.offset(10);
+        make.top.equalTo(viewFour.mas_top).with.offset(20);
+        make.height.mas_offset(13);
+    }];
+    
+    UIButton *modeButtonThree = [[UIButton alloc] init];
+    [modeButtonThree setEnlargeEdge:30];
+    [modeButtonThree setBackgroundImage:[UIImage imageNamed:@"choose_2"] forState:UIControlStateNormal];
+    [modeButtonThree setBackgroundImage:[UIImage imageNamed:@"bb_choose-1"] forState:UIControlStateSelected];
+    modeButtonThree.tag = 22;
+    [modeButtonThree addTarget:self action:@selector(modeButton:) forControlEvents:UIControlEventTouchUpInside];
+    [viewFour addSubview:modeButtonThree];
+    [modeButtonThree mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(modeTwo.mas_right).with.offset(24);
+        make.top.equalTo(viewFour.mas_top).with.offset(17);
+        make.height.mas_offset(19);
+        make.width.mas_offset(19);
+    }];
+    UILabel *modeThree = [[UILabel alloc] init];
+    modeThree.text = @"其他";
+    modeThree.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    modeThree.textColor = UIColorRBG(68, 68, 68);
+    [viewFour addSubview:modeThree];
+    [modeThree mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(modeButtonThree.mas_right).with.offset(10);
+        make.top.equalTo(viewFour.mas_top).with.offset(20);
+        make.height.mas_offset(13);
+    }];
+}
+#pragma mark -创建客户
+-(UIView *)createCustomer:(CGFloat)frame{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, frame, self.view.fWidth, 117)];
+    view.backgroundColor = [UIColor whiteColor];
+    //客户名称
+    UILabel *customNameLabel = [[UILabel alloc] init];
+    customNameLabel.text = @"客户姓名";
+    customNameLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    customNameLabel.textColor = UIColorRBG(51, 51, 51);
+    [view addSubview:customNameLabel];
+    [customNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).with.offset(15);
+        make.top.equalTo(view.mas_top).with.offset(20);
+        make.height.mas_offset(13);
+    }];
+    //创建客户姓名的文本框
+    UITextField *customerName = [[UITextField alloc] init];
+    [view addSubview:customerName];
+    customerName.placeholder = @"必填";
+    customerName.tag = 60;
+    customerName.delegate = self;
+    customerName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    customerName.textColor = UIColorRBG(68, 68, 68);
+    customerName.keyboardType = UIKeyboardTypeDefault;
+    customerName.clearButtonMode = UITextFieldViewModeWhileEditing;
+    [customerName mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(customNameLabel.mas_right).with.offset(40);
+        make.top.equalTo(view.mas_top).with.offset(5);
+        make.height.mas_offset(43);
+        make.width.mas_offset(view.fWidth-120);
+    }];
+    //下划线
+    UIView  *ineOne = [[UIView alloc] init];
+    ineOne.backgroundColor = UIColorRBG(240, 240, 240);
+    [view addSubview:ineOne];
+    [ineOne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(15);
+        make.bottom.equalTo(customerName.mas_bottom);
+        make.height.offset(1);
+        make.width.offset(view.fWidth-30);
+    }];
+    //客户电话
+    UILabel *telphoneLabel = [[UILabel alloc] init];
+    telphoneLabel.text = @"客户电话";
+    telphoneLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    telphoneLabel.textColor = UIColorRBG(51, 51, 51);
+    [view addSubview:telphoneLabel];
+    [telphoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).with.offset(15);
+        make.top.equalTo(ineOne.mas_bottom).with.offset(20);
+        make.height.mas_offset(13);
+    }];
+    //电话前部分
+    UITextField *topText = [[UITextField alloc] init];
+    topText.placeholder = @"前三位";
+    topText.tag = 61;
+    topText.delegate = self;
+    topText.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    topText.textAlignment = NSTextAlignmentRight;
+    topText.textColor = UIColorRBG(68, 68, 68);
+    //键盘设置
+    topText.keyboardType = UIKeyboardTypeNumberPad;
+    [view addSubview:topText];
+    [topText mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(telphoneLabel.mas_right).with.offset(40);
+        make.top.equalTo(ineOne.mas_bottom).with.offset(5);
+        make.height.mas_offset(43);
+        make.width.mas_offset(44);
+    }];
+    
+    //下划线
+    UIView  *ineTwo = [[UIView alloc] init];
+    ineTwo.backgroundColor = UIColorRBG(240, 240, 240);
+    [view addSubview:ineTwo];
+    [ineTwo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(15);
+        make.top.equalTo(topText.mas_bottom);
+        make.height.offset(1);
+        make.width.offset(view.fWidth-80);
+    }];
+    //创建增加号码按钮
+    UIButton *addTelephone = [[UIButton alloc] init];
+    [addTelephone setEnlargeEdge:44];
+    [addTelephone setTag:63];
+    [addTelephone setBackgroundImage:[UIImage imageNamed:@"bb_add-1"] forState:UIControlStateNormal];
+    [addTelephone addTarget:self action:@selector(addTelephones:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:addTelephone];
+    [addTelephone mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view.mas_right).offset(-26);
+        make.top.equalTo(ineOne.mas_bottom).offset(21);
+        make.height.offset(15);
+        make.width.offset(15);
+    }];
+    //下划线
+    UIView  *ineThree = [[UIView alloc] init];
+    ineThree.backgroundColor = UIColorRBG(255, 204, 0);
+    [view addSubview:ineThree];
+    [ineThree mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view.mas_right).offset(-15);
+        make.top.equalTo(topText.mas_bottom);
+        make.height.offset(1);
+        make.width.offset(36);
+    }];
+    return view;
+}
+#pragma mark -返回
+-(void)back{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+#pragma mark -选择客户
+-(void)addCustomer{
+    //跳转选择客户页面
+    WZAddCustomerController *addVC = [[WZAddCustomerController alloc] init];
+    [self.navigationController pushViewController:addVC animated:YES];
+}
+#pragma mark -单个报备按钮
+-(void)reportButtons{
+    [self findSubView:self.view];
+    [_addCustomerView setHidden:YES];
+    _otherView.fY = _viewOne.fY+_viewOne.fHeight+8;
+    _reportLabel.textColor = UIColorRBG(51, 51, 51);
+    _reportLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:20];
+    _batchReportLabel.textColor = UIColorRBG(204, 204, 204);
+    _batchReportLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    _scrollView.contentSize = CGSizeMake(0, _otherView.fY+_otherView.fHeight);
+}
+#pragma mark -批量报备按钮
+-(void)batchReportButtons{
+    [self findSubView:self.view];
+    [_addCustomerView setHidden:NO];
+    _otherView.fY = _addCustomerView.fY+_addCustomerView.fHeight+8;
+    _batchReportLabel.textColor = UIColorRBG(51, 51, 51);
+    _batchReportLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:20];
+    _reportLabel.textColor = UIColorRBG(204, 204, 204);
+    _reportLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    _scrollView.contentSize = CGSizeMake(0, _otherView.fY+_otherView.fHeight);
+}
+#pragma mark -选择楼盘
+-(void)itemNameButton{
+    //跳转选择楼盘列表
+    WZSelectProjectsController *projectVC = [[WZSelectProjectsController alloc] init];
+//    projectVC.projectBlock = ^(NSDictionary *dicty) {
+//        _itemId = [dicty valueForKey:@"projectId"];
+//        _ItemName.text = [dicty valueForKey:@"projectName"];
+//        _sginStatu = [dicty valueForKey:@"signStatus"];
+//        _telphone = [dicty valueForKey:@"telphone"];
+//        //请求数据
+//        [self loadTimeData];
+//    };
+    [self.navigationController pushViewController:projectVC animated:YES];
+}
+#pragma mark -增加电话号码
+-(void)addTelephones:(UIButton *)button{
+    
+}
+#pragma mark -报备
+-(void)report:(UIButton *)button{
+    
+}
+#pragma mark -预计上客时间
+-(void)loadTimeButton:(UIButton *)button{
+    [self findSubView:self.view];
+    
+    if ([_ItemName.text isEqual:@"请选择"]) {
+        [SVProgressHUD showInfoWithStatus:@"请先选择楼盘"];
+        return;
+    }
+    if (!_itemId) {
+        [SVProgressHUD showInfoWithStatus:@"请先选择楼盘"];
+        return;
+    }
+    if (_timeArray.count==0) {
+        [SVProgressHUD showInfoWithStatus:@"上客时间为空"];
+        return;
+    }
+    WZPickerView *picker1 = [[WZPickerView alloc] init];
+    picker1.array = _timeArray;
+    picker1.title = @"上客时间";
+    [picker1 show];
+    picker1.pickerBlock = ^(NSDictionary *names) {
+        _loadTime.text = [names valueForKey:@"name"];
+    };
+    
+}
+#pragma mark -到达方式
+-(void)modeButton:(UIButton *)button{
+    for (int i = 0; i<3; i++) {
+        if (button.tag == 20+i) {
+            button.selected = YES;
+            _tags = button.tag;
+            continue;
+        }
+        UIButton *but = (UIButton *)[self.view viewWithTag:20+i];
+        but.selected = NO;
+    }
 }
 
+
+#pragma mark -点击键盘return收回键盘
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    _scrollView.contentSize=CGSizeMake(0,  _otherView.fY+_otherView.fHeight);
+    return YES;
+}
+#pragma mark -获取焦点
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    textField.returnKeyType = UIReturnKeyDone;
+    _scrollView.contentSize=CGSizeMake(0, _otherView.fY+_otherView.fHeight+200);
+}
+#pragma mark -文本框编辑时
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    NSString *toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    
+    if (toBeString.length>15) {
+        return NO;
+    }
+    
+    return YES;
+}
+#pragma mark-显示导航栏
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    
+}
+#pragma mark -软件盘收回
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self findSubView:self.view];
+    _scrollView.contentSize=CGSizeMake(0,  _otherView.fY+_otherView.fHeight);
+}
+-(void)findSubView:(UIView*)view
+{
+    
+    for (id object in [view subviews]) {
+        if ([object isKindOfClass:[UIView class]]) {
+            UIView * view = (UIView *)object;
+            [self findSubView:view];
+        }
+        if ([object isKindOfClass:[UITextField class]]) {
+            UITextField * view = (UITextField *)object;
+            [view resignFirstResponder];
+        }
+    }
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

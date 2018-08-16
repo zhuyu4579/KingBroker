@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface WZNewReportController : UIViewController
-
+//楼盘ID
+@property(nonatomic,strong)NSString *itemId;
+//楼盘名
+@property (nonatomic, copy)UILabel *ItemName;
 @end

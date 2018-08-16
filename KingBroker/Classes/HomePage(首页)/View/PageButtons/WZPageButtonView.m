@@ -7,7 +7,7 @@
 //
 
 #import "WZPageButtonView.h"
-#import "WZReportController.h"
+#import "WZNewReportController.h"
 #import "UIViewController+WZFindController.h"
 #import "WZBoaringController.h"
 #import "WZHousePageController.h"
@@ -87,7 +87,7 @@
     if (uuid) {
         if([realtorStatus isEqual:@"2"]){
             //跳转报备页面
-            WZReportController *reportVC = [[WZReportController alloc] init];
+            WZNewReportController *reportVC = [[WZNewReportController alloc] init];
             [_VC.navigationController pushViewController:reportVC animated:YES];
         } else if([realtorStatus isEqual:@"0"] ||[realtorStatus isEqual:@"3"]){
             [self store:_VC];
