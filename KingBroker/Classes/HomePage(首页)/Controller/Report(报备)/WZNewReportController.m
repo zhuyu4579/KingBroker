@@ -50,6 +50,8 @@
 @property (nonatomic, strong)NSArray *timeArray;
 //出行方式
 @property(nonatomic,assign)NSInteger tags;
+//报备方式
+@property (nonatomic, strong)NSString *reportType;
 @end
 
 @implementation WZNewReportController
@@ -60,6 +62,7 @@
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
+    _reportType = @"0";
     //设置导航栏
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     //创建控件
@@ -847,10 +850,43 @@
 -(void)selectCustomer{
     //跳转选择客户页面
     WZAddCustomerController *addVC = [[WZAddCustomerController alloc] init];
+    addVC.type = _reportType;
+    addVC.cusBlock = ^(NSArray *cusArray) {
+        if (cusArray.count == 0) {
+            return;
+        }
+        for (int i=0; i<cusArray.count; i++) {
+            NSString *name = [cusArray[i] valueForKey:@"name"];
+            NSString *tel = [cusArray[i] valueForKey:@"telphone"];
+            //判断是否实号显示
+            if ([_realTelFlag isEqual:@"0"] && tel.length == 11) {
+                tel = [NSString stringWithFormat:@"%@****%@",[tel substringToIndex:3],[tel substringFromIndex:7]];
+            }
+            if (i==0) {
+                _custormName.text = name;
+                _telphone.text = tel;
+            }else{
+                NSUInteger n = _scrollView.subviews.count-3;
+                _addCustomerView.fY += 128;
+                _otherView.fY +=128;
+                UIView *customerView = [self createCustomer:_addCustomerView.fY-118];
+                [customerView setTag:1000 + n];
+                [_scrollView addSubview:customerView];
+                int height =  0;
+                height += 128;
+                _scrollView.contentSize =  CGSizeMake(0, _scrollView.contentSize.height + height);
+                UITextField *cusName = [[customerView viewWithTag:8] viewWithTag:60];
+                UITextField *telphone = [[customerView viewWithTag:9] viewWithTag:61];
+                cusName.text = name;
+                telphone.text = tel;
+            }
+        }
+    };
     [self.navigationController pushViewController:addVC animated:YES];
 }
 #pragma mark -单个报备按钮
 -(void)reportButtons{
+    _reportType = @"0";
     [self findSubView:self.view];
     [_addCustomerView setHidden:YES];
     NSUInteger n = _scrollView.subviews.count-4;
@@ -869,6 +905,7 @@
 }
 #pragma mark -批量报备按钮
 -(void)batchReportButtons{
+    _reportType = @"1";
     [self findSubView:self.view];
     [_addCustomerView setHidden:NO];
     NSUInteger n = _scrollView.subviews.count-4;
@@ -995,7 +1032,7 @@
     NSInteger tag = button.superview.superview.tag;
     
     NSUInteger n = _scrollView.subviews.count-4;
-    
+
     UIView *view = button.superview.superview;
     NSInteger h = view.frame.size.height;
     NSInteger m = n - (tag-1000);
@@ -1118,7 +1155,6 @@
         but.selected = NO;
     }
 }
-
 
 #pragma mark -点击键盘return收回键盘
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
