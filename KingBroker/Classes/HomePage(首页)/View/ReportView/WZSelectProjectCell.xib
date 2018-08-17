@@ -28,19 +28,20 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已签约" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2F4-Ng-woz">
-                        <rect key="frame" x="323" y="15" width="37" height="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 已签约 " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2F4-Ng-woz">
+                        <rect key="frame" x="316" y="24" width="44" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="15" id="2Jo-dx-GrV"/>
+                            <constraint firstAttribute="height" constant="20" id="2Jo-dx-GrV"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oqE-5p-4G3">
-                        <rect key="frame" x="15" y="40" width="35.5" height="14"/>
+                        <rect key="frame" x="15" y="40" width="300" height="14"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14" id="MLd-if-TTA"/>
+                            <constraint firstAttribute="width" constant="300" id="aCS-Jq-yWv"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
@@ -48,7 +49,7 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="2F4-Ng-woz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="15v-Ne-MIN"/>
+                    <constraint firstItem="2F4-Ng-woz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="24" id="15v-Ne-MIN"/>
                     <constraint firstAttribute="trailing" secondItem="2F4-Ng-woz" secondAttribute="trailing" constant="15" id="5sv-xM-wSy"/>
                     <constraint firstItem="6Tj-62-CZi" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="Axi-IN-jBO"/>
                     <constraint firstItem="6Tj-62-CZi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="KEB-sD-4kx"/>

@@ -13,4 +13,10 @@
 @property(nonatomic,strong)NSString *itemId;
 //楼盘名
 @property (nonatomic, copy)UILabel *ItemName;
+//楼盘是否签约
+@property(nonatomic,strong)NSString *sginStatu;
+//楼盘负责人电话
+@property(nonatomic,strong)NSString *dutyTelphone;
+//电话是否为实号
+@property(nonatomic,strong)NSString *realTelFlag;
 @end

@@ -19,4 +19,6 @@
 @property(nonatomic,strong)NSString *tel;
 
 @property(nonatomic,strong)NSString *companyName;
+
+@property(nonatomic,strong)NSString *realTelFlag;
 @end
