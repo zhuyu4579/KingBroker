@@ -16,5 +16,8 @@ target 'KingBroker' do
    pod 'AMapSearch-NO-IDFA', '~> 5.7.0'	
    pod 'AMap2DMap-NO-IDFA', '~> 5.6.0'
    pod 'JPush', '~> 3.0.8'
-   pod 'WechatOpenSDK', '~> 1.8.1'	
+   pod 'WechatOpenSDK', '~> 1.8.1'
+   pod 'UMCCommon', '~> 1.5.2'
+   pod 'UMCSecurityPlugins', '~> 1.0.6'
+   pod 'UMCAnalytics', '~> 5.5.0'	
 end

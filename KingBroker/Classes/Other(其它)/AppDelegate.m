@@ -23,6 +23,8 @@
 #import <WXApi.h>
 #import <AFNetworking.h>
 #import <SVProgressHUD.h>
+#import <UMCommon/UMCommon.h>
+
 @interface AppDelegate()<JPUSHRegisterDelegate,WXApiDelegate>
 
 @property(nonatomic,strong)NSString *registerid;
@@ -48,8 +50,9 @@
                           channel:@"App Store"
                  apsForProduction:1
             advertisingIdentifier:advertisingId];
+    //友盟统计
+    [UMConfigure initWithAppkey:@"5b766107a40fa379e70000bd" channel:@"App Store"];
     
-   
     //获取自定义消息
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     
