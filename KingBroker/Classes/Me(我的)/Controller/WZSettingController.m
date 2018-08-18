@@ -48,10 +48,10 @@
     NSString *bottom = [username substringFromIndex:7];
     _telphone.text = [NSString stringWithFormat:@"%@****%@",top,bottom];
     if (idcardStatus == 0||idcardStatus == 3) {
-        _authenStatus.text = @"手持身份证";
+        _authenStatus.text = @"身份证正面照";
        
         if (idcardStatus == 3) {
-            _authenStatus.text = @"手持身份证";
+            _authenStatus.text = @"身份证正面照";
             _authenImage.image = [UIImage imageNamed:@"authenticated_2"];
         }
     }else if(idcardStatus == 1){

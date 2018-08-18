@@ -35,7 +35,7 @@
         if([commissionFag isEqual:@"0"]){
             _houseCommission.text = item.commission;
         }else{
-            _houseCommission.text = @"佣金不可见";
+            _houseCommission.text = @"";
         }
     }else{
         [_JoinStoreButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];

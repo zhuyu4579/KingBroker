@@ -59,7 +59,7 @@
     if([commissionFag isEqual:@"0"]){
         _commission.text = item.commission;
     }else{
-        _commission.text = @"佣金不可见";
+        _commission.text = @"";
     }
     
     _companyName.text = item.companyName;

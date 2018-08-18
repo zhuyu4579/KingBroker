@@ -298,7 +298,7 @@
              _dView.Commission.text = [_houseDatils valueForKey:@"commission"];
             _reportButton.enabled = YES;
         }else{
-            _dView.Commission.text = @"佣金不可见";
+            _dView.Commission.text = @"";
             _reportButton.enabled = YES;
         }
         if ([invisibleLinkmanFlag isEqual:@"0"]) {

@@ -157,13 +157,27 @@
         [GKCover hide];
         [SVProgressHUD dismiss];
         if ([code isEqual:@"200"]) {
-            NSString *state  = [responseObject valueForKey:@"data"];
+            NSDictionary *data  = [responseObject valueForKey:@"data"];
+            NSString *status = [data valueForKey:@"status"];
             if (_stateBlock) {
-                _stateBlock(state);
+                _stateBlock(status);
             }
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:[data valueForKey:@"commissionFag"] forKey:@"commissionFag"];
+            [defaults setObject:[data valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
+            //门店名称
+            [defaults setObject:[data valueForKey:@"storeName"] forKey:@"storeName"];
+            //门店编码
+            [defaults setObject:[data valueForKey:@"storeCode"] forKey:@"storeCode"];
+            //门店位置
+            [defaults setObject:[data valueForKey:@"cityName"] forKey:@"cityName"];
+            //门店地址
+            [defaults setObject:[data valueForKey:@"addr"] forKey:@"addr"];
+           
+            [defaults synchronize];
             
             if ([_types isEqual:@"1"]) {
-                //跳转至首页
+                //跳转至我的
                 WZTabBarController *tar = [[WZTabBarController alloc] init];
                 tar.selectedViewController = [tar.viewControllers objectAtIndex:2];
                 [[UIViewController viewController:[self superview]].navigationController presentViewController:tar animated:YES completion:nil];
