@@ -13,7 +13,9 @@
 #import "UIViewController+WZFindController.h"
 static  NSString * const ID = @"Scell";
 @interface WZReportSuccessTableView()<UITableViewDelegate,UITableViewDataSource>
+@property(nonatomic,assign)NSInteger currentIndex;
 
+@property(nonatomic,assign)NSIndexPath *currentIndexPath;
 @end
 @implementation WZReportSuccessTableView
 
@@ -26,7 +28,7 @@ static  NSString * const ID = @"Scell";
     }
     //注册cell
     [self registerNib:[UINib nibWithNibName:@"WZReportSuccessCell" bundle:nil] forCellReuseIdentifier:ID];
-    self.center = CGPointMake(self.frame.size.height / 2+15, self.frame.size.width / 2);
+    self.center = CGPointMake(self.frame.size.height / 2, self.frame.size.width / 2);
     //设置分割线
     self.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.scrollsToTop = NO;
@@ -37,7 +39,7 @@ static  NSString * const ID = @"Scell";
     return self;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 160;
+    return SCREEN_WIDTH-70;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _projectArray.count;
@@ -59,5 +61,4 @@ static  NSString * const ID = @"Scell";
     UIViewController *vc = [UIViewController viewController:self.superview];
     [vc.navigationController pushViewController:datis animated:YES];
 }
-
 @end

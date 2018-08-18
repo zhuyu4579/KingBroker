@@ -5,6 +5,7 @@
 //  Created by 朱玉隆 on 2018/8/15.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //  报备/批量报备2.0
+#import "GKCover.h"
 #import <Masonry.h>
 #import <MJRefresh.h>
 #import <MJExtension.h>
@@ -17,6 +18,8 @@
 #import "UIBarButtonItem+Item.h"
 #import "WZNewReportController.h"
 #import "WZAddCustomerController.h"
+#import "WZNavigationController.h"
+#import "WZReportSuccessController.h"
 #import "WZSelectProjectsController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 @interface WZNewReportController ()<UIScrollViewDelegate,UITextFieldDelegate>
@@ -52,6 +55,10 @@
 @property(nonatomic,assign)NSInteger tags;
 //报备方式
 @property (nonatomic, strong)NSString *reportType;
+//请求数据
+@property(nonatomic,strong)NSString *uuid;
+//参数
+@property(nonatomic,strong)NSDictionary *paraments;
 @end
 
 @implementation WZNewReportController
@@ -1112,7 +1119,133 @@
 }
 #pragma mark -报备
 -(void)report:(UIButton *)button{
+    //楼盘ID
+    NSString *projectId = _itemId;
+    //楼盘名称
+    NSString *projectName = _ItemName.text;
+    if ([projectId isEqual:@""]||[projectName isEqual:@""]||[projectName isEqual:@"选择报备楼盘"]) {
+        [SVProgressHUD showInfoWithStatus:@"请选择楼盘"];
+        return;
+    }
+    //客户姓名/客户电话
+    NSInteger n = _scrollView.subviews.count - 3;
+    if([_reportType isEqual:@"0"]){
+        n = 1;
+    }
+    NSMutableArray *customerArrays = [NSMutableArray array];
+    for (int i = 0; i<n; i++) {
+        UIView *view = [_scrollView viewWithTag:(1000+i)];
+        UITextField *name = [[view viewWithTag:8] viewWithTag:60];
+        UITextField *telphoneOne = [[view viewWithTag:9] viewWithTag:61];
+        UITextField *telphoneTwo = [[view viewWithTag:10] viewWithTag:70];
+        UITextField *telphoneThree = [[view viewWithTag:11] viewWithTag:70];
+        UITextField *telphoneFour = [[view viewWithTag:12] viewWithTag:70];
+        if ([name isEqual:@""]) {
+            [SVProgressHUD showInfoWithStatus:@"请填写客户姓名"];
+            return;
+        }
+        if(telphoneOne.text.length != 11){
+            [SVProgressHUD showInfoWithStatus:@"客户电话格式不正确"];
+            return;
+        }
+        NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+        dictionary[@"name"] = name.text;
+        dictionary[@"missContacto"] = telphoneOne.text;
+        dictionary[@"missContacttw"] = telphoneTwo.text;
+        dictionary[@"missContactth"] = telphoneThree.text;
+        dictionary[@"missContactf"] = telphoneFour.text;
+        [customerArrays addObject:dictionary];
+    }
+    //预计上客时间
+    NSString *boardingPlane = _loadTime.text;
+    if ([boardingPlane isEqual:@"选择预计上客时间"]||[boardingPlane isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"请选择预计上客时间"];
+        return;
+    }
+    //出行人数
+    NSString *partPersonNum = _peopleSum.text;
+    if ([partPersonNum isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"出行人数不能为空"];
+        return;
+    }
+    //用餐人数
+    NSString *lunchNum = _eatPeople.text;
+    //出发城市
+    NSString *departureCity = _setOutCity.text;
+    if ([departureCity isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"出发城市不能为空"];
+        return;
+    }
+    NSString *partWay = [NSString stringWithFormat:@"%ld",(long)_tags];
+    if ([partWay isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"请选择到达方式"];
+        return;
+    }
+    //参数
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    NSString *userId = [ user objectForKey:@"userId"];
+    _uuid = uuid;
+    NSMutableDictionary *order = [NSMutableDictionary dictionary];
+    order[@"projectName"] = projectName;
+    order[@"projectId"] = projectId;
+    order[@"appUserId"] = userId;
+    order[@"boardingPlane"] = boardingPlane;
+    order[@"departureCity"] = departureCity;
+    order[@"partPersonNum"] = partPersonNum;
+    order[@"partWay"] = partWay;
+    order[@"lunchNum"] = lunchNum;
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"order"] = order;
+    paraments[@"list"] = customerArrays;
+    _paraments = paraments;
+    NSLog(@"%@",paraments);
+    //添加遮罩
+    UIView *view = [[UIView alloc] init];
+    [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+    [SVProgressHUD showWithStatus:@"添加中"];
     
+    //延迟请求数据
+    [self performSelector:@selector(loadData) withObject:self afterDelay:0.5];
+    
+}
+-(void)loadData{
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 10;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
+    NSString *url = [NSString stringWithFormat:@"%@/order/order",HTTPURL];
+    [mgr POST:url  parameters:_paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        [GKCover hide];
+        [SVProgressHUD dismiss];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            WZReportSuccessController *successVC = [[WZReportSuccessController alloc] init];
+            successVC.reportData = data;
+            successVC.status = _sginStatu;
+            successVC.telphone = _dutyTelphone;
+            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:successVC];
+            [self.navigationController presentViewController:nav animated:YES completion:nil];
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [GKCover hide];
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+    }];
 }
 #pragma mark -预计上客时间
 -(void)loadTimeButton:(UIButton *)button{

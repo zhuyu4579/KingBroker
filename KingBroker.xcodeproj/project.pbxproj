@@ -1530,14 +1530,14 @@
 		1FD9C573207DBD2B00BB0298 /* ReportView */ = {
 			isa = PBXGroup;
 			children = (
-				1FD9C578207DBD2B00BB0298 /* WZReportSuccessCell.h */,
-				1FD9C57F207DBD2B00BB0298 /* WZReportSuccessCell.m */,
-				1FD9C574207DBD2B00BB0298 /* WZReportSuccessCell.xib */,
 				1FD9C57A207DBD2B00BB0298 /* WZAddCustormCell.h */,
 				1FD9C581207DBD2B00BB0298 /* WZAddCustormCell.m */,
 				1FD9C576207DBD2B00BB0298 /* WZAddCustormCell.xib */,
 				1FD9C580207DBD2B00BB0298 /* WZReportSuccessTableView.h */,
 				1FD9C577207DBD2B00BB0298 /* WZReportSuccessTableView.m */,
+				1FD9C578207DBD2B00BB0298 /* WZReportSuccessCell.h */,
+				1FD9C57F207DBD2B00BB0298 /* WZReportSuccessCell.m */,
+				1FD9C574207DBD2B00BB0298 /* WZReportSuccessCell.xib */,
 				1FD9C582207DBD2B00BB0298 /* WZTelephoneTableView.h */,
 				1FD9C57B207DBD2B00BB0298 /* WZTelephoneTableView.m */,
 				1FD9C579207DBD2B00BB0298 /* WZTelePhoneCell.m */,
