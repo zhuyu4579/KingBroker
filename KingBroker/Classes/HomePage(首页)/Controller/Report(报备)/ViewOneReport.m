@@ -698,7 +698,6 @@
     //用餐人数
     NSString *lunch_flag = _eatPeople.text;
     
-    
     NSString *partWay = [NSString stringWithFormat:@"%ld",(_tags-19)];
     if ([projectId isEqual:@""] || [departureCity isEqual:@""] || [partPersonNum isEqual:@""]|| [partWay isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"请填写完整数据"];

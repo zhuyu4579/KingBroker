@@ -345,11 +345,14 @@
     [_collect reloadData];
     //位置及周边
     NSString *lng = [_houseDatils valueForKey:@"lnglat"];
-    _lnglat = [lng componentsSeparatedByString:@","];
-    _mapView.centerCoordinate = CLLocationCoordinate2DMake( [_lnglat[1] doubleValue], [_lnglat[0] doubleValue]);
-    _pointAnnotation.coordinate = CLLocationCoordinate2DMake([_lnglat[1] doubleValue], [_lnglat[0] doubleValue]);
-    _pointAnnotation.title = [_houseDatils valueForKey:@"address"];
-    [_mapView selectAnnotation:_pointAnnotation animated:YES];
+    if (![lng isEqual:@""]) {
+        _lnglat = [lng componentsSeparatedByString:@","];
+        _mapView.centerCoordinate = CLLocationCoordinate2DMake( [_lnglat[1] doubleValue], [_lnglat[0] doubleValue]);
+        _pointAnnotation.coordinate = CLLocationCoordinate2DMake([_lnglat[1] doubleValue], [_lnglat[0] doubleValue]);
+        _pointAnnotation.title = [_houseDatils valueForKey:@"address"];
+        [_mapView selectAnnotation:_pointAnnotation animated:YES];
+    }
+    
     //位置数组
     NSMutableArray *traffics = [self setString:[_houseDatils valueForKey:@"traffics"]];
     _traffic.array =  [WZPeripheryItem mj_objectArrayWithKeyValuesArray:traffics];
