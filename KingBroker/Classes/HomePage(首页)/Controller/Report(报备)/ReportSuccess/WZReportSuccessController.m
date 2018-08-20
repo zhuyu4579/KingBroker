@@ -48,7 +48,6 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
-
 }
 -(void)Datas{
     //猜你喜欢
@@ -63,14 +62,14 @@
     _labelOne.text = [contacts valueForKey:@"projectName"];
      _labelFour.text = [NSString stringWithFormat:@"报备成功，最晚上客时间%@",[contacts valueForKey:@"boardingEnd"]];
     
-    if ([_status isEqual:@"0"]) {
-        [_labels setHidden:NO];
-        [_phone setHidden:NO];
-        [_labelRed setHidden:NO];
-    }else{
+    if ([_status isEqual:@"2"]) {
         [_labels setHidden:YES];
         [_phone setHidden:YES];
         [_labelRed setHidden:YES];
+    }else{
+        [_labels setHidden:NO];
+        [_phone setHidden:NO];
+        [_labelRed setHidden:NO];
     }
     
 }

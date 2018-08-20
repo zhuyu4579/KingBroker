@@ -30,7 +30,7 @@
     _projectName.text = item.projectName;
     _companyName.text = item.companyName;
     NSString *type = item.signStatus;
-    if ([type isEqual:@"1"]) {
+    if ([type isEqual:@"2"]) {
         [_signStatus setHidden:NO];
     }else{
         [_signStatus setHidden:YES];

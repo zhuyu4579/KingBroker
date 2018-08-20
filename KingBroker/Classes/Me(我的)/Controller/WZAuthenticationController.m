@@ -78,7 +78,7 @@
 //点击图片拍照
 -(void)clickImage{
    WZAlertView *redView = [WZAlertView new];
-    redView.imageName = @"sketchmap";
+    redView.imageName = @"rz_pic";
     redView.fSize = CGSizeMake(KScreenW, 327);
     [GKCover coverFrom:self.view
            contentView:redView
