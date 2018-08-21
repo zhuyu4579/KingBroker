@@ -30,7 +30,7 @@
     _headHeight.constant = kApplicationStatusBarHeight+54;
     _titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     _titleLabel.textColor = UIColorRBG(153, 153, 153);
-    NSMutableAttributedString *attributedString =  [self changeSomeText:@"清晰可见， 亮度均匀，易于识别" inText:_titleLabel.text withColor:UIColorRBG(3, 133, 219)];
+    NSMutableAttributedString *attributedString =  [self changeSomeText:@"清晰可见，亮度均匀，易于识别" inText:_titleLabel.text withColor:UIColorRBG(3, 133, 219)];
     _titleLabel.attributedText = attributedString;
     _getUpButton.backgroundColor = UIColorRBG(3, 133, 219);
     [_getUpButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

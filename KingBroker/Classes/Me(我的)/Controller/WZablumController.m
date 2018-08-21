@@ -6,9 +6,11 @@
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
 
-#import "WZablumController.h"
+
 #import <Masonry.h>
 #import "UIView+Frame.h"
+#import "WZablumController.h"
+#import "UIButton+WZEnlargeTouchAre.h"
 @interface WZablumController ()
 @property(nonatomic,strong)NSString *appVersion;
 @property(nonatomic,strong)NSString *newsVersion;
@@ -68,7 +70,56 @@
         make.left.equalTo(self.view.mas_left).offset(50);
         make.right.equalTo(self.view.mas_right).offset(-50);
     }];
-
+    UIButton *button = [[UIButton alloc] init];
+    [button setTitle:@"版本更新" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+    button.layer.cornerRadius = 4.0;
+    button.layer.masksToBounds = YES;
+    button.backgroundColor = UIColorRBG(3, 133, 219);
+    [button addTarget:self action:@selector(versionUpdate) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:button];
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(labelThree.mas_bottom).with.offset(92);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.height.offset(44);
+        make.width.offset(240);
+    }];
+    UILabel *telphoneLabel = [[UILabel alloc] init];
+    telphoneLabel.textColor = UIColorRBG(68, 68, 68);
+    telphoneLabel.text = @"客服热线：";
+    telphoneLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
+    [self.view addSubview:telphoneLabel];
+    [telphoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom).with.offset(-49);
+        make.centerX.equalTo(self.view.mas_centerX).offset(-47);
+        make.height.offset(12);
+    }];
+    UIButton *telphone = [[UIButton alloc] init];
+    [telphone setTitle:@"0571-88841808" forState:UIControlStateNormal];
+    [telphone setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
+    telphone.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
+    [telphone setEnlargeEdge:44];
+    [telphone addTarget:self action:@selector(telphone:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:telphone];
+    [telphone mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom).with.offset(-49);
+        make.left.equalTo(telphoneLabel.mas_right);
+        make.height.offset(12);
+        make.width.offset(93);
+    }];
 }
-    
+#pragma mark -版本更新
+-(void)versionUpdate{
+    UIApplication *application = [UIApplication sharedApplication];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *downAddress = [ user objectForKey:@"downAddress"];
+    [application openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?mt=8",downAddress]]];
+}
+#pragma mark-客服电话
+-(void)telphone:(UIButton *)button{
+    NSString *phone = button.titleLabel.text;
+    NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", phone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone]];
+}
 @end

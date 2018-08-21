@@ -110,7 +110,9 @@
     NSString *userId = [ user objectForKey:@"userId"];
     NSString *username = [ user objectForKey:@"username"];
      _uuid = uuid;
-     if (uuid) {
+    
+     if (![uuid isEqual:@""]&&uuid) {
+         
         //创建会话请求
         AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
         

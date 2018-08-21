@@ -14,7 +14,7 @@
 #define UIColorRBG(r,b,g) [UIColor colorWithRed:r/255.0 green:b/255.0 blue:g/255.0 alpha:1.0]
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
-#define HTTPURL @"http://www.jingfuapp.com/preapp"
+#define HTTPURL @"https://www.jingfuapp.com/preapp"
 #define HTTPH5 @"https://www.jingfuapp.com/pre/apph5"
 #define kApplicationStatusBarHeight  [UIApplication sharedApplication].statusBarFrame.size.height
 #define IOS11_OR_LATER_SPACE(par)({float space = 0.0;if(@available(iOS 11.0, *))space = par;(space);})

@@ -45,7 +45,7 @@
     NSString *uuid = [ user objectForKey:@"uuid"];
     NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
     _VC = [UIViewController viewController:[self superview]];
-    if(uuid){
+    if(![uuid isEqual:@""]&&uuid){
         if([realtorStatus isEqual:@"2"]){
             //跳转
             WZTaskController *task = [[WZTaskController alloc] init];
@@ -69,7 +69,7 @@
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     _VC = [UIViewController viewController:[self superview]];
-    if(uuid){
+    if(![uuid isEqual:@""]&&uuid){
         //跳转找楼盘页面
         WZHousePageController *house = [[WZHousePageController alloc] init];
         house.status = 0;
@@ -85,7 +85,7 @@
     NSString *uuid = [ user objectForKey:@"uuid"];
     NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
      _VC = [UIViewController viewController:[self superview]];
-    if (uuid) {
+    if (![uuid isEqual:@""]&&uuid) {
         if([realtorStatus isEqual:@"2"]){
             //跳转报备页面
             WZReportController *reportVC = [[WZReportController alloc] init];
@@ -109,7 +109,7 @@
     NSString *uuid = [ user objectForKey:@"uuid"];
     NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
     _VC = [UIViewController viewController:[self superview]];
-    if (uuid) {
+    if (![uuid isEqual:@""]&&uuid) {
         if([realtorStatus isEqual:@"2"]){
             WZBoaringController *bVC = [[WZBoaringController alloc] init];
             [_VC.navigationController pushViewController:bVC animated:YES];
@@ -130,7 +130,7 @@
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     _VC = [UIViewController viewController:[self superview]];
-    if (uuid) {
+    if (![uuid isEqual:@""]&&uuid) {
         WZAnnouncemeController *html = [[WZAnnouncemeController alloc] init];
         _VC = [UIViewController viewController:[self superview]];
         [_VC.navigationController pushViewController:html animated:YES];

@@ -53,7 +53,7 @@ static  NSString * const IDR = @"cells";
     NSString *uuid = [ user objectForKey:@"uuid"];
     //点击跳转详情页
     UIViewController *vc = [UIViewController viewController:self];
-    if (uuid) {
+    if (![uuid isEqual:@""]&&uuid) {
         WZRecommendCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
         houseDatis.ID =  cell.ID;

@@ -157,6 +157,7 @@
         [GKCover hide];
         [SVProgressHUD dismiss];
         if ([code isEqual:@"200"]) {
+            [SVProgressHUD showInfoWithStatus:@"加入门店成功"];
             NSDictionary *data  = [responseObject valueForKey:@"data"];
             NSString *status = [data valueForKey:@"status"];
             if (_stateBlock) {
@@ -186,7 +187,7 @@
                 [[UIViewController viewController:[self superview]].navigationController dismissViewControllerAnimated:YES completion:nil];
             }
             
-            
+        
         }else{
         
             NSString *msg = [responseObject valueForKey:@"msg"];
