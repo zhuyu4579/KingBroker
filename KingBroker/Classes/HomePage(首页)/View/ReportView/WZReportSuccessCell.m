@@ -59,6 +59,7 @@
     if([commissionFag isEqual:@"0"]){
         _commission.text = item.commission;
     }else{
+        [_commissionImage setHidden:YES];
         _commission.text = @"";
     }
     

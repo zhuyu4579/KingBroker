@@ -122,6 +122,7 @@
             <connections>
                 <outlet property="cityName" destination="2NN-aJ-x2G" id="HRZ-q6-L9z"/>
                 <outlet property="commission" destination="oxj-iE-Hes" id="WvA-0F-8u1"/>
+                <outlet property="commissionImage" destination="PBQ-ze-dHr" id="J0q-Nw-NOc"/>
                 <outlet property="companyName" destination="AU9-2X-mIJ" id="kYM-NC-jb4"/>
                 <outlet property="image" destination="Mtw-ZW-Mry" id="Pqt-Hl-DCw"/>
                 <outlet property="labelFour" destination="Ngr-N8-qKD" id="0wc-Ya-dBh"/>

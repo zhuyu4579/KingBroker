@@ -50,12 +50,10 @@
         if ([realtorStatus isEqual:@"2"]) {
             [_joinButton setHidden:YES];
             [_joinButton setEnabled:NO];
-            [_commissonImage setHidden:NO];
-            [_Commission setHidden:NO];
             if([commissionFag isEqual:@"0"]){
+                [_commissonImage setHidden:NO];
+                [_Commission setHidden:NO];
                  _Commission.text = item.commission;
-            }else{
-                _Commission.text = @"";
             }
         }else{
             [_joinButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];

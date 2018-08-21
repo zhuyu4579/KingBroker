@@ -292,9 +292,9 @@
     if ([realtorStatus isEqual:@"2"]) {
         [_dView.JoinButton setHidden:YES];
         [_dView.JoinButton setEnabled:NO];
-        [_dView.commissionButton setHidden:NO];
-        [_dView.Commission setHidden:NO];
         if([commissionFag isEqual:@"0"]){
+            [_dView.Commission setHidden:NO];
+            [_dView.commissionButton setHidden:NO];
              _dView.Commission.text = [_houseDatils valueForKey:@"commission"];
             _reportButton.enabled = YES;
         }else{

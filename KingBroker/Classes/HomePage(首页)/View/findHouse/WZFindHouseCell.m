@@ -30,12 +30,10 @@
     if ([realtorStatus isEqual:@"2"]) {
         [_JoinStoreButton setHidden:YES];
         [_JoinStoreButton setEnabled:NO];
-        [_commissionImage setHidden:NO];
-        [_houseCommission setHidden:NO];
         if([commissionFag isEqual:@"0"]){
+            [_commissionImage setHidden:NO];
+            [_houseCommission setHidden:NO];
             _houseCommission.text = item.commission;
-        }else{
-            _houseCommission.text = @"";
         }
     }else{
         [_JoinStoreButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
