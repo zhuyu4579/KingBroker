@@ -251,7 +251,7 @@ static  NSString * const ID = @"cell";
     NSIndexPath *indexpath = [self.tableView indexPathForRowAtPoint:point];
     WZSharePhoneCell *cell = [self.tableView cellForRowAtIndexPath:indexpath];
     _url = cell.url;
-    if([_url isEqual:@""]){
+    if([_url isEqual:@""]||!_url){
         [SVProgressHUD showInfoWithStatus:@"请选择分享图片"];
         return;
     }
@@ -346,7 +346,7 @@ static  NSString * const ID = @"cell";
     //指定为发送多媒体消息（不能同时发送文本和多媒体消息，两者只能选其一）
     req.bText = NO;
     //指定发送到会话(聊天界面)
-    req.scene = WXSceneTimeline;
+    req.scene = WXSceneSession;
     //发送请求到微信,等待微信返回onResp
     [WXApi sendReq:req];
     [self closeGkCover];

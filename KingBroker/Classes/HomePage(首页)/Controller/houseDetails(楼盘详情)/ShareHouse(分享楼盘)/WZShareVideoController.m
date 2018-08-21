@@ -240,8 +240,6 @@ static  NSString * const ID = @"cell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //获取点击cell的数据
    // WZShareVideoCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-   
-    
 }
 
 //分享弹框

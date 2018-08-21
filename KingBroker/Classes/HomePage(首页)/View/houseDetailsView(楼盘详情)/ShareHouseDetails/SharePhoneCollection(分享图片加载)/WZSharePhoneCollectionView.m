@@ -48,16 +48,15 @@ UICollectionViewDataSource>
 {
     WZSharePhoneCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ID forIndexPath:indexPath];
     //转换图片地址
-    NSLog(@"%@",_array[indexPath.row]);
     [cell.phoneImage sd_setImageWithURL:[NSURL URLWithString:_array[indexPath.row]] placeholderImage:[UIImage imageNamed:@""]];
     
     return cell;
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     WZSharePhoneCollectionCell *cell = (WZSharePhoneCollectionCell *) [collectionView cellForItemAtIndexPath:indexPath];
-    cell.phoneImage.layer.borderColor = UIColorRBG(3, 133, 219).CGColor;
+    cell.phoneImage.layer.borderColor = [UIColor redColor].CGColor;
     cell.phoneImage.layer.borderWidth = 2.0;
-    
+
     NSString *url = _array[indexPath.row];
     if (_selectPhone) {
         _selectPhone(url);
