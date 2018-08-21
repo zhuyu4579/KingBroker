@@ -164,6 +164,7 @@
             }
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:[data valueForKey:@"commissionFag"] forKey:@"commissionFag"];
+            [defaults setObject:status forKey:@"realtorStatus"];
             [defaults setObject:[data valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
             //门店名称
             [defaults setObject:[data valueForKey:@"storeName"] forKey:@"storeName"];

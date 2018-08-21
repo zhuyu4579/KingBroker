@@ -383,10 +383,15 @@
         if ([code isEqual:@"200"]) {
             [GKCover hide];
             [SVProgressHUD dismiss];
+            //第一次加入门店
+            if (![_type isEqual:@"2"]) {
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:@"1" forKey:@"realtorStatus"];
+                [defaults synchronize];
+            }
              WZExamineController *exVc = [[WZExamineController alloc] init];
              WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:exVc];
             [self.Vc.navigationController presentViewController:nav animated:YES completion:nil];
-            
         }else{
             [GKCover hide];
             NSString *msg = [responseObject valueForKey:@"msg"];
