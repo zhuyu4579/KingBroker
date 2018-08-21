@@ -118,8 +118,8 @@ static NSString *size = @"20";
     
     //创建tableview
     [self getUpTableView];
-   
-     //遍历数组
+    
+    //遍历数组
     NSMutableArray *screenArray = [NSMutableArray array];
     _SXArray = screenArray;
     //创建菜单弹框
@@ -136,7 +136,7 @@ static NSString *size = @"20";
         if ([code isEqual:@"xmlx"]) {
             NSArray *itemArray = [obj valueForKey:@"dicts"];
             _typeArray =  [WZTypeItem mj_objectArrayWithKeyValuesArray:itemArray];
-             _typeTable.array = _typeArray;
+            _typeTable.array = _typeArray;
         }
         //特色看房服务
         if ([code isEqual:@"lpzx"]||[code isEqual:@"lpts"]||[code isEqual: @"hxshi"]||[code isEqual:@"hxmj"]) {
@@ -149,7 +149,7 @@ static NSString *size = @"20";
     }
     
     
-   [self headerRefresh];
+    [self headerRefresh];
     
 }
 -(void)loadRefreshs{
@@ -192,7 +192,7 @@ static NSString *size = @"20";
     // 设置颜色
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     _tableView.mj_header = header;
-   
+    
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     _tableView.mj_footer = footer;
@@ -200,16 +200,16 @@ static NSString *size = @"20";
 }
 #pragma mark -下拉刷新或者加载数据
 -(void)loadNewTopic:(id)refrech{
- 
- [_tableView.mj_header beginRefreshing];
- _projectListArray = [NSMutableArray array];
- current = 1;
- [self loadData];
+    
+    [_tableView.mj_header beginRefreshing];
+    _projectListArray = [NSMutableArray array];
+    current = 1;
+    [self loadData];
     if(_cityArray.count == 0){
         //获取城市列表
         [self cityDatas];
     }
- 
+    
 }
 -(void)loadMoreTopic{
     
@@ -224,92 +224,92 @@ static NSString *size = @"20";
     }
     _isRequestFinish = NO;
     
-        //创建会话请求
-        AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    
+    [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    if (!_seachCityId||[_seachCityId isEqual:@""]) {
+        paraments[@"cityId"] = _cityId;
+    }
+    paraments[@"seachCityId"] = _seachCityId;
+    paraments[@"minPrice"] = _minPrice;
+    paraments[@"maxPrice"] = _maxPrice;
+    paraments[@"type"] = _typeValue;
+    paraments[@"room"] = _room;
+    paraments[@"area"] = _area;
+    paraments[@"buildingFeature"] = _buildingFeature;
+    paraments[@"buildingRenovation"] = _buildingRenovation;
+    paraments[@"location"] = _lnglat;
+    paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
+    paraments[@"size"] = size;
+    
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/projectList",HTTPURL];
+    
+    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
         
-        mgr.requestSerializer.timeoutInterval = 20;
-        //申明返回的结果是json类型
-        mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-        //申明请求的数据是json类型
-        mgr.requestSerializer=[AFJSONRequestSerializer serializer];
-        //防止返回值为null
-        ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
-        mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    
-        [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
-        //2.拼接参数
-        NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-        if (!_seachCityId||[_seachCityId isEqual:@""]) {
-             paraments[@"cityId"] = _cityId;
-        }
-        paraments[@"seachCityId"] = _seachCityId;
-        paraments[@"minPrice"] = _minPrice;
-        paraments[@"maxPrice"] = _maxPrice;
-        paraments[@"type"] = _typeValue;
-        paraments[@"room"] = _room;
-        paraments[@"area"] = _area;
-        paraments[@"buildingFeature"] = _buildingFeature;
-        paraments[@"buildingRenovation"] = _buildingRenovation;
-        paraments[@"location"] = _lnglat;
-        paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
-        paraments[@"size"] = size;
-      
-        NSString *url = [NSString stringWithFormat:@"%@/proProject/projectList",HTTPURL];
-    
-        [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-            NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            //字典数组转换成模型数组
+            NSDictionary *dacty = [responseObject valueForKey:@"data"];
+            NSMutableArray *houseDatas = [dacty valueForKey:@"rows"];
             
-            if ([code isEqual:@"200"]) {
-                //字典数组转换成模型数组
-                NSDictionary *dacty = [responseObject valueForKey:@"data"];
-                NSMutableArray *houseDatas = [dacty valueForKey:@"rows"];
-               
-                if (houseDatas.count == 0) {
-                    [_tableView.mj_footer endRefreshingWithNoMoreData];
-                    
-                }else{
-                    for (int i=0; i<houseDatas.count; i++) {
-                        [_projectListArray addObject:houseDatas[i]];
-                    }
-                    current +=1;
-                    [_tableView.mj_footer endRefreshing];
-                }
-                if (_projectListArray.count != 0) {
-                    [_viewNo setHidden:YES];
-                }else{
-                    [_viewNo setHidden:NO];
-                }
+            if (houseDatas.count == 0) {
+                [_tableView.mj_footer endRefreshingWithNoMoreData];
                 
-                _tableView.houseItem = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:_projectListArray];
-                [_tableView reloadData];
-                [_tableView.mj_header endRefreshing];
-    
             }else{
-                
-                NSString *msg = [responseObject valueForKey:@"msg"];
-                if(![code isEqual:@"401"] && ![msg isEqual:@""]){
-                    [SVProgressHUD showInfoWithStatus:msg];
+                for (int i=0; i<houseDatas.count; i++) {
+                    [_projectListArray addObject:houseDatas[i]];
                 }
-                if ([code isEqual:@"401"]) {
+                current +=1;
+                [_tableView.mj_footer endRefreshing];
+            }
+            if (_projectListArray.count != 0) {
+                [_viewNo setHidden:YES];
+            }else{
+                [_viewNo setHidden:NO];
+            }
+            
+            _tableView.houseItem = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:_projectListArray];
+            [_tableView reloadData];
+            [_tableView.mj_header endRefreshing];
+            
+        }else{
+            
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+            if ([code isEqual:@"401"]) {
                 
                 [NSString isCode:self.navigationController code:code];
                 //更新指定item
                 UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
                 item.badgeValue= nil;
             }
-                [_tableView.mj_header endRefreshing];
-                [_tableView.mj_footer endRefreshing];
-                
-            }
-            _isRequestFinish = YES;
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+            [_tableView.mj_header endRefreshing];
+            [_tableView.mj_footer endRefreshing];
             
-                [_tableView.mj_header endRefreshing];
-                [_tableView.mj_footer endRefreshing];
-            _isRequestFinish = YES;
-        }];
-   
+        }
+        _isRequestFinish = YES;
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+        
+        [_tableView.mj_header endRefreshing];
+        [_tableView.mj_footer endRefreshing];
+        _isRequestFinish = YES;
+    }];
+    
 }
 //创建无图表
 -(void)setNoData{
@@ -377,9 +377,9 @@ static NSString *size = @"20";
         [title setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
         [title setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateSelected];
         [title addTarget:self action:@selector(titleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-         title.titleLabel.lineBreakMode =  NSLineBreakByTruncatingTail;
+        title.titleLabel.lineBreakMode =  NSLineBreakByTruncatingTail;
         [menuV addSubview:title];
-       
+        
         UIButton *titleButton = [[UIButton alloc] init];
         
         titleButton.frame= CGRectMake(title.fX+title.fWidth+5, 20, 10, 6);
@@ -391,11 +391,11 @@ static NSString *size = @"20";
 }
 //楼盘列表
 -(void)getUpTableView{
-
-        WZFindHouseTableView *tableView = [[WZFindHouseTableView alloc] initWithFrame:CGRectMake(0,0, _viewTable.fWidth, _viewTable.fHeight)];
-        tableView.backgroundColor = [UIColor clearColor];
-        _tableView = tableView;
-        [_viewTable addSubview:tableView];
+    
+    WZFindHouseTableView *tableView = [[WZFindHouseTableView alloc] initWithFrame:CGRectMake(0,0, _viewTable.fWidth, _viewTable.fHeight)];
+    tableView.backgroundColor = [UIColor clearColor];
+    _tableView = tableView;
+    [_viewTable addSubview:tableView];
     
 }
 -(void)getUpMenuAlert{
@@ -413,7 +413,7 @@ static NSString *size = @"20";
 -(void)titleButtonClick:(UIButton *)button{
     if((button.tag == _previousClickButton.tag)&&[_buttonBype isEqual:@"1"]){
         _buttonBype = @"0";
-         [_framView setHidden:YES];
+        [_framView setHidden:YES];
         //取消所有按钮的选择状态
         for (id obj in _menu.subviews) {
             UIButton *but = (UIButton*)obj;
@@ -422,7 +422,7 @@ static NSString *size = @"20";
         return;
     }
     [self hideView];
-   
+    
     UIButton *but =(UIButton *) [self.view viewWithTag:(button.tag+10)];
     button.selected = YES;
     but.selected = YES;
@@ -447,7 +447,7 @@ static NSString *size = @"20";
             break;
     }
     
-   }
+}
 
 
 -(void)getUpCover{
@@ -460,7 +460,7 @@ static NSString *size = @"20";
     cover.userInteractionEnabled = YES;
     // 添加遮罩
     [self.framView addSubview:cover];
-   
+    
 }
 
 -(void)hideView{
@@ -472,7 +472,7 @@ static NSString *size = @"20";
     [_screenView setHidden:YES];
     //取消所有按钮的选择状态
     for (id obj in _menu.subviews) {
-       UIButton *but = (UIButton*)obj;
+        UIButton *but = (UIButton*)obj;
         but.selected = NO;
     }
     _buttonBype = @"0";
@@ -483,7 +483,7 @@ static NSString *size = @"20";
     UIView *view = [[UIView alloc] init];
     UIView *viewMore = [[UIView alloc] init];
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 120);
-     _cityView = view;
+    _cityView = view;
     viewMore.frame = CGRectMake(0, 120, SCREEN_WIDTH, 30);
     viewMore.backgroundColor = [UIColor whiteColor];
     [_framView addSubview:viewMore];
@@ -496,32 +496,32 @@ static NSString *size = @"20";
 }
 //查询城市列表
 -(void)cityDatas{
-   
-        //创建会话请求
-        AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-        
-        mgr.requestSerializer.timeoutInterval = 20;
-      
-        mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-        [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
-        //2.拼接参数
-        NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     
-        paraments[@"location"] = _lnglat;
-        NSString *url = [NSString stringWithFormat:@"%@/proProject/cityList",HTTPURL];
-     
-        [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-            NSString *code = [responseObject valueForKey:@"code"];
-            if ([code isEqual:@"200"]) {
-                NSDictionary *data = [responseObject valueForKey:@"data"];
-                NSArray *cityArray = [data valueForKey:@"rows"];
-                _cityArray = [WZCityItem mj_objectArrayWithKeyValuesArray:cityArray];
-                [_collectionView reloadData];
-             
-            }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    
+    paraments[@"location"] = _lnglat;
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/cityList",HTTPURL];
+    
+    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSArray *cityArray = [data valueForKey:@"rows"];
+            _cityArray = [WZCityItem mj_objectArrayWithKeyValuesArray:cityArray];
+            [_collectionView reloadData];
             
-        }];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
     
 }
 
@@ -620,7 +620,7 @@ static NSString *size = @"20";
     //创建城市view
     UIView *view = [[UIView alloc] init];
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 180);
-     _priceView = view;
+    _priceView = view;
     [self getUpSumPrice:view];
     view.backgroundColor = [UIColor whiteColor];
     [_framView addSubview:view];
@@ -689,7 +689,7 @@ static NSString *size = @"20";
     }else{
         _minPrice = min;
     }
-   
+    
     NSString *max = _slider.maxLabel.text;
     if ([max isEqual:@"不限"]) {
         _maxPrice = @"";
@@ -728,15 +728,15 @@ static NSString *size = @"20";
     cleanButton.backgroundColor = UIColorRBG(3, 133, 219);
     [cleanButton addTarget:self action:@selector(cleanButtonType) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:cleanButton];
-   
+    
 }
 //点击类型按钮回调数据
 -(void)getUpTypeButton:(UIButton *)button{
     __weak typeof(self) weakSelf = self;
     UIButton *but1 =  [self.menu viewWithTag:22];
     _typeTable.typeBlock = ^(NSMutableDictionary *typeDic) {
-         [button setTitle:[NSString stringWithFormat:(@"%@"),[typeDic valueForKey:@"labels"]] forState:UIControlStateNormal];
-         _typeValue = [typeDic valueForKey:@"value"];
+        [button setTitle:[NSString stringWithFormat:(@"%@"),[typeDic valueForKey:@"labels"]] forState:UIControlStateNormal];
+        _typeValue = [typeDic valueForKey:@"value"];
         [button setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
         [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_3"] forState:UIControlStateNormal];
         but1.selected = NO;
@@ -752,7 +752,7 @@ static NSString *size = @"20";
     [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
     UIButton *but1 =  [_menu viewWithTag:22];
     [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_2"] forState:UIControlStateNormal];
-     _typeValue = @"";
+    _typeValue = @"";
     [self hideView];
     _typeTable.array = _typeArray;
     [_typeTable reloadData];
@@ -766,12 +766,12 @@ static NSString *size = @"20";
     view.frame = CGRectMake(SCREEN_WIDTH - 360, 0, 360, _framView.fHeight-JF_BOTTOM_SPACE);
     view.backgroundColor =UIColorRBG(242, 242, 242);
     [_framView addSubview:view];
-      _screenView = view;
+    _screenView = view;
     //创建多选的view
     UIView *screenView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, view.fWidth, view.fHeight -41)];
     screenView.backgroundColor = [UIColor whiteColor];
     WZCollectionView *coll = [[WZCollectionView alloc] initWithFrame:screenView.bounds collectionViewLayout:self.flowLayout];
-     coll.screenArray = _SXArray;
+    coll.screenArray = _SXArray;
     [coll reloadData];
     _colles = coll;
     [screenView addSubview:coll];
@@ -799,8 +799,8 @@ static NSString *size = @"20";
         _buildingFeature = [dicty valueForKey:@"lpts"];
         _buildingRenovation = [dicty valueForKey:@"lpzx"];
         _area = [dicty valueForKey:@"hxmj"];
-      
-       
+        
+        
     };
 }
 - (UICollectionViewFlowLayout *)flowLayout
@@ -810,8 +810,8 @@ static NSString *size = @"20";
         _flowLayout = [[UICollectionViewFlowLayout alloc] init];
         _flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
         _flowLayout.sectionInset = UIEdgeInsetsMake(20, 15 ,20,15);
-         _flowLayout.minimumLineSpacing = 20;
-         _flowLayout.minimumInteritemSpacing = 5;
+        _flowLayout.minimumLineSpacing = 20;
+        _flowLayout.minimumInteritemSpacing = 5;
         _flowLayout.itemSize = CGSizeMake(100, 25);
     }
     return _flowLayout;

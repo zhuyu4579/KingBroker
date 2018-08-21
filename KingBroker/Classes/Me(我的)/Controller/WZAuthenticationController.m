@@ -68,7 +68,7 @@
             return NO;
         }
     }
-   
+    
     return YES;
 }
 - (void)didReceiveMemoryWarning {
@@ -77,7 +77,7 @@
 }
 //点击图片拍照
 -(void)clickImage{
-   WZAlertView *redView = [WZAlertView new];
+    WZAlertView *redView = [WZAlertView new];
     redView.imageName = @"rz_pic";
     redView.fSize = CGSizeMake(KScreenW, 327);
     [GKCover coverFrom:self.view
@@ -106,7 +106,7 @@
 - (IBAction)comfireButton:(id)sender {
     UIButton *button = sender;
     if (!_image) {
-      [SVProgressHUD showInfoWithStatus:@"请上传身份证照片"];
+        [SVProgressHUD showInfoWithStatus:@"请上传身份证照片"];
         return;
     }
     NSString *name = _name.text;
@@ -122,72 +122,72 @@
         return;
     }
     
-        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-        NSString *uuid = [ user objectForKey:@"uuid"];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
     
-        UIView *view = [[UIView alloc] init];
-        [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];
-        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
-        [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3]];
-        [SVProgressHUD showWithStatus:@"提交中"];
-        button.enabled = NO;
-        //创建会话
-        AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    UIView *view = [[UIView alloc] init];
+    [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3]];
+    [SVProgressHUD showWithStatus:@"提交中"];
+    button.enabled = NO;
+    //创建会话
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 60;
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"realname"] =name;
+    paraments[@"idCard"] = idCode;
+    NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/realnameAuthentication",HTTPURL];
+    [mgr POST:url parameters:paraments constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
-        mgr.requestSerializer.timeoutInterval = 60;
-        //防止返回值为null
-        ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
-        mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+        NSData *imageData = [ZDAlertView imageProcessWithImage:_image];//进行图片压缩
+        // 使用日期生成图片名称
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyyMMddHHmmss";
+        NSString *fileName = [NSString stringWithFormat:@"%@.png",[formatter stringFromDate:[NSDate date]]];
+        // 任意的二进制数据MIMEType application/octet-stream
+        [formData appendPartWithFileData:imageData name:@"face" fileName:fileName mimeType:@"image/png"];
         
-        [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-        //2.拼接参数
-        NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-        paraments[@"realname"] =name;
-        paraments[@"idCard"] = idCode;
-        NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/realnameAuthentication",HTTPURL];
-        [mgr POST:url parameters:paraments constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-            
-            NSData *imageData = [ZDAlertView imageProcessWithImage:_image];//进行图片压缩
-            // 使用日期生成图片名称
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            formatter.dateFormat = @"yyyyMMddHHmmss";
-            NSString *fileName = [NSString stringWithFormat:@"%@.png",[formatter stringFromDate:[NSDate date]]];
-            // 任意的二进制数据MIMEType application/octet-stream
-            [formData appendPartWithFileData:imageData name:@"face" fileName:fileName mimeType:@"image/png"];
-            
-        } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-            
-            NSString *code = [responseObject valueForKey:@"code"];
-            button.enabled = YES;
-            [GKCover hide];
-            [SVProgressHUD dismiss];
-            if ([code isEqual:@"200"]) {
-                NSString *status = [responseObject valueForKey:@"data"];
-                if (_statusBlock) {
-                    _statusBlock(status);
-                }
-                [SVProgressHUD showSuccessWithStatus:@"实名认证审核中"];
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            }else{
-                NSString *msg = [responseObject valueForKey:@"msg"];
-                if(![code isEqual:@"401"] && ![msg isEqual:@""]){
-                    [SVProgressHUD showInfoWithStatus:msg];
-                }
-                if ([code isEqual:@"401"]) {
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        
+        NSString *code = [responseObject valueForKey:@"code"];
+        button.enabled = YES;
+        [GKCover hide];
+        [SVProgressHUD dismiss];
+        if ([code isEqual:@"200"]) {
+            NSString *status = [responseObject valueForKey:@"data"];
+            if (_statusBlock) {
+                _statusBlock(status);
+            }
+            [SVProgressHUD showSuccessWithStatus:@"实名认证审核中"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+            if ([code isEqual:@"401"]) {
                 
                 [NSString isCode:self.navigationController code:code];
                 //更新指定item
                 UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
                 item.badgeValue= nil;
             }
-            }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            button.enabled = YES;
-            [GKCover hide];
-            [SVProgressHUD dismiss];
-            [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-        }];
-   
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        button.enabled = YES;
+        [GKCover hide];
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+    }];
+    
 }
 - (NSMutableAttributedString *)changeSomeText:(NSString *)str inText:(NSString *)result withColor:(UIColor *)color {
     NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:result];

@@ -124,7 +124,7 @@
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
-
+    
     [AMapServices sharedServices].apiKey = @"3bb40a8380b1fdd9927ccac85bcd9a6d";
     [super viewDidLoad];
     //设置背景色
@@ -159,7 +159,7 @@
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-     
+        
     }];
 }
 //下拉刷新
@@ -188,54 +188,54 @@
 -(void)loadNewTopic:(id)refrech{
     
     [self.scrollView.mj_header beginRefreshing];
-   
+    
     [self loadData];
     
 }
 //数据请求
 -(void)loadData{
-   
-        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-        NSString *uuid = [ user objectForKey:@"uuid"];
     
-        //创建会话请求
-        AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-        
-        mgr.requestSerializer.timeoutInterval = 30;
-        
-        mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-        //防止返回值为null
-        ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
-        [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-        //2.拼接参数
-        NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-        paraments[@"id"] = _ID;
-        NSString *url = [NSString stringWithFormat:@"%@/proProject/projectInfo",HTTPURL];
-        [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-            //获取数据
-            NSString *code = [responseObject valueForKey:@"code"];
-            if ([code isEqual:@"200"]) {
-                _houseDatils = [responseObject valueForKey:@"data"];
-                [self setData];
-                
-            }else{
-                NSString *msg = [responseObject valueForKey:@"msg"];
-                if(![code isEqual:@"401"] && ![msg isEqual:@""]){
-                    [SVProgressHUD showInfoWithStatus:msg];
-                }
-                if ([code isEqual:@"401"]) {
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 30;
+    
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"id"] = _ID;
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/projectInfo",HTTPURL];
+    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        //获取数据
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            _houseDatils = [responseObject valueForKey:@"data"];
+            [self setData];
+            
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+            if ([code isEqual:@"401"]) {
                 
                 [NSString isCode:self.navigationController code:code];
                 //更新指定item
                 UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
                 item.badgeValue= nil;
             }
-            }
-            [self.scrollView.mj_header endRefreshing];
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-            [self.scrollView.mj_header endRefreshing];
-        }];
+        }
+        [self.scrollView.mj_header endRefreshing];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+        [self.scrollView.mj_header endRefreshing];
+    }];
     
 }
 //设置参数
@@ -248,11 +248,11 @@
     _ID = [_houseDatils valueForKey:@"id"];
     //设置照片
     NSArray *picCollect = [_houseDatils valueForKey:@"picCollect"];
-     _cycleView.arrayDatas = [WZLunBoItem mj_objectArrayWithKeyValuesArray:picCollect];
+    _cycleView.arrayDatas = [WZLunBoItem mj_objectArrayWithKeyValuesArray:picCollect];
     //[UIView setAnimationsEnabled:NO];
     [UIView performWithoutAnimation:^{
         //刷新界面
-       [_cycleView reloadData];
+        [_cycleView reloadData];
         //[UIView setAnimationsEnabled:YES];
     }];
     
@@ -271,21 +271,21 @@
     //设置单价
     //总价
     NSString *totalPrice = [_houseDatils valueForKey:@"totalPrice"];
-     NSString *price = [_houseDatils valueForKey:@"averagePrice"];
+    NSString *price = [_houseDatils valueForKey:@"averagePrice"];
     if (totalPrice && ![totalPrice isEqual:@""]) {
         _dView.price.text = totalPrice;
     }else{
         _dView.price.text = price;
     }
-
+    
     NSArray *labelArray = [_houseDatils valueForKey:@"tage"];
     for (int i = 0; i<labelArray.count; i++) {
         if (i == 0) {
-             _dView.itemLabel.text = labelArray[0];
+            _dView.itemLabel.text = labelArray[0];
         } else if(i == 1){
             _dView.itemLabelTwo.text = labelArray[1];
         }else if(i == 2){
-             _dView.itemLabelThree.text = labelArray[2];
+            _dView.itemLabelThree.text = labelArray[2];
         }
     }
     
@@ -295,7 +295,7 @@
         if([commissionFag isEqual:@"0"]){
             [_dView.Commission setHidden:NO];
             [_dView.commissionButton setHidden:NO];
-             _dView.Commission.text = [_houseDatils valueForKey:@"commission"];
+            _dView.Commission.text = [_houseDatils valueForKey:@"commission"];
             _reportButton.enabled = YES;
         }else{
             _dView.Commission.text = @"";
@@ -314,19 +314,19 @@
         [_dView.commissionButton setHidden:YES];
         [_dView.Commission setHidden:YES];
         [_dView.JoinButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
-         _reportButton.enabled = YES;
+        _reportButton.enabled = YES;
         _dView.chargeMan.text = @"加入门店可见电话";
         _dView.phone.text = @"";
     }
     
     _dView.address.text = [_houseDatils valueForKey:@"address"];
-
+    
     //公司名称
     _dView.companyName.text = [_houseDatils valueForKey:@"companyName"];
-
+    
     //楼盘动态
-//    _dynamic.name = [_houseDatils valueForKey:@"dynamic"];
-//    [_dynamic reloadData];
+    //    _dynamic.name = [_houseDatils valueForKey:@"dynamic"];
+    //    [_dynamic reloadData];
     _dyname.text = [_houseDatils valueForKey:@"dynamic"];
     //楼盘简介
     _contents.text = [_houseDatils valueForKey:@"outlining"];
@@ -336,11 +336,11 @@
     _settlement.text = [_houseDatils valueForKey:@"settlement"];
     //分销流程
     _ScLabelOnes.text = [_houseDatils valueForKey:@"reportDescribe"];
-     _ScLabelTwos.text = [_houseDatils valueForKey:@"boardingDescribe"];
-     _ScLabelThrees.text = [_houseDatils valueForKey:@"dealDescribe"];
+    _ScLabelTwos.text = [_houseDatils valueForKey:@"boardingDescribe"];
+    _ScLabelThrees.text = [_houseDatils valueForKey:@"dealDescribe"];
     //主力户型
     NSArray *cols = [_houseDatils valueForKey:@"projectPictures"];
-   
+    
     _collect.collectDatas = [WZMainUnitItem mj_objectArrayWithKeyValuesArray:cols];
     [_collect reloadData];
     //位置及周边
@@ -455,7 +455,7 @@
     [self getUpFour:viewFour];
     _viewFour = viewFour;
     [scrollView addSubview:viewFour];
-   
+    
     //创建第五个view
     UIView *viewFive = [[UIView alloc] initWithFrame:CGRectMake(0, viewFour.fY +viewFour.fHeight +10, scrollView.fWidth, 500)];
     viewFive.backgroundColor = [UIColor whiteColor];
@@ -556,7 +556,7 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat offsetY = scrollView.contentOffset.y - 106;
     _offor = scrollView.contentOffset.y;
-     [self setNeedsStatusBarAppearanceUpdate];
+    [self setNeedsStatusBarAppearanceUpdate];
     if(self.scrollView.contentOffset.y >= 106){
         self.tabView.backgroundColor =[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha: 1 - ((64 - offsetY) / 64)];
         self.ineView.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha: 1 - ((64 - offsetY) / 64)];
@@ -611,15 +611,15 @@
         make.width.offset(view.fWidth-30);
     }];
     
-//    WZDynamictableView *tableView = [[WZDynamictableView alloc] init];
-//    _dynamic = tableView;
-//    [view addSubview:tableView];
-//    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(view.mas_left);
-//        make.top.equalTo(ineView.mas_bottom);
-//        make.width.equalTo(view.mas_width);
-//        make.height.offset(150);
-//    }];
+    //    WZDynamictableView *tableView = [[WZDynamictableView alloc] init];
+    //    _dynamic = tableView;
+    //    [view addSubview:tableView];
+    //    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+    //        make.left.equalTo(view.mas_left);
+    //        make.top.equalTo(ineView.mas_bottom);
+    //        make.width.equalTo(view.mas_width);
+    //        make.height.offset(150);
+    //    }];
 }
 //楼盘简介
 -(void)houseIntroduce:(UIView *)view{
@@ -644,7 +644,7 @@
     }];
     UILabel *contents = [[UILabel alloc] init];
     _contents = contents;
-
+    
     contents.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     contents.numberOfLines = 5;
     contents.textColor = UIColorRBG(102, 102, 102);
@@ -779,7 +779,7 @@
         make.height.offset(1);
         make.width.equalTo(view.mas_width);
     }];
-   
+    
     UIButton *buttonOne = [[UIButton alloc] init];
     [buttonOne setTitle:@"1" forState:UIControlStateNormal];
     [buttonOne setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
@@ -815,7 +815,7 @@
         make.top.equalTo(ScLabelOne.mas_bottom).mas_offset(11);
         make.right.equalTo(view.mas_right).mas_offset(-15);
     }];
-   
+    
     UIButton *buttonTwo = [[UIButton alloc] init];
     [buttonTwo setTitle:@"2" forState:UIControlStateNormal];
     [buttonTwo setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
@@ -991,7 +991,7 @@
     [view addSubview:buttonView];
     //创建按钮
     [self getUpAddButton:buttonView];
-     [self setupTitlesUnderline:buttonView];
+    [self setupTitlesUnderline:buttonView];
     UIView *ineViewTwo = [[UIView alloc] init];
     ineViewTwo.backgroundColor = UIColorRBG(242, 242, 242);
     [view addSubview:ineViewTwo];
@@ -1042,9 +1042,9 @@
     WZHospitalTableView *hospital = [[WZHospitalTableView alloc] initWithFrame:CGRectMake(0, view.fHeight - 352, SCREEN_WIDTH, 352)];
     _hospital = hospital;
     [view addSubview:hospital];
-//    WZBankTableView *bank = [[WZBankTableView alloc] initWithFrame:CGRectMake(0, view.fHeight - 352, SCREEN_WIDTH, 352)];
-//    _bank = bank;
-//    [view addSubview:bank];
+    //    WZBankTableView *bank = [[WZBankTableView alloc] initWithFrame:CGRectMake(0, view.fHeight - 352, SCREEN_WIDTH, 352)];
+    //    _bank = bank;
+    //    [view addSubview:bank];
     
     [self hideTableView];
 }
@@ -1089,7 +1089,7 @@
         self.titleUnderLine.cX = titleButton.cX;
         [self hideTableView];
     }completion:^(BOOL finished) {
-         UIView *childsView = self.tableView.subviews[titleButton.tag];
+        UIView *childsView = self.tableView.subviews[titleButton.tag];
         [childsView setHidden:NO];
     }];
 }
@@ -1152,10 +1152,10 @@
                     [SVProgressHUD showInfoWithStatus:msg];
                 }
             }
-             button.enabled = YES;
+            button.enabled = YES;
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-             button.enabled = YES;
+            button.enabled = YES;
         }];
     }
     
@@ -1173,7 +1173,7 @@
     UIImageView *playPhone = [[UIImageView alloc] initWithFrame:CGRectMake(30, (buttonView.fHeight-37)/2.0, 19, 21)];
     playPhone.image = [UIImage imageNamed:@"xmxq_phone"];
     [buttonView addSubview:playPhone];
-
+    
     UILabel *labelP = [[UILabel alloc] init];
     labelP.frame = CGRectMake(29,playPhone.fY+25,25,12);
     labelP.text = @"电话";
@@ -1204,7 +1204,7 @@
     [buttonView addSubview:label];
     
     UIButton *shareButton = [[UIButton alloc] initWithFrame:CGRectMake(75, 0, 75, buttonView.fHeight)];
-     [shareButton addTarget:self action:@selector(shares) forControlEvents:UIControlEventTouchUpInside];
+    [shareButton addTarget:self action:@selector(shares) forControlEvents:UIControlEventTouchUpInside];
     [buttonView addSubview:shareButton];
     //创建报备客户按钮
     UIButton *reportButton = [[UIButton alloc] initWithFrame:CGRectMake(150, 0, buttonView.fWidth-150, buttonView.fHeight)];
@@ -1258,7 +1258,7 @@
     UIView *views = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49-JF_BOTTOM_SPACE)];
     views.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.4];
     _playView = views;
-     [views addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closePlayViews)]];
+    [views addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closePlayViews)]];
     [views setHidden:YES];
     [self.view addSubview:views];
     
@@ -1337,8 +1337,8 @@
 }
 //打电话弹框
 -(void)playPhones{
-     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-     NSString *invisibleLinkmanFlag = [user objectForKey:@"invisibleLinkmanFlag"];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *invisibleLinkmanFlag = [user objectForKey:@"invisibleLinkmanFlag"];
     NSString *realtorStatus = [user objectForKey:@"realtorStatus"];
     if([realtorStatus isEqual:@"2"]){
         if ([invisibleLinkmanFlag isEqual:@"0"]) {

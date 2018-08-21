@@ -37,7 +37,7 @@
     //设置控制器view背景色
     self.view.backgroundColor = UIColorRBG(245, 245, 245);
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem backItemWithImage:[UIImage imageNamed:@"clear-icon"] highImage:[UIImage imageNamed:@"clear-icon"] target:self action:@selector(closeVc)];
-     
+    
 }
 #pragma mark -分区view初始化控件
 -(void)markView{
@@ -146,7 +146,7 @@
     [_noCodeView setHidden:YES];
     [textViewThree addSubview:_haveCodeView];
     [textViewThree addSubview:_noCodeView];
-   
+    
 }
 //经纪人真实姓名
 -(void)textFieldDidEndEditing:(UITextField *)textField{
@@ -220,7 +220,7 @@
             [self.navigationController presentViewController:tar animated:YES completion:nil];
         }
     }else{
-       [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
     
 }

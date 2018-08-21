@@ -217,7 +217,7 @@ static NSString *size = @"20";
     [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-   
+    
     paraments[@"seachCityId"] = _seachCityId;
     paraments[@"minPrice"] = _minPrice;
     paraments[@"maxPrice"] = _maxPrice;
@@ -257,10 +257,10 @@ static NSString *size = @"20";
                 [_viewNo setHidden:NO];
             }
             
-          
-                _tableViewC.houseItem = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:_projectListArray];
-                [_tableViewC reloadData];
-                [_tableViewC.mj_header endRefreshing];
+            
+            _tableViewC.houseItem = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:_projectListArray];
+            [_tableViewC reloadData];
+            [_tableViewC.mj_header endRefreshing];
             
             
         }else{
@@ -276,7 +276,7 @@ static NSString *size = @"20";
                 UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
                 item.badgeValue= nil;
             }
-           
+            
             [_tableViewC.mj_header endRefreshing];
             [_tableViewC.mj_footer endRefreshing];
             
@@ -284,7 +284,7 @@ static NSString *size = @"20";
         _isRequestFinish = YES;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-      
+        
         [_tableViewC.mj_header endRefreshing];
         [_tableViewC.mj_footer endRefreshing];
         _isRequestFinish = YES;
@@ -371,10 +371,10 @@ static NSString *size = @"20";
 }
 //楼盘列表
 -(void)getUpTableView{
-        WZCollectTableView *tableView = [[WZCollectTableView alloc] initWithFrame:CGRectMake(0,0, _viewTable.fWidth, _viewTable.fHeight)];
-        tableView.backgroundColor = [UIColor clearColor];
-        _tableViewC = tableView;
-        [_viewTable addSubview:tableView];
+    WZCollectTableView *tableView = [[WZCollectTableView alloc] initWithFrame:CGRectMake(0,0, _viewTable.fWidth, _viewTable.fHeight)];
+    tableView.backgroundColor = [UIColor clearColor];
+    _tableViewC = tableView;
+    [_viewTable addSubview:tableView];
 }
 -(void)getUpMenuAlert{
     UIView *framView = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+90, self.view.fWidth, self.view.fHeight - kApplicationStatusBarHeight-90)];

@@ -28,7 +28,7 @@
     self.navigationItem.title = @"个人信息";
     //创建view
     [self setScrollView];
-     [self loadData];
+    [self loadData];
 }
 //请求数据
 -(void)loadData{
@@ -36,7 +36,7 @@
     NSString *uuid = [ user objectForKey:@"uuid"];
     NSString *userId = [ user objectForKey:@"userId"];
     NSString *username = [ user objectForKey:@"username"];
-
+    
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -60,9 +60,9 @@
             [self setDatas];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
-                if(![code isEqual:@"401"] && ![msg isEqual:@""]){
-                    [SVProgressHUD showInfoWithStatus:msg];
-                }
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
             if ([code isEqual:@"401"]) {
                 [NSString isCode:self.navigationController code:code];
                 //更新指定item
@@ -105,22 +105,22 @@
         _infoView.sex.text = @"男";
     }
     //出生年月
-     NSString *birthDate = [_loginItem valueForKey:@"birthday"];
+    NSString *birthDate = [_loginItem valueForKey:@"birthday"];
     if (birthDate) {
         _infoView.birthDate.text = birthDate;
     }
     //籍贯
-     NSString *birthAddress = [_loginItem valueForKey:@"navitePlace"];
+    NSString *birthAddress = [_loginItem valueForKey:@"navitePlace"];
     if (birthAddress){
         _infoView.birthAddress.text = birthAddress;
     }
     //从业时间
-     NSString *employmentTime = [_loginItem valueForKey:@"startWorkTime"];
+    NSString *employmentTime = [_loginItem valueForKey:@"startWorkTime"];
     if (employmentTime){
         _infoView.employmentTime.text = employmentTime;
     }
     //入职时间
-     NSString *entryTime = [_loginItem valueForKey:@"hiredate"];
+    NSString *entryTime = [_loginItem valueForKey:@"hiredate"];
     if (entryTime){
         _infoView.entryTime.text = entryTime;
     }
@@ -132,7 +132,7 @@
     WZSetInfertionView *view = [WZSetInfertionView setInforation];
     view.frame = scrollView.bounds;
     [scrollView addSubview:view];
-     _infoView = view;
+    _infoView = view;
     scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight-45);
 }
 - (void)didReceiveMemoryWarning {
@@ -142,6 +142,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-   
+    
 }
 @end

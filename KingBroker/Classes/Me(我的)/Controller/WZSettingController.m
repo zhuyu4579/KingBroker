@@ -38,7 +38,7 @@
     [_authenImage sizeToFit];
     [self.ExitLogon setTitleColor:UIColorRBG(255, 105, 110) forState:UIControlStateNormal];
     
-     _cacha.text = [self sizeStr];
+    _cacha.text = [self sizeStr];
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSInteger idcardStatus = [[user objectForKey:@"idcardStatus"] integerValue];
@@ -49,7 +49,7 @@
     _telphone.text = [NSString stringWithFormat:@"%@****%@",top,bottom];
     if (idcardStatus == 0||idcardStatus == 3) {
         _authenStatus.text = @"身份证正面照";
-       
+        
         if (idcardStatus == 3) {
             _authenStatus.text = @"身份证正面照";
             _authenImage.image = [UIImage imageNamed:@"authenticated_2"];
@@ -96,7 +96,7 @@
     
     // 弹出对话框
     [self presentViewController:alert animated:true completion:nil];
-
+    
 }
 //退出登录数据请求
 -(void)eixtLoginData{
@@ -149,7 +149,7 @@
             [SVProgressHUD showInfoWithStatus:@"退出失败"];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
 }
 //关于我们
@@ -191,15 +191,15 @@
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSInteger idcardStatus = [[user objectForKey:@"idcardStatus"] integerValue];
     
-        if (idcardStatus == 0||idcardStatus == 3) {
-            
-            WZAuthenticationController *authen = [[WZAuthenticationController alloc] init];
-            [self.navigationController pushViewController:authen animated:YES];
-           
-        }else if(idcardStatus == 2){
-            WZAuthenSuccessController *authenSuccess = [[WZAuthenSuccessController alloc] init];
-            [self.navigationController pushViewController:authenSuccess animated:YES];
-        }
+    if (idcardStatus == 0||idcardStatus == 3) {
+        
+        WZAuthenticationController *authen = [[WZAuthenticationController alloc] init];
+        [self.navigationController pushViewController:authen animated:YES];
+        
+    }else if(idcardStatus == 2){
+        WZAuthenSuccessController *authenSuccess = [[WZAuthenSuccessController alloc] init];
+        [self.navigationController pushViewController:authenSuccess animated:YES];
+    }
     
 }
 //自定义清除缓存

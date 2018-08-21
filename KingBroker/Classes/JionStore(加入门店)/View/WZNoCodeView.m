@@ -46,7 +46,7 @@
 @implementation WZNoCodeView
 
 +(instancetype)noCodeView{
-     return [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass(self) owner:nil options:nil] firstObject];
+    return [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass(self) owner:nil options:nil] firstObject];
 }
 #pragma mark -初始化控件
 -(void)layoutSubviews{
@@ -174,7 +174,7 @@
     _cardButton.tag = 121;
     [_cardButton addTarget:self action:@selector(upCardPositive:) forControlEvents:UIControlEventTouchUpInside];
     [textNoViewTwo addSubview:_cardButton];
-     _cardZ = _cardButton.currentBackgroundImage;
+    _cardZ = _cardButton.currentBackgroundImage;
     [_cardButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(textNoViewTwo).with.offset(25);
         make.top.equalTo(textNoViewTwo.mas_top).with.offset(58);
@@ -188,7 +188,7 @@
     [_cardButtonTwo addTarget:self action:@selector(upCardPositive:) forControlEvents:UIControlEventTouchUpInside];
     _cardButtonTwo.tag = 122;
     [textNoViewTwo addSubview:_cardButtonTwo];
-       _cardF = _cardButtonTwo.currentBackgroundImage;
+    _cardF = _cardButtonTwo.currentBackgroundImage;
     [_cardButtonTwo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(textNoViewTwo.mas_right).with.offset(-25);
         make.top.equalTo(textNoViewTwo.mas_top).with.offset(58);
@@ -201,7 +201,7 @@
     labelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     labelOne.textColor = UIColorRBG(153, 153, 153);
     [labelOne setNumberOfLines:0];
-     NSMutableAttributedString *attributedString =  [self changeSomeText:@"边缘完整，字体清晰，亮度均匀" inText:strs withColor:UIColorRBG(3, 133, 219)];
+    NSMutableAttributedString *attributedString =  [self changeSomeText:@"边缘完整，字体清晰，亮度均匀" inText:strs withColor:UIColorRBG(3, 133, 219)];
     labelOne.attributedText = attributedString;
     labelOne.lineBreakMode = NSLineBreakByWordWrapping;
     [self addSubview:labelOne];
@@ -229,7 +229,7 @@
         make.bottom.equalTo(self.mas_bottom).with.offset(0);
         make.height.mas_offset(44);
     }];
-
+    
 }
 //获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
@@ -276,7 +276,7 @@
              showStyle:GKCoverShowStyleBottom
              animStyle:GKCoverAnimStyleBottom
               notClick:NO
-              ];
+     ];
     _redView.imageBlock = ^(UIImage *image) {
         [button setBackgroundImage:image forState:UIControlStateNormal];
         if (button.tag == 121) {
@@ -389,15 +389,15 @@
                 [defaults setObject:@"1" forKey:@"realtorStatus"];
                 [defaults synchronize];
             }
-             WZExamineController *exVc = [[WZExamineController alloc] init];
-             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:exVc];
+            WZExamineController *exVc = [[WZExamineController alloc] init];
+            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:exVc];
             [self.Vc.navigationController presentViewController:nav animated:YES completion:nil];
         }else{
             [GKCover hide];
             NSString *msg = [responseObject valueForKey:@"msg"];
-                if(![code isEqual:@"401"] && ![msg isEqual:@""]){
-                    [SVProgressHUD showInfoWithStatus:msg];
-                }
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [GKCover hide];

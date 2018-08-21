@@ -69,22 +69,22 @@
 //}
 //开启定位
 -(void)locate{
-        //定位初始化
-        _locationManager=[[CLLocationManager alloc] init];
-        _locationManager.delegate=self;
-        _locationManager.desiredAccuracy=kCLLocationAccuracyBest;
-        _locationManager.distanceFilter=10;
-        [_locationManager requestWhenInUseAuthorization];//使用程序其间允许访问位置数据（iOS8定位需要）
-        [_locationManager startUpdatingLocation];//开启定位
+    //定位初始化
+    _locationManager=[[CLLocationManager alloc] init];
+    _locationManager.delegate=self;
+    _locationManager.desiredAccuracy=kCLLocationAccuracyBest;
+    _locationManager.distanceFilter=10;
+    [_locationManager requestWhenInUseAuthorization];//使用程序其间允许访问位置数据（iOS8定位需要）
+    [_locationManager startUpdatingLocation];//开启定位
 }
 //获取定位信息
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
     NSString *lnglat = @"";
     if (locations.count != 0) {
-      CLLocation *currentLocation = locations[0];
-      CLLocationCoordinate2D  touchMapCoordinate = currentLocation.coordinate;
-      [manager stopUpdatingLocation];
-      lnglat = [NSString stringWithFormat:@"%f,%f",touchMapCoordinate.longitude,touchMapCoordinate.latitude];
+        CLLocation *currentLocation = locations[0];
+        CLLocationCoordinate2D  touchMapCoordinate = currentLocation.coordinate;
+        [manager stopUpdatingLocation];
+        lnglat = [NSString stringWithFormat:@"%f,%f",touchMapCoordinate.longitude,touchMapCoordinate.latitude];
         
     }else{
         [SVProgressHUD showInfoWithStatus:@"定位失败"];
@@ -153,7 +153,7 @@
     [task addGestureRecognizer:topRecognizer];
     task.userInteractionEnabled = YES;
     [_scrollView addSubview:task];
-
+    
     //创建为你推荐
     UIView *Recommend = [[UIView alloc] initWithFrame:CGRectMake(0, task.fY+task.fHeight+10, SCREEN_WIDTH, 732+210*(n-1)*2)];
     Recommend.backgroundColor = [UIColor whiteColor];
@@ -172,7 +172,7 @@
     _recommendTV = [[WZRecommendTableView alloc] initWithFrame:CGRectMake(0, recommendLable.fY+recommendLable.fHeight, Recommend.fWidth, 700+210*(n-1)*2)];
     
     [Recommend addSubview:_recommendTV];
-
+    
     _scrollView.contentSize = CGSizeMake(0, Recommend.fY+Recommend.fHeight);
     
 }
@@ -232,13 +232,13 @@
                 _recommendTV.listArray = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:rows];
                 [_recommendTV  reloadData];
             }
-             [_scrollView.mj_header endRefreshing];
+            [_scrollView.mj_header endRefreshing];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
-                if(![code isEqual:@"401"] && ![msg isEqual:@""]){
-                    [SVProgressHUD showInfoWithStatus:msg];
-                }
-             [_scrollView.mj_header endRefreshing];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+            [_scrollView.mj_header endRefreshing];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
@@ -271,9 +271,9 @@
 //}
 //修改状态栏字体颜色
 - (UIStatusBarStyle)preferredStatusBarStyle {
-   
+    
     if (_scrollView.contentOffset.y>190) {
-       
+        
         return UIStatusBarStyleDefault;
         
     }
@@ -295,7 +295,7 @@
             //跳转
             WZTaskController *task = [[WZTaskController alloc] init];
             task.url = [NSString stringWithFormat:@"%@/apptask/getuuid.html",HTTPH5];
-             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
+            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
             [self.navigationController presentViewController:nav animated:YES completion:nil];
             
         }else if([realtorStatus isEqual:@"0"] ||[realtorStatus isEqual:@"3"]){
@@ -324,7 +324,7 @@
     }else{
         [NSString isCode:self.navigationController code:@"401"];
     }
-
+    
 }
 #pragma mark -点击图片事件
 - (void)cyclePageClickAction:(NSInteger)clickIndex
@@ -381,7 +381,7 @@
             }else if(array2.count == 2){
                 lineVersionInt = [array2[0] integerValue]*100 + [array2[1] integerValue]*10;
             }
-         
+            
             if (lineVersionInt>currentVersionInt) {
                 [self updateVersion:data];
             }
@@ -484,7 +484,7 @@
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
     mgr.requestSerializer.timeoutInterval = 30;
-  
+    
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     //2.拼接参数

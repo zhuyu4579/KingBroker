@@ -67,7 +67,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     self.view.backgroundColor = UIColorRBG(242, 242, 242);
+    self.view.backgroundColor = UIColorRBG(242, 242, 242);
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
@@ -87,7 +87,7 @@
     meScrollView.bounces = NO;
     meScrollView.showsVerticalScrollIndicator = NO;
     meScrollView.showsHorizontalScrollIndicator = NO;
-   
+    
     [self.view addSubview:meScrollView];
     self.scrollView = meScrollView;
     //创建未登录状态
@@ -96,7 +96,7 @@
     [self loginSuccess];
     //创建其他
     [self setViews];
-   
+    
 }
 //推送刷新
 -(void)meRefresh{
@@ -109,10 +109,10 @@
     NSString *uuid = [ user objectForKey:@"uuid"];
     NSString *userId = [ user objectForKey:@"userId"];
     NSString *username = [ user objectForKey:@"username"];
-     _uuid = uuid;
+    _uuid = uuid;
     
-     if (![uuid isEqual:@""]&&uuid) {
-         
+    if (![uuid isEqual:@""]&&uuid) {
+        
         //创建会话请求
         AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
         
@@ -162,14 +162,14 @@
                     [self hide];
                     [self.noLoginView setHidden:NO];
                     [_views setHidden:YES];
-                   [NSString isCode:self.navigationController code:code];
+                    [NSString isCode:self.navigationController code:code];
                     //更新指定item
                     UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
                     item.badgeValue= nil;
                 }
-               
+                
             }
-    
+            
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             if (error.code == -1001) {
                 [SVProgressHUD showInfoWithStatus:@"网络不给力"];
@@ -204,12 +204,12 @@
         _images.image = [UIImage imageNamed:@"wd_icon"];
         _storeName.text = @"加入门店";
         [_labels setHidden:NO];
-         _labels.text = @"点击加入";
+        _labels.text = @"点击加入";
         [_joinButton setHidden:NO];
         _joinButton.enabled = YES;
     }else if (state == 1) {
         _images.image = [UIImage imageNamed:@"wd_icon_4"];
-         _storeName.text = @"加入门店审核中";
+        _storeName.text = @"加入门店审核中";
         _joinButton.enabled = NO;
     }else if(state == 2){
         //已加入门店
@@ -222,13 +222,13 @@
         _boaldingButton.enabled = YES;
     }else if(state == 3){
         _images.image = [UIImage imageNamed:@"wd_icon_3"];
-         _storeName.text = @"审核失败";
+        _storeName.text = @"审核失败";
         [_labels setHidden:NO];
         [_joinButton setHidden:NO];
         _labels.text = @"请重新加入";
         _joinButton.enabled = YES;
     }
-
+    
     [_views setHidden:NO];
     _name.text = [_loginItem valueForKey:@"realname"];
     NSString *sex = [_loginItem valueForKey:@"sex"];
@@ -307,7 +307,7 @@
     headImageView.layer.borderColor = [UIColor whiteColor].CGColor;//边框颜色
     headImageView.userInteractionEnabled = YES;
     [loginSuccessView addSubview:headImageView];
-     _headImageViewTwo  = headImageView;
+    _headImageViewTwo  = headImageView;
     
     UILabel *labelName = [[UILabel alloc] init];
     _name = labelName;
@@ -342,14 +342,14 @@
     float m = 224*n+25-kApplicationStatusBarHeight;
     float h = (_scrollView.fHeight-224*n-25)/3.0;
     
-     [self createButtonView:CGRectMake(0, m, (SCREEN_WIDTH-1)/2, h) image:@"order" imageSize:CGSizeMake(20, 30) target:self action:@selector(myOrder) title:@"我的订单"];
-     [self createButtonView:CGRectMake(SCREEN_WIDTH/2,m, (SCREEN_WIDTH-1)/2, h) image:@"lable" imageSize:CGSizeMake(20, 31) target:self action:@selector(myLable) title:@"我的楼盘"];
+    [self createButtonView:CGRectMake(0, m, (SCREEN_WIDTH-1)/2, h) image:@"order" imageSize:CGSizeMake(20, 30) target:self action:@selector(myOrder) title:@"我的订单"];
+    [self createButtonView:CGRectMake(SCREEN_WIDTH/2,m, (SCREEN_WIDTH-1)/2, h) image:@"lable" imageSize:CGSizeMake(20, 31) target:self action:@selector(myLable) title:@"我的楼盘"];
     
     [self createButtonView:CGRectMake(0, m+h, (SCREEN_WIDTH-1)/2, h) image:@"wallet" imageSize:CGSizeMake(20, 30) target:self action:@selector(myWallet) title:@"我的钱包"];
     [self createButtonView:CGRectMake(SCREEN_WIDTH/2,m+h, (SCREEN_WIDTH-1)/2, h) image:@"store" imageSize:CGSizeMake(20, 31) target:self action:@selector(myStore) title:@"我的门店"];
     
-     [self createButtonView:CGRectMake(0, m+h*2, (SCREEN_WIDTH-1)/2, h) image:@"question" imageSize:CGSizeMake(21, 30) target:self action:@selector(question) title:@"问题小秘"];
-     [self createButtonView:CGRectMake(SCREEN_WIDTH/2,m+h*2, (SCREEN_WIDTH-1)/2, h) image:@"setting" imageSize:CGSizeMake(30, 30) target:self action:@selector(setting) title:@"我的设置"];
+    [self createButtonView:CGRectMake(0, m+h*2, (SCREEN_WIDTH-1)/2, h) image:@"question" imageSize:CGSizeMake(21, 30) target:self action:@selector(question) title:@"问题小秘"];
+    [self createButtonView:CGRectMake(SCREEN_WIDTH/2,m+h*2, (SCREEN_WIDTH-1)/2, h) image:@"setting" imageSize:CGSizeMake(30, 30) target:self action:@selector(setting) title:@"我的设置"];
     
     UIView *ineOne = [[UIView alloc] initWithFrame:CGRectMake(15, m+h, self.view.fWidth-30, 1)];
     ineOne.backgroundColor = UIColorRBG(242, 242, 242);
@@ -374,7 +374,7 @@
     UIImageView *imageViews = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 50, 50)];
     _images = imageViews;
     [views addSubview:imageViews];
-  
+    
     UILabel *storeName = [[UILabel alloc] initWithFrame:CGRectMake(imageViews.fX+imageViews.fWidth, 18, 140, 15)];
     storeName.textColor = UIColorRBG(68, 68, 68);
     storeName.font = [UIFont boldSystemFontOfSize:15];
@@ -402,7 +402,7 @@
     _boaldingButton = stores;
     [stores addTarget:self action:@selector(BelongedStore) forControlEvents:UIControlEventTouchUpInside];
     [views addSubview:stores];
-     _scrollView.contentSize = CGSizeMake(0, _scrollView.fHeight-kApplicationStatusBarHeight);
+    _scrollView.contentSize = CGSizeMake(0, _scrollView.fHeight-kApplicationStatusBarHeight);
 }
 //跳转所属门店
 -(void)BelongedStore{
@@ -412,14 +412,14 @@
 //跳转加入门店
 -(void)JoinStore{
     WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
-     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
+    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
     JionStore.type = @"1";
     JionStore.types = @"";
     [self.navigationController presentViewController:nav animated:YES completion:nil];
-//    JionStore.registarBlock = ^(NSString *state) {
-//        _loginState = [state integerValue];
-//        [self storeState];
-//    };
+    //    JionStore.registarBlock = ^(NSString *state) {
+    //        _loginState = [state integerValue];
+    //        [self storeState];
+    //    };
 }
 //创建一个按钮控件
 -(void)createButtonView:(CGRect)rect image:(NSString *)image imageSize:(CGSize)imageSize target:(id)target action:(SEL)action title:(NSString *)title{
@@ -456,7 +456,7 @@
     
     WZSetPersonalInforMationController *setPIVc = [[WZSetPersonalInforMationController alloc] init];
     [self.navigationController pushViewController:setPIVc animated:YES];
-   
+    
 }
 //我的订单
 -(void)myOrder{
@@ -485,7 +485,7 @@
     }else{
         [NSString isCode:self.navigationController code:@"401"];
     }
-   
+    
 }
 //我的收藏
 -(void)myLable{
@@ -577,7 +577,7 @@
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:count forKey:@"newCount"];
             [defaults synchronize];
-           
+            
             NSInteger counts = [count integerValue];
             
             UITabBarItem *item =[self.tabBarController.tabBar.items objectAtIndex:1];

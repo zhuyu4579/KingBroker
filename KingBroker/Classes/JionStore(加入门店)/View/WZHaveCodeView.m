@@ -25,7 +25,7 @@
 @implementation WZHaveCodeView
 
 +(instancetype)haveCodeView{
-     return [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass(self) owner:nil options:nil] firstObject];
+    return [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass(self) owner:nil options:nil] firstObject];
 }
 #pragma mark -初始化控件
 -(void)layoutSubviews{
@@ -35,13 +35,13 @@
     textHaveView.backgroundColor = UIColorRBG(255, 255, 255);
     [self addSubview:textHaveView];
     //创建文本框
-     self.textHF = [[UITextField alloc] init];
-     self.textHF.placeholder = @"经纪人门店编码";
-     self.textHF.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
-     self.textHF.textColor = UIColorRBG(68, 68, 68);
+    self.textHF = [[UITextField alloc] init];
+    self.textHF.placeholder = @"经纪人门店编码";
+    self.textHF.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    self.textHF.textColor = UIColorRBG(68, 68, 68);
     self.textHF.delegate = self;
     //键盘设置
-     self.textHF.keyboardType = UIKeyboardTypeNumberPad;
+    self.textHF.keyboardType = UIKeyboardTypeNumberPad;
     [textHaveView addSubview: self.textHF];
     [self.textHF mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(textHaveView).with.offset(15);
@@ -62,7 +62,7 @@
         make.right.equalTo(self).with.offset(-15);
         
     }];
-     //创建lable二
+    //创建lable二
     UILabel *texthavelabelTwo = [[UILabel alloc] init];
     texthavelabelTwo.text = @"2.加入门店后报备客户，成交后可赚取佣金；经服APP内完成悬赏赚取现金奖励";
     texthavelabelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
@@ -92,7 +92,7 @@
         make.bottom.equalTo(self.mas_bottom).with.offset(0);
         make.height.mas_offset(44);
     }];
-   
+    
 }
 
 #pragma mark -有编码提交审核
@@ -125,7 +125,7 @@
         [GKCover hide];
         [SVProgressHUD dismiss];
         [SVProgressHUD showInfoWithStatus:@"经纪人姓名不能为空"];
-       
+        
         return;
     }
     //判断门店编码
@@ -134,7 +134,7 @@
         [GKCover hide];
         [SVProgressHUD dismiss];
         [SVProgressHUD showInfoWithStatus:@"门店编码不能为空"];
-
+        
         return;
     }
     //创建会话请求
@@ -175,7 +175,7 @@
             [defaults setObject:[data valueForKey:@"cityName"] forKey:@"cityName"];
             //门店地址
             [defaults setObject:[data valueForKey:@"addr"] forKey:@"addr"];
-           
+            
             [defaults synchronize];
             
             if ([_types isEqual:@"1"]) {
@@ -187,13 +187,13 @@
                 [[UIViewController viewController:[self superview]].navigationController dismissViewControllerAnimated:YES completion:nil];
             }
             
-        
+            
         }else{
-        
+            
             NSString *msg = [responseObject valueForKey:@"msg"];
-                if(![code isEqual:@"401"] && ![msg isEqual:@""]){
-                    [SVProgressHUD showInfoWithStatus:msg];
-                }
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [GKCover hide];
@@ -207,6 +207,6 @@
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.textHF resignFirstResponder];
-   
+    
 }
 @end
