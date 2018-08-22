@@ -84,6 +84,9 @@
 		1F5B83222081F93A0083DEC2 /* WZSetPersonalInforMationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B83212081F93A0083DEC2 /* WZSetPersonalInforMationController.m */; };
 		1F5B83252081FC260083DEC2 /* WZSetInfertionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B83242081FC260083DEC2 /* WZSetInfertionView.m */; };
 		1F5B83272081FC370083DEC2 /* WZSetInfertionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B83262081FC370083DEC2 /* WZSetInfertionView.xib */; };
+		1F632EC1212CFFC00063AC4A /* WZNewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F632EC0212CFFC00063AC4A /* WZNewsController.m */; };
+		1F632EC5212D00140063AC4A /* WZNewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F632EC3212D00140063AC4A /* WZNewsCell.m */; };
+		1F632EC6212D00140063AC4A /* WZNewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F632EC4212D00140063AC4A /* WZNewsCell.xib */; };
 		1F63B1AA20E4B68A009587C1 /* WZSharesCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F63B1A920E4B68A009587C1 /* WZSharesCollectionView.m */; };
 		1F63B1AE20E4B6BB009587C1 /* WZSharesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F63B1AC20E4B6BB009587C1 /* WZSharesCell.m */; };
 		1F63B1AF20E4B6BB009587C1 /* WZSharesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F63B1AD20E4B6BB009587C1 /* WZSharesCell.xib */; };
@@ -386,6 +389,11 @@
 		1F5B83232081FC260083DEC2 /* WZSetInfertionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZSetInfertionView.h; sourceTree = "<group>"; };
 		1F5B83242081FC260083DEC2 /* WZSetInfertionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZSetInfertionView.m; sourceTree = "<group>"; };
 		1F5B83262081FC370083DEC2 /* WZSetInfertionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZSetInfertionView.xib; sourceTree = "<group>"; };
+		1F632EBF212CFFC00063AC4A /* WZNewsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZNewsController.h; sourceTree = "<group>"; };
+		1F632EC0212CFFC00063AC4A /* WZNewsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZNewsController.m; sourceTree = "<group>"; };
+		1F632EC2212D00140063AC4A /* WZNewsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZNewsCell.h; sourceTree = "<group>"; };
+		1F632EC3212D00140063AC4A /* WZNewsCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZNewsCell.m; sourceTree = "<group>"; };
+		1F632EC4212D00140063AC4A /* WZNewsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZNewsCell.xib; sourceTree = "<group>"; };
 		1F63B1A820E4B68A009587C1 /* WZSharesCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZSharesCollectionView.h; sourceTree = "<group>"; };
 		1F63B1A920E4B68A009587C1 /* WZSharesCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZSharesCollectionView.m; sourceTree = "<group>"; };
 		1F63B1AB20E4B6BB009587C1 /* WZSharesCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZSharesCell.h; sourceTree = "<group>"; };
@@ -1238,6 +1246,8 @@
 				1FD9C527207DBD2B00BB0298 /* WZNewsTableViewController.m */,
 				1F46104620BC26C400216FDB /* WZNEWHTMLController.h */,
 				1F46104720BC26C400216FDB /* WZNEWHTMLController.m */,
+				1F632EBF212CFFC00063AC4A /* WZNewsController.h */,
+				1F632EC0212CFFC00063AC4A /* WZNewsController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1292,6 +1302,9 @@
 				1F451C7420B6E58100075240 /* WZTaskCell.h */,
 				1F451C7520B6E58100075240 /* WZTaskCell.m */,
 				1F451C7620B6E58100075240 /* WZTaskCell.xib */,
+				1F632EC2212D00140063AC4A /* WZNewsCell.h */,
+				1F632EC3212D00140063AC4A /* WZNewsCell.m */,
+				1F632EC4212D00140063AC4A /* WZNewsCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1893,6 +1906,7 @@
 				1F09952720F496F500524361 /* WZShareVideoCell.xib in Resources */,
 				1F4D6DCF20F5ACBB008A9514 /* WZSharePhoneCollectionCell.xib in Resources */,
 				1FD9C694207DBD2C00BB0298 /* WZRegistarView.xib in Resources */,
+				1F632EC6212D00140063AC4A /* WZNewsCell.xib in Resources */,
 				1F5B83272081FC370083DEC2 /* WZSetInfertionView.xib in Resources */,
 				1FD9C687207DBD2C00BB0298 /* WZRegController.xib in Resources */,
 				1F3D658B20B29BBF003AEF39 /* WZSelectProjectCell.xib in Resources */,
@@ -2032,6 +2046,7 @@
 				1F4D6DE520FCEAD4008A9514 /* SelVideoPlayer.m in Sources */,
 				1F63B1B620E623C5009587C1 /* WZAddZFBAccountController.m in Sources */,
 				1FD9C688207DBD2C00BB0298 /* WZRegController.m in Sources */,
+				1F632EC1212CFFC00063AC4A /* WZNewsController.m in Sources */,
 				1FD9C604207DBD2C00BB0298 /* WZNavigationController.m in Sources */,
 				1FD9C609207DBD2C00BB0298 /* UIColor+Tools.m in Sources */,
 				1F4D6DE820FCEAD4008A9514 /* SelVideoSlider.m in Sources */,
@@ -2109,6 +2124,7 @@
 				1F06AF19208AED4100E774F0 /* WZModifyPhoneController.m in Sources */,
 				1F77530A20A42CAA003E1C07 /* ZDAlertView.m in Sources */,
 				1FD9C62D207DBD2C00BB0298 /* WZSystemController.m in Sources */,
+				1F632EC5212D00140063AC4A /* WZNewsCell.m in Sources */,
 				1F63B1B920E72875009587C1 /* WZForwardWindowController.m in Sources */,
 				1F28463120887C4F007CFC7C /* WZCustomerItem.m in Sources */,
 				1FD9C620207DBD2C00BB0298 /* WZExamineController.m in Sources */,

@@ -9,7 +9,6 @@
 #import "WZNewsTableViewController.h"
 #import "WZNewViewCell.h"
 #import "WZNewItem.h"
-#import <MJExtension.h>
 #import "WZTaskNotificationController.h"
 #import "WZAnnouncemeController.h"
 #import "WZSystemController.h"
