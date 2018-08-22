@@ -17,7 +17,7 @@
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 62, 15)];
     
     [btn setTitle:title forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor colorWithRed:3/255.0 green:133/255.0 blue:219/255.0 alpha:1.0] forState:UIControlStateNormal];
+    [btn setTitleColor:UIColorRBG(102, 221, 85) forState:UIControlStateNormal];
     [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     btn.titleLabel.font = [UIFont systemFontOfSize:15];
     UIView *containView = [[UIView alloc] initWithFrame:btn.bounds];

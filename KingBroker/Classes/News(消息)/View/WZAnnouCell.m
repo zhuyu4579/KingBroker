@@ -14,13 +14,16 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
      self.annTitleName.textColor = UIColorRBG(68, 68, 68);
-    _content.textColor = UIColorRBG(102, 102, 102);
+    _content.textColor = UIColorRBG(153, 153, 153);
+    _time.textColor = UIColorRBG(153, 153, 153);
     _readFlag.backgroundColor = UIColorRBG(241, 48, 48);
     _readFlag.layer.cornerRadius = 3.5;
     _readFlag.layer.masksToBounds = YES;
-//    _readFlag.layer.shadowColor = [UIColor grayColor].CGColor;
-//    _readFlag.layer.shadowOpacity = 0.8f;
-//    _readFlag.layer.shadowRadius = 3.0f;
+    _view.backgroundColor = [UIColor whiteColor];
+    _view.layer.shadowColor = [UIColor blackColor].CGColor;
+    _view.layer.shadowOpacity = 0.05f;
+    _view.layer.shadowRadius = 15.0f;
+    _view.layer.cornerRadius = 3.0;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -40,7 +43,10 @@
     NSString *readType = item.readFlag;
     if ([readType isEqual:@"1"]) {
         [_readFlag setHidden:YES];
+    }else{
+         [_readFlag setHidden:NO];
     }
+    _time.text = item.releaseDateStr;
     _viewType = item.viewType;
     _url = item.url;
     _ID = item.id;

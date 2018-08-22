@@ -15,7 +15,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *content;
 @property (strong, nonatomic) IBOutlet UIImageView *imageViews;
 @property (strong, nonatomic) IBOutlet UIView *views;
-@property (strong, nonatomic) IBOutlet UIButton *seeButton;
+
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *titleIne;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *contentIne;
 

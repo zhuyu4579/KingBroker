@@ -19,6 +19,10 @@
 @property (strong, nonatomic) IBOutlet UIButton *readFlag;
 //展示类型
 @property(nonatomic,strong)NSString *viewType;
+//时间
+@property (strong, nonatomic) IBOutlet UILabel *time;
+@property (strong, nonatomic) IBOutlet UIView *view;
+
 //url
 @property(nonatomic,strong)NSString *url;
 //ID
