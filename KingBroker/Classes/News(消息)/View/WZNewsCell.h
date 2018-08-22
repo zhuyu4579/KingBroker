@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class WZNewItem;
 @interface WZNewsCell : UICollectionViewCell
+@property(nonatomic,strong)WZNewItem *item;
+@property(nonatomic,strong)NSArray *array;
+@property (strong, nonatomic) IBOutlet UIImageView *iconIamge;
+@property (strong, nonatomic) IBOutlet UILabel *title;
+@property (strong, nonatomic) IBOutlet UILabel *contens;
+@property (strong, nonatomic) IBOutlet UIButton *nums;
 
 @end

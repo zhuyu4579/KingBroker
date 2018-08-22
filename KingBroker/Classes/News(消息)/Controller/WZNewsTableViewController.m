@@ -43,6 +43,7 @@ static  NSString * const ID = @"NewCell";
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.showsHorizontalScrollIndicator = NO;
     self.tableView.bounces = YES;
+    
     NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
     NSString *fileName = [path stringByAppendingPathComponent:@"dictGroup.plist"];
     NSArray *result = [NSArray arrayWithContentsOfFile:fileName];
