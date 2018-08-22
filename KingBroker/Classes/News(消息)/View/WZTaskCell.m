@@ -20,12 +20,16 @@
     _reads.layer.cornerRadius = 3.5;
     _title.textColor = UIColorRBG(68, 68, 68);
     _content.textColor = UIColorRBG(153, 153, 153);
+    _views.backgroundColor = [UIColor whiteColor];
     _views.layer.shadowColor = [UIColor blackColor].CGColor;
     _views.layer.shadowOpacity = 0.05f;
     _views.layer.shadowRadius = 15.0f;
     _views.layer.cornerRadius = 3.0;
 }
-
+-(void)setFrame:(CGRect)frame{
+    frame.size.height -=1;
+    [super setFrame:frame];
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     self.selectionStyle = UITableViewCellSelectionStyleNone;

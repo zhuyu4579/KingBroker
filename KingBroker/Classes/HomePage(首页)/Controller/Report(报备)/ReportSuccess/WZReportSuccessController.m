@@ -102,6 +102,9 @@
     UIView *view = [[UIView alloc] init];
     view.frame = CGRectMake(35,kApplicationStatusBarHeight+65,self.view.fWidth-70,420);
     view.backgroundColor = [UIColor whiteColor];
+    view.layer.shadowColor = UIColorRBG(255, 221, 128).CGColor;
+    view.layer.shadowOpacity = 0.05f;
+    view.layer.shadowRadius = 20.0f;
     view.layer.cornerRadius = 15;
     view.layer.masksToBounds = YES;
     [self.view addSubview:view];

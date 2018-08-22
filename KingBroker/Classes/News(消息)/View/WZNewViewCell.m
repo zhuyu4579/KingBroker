@@ -13,10 +13,12 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.backgroundColor = [UIColor whiteColor];
     _newsTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     _newsTitle.textColor = UIColorRBG(68, 68, 68);
     _title.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     _title.textColor = UIColorRBG(153, 153, 153);
+    _view.backgroundColor = [UIColor whiteColor];
     _view.layer.shadowColor = [UIColor blackColor].CGColor;
     _view.layer.shadowOpacity = 0.05f;
     _view.layer.shadowRadius = 15.0f;
@@ -30,7 +32,6 @@
 }
 
 -(void)setItem:(WZAnnNewItem *)item{
-    _item = item;
     _item = item;
     _time.text = item.releaseDateStr;
     NSString *readFlag = item.readFlag;

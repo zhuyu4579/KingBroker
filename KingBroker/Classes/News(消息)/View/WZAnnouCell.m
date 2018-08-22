@@ -31,10 +31,7 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
    
 }
--(void)setFrame:(CGRect)frame{
-    frame.size.height -=1;
-    [super setFrame:frame];
-}
+
 -(void)setItem:(WZAnnNewItem *)item{
     _item = item;
     _annTitleName.text = item.title;
