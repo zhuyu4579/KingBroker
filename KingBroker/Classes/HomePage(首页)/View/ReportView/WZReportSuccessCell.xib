@@ -99,6 +99,13 @@
                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cnxh" translatesAutoresizingMaskIntoConstraints="NO" id="mbs-sq-qLR">
+                        <rect key="frame" x="0.0" y="0.0" width="57" height="57"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="57" id="20H-ff-734"/>
+                            <constraint firstAttribute="width" constant="57" id="rhS-Sq-idO"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="kMU-e9-SzE" firstAttribute="leading" secondItem="Mtw-ZW-Mry" secondAttribute="trailing" constant="14" id="4Ig-qZ-FyN"/>
@@ -107,6 +114,7 @@
                     <constraint firstItem="PK2-Su-Qia" firstAttribute="leading" secondItem="Mtw-ZW-Mry" secondAttribute="trailing" constant="13" id="Kbc-j4-nWn"/>
                     <constraint firstAttribute="trailing" secondItem="ve7-hh-aTD" secondAttribute="trailing" constant="17" id="NRA-bF-kud"/>
                     <constraint firstItem="PK2-Su-Qia" firstAttribute="top" secondItem="M1t-F6-BDv" secondAttribute="bottom" constant="6" id="Oh3-Pb-Tfe"/>
+                    <constraint firstItem="mbs-sq-qLR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="P44-RM-tbz"/>
                     <constraint firstItem="BBc-gR-scQ" firstAttribute="top" secondItem="kMU-e9-SzE" secondAttribute="bottom" constant="6" id="Tcy-DY-EuE"/>
                     <constraint firstItem="iFE-Cv-pDn" firstAttribute="leading" secondItem="BBc-gR-scQ" secondAttribute="trailing" constant="7" id="Tqp-sZ-LWC"/>
                     <constraint firstItem="Nlf-Gl-obs" firstAttribute="leading" secondItem="PK2-Su-Qia" secondAttribute="trailing" constant="6" id="YvD-u9-yZv"/>
@@ -117,6 +125,7 @@
                     <constraint firstItem="iFE-Cv-pDn" firstAttribute="top" secondItem="kMU-e9-SzE" secondAttribute="bottom" constant="10" id="t7g-8E-PoT"/>
                     <constraint firstItem="Mtw-ZW-Mry" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="t9f-fN-x47"/>
                     <constraint firstItem="Nlf-Gl-obs" firstAttribute="top" secondItem="M1t-F6-BDv" secondAttribute="bottom" constant="6" id="uNN-d1-Skp"/>
+                    <constraint firstItem="mbs-sq-qLR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="vav-FH-c5k"/>
                     <constraint firstItem="ve7-hh-aTD" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="17" id="xAQ-GQ-1X6"/>
                     <constraint firstItem="X1Y-P8-K32" firstAttribute="leading" secondItem="Nlf-Gl-obs" secondAttribute="trailing" constant="6" id="xkI-8r-dYv"/>
                 </constraints>
@@ -135,4 +144,7 @@
             <point key="canvasLocation" x="-120.5" y="94"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="cnxh" width="56" height="56"/>
+    </resources>
 </document>

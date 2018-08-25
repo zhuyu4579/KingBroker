@@ -13,8 +13,13 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.layer.cornerRadius = 15;
+    self.layer.cornerRadius = 15.0;
     self.layer.masksToBounds = YES;
+    self.layer.shadowColor = UIColorRBG(255, 222, 134).CGColor;
+    self.layer.shadowOpacity = 0.15f;
+    self.layer.shadowRadius = 5.0f;
+    self.layer.shouldRasterize = YES;
+    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     _labelTwo.textColor = UIColorRBG(255, 202, 118);
     _labelThree.textColor = UIColorRBG(255, 202, 118);

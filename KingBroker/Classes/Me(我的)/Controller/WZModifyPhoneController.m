@@ -98,8 +98,7 @@
     //获取手机文本框的手机号码
     NSString  *phone = _NEWPhone.text;
    
-    NSString *type = @"1";
-    //判断手机格式是否正确
+    NSString *type = @"2";
     //判断手机格式是否正确
     NSString *str = [phone substringToIndex:1];
     if (phone.length != 11 || ![str isEqual:@"1"]) {

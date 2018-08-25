@@ -106,7 +106,7 @@
     view.layer.shadowOpacity = 0.05f;
     view.layer.shadowRadius = 20.0f;
     view.layer.cornerRadius = 15;
-    view.layer.masksToBounds = YES;
+    view.layer.masksToBounds = NO;
     [self.view addSubview:view];
 
     UIImageView *imageView = [[UIImageView alloc] init];
