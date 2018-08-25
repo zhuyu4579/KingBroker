@@ -1199,7 +1199,7 @@
     paraments[@"order"] = order;
     paraments[@"list"] = customerArrays;
     _paraments = paraments;
-    NSLog(@"%@",paraments);
+    
     //添加遮罩
     UIView *view = [[UIView alloc] init];
     [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];

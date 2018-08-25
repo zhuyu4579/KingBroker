@@ -288,7 +288,7 @@ static NSString *size = @"20";
     NSString *param = anCell.param;
     //查询未读消息
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
+    NSString *uuid = [user objectForKey:@"uuid"];
  
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
