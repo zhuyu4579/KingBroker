@@ -38,6 +38,7 @@
     _item = item;
     _time.text = item.releaseDateStr;
     NSString *readFlag = item.readFlag;
+    _readType = readFlag;
     if ([readFlag isEqual:@"0"]) {
         [_reads setHidden:NO];
     }else{

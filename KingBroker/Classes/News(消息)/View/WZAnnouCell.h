@@ -22,6 +22,8 @@
 //时间
 @property (strong, nonatomic) IBOutlet UILabel *time;
 @property (strong, nonatomic) IBOutlet UIView *view;
+//未读/已读
+@property(nonatomic,strong)NSString *readType;
 
 //url
 @property(nonatomic,strong)NSString *url;

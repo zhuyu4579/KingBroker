@@ -242,7 +242,10 @@ static NSString *size = @"20";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     WZAnnouCell *anCell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *ID = anCell.ID;
-    [self read:ID];
+    NSString *readType = anCell.readType;
+    if ([readType isEqual:@"0"]) {
+         [self read:ID];
+    }
     NSString *url = anCell.url;
     if (![url isEqual:@""]) {
         WZNEWHTMLController *new = [[WZNEWHTMLController alloc] init];

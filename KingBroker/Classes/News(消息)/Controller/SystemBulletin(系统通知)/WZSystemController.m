@@ -247,7 +247,13 @@ static NSString *size = @"20";
 #pragma mark -点击cell事件
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     WZTaskCell *anCell = [tableView cellForRowAtIndexPath:indexPath];
-    [self read:anCell];
+    NSString *readType = anCell.readType;
+    if ([readType isEqual:@"0"]) {
+         [self read:anCell];
+    }else{
+         [self NoreadNews:anCell];
+    }
+   
     
 }
 //已读接口

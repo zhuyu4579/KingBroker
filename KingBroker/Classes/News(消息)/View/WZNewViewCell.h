@@ -20,6 +20,8 @@
 @property(nonatomic,strong)WZAnnNewItem *item;
 
 @property(nonatomic,strong)NSArray *array;
+//未读/已读
+@property(nonatomic,strong)NSString *readType;
 //展示类型
 @property(nonatomic,strong)NSString *viewType;
 //url

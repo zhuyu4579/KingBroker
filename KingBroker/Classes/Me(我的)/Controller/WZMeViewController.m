@@ -57,13 +57,15 @@
 @property(nonatomic,assign)UIButton *boaldingButton;
 //登录按钮
 @property(nonatomic,assign)UIButton *loginButton;
+//编辑按钮
+@property(nonatomic,assign)UIButton *editButton;
 @end
 
 @implementation WZMeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     self.view.backgroundColor = UIColorRBG(242, 242, 242);
+     self.view.backgroundColor = UIColorRBG(248,247,242);
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
@@ -76,10 +78,9 @@
 
 //创建控件
 -(void)setUpMeView{
-    //创建第一个登录状态view//1.未登录，2.已登录未加入门店，3.已登录已加入门店
     //创建UIScrollView
     UIScrollView *meScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(self.view.fX,0, self.view.fWidth, self.view.fHeight-49-JF_BOTTOM_SPACE)];
-    meScrollView.backgroundColor = [UIColor whiteColor];
+    meScrollView.backgroundColor = UIColorRBG(248,247,242);
     meScrollView.bounces = NO;
     meScrollView.showsVerticalScrollIndicator = NO;
     meScrollView.showsHorizontalScrollIndicator = NO;
@@ -165,7 +166,7 @@
             
         }];
     }else{
-        
+        [self nologins];
     }
     
 }
@@ -176,53 +177,33 @@
     NSString *portrait = [_loginItem valueForKey:@"portrait"];
     NSURL *url =[NSURL URLWithString:portrait];
     //0是未加入门店
-    [self.loginSuccessView setHidden:NO];
     [_headImageViewTwo sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"xx_pic"]];
-    [_images setHidden:NO];
-    [_labels setHidden:YES];
-    _boaldingButton.enabled = NO;
-    [_boaldingButton setHidden:YES];
-    [_joinButton setHidden:YES];
-    _joinButton.enabled = NO;
-    [_storeName setHidden:NO];
+    [self logins];
+    
     if (state == 0) {
-        _images.image = [UIImage imageNamed:@"wd_icon"];
-        _storeName.text = @"加入门店";
-        [_labels setHidden:NO];
-         _labels.text = @"点击加入";
-        [_joinButton setHidden:NO];
-        _joinButton.enabled = YES;
+        [_joinButton setTitle:@"点击加入门店" forState:UIControlStateNormal];
     }else if (state == 1) {
-        _images.image = [UIImage imageNamed:@"wd_icon_4"];
-         _storeName.text = @"加入门店审核中";
         _joinButton.enabled = NO;
+        [_joinButton setTitle:@"加入门店审核中" forState:UIControlStateNormal];
     }else if(state == 2){
         //已加入门店
-        _images.image = [UIImage imageNamed:@"wd_icon_5"];
         _joinButton.enabled = NO;
-        _storeName.fWidth = 200;
-        _storeName.text =[_loginItem valueForKey:@"storeName"];
-        _storeName.textColor = UIColorRBG(3, 133, 219);
+         [_joinButton setTitle:[_loginItem valueForKey:@"storeName"] forState:UIControlStateNormal];
         [_boaldingButton setHidden:NO];
         _boaldingButton.enabled = YES;
     }else if(state == 3){
-        _images.image = [UIImage imageNamed:@"wd_icon_3"];
-         _storeName.text = @"审核失败";
-        [_labels setHidden:NO];
-        [_joinButton setHidden:NO];
-        _labels.text = @"请重新加入";
         _joinButton.enabled = YES;
+        [_joinButton setTitle:@"审核失败，请重新加入" forState:UIControlStateNormal];
     }
     _name.text = [_loginItem valueForKey:@"realname"];
-    NSString *sex = [_loginItem valueForKey:@"sex"];
     
+    NSString *sex = [_loginItem valueForKey:@"sex"];
     if ([sex isEqual:@"1"]) {
-        _sexImage.image = [UIImage imageNamed:@"man"];
+        _sexImage.image = [UIImage imageNamed:@"wd_man"];
     }else if([sex isEqual:@"2"]){
-        _sexImage.image = [UIImage imageNamed:@"women"];
-        
+        _sexImage.image = [UIImage imageNamed:@"wd_icon2"];
     }else{
-        _sexImage.image = [UIImage imageNamed:@"man"];;
+        _sexImage.image = [UIImage imageNamed:@"wd_man"];;
     }
     
 }
@@ -270,19 +251,16 @@
         make.height.offset(34);
         make.width.offset(60);
     }];
-    
-    
-    
+    //名称
     UILabel *labelName = [[UILabel alloc] init];
     _name = labelName;
     labelName.textColor = [UIColor whiteColor];
-    labelName.textAlignment = NSTextAlignmentRight;
-    labelName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    labelName.font = [UIFont fontWithName:@"PingFang-SC-Bold" size:16];
     [loginSuccessView addSubview:labelName];
     [labelName mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(loginSuccessView.mas_centerX);
-        make.top.equalTo(headImageView.mas_bottom).offset(17);
-        make.height.offset(13);
+        make.left.equalTo(headImageView.mas_right).offset(14);
+        make.top.equalTo(loginSuccessView.mas_top).offset(kApplicationStatusBarHeight+52);
+        make.height.offset(12);
     }];
     
     //性别
@@ -290,17 +268,200 @@
     _sexImage = genderImageView;
     [loginSuccessView addSubview:genderImageView];
     [genderImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(labelName.mas_right).offset(5);
-        make.top.equalTo(headImageView.mas_bottom).offset(15);
-        make.height.offset(16);
-        make.width.offset(16);
+        make.left.equalTo(labelName.mas_right).offset(12);
+       make.top.equalTo(loginSuccessView.mas_top).offset(kApplicationStatusBarHeight+51);
+        make.height.offset(13);
+        make.width.offset(13);
+    }];
+    //加入门店按钮
+    UIButton *joinButton = [[UIButton alloc] init];
+    [joinButton setTitleColor:UIColorRBG(254, 201, 37) forState:UIControlStateNormal];
+    joinButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    joinButton.backgroundColor = [UIColor whiteColor];
+    joinButton.layer.cornerRadius = 12.5;
+    joinButton.layer.masksToBounds = NO;
+    joinButton.layer.shadowColor = UIColorRBG(192, 117, 0).CGColor;
+    joinButton.layer.shadowOpacity = 0.12f;
+    joinButton.layer.shadowRadius = 5.0f;
+    joinButton.layer.shadowOffset = CGSizeMake(0, 7);
+    _joinButton = joinButton;
+    [joinButton addTarget:self action:@selector(JoinStore) forControlEvents:UIControlEventTouchUpInside];
+    [loginSuccessView addSubview:joinButton];
+    [joinButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(headImageView.mas_right).offset(9);
+        make.top.equalTo(labelName.mas_bottom).offset(14);
+        make.height.offset(25);
+        make.width.offset(150);
+    }];
+    //已加入门店按钮
+    UIButton *boaldingButton = [[UIButton alloc] init];
+    [boaldingButton addTarget:self action:@selector(BelongedStore) forControlEvents:UIControlEventTouchUpInside];
+    _boaldingButton = boaldingButton;
+    [loginSuccessView addSubview:boaldingButton];
+    [boaldingButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(headImageView.mas_right).offset(9);
+        make.top.equalTo(labelName.mas_bottom).offset(14);
+        make.height.offset(25);
+        make.width.offset(150);
+    }];
+    //编辑按钮
+    UIButton *editButton = [[UIButton alloc] init];
+    [editButton setBackgroundImage:[UIImage imageNamed:@"wd_icon"] forState:UIControlStateNormal];
+    [editButton addTarget:self action:@selector(clickImage) forControlEvents:UIControlEventTouchUpInside];
+    [editButton setEnlargeEdge:44];
+    _editButton = editButton;
+    [loginSuccessView addSubview:editButton];
+    [editButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(loginSuccessView.mas_right).offset(-15);
+        make.top.equalTo(loginSuccessView.mas_top).offset(kApplicationStatusBarHeight+64);
+        make.height.offset(19);
+        make.width.offset(17);
     }];
 }
-
+#pragma mark - 未登录
+-(void)nologins{
+    _headImageViewTwo.image = [UIImage imageNamed:@"xx_pic"];
+    [_loginButton setEnabled:YES];
+    [_loginButton setHidden:NO];
+    [_name setHidden:YES];
+    [_sexImage setHidden:YES];
+    [_joinButton setHidden:YES];
+    [_joinButton setEnabled:NO];
+    [_boaldingButton setHidden:YES];
+    [_boaldingButton setEnabled:NO];
+    [_editButton setEnabled:NO];
+    [_editButton setHidden:YES];
+}
+#pragma mark - 已登录
+-(void)logins{
+    [_loginButton setEnabled:NO];
+    [_loginButton setHidden:YES];
+    [_name setHidden:NO];
+    [_sexImage setHidden:NO];
+    [_joinButton setHidden:NO];
+    [_joinButton setEnabled:YES];
+    [_boaldingButton setHidden:YES];
+    [_boaldingButton setEnabled:NO];
+    [_editButton setEnabled:YES];
+    [_editButton setHidden:NO];
+}
 #pragma mark - 创建其他
 -(void)setViews{
+    UIView *viewOne = [[UIView alloc] init];
+    [_scrollView addSubview:viewOne];
+    [viewOne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_scrollView.mas_left).offset(15);
+        make.top.equalTo(_loginSuccessView.mas_bottom).offset(-47);
+        make.width.offset(_scrollView.fWidth-30);
+        make.height.offset(117);
+    }];
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = [UIImage imageNamed:@"background_wty"];
+    imageView.layer.shadowColor = UIColorRBG(255, 185, 76).CGColor;
+    imageView.layer.shadowOpacity = 0.05f;
+    imageView.layer.shadowRadius = 20.0f;
+    imageView.layer.shadowOffset = CGSizeMake(0, 1);
+    [viewOne addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(viewOne.mas_left);
+        make.top.equalTo(viewOne.mas_top);
+        make.width.offset(_scrollView.fWidth-30);
+        make.height.offset(117);
+    }];
+    UIView *myBoardingView = [self createViewClass:@selector(myOrder) image:[UIImage imageNamed:@"wd_icon3"] title:@"我的订单" fY:0 size:CGSizeMake(18, 22)];
+    [viewOne addSubview:myBoardingView];
+     UIView *myWalletView = [self createViewClass:@selector(myWallet) image:[UIImage imageNamed:@"wd_icon4"] title:@"我的钱包" fY:58 size:CGSizeMake(19, 20)];
+    [viewOne addSubview:myWalletView];
     
+    UIView *viewTwo = [[UIView alloc] init];
+    [_scrollView addSubview:viewTwo];
+    [viewTwo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_scrollView.mas_left).offset(15);
+        make.top.equalTo(viewOne.mas_bottom).offset(12);
+        make.width.offset(_scrollView.fWidth-30);
+        make.height.offset(176);
+    }];
+    UIImageView *imageViewTwo = [[UIImageView alloc] init];
+    imageViewTwo.image = [UIImage imageNamed:@"background_wty2"];
+    imageViewTwo.layer.shadowColor = UIColorRBG(255, 185, 76).CGColor;
+    imageViewTwo.layer.shadowOpacity = 0.05f;
+    imageViewTwo.layer.shadowRadius = 20.0f;
+    imageViewTwo.layer.shadowOffset = CGSizeMake(0, 1);
+    [viewTwo addSubview:imageViewTwo];
+    [imageViewTwo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(viewTwo.mas_left);
+        make.top.equalTo(viewTwo.mas_top);
+        make.width.offset(_scrollView.fWidth-30);
+        make.height.offset(176);
+    }];
+    UIView *myStoreView = [self createViewClass:@selector(myStore) image:[UIImage imageNamed:@"wd_icon5"] title:@"我的门店" fY:0 size:CGSizeMake(19, 18)];
+    [viewTwo addSubview:myStoreView];
+    UIView *myCollectionView = [self createViewClass:@selector(myCollection) image:[UIImage imageNamed:@"wd_icon6"] title:@"我的楼盘" fY:58 size:CGSizeMake(19, 19)];
+    [viewTwo addSubview:myCollectionView];
+    UIView *questionView = [self createViewClass:@selector(question) image:[UIImage imageNamed:@"wd_icon7"] title:@"问题小秘" fY:117 size:CGSizeMake(18, 22)];
+    [viewTwo addSubview:questionView];
+    
+    UIView *viewThree = [[UIView alloc] init];
+    viewThree.backgroundColor = [UIColor whiteColor];
+    viewThree.layer.cornerRadius = 10;
+    viewThree.layer.shadowColor = UIColorRBG(255, 185, 76).CGColor;
+    viewThree.layer.shadowOpacity = 0.05f;
+    viewThree.layer.shadowRadius = 20.0f;
+    viewThree.layer.shadowOffset = CGSizeMake(0, 1);
+    [_scrollView addSubview:viewThree];
+    [viewThree mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_scrollView.mas_left).offset(15);
+        make.top.equalTo(viewTwo.mas_bottom).offset(10);
+        make.width.offset(_scrollView.fWidth-30);
+        make.height.offset(58);
+    }];
+    
+    UIView *mySettingView = [self createViewClass:@selector(setting) image:[UIImage imageNamed:@"wd_icon8"] title:@"设置" fY:0 size:CGSizeMake(19, 19)];
+    [viewThree addSubview:mySettingView];
 }
+#pragma mark -创建分类
+-(UIView *)createViewClass:(SEL)sel image:(UIImage *)image title:(NSString *)title fY:(CGFloat)fY size:(CGSize)size{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, fY, _scrollView.fWidth-30, 58)];
+    UIImageView *imageOne = [[UIImageView alloc] init];
+    imageOne.image = image;
+    [view addSubview:imageOne];
+    [imageOne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(12);
+        make.top.equalTo(view.mas_top).offset(size.width);
+        make.width.offset(size.width);
+        make.height.offset(size.height);
+    }];
+    UILabel *titles = [[UILabel alloc] init];
+    titles.text = title;
+    titles.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:15];
+    titles.textColor = UIColorRBG(51, 51, 51);
+    [view addSubview:titles];
+    [titles mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(imageOne.mas_right).offset(14);
+        make.top.equalTo(view.mas_top).offset(22);
+        make.height.offset(14);
+    }];
+    UIImageView *imageTwo = [[UIImageView alloc] init];
+    imageTwo.image = [UIImage imageNamed:@"bb_more_unfold"];
+    [view addSubview:imageTwo];
+    [imageTwo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view.mas_right).offset(-11);
+        make.top.equalTo(view.mas_top).offset(22);
+        make.width.offset(9);
+        make.height.offset(15);
+    }];
+    UIButton *button = [[UIButton alloc] init];
+    [button addTarget:self action:sel forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:button];
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left);
+        make.top.equalTo(view.mas_top);
+        make.width.offset(view.fWidth);
+        make.height.offset(view.fHeight);
+    }];
+    return view;
+}
+
 #pragma mark -跳转所属门店
 -(void)BelongedStore{
     WZBelongedStoreController *boaring = [[WZBelongedStoreController alloc] init];
@@ -324,7 +485,7 @@
 }
 #pragma mark -我的订单
 -(void)myOrder{
-    if (_uuid) {
+    if (_uuid&&![_uuid isEqual:@""]) {
         if(_loginState == 2){
             WZBoaringController *boarVc = [[WZBoaringController alloc] init];
             [self.navigationController pushViewController:boarVc animated:YES];
@@ -341,7 +502,8 @@
                                                                    handler:^(UIAlertAction * action) {
                                                                        [self JoinStore];
                                                                    }];
-            
+            [cancelAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+            [defaultAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
             [alert addAction:defaultAction];
             [alert addAction:cancelAction];
             [self presentViewController:alert animated:YES completion:nil];
@@ -352,8 +514,8 @@
    
 }
 #pragma mark -我的收藏
--(void)myLable{
-    if (_uuid) {
+-(void)myCollection{
+    if (_uuid&&![_uuid isEqual:@""]) {
         WZHousePageController *houseVc = [[WZHousePageController alloc] init];
         houseVc.status = 1;
         [self.navigationController pushViewController:houseVc animated:YES];
@@ -363,7 +525,7 @@
 }
 #pragma mark -我的钱包
 -(void)myWallet{
-    if (_uuid) {
+    if (_uuid&&![_uuid isEqual:@""]) {
         WZForwardController *forward = [[WZForwardController alloc] init];
         [self.navigationController pushViewController:forward animated:YES];
     }else{
@@ -372,7 +534,7 @@
 }
 #pragma mark -我的门店
 -(void)myStore{
-    if (_uuid) {
+    if (_uuid&&![_uuid isEqual:@""]) {
         WZBelongedStoreController *boaring = [[WZBelongedStoreController alloc] init];
         [self.navigationController pushViewController:boaring animated:YES];
     }else{
@@ -381,7 +543,7 @@
 }
 #pragma mark -问题小蜜
 -(void)question{
-    if (_uuid) {
+    if (_uuid&&![_uuid isEqual:@""]) {
         WZQuestionController *quesVc = [[WZQuestionController alloc] init];
         [self.navigationController pushViewController:quesVc animated:YES];
     }else{
@@ -391,7 +553,7 @@
 }
 #pragma mark -我的设置
 -(void)setting{
-    if (_uuid) {
+    if (_uuid&&![_uuid isEqual:@""]) {
         WZSettingController *setting = [[WZSettingController alloc] init];
         [self.navigationController pushViewController:setting animated:YES];
     }else{

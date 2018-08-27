@@ -18,12 +18,13 @@
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *titleIne;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *contentIne;
-
+//未读/已读
+@property(nonatomic,strong)NSString *readType;
 //展示类型
 @property(nonatomic,strong)NSString *viewType;
 //url
 @property(nonatomic,strong)NSString *url;
-//url
+//ID
 @property(nonatomic,strong)NSString *ID;
 //跳转指定的页面
 @property(nonatomic,strong)NSString *param;

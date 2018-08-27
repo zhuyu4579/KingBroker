@@ -252,7 +252,12 @@ static NSString *size = @"20";
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [user objectForKey:@"uuid"];
     NSString *ID = anCell.ID;
-    [self read:ID];
+    
+    NSString *readType = anCell.readType;
+    if ([readType isEqual:@"0"]) {
+        [self read:ID];
+    }
+    
     NSString *url = anCell.url;
     
     if(![url isEqual:@""]){

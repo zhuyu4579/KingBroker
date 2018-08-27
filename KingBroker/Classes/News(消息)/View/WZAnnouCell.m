@@ -38,6 +38,7 @@
     _content.text = item.content;
     [_imageViews sd_setImageWithURL:[NSURL URLWithString:item.pictureIds] placeholderImage:[UIImage imageNamed:@"gg_pic"]];
     NSString *readType = item.readFlag;
+    _readType = readType;
     if ([readType isEqual:@"1"]) {
         [_readFlag setHidden:YES];
     }else{
