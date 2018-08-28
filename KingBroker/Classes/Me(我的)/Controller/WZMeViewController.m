@@ -107,6 +107,7 @@
     NSString *username = [ user objectForKey:@"username"];
      _uuid = uuid;
      if (![uuid isEqual:@""] && uuid) {
+         [self logins];
         //创建会话请求
         AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
         
@@ -178,7 +179,6 @@
     NSURL *url =[NSURL URLWithString:portrait];
     //0是未加入门店
     [_headImageViewTwo sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"xx_pic"]];
-    [self logins];
     
     if (state == 0) {
         [_joinButton setTitle:@"点击加入门店" forState:UIControlStateNormal];
@@ -478,9 +478,13 @@
 }
 #pragma mark -个人信息设置
 -(void)clickImage{
+    if (_uuid&&![_uuid isEqual:@""]) {
+        WZSetPersonalInforMationController *setPIVc = [[WZSetPersonalInforMationController alloc] init];
+        [self.navigationController pushViewController:setPIVc animated:YES];
+    }else{
+        [NSString isCode:self.navigationController code:@"401"];
+    }
     
-    WZSetPersonalInforMationController *setPIVc = [[WZSetPersonalInforMationController alloc] init];
-    [self.navigationController pushViewController:setPIVc animated:YES];
    
 }
 #pragma mark -我的订单

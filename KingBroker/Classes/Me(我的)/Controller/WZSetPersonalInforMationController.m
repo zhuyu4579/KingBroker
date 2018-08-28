@@ -97,32 +97,43 @@
     _infoView.dutyFlag = [_loginItem valueForKey:@"dutyFlag"];
     //性别
     NSString *sex = [_loginItem valueForKey:@"sex"];
+    _infoView.manSex.textColor = UIColorRBG(204, 204, 204);
+    _infoView.sex.textColor = UIColorRBG(204, 204, 204);
+    _infoView.selectSexMan.selected = NO;
+    _infoView.selectWomanSex.selected = NO;
     if ([sex isEqual:@"1"]) {
-        _infoView.sex.text = @"男";
+        _infoView.selectSexMan.selected = YES;
+       _infoView.manSex.textColor = UIColorRBG(51, 51, 51);
     }else if([sex isEqual:@"2"]){
-        _infoView.sex.text = @"女";
+        _infoView.selectWomanSex.selected = YES;
+        _infoView.sex.textColor = UIColorRBG(51, 51, 51);
     }else{
-        _infoView.sex.text = @"男";
+        _infoView.selectSexMan.selected = YES;
+        _infoView.manSex.textColor = UIColorRBG(51, 51, 51);
     }
     //出生年月
      NSString *birthDate = [_loginItem valueForKey:@"birthday"];
-    if (birthDate) {
+    if (birthDate&& ![birthDate isEqual:@""]) {
         _infoView.birthDate.text = birthDate;
+        _infoView.birthDate.textColor = UIColorRBG(51, 51, 51);
     }
     //籍贯
      NSString *birthAddress = [_loginItem valueForKey:@"navitePlace"];
-    if (birthAddress){
+    if (birthAddress&& ![birthAddress isEqual:@""]){
         _infoView.birthAddress.text = birthAddress;
+        _infoView.birthAddress.textColor = UIColorRBG(51, 51, 51);
     }
     //从业时间
      NSString *employmentTime = [_loginItem valueForKey:@"startWorkTime"];
-    if (employmentTime){
+    if (employmentTime&& ![employmentTime isEqual:@""]){
         _infoView.employmentTime.text = employmentTime;
+        _infoView.employmentTime.textColor = UIColorRBG(51, 51, 51);
     }
     //入职时间
      NSString *entryTime = [_loginItem valueForKey:@"hiredate"];
-    if (entryTime){
+    if (entryTime&& ![entryTime isEqual:@""]){
         _infoView.entryTime.text = entryTime;
+        _infoView.entryTime.textColor = UIColorRBG(51, 51, 51);
     }
 }
 -(void)setScrollView{

@@ -205,9 +205,9 @@
     }];
     UIButton *confirm = [[UIButton alloc] init];
     [confirm setTitle:@"确定" forState:UIControlStateNormal];
-    [confirm setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    confirm.backgroundColor = UIColorRBG(3, 133, 219);
-    confirm.layer.cornerRadius = 3.0;
+    [confirm setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+    confirm.backgroundColor = UIColorRBG(255, 216, 0);
+    confirm.layer.cornerRadius = 14.0;
     confirm.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     [confirm addTarget:self action:@selector(confirmPW) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:confirm];
@@ -225,7 +225,7 @@
         make.left.equalTo(view.mas_left).offset(15);
         make.top.equalTo(password.mas_bottom);
         make.height.offset(1);
-        make.width.offset(view.fWidth-30);
+        make.width.offset(view.fWidth-85);
     }];
     
     UIButton *findPassword = [[UIButton alloc] init];
@@ -304,6 +304,7 @@
                                                                [self.navigationController pushViewController:authen animated:YES];
                                                            }];
     
+    [defaultAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
     [alert addAction:defaultAction];
     [alert addAction:cancelAction];
     [self presentViewController:alert animated:YES completion:nil];
@@ -330,13 +331,18 @@
             NSDictionary *data = [responseObject valueForKey:@"data"];
             NSString *exist = [data valueForKey:@"exist"];
             if ([exist isEqual:@"1"]) {
+                //已绑定支付宝帐号
                 WZForwardWindowController *forwardVc = [[WZForwardWindowController alloc] init];
                 forwardVc.ZFBName = [[data valueForKey:@"data"] valueForKey:@"payAccount"];
                 forwardVc.detailPrice = _price;
                 forwardVc.ID = [[data valueForKey:@"data"] valueForKey:@"id"];
                 [self.navigationController pushViewController:forwardVc animated:YES];
             }else{
-                [self NoZFBAlert];
+                //绑定支付宝帐号
+                WZAddZFBAccountController *addZFB = [[WZAddZFBAccountController alloc] init];
+                addZFB.navigationItem.title = @"添加支付宝账号";
+                addZFB.ID = @"";
+                [self.navigationController pushViewController:addZFB animated:YES];
             }
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
@@ -349,26 +355,7 @@
          [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
 }
-//提示框没有绑定支付宝账号
--(void)NoZFBAlert{
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"" message:@"使用提现功能需添加本人支付宝账号"  preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel
-                                                          handler:^(UIAlertAction * action) {
-                                                              
-                                                          }];
-    UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"添加支付宝" style:UIAlertActionStyleDefault
-                                                           handler:^(UIAlertAction * action) {
-                                                               WZAddZFBAccountController *addZFB = [[WZAddZFBAccountController alloc] init];
-                                                               addZFB.navigationItem.title = @"添加支付宝账号";
-                                                               addZFB.ID = @"";
-                                                               [self.navigationController pushViewController:addZFB animated:YES];
-                                                           }];
-    
-    [alert addAction:defaultAction];
-    [alert addAction:cancelAction];
-    [self presentViewController:alert animated:YES completion:nil];
-}
+
 //找回密码
 -(void)findPassWord{
     [_password resignFirstResponder];

@@ -36,7 +36,7 @@
 //创建内容
 -(void)createContents{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *realname = [ user objectForKey:@"name"];
+    NSString *realname = [user objectForKey:@"name"];
     
     UILabel *lanbelOne = [[UILabel alloc] init];
     lanbelOne.textColor = UIColorRBG(135, 134, 140);

@@ -13,11 +13,11 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     _titleName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
-    _titleName.textColor = UIColorRBG(33, 33, 33);
+    _titleName.textColor = UIColorRBG(51, 51, 51);
     _time.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     _time.textColor = UIColorRBG(153, 153, 153);
     _money.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:19];
-    _money.textColor = UIColorRBG(3, 133, 219);
+    _money.textColor = UIColorRBG(255, 162, 0);
 }
 -(void)setItem:(WZFrowardItem *)item{
     _item = item;

@@ -117,9 +117,12 @@
             NSString *realname = [name substringFromIndex:1];
             _name.text = [NSString stringWithFormat:@"*%@",realname];
             NSString *idCard = [data valueForKey:@"idCard"];
-            NSString *card = [idCard substringToIndex:1];
-            NSString *cardId = [idCard substringFromIndex:17];
-            _cardId.text = [NSString stringWithFormat:@"%@****************%@",card,cardId];
+            if(![idCard isEqual:@""]){
+                NSString *card = [idCard substringToIndex:1];
+                NSString *cardId = [idCard substringFromIndex:17];
+                _cardId.text = [NSString stringWithFormat:@"%@****************%@",card,cardId];
+            }
+            
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
