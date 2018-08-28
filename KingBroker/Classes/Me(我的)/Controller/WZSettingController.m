@@ -36,7 +36,7 @@
     _authenStatus.textColor = UIColorRBG(102, 102, 102);
     _telphone.textColor = UIColorRBG(102, 102, 102);
     [_authenImage sizeToFit];
-    [self.ExitLogon setTitleColor:UIColorRBG(255, 105, 110) forState:UIControlStateNormal];
+    [self.ExitLogon setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
     
      _cacha.text = [self sizeStr];
     
@@ -44,15 +44,17 @@
     NSInteger idcardStatus = [[user objectForKey:@"idcardStatus"] integerValue];
     NSString *username = [user objectForKey:@"username"];
     NSString *name = [user objectForKey:@"name"];
-    NSString *top = [username substringToIndex:3];
-    NSString *bottom = [username substringFromIndex:7];
-    _telphone.text = [NSString stringWithFormat:@"%@****%@",top,bottom];
+    if(username.length>0){
+        NSString *top = [username substringToIndex:3];
+        NSString *bottom = [username substringFromIndex:7];
+        _telphone.text = [NSString stringWithFormat:@"%@****%@",top,bottom];
+    }
     if (idcardStatus == 0||idcardStatus == 3) {
         _authenStatus.text = @"手持身份证";
        
         if (idcardStatus == 3) {
             _authenStatus.text = @"手持身份证";
-            _authenImage.image = [UIImage imageNamed:@"authenticated_2"];
+            _authenImage.image = [UIImage imageNamed:@"authenticated"];
         }
     }else if(idcardStatus == 1){
         _authenStatus.text = @"审核中";
@@ -64,7 +66,7 @@
         }else{
             _authenStatus.text = @"";
         }
-        _authenImage.image = [UIImage imageNamed:@"authenticated"];
+        _authenImage.image = [UIImage imageNamed:@"authenticated2"];
         
     }
 }
@@ -81,7 +83,7 @@
 //退出登录
 - (IBAction)exitLogin:(id)sender {
     // 初始化对话框
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认注销吗？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"退出登录" message:@"确认退出当前账号" preferredStyle:UIAlertControllerStyleAlert];
     // 确定注销
     _okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *_Nonnull action) {
         // 1.清除用户名、密码的存储
@@ -90,7 +92,8 @@
         [self eixtLoginData];
     }];
     _cancelAction =[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    
+    [_okAction setValue:UIColorRBG(255, 216, 0) forKey:@"_titleTextColor"];
+    [_cancelAction setValue:UIColorRBG(255, 216, 0) forKey:@"_titleTextColor"];
     [alert addAction:_okAction];
     [alert addAction:_cancelAction];
     
@@ -171,6 +174,7 @@
         [mgr removeItemAtPath:filePath error:nil];
     }
     _cacha.text = [self sizeStr];
+    [SVProgressHUD showInfoWithStatus:@"清除缓存成功"];
 }
 //修改手机号码
 - (IBAction)modifyTelephone:(UIButton *)sender {

@@ -59,7 +59,7 @@
     confirm.frame = CGRectMake(0,195,SCREEN_WIDTH-20,57);
     [confirm setTitle:@"拍照" forState:UIControlStateNormal];
     confirm.titleLabel.font = [UIFont systemFontOfSize:16];
-    [confirm setTitleColor:[UIColor colorWithRed:3.0/255.0 green:133.0/255.0 blue:219.0/255.0 alpha:1.0] forState:UIControlStateNormal];
+    [confirm setTitleColor:UIColorRBG(255, 216, 0) forState:UIControlStateNormal];
      [confirm setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
    
     [confirm addTarget:self action:@selector(confirmAlert) forControlEvents:UIControlEventTouchUpInside];

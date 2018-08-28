@@ -22,6 +22,8 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 //提交
 @property (weak, nonatomic) IBOutlet UIButton *getUpButton;
+@property (strong, nonatomic) IBOutlet UIView *viewOne;
+@property (strong, nonatomic) IBOutlet UIView *viewTwo;
 
 - (IBAction)comfireButton:(id)sender;
 

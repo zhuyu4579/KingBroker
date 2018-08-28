@@ -38,6 +38,8 @@
 //设置内容
 -(void)setCard{
     UIView *view = [[UIView alloc] init];
+    view.backgroundColor = UIColorRBG(32, 32, 32);
+    view.layer.cornerRadius = 5.0;
     [self.view addSubview:view];
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
@@ -46,19 +48,19 @@
         make.height.offset(150);
     }];
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [UIImage imageNamed:@"card1"];
+    imageView.image = [UIImage imageNamed:@"wd_sm"];
     [view addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(view.mas_left);
-        make.top.equalTo(view.mas_top);
-        make.width.offset(self.view.fWidth-30);
-        make.height.offset(150);
+        make.right.equalTo(view.mas_right).offset(-11);
+        make.top.equalTo(view.mas_top).offset(11);
+        make.width.offset(66);
+        make.height.offset(57);
     }];
     UIImageView *head = [[UIImageView alloc] init];
     _headImageView = head;
-    head.layer.borderColor = UIColorRBG(84, 175, 246).CGColor;
-    head.layer.borderWidth = 4.0;
-    head.layer.cornerRadius = 4.0;
+    head.layer.borderColor = UIColorRBG(255, 241, 0).CGColor;
+    head.layer.borderWidth = 3.0;
+    head.layer.cornerRadius = 3.0;
     head.layer.masksToBounds = YES;
     head.image = [UIImage imageNamed:@"bb_5_pic"];
     [view addSubview:head];
@@ -80,13 +82,13 @@
     }];
     UILabel *cardId = [[UILabel alloc] init];
     _cardId = cardId;
-    cardId.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    cardId.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
     cardId.textColor = [UIColor whiteColor];
     [view addSubview:cardId];
     [cardId mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(head.mas_right).offset(19);
         make.top.equalTo(name.mas_bottom).offset(17);
-        make.height.offset(15);
+        make.height.offset(13);
     }];
 }
 //请求数据
