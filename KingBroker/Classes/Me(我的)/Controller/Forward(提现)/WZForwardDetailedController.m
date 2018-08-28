@@ -5,7 +5,8 @@
 //  Created by 朱玉隆 on 2018/6/30.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
+#import <Masonry.h>
+#import "UIView+Frame.h"
 #import <AFNetworking.h>
 #import <MJRefresh.h>
 #import <MJExtension.h>
@@ -22,6 +23,8 @@
 @property(nonatomic,strong)NSMutableArray *detailedArray;
 
 @property(nonatomic,strong)NSMutableArray *array;
+//无数据页面
+@property(nonatomic,strong)UIView *viewNo;
 //数据请求是否完毕
 @property (nonatomic, assign) BOOL isRequestFinish;
 @end
@@ -41,6 +44,8 @@ static NSString *size = @"20";
     _detailedArray = [NSMutableArray array];
     current = 1;
     [self loadData];
+    
+    [self setNoData];
     //注册cell
     [self.tableView registerNib:[UINib nibWithNibName:@"WZFrowardDetailedCell" bundle:nil] forCellReuseIdentifier:ID];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -118,7 +123,11 @@ static NSString *size = @"20";
                 current +=1;
                 [self.tableView.mj_footer endRefreshing];
             }
-            
+            if (_detailedArray.count==0) {
+                [_viewNo setHidden:NO];
+            }else{
+                [_viewNo setHidden:YES];
+            }
             _array =  [WZFrowardItem mj_objectArrayWithKeyValuesArray:_detailedArray];
             
             [self.tableView reloadData];
@@ -147,7 +156,35 @@ static NSString *size = @"20";
     }];
     
 }
-
+//创建无图表
+-(void)setNoData{
+    UIView *view = [[UIView alloc] init];
+    view.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight-45);
+    [view setHidden:NO];
+    _viewNo = view;
+    [self.view addSubview:view];
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = [UIImage imageNamed:@"wd_mx"];
+    [view addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(view.mas_top).offset(kApplicationStatusBarHeight+90);
+        make.width.offset(181);
+        make.height.offset(150);
+    }];
+    UILabel *label = [[UILabel alloc] init];
+    label.text = @"暂无数据";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+    label.textColor = UIColorRBG(158, 158, 158);
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 0;
+    [view addSubview:label];
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(imageView.mas_bottom).offset(29);
+    }];
+    
+}
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

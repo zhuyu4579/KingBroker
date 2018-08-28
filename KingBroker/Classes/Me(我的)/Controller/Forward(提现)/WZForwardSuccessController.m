@@ -34,8 +34,8 @@
     UIButton *confirm = [[UIButton alloc] init];
     [confirm setTitle:@"完成" forState:UIControlStateNormal];
     [confirm setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    confirm.backgroundColor = UIColorRBG(3, 133, 219);
-    confirm.layer.cornerRadius = 4.0;
+    confirm.backgroundColor = UIColorRBG(255, 216, 0);
+    confirm.layer.cornerRadius = 22.0;
     confirm.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
     [confirm addTarget:self action:@selector(confirmZFB:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:confirm];

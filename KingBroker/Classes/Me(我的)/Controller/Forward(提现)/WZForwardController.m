@@ -303,7 +303,7 @@
                                                                WZAuthenticationController *authen = [[WZAuthenticationController alloc] init];
                                                                [self.navigationController pushViewController:authen animated:YES];
                                                            }];
-    
+    [cancelAction setValue:UIColorRBG(102, 102, 102) forKey:@"_titleTextColor"];
     [defaultAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
     [alert addAction:defaultAction];
     [alert addAction:cancelAction];
@@ -359,6 +359,7 @@
 //找回密码
 -(void)findPassWord{
     [_password resignFirstResponder];
+    [self closeTK];
     WZfindPassWordController *findPassWord = [[WZfindPassWordController alloc] init];
     findPassWord.navigationItem.title = @"修改密码";
     [self.navigationController pushViewController:findPassWord animated:YES];

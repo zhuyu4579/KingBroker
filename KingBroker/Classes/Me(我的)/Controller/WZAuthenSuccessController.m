@@ -114,10 +114,13 @@
             NSString *url = [data valueForKey:@"url"];
             [_headImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"bb_5_pic"]];
             NSString *name = [data valueForKey:@"realname"];
-            NSString *realname = [name substringFromIndex:1];
-            _name.text = [NSString stringWithFormat:@"*%@",realname];
+            if(name.length>0){
+                NSString *realname = [name substringFromIndex:1];
+                _name.text = [NSString stringWithFormat:@"*%@",realname];
+            }
+            
             NSString *idCard = [data valueForKey:@"idCard"];
-            if(![idCard isEqual:@""]){
+            if(idCard.length>0){
                 NSString *card = [idCard substringToIndex:1];
                 NSString *cardId = [idCard substringFromIndex:17];
                 _cardId.text = [NSString stringWithFormat:@"%@****************%@",card,cardId];

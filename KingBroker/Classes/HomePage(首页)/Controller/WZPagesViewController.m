@@ -313,6 +313,8 @@
                                                                        JionStore.jionType = @"1";
                                                                        [self presentViewController:nav animated:YES completion:nil];
                                                                    }];
+            [cancelAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+            [defaultAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
             
             [alert addAction:defaultAction];
             [alert addAction:cancelAction];

@@ -30,7 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = UIColorRBG(242, 242, 242);
+    self.view.backgroundColor = UIColorRBG(247, 247, 247);
     self.navigationItem.title = @"提现";
     //创建内容
     [self createContent];
@@ -78,7 +78,7 @@
     UILabel *ZFBName = [[UILabel alloc] init];
     ZFBName.textColor = UIColorRBG(153, 153, 153);
     ZFBName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
-     ZFBName.text = _ZFBName;
+    ZFBName.text = _ZFBName;
     [viewOne addSubview:ZFBName];
     [ZFBName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(ZFBLabel.mas_right).offset(28);
@@ -87,9 +87,9 @@
     }];
     UIButton *updateButton = [[UIButton alloc] init];
     [updateButton setTitle:@"修改" forState:UIControlStateNormal];
-    [updateButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    updateButton.backgroundColor = UIColorRBG(3, 133, 219);
-    updateButton.layer.cornerRadius = 3.0;
+    [updateButton setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+    updateButton.backgroundColor = UIColorRBG(255, 216, 0);
+    updateButton.layer.cornerRadius = 14.0;
     updateButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     [updateButton addTarget:self action:@selector(updateButton) forControlEvents:UIControlEventTouchUpInside];
     [viewOne addSubview:updateButton];
@@ -106,7 +106,7 @@
         make.left.equalTo(self.view.mas_left);
         make.top.equalTo(viewOne.mas_bottom).offset(15);
         make.width.offset(self.view.fWidth);
-        make.height.offset(120);
+        make.height.offset(144);
     }];
     UILabel *labelTitle = [[UILabel alloc] init];
     labelTitle.text = @"提现金额(免收手续费)";
@@ -124,7 +124,7 @@
     [viewTwo addSubview:priceTitle];
     [priceTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(viewTwo.mas_left).offset(15);
-        make.top.equalTo(labelTitle.mas_bottom).offset(26);
+        make.top.equalTo(labelTitle.mas_bottom).offset(31);
         make.height.offset(25);
     }];
     UITextField *price = [[UITextField alloc] init];
@@ -132,6 +132,7 @@
     price.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:25];
     price.keyboardType = UIKeyboardTypeDecimalPad;
     price.borderStyle = UITextBorderStyleNone;
+    [[price valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
     price.clearButtonMode = UITextFieldViewModeWhileEditing;
     price.delegate = self;
     [price addTarget:self action:@selector(changeContent:) forControlEvents:UIControlEventEditingChanged];
@@ -139,9 +140,9 @@
     [viewTwo addSubview:price];
     [price mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(priceTitle.mas_right).offset(14);
-        make.top.equalTo(labelTitle.mas_bottom).offset(16);
+        make.top.equalTo(labelTitle.mas_bottom).offset(21);
         make.height.offset(45);
-        make.right.equalTo(viewTwo.mas_right);
+        make.right.equalTo(viewTwo.mas_right).offset(-15);
     }];
     //华丽的分割线
     UIView *ineOnes = [[UIView alloc] init];
@@ -149,7 +150,7 @@
     [viewTwo addSubview:ineOnes];
     [ineOnes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(viewTwo.mas_left).offset(15);
-        make.top.equalTo(priceTitle.mas_bottom).offset(10);
+        make.top.equalTo(price.mas_bottom).offset(10);
         make.height.offset(1);
         make.width.offset(self.view.fWidth-30);
     }];
@@ -162,25 +163,25 @@
     [viewTwo addSubview:detailPrice];
     [detailPrice mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(viewTwo.mas_left).offset(15);
-        make.top.equalTo(ineOnes.mas_bottom).offset(9);
+        make.top.equalTo(ineOnes.mas_bottom).offset(15);
         make.height.offset(13);
     }];
    
     UIButton *allPrice = [[UIButton alloc] init];
     [allPrice setTitle:@"全部提现" forState:UIControlStateNormal];
-    [allPrice setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
+    [allPrice setTitleColor:UIColorRBG(255, 162, 0) forState:UIControlStateNormal];
     allPrice.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     [allPrice addTarget:self action:@selector(allPrice) forControlEvents:UIControlEventTouchUpInside];
     [viewTwo addSubview:allPrice];
     [allPrice mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(viewTwo.mas_right).offset(-15);
-        make.top.equalTo(ineOnes.mas_bottom).offset(9);
+        make.top.equalTo(ineOnes.mas_bottom).offset(15);
         make.height.offset(14);
         make.width.offset(55);
     }];
     //提示
     UIImageView *imageView  = [[UIImageView alloc] init];
-    imageView.image = [UIImage imageNamed:@"hint-1"];
+    imageView.image = [UIImage imageNamed:@"wd_ts"];
     [self.view addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(15);
@@ -188,10 +189,11 @@
         make.height.offset(11);
         make.width.offset(6);
     }];
+    
     UILabel *labels = [[UILabel alloc] init];
     labels.font = [UIFont fontWithName:@"PingFang-SC-Light" size:12];
     labels.textColor = UIColorRBG(153, 153, 153);
-    labels.text = @"内测期间不限制单次最低提现金额";
+    labels.text = @"单笔提现金额需大于10元";
     [self.view addSubview:labels];
     [labels mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(imageView.mas_right).offset(5);
@@ -201,9 +203,9 @@
     //确定按钮
     UIButton *confirm = [[UIButton alloc] init];
     [confirm setTitle:@"确定" forState:UIControlStateNormal];
-    [confirm setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    confirm.backgroundColor = UIColorRBG(3, 133, 219);
-    confirm.layer.cornerRadius = 4.0;
+    [confirm setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+    confirm.backgroundColor = UIColorRBG(255, 216, 0);
+    confirm.layer.cornerRadius = 22.0;
     _confirm = confirm;
     confirm.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
     [confirm addTarget:self action:@selector(confirmZFB:) forControlEvents:UIControlEventTouchUpInside];
@@ -222,14 +224,14 @@
         if( ![self isPureInt:str] && ![self isPureFloat:str])
         {
             _waring.text = @"金额中包含非法字符";
-            _waring.textColor = [UIColor redColor];
+            _waring.textColor = UIColorRBG(255, 104, 109);
             return;
         }
         float n = [_detailPrice floatValue];
         float m = [str integerValue];
         if ( m > n) {
             _waring.text = @"金额已超过可提现金额";
-            _waring.textColor = [UIColor redColor];
+            _waring.textColor = UIColorRBG(255, 104, 109);
             _confirm.enabled = NO;
             return;
         }
@@ -243,7 +245,7 @@
 -(void)updateButton{
     WZAddZFBAccountController *addZFB = [[WZAddZFBAccountController alloc] init];
     addZFB.navigationItem.title = @"修改支付宝账号";
-    addZFB.ZFBName.text = _ZFBName;
+    addZFB.ZFBNames = _ZFBName;
     addZFB.ID = _ID;
     [self.navigationController pushViewController:addZFB animated:YES];
 }
@@ -255,8 +257,8 @@
 -(void)confirmZFB:(UIButton *)button{
     [_prices resignFirstResponder];
     NSString *str = _prices.text;
-    if ([str isEqual:@""] || [str floatValue] == 0.00) {
-        [SVProgressHUD showInfoWithStatus:@"提现金额不能小于0元"];
+    if ([str isEqual:@""] || [str floatValue] < 10.00) {
+        [SVProgressHUD showInfoWithStatus:@"提现金额不能小于10元"];
         return;
     }
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
