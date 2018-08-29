@@ -7,7 +7,7 @@
 //
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZReadPassWordController.h"
-#import "WZfindPassWordController.h"
+#import "WZValidateCodeController.h"
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
 @interface WZReadPassWordController ()<UITextFieldDelegate>
@@ -101,8 +101,8 @@
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
-            WZfindPassWordController *findPassWord = [[WZfindPassWordController alloc] init];
-            findPassWord.modityID = password;
+            WZValidateCodeController *findPassWord = [[WZValidateCodeController alloc] init];
+            findPassWord.passWord = password;
             findPassWord.navigationItem.title = @"修改绑定手机";
             [self.navigationController pushViewController:findPassWord animated:YES];
         }else{
