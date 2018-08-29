@@ -96,7 +96,7 @@
         UIView *view = [[UIView alloc] init];
         [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];
         [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
-        [SVProgressHUD showWithStatus:@""];
+        [SVProgressHUD showWithStatus:@"验证中"];
         [self performSelector:@selector(loadData) withObject:self afterDelay:0.3];
     }
     return YES;
@@ -198,6 +198,7 @@
         
         NSString *code = [responseObject valueForKey:@"code"];
         [GKCover hide];
+        [SVProgressHUD dismiss];
         if ([code isEqual:@"200"]) {
                [_code resignFirstResponder];
                 WZModifyPhoneController *modifyPhone = [[WZModifyPhoneController alloc] init];
@@ -215,6 +216,7 @@
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [GKCover hide];
+        [SVProgressHUD dismiss];
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
     
