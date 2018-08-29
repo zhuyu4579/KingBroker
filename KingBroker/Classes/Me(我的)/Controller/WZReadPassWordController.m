@@ -33,7 +33,7 @@
     [_passWord setSecureTextEntry:YES];
     
     [_showPassWord setEnlargeEdgeWithTop:20 right:20 bottom:20 left:10];
-    [_telphoneButton setEnlargeEdge:44];
+    
     _nextButton.layer.cornerRadius = 18.0;
     _nextButton.backgroundColor = UIColorRBG(255, 224, 0);
     _nextButton.layer.shadowColor = UIColorRBG(255, 204, 0).CGColor;
@@ -119,11 +119,6 @@
     
 }
 
-- (IBAction)playTelphone:(UIButton *)sender {
-    NSString *phone = @"057188841808";
-    NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", phone];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone]];
-}
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.passWord resignFirstResponder];

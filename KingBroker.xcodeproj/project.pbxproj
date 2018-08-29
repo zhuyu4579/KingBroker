@@ -59,6 +59,8 @@
 		1F47F4BA20CA85A30012F5EF /* WZAllPhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F47F4B820CA85A30012F5EF /* WZAllPhotoCell.xib */; };
 		1F489C4F20CE9669005889D8 /* WZUpdateStoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F489C4D20CE9669005889D8 /* WZUpdateStoreController.m */; };
 		1F489C5020CE9669005889D8 /* WZUpdateStoreController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F489C4E20CE9669005889D8 /* WZUpdateStoreController.xib */; };
+		1F4A267E21363B9300C794FC /* WZValidateCodeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4A267C21363B9300C794FC /* WZValidateCodeController.m */; };
+		1F4A267F21363B9300C794FC /* WZValidateCodeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4A267D21363B9300C794FC /* WZValidateCodeController.xib */; };
 		1F4ABECC2080D42400DEA9A8 /* WZAuthenticationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4ABECA2080D42400DEA9A8 /* WZAuthenticationController.m */; };
 		1F4ABECD2080D42400DEA9A8 /* WZAuthenticationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4ABECB2080D42400DEA9A8 /* WZAuthenticationController.xib */; };
 		1F4B6D2B20CF6B0600E7F7F9 /* WZAuthenSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4B6D2A20CF6B0600E7F7F9 /* WZAuthenSuccessController.m */; };
@@ -347,6 +349,9 @@
 		1F489C4C20CE9669005889D8 /* WZUpdateStoreController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZUpdateStoreController.h; sourceTree = "<group>"; };
 		1F489C4D20CE9669005889D8 /* WZUpdateStoreController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZUpdateStoreController.m; sourceTree = "<group>"; };
 		1F489C4E20CE9669005889D8 /* WZUpdateStoreController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZUpdateStoreController.xib; sourceTree = "<group>"; };
+		1F4A267B21363B9300C794FC /* WZValidateCodeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZValidateCodeController.h; sourceTree = "<group>"; };
+		1F4A267C21363B9300C794FC /* WZValidateCodeController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZValidateCodeController.m; sourceTree = "<group>"; };
+		1F4A267D21363B9300C794FC /* WZValidateCodeController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZValidateCodeController.xib; sourceTree = "<group>"; };
 		1F4ABEC92080D42400DEA9A8 /* WZAuthenticationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZAuthenticationController.h; sourceTree = "<group>"; };
 		1F4ABECA2080D42400DEA9A8 /* WZAuthenticationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAuthenticationController.m; sourceTree = "<group>"; };
 		1F4ABECB2080D42400DEA9A8 /* WZAuthenticationController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZAuthenticationController.xib; sourceTree = "<group>"; };
@@ -934,6 +939,9 @@
 				1F451C6F20B6C43E00075240 /* WZReadPassWordController.h */,
 				1F451C7020B6C43E00075240 /* WZReadPassWordController.m */,
 				1F451C7120B6C43E00075240 /* WZReadPassWordController.xib */,
+				1F4A267B21363B9300C794FC /* WZValidateCodeController.h */,
+				1F4A267C21363B9300C794FC /* WZValidateCodeController.m */,
+				1F4A267D21363B9300C794FC /* WZValidateCodeController.xib */,
 				1F06AF16208AED4100E774F0 /* WZModifyPhoneController.h */,
 				1F06AF17208AED4100E774F0 /* WZModifyPhoneController.m */,
 				1F06AF18208AED4100E774F0 /* WZModifyPhoneController.xib */,
@@ -1945,6 +1953,7 @@
 				1FD9C68E207DBD2C00BB0298 /* WZFindPWView.xib in Resources */,
 				1FD9C49C207DB91700BB0298 /* Main.storyboard in Resources */,
 				1FD9C65B207DBD2C00BB0298 /* WZPageButtonView.xib in Resources */,
+				1F4A267F21363B9300C794FC /* WZValidateCodeController.xib in Resources */,
 				1FD9C628207DBD2C00BB0298 /* WZAlertView.xib in Resources */,
 				1F69017920CB755E006147BF /* WZPhotoNameCell.xib in Resources */,
 				1F47F4A820CA549B0012F5EF /* WZLBCollectionViewCell.xib in Resources */,
@@ -2064,6 +2073,7 @@
 				1FD9C64A207DBD2C00BB0298 /* WZScreenItem.m in Sources */,
 				1FD9C645207DBD2C00BB0298 /* WZAlbumsViewController.m in Sources */,
 				1F1B789A2086501100BC6007 /* WZReporListItem.m in Sources */,
+				1F4A267E21363B9300C794FC /* WZValidateCodeController.m in Sources */,
 				1FD9C66F207DBD2C00BB0298 /* WZShoppingTableView.m in Sources */,
 				1FD9C656207DBD2C00BB0298 /* WZAddCustormCell.m in Sources */,
 				1F170AEC20A189A60090A5A8 /* UIScrollView+UITouch.m in Sources */,
