@@ -12,7 +12,10 @@
 @property (strong, nonatomic) IBOutlet UITextField *passWord;
 @property (strong, nonatomic) IBOutlet UIButton *nextButton;
 @property (strong, nonatomic) IBOutlet UIButton *showPassWord;
+@property (strong, nonatomic) IBOutlet UIButton *telphoneButton;
+
 - (IBAction)showPW:(UIButton *)sender;
 - (IBAction)nextAction:(UIButton *)sender;
+- (IBAction)playTelphone:(UIButton *)sender;
 
 @end

@@ -90,6 +90,59 @@
         make.width.offset(self.view.fWidth-30);
     }];
     
+    UIButton *buttons = [[UIButton alloc] init];
+    [buttons setTitle:@"版本更新" forState:UIControlStateNormal];
+    [buttons setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+    buttons.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    buttons.layer.cornerRadius = 22.0;
+    buttons.layer.masksToBounds = YES;
+    buttons.backgroundColor = UIColorRBG(255, 224, 0);
+    [buttons addTarget:self action:@selector(versionUpdate) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:buttons];
+    [buttons mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(labelThree.mas_bottom).with.offset(92);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.height.offset(44);
+        make.width.offset(240);
+    }];
+    UILabel *telphoneLabel = [[UILabel alloc] init];
+    telphoneLabel.textColor = [UIColor whiteColor];
+    telphoneLabel.text = @"客服热线：";
+    telphoneLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
+    [self.view addSubview:telphoneLabel];
+    [telphoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom).with.offset(-49);
+        make.centerX.equalTo(self.view.mas_centerX).offset(-47);
+        make.height.offset(12);
+    }];
+    UIButton *telphone = [[UIButton alloc] init];
+    [telphone setTitle:@"0571-88841808" forState:UIControlStateNormal];
+    [telphone setTitleColor:UIColorRBG(255, 216, 0) forState:UIControlStateNormal];
+    telphone.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
+    [telphone setEnlargeEdge:44];
+    [telphone addTarget:self action:@selector(telphone:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:telphone];
+    [telphone mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom).with.offset(-49);
+        make.left.equalTo(telphoneLabel.mas_right);
+        make.height.offset(12);
+        make.width.offset(93);
+    }];
+
+}
+
+#pragma mark -版本更新
+-(void)versionUpdate{
+    UIApplication *application = [UIApplication sharedApplication];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *downAddress = [ user objectForKey:@"downAddress"];
+    [application openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?mt=8",downAddress]]];
+}
+#pragma mark-客服电话
+-(void)telphone:(UIButton *)button{
+    NSString *phone = button.titleLabel.text;
+    NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", phone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone]];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

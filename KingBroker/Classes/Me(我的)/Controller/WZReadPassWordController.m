@@ -5,7 +5,7 @@
 //  Created by 朱玉隆 on 2018/5/24.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
+#import "UIButton+WZEnlargeTouchAre.h"
 #import "WZReadPassWordController.h"
 #import "WZfindPassWordController.h"
 #import <SVProgressHUD.h>
@@ -26,16 +26,39 @@
     self.navigationItem.title = @"修改绑定手机号码";
     _passWord.textColor =  UIColorRBG(68, 68, 68);
     _passWord.keyboardType = UIKeyboardTypeASCIICapable;
-   _passWord.clearButtonMode = UITextFieldViewModeWhileEditing;
+    [[_passWord valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
+    _passWord.clearButtonMode = UITextFieldViewModeWhileEditing;
     _passWord.delegate = self;
     //设置密码框
     [_passWord setSecureTextEntry:YES];
-    _nextButton.layer.cornerRadius = 4.0;
-    _nextButton.backgroundColor = UIColorRBG(3, 133, 219);
+    
+    [_showPassWord setEnlargeEdgeWithTop:20 right:20 bottom:20 left:10];
+    [_telphoneButton setEnlargeEdge:44];
+    _nextButton.layer.cornerRadius = 18.0;
+    _nextButton.backgroundColor = UIColorRBG(255, 224, 0);
+    _nextButton.layer.shadowColor = UIColorRBG(255, 204, 0).CGColor;
+    _nextButton.layer.shadowRadius = 5.0f;
+    _nextButton.layer.shadowOffset = CGSizeMake(0, 5);
+    _nextButton.layer.shadowOpacity = 0.32;
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [_passWord resignFirstResponder];
+    return YES;
+}
+//获取焦点
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    textField.returnKeyType = UIReturnKeyDone;
+}
+//文本框编辑时
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    NSString * toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    if (_passWord == textField) {
+        if (toBeString.length>16) {
+            return NO;
+        }
+    }
+    
     return YES;
 }
 - (void)didReceiveMemoryWarning {
@@ -94,6 +117,12 @@
     }];
     
     
+}
+
+- (IBAction)playTelphone:(UIButton *)sender {
+    NSString *phone = @"057188841808";
+    NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", phone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone]];
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
