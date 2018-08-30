@@ -26,6 +26,14 @@
 -(void)back{
     [self.navigationController popViewControllerAnimated:YES];
 }
+- (UIStatusBarStyle)preferredStatusBarStyle {
+   
+    return UIStatusBarStyleLightContent;
+}
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    
+    return UIStatusBarAnimationFade;
+}
 //创建内容
 -(void)createNext{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];

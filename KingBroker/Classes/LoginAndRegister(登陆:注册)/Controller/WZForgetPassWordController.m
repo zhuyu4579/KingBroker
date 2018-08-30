@@ -290,6 +290,7 @@
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             WZFrogetSetPWController *setPw = [[WZFrogetSetPWController alloc] init];
+            setPw.navigationItem.title = @"设置密码";
             setPw.telphone = telphone;
             setPw.YZM = YZM;
            [self.navigationController pushViewController:setPw animated:YES];

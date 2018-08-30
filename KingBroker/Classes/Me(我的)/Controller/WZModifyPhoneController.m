@@ -202,13 +202,18 @@
     paraments[@"password"] = _password;
     paraments[@"verificationCode"] = YZM;
     paraments[@"oldVerificationCode"] = _oldYZM;
-    NSLog(@"%@",paraments);
+    
     NSString *url = [NSString stringWithFormat:@"%@/sysUser/changPhone",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             //返回登录页面
+            //获取指定item
             [NSString isCode:self.navigationController code:@"401"];
+            UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];
+            item.badgeValue= nil;
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){

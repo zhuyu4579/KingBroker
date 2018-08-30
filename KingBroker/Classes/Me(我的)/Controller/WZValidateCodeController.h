@@ -15,6 +15,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *code;
 @property (strong, nonatomic) IBOutlet UIButton *findCode;
 @property (strong, nonatomic) IBOutlet UIButton *telphoneButton;
+//验证手机号类型
+@property(nonatomic,strong)NSString *type;
 - (IBAction)findCodes:(UIButton *)sender;
 - (IBAction)playTelphone:(UIButton *)sender;
 

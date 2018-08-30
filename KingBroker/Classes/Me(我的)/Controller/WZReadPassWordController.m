@@ -23,7 +23,7 @@
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"修改绑定手机号码";
+    self.navigationItem.title = @"修改绑定手机";
     _passWord.textColor =  UIColorRBG(68, 68, 68);
     _passWord.keyboardType = UIKeyboardTypeASCIICapable;
     [[_passWord valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
@@ -103,7 +103,8 @@
         if ([code isEqual:@"200"]) {
             WZValidateCodeController *findPassWord = [[WZValidateCodeController alloc] init];
             findPassWord.passWord = password;
-            findPassWord.navigationItem.title = @"修改绑定手机";
+            findPassWord.navigationItem.title = @"验证当前手机";
+            findPassWord.type = @"2";
             [self.navigationController pushViewController:findPassWord animated:YES];
         }else{
              NSString *msg = [responseObject valueForKey:@"msg"];

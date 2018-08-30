@@ -11,7 +11,7 @@
 #import <SVProgressHUD.h>
 #import "WZablumController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
-#import "WZfindPassWordController.h"
+#import "WZValidateCodeController.h"
 #import "WZReadPassWordController.h"
 #import "WZAuthenticationController.h"
 #import "WZAuthenSuccessController.h"
@@ -183,8 +183,9 @@
 }
 //修改密码
 - (IBAction)modifyPassWord:(UIButton *)sender {
-    WZfindPassWordController *findPassWord = [[WZfindPassWordController alloc] init];
+    WZValidateCodeController *findPassWord = [[WZValidateCodeController alloc] init];
     findPassWord.navigationItem.title = @"修改登录密码";
+    findPassWord.type = @"3";
     [self.navigationController pushViewController:findPassWord animated:YES];
 }
 

@@ -11,7 +11,7 @@
 #import "WZModifyPhoneController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZValidateCodeController.h"
-
+#import "WZFrogetSetPWController.h"
 @interface WZValidateCodeController ()<UITextFieldDelegate>
 //手机号
 @property(nonatomic,strong)NSString *telphone;
@@ -29,7 +29,7 @@
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"验证当前手机号";
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     
     NSString *username = [ user objectForKey:@"username"];
@@ -122,7 +122,7 @@
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    paraments[@"type"] = @"2";
+    paraments[@"type"] = _type;
     paraments[@"telphone"] = _telphone;
     NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
@@ -181,7 +181,6 @@
 }
 #pragma mark -请求数据
 -(void)loadData{
-
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -190,7 +189,7 @@
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    paraments[@"type"] = @"2";
+    paraments[@"type"] = _type;
     paraments[@"telphone"] = _telphone;
     paraments[@"smsCode"] = _code.text;
     NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",HTTPURL];
@@ -201,12 +200,22 @@
         [SVProgressHUD dismiss];
         if ([code isEqual:@"200"]) {
                [_code resignFirstResponder];
+            if ([_type isEqual:@"2"]) {
                 WZModifyPhoneController *modifyPhone = [[WZModifyPhoneController alloc] init];
                 modifyPhone.oldPhone = _telphone;
                 modifyPhone.password = _passWord;
                 modifyPhone.oldYZM = _code.text;
                 modifyPhone.navigationItem.title = @"修改绑定手机";
                 [self.navigationController pushViewController:modifyPhone animated:YES];
+            }else if([_type isEqual:@"3"]){
+                WZFrogetSetPWController *setPassWord = [[WZFrogetSetPWController alloc] init];
+                setPassWord.navigationItem.title = @"修改登录密码";
+                setPassWord.telphone = _telphone;
+                setPassWord.YZM = _code.text;
+                setPassWord.type = @"1";
+                [self.navigationController pushViewController:setPassWord animated:YES];
+            }
+            
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){

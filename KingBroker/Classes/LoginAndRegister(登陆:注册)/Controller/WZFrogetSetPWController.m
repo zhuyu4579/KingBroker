@@ -29,7 +29,7 @@
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"设置密码";
+    
     //创建控件
     [self createControl];
 }
@@ -250,7 +250,13 @@
         button.enabled = YES;
         if ([code isEqual:@"200"]) {
             //返回登录页面
-            [NSString isCode:self.navigationController code:@"401"];
+            if([_type isEqual:@"1"]){
+                [NSString isCode:self.navigationController code:@"401"];
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];
+                item.badgeValue= nil;
+            }
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){

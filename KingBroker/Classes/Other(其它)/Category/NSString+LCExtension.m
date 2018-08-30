@@ -57,7 +57,7 @@
                 NSLog(@"删除别名成功");
             }
         } seq:1];
-       
+        
         //跳转登录页面
         WZLoginAndRegistarController *login = [[WZLoginAndRegistarController alloc] init];
         login.type = @"0";

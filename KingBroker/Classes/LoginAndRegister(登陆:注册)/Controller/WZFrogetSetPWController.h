@@ -13,4 +13,6 @@
 @property(nonatomic,strong)NSString *telphone;
 //验证码
 @property(nonatomic,strong)NSString *YZM;
+//是否是修改密码1.是
+@property(nonatomic,strong)NSString *type;
 @end
