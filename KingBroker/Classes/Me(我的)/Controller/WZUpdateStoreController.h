@@ -13,8 +13,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *verificationCode;
 @property (strong, nonatomic) IBOutlet UIButton *verifictionButton;
 @property (strong, nonatomic) IBOutlet UIButton *nextButton;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
 - (IBAction)ObtainVerificationCode:(UIButton *)sender;
 - (IBAction)nextAction:(UIButton *)sender;
+- (IBAction)palyTelphone:(UIButton *)sender;
 
 @end

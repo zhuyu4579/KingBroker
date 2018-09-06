@@ -71,7 +71,7 @@
     self.automaticallyAdjustsScrollViewInsets =NO;
     UIScrollView *scrollView = [[UIScrollView alloc] init];
     scrollView.frame = CGRectMake(self.view.fX, self.view.fY+1, self.view.fWidth, self.view.fHeight);
-    scrollView.backgroundColor = UIColorRBG(242, 242, 242);
+    scrollView.backgroundColor = UIColorRBG(247, 247, 247);
     scrollView.bounces = NO;
     scrollView.showsVerticalScrollIndicator = NO;
     scrollView.showsHorizontalScrollIndicator = NO;
@@ -85,8 +85,8 @@
 
 #pragma mark -创建标题栏
 -(void)setTitlesView{
-    UIView *titlesView = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+45, self.view.fWidth, 44)];
-    titlesView.backgroundColor = [UIColor whiteColor];
+    UIView *titlesView = [[UIView alloc] initWithFrame:CGRectMake(15, kApplicationStatusBarHeight+45, self.view.fWidth-30, 41)];
+    titlesView.backgroundColor = UIColorRBG(255, 224, 0);
     [self.view addSubview:titlesView];
     self.titlesView = titlesView;
     //设置标题栏按钮
@@ -109,9 +109,9 @@
         [self.titlesView addSubview:titleButton];
         [titleButton addTarget:self action:@selector(titleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         titleButton.frame = CGRectMake(i*titleButtonW, 0, titleButtonW, titleButtonH);
-        [titleButton setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
-        [titleButton setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateSelected];
-        titleButton.titleLabel.font =  [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
+        [titleButton setTitleColor:UIColorRBG(102, 96, 91) forState:UIControlStateNormal];
+        [titleButton setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateSelected];
+        titleButton.titleLabel.font =  [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
         if (i == 0) {
             
             [self titleButtonClick:titleButton];
@@ -143,7 +143,7 @@
     UIButton *firstTitleButton = self.titlesView.subviews.firstObject;
     UIView *titleUnderLine = [[UIView alloc] init];
     titleUnderLine.fHeight = 2;
-    titleUnderLine.fWidth = 65;
+    titleUnderLine.fWidth = 40;
     titleUnderLine.fY = self.titlesView.fHeight - titleUnderLine.fHeight;
     titleUnderLine.cX = self.titlesView.fWidth/8;
     titleUnderLine.backgroundColor = [firstTitleButton  titleColorForState:UIControlStateSelected];
@@ -152,9 +152,24 @@
 }
 #pragma mark -设置导航栏
 -(void)setNavItem{
-    self.view.backgroundColor = UIColorRBG(242, 242, 242);
+    self.view.backgroundColor = UIColorRBG(247, 247, 247);
+    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationItem.title = @"我的订单";
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"add_3"] highImage:[UIImage imageNamed:@"add_3"] target:self action:@selector(addModel)];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"wd_joinus"] highImage:[UIImage imageNamed:@"wd_joinus"] target:self action:@selector(addModel)];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backItemWithImage:[UIImage imageNamed:@"wd_wmBack"] highImage:[UIImage imageNamed:@"wd_wmBack"] target:self action:@selector(back)];
+}
+#pragma mark -返回
+-(void)back{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    
+    return UIStatusBarStyleLightContent;
+}
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    
+    return UIStatusBarAnimationFade;
 }
 -(void)addModel{
     WZReportController *report = [[WZReportController alloc] init];

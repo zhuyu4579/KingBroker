@@ -230,7 +230,7 @@ static NSString *size = @"20";
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 119;
+    return 147;
 }
 #pragma mark -跳转详情页
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

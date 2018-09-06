@@ -148,6 +148,7 @@
             dispatch_source_cancel(_timer);
             dispatch_async(dispatch_get_main_queue(), ^{
                 //设置按钮的样式
+                _findYZM.userInteractionEnabled = YES;
                 [self.findYZM setTitle:@"获取验证码" forState:UIControlStateNormal];
                 [self.findYZM setTitleColor:UIColorRBG(255, 204, 0) forState:UIControlStateNormal];
                 self.findYZM.layer.borderColor = UIColorRBG(255, 204, 0).CGColor;
@@ -157,6 +158,7 @@
             int seconds = time % 60;
             dispatch_async(dispatch_get_main_queue(), ^{
                 //设置按钮显示读秒效果
+                _findYZM.userInteractionEnabled = NO;
                 [self.findYZM setTitle:[NSString stringWithFormat:@"还剩%.2ds", seconds] forState:UIControlStateNormal];
                 [self.findYZM setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
                 self.findYZM.layer.borderColor = UIColorRBG(204, 204, 204).CGColor;
