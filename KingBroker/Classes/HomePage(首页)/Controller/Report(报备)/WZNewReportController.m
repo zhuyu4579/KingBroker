@@ -33,10 +33,6 @@
 @property (nonatomic, strong)UILabel *batchReportLabel;
 //第-个客户view
 @property (nonatomic, strong)UIView *viewOne;
-//默认第一个客户姓名
-@property (nonatomic, strong)UITextField *custormName;
-//默认第一个客户电话
-@property (nonatomic, strong)UITextField *telphone;
 //增加客户view
 @property (nonatomic, strong)UIView *addCustomerView;
 //其他view
@@ -245,6 +241,11 @@
         make.height.mas_offset(48);
         make.width.mas_offset(_scrollView.fWidth-30);
     }];
+    if([_types isEqual:@"1"]){
+        [titemNameButton setEnabled:YES];
+    }else{
+        [titemNameButton setEnabled:NO];
+    }
     //创建默认客户
     UIView *views = [[UIView alloc] initWithFrame:CGRectMake(0,view.fY+view.fHeight, _scrollView.fWidth, 118)];
      _viewOne = views;
@@ -866,7 +867,7 @@
             NSString *name = [cusArray[i] valueForKey:@"name"];
             NSString *tel = [cusArray[i] valueForKey:@"telphone"];
             //判断是否实号显示
-            if ([_realTelFlag isEqual:@"0"] && tel.length == 11) {
+            if ([_orderTelFlag isEqual:@"0"] && tel.length == 11) {
                 tel = [NSString stringWithFormat:@"%@****%@",[tel substringToIndex:3],[tel substringFromIndex:7]];
             }
             if (i==0) {
@@ -941,7 +942,7 @@
         }
         _sginStatu = [dicty valueForKey:@"signStatus"];
         _dutyTelphone = [dicty valueForKey:@"telphone"];
-        _realTelFlag = [dicty valueForKey:@"realTelFlag"];
+        _orderTelFlag = [dicty valueForKey:@"orderTelFlag"];
         //清除手机号
         [self setTelphoneType];
         //请求数据
@@ -1334,7 +1335,7 @@
         if (telphoneOne == textField ||telphoneTwo == textField||telphoneThree == textField||telphoneFour == textField) {
             NSString *telphone = textField.text;
             if (telphone.length == 11) {
-                if ([_realTelFlag isEqual:@"0"]) {
+                if ([_orderTelFlag isEqual:@"0"]) {
                     textField.text = [NSString stringWithFormat:@"%@****%@",[telphone substringToIndex:3],[telphone substringFromIndex:7]];
                 }
             }

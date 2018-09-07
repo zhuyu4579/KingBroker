@@ -248,20 +248,21 @@ static NSString *size = @"20";
 -(void)setCodeViews{
     //创建一个view
     UIView *codeView = [[UIView alloc] init];
-    codeView.fSize = CGSizeMake(330, 500);
+    codeView.fSize = CGSizeMake(314, 480);
     codeView.backgroundColor = [UIColor clearColor];
     _codeView = codeView;
-    UIView *codeView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 330, 440)];
+    
+    UIView *codeView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 314, 419)];
     codeView1.backgroundColor = [UIColor whiteColor];
     [codeView addSubview:codeView1];
     UILabel *name = [[UILabel alloc] init];
     _names = name;
-    name.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
+    name.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:18];
     name.textColor = UIColorRBG(68, 68, 68);
     [codeView1 addSubview:name];
     [name mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(codeView1.mas_centerX);
-        make.top.equalTo(codeView1.mas_top).with.offset(16);
+        make.top.equalTo(codeView1.mas_top).with.offset(15);
         make.height.mas_offset(17);
     }];
     UILabel *telephone = [[UILabel alloc] init];
@@ -277,15 +278,18 @@ static NSString *size = @"20";
     UILabel *ItemName = [[UILabel alloc] init];
     _ItemNames = ItemName;
     ItemName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    ItemName.textColor = UIColorRBG(68, 68, 68);
+    ItemName.textColor = UIColorRBG(153, 153, 153);
+    ItemName.textAlignment = NSTextAlignmentCenter;
     [codeView1 addSubview:ItemName];
     [ItemName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(codeView1.mas_centerX);
         make.top.equalTo(telephone.mas_bottom).with.offset(9);
         make.height.mas_offset(13);
+        make.width.offset(222);
     }];
-    UIView *codeView2 = [[UIView alloc] initWithFrame:CGRectMake(20, 99, 290, 290)];
-    codeView2.backgroundColor = UIColorRBG(3, 133, 219);
+    
+    UIView *codeView2 = [[UIView alloc] initWithFrame:CGRectMake(46, 113, 222, 222)];
+    codeView2.backgroundColor = UIColorRBG(255, 224, 0);
     [codeView addSubview:codeView2];
     
     UIImageView *codeImage = [[UIImageView alloc] init];
@@ -293,23 +297,23 @@ static NSString *size = @"20";
     [codeView2 addSubview:codeImage];
     _codeImage = codeImage;
     [codeImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(codeView2.mas_left).with.offset(48);
-        make.top.equalTo(codeView2.mas_top).with.offset(48);
+        make.left.equalTo(codeView2.mas_left).with.offset(14);
+        make.top.equalTo(codeView2.mas_top).with.offset(14);
         make.width.mas_offset(196);
         make.height.mas_offset(196);
     }];
-
+    
     UILabel *Titles = [[UILabel alloc] init];
-    Titles.text = @"你所在门店未和该楼盘签约，可能无法结佣";
     Titles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     [Titles setHidden:YES];
+    Titles.numberOfLines = 0;
+    Titles.textColor = UIColorRBG(255, 108, 0);
     _titles = Titles;
-    Titles.textColor = [UIColor redColor];
     [codeView1 addSubview:Titles];
     [Titles mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(codeView1.mas_centerX);
-        make.bottom.equalTo(codeView1.mas_bottom).with.offset(-20);
-        make.height.mas_offset(13);
+        make.top.equalTo(codeView2.mas_bottom).with.offset(18);
+        make.width.offset(222);
     }];
     UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(156, 461, 19, 19)];
     [closeButton setEnlargeEdge:44];
@@ -329,10 +333,15 @@ static NSString *size = @"20";
     NSString *orderCreateTime1 = cell.orderCreateTime;
     long  orderCreateTime = [orderCreateTime1 longLongValue];
     
-    if ([sginStatus isEqual:@"1"]) {
+    if ([sginStatus isEqual:@"2"]) {
         [_titles setHidden:YES];
     }else{
         [_titles setHidden:NO];
+        if([sginStatus isEqual:@"1"]){
+            _titles.text = @"楼盘须与门店签约，未签约可能会影响佣金结算，请及时签约";
+        }else{
+            _titles.text = @"楼盘须与门店签约，签约过期可能影响佣金结算，请及时续约";
+        }
     }
     _names.text = cell.nameOne.text;
     _telephones.text = cell.telephoneOne.text;

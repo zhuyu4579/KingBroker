@@ -185,7 +185,7 @@ static NSString *size = @"20";
     dicty[@"projectId"] = cell.projectId;
     dicty[@"signStatus"]= item.signStatus;
     dicty[@"telphone"]= item.tel;
-    dicty[@"realTelFlag"] = item.realTelFlag;
+    dicty[@"orderTelFlag"] = item.orderTelFlag;
     if (_projectBlock) {
         _projectBlock(dicty);
     }

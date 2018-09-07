@@ -20,5 +20,5 @@
 
 @property(nonatomic,strong)NSString *companyName;
 
-@property(nonatomic,strong)NSString *realTelFlag;
+@property(nonatomic,strong)NSString *orderTelFlag;
 @end

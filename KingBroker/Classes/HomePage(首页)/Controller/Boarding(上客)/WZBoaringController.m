@@ -14,7 +14,7 @@
 #import "WZBoardingTableController.h"
 #import "WZCompleteTableController.h"
 #import "WZDealTableController.h"
-#import "WZReportController.h"
+#import "WZNewReportController.h"
 
 
 @interface WZBoaringController ()<UIScrollViewDelegate>
@@ -153,9 +153,7 @@
 #pragma mark -设置导航栏
 -(void)setNavItem{
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
-    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationItem.title = @"我的订单";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"wd_joinus"] highImage:[UIImage imageNamed:@"wd_joinus"] target:self action:@selector(addModel)];
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem backItemWithImage:[UIImage imageNamed:@"wd_wmBack"] highImage:[UIImage imageNamed:@"wd_wmBack"] target:self action:@selector(back)];
 }
@@ -172,7 +170,7 @@
     return UIStatusBarAnimationFade;
 }
 -(void)addModel{
-    WZReportController *report = [[WZReportController alloc] init];
+    WZNewReportController *report = [[WZNewReportController alloc] init];
     [self.navigationController pushViewController:report animated:YES];
 }
 - (void)didReceiveMemoryWarning {
@@ -191,5 +189,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
 }
 @end

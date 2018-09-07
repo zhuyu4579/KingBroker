@@ -4,16 +4,16 @@
 //
 //  Created by 朱玉隆 on 2018/3/29.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
-//
+//  订单cell
 
-#import "WZBoaringCell.h"
-#import "WZReportController.h"
-#import "UIViewController+WZFindController.h"
-#import "WZBoardingItem.h"
 #import <AFNetworking.h>
 #import <SVProgressHUD.h>
+#import "WZBoaringCell.h"
+#import "WZBoardingItem.h"
+#import "WZNewReportController.h"
 #import "WZBoardingDetailsController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
+#import "UIViewController+WZFindController.h"
 @implementation WZBoaringCell
 -(void)setItem:(WZBoardingItem *)item{
     _item = item;
@@ -46,13 +46,13 @@
     int states = [state intValue];
     _stateOne.text = stateArray[states-1];
     _stateTwo.text = stateArray[states-1];
-    _buttonTwo.backgroundColor = UIColorRBG(3, 133, 219);
-    [_buttonTwo setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _buttonTwo.backgroundColor = UIColorRBG(255, 224, 0);
+    [_buttonTwo setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     _buttonTwo.enabled = YES;
     if (states == 3) {
         if(verifys == 2){
             _stateTwo.text =  [_SHStatus[0] valueForKey:@"label"];
-            _buttonTwo.backgroundColor = UIColorRBG(242, 242, 242);
+            _buttonTwo.backgroundColor = UIColorRBG(221, 221, 221);
             [_buttonTwo setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
             _buttonTwo.enabled = NO;
         }
@@ -72,6 +72,7 @@
     _url = item.url;
     _sginStatus = item.sginStatus;
     _proTelphone = item.proTelphone;
+    _orderTelFlag = item.orderTelFlag;
     _orderCreateTime = item.orderCreateTime;
     _boardingLimitTime = item.boardingLimitTime;
 }
@@ -131,10 +132,12 @@
     _buttonOne.layer.cornerRadius = 13.0;
     _buttonOne.layer.masksToBounds = YES;
     [_buttonOne setEnlargeEdge:10];
+    
     _buttonTwo.backgroundColor = UIColorRBG(255, 224, 0);
     _buttonTwo.layer.cornerRadius = 13.0;
     _buttonTwo.layer.masksToBounds = YES;
     [_buttonTwo setEnlargeEdge:10];
+    
     _buttonFour.backgroundColor = UIColorRBG(255, 224, 0);
     _buttonFour.layer.cornerRadius = 13.0;
     _buttonFour.layer.masksToBounds = YES;
@@ -183,7 +186,7 @@
         if ([code isEqual:@"200"]) {
             UILabel *label = [button.superview viewWithTag:30];
             label.text =  [_SHStatus[0] valueForKey:@"label"];
-            button.backgroundColor = UIColorRBG(242, 242, 242);
+            button.backgroundColor = UIColorRBG(221, 221, 221);
             [button setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
             button.enabled = NO;
             [SVProgressHUD showInfoWithStatus:@"发起成交成功"];
@@ -201,14 +204,15 @@
 //重新报备
 - (IBAction)newReportButtonFour:(id)sender {
     UIViewController *Vc =  [UIViewController viewController:[self superview]];
-    WZReportController *report = [[WZReportController alloc] init];
-    report.itemName = _ItemNameFour.text;
-    report.itemID = _itemIdFour;
-    report.sginStatus = _sginStatus;
-    report.telphone = _proTelphone;
-    report.name = _nameFour.text;
-    report.phone = _telephoneFour.text;
+    WZNewReportController *report = [[WZNewReportController alloc] init];
+    report.ItemName.text = _ItemNameFour.text;
+    report.itemId = _itemIdFour;
+    report.sginStatu = _sginStatus;
+    report.dutyTelphone = _proTelphone;
+    report.custormName.text = _nameFour.text;
+    report.telphone.text = _telephoneFour.text;
     report.types = @"1";
+    report.orderTelFlag = _orderTelFlag;
     [Vc.navigationController pushViewController:report animated:YES];
 }
 @end

@@ -18,5 +18,12 @@
 //楼盘负责人电话
 @property(nonatomic,strong)NSString *dutyTelphone;
 //电话是否为实号
-@property(nonatomic,strong)NSString *realTelFlag;
+@property(nonatomic,strong)NSString *orderTelFlag;
+//默认第一个客户姓名
+@property (nonatomic, strong)UITextField *custormName;
+//默认第一个客户电话
+@property (nonatomic, strong)UITextField *telphone;
+//其他报备入口类型
+@property(nonatomic,strong)NSString *types;
+
 @end

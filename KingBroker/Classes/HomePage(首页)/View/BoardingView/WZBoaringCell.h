@@ -66,4 +66,6 @@
 @property(nonatomic,strong)NSString *orderCreateTime;
 //冷却时间
 @property(nonatomic,strong)NSString *boardingLimitTime;
+//是否为实号
+@property(nonatomic,strong)NSString *orderTelFlag;
 @end

@@ -95,6 +95,8 @@
         [self.view addSubview:self.collectHouseVC.view];
         [_collectHouseVC loadRefreshs];
     }
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 @end
