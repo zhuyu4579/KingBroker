@@ -205,12 +205,12 @@
 - (IBAction)newReportButtonFour:(id)sender {
     UIViewController *Vc =  [UIViewController viewController:[self superview]];
     WZNewReportController *report = [[WZNewReportController alloc] init];
-    report.ItemName.text = _ItemNameFour.text;
+    report.ItemNames = _ItemNameFour.text;
     report.itemId = _itemIdFour;
     report.sginStatu = _sginStatus;
     report.dutyTelphone = _proTelphone;
-    report.custormName.text = _nameFour.text;
-    report.telphone.text = _telephoneFour.text;
+    report.custormNames = _nameFour.text;
+    report.telphones = _telephoneFour.text;
     report.types = @"1";
     report.orderTelFlag = _orderTelFlag;
     [Vc.navigationController pushViewController:report animated:YES];

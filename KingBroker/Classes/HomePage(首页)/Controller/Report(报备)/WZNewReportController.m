@@ -192,10 +192,15 @@
     }];
     //楼盘名称
     UILabel *itemName = [[UILabel alloc] init];
-    _ItemName = itemName;
-    itemName.text = @"选择报备楼盘";
     itemName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     itemName.textColor = UIColorRBG(204, 204, 204);
+    if ([_ItemNames isEqual:@""]||!_ItemNames) {
+        itemName.text = @"选择报备楼盘";
+    }else{
+        itemName.text = _ItemNames;
+        itemName.textColor = UIColorRBG(51, 51, 51);
+    }
+    _ItemName = itemName;
     [view addSubview:itemName];
     [itemName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(itemNameLabel.mas_right).with.offset(40);
@@ -242,9 +247,9 @@
         make.width.mas_offset(_scrollView.fWidth-30);
     }];
     if([_types isEqual:@"1"]){
-        [titemNameButton setEnabled:YES];
-    }else{
         [titemNameButton setEnabled:NO];
+    }else{
+        [titemNameButton setEnabled:YES];
     }
     //创建默认客户
     UIView *views = [[UIView alloc] initWithFrame:CGRectMake(0,view.fY+view.fHeight, _scrollView.fWidth, 118)];
@@ -271,6 +276,9 @@
     UITextField *customerName = [[UITextField alloc] init];
     customerName.tag = 60;
     customerName.placeholder = @"必填";
+    if (![_custormNames isEqual:@""]) {
+        customerName.text = _custormNames;
+    }
     customerName.delegate = self;
     customerName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     customerName.textColor = UIColorRBG(68, 68, 68);
@@ -314,6 +322,9 @@
     UITextField *telphone = [[UITextField alloc] init];
     telphone.tag = 61;
     telphone.placeholder = @"输入手机号";
+    if (![_telphones isEqual:@""]) {
+        telphone.text = _telphones;
+    }
     telphone.delegate = self;
     telphone.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     telphone.textColor = UIColorRBG(68, 68, 68);
@@ -1346,6 +1357,8 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

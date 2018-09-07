@@ -181,7 +181,6 @@
     NSString *verify = [_order valueForKey:@"verify"];
     //设置打电话按钮
     if([_orderTelFlag isEqual:@"1"]){
-        [_codeIne setHidden:NO];
         [_playTelphoneButton setHidden:NO];
         [_playTelphoneButton setEnabled:YES];
         [_codeButton mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -189,7 +188,6 @@
         }];
         [self.view layoutIfNeeded];
     }else{
-        [_codeIne setHidden:YES];
         [_playTelphoneButton setHidden:YES];
         [_playTelphoneButton setEnabled:NO];
         [_codeButton mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -212,6 +210,9 @@
         if (ver == 3) {
             _codeButton.enabled = YES;
             [_codeButton setHidden:NO];
+            if ([_orderTelFlag isEqual:@"1"]) {
+                [_codeIne setHidden:NO];
+            }
             _imageView1.backgroundColor = UIColorRBG(255, 224, 0);
             _stateTitle1.textColor = UIColorRBG(49, 35, 6);
         }else{
@@ -415,6 +416,7 @@
     //分割线
     UIView *ineCode = [[UIView alloc] init];
     ineCode.backgroundColor = UIColorRBG(240, 240, 240);
+    [ineCode setHidden:YES];
     _codeIne = ineCode;
     [viewOne addSubview:ineCode];
     [ineCode mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -922,13 +924,13 @@
 #pragma mark -重新报备
 -(void)NewReportCilck{
     WZNewReportController *report = [[WZNewReportController alloc] init];
-    report.ItemName.text = self.ItemName.text;
+    report.ItemNames = self.ItemName.text;
     report.itemId = _itemId;
     report.sginStatu = _sginStatus;
     report.dutyTelphone = _proTelphone;
     report.types = @"1";
-    report.custormName.text = _name.text;
-    report.telphone.text = _telephone.text;
+    report.custormNames = _name.text;
+    report.telphones = _telephone.text;
     report.orderTelFlag = _orderTelFlag;
     [self.navigationController pushViewController:report animated:YES];
 }

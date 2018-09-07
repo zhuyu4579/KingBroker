@@ -210,8 +210,8 @@
     }else if([_dutyFlag isEqual:@"2"]){
         [button setTitle:@"门店管理" forState:UIControlStateNormal];
         button.enabled = YES;
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        button.backgroundColor = UIColorRBG(3, 133, 219);
+        [button setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+        button.backgroundColor = UIColorRBG(255, 224, 0);
         [button removeTarget:self action:@selector(ApplyStoreDuty) forControlEvents:UIControlEventTouchUpInside];
         [button addTarget:self action:@selector(storeAdministration) forControlEvents:UIControlEventTouchUpInside];
     }else if([_dutyFlag isEqual:@"1"]){
@@ -393,8 +393,8 @@
         }else if([status isEqual:@"2"]){
             [_button setTitle:@"门店管理" forState:UIControlStateNormal];
             _button.enabled = YES;
-            [_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            _button.backgroundColor = UIColorRBG(3, 133, 219);
+            [_button setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+            _button.backgroundColor = UIColorRBG(255, 224, 0);
             [_button removeTarget:self action:@selector(ApplyStoreDuty) forControlEvents:UIControlEventTouchUpInside];
             [_button addTarget:self action:@selector(storeAdministration) forControlEvents:UIControlEventTouchUpInside];
         }else if([status isEqual:@"1"]){
