@@ -1334,8 +1334,8 @@
 }
 //打电话弹框
 -(void)playPhones{
-     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-     NSString *invisibleLinkmanFlag = [user objectForKey:@"invisibleLinkmanFlag"];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *invisibleLinkmanFlag = [user objectForKey:@"invisibleLinkmanFlag"];
     NSString *realtorStatus = [user objectForKey:@"realtorStatus"];
     if([realtorStatus isEqual:@"2"]){
         if ([invisibleLinkmanFlag isEqual:@"0"]) {
@@ -1382,7 +1382,7 @@
     [_playTelphoneButton addTarget:self action:@selector(playPhones) forControlEvents:UIControlEventTouchUpInside];
 }
 -(void)playTelphone:(UIButton *)button{
-    [self hideViews];
+    
     NSString *phone = [_telphoneArray[0] valueForKey:@"linkTelphone"];
     if (![phone isEqual:@""]) {
         NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", phone];
@@ -1391,7 +1391,9 @@
         } else {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callPhone]];
         }
+        [self hideViews];
     }
+    
 }
 //查询分享数据
 -(void)findShare{
@@ -1606,6 +1608,10 @@
         [self presentViewController:alert animated:YES completion:nil];
     }
     
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self hideViews];
 }
 #pragma mark -不显示导航条
 -(void)viewWillAppear:(BOOL)animated{

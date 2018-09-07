@@ -277,7 +277,9 @@
     _viewTwo.fHeight += _n*79;
     _ineViewFive.fHeight += 79*(_n-1);
     _viewThree.fY = 141+_viewTwo.fHeight+10;
-    _scrollView.contentSize = CGSizeMake(0, _viewThree.fY+166);
+    if ((_viewThree.fY+166)>(self.view.fHeight-49)) {
+         _scrollView.contentSize = CGSizeMake(0, _viewThree.fY+166);
+    }
     //根据数据条数绘制记录
     UIView *view = [[UIView alloc] init];
     view.frame = _viewTwo.bounds;
@@ -319,7 +321,6 @@
         }else{
             state.text = stateArray[states-1];
         }
-        
         state.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
         state.textColor = UIColorRBG(49, 35, 6);
         [view addSubview:state];
@@ -370,6 +371,7 @@
     UIScrollView *scrollView = [[UIScrollView alloc] init];
     scrollView.frame = CGRectMake(15, self.view.fY, self.view.fWidth-30, self.view.fHeight-49);
     scrollView.delegate = self;
+    scrollView.bounces = NO;
     scrollView.showsVerticalScrollIndicator = NO;
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.backgroundColor = [UIColor whiteColor];
@@ -635,13 +637,13 @@
     
     //绘制线
     UIView *ineViewFour = [[UIView alloc] initWithFrame: CGRectMake(0,105, SCREEN_WIDTH, 1)];
-    ineViewFour.backgroundColor =UIColorRBG(242, 242, 242);
+    ineViewFour.backgroundColor = UIColorRBG(242, 242, 242);
     _ineViewFour = ineViewFour;
     [viewTwo addSubview:ineViewFour];
     
     //绘制线
     UIView *ineViewFive = [[UIView alloc] initWithFrame: CGRectMake(80.5,141, 1, 0)];
-    ineViewFive.backgroundColor =UIColorRBG(221, 221, 221);
+    ineViewFive.backgroundColor = UIColorRBG(255, 244, 160);
     [viewTwo addSubview:ineViewFive];
     _ineViewFive = ineViewFive;
     
@@ -650,9 +652,15 @@
     [confirmButton setTitle:@"上客" forState: UIControlStateNormal];
     _comButton = confirmButton;
     [confirmButton setTitleColor: [UIColor blackColor] forState:UIControlStateNormal];
-    [confirmButton setTitleColor: [UIColor blackColor] forState:UIControlStateHighlighted];
     confirmButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     confirmButton.backgroundColor = UIColorRBG(255, 224, 0);
+    confirmButton.layer.shadowColor = [UIColor whiteColor].CGColor;
+    //2.设置阴影偏移范围
+    confirmButton.layer.shadowOffset = CGSizeMake(0, 1);
+    //3.设置阴影颜色的透明度
+    confirmButton.layer.shadowOpacity = 0.05;
+    //4.设置阴影半径
+    confirmButton.layer.shadowRadius = 20;
     [confirmButton addTarget:self action:@selector(BoardingCilck) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:confirmButton];
     [confirmButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -736,7 +744,7 @@
         make.height.mas_offset(12);
     }];
     
-    scrollView.contentSize = CGSizeMake(0, viewThree.fY+166);
+    scrollView.contentSize = CGSizeMake(0, self.view.fHeight-93-kApplicationStatusBarHeight);
     
     [self setCodeViews];
 }
@@ -950,6 +958,16 @@
 -(void)setNarItems{
     self.navigationItem.title = @"订单详情";
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
+    
+    self.navigationController.navigationBar.layer.shadowColor = [UIColor whiteColor].CGColor;
+    //2.设置阴影偏移范围
+    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0, 1);
+    //3.设置阴影颜色的透明度
+    self.navigationController.navigationBar.layer.shadowOpacity = 0.05;
+    //4.设置阴影半径
+    self.navigationController.navigationBar.layer.shadowRadius = 20;
+  
+
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
@@ -959,8 +977,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
     
 }
 

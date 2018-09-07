@@ -5,7 +5,7 @@
 //  Created by 朱玉隆 on 2018/3/29.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
+#import <Masonry.h>
 #import "WZBoaringController.h"
 #import "UIBarButtonItem+Item.h"
 #import "UIView+Frame.h"
@@ -15,7 +15,7 @@
 #import "WZCompleteTableController.h"
 #import "WZDealTableController.h"
 #import "WZNewReportController.h"
-
+#import "UIButton+WZEnlargeTouchAre.h"
 
 @interface WZBoaringController ()<UIScrollViewDelegate>
 
@@ -81,6 +81,45 @@
     self.scrollView = scrollView;
     [self.view addSubview:scrollView];
     scrollView.contentSize =CGSizeMake(scrollView.fWidth*4,0);
+    
+    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, kApplicationStatusBarHeight+44)];
+    buttonView.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:buttonView];
+    
+    //创建返回按钮
+    UIButton *backButton = [[UIButton alloc] init];
+    [backButton setBackgroundImage:[UIImage imageNamed:@"wd_wmBack"] forState:UIControlStateNormal];
+    [backButton setEnlargeEdgeWithTop:10 right:20 bottom:10 left:15];
+    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [buttonView addSubview:backButton];
+    [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(buttonView.mas_left).offset(15);
+        make.top.equalTo(buttonView.mas_top).offset(kApplicationStatusBarHeight+13);
+        make.width.offset(11);
+        make.height.offset(20);
+    }];
+    UILabel *title = [[UILabel alloc] init];
+    title.text = @"我的订单";
+    title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:18];
+    title.textColor = [UIColor whiteColor];
+    [buttonView addSubview:title];
+    [title mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(buttonView.mas_centerX);
+        make.top.equalTo(buttonView.mas_top).offset(kApplicationStatusBarHeight+13);
+        make.height.offset(18);
+    }];
+    //创建报备按钮
+    UIButton *selectButton = [[UIButton alloc] init];
+    [selectButton setBackgroundImage:[UIImage imageNamed:@"wd_joinus"] forState:UIControlStateNormal];
+    [selectButton setEnlargeEdgeWithTop:10 right:15 bottom:10 left:20];
+    [selectButton addTarget:self action:@selector(addModel) forControlEvents:UIControlEventTouchUpInside];
+    [buttonView addSubview:selectButton];
+    [selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(buttonView.mas_right).offset(-15);
+        make.top.equalTo(buttonView.mas_top).offset(kApplicationStatusBarHeight+15);
+        make.width.offset(18);
+        make.height.offset(18);
+    }];
 }
 
 #pragma mark -创建标题栏
@@ -154,19 +193,17 @@
 -(void)setNavItem{
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
     self.navigationItem.title = @"我的订单";
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"wd_joinus"] highImage:[UIImage imageNamed:@"wd_joinus"] target:self action:@selector(addModel)];
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem backItemWithImage:[UIImage imageNamed:@"wd_wmBack"] highImage:[UIImage imageNamed:@"wd_wmBack"] target:self action:@selector(back)];
 }
 #pragma mark -返回
 -(void)back{
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    
+
     return UIStatusBarStyleLightContent;
 }
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
-    
+
     return UIStatusBarAnimationFade;
 }
 -(void)addModel{
@@ -188,8 +225,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+
 }
 @end
