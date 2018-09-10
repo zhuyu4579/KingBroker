@@ -314,7 +314,7 @@ static NSString *size = @"20";
 //创建无图表
 -(void)setNoData{
     UIView *view = [[UIView alloc] init];
-    view.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight-45);
+    view.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight-50);
     [view setHidden:NO];
     _viewNo = view;
     [self.view addSubview:view];
@@ -345,49 +345,42 @@ static NSString *size = @"20";
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     //创建菜单
     [self getUpMenu];
-    
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _menu.fY+_menu.fHeight+1, SCREEN_WIDTH, SCREEN_HEIGHT - _menu.fY-_menu.fHeight-1-JF_BOTTOM_SPACE)];
+    for (int i=1; i<4; i++) {
+        UIView *ineOne = [[UIView alloc] init];
+        ineOne.frame = CGRectMake(_menu.fWidth/4*i, 12, 1, 25);
+        ineOne.backgroundColor = UIColorRBG(221, 221, 221);
+        [_menu addSubview:ineOne];
+    }
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _menu.fY+_menu.fHeight+1, SCREEN_WIDTH, SCREEN_HEIGHT - _menu.fY-_menu.fHeight-45-JF_BOTTOM_SPACE-kApplicationStatusBarHeight)];
     view.backgroundColor = [UIColor clearColor];
     [self.view addSubview:view];
     _viewTable = view;
 }
 -(void)getUpMenu{
-    UIView *menuV = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+45, SCREEN_WIDTH, 44)];
+    UIView *menuV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 49)];
     menuV.backgroundColor = [UIColor whiteColor];
     _menu = menuV;
     [self.view addSubview:menuV];
     NSArray *titles =@[@"城市",@"总价",@"类型",@"筛选"];
-    
     CGFloat titleViewW = menuV.fWidth / 4;
     CGFloat titleViewH = menuV.fHeight;
     for (int i = 0; i < 4; i++) {
-        
         UIButton *title = [[UIButton alloc] init];
-        
-        if (i == 0) {
-            title.frame= CGRectMake(10+titleViewW*i, 0, 45, titleViewH);
-        }else{
-            title.frame= CGRectMake(20+titleViewW*i, 0, 45, titleViewH);
-        }
-        
+        [title setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
+        [title setImage:[UIImage imageNamed:@"lp_icon"] forState:UIControlStateSelected];
+        title.frame= CGRectMake(titleViewW*i, 0, titleViewW, titleViewH);
         [title setTitle:titles[i] forState:UIControlStateNormal];
         title.tag = 10 + i;
-        [title setEnlargeEdge:40];
-        title.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-        [title setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
-        [title setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateSelected];
+        title.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+        [title setTitleColor:UIColorRBG(119, 119, 119) forState:UIControlStateNormal];
+        [title setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateSelected];
+        title.imageEdgeInsets = UIEdgeInsetsMake(0, title.fWidth - title.imageView.fX - title.imageView.fWidth, 0, 0);
+        title.titleEdgeInsets = UIEdgeInsetsMake(0, -(title.imageView.fWidth+6), 0, 0);
         [title addTarget:self action:@selector(titleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
          title.titleLabel.lineBreakMode =  NSLineBreakByTruncatingTail;
         [menuV addSubview:title];
-       
-        UIButton *titleButton = [[UIButton alloc] init];
-        
-        titleButton.frame= CGRectMake(title.fX+title.fWidth+5, 20, 10, 6);
-        [titleButton setBackgroundImage:[UIImage imageNamed:@"arrows_2"] forState:UIControlStateNormal];
-        [titleButton setBackgroundImage:[UIImage imageNamed:@"arrows"] forState:UIControlStateSelected];
-        titleButton.tag = i + 20;
-        [menuV addSubview:titleButton];
     }
+   
 }
 //楼盘列表
 -(void)getUpTableView{
@@ -399,7 +392,7 @@ static NSString *size = @"20";
     
 }
 -(void)getUpMenuAlert{
-    UIView *framView = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+90, self.view.fWidth, self.view.fHeight - kApplicationStatusBarHeight-90)];
+    UIView *framView = [[UIView alloc] initWithFrame:CGRectMake(0, 50, self.view.fWidth, self.view.fHeight - kApplicationStatusBarHeight-94)];
     [self.view addSubview:framView];
     _framView = framView;
     [self getUpCover];

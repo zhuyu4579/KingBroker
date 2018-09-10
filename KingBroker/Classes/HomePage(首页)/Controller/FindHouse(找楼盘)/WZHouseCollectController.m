@@ -294,7 +294,7 @@ static NSString *size = @"20";
 //创建无图表
 -(void)setNoData{
     UIView *view = [[UIView alloc] init];
-    view.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight-45);
+    view.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight-50);
     [view setHidden:NO];
     _viewNo = view;
     [self.view addSubview:view];
@@ -326,13 +326,13 @@ static NSString *size = @"20";
     //创建菜单
     [self getUpMenu];
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _menu.fY+_menu.fHeight+1, SCREEN_WIDTH, SCREEN_HEIGHT - _menu.fY-_menu.fHeight-1-JF_BOTTOM_SPACE)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _menu.fY+_menu.fHeight+1, SCREEN_WIDTH, SCREEN_HEIGHT - _menu.fY-_menu.fHeight-45-JF_BOTTOM_SPACE-kApplicationStatusBarHeight)];
     view.backgroundColor = [UIColor clearColor];
     [self.view addSubview:view];
     _viewTable = view;
 }
 -(void)getUpMenu{
-    UIView *menuV = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+45, SCREEN_WIDTH, 44)];
+    UIView *menuV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 49)];
     menuV.backgroundColor = [UIColor whiteColor];
     _menu = menuV;
     [self.view addSubview:menuV];
@@ -377,7 +377,7 @@ static NSString *size = @"20";
         [_viewTable addSubview:tableView];
 }
 -(void)getUpMenuAlert{
-    UIView *framView = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+90, self.view.fWidth, self.view.fHeight - kApplicationStatusBarHeight-90)];
+    UIView *framView = [[UIView alloc] initWithFrame:CGRectMake(0, 50, self.view.fWidth, self.view.fHeight - kApplicationStatusBarHeight-94)];
     [self.view addSubview:framView];
     _framView = framView;
     [self getUpCover];
