@@ -654,7 +654,8 @@
     [confirmButton setTitleColor: [UIColor blackColor] forState:UIControlStateNormal];
     confirmButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     confirmButton.backgroundColor = UIColorRBG(255, 224, 0);
-    confirmButton.layer.shadowColor = [UIColor whiteColor].CGColor;
+    
+    confirmButton.layer.shadowColor = [UIColor blackColor].CGColor;
     //2.设置阴影偏移范围
     confirmButton.layer.shadowOffset = CGSizeMake(0, 1);
     //3.设置阴影颜色的透明度

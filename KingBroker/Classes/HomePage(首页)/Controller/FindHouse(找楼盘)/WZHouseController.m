@@ -118,8 +118,8 @@ static NSString *size = @"20";
     
     //创建tableview
     [self getUpTableView];
-   
-     //遍历数组
+    
+    //遍历数组
     NSMutableArray *screenArray = [NSMutableArray array];
     _SXArray = screenArray;
     //创建菜单弹框
@@ -136,7 +136,7 @@ static NSString *size = @"20";
         if ([code isEqual:@"xmlx"]) {
             NSArray *itemArray = [obj valueForKey:@"dicts"];
             _typeArray =  [WZTypeItem mj_objectArrayWithKeyValuesArray:itemArray];
-             _typeTable.array = _typeArray;
+            _typeTable.array = _typeArray;
         }
         //特色看房服务
         if ([code isEqual:@"lpzx"]||[code isEqual:@"lpts"]||[code isEqual: @"hxshi"]||[code isEqual:@"hxmj"]) {
@@ -149,7 +149,7 @@ static NSString *size = @"20";
     }
     
     
-   [self headerRefresh];
+    [self headerRefresh];
     
 }
 -(void)loadRefreshs{
@@ -162,8 +162,7 @@ static NSString *size = @"20";
     UIButton *but =  [_menu viewWithTag:10];
     [but setTitle:@"城市" forState:UIControlStateNormal];
     [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
-    UIButton *but1 =  [_menu viewWithTag:20];
-    [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_2"] forState:UIControlStateNormal];
+    [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
     _seachCityId = @"";
     _projectListArray = [NSMutableArray array];
     current = 1;
@@ -192,7 +191,7 @@ static NSString *size = @"20";
     // 设置颜色
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     _tableView.mj_header = header;
-   
+    
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     _tableView.mj_footer = footer;
@@ -200,16 +199,16 @@ static NSString *size = @"20";
 }
 #pragma mark -下拉刷新或者加载数据
 -(void)loadNewTopic:(id)refrech{
- 
- [_tableView.mj_header beginRefreshing];
- _projectListArray = [NSMutableArray array];
- current = 1;
- [self loadData];
+    
+    [_tableView.mj_header beginRefreshing];
+    _projectListArray = [NSMutableArray array];
+    current = 1;
+    [self loadData];
     if(_cityArray.count == 0){
         //获取城市列表
         [self cityDatas];
     }
- 
+    
 }
 -(void)loadMoreTopic{
     
@@ -224,92 +223,92 @@ static NSString *size = @"20";
     }
     _isRequestFinish = NO;
     
-        //创建会话请求
-        AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    
+    [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    if (!_seachCityId||[_seachCityId isEqual:@""]) {
+        paraments[@"cityId"] = _cityId;
+    }
+    paraments[@"seachCityId"] = _seachCityId;
+    paraments[@"minPrice"] = _minPrice;
+    paraments[@"maxPrice"] = _maxPrice;
+    paraments[@"type"] = _typeValue;
+    paraments[@"room"] = _room;
+    paraments[@"area"] = _area;
+    paraments[@"buildingFeature"] = _buildingFeature;
+    paraments[@"buildingRenovation"] = _buildingRenovation;
+    paraments[@"location"] = _lnglat;
+    paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
+    paraments[@"size"] = size;
+    
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/projectList",HTTPURL];
+    
+    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
         
-        mgr.requestSerializer.timeoutInterval = 20;
-        //申明返回的结果是json类型
-        mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-        //申明请求的数据是json类型
-        mgr.requestSerializer=[AFJSONRequestSerializer serializer];
-        //防止返回值为null
-        ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
-        mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    
-        [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
-        //2.拼接参数
-        NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-        if (!_seachCityId||[_seachCityId isEqual:@""]) {
-             paraments[@"cityId"] = _cityId;
-        }
-        paraments[@"seachCityId"] = _seachCityId;
-        paraments[@"minPrice"] = _minPrice;
-        paraments[@"maxPrice"] = _maxPrice;
-        paraments[@"type"] = _typeValue;
-        paraments[@"room"] = _room;
-        paraments[@"area"] = _area;
-        paraments[@"buildingFeature"] = _buildingFeature;
-        paraments[@"buildingRenovation"] = _buildingRenovation;
-        paraments[@"location"] = _lnglat;
-        paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
-        paraments[@"size"] = size;
-      
-        NSString *url = [NSString stringWithFormat:@"%@/proProject/projectList",HTTPURL];
-    
-        [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-            NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            //字典数组转换成模型数组
+            NSDictionary *dacty = [responseObject valueForKey:@"data"];
+            NSMutableArray *houseDatas = [dacty valueForKey:@"rows"];
             
-            if ([code isEqual:@"200"]) {
-                //字典数组转换成模型数组
-                NSDictionary *dacty = [responseObject valueForKey:@"data"];
-                NSMutableArray *houseDatas = [dacty valueForKey:@"rows"];
-               
-                if (houseDatas.count == 0) {
-                    [_tableView.mj_footer endRefreshingWithNoMoreData];
-                    
-                }else{
-                    for (int i=0; i<houseDatas.count; i++) {
-                        [_projectListArray addObject:houseDatas[i]];
-                    }
-                    current +=1;
-                    [_tableView.mj_footer endRefreshing];
-                }
-                if (_projectListArray.count != 0) {
-                    [_viewNo setHidden:YES];
-                }else{
-                    [_viewNo setHidden:NO];
-                }
+            if (houseDatas.count == 0) {
+                [_tableView.mj_footer endRefreshingWithNoMoreData];
                 
-                _tableView.houseItem = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:_projectListArray];
-                [_tableView reloadData];
-                [_tableView.mj_header endRefreshing];
-    
             }else{
-                
-                NSString *msg = [responseObject valueForKey:@"msg"];
-                if(![code isEqual:@"401"] && ![msg isEqual:@""]){
-                    [SVProgressHUD showInfoWithStatus:msg];
+                for (int i=0; i<houseDatas.count; i++) {
+                    [_projectListArray addObject:houseDatas[i]];
                 }
-                if ([code isEqual:@"401"]) {
+                current +=1;
+                [_tableView.mj_footer endRefreshing];
+            }
+            if (_projectListArray.count != 0) {
+                [_viewNo setHidden:YES];
+            }else{
+                [_viewNo setHidden:NO];
+            }
+            
+            _tableView.houseItem = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:_projectListArray];
+            [_tableView reloadData];
+            [_tableView.mj_header endRefreshing];
+            
+        }else{
+            
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+            if ([code isEqual:@"401"]) {
                 
                 [NSString isCode:self.navigationController code:code];
                 //更新指定item
                 UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
                 item.badgeValue= nil;
             }
-                [_tableView.mj_header endRefreshing];
-                [_tableView.mj_footer endRefreshing];
-                
-            }
-            _isRequestFinish = YES;
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+            [_tableView.mj_header endRefreshing];
+            [_tableView.mj_footer endRefreshing];
             
-                [_tableView.mj_header endRefreshing];
-                [_tableView.mj_footer endRefreshing];
-            _isRequestFinish = YES;
-        }];
-   
+        }
+        _isRequestFinish = YES;
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+        
+        [_tableView.mj_header endRefreshing];
+        [_tableView.mj_footer endRefreshing];
+        _isRequestFinish = YES;
+    }];
+    
 }
 //创建无图表
 -(void)setNoData{
@@ -342,21 +341,27 @@ static NSString *size = @"20";
 }
 #pragma mark -设置导航栏
 -(void)setNarItem{
-    self.view.backgroundColor = UIColorRBG(242, 242, 242);
+    self.view.backgroundColor = UIColorRBG(247, 247, 247);
     //创建菜单
     [self getUpMenu];
-    for (int i=1; i<4; i++) {
-        UIView *ineOne = [[UIView alloc] init];
-        ineOne.frame = CGRectMake(_menu.fWidth/4*i, 12, 1, 25);
-        ineOne.backgroundColor = UIColorRBG(221, 221, 221);
-        [_menu addSubview:ineOne];
-    }
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _menu.fY+_menu.fHeight+1, SCREEN_WIDTH, SCREEN_HEIGHT - _menu.fY-_menu.fHeight-45-JF_BOTTOM_SPACE-kApplicationStatusBarHeight)];
     view.backgroundColor = [UIColor clearColor];
     [self.view addSubview:view];
     _viewTable = view;
 }
 -(void)getUpMenu{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 30, SCREEN_WIDTH, 19)];
+    view.backgroundColor = [UIColor whiteColor];
+    
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    //2.设置阴影偏移范围
+    view.layer.shadowOffset = CGSizeMake(0, 1);
+    //3.设置阴影颜色的透明度
+    view.layer.shadowOpacity = 0.1;
+    //4.设置阴影半径
+    view.layer.shadowRadius = 3;
+    [self.view addSubview:view];
+    
     UIView *menuV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 49)];
     menuV.backgroundColor = [UIColor whiteColor];
     _menu = menuV;
@@ -369,26 +374,34 @@ static NSString *size = @"20";
         [title setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
         [title setImage:[UIImage imageNamed:@"lp_icon"] forState:UIControlStateSelected];
         title.frame= CGRectMake(titleViewW*i, 0, titleViewW, titleViewH);
+        if (@available(iOS 9.0, *)) {
+            title.semanticContentAttribute = UISemanticContentAttributeForceRightToLeft ;
+        }
         [title setTitle:titles[i] forState:UIControlStateNormal];
         title.tag = 10 + i;
         title.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
         [title setTitleColor:UIColorRBG(119, 119, 119) forState:UIControlStateNormal];
         [title setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateSelected];
-        title.imageEdgeInsets = UIEdgeInsetsMake(0, title.fWidth - title.imageView.fX - title.imageView.fWidth, 0, 0);
-        title.titleEdgeInsets = UIEdgeInsetsMake(0, -(title.imageView.fWidth+6), 0, 0);
+        
         [title addTarget:self action:@selector(titleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-         title.titleLabel.lineBreakMode =  NSLineBreakByTruncatingTail;
+        title.titleLabel.lineBreakMode =  NSLineBreakByTruncatingTail;
         [menuV addSubview:title];
+        
     }
-   
+    for (int i=1; i<4; i++) {
+        UIButton *ineOne = [[UIButton alloc] init];
+        ineOne.frame = CGRectMake(menuV.fWidth/4*i, 12, 1, 25);
+        ineOne.backgroundColor = UIColorRBG(221, 221, 221);
+        [menuV addSubview:ineOne];
+    }
 }
 //楼盘列表
 -(void)getUpTableView{
-
-        WZFindHouseTableView *tableView = [[WZFindHouseTableView alloc] initWithFrame:CGRectMake(0,0, _viewTable.fWidth, _viewTable.fHeight)];
-        tableView.backgroundColor = [UIColor clearColor];
-        _tableView = tableView;
-        [_viewTable addSubview:tableView];
+    
+    WZFindHouseTableView *tableView = [[WZFindHouseTableView alloc] initWithFrame:CGRectMake(0,0, _viewTable.fWidth, _viewTable.fHeight)];
+    tableView.backgroundColor = [UIColor clearColor];
+    _tableView = tableView;
+    [_viewTable addSubview:tableView];
     
 }
 -(void)getUpMenuAlert{
@@ -406,7 +419,7 @@ static NSString *size = @"20";
 -(void)titleButtonClick:(UIButton *)button{
     if((button.tag == _previousClickButton.tag)&&[_buttonBype isEqual:@"1"]){
         _buttonBype = @"0";
-         [_framView setHidden:YES];
+        [_framView setHidden:YES];
         //取消所有按钮的选择状态
         for (id obj in _menu.subviews) {
             UIButton *but = (UIButton*)obj;
@@ -415,7 +428,7 @@ static NSString *size = @"20";
         return;
     }
     [self hideView];
-   
+    
     UIButton *but =(UIButton *) [self.view viewWithTag:(button.tag+10)];
     button.selected = YES;
     but.selected = YES;
@@ -440,7 +453,7 @@ static NSString *size = @"20";
             break;
     }
     
-   }
+}
 
 
 -(void)getUpCover{
@@ -453,7 +466,7 @@ static NSString *size = @"20";
     cover.userInteractionEnabled = YES;
     // 添加遮罩
     [self.framView addSubview:cover];
-   
+    
 }
 
 -(void)hideView{
@@ -465,7 +478,7 @@ static NSString *size = @"20";
     [_screenView setHidden:YES];
     //取消所有按钮的选择状态
     for (id obj in _menu.subviews) {
-       UIButton *but = (UIButton*)obj;
+        UIButton *but = (UIButton*)obj;
         but.selected = NO;
     }
     _buttonBype = @"0";
@@ -476,7 +489,7 @@ static NSString *size = @"20";
     UIView *view = [[UIView alloc] init];
     UIView *viewMore = [[UIView alloc] init];
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 120);
-     _cityView = view;
+    _cityView = view;
     viewMore.frame = CGRectMake(0, 120, SCREEN_WIDTH, 30);
     viewMore.backgroundColor = [UIColor whiteColor];
     [_framView addSubview:viewMore];
@@ -489,32 +502,32 @@ static NSString *size = @"20";
 }
 //查询城市列表
 -(void)cityDatas{
-   
-        //创建会话请求
-        AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-        
-        mgr.requestSerializer.timeoutInterval = 20;
-      
-        mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-        [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
-        //2.拼接参数
-        NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     
-        paraments[@"location"] = _lnglat;
-        NSString *url = [NSString stringWithFormat:@"%@/proProject/cityList",HTTPURL];
-     
-        [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-            NSString *code = [responseObject valueForKey:@"code"];
-            if ([code isEqual:@"200"]) {
-                NSDictionary *data = [responseObject valueForKey:@"data"];
-                NSArray *cityArray = [data valueForKey:@"rows"];
-                _cityArray = [WZCityItem mj_objectArrayWithKeyValuesArray:cityArray];
-                [_collectionView reloadData];
-             
-            }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    
+    paraments[@"location"] = _lnglat;
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/cityList",HTTPURL];
+    
+    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSArray *cityArray = [data valueForKey:@"rows"];
+            _cityArray = [WZCityItem mj_objectArrayWithKeyValuesArray:cityArray];
+            [_collectionView reloadData];
             
-        }];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
     
 }
 
@@ -524,10 +537,10 @@ static NSString *size = @"20";
     //设置布局方向为垂直流布局
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.sectionInset = UIEdgeInsetsMake(20, 15, 20, 15);
-    layout.minimumLineSpacing = 20;
-    layout.minimumInteritemSpacing = 5;
+    layout.minimumLineSpacing = 30;
+    layout.minimumInteritemSpacing = 10;
     //layout.estimatedItemSize = CGSizeMake(80, 25);
-    layout.itemSize = CGSizeMake(110, 30);
+    layout.itemSize = CGSizeMake(70, 25);
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(view.fX, view.fY, view.fWidth, view.fHeight) collectionViewLayout:layout];
     collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView = collectionView;
@@ -545,8 +558,8 @@ static NSString *size = @"20";
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     WZCityCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ID forIndexPath:indexPath];
     if (indexPath.row == 0) {
-        cell.cityButton.textColor = [UIColor whiteColor];
-        cell.cityButton.backgroundColor = UIColorRBG(3, 133, 219);
+        cell.cityButton.textColor = UIColorRBG(49, 35, 6);
+        cell.cityButton.backgroundColor = UIColorRBG(255, 216, 0);
         _indexPath = indexPath;
     }
     WZCityItem *item = self.cityArray[indexPath.row];
@@ -561,13 +574,12 @@ static NSString *size = @"20";
     cell1.cityButton.backgroundColor = UIColorRBG(242, 242, 242);
     
     WZCityCollectionCell *cell =(WZCityCollectionCell *) [collectionView cellForItemAtIndexPath:indexPath];
-    cell.cityButton.textColor = [UIColor whiteColor];
-    cell.cityButton.backgroundColor = UIColorRBG(3, 133, 219);
+    cell.cityButton.textColor = UIColorRBG(49, 35, 6);
+    cell.cityButton.backgroundColor = UIColorRBG(255, 216, 0);
     UIButton *but =  [_menu viewWithTag:10];
     [but setTitle:cell.cityButton.text forState:UIControlStateNormal];
-    [but setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
-    UIButton *but1 =  [_menu viewWithTag:20];
-    [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_3"] forState:UIControlStateNormal];
+    [but setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
+    [but setImage:[UIImage imageNamed:@"lp_icon5"] forState:UIControlStateNormal];
     [self hideView];
     _seachCityId = cell.cityId;
     _projectListArray = [NSMutableArray array];
@@ -580,13 +592,13 @@ static NSString *size = @"20";
     [moreButton setTitle:@"更多" forState:UIControlStateNormal];
     [moreButton setEnlargeEdgeWithTop:5 right:view.fWidth/2 bottom:5 left:view.fWidth/2];
     [moreButton setTitleColor:UIColorRBG(204, 204, 204) forState:UIControlStateNormal];
-    [moreButton setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateSelected];
+    [moreButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateSelected];
     moreButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     [moreButton addTarget:self action:@selector(moreCity:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:moreButton];
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(moreButton.fX+moreButton.fWidth+8, 6, 12, 7)];
     [button setBackgroundImage:[UIImage imageNamed:@"more_unfold-1"] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageNamed:@"more_unfold-(3)"] forState:UIControlStateSelected];
+    [button setBackgroundImage:[UIImage imageNamed:@"lp_more_unfold2"] forState:UIControlStateSelected];
     _collButton = button;
     moreButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     [view addSubview:button];
@@ -613,7 +625,7 @@ static NSString *size = @"20";
     //创建城市view
     UIView *view = [[UIView alloc] init];
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 180);
-     _priceView = view;
+    _priceView = view;
     [self getUpSumPrice:view];
     view.backgroundColor = [UIColor whiteColor];
     [_framView addSubview:view];
@@ -626,10 +638,10 @@ static NSString *size = @"20";
     label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     label.textColor = UIColorRBG(102, 102, 102);
     [view addSubview:label];
-    WZSlider *slider = [[WZSlider alloc]initWithFrame:CGRectMake((view.fWidth -300)/2, 40, 300, 40)];
+    WZSlider *slider = [[WZSlider alloc]initWithFrame:CGRectMake(30, 40, view.fWidth-60, 40)];
     slider.minTintColor = UIColorRBG(204, 204, 204);
     slider.maxTintColor = UIColorRBG(204, 204, 204);
-    slider.mainTintColor = UIColorRBG(3, 133, 219);
+    slider.mainTintColor = UIColorRBG(255, 168, 66);
     _slider = slider;
     [view addSubview:slider];
     
@@ -637,9 +649,8 @@ static NSString *size = @"20";
     cleanButton.frame = CGRectMake(0, view.fHeight - 44, 100, 44);
     [cleanButton setTitle:@"清空条件" forState:UIControlStateNormal];
     cleanButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    [cleanButton setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
-    cleanButton.layer.borderColor = UIColorRBG(242, 242, 242).CGColor;
-    cleanButton.layer.borderWidth = 1.0;
+    [cleanButton setTitleColor:UIColorRBG(255, 216, 0) forState:UIControlStateNormal];
+    cleanButton.backgroundColor = [UIColor blackColor];
     [cleanButton addTarget:self action:@selector(cleanButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:cleanButton];
     
@@ -647,8 +658,8 @@ static NSString *size = @"20";
     button.frame = CGRectMake(100, view.fHeight - 44, view.fWidth-100, 44);
     [button setTitle:@"确定" forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    button.backgroundColor = UIColorRBG(3, 133, 219);
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    button.backgroundColor = UIColorRBG(255, 216, 0);
     [button addTarget:self action:@selector(priceButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:button];
 }
@@ -656,17 +667,16 @@ static NSString *size = @"20";
 -(void)cleanButtonClick{
     //重置数据
     [_slider removeFromSuperview];
-    WZSlider *slider = [[WZSlider alloc]initWithFrame:CGRectMake((_priceView.fWidth -300)/2, 40, 300, 40)];
+    WZSlider *slider = [[WZSlider alloc]initWithFrame:CGRectMake(30, 40, _priceView.fWidth-60, 40)];
     slider.minTintColor = UIColorRBG(204, 204, 204);
     slider.maxTintColor = UIColorRBG(204, 204, 204);
-    slider.mainTintColor = UIColorRBG(3, 133, 219);
+    slider.mainTintColor = UIColorRBG(255, 168, 66);
     _slider = slider;
     [_priceView addSubview:slider];
     UIButton *but =  [_menu viewWithTag:11];
     [but setTitle:@"总价" forState:UIControlStateNormal];
     [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
-    UIButton *but1 =  [_menu viewWithTag:21];
-    [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_2"] forState:UIControlStateNormal];
+    [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
     [self hideView];
     _minPrice = @"";
     _maxPrice = @"";
@@ -682,7 +692,7 @@ static NSString *size = @"20";
     }else{
         _minPrice = min;
     }
-   
+    
     NSString *max = _slider.maxLabel.text;
     if ([max isEqual:@"不限"]) {
         _maxPrice = @"";
@@ -691,9 +701,8 @@ static NSString *size = @"20";
     }
     UIButton *but =  [_menu viewWithTag:11];
     [but setTitle:[NSString stringWithFormat:(@"%@-%@"),min,max] forState:UIControlStateNormal];
-    [but setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
-    UIButton *but1 =  [_menu viewWithTag:21];
-    [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_3"] forState:UIControlStateNormal];
+    [but setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
+    [but setImage:[UIImage imageNamed:@"lp_icon5"] forState:UIControlStateNormal];
     [self hideView];
     _projectListArray = [NSMutableArray array];
     current = 1;
@@ -716,23 +725,22 @@ static NSString *size = @"20";
     UIButton *cleanButton = [[UIButton alloc] init];
     cleanButton.frame = CGRectMake(0, view.fHeight - 44, view.fWidth, 44);
     [cleanButton setTitle:@"清空条件" forState:UIControlStateNormal];
-    cleanButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
-    [cleanButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    cleanButton.backgroundColor = UIColorRBG(3, 133, 219);
+    cleanButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+    [cleanButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    cleanButton.backgroundColor = UIColorRBG(255, 216, 0);
     [cleanButton addTarget:self action:@selector(cleanButtonType) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:cleanButton];
-   
+    
 }
 //点击类型按钮回调数据
 -(void)getUpTypeButton:(UIButton *)button{
     __weak typeof(self) weakSelf = self;
-    UIButton *but1 =  [self.menu viewWithTag:22];
     _typeTable.typeBlock = ^(NSMutableDictionary *typeDic) {
-         [button setTitle:[NSString stringWithFormat:(@"%@"),[typeDic valueForKey:@"labels"]] forState:UIControlStateNormal];
-         _typeValue = [typeDic valueForKey:@"value"];
-        [button setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
-        [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_3"] forState:UIControlStateNormal];
-        but1.selected = NO;
+        [button setTitle:[NSString stringWithFormat:(@"%@"),[typeDic valueForKey:@"labels"]] forState:UIControlStateNormal];
+        _typeValue = [typeDic valueForKey:@"value"];
+        button.selected = NO;
+        [button setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"lp_icon5"] forState:UIControlStateNormal];
         _projectListArray = [NSMutableArray array];
         current = 1;
         [weakSelf loadData];
@@ -743,9 +751,8 @@ static NSString *size = @"20";
     UIButton *but =  [_menu viewWithTag:12];
     [but setTitle:@"类型" forState:UIControlStateNormal];
     [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
-    UIButton *but1 =  [_menu viewWithTag:22];
-    [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_2"] forState:UIControlStateNormal];
-     _typeValue = @"";
+    [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
+    _typeValue = @"";
     [self hideView];
     _typeTable.array = _typeArray;
     [_typeTable reloadData];
@@ -759,31 +766,32 @@ static NSString *size = @"20";
     view.frame = CGRectMake(SCREEN_WIDTH - 360, 0, 360, _framView.fHeight-JF_BOTTOM_SPACE);
     view.backgroundColor =UIColorRBG(242, 242, 242);
     [_framView addSubview:view];
-      _screenView = view;
+    _screenView = view;
     //创建多选的view
     UIView *screenView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, view.fWidth, view.fHeight -41)];
     screenView.backgroundColor = [UIColor whiteColor];
     WZCollectionView *coll = [[WZCollectionView alloc] initWithFrame:screenView.bounds collectionViewLayout:self.flowLayout];
-     coll.screenArray = _SXArray;
+    coll.screenArray = _SXArray;
     [coll reloadData];
     _colles = coll;
     [screenView addSubview:coll];
     [view addSubview:screenView];
     //创建按钮的view
     UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, screenView.fHeight+1, view.fWidth, 40)];
-    buttonView.backgroundColor = [UIColor whiteColor];
+    buttonView.backgroundColor = [UIColor blackColor];
     [view addSubview:buttonView];
     UIButton *cleanButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, buttonView.fWidth/2, buttonView.fHeight)];
     [cleanButton setTitle:@"清空条件" forState:UIControlStateNormal];
-    [cleanButton setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
+    
+    [cleanButton setTitleColor:UIColorRBG(255, 216, 0) forState:UIControlStateNormal];
     cleanButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
     [cleanButton addTarget:self action:@selector(cleanMore) forControlEvents:UIControlEventTouchUpInside];
     [buttonView addSubview:cleanButton];
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(buttonView.fWidth/2, 0, buttonView.fWidth/2, buttonView.fHeight)];
     [button setTitle:@"确定" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
-    button.backgroundColor = UIColorRBG(3, 133, 219);
+    button.backgroundColor = UIColorRBG(255, 216, 0);
     [button addTarget:self action:@selector(buttonCilck) forControlEvents:UIControlEventTouchUpInside];
     [buttonView addSubview:button];
     
@@ -792,8 +800,8 @@ static NSString *size = @"20";
         _buildingFeature = [dicty valueForKey:@"lpts"];
         _buildingRenovation = [dicty valueForKey:@"lpzx"];
         _area = [dicty valueForKey:@"hxmj"];
-      
-       
+        
+        
     };
 }
 - (UICollectionViewFlowLayout *)flowLayout
@@ -803,8 +811,8 @@ static NSString *size = @"20";
         _flowLayout = [[UICollectionViewFlowLayout alloc] init];
         _flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
         _flowLayout.sectionInset = UIEdgeInsetsMake(20, 15 ,20,15);
-         _flowLayout.minimumLineSpacing = 20;
-         _flowLayout.minimumInteritemSpacing = 5;
+        _flowLayout.minimumLineSpacing = 20;
+        _flowLayout.minimumInteritemSpacing = 5;
         _flowLayout.itemSize = CGSizeMake(100, 25);
     }
     return _flowLayout;
@@ -815,8 +823,7 @@ static NSString *size = @"20";
     UIButton *button =  [_menu viewWithTag:13];
     [button setTitle:@"筛选" forState: UIControlStateNormal];
     [button setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
-    UIButton *button1 =  [_menu viewWithTag:23];
-    [button1 setBackgroundImage:[UIImage imageNamed:@"arrows_2"] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
     [self hideView];
     _projectListArray = [NSMutableArray array];
     current = 1;
@@ -825,15 +832,15 @@ static NSString *size = @"20";
 //更多确认选择
 -(void)buttonCilck{
     UIButton *but =  [_menu viewWithTag:13];
-    UIButton *but1 =  [_menu viewWithTag:23];
+    
     if (_area.count == 0&&_buildingRenovation.count == 0&&_buildingFeature.count == 0&&_room.count == 0) {
         [but setTitle:@"筛选" forState: UIControlStateNormal];
         [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
-        [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_2"] forState:UIControlStateNormal];
+        [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
     }else{
         [but setTitle:[NSString stringWithFormat:(@"多选")] forState:UIControlStateNormal];
-        [but setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
-        [but1 setBackgroundImage:[UIImage imageNamed:@"arrows_3"] forState:UIControlStateNormal];
+        [but setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
+        [but setImage:[UIImage imageNamed:@"lp_icon5"] forState:UIControlStateNormal];
     }
     [self hideView];
     _projectListArray = [NSMutableArray array];

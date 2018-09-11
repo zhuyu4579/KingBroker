@@ -22,7 +22,7 @@
     _cityButton.textColor = UIColorRBG(102, 102, 102);
     [_cityButton setBackgroundColor:UIColorRBG(242, 242, 242)];
     _cityButton.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    _cityButton.layer.cornerRadius = 12.5;
+    _cityButton.layer.cornerRadius = 4;
     _cityButton.clipsToBounds = YES;
     _cityButton.userInteractionEnabled = NO;
 }
@@ -38,7 +38,6 @@
     CGRect frame = [self.cityButton.text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, self.cityButton.frame.size.height) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:[NSDictionary dictionaryWithObjectsAndKeys:self.cityButton.font,NSFontAttributeName, nil] context:nil];
     
     frame.size.height = 25;
-    frame.size.width +=20;
     attributes.frame = frame;
     return attributes;
 }

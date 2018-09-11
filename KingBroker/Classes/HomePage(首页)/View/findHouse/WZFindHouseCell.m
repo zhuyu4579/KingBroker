@@ -12,7 +12,7 @@
 #import <UIImageView+WebCache.h>
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
-#import "WZJionStoreController.h"
+#import "WZJionStoreAndStoreHeadController.h"
 #import "WZNavigationController.h"
 #import "UIViewController+WZFindController.h"
 
@@ -30,10 +30,10 @@
     if ([realtorStatus isEqual:@"2"]) {
         [_JoinStoreButton setHidden:YES];
         [_JoinStoreButton setEnabled:NO];
-        [_commissionImage setHidden:NO];
+        
         [_houseCommission setHidden:NO];
         if([commissionFag isEqual:@"0"]){
-            _houseCommission.text = item.commission;
+            _houseCommission.text = [NSString stringWithFormat:@"佣金：%@" ,item.commission];
         }else{
             _houseCommission.text = @"佣金不可见";
         }
@@ -57,16 +57,16 @@
     }
     _cityName.text = item.cityName;
     _companyName.text = item.companyName;
-    [_houseImage sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"zlp_pic"]];
+    [_houseImage sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"lp_pic"]];
     _houseLabelOne.text = @"";
     _houseLabelTwo.text = @"";
     _houseLabelThree.text = @"";
     if (item.tage.count != 0) {
-        _houseLabelOne.text = item.tage[0];
+        _houseLabelOne.text = [NSString stringWithFormat:@" %@ " ,item.tage[0]];
         if(item.tage.count > 1){
-            _houseLabelTwo.text = item.tage[1];
+            _houseLabelTwo.text = [NSString stringWithFormat:@" %@ " ,item.tage[1]];
         }else if(item.tage.count > 2){
-            _houseLabelThree.text = item.tage[2];
+            _houseLabelThree.text = [NSString stringWithFormat:@" %@ " ,item.tage[2]];
         }
         
         
@@ -74,22 +74,24 @@
 }
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.backgroundColor = [UIColor clearColor];
     
-    _houseItemName.textColor = UIColorRBG(68, 68, 68);
-    _houseLabelOne.backgroundColor = UIColorRBG(230, 244, 255);
-    _houseLabelOne.textColor = UIColorRBG(40, 180, 230);
-    _houseLabelTwo.backgroundColor = UIColorRBG(230, 244, 255);
-    _houseLabelTwo.textColor = UIColorRBG(40, 180, 230);
-    _houseLabelThree.backgroundColor = UIColorRBG(230, 244, 255);
-    _houseLabelThree.textColor = UIColorRBG(40, 180, 230);
-    _houseCommission.textColor = UIColorRBG(244, 102, 30);
-    [_JoinStoreButton setTitleColor:UIColorRBG(244, 102, 30) forState:UIControlStateNormal];
-    [_commissionImage setHidden:YES];
+    _houseItemName.textColor = UIColorRBG(51, 51, 51);
+    _houseLabelOne.backgroundColor = UIColorRBG(255, 252, 238);
+    _houseLabelOne.textColor = UIColorRBG(255, 202, 118);
+    _houseLabelTwo.backgroundColor = UIColorRBG(255, 252, 238);
+    _houseLabelTwo.textColor = UIColorRBG(255, 202, 118);
+    _houseLabelThree.backgroundColor = UIColorRBG(255, 252, 238);
+    _houseLabelThree.textColor = UIColorRBG(255, 202, 118);
+    
+    _houseCommission.textColor = UIColorRBG(254, 193, 0);
+    [_JoinStoreButton setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
     [_houseCommission setHidden:YES];
-    _housePrice.textColor = UIColorRBG(255, 127, 19);
-    _companyName.textColor = UIColorRBG(102, 102, 102);
-    _distance.textColor = UIColorRBG(203, 203, 203);
-    _cityName.textColor = UIColorRBG(153, 153, 153);
+    
+    _housePrice.textColor = UIColorRBG(102, 102, 102);
+    _companyName.textColor = UIColorRBG(153, 153, 153);
+    _distance.textColor = UIColorRBG(170, 170, 170);
+    _cityName.textColor = UIColorRBG(102, 102, 102);
     [_houseCollectionButton setEnlargeEdge:40];
     
 }
@@ -99,7 +101,8 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 -(void)setFrame:(CGRect)frame{
-    frame.size.height -=1;
+    frame.size.height -=8;
+    frame.origin.y +=8;
     [super setFrame:frame];
 }
 - (IBAction)houseCollectionClick:(id)sender {
@@ -131,9 +134,7 @@
                 }else{
                     but.selected = NO;
                 }
-                NSString *collectNum = [data valueForKey:@"collectNum"];
-                UILabel *label =  [but.superview viewWithTag:40];
-                label.text = [NSString stringWithFormat:@"%@",collectNum];
+                
             }else{
                 NSString *msg = [responseObject valueForKey:@"msg"];
                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -149,10 +150,11 @@
     
 }
 - (IBAction)JoinStore:(UIButton *)sender {
-    WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
     UIViewController *vc = [UIViewController viewController:self.superview.superview];
+    WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
     JionStore.type = @"1";
+    JionStore.jionType = @"1";
     [vc presentViewController:nav animated:YES completion:nil];
 }
 @end

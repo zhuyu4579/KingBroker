@@ -9,7 +9,7 @@
 #import "WZSlider.h"
 #import "UIView+Dimension.h"
 #import "WZHouseController.h"
-static const CGFloat sliderOffY = 50.0f;
+#import "UIButton+WZEnlargeTouchAre.h"
 @interface WZSlider ()
 
 @property (nonatomic,assign)CGFloat CurrentMinNum;
@@ -44,12 +44,12 @@ static const CGFloat sliderOffY = 50.0f;
 
 - (void)createMainView
 {
-    _minLabel = [[UILabel alloc]initWithFrame:CGRectMake(6, 10, self.width/2.0f, 14)];
+    _minLabel = [[UILabel alloc]initWithFrame:CGRectMake(16, 10, self.width/2.0f, 14)];
     _minLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    _minLabel.textColor = UIColorRBG(3, 133, 219);
-    _maxLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.width/2.0f, 10 ,self.width/2.0f , 14)];
+    _minLabel.textColor = UIColorRBG(255, 168, 66);
+    _maxLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.width/2.0f-16, 10 ,self.width/2.0f , 14)];
     _maxLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    _maxLabel.textColor = UIColorRBG(3, 133, 219);
+    _maxLabel.textColor = UIColorRBG(255, 168, 66);
     _minLabel.textAlignment = NSTextAlignmentLeft;
     _maxLabel.textAlignment = NSTextAlignmentRight;
     _minLabel.adjustsFontSizeToFitWidth = YES;
@@ -61,40 +61,54 @@ static const CGFloat sliderOffY = 50.0f;
     self.maxNum = 1450;
     self.unit = @"万";
     
-    _mainSliderLine = [[UIView alloc]initWithFrame:CGRectMake(12,sliderOffY + 4, self.width-24, 7)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0,40, self.width, 34)];
+    view.backgroundColor = [UIColor whiteColor];
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    //2.设置阴影偏移范围
+    view.layer.shadowOffset = CGSizeMake(0, 1);
+    //3.设置阴影颜色的透明度
+    view.layer.shadowOpacity = 0.31;
+    //4.设置阴影半径
+    view.layer.shadowRadius = 2;
+    view.layer.cornerRadius = 17;
+    [self addSubview:view];
+    
+    _mainSliderLine = [[UIView alloc]initWithFrame:CGRectMake(12,14, self.width-24, 7)];
     _mainSliderLine.backgroundColor = [UIColor darkGrayColor];
-    [self addSubview:_mainSliderLine];
+    [view addSubview:_mainSliderLine];
     
     _minSliderLine = [[UIView alloc]initWithFrame:CGRectMake(12, _mainSliderLine.top, 0, _mainSliderLine.height)];
     _minSliderLine.backgroundColor = [UIColor redColor];
-    [self addSubview:_minSliderLine];
+    [view addSubview:_minSliderLine];
     
     _maxSliderLine = [[UIView alloc]initWithFrame:CGRectMake(self.width-12, _mainSliderLine.top, 0, _mainSliderLine.height)];
     _maxSliderLine.backgroundColor = [UIColor redColor];
-    [self addSubview:_maxSliderLine];
+    [view addSubview:_maxSliderLine];
     
     
-    UIButton *minSliderButton = [[UIButton alloc]initWithFrame:CGRectMake(0,sliderOffY - 5, 24, 24)];
+    UIButton *minSliderButton = [[UIButton alloc]initWithFrame:CGRectMake(0,7, 20, 20)];
     [minSliderButton setBackgroundImage:[UIImage imageNamed:@"slide-button"] forState:UIControlStateNormal];
+    [minSliderButton setEnlargeEdge:20];
     minSliderButton.layer.cornerRadius = minSliderButton.width/2.0f;
     minSliderButton.layer.masksToBounds = YES;
     minSliderButton.layer.borderColor = [UIColor darkGrayColor].CGColor;
     minSliderButton.layer.borderWidth = 0.5;
     UIPanGestureRecognizer *minSliderButtonPanGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panMinSliderButton:)];
     [minSliderButton addGestureRecognizer:minSliderButtonPanGestureRecognizer];
-    [self addSubview:minSliderButton];
+    [view addSubview:minSliderButton];
     _minSlider = minSliderButton;
     
     
-    UIButton *maxSliderButton = [[UIButton alloc]initWithFrame:CGRectMake(self.width-24, sliderOffY - 5, 24, 24)];
+    UIButton *maxSliderButton = [[UIButton alloc]initWithFrame:CGRectMake(self.width-24, 7, 20, 20)];
     [maxSliderButton setBackgroundImage:[UIImage imageNamed:@"slide-button"] forState:UIControlStateNormal];
+    [maxSliderButton setEnlargeEdge:20];
     maxSliderButton.layer.cornerRadius = minSliderButton.width/2.0f;
     maxSliderButton.layer.masksToBounds = YES;
     maxSliderButton.layer.borderColor = [UIColor darkGrayColor].CGColor;
     maxSliderButton.layer.borderWidth = 0.5;
     UIPanGestureRecognizer *maxSliderButtonPanGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panMaxSliderButton:)];
     [maxSliderButton addGestureRecognizer:maxSliderButtonPanGestureRecognizer];
-    [self addSubview:maxSliderButton];
+    [view addSubview:maxSliderButton];
     _maxSlider = maxSliderButton;
     _constOffY = _minSlider.centerY;
     
