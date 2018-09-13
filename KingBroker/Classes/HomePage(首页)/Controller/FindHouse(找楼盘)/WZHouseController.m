@@ -801,7 +801,6 @@ static NSString *size = @"20";
         _buildingRenovation = [dicty valueForKey:@"lpzx"];
         _area = [dicty valueForKey:@"hxmj"];
         
-        
     };
 }
 - (UICollectionViewFlowLayout *)flowLayout

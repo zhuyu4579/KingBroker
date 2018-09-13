@@ -20,17 +20,12 @@
 #import "WZJionStoreAndStoreHeadController.h"
 #import "WZNavigationController.h"
 @interface WZPageButtonView()
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *line2X;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *line1X;
+
 @property(nonatomic,strong) UIViewController *VC;
 @end
 
 @implementation WZPageButtonView
 -(void)layoutSubviews{
-    _line1X.constant =(SCREEN_WIDTH - 210)/3-2;
-    _line2X.constant =(SCREEN_WIDTH - 210)/3-2;
-    [_newsLable setEnlargeEdge:20];
-    
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
@@ -122,6 +117,10 @@
     }else{
         [NSString isCode:_VC.navigationController code:@"401"];
     }
+    
+}
+#pragma mark -楼盘笔记
+- (IBAction)houseBook:(UIButton *)sender {
     
 }
 #pragma mark -查看新消息

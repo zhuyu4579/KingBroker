@@ -6,30 +6,42 @@
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
 
-#import "WZPagesViewController.h"
-#import "WZCyclePhotoView.h"
-#import "UIView+Frame.h"
-#import "WZPageButtonView.h"
+
+
+
+
+
+
+
+
+#import "GKCover.h"
 #import <Masonry.h>
-#import <AFNetworking.h>
-#import <MJExtension.h>
-#import "WZRecommendTableView.h"
 #import <MJRefresh.h>
-#import "UIButton+WZEnlargeTouchAre.h"
-#import "NSString+LCExtension.h"
+#import <MJExtension.h>
+#import <AFNetworking.h>
+#import "UIView+Frame.h"
 #import <SVProgressHUD.h>
-#import <CoreLocation/CoreLocation.h>
+#import "WZGoodHouseItem.h"
+#import "WZCyclePhotoView.h"
+#import "WZPageButtonView.h"
+#import "WZTaskController.h"
 #import "WZFindHouseListItem.h"
 #import "WZNEWHTMLController.h"
-#import "GKCover.h"
-#import "WZTaskController.h"
-#import "WZJionStoreAndStoreHeadController.h"
+#import "WZRecommendTableView.h"
+#import "NSString+LCExtension.h"
+#import "WZPagesViewController.h"
 #import "WZNavigationController.h"
+#import <CoreLocation/CoreLocation.h>
+#import "WZGoodHouseCollectionView.h"
+#import "UIButton+WZEnlargeTouchAre.h"
+#import "WZJionStoreAndStoreHeadController.h"
+
 @interface WZPagesViewController ()<WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate,CLLocationManagerDelegate>
 @property(nonatomic,strong)UIView *cycleView;
-@property (nonatomic, strong)WZCyclePhotoView *cyclePlayView;
 @property (nonatomic, strong)NSMutableArray *tags;
+@property (nonatomic, strong)WZCyclePhotoView *cyclePlayView;
 @property (nonatomic, strong)WZRecommendTableView *recommendTV;
+@property (nonatomic, strong)WZGoodHouseCollectionView *goodHouseCollectView;
 @property (nonatomic, strong)UIScrollView *scrollView;
 //动态模块
 @property (nonatomic, strong)WZPageButtonView *pageView;
@@ -39,8 +51,7 @@
 @property(nonatomic,strong)NSString *lnglat;
 //
 @property(nonatomic,strong)UIView *updateView;
-//状态栏
-@property(nonatomic,strong)UIView *stateView;
+
 @end
 
 @implementation WZPagesViewController
@@ -52,8 +63,8 @@
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     
-    self.view.backgroundColor = UIColorRBG(242, 242, 242);
-    
+    self.view.backgroundColor = UIColorRBG(247, 247, 247);
+    //创建控件
     [self setViewController];
     //获取最新版本
     [self findversion];
@@ -64,9 +75,6 @@
     
 }
 
-//-(UIStatusBarStyle)preferredStatusBarStyle{
-//    return UIStatusBarStyleLightContent;
-//}
 //开启定位
 -(void)locate{
         //定位初始化
@@ -99,8 +107,17 @@
 #pragma mark -创建首页控件
 -(void)setViewController{
     float n = [UIScreen mainScreen].bounds.size.width/375.0;
+    //导航栏
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, kApplicationStatusBarHeight+44)];
+    titleView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:titleView];
+    //标题
+    UIImageView *imageViewTitle = [[UIImageView alloc] initWithFrame:CGRectMake(15, kApplicationStatusBarHeight+9, 118, 27)];
+    imageViewTitle.image = [UIImage imageNamed:@"sy_title"];
+    [titleView addSubview:imageViewTitle];
+    
     //创建一个滚动视图
-    _scrollView = [ [UIScrollView alloc ] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, self.view.fHeight - JF_BOTTOM_SPACE-49)];
+    _scrollView = [ [UIScrollView alloc ] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+44, SCREEN_WIDTH, self.view.fHeight - JF_BOTTOM_SPACE-93-kApplicationStatusBarHeight)];
     
     [self.view addSubview:_scrollView];
     _scrollView.delegate = self;
@@ -125,37 +142,76 @@
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     _scrollView.mj_header = header;
     //创建轮播图view
-    _cycleView = [[UIView alloc] initWithFrame: CGRectMake(0, -kApplicationStatusBarHeight, SCREEN_WIDTH, 190*n)];
-    _cycleView.backgroundColor = [UIColor clearColor];
+    _cycleView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, SCREEN_WIDTH, 190*n)];
+    _cycleView.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:_cycleView];
     //初始化轮播图
     NSMutableArray *images = [[NSMutableArray alloc]init];
     UIImage *image = [UIImage imageNamed:@"banner_1"];
     [images addObject:image];
-    self.cyclePlayView = [[WZCyclePhotoView alloc] initWithImages:images withFrame:CGRectMake(0, 0, _cycleView.fWidth, _cycleView.fHeight)];
+    self.cyclePlayView = [[WZCyclePhotoView alloc] initWithImages:images withFrame:CGRectMake(15, 0, _cycleView.fWidth-15, _cycleView.fHeight)];
     self.cyclePlayView.delegate = self;
-    [self.cyclePlayView.timer  invalidate];
-    self.cyclePlayView.backgroundColor = [UIColor grayColor];
+//  [self.cyclePlayView.timer  invalidate];
+    self.cyclePlayView.backgroundColor = [UIColor whiteColor];
     [_cycleView addSubview:self.cyclePlayView];
     //创建按钮栏
-    UIView *buttons = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight-kApplicationStatusBarHeight, SCREEN_WIDTH, 136)];
+    UIView *buttons = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight, SCREEN_WIDTH, 200)];
     buttons.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:buttons];
     WZPageButtonView *pageView = [WZPageButtonView pageButtons];
     pageView.frame = buttons.bounds;
     _pageView = pageView;
     [buttons addSubview:pageView];
+    //创建优质楼盘
+    UIView *goodHouseView = [[UIView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 288)];
+    goodHouseView.backgroundColor = [UIColor whiteColor];
+    [_scrollView addSubview:goodHouseView];
+    //创建为你推荐图标
+    UIImageView *imageTitle = [[UIImageView alloc] init];
+    imageTitle.image = [UIImage imageNamed:@"sy_pic"];
+    [goodHouseView addSubview:imageTitle];
+    [imageTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(goodHouseView.mas_centerX);
+        make.top.equalTo(goodHouseView.mas_top).offset(20);
+        make.width.offset(190);
+        make.height.offset(3);
+    }];
+    UILabel *goodHouseTitle = [[UILabel alloc] init];
+    goodHouseTitle.text = @"优选楼盘";
+    goodHouseTitle.textColor = UIColorRBG(51, 51, 51);
+    goodHouseTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    [goodHouseView addSubview:goodHouseTitle];
+    [goodHouseTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(goodHouseView.mas_centerX);
+        make.top.equalTo(goodHouseView.mas_top).offset(15);
+        make.height.offset(14);
+    }];
+    UILabel *subTitle = [[UILabel alloc] init];
+    subTitle.textColor = UIColorRBG(102, 102, 102);
+    subTitle.text = @"OPTIMIZING BUILDINGS";
+    subTitle.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
+    [goodHouseView addSubview:subTitle];
+    [subTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(goodHouseView.mas_centerX);
+        make.top.equalTo(goodHouseTitle.mas_bottom).offset(6);
+        make.height.offset(9);
+    }];
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    //设置布局方向为垂直流布局
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    layout.sectionInset = UIEdgeInsetsMake(15, 15, 15, 15);
+    layout.minimumLineSpacing = 20;
+    layout.minimumInteritemSpacing = 10;
+    layout.itemSize = CGSizeMake(100, 100);
+    WZGoodHouseCollectionView *goodHouseCollectView = [[WZGoodHouseCollectionView alloc] initWithFrame:CGRectMake(0, 43, goodHouseView.fWidth, 245) collectionViewLayout:layout];
+    goodHouseCollectView.backgroundColor = [UIColor whiteColor];
+    _goodHouseCollectView = goodHouseCollectView;
+    //禁止滑动
+    goodHouseCollectView.scrollEnabled = NO;
+    [goodHouseView addSubview:goodHouseCollectView];
     
-    //创建中心
-    UIImageView *task = [[UIImageView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 90*n)];
-    task.image = [UIImage imageNamed:@"task1"];
-    UITapGestureRecognizer *topRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(Tacks)];
-    [task addGestureRecognizer:topRecognizer];
-    task.userInteractionEnabled = YES;
-    [_scrollView addSubview:task];
-
     //创建为你推荐
-    UIView *Recommend = [[UIView alloc] initWithFrame:CGRectMake(0, task.fY+task.fHeight+10, SCREEN_WIDTH, 732+210*(n-1)*2)];
+    UIView *Recommend = [[UIView alloc] initWithFrame:CGRectMake(0, goodHouseView.fY+goodHouseView.fHeight+10, SCREEN_WIDTH, 732+210*(n-1)*2)];
     Recommend.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:Recommend];
     //创建为你推荐图标
@@ -204,6 +260,41 @@
         
     }];
 }
+#pragma mark -查询优选楼盘
+-(void)goodHouseLoadData{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 10;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    NSString *url = [NSString stringWithFormat:@"%@/projectLabel/selectLabelList",HTTPURL];
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+           NSArray *rows = [data valueForKey:@"rows"];
+            if (rows.count>0) {
+                _goodHouseCollectView.houseArray = [WZGoodHouseItem mj_objectArrayWithKeyValuesArray:rows];
+                [_goodHouseCollectView reloadData];
+            }
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+}
 #pragma mark -请求数据查询为你推荐
 -(void)loadDateTask{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -244,44 +335,6 @@
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
         [_scrollView.mj_header endRefreshing];
     }];
-}
-#pragma mark -滑动scrollview触发事件修改状态栏背景颜色
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    //[self prefersStatusBarHidden];
-    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
-    _stateView = statusBar;
-    if(scrollView.contentOffset.y>190){
-        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-            statusBar.backgroundColor = [UIColor whiteColor];
-        }
-    }else{
-        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-            statusBar.backgroundColor = [UIColor clearColor];
-        }
-    }
-    
-    [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
-}
-//-(BOOL)prefersStatusBarHidden{
-//    if(_scrollView.contentOffset.y>190){
-//        return YES;
-//    }else{
-//        return NO;
-//    }
-//}
-//修改状态栏字体颜色
-- (UIStatusBarStyle)preferredStatusBarStyle {
-   
-    if (_scrollView.contentOffset.y>190) {
-       
-        return UIStatusBarStyleDefault;
-        
-    }
-    return UIStatusBarStyleLightContent;
-}
-- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
-    
-    return UIStatusBarAnimationFade;
 }
 
 //点击模块
@@ -338,8 +391,10 @@
 #pragma mark -去刷新或者加载数据
 -(void)loadNewTopic:(id)refrech{
     [_scrollView.mj_header beginRefreshing];
+    [self goodHouseLoadData];
     [self loadDateTask];
     [self loadNewsAnnounceme];
+    
 }
 //获取版本号
 -(void)findversion{
@@ -516,14 +571,11 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-    if (_scrollView.contentOffset.y>190) {
-        _stateView.backgroundColor = [UIColor whiteColor];
-    }
     //定位当前位置信息
     [self locate];
     [self loadDateTask];
     [self setloadData];
-    
+    [self goodHouseLoadData];
 }
 //查询未读消息
 -(void)setloadData{
@@ -570,7 +622,7 @@
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    _stateView.backgroundColor = [UIColor clearColor];
+    
 }
 #pragma mark -将数据写入文件
 -(void)loadDateURl:(NSArray *)array plistName:(NSString *)plistName name:(NSString *)name{

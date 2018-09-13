@@ -86,11 +86,10 @@ return [self initWithImages:images withPageViewLocation:CCCycleScrollPageViewPos
     _containerView.contentSize = CGSizeMake(3*_containerView.frame.size.width, _containerView.frame.size.height);
     _containerView.contentOffset = CGPointMake(_containerView.frame.size.width, _containerView.frame.origin.y)//显示中间图片
     ;
-    _containerView.backgroundColor = [UIColor grayColor];
-    self.leftImageView  = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0  , _containerView.frame.size.width, _containerView.frame.size.height)];
-    
-    self.middleImageView = [[UIImageView alloc]initWithFrame:CGRectMake(_containerView.frame.size.width, 0  , _containerView.frame.size.width, _containerView.frame.size.height)];
-    self.rightImageView = [[UIImageView alloc]initWithFrame:CGRectMake(2*_containerView.frame.size.width, 0, _containerView.frame.size.width, _containerView.frame.size.height)];
+    _containerView.backgroundColor = [UIColor whiteColor];
+    self.leftImageView  = [[UIImageView alloc]initWithFrame:CGRectMake(-9, 0 , _containerView.frame.size.width-9, _containerView.frame.size.height)];
+    self.middleImageView = [[UIImageView alloc]initWithFrame:CGRectMake(_containerView.frame.size.width-9, 0  , _containerView.frame.size.width-9, _containerView.frame.size.height)];
+    self.rightImageView = [[UIImageView alloc]initWithFrame:CGRectMake(2*_containerView.frame.size.width-9, 0, _containerView.frame.size.width-9, _containerView.frame.size.height)];
     
     _containerView.delegate = self;
     [_containerView addSubview:_leftImageView];
@@ -107,7 +106,7 @@ return [self initWithImages:images withPageViewLocation:CCCycleScrollPageViewPos
 - (void)pageControlCongfig
 {
     _pageControl = [[UIPageControl alloc]init];
-    _pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+    _pageControl.currentPageIndicatorTintColor = UIColorRBG(255, 224, 0);
     _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
     _pageControl.currentPage = 0;
     [self pageControlPosition:_pageLocation];
@@ -188,7 +187,7 @@ return [self initWithImages:images withPageViewLocation:CCCycleScrollPageViewPos
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (flag) {
-       //[self timeSetter];
+       [self timeSetter];
     }
    
 }
@@ -221,14 +220,14 @@ return [self initWithImages:images withPageViewLocation:CCCycleScrollPageViewPos
 {
     
     if (position == CCCycleScrollPageViewPositionBottomCenter) {
-        _pageControl.frame = CGRectMake(self.center.x - 50, self.frame.size.height -30, 100, 30);
+        _pageControl.frame = CGRectMake(self.center.x - 75, self.frame.size.height -30, 100, 30);
     }else if (position == CCCycleScrollPageViewPositionBottomLeft)
     {
-        _pageControl.frame = CGRectMake(50, self.frame.size.height -30, 100, 30);
+        _pageControl.frame = CGRectMake(35, self.frame.size.height -30, 100, 30);
         
     }else if (position == CCCycleScrollPageViewPositionBottomRight)
     {
-        _pageControl.frame = CGRectMake(self.frame.size.width - 100-20, self.frame.size.height -30, 100, 30);
+        _pageControl.frame = CGRectMake(self.frame.size.width - 100-35, self.frame.size.height -30, 100, 30);
     }
     
 }
