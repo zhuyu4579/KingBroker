@@ -30,12 +30,12 @@
     if ([realtorStatus isEqual:@"2"]) {
         [_commissionButton setEnabled:NO];
         if([commissionFag isEqual:@"0"]){
-            [_commissionButton setTitle:[NSString stringWithFormat:@"佣金：%@" ,item.commission] forState:UIControlStateNormal];
+            [_commissionButton setTitle:[NSString stringWithFormat:@" 佣金：%@ " ,item.commission] forState:UIControlStateNormal];
         }else{
-             [_commissionButton setTitle:@"佣金结给门店" forState:UIControlStateNormal];
+             [_commissionButton setTitle:@" 佣金结给门店 " forState:UIControlStateNormal];
         }
     }else{
-        [_commissionButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
+        [_commissionButton setTitle:@" 加入门店可见佣金 " forState:UIControlStateNormal];
         [_commissionButton setEnabled:YES];
     }
     //总价
@@ -74,6 +74,7 @@
     self.backgroundColor = [UIColor whiteColor];
     
     _houseImage.layer.cornerRadius = 5.0;
+    _houseImage.layer.masksToBounds = YES;
     _collenView.layer.cornerRadius = 25.0;
     _houseItemName.textColor = UIColorRBG(51, 51, 51);
     _houseLabelOne.backgroundColor = UIColorRBG(255, 252, 238);

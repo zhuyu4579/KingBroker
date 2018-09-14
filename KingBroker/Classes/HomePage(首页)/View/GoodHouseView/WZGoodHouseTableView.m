@@ -11,7 +11,7 @@
 #import "WZHouseDatisController.h"
 #import "UIViewController+WZFindController.h"
 #import "WZFindHouseListItem.h"
-static  NSString * const ID = @"cells";
+static  NSString * const ID = @"GCells";
 @interface WZGoodHouseTableView()<UITableViewDelegate,UITableViewDataSource>
 
 @end
@@ -25,7 +25,7 @@ static  NSString * const ID = @"cells";
         self.dataSource = self;
     }
     //注册cell
-    [self registerNib:[UINib nibWithNibName:@"WZFindHouseCell" bundle:nil] forCellReuseIdentifier:ID];
+    [self registerNib:[UINib nibWithNibName:@"WZGHouseCell" bundle:nil] forCellReuseIdentifier:ID];
     //    self.bounces = NO;
     //    self.showsVerticalScrollIndicator = NO;
     //    self.showsHorizontalScrollIndicator = NO;
@@ -34,10 +34,12 @@ static  NSString * const ID = @"cells";
     return self;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 146;
+    return 293;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
     return self.houseItem.count;
+    
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     WZGHouseCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
@@ -50,10 +52,9 @@ static  NSString * const ID = @"cells";
     WZGHouseCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     //点击跳转详情页
     UIViewController *vc = [UIViewController viewController:self.superview];
-    UIViewController *Vc = [UIViewController viewController:vc.view.superview];
     WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
     houseDatis.ID =  cell.ID;
-    [Vc.navigationController pushViewController:houseDatis animated:YES];
+    [vc.navigationController pushViewController:houseDatis animated:YES];
 }
 
 @end

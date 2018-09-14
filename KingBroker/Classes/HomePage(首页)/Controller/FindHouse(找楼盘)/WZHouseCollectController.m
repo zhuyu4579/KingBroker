@@ -139,7 +139,7 @@ static NSString *size = @"20";
             _typeTable.array = _typeArray;
         }
         //特色看房服务
-        if ([code isEqual:@"lpzx"]||[code isEqual:@"lpts"]||[code isEqual: @"hxshi"]||[code isEqual:@"hxmj"]) {
+        if ([code isEqual:@"lpmd"]||[code isEqual:@"lpts"]||[code isEqual: @"hxshi"]||[code isEqual:@"hxmj"]) {
             WZScreenItem *item = [[WZScreenItem alloc] init];
             item.code = [obj valueForKey:@"code"];
             item.name = [obj valueForKey:@"name"];
@@ -225,7 +225,7 @@ static NSString *size = @"20";
     paraments[@"room"] = _room;
     paraments[@"area"] = _area;
     paraments[@"buildingFeature"] = _buildingFeature;
-    paraments[@"buildingRenovation"] = _buildingRenovation;
+    paraments[@"label"] = _buildingRenovation;
     paraments[@"location"] = _lnglat;
     paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"size"] = size;
@@ -348,7 +348,7 @@ static NSString *size = @"20";
     menuV.backgroundColor = [UIColor whiteColor];
     _menu = menuV;
     [self.view addSubview:menuV];
-    NSArray *titles =@[@"城市 ",@"总价",@"类型",@"筛选"];
+    NSArray *titles =@[@"城市 ",@"总价 ",@"类型 ",@"筛选 "];
     CGFloat titleViewW = menuV.fWidth / 4;
     CGFloat titleViewH = menuV.fHeight;
     for (int i = 0; i < 4; i++) {
@@ -551,7 +551,7 @@ static NSString *size = @"20";
     cell.cityButton.textColor = UIColorRBG(49, 35, 6);
     cell.cityButton.backgroundColor = UIColorRBG(255, 216, 0);
     UIButton *but =  [_menu viewWithTag:10];
-    [but setTitle:cell.cityButton.text forState:UIControlStateNormal];
+    [but setTitle:[NSString stringWithFormat:@"%@ ",cell.cityButton.text] forState:UIControlStateNormal];
     [but setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
     [but setImage:[UIImage imageNamed:@"lp_icon5"] forState:UIControlStateNormal];
     [self hideView];
@@ -648,7 +648,7 @@ static NSString *size = @"20";
     _slider = slider;
     [_priceView addSubview:slider];
     UIButton *but =  [_menu viewWithTag:11];
-    [but setTitle:@"总价" forState:UIControlStateNormal];
+    [but setTitle:@"总价 " forState:UIControlStateNormal];
     [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
     [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
     [self hideView];
@@ -674,7 +674,7 @@ static NSString *size = @"20";
         _maxPrice = max;
     }
     UIButton *but =  [_menu viewWithTag:11];
-    [but setTitle:[NSString stringWithFormat:(@"%@-%@"),min,max] forState:UIControlStateNormal];
+    [but setTitle:[NSString stringWithFormat:(@"%@-%@ "),min,max] forState:UIControlStateNormal];
     [but setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
     [but setImage:[UIImage imageNamed:@"lp_icon5"] forState:UIControlStateNormal];
     [self hideView];
@@ -710,7 +710,7 @@ static NSString *size = @"20";
 -(void)getUpTypeButton:(UIButton *)button{
     __weak typeof(self) weakSelf = self;
     _typeTable.typeBlock = ^(NSMutableDictionary *typeDic) {
-        [button setTitle:[NSString stringWithFormat:(@"%@"),[typeDic valueForKey:@"labels"]] forState:UIControlStateNormal];
+        [button setTitle:[NSString stringWithFormat:(@"%@ "),[typeDic valueForKey:@"labels"]] forState:UIControlStateNormal];
         _typeValue = [typeDic valueForKey:@"value"];
         button.selected = NO;
         [button setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
@@ -723,7 +723,7 @@ static NSString *size = @"20";
 //清除类型
 -(void)cleanButtonType{
     UIButton *but =  [_menu viewWithTag:12];
-    [but setTitle:@"类型" forState:UIControlStateNormal];
+    [but setTitle:@"类型 " forState:UIControlStateNormal];
     [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
     [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
     _typeValue = @"";
@@ -771,7 +771,7 @@ static NSString *size = @"20";
     _colles.selectBlock = ^(NSMutableDictionary *dicty) {
         _room = [dicty valueForKey:@"hxshi"];
         _buildingFeature = [dicty valueForKey:@"lpts"];
-        _buildingRenovation = [dicty valueForKey:@"lpzx"];
+        _buildingRenovation = [dicty valueForKey:@"lpmd"];
         _area = [dicty valueForKey:@"hxmj"];
         
     };
@@ -793,7 +793,7 @@ static NSString *size = @"20";
 -(void)cleanMore{
     [_colles clean];
     UIButton *button =  [_menu viewWithTag:13];
-    [button setTitle:@"筛选" forState: UIControlStateNormal];
+    [button setTitle:@"筛选 " forState: UIControlStateNormal];
     [button setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
     [button setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
     [self hideView];
@@ -806,11 +806,11 @@ static NSString *size = @"20";
     UIButton *but =  [_menu viewWithTag:13];
     
     if (_area.count == 0&&_buildingRenovation.count == 0&&_buildingFeature.count == 0&&_room.count == 0) {
-        [but setTitle:@"筛选" forState: UIControlStateNormal];
+        [but setTitle:@"筛选 " forState: UIControlStateNormal];
         [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
         [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
     }else{
-        [but setTitle:[NSString stringWithFormat:(@"多选")] forState:UIControlStateNormal];
+        [but setTitle:[NSString stringWithFormat:(@"多选 ")] forState:UIControlStateNormal];
         [but setTitleColor:UIColorRBG(255, 216, 0) forState:UIControlStateNormal];
         [but setImage:[UIImage imageNamed:@"lp_icon5"] forState:UIControlStateNormal];
     }
@@ -832,7 +832,7 @@ static NSString *size = @"20";
     _cityId = cityId;
     _lnglat = [user objectForKey:@"lnglat"];
     UIButton *but =  [_menu viewWithTag:10];
-    [but setTitle:@"城市" forState:UIControlStateNormal];
+    [but setTitle:@"城市 " forState:UIControlStateNormal];
     [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
     [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
     _seachCityId = @"";

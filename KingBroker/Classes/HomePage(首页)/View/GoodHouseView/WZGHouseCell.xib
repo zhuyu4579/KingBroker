@@ -96,7 +96,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hPW-RO-tYH">
-                        <rect key="frame" x="288" y="261" width="26.5" height="12"/>
+                        <rect key="frame" x="288" y="261" width="26.5" height="10"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="10" id="X6P-d0-D5a"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>

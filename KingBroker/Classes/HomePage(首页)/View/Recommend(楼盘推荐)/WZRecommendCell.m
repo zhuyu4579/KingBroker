@@ -27,6 +27,9 @@
     //4.设置阴影半径
     _view.layer.shadowRadius = 15;
     
+    _RecommendImage.layer.cornerRadius = 5.0;
+    _RecommendImage.layer.masksToBounds = YES;
+    
     _RecommendName.textColor = UIColorRBG(49, 35, 6);
     self.RecommendTitleOne.backgroundColor = UIColorRBG(255, 252, 238);
     self.RecommendTitleTwo.backgroundColor = UIColorRBG(255, 252, 238);

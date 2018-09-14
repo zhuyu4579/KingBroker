@@ -8,6 +8,7 @@
 #import "WZGoodHouseCell.h"
 #import "WZGoodHouseItem.h"
 #import "WZGoodHouseController.h"
+#import "NSString+LCExtension.h"
 #import "WZGoodHouseCollectionView.h"
 #import "UIViewController+WZFindController.h"
 static NSString * const ID = @"cell";
@@ -46,12 +47,19 @@ UICollectionViewDataSource>
 }
 //点击图片
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-   WZGoodHouseCell *cell = (WZGoodHouseCell *) [collectionView cellForItemAtIndexPath:indexPath];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    WZGoodHouseCell *cell = (WZGoodHouseCell *) [collectionView cellForItemAtIndexPath:indexPath];
     WZGoodHouseItem *item = _houseArray[indexPath.row];
     WZGoodHouseController *goodHouse = [[WZGoodHouseController alloc] init];
     goodHouse.ID = cell.ID;
     goodHouse.name = item.labelName;
     UIViewController *Vc = [UIViewController viewController:self.superview];
-    [Vc.navigationController pushViewController:goodHouse animated:YES];
+    if (uuid && ![uuid isEqual:@""]) {
+        [Vc.navigationController pushViewController:goodHouse animated:YES];
+    }else{
+        [NSString isCode:Vc.navigationController code:@"401"];
+    }
+    
 }
 @end

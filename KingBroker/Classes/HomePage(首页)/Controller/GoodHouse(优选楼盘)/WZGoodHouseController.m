@@ -124,6 +124,8 @@ static NSString *size = @"20";
     //创建菜单弹框
     [self getUpMenuAlert];
     
+    //创建tableview
+    [self getUpTableView];
     //读取数据字典
     NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
     NSString *fileName = [path stringByAppendingPathComponent:@"dictGroup.plist"];
@@ -217,6 +219,7 @@ static NSString *size = @"20";
     if (!_seachCityId||[_seachCityId isEqual:@""]) {
         paraments[@"cityId"] = _cityId;
     }
+    paraments[@"lableId"] = _ID;
     paraments[@"seachCityId"] = _seachCityId;
     paraments[@"minPrice"] = _minPrice;
     paraments[@"maxPrice"] = _maxPrice;
@@ -278,7 +281,6 @@ static NSString *size = @"20";
         _isRequestFinish = YES;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-        
         [_tableView.mj_header endRefreshing];
         [_tableView.mj_footer endRefreshing];
         _isRequestFinish = YES;
@@ -294,7 +296,7 @@ static NSString *size = @"20";
     navView.backgroundColor = [UIColor whiteColor];
     
     navView.layer.shadowColor = [UIColor blackColor].CGColor;
-
+    
     navView.layer.shadowOffset = CGSizeMake(0, 1);
     //3.设置阴影颜色的透明度
     navView.layer.shadowOpacity = 0.1;
@@ -334,7 +336,7 @@ static NSString *size = @"20";
 }
 #pragma mark -选择栏
 -(void)getUpMenu:(UIView *)view{
-   
+    
     UIView *menuV = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+44, SCREEN_WIDTH, 49)];
     menuV.backgroundColor = [UIColor whiteColor];
     _menu = menuV;
@@ -802,7 +804,6 @@ static NSString *size = @"20";
         _room = [dicty valueForKey:@"hxshi"];
         _buildingFeature = [dicty valueForKey:@"lpts"];
         _area = [dicty valueForKey:@"hxmj"];
-        
     };
 }
 - (UICollectionViewFlowLayout *)flowLayout
@@ -833,7 +834,6 @@ static NSString *size = @"20";
 //更多确认选择
 -(void)buttonCilck{
     UIButton *but =  [_menu viewWithTag:13];
-    
     if (_area.count == 0&&_buildingFeature.count == 0&&_room.count == 0) {
         [but setTitle:@"筛选 " forState: UIControlStateNormal];
         [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
@@ -857,6 +857,29 @@ static NSString *size = @"20";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
+-(void)loadRefreshs{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    _uuid = uuid;
+    NSString *cityId = [ user objectForKey:@"cityId"];
+    _cityId = cityId;
+    _lnglat = [user objectForKey:@"lnglat"];
+    UIButton *but =  [_menu viewWithTag:10];
+    [but setTitle:@"城市" forState:UIControlStateNormal];
+    [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
+    [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
+    _seachCityId = @"";
+    _projectListArray = [NSMutableArray array];
+    current = 1;
+    _isRequestFinish = YES;
+    [self loadData];
+    //获取城市列表
+    [self cityDatas];
+    
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [self loadRefreshs];
+}
 @end

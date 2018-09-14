@@ -69,8 +69,6 @@
     //获取最新版本
     [self findversion];
     
-    [self dictList];
-    
     [self loadNewsAnnounceme];
     
 }
@@ -551,7 +549,7 @@
     [application openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?mt=8",downAddress]]];
 }
 
-//获取字典
+#pragma mark-获取字典
 -(void)dictList{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
@@ -597,8 +595,9 @@
     [self loadDateTask];
     [self setloadData];
     [self goodHouseLoadData];
+    [self dictList];
 }
-//查询未读消息
+#pragma mark-查询未读消息
 -(void)setloadData{
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -656,7 +655,7 @@
     NSString *pathName = [NSString getFilePathWithFileName:plistName];
     [marray writeToFile:pathName atomically:YES];
 }
-//根据URL获取图片
+#pragma mark-根据URL获取图片
 -(UIImage *) getImageFromURL:(NSString *)fileURL
 {
     UIImage * result;
