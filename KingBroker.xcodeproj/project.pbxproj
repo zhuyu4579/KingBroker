@@ -31,6 +31,9 @@
 		1F1B789720864CCB00BC6007 /* WZReportItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B789620864CCB00BC6007 /* WZReportItems.m */; };
 		1F1B789A2086501100BC6007 /* WZReporListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B78992086501100BC6007 /* WZReporListItem.m */; };
 		1F1C33142084C499001FE5EF /* WZFindHouseListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1C33132084C499001FE5EF /* WZFindHouseListItem.m */; };
+		1F20C413214B410300FE8CC4 /* WZGoodHouseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F20C412214B410300FE8CC4 /* WZGoodHouseTableView.m */; };
+		1F20C417214B412F00FE8CC4 /* WZGHouseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F20C415214B412F00FE8CC4 /* WZGHouseCell.m */; };
+		1F20C418214B412F00FE8CC4 /* WZGHouseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F20C416214B412F00FE8CC4 /* WZGHouseCell.xib */; };
 		1F28463120887C4F007CFC7C /* WZCustomerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F28463020887C4F007CFC7C /* WZCustomerItem.m */; };
 		1F2846372088858C007CFC7C /* UIView+WZView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2846362088858C007CFC7C /* UIView+WZView.m */; };
 		1F3885A420A5700700402B23 /* ZDMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3885A320A5700700402B23 /* ZDMapController.m */; };
@@ -105,6 +108,7 @@
 		1F676367214A3C29005F1E37 /* WZGoodHouseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F676365214A3C29005F1E37 /* WZGoodHouseCell.m */; };
 		1F676368214A3C29005F1E37 /* WZGoodHouseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F676366214A3C29005F1E37 /* WZGoodHouseCell.xib */; };
 		1F67636B214A3C4C005F1E37 /* WZGoodHouseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F67636A214A3C4C005F1E37 /* WZGoodHouseItem.m */; };
+		1F676372214A67C4005F1E37 /* WZGoodHouseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F676371214A67C4005F1E37 /* WZGoodHouseController.m */; };
 		1F69017820CB755E006147BF /* WZPhotoNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F69017620CB755E006147BF /* WZPhotoNameCell.m */; };
 		1F69017920CB755E006147BF /* WZPhotoNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F69017720CB755E006147BF /* WZPhotoNameCell.xib */; };
 		1F77530220A41567003E1C07 /* WZCollectTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F77530120A41567003E1C07 /* WZCollectTableView.m */; };
@@ -302,6 +306,11 @@
 		1F1B78992086501100BC6007 /* WZReporListItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZReporListItem.m; sourceTree = "<group>"; };
 		1F1C33122084C499001FE5EF /* WZFindHouseListItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZFindHouseListItem.h; sourceTree = "<group>"; };
 		1F1C33132084C499001FE5EF /* WZFindHouseListItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZFindHouseListItem.m; sourceTree = "<group>"; };
+		1F20C411214B410300FE8CC4 /* WZGoodHouseTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZGoodHouseTableView.h; sourceTree = "<group>"; };
+		1F20C412214B410300FE8CC4 /* WZGoodHouseTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZGoodHouseTableView.m; sourceTree = "<group>"; };
+		1F20C414214B412F00FE8CC4 /* WZGHouseCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZGHouseCell.h; sourceTree = "<group>"; };
+		1F20C415214B412F00FE8CC4 /* WZGHouseCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZGHouseCell.m; sourceTree = "<group>"; };
+		1F20C416214B412F00FE8CC4 /* WZGHouseCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZGHouseCell.xib; sourceTree = "<group>"; };
 		1F28462F20887C4F007CFC7C /* WZCustomerItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZCustomerItem.h; sourceTree = "<group>"; };
 		1F28463020887C4F007CFC7C /* WZCustomerItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZCustomerItem.m; sourceTree = "<group>"; };
 		1F2846352088858C007CFC7C /* UIView+WZView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+WZView.h"; sourceTree = "<group>"; };
@@ -432,6 +441,8 @@
 		1F676366214A3C29005F1E37 /* WZGoodHouseCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZGoodHouseCell.xib; sourceTree = "<group>"; };
 		1F676369214A3C4C005F1E37 /* WZGoodHouseItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZGoodHouseItem.h; sourceTree = "<group>"; };
 		1F67636A214A3C4C005F1E37 /* WZGoodHouseItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZGoodHouseItem.m; sourceTree = "<group>"; };
+		1F676370214A67C4005F1E37 /* WZGoodHouseController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZGoodHouseController.h; sourceTree = "<group>"; };
+		1F676371214A67C4005F1E37 /* WZGoodHouseController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZGoodHouseController.m; sourceTree = "<group>"; };
 		1F69017520CB755E006147BF /* WZPhotoNameCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZPhotoNameCell.h; sourceTree = "<group>"; };
 		1F69017620CB755E006147BF /* WZPhotoNameCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZPhotoNameCell.m; sourceTree = "<group>"; };
 		1F69017720CB755E006147BF /* WZPhotoNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZPhotoNameCell.xib; sourceTree = "<group>"; };
@@ -760,6 +771,18 @@
 			path = ShareHouseDetails;
 			sourceTree = "<group>";
 		};
+		1F20C410214B40B400FE8CC4 /* GoodHouseView */ = {
+			isa = PBXGroup;
+			children = (
+				1F20C411214B410300FE8CC4 /* WZGoodHouseTableView.h */,
+				1F20C412214B410300FE8CC4 /* WZGoodHouseTableView.m */,
+				1F20C414214B412F00FE8CC4 /* WZGHouseCell.h */,
+				1F20C415214B412F00FE8CC4 /* WZGHouseCell.m */,
+				1F20C416214B412F00FE8CC4 /* WZGHouseCell.xib */,
+			);
+			path = GoodHouseView;
+			sourceTree = "<group>";
+		};
 		1F47F4A920CA73290012F5EF /* Albums(相册) */ = {
 			isa = PBXGroup;
 			children = (
@@ -829,6 +852,15 @@
 				1F63B1C620E776C1009587C1 /* WZForwardSuccessController.m */,
 			);
 			path = "Forward(提现)";
+			sourceTree = "<group>";
+		};
+		1F67636C214A6234005F1E37 /* GoodHouse(优选楼盘) */ = {
+			isa = PBXGroup;
+			children = (
+				1F676370214A67C4005F1E37 /* WZGoodHouseController.h */,
+				1F676371214A67C4005F1E37 /* WZGoodHouseController.m */,
+			);
+			path = "GoodHouse(优选楼盘)";
 			sourceTree = "<group>";
 		};
 		1FD9C488207DB91700BB0298 = {
@@ -1378,6 +1410,7 @@
 				1FD9C54B207DBD2B00BB0298 /* Report(报备) */,
 				1FD9C558207DBD2B00BB0298 /* FindHouse(找楼盘) */,
 				1FD9C55E207DBD2B00BB0298 /* houseDetails(楼盘详情) */,
+				1F67636C214A6234005F1E37 /* GoodHouse(优选楼盘) */,
 				1FD9C557207DBD2B00BB0298 /* WZPagesViewController.h */,
 				1FD9C563207DBD2B00BB0298 /* WZPagesViewController.m */,
 				1FD9C564207DBD2B00BB0298 /* Task(任务) */,
@@ -1548,6 +1581,7 @@
 		1FD9C572207DBD2B00BB0298 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1F20C410214B40B400FE8CC4 /* GoodHouseView */,
 				1FD9C573207DBD2B00BB0298 /* ReportView */,
 				1FD9C584207DBD2B00BB0298 /* Recommend(楼盘推荐) */,
 				1FD9C58A207DBD2B00BB0298 /* PageButtons */,
@@ -1939,6 +1973,7 @@
 				1F3D658B20B29BBF003AEF39 /* WZSelectProjectCell.xib in Resources */,
 				1F63B1AF20E4B6BB009587C1 /* WZSharesCell.xib in Resources */,
 				1FD9C678207DBD2C00BB0298 /* WZDetailsViewOne.xib in Resources */,
+				1F20C418214B412F00FE8CC4 /* WZGHouseCell.xib in Resources */,
 				1FD9C49E207DB91700BB0298 /* Assets.xcassets in Resources */,
 				1F09DDCA2087100A00C4D0A3 /* WZSettingController.xib in Resources */,
 				1FD9C64D207DBD2C00BB0298 /* WZReportSuccessCell.xib in Resources */,
@@ -2057,6 +2092,7 @@
 				1F47F49D20CA1FF80012F5EF /* WZLBCollectionView.m in Sources */,
 				1F3885A720A5718600402B23 /* AMapTipAnnotation.m in Sources */,
 				1FD9C644207DBD2C00BB0298 /* WZHouseDatisController.m in Sources */,
+				1F676372214A67C4005F1E37 /* WZGoodHouseController.m in Sources */,
 				1F1B7891208584CD00BC6007 /* WZMainUnitItem.m in Sources */,
 				1FD9C61D207DBD2C00BB0298 /* AppDelegate.m in Sources */,
 				1F09952620F496F500524361 /* WZShareVideoCell.m in Sources */,
@@ -2074,6 +2110,7 @@
 				1F4D6DE520FCEAD4008A9514 /* SelVideoPlayer.m in Sources */,
 				1F63B1B620E623C5009587C1 /* WZAddZFBAccountController.m in Sources */,
 				1FD9C688207DBD2C00BB0298 /* WZRegController.m in Sources */,
+				1F20C413214B410300FE8CC4 /* WZGoodHouseTableView.m in Sources */,
 				1F632EC1212CFFC00063AC4A /* WZNewsController.m in Sources */,
 				1FD9C604207DBD2C00BB0298 /* WZNavigationController.m in Sources */,
 				1FD9C609207DBD2C00BB0298 /* UIColor+Tools.m in Sources */,
@@ -2214,6 +2251,7 @@
 				1FD9C629207DBD2C00BB0298 /* WZSetTableController.m in Sources */,
 				1FD9C63B207DBD2C00BB0298 /* WZLossTableController.m in Sources */,
 				1F044D682115A7AF001C104F /* WZForgetPassWordController.m in Sources */,
+				1F20C417214B412F00FE8CC4 /* WZGHouseCell.m in Sources */,
 				1FD9C610207DBD2C00BB0298 /* UIView+Center.m in Sources */,
 				1F4D6DE420FCEAD4008A9514 /* SelPlaybackControls.m in Sources */,
 				1FFA9FA920E1CBCD00F34B3B /* WZTaskController.m in Sources */,

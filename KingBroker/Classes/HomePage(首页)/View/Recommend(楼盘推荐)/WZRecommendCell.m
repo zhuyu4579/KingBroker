@@ -20,22 +20,29 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    float n = [UIScreen mainScreen].bounds.size.width/375.0;
     self.backgroundColor = [UIColor clearColor];
-    self.RecommendTitleOne.backgroundColor = UIColorRBG(230, 244, 255);
-    self.RecommendTitleTwo.backgroundColor = UIColorRBG(230, 244, 255);
-    self.RecommendThree.backgroundColor = UIColorRBG(230, 244, 255);
-    self.RecommendTitleOne.textColor = UIColorRBG(40, 180, 230);
-    self.RecommendTitleTwo.textColor = UIColorRBG(40, 180, 230);
-    self.RecommendThree.textColor = UIColorRBG(40, 180, 230);
+    _view.layer.shadowColor = [UIColor blackColor].CGColor;
+    //3.设置阴影颜色的透明度
+    _view.layer.shadowOpacity = 0.05;
+    //4.设置阴影半径
+    _view.layer.shadowRadius = 15;
+    
+    _RecommendName.textColor = UIColorRBG(49, 35, 6);
+    self.RecommendTitleOne.backgroundColor = UIColorRBG(255, 252, 238);
+    self.RecommendTitleTwo.backgroundColor = UIColorRBG(255, 252, 238);
+    self.RecommendThree.backgroundColor = UIColorRBG(255, 252, 238);
+    self.RecommendTitleOne.textColor = UIColorRBG(255, 202, 118);
+    self.RecommendTitleTwo.textColor = UIColorRBG(255, 202, 118);
+    self.RecommendThree.textColor = UIColorRBG(255, 202, 118);
+    
     _cityName.textColor = UIColorRBG(153, 153, 153);
-    _prices.textColor = UIColorRBG(255, 127, 19);
-    [_joinButton setTitleColor:UIColorRBG(244, 102, 30) forState:UIControlStateNormal];
-    [_commissonImage setHidden:YES];
+    _prices.textColor = UIColorRBG(119, 119, 119);
+    [_joinButton setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
+    _Commission.textColor = UIColorRBG(255, 180, 61);
     [_Commission setHidden:YES];
-     _companyName.textColor = UIColorRBG(102, 102, 102);
-     [self.Collection setEnlargeEdge:44];
-    _imageHeight.constant = 210*n;
+     _companyName.textColor = UIColorRBG(153, 153, 153);
+    
+    
 }
 -(void)setItem:(WZFindHouseListItem *)item{
     _item = item;
@@ -50,12 +57,11 @@
         if ([realtorStatus isEqual:@"2"]) {
             [_joinButton setHidden:YES];
             [_joinButton setEnabled:NO];
-            [_commissonImage setHidden:NO];
             [_Commission setHidden:NO];
             if([commissionFag isEqual:@"0"]){
-                 _Commission.text = item.commission;
+                 _Commission.text = [NSString stringWithFormat:@"佣金：%@" ,item.commission];
             }else{
-                _Commission.text = @"佣金不可见";
+                _Commission.text = @"佣金结给门店";
             }
         }else{
             [_joinButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
@@ -65,7 +71,6 @@
         
     }else{
         [_joinButton setHidden:NO];
-        [_commissonImage setHidden:YES];
         [_Commission setHidden:YES];
         [_joinButton setTitle:@"登录可见佣金" forState:UIControlStateNormal];
         [_joinButton setEnabled:NO];
@@ -79,25 +84,22 @@
         _prices.text = item.averagePrice;
     }
     
-    NSString *collect = item.collect;
-    
-    if ([collect isEqual:@"0"]) {
-        _Collection.selected = NO;
-    }else{
-        _Collection.selected = YES;
-    }
     _cityName.text = item.cityName;
     _companyName.text = item.companyName;
-    [_RecommendImage sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"sy_wntj_pic"]];
+    [_RecommendImage sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"sy_pic-1"]];
+    
+    _RecommendTitleOne.text = @"";
+    _RecommendTitleTwo.text = @"";
+    _RecommendThree.text = @"";
     
     if (item.tage.count!=0) {
         for (int i = 0; i<item.tage.count; i++) {
             if (i == 0) {
-                _RecommendTitleOne.text = item.tage[0];
+                _RecommendTitleOne.text = [NSString stringWithFormat:@" %@ " ,item.tage[0]];
             }else if(i == 1){
-                _RecommendTitleTwo.text = item.tage[1];
+                _RecommendTitleTwo.text = [NSString stringWithFormat:@" %@ " ,item.tage[1]];
             }else if(i == 2){
-                _RecommendThree.text = item.tage[2];
+                _RecommendThree.text = [NSString stringWithFormat:@" %@ " ,item.tage[2]];
             }
         }
     }
@@ -107,6 +109,11 @@
     [super setSelected:selected animated:animated];
      self.selectionStyle = UITableViewCellSelectionStyleNone;
    
+}
+-(void)setFrame:(CGRect)frame{
+    frame.size.height -=10;
+    frame.origin.y +=10;
+    [super setFrame:frame];
 }
 - (IBAction)collection:(UIButton *)sender {
         UIButton *but = sender;

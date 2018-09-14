@@ -204,28 +204,49 @@
     layout.minimumInteritemSpacing = 10;
     layout.itemSize = CGSizeMake(100, 100);
     WZGoodHouseCollectionView *goodHouseCollectView = [[WZGoodHouseCollectionView alloc] initWithFrame:CGRectMake(0, 43, goodHouseView.fWidth, 245) collectionViewLayout:layout];
-    goodHouseCollectView.backgroundColor = [UIColor whiteColor];
+    goodHouseCollectView.backgroundColor = [UIColor clearColor];
     _goodHouseCollectView = goodHouseCollectView;
     //禁止滑动
     goodHouseCollectView.scrollEnabled = NO;
     [goodHouseView addSubview:goodHouseCollectView];
     
     //创建为你推荐
-    UIView *Recommend = [[UIView alloc] initWithFrame:CGRectMake(0, goodHouseView.fY+goodHouseView.fHeight+10, SCREEN_WIDTH, 732+210*(n-1)*2)];
+    UIView *Recommend = [[UIView alloc] initWithFrame:CGRectMake(0, goodHouseView.fY+goodHouseView.fHeight+10, SCREEN_WIDTH, 964)];
     Recommend.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:Recommend];
     //创建为你推荐图标
-    UIImageView *recommendImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 17, 18)];
-    recommendImage.image = [UIImage imageNamed:@"recmmend"];
+    UIImageView *recommendImage = [[UIImageView alloc] init];
+    recommendImage.image = [UIImage imageNamed:@"sy_pic"];
     [Recommend addSubview:recommendImage];
+    [recommendImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(Recommend.mas_centerX);
+        make.top.equalTo(Recommend.mas_top).offset(20);
+        make.width.offset(190);
+        make.height.offset(3);
+    }];
     //创建为你推荐标题
-    UILabel *recommendLable = [[UILabel alloc] initWithFrame:CGRectMake(42, 15, 71, 17)];
+    UILabel *recommendLable = [[UILabel alloc] init];
     recommendLable.text = @"为你推荐";
-    recommendLable.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
-    recommendLable.textColor = UIColorRBG(68, 68, 68);
+    recommendLable.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    recommendLable.textColor = UIColorRBG(51, 51, 51);
     [Recommend addSubview:recommendLable];
+    [recommendLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(Recommend.mas_centerX);
+        make.top.equalTo(Recommend.mas_top).offset(15);
+        make.height.offset(14);
+    }];
+    UILabel *subTitles = [[UILabel alloc] init];
+    subTitles.textColor = UIColorRBG(102, 102, 102);
+    subTitles.text = @"RECOMMEND TO YOU";
+    subTitles.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
+    [Recommend addSubview:subTitles];
+    [subTitles mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(Recommend.mas_centerX);
+        make.top.equalTo(recommendLable.mas_bottom).offset(6);
+        make.height.offset(9);
+    }];
     //创建为你推荐房源view62
-    _recommendTV = [[WZRecommendTableView alloc] initWithFrame:CGRectMake(0, recommendLable.fY+recommendLable.fHeight, Recommend.fWidth, 700+210*(n-1)*2)];
+    _recommendTV = [[WZRecommendTableView alloc] initWithFrame:CGRectMake(0, 48, Recommend.fWidth, 915)];
     
     [Recommend addSubview:_recommendTV];
 
@@ -312,7 +333,7 @@
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"location"] = _lnglat;
-    paraments[@"num"] = @"2";
+    paraments[@"num"] = @"6";
     NSString *url = [NSString stringWithFormat:@"%@/proProject/recommend/projectList",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];

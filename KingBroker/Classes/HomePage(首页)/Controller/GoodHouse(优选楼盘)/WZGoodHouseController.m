@@ -1,10 +1,13 @@
 //
-//  WZHouseController.m
-//  WZJJ
+//  WZGoodHouseController.m
+//  KingBroker
 //
-//  Created by 朱玉隆 on 2018/4/3.
+//  Created by 朱玉隆 on 2018/9/13.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
+
+
+
 #import <Masonry.h>
 #import "WZSlider.h"
 #import "WZTypeItem.h"
@@ -17,23 +20,20 @@
 #import <SVProgressHUD.h>
 #import "WZTypeTableView.h"
 #import "WZCollectionView.h"
-#import "WZHouseController.h"
 #import "WZCollectTableView.h"
-#import "WZFindHouseListItem.h"
 #import "NSString+LCExtension.h"
 #import "WZCityCollectionCell.h"
 #import "NSString+LCExtension.h"
-#import "WZFindHouseTableView.h"
 #import <UIImageView+WebCache.h>
+#import "WZGoodHouseController.h"
 #import "LJCollectionViewFlowLayout.h"
 #import "UIButton+WZEnlargeTouchAre.h"
-
-static NSString * const ID = @"Citycell";
-@interface WZHouseController ()<UICollectionViewDataSource,UICollectionViewDelegate>{
+#import "WZGoodHouseTableView.h"
+#import "WZFindHouseListItem.h"
+@interface WZGoodHouseController ()<UICollectionViewDataSource,UICollectionViewDelegate>{
     //页数
     NSInteger current;
 }
-
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 //列表按钮
 @property(nonatomic,weak)UIButton *previousClickButton;
@@ -54,11 +54,11 @@ static NSString * const ID = @"Citycell";
 @property(nonatomic,strong)UIView *framView;
 
 @property(nonatomic,strong)UIView *viewTable;
+//保存数据数组
+@property (nonatomic, strong)WZGoodHouseTableView *tableView;
 //找楼盘菜单城市数据
 @property (nonatomic, strong)NSArray *cityArray;
 @property (nonatomic, strong)NSIndexPath *indexPath;
-//保存数据数组
-@property (nonatomic, strong)WZFindHouseTableView *tableView;
 //城市ID
 @property(nonatomic,strong)NSString *cityId;
 //UUID
@@ -85,8 +85,6 @@ static NSString * const ID = @"Citycell";
 @property(nonatomic,strong)NSArray *room;
 //楼盘特色
 @property(nonatomic,strong)NSArray *buildingFeature;
-//楼盘装修
-@property(nonatomic,strong)NSArray *buildingRenovation;
 //面积
 @property(nonatomic,strong)NSArray *area;
 //楼盘列表数据
@@ -97,30 +95,29 @@ static NSString * const ID = @"Citycell";
 @property(nonatomic,strong)NSString *lnglat;
 //数据请求是否完毕
 @property (nonatomic, assign) BOOL isRequestFinish;
-
 @end
+
+static NSString * const ID = @"Citycell";
 //查询条数
 static NSString *size = @"20";
 
-@implementation WZHouseController
+@implementation WZGoodHouseController
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
+    
     _isRequestFinish = YES;
     _projectListArray = [NSMutableArray array];
     current = 1;
-    [super viewDidLoad];
     
+    //设置导航栏
+    [self setNavigation];
+    //无数据
     [self setNoData];
-    
-    [self setNarItem];
-    
-    //创建tableview
-    [self getUpTableView];
-    
     //遍历数组
     NSMutableArray *screenArray = [NSMutableArray array];
     _SXArray = screenArray;
@@ -141,7 +138,7 @@ static NSString *size = @"20";
             _typeTable.array = _typeArray;
         }
         //特色看房服务
-        if ([code isEqual:@"lpzx"]||[code isEqual:@"lpts"]||[code isEqual: @"hxshi"]||[code isEqual:@"hxmj"]) {
+        if ([code isEqual:@"lpts"]||[code isEqual: @"hxshi"]||[code isEqual:@"hxmj"]) {
             WZScreenItem *item = [[WZScreenItem alloc] init];
             item.code = [obj valueForKey:@"code"];
             item.name = [obj valueForKey:@"name"];
@@ -149,30 +146,7 @@ static NSString *size = @"20";
             [screenArray addObject:item];
         }
     }
-    
-    
     [self headerRefresh];
-    
-}
--(void)loadRefreshs{
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
-    _uuid = uuid;
-    NSString *cityId = [ user objectForKey:@"cityId"];
-    _cityId = cityId;
-    _lnglat = [user objectForKey:@"lnglat"];
-    UIButton *but =  [_menu viewWithTag:10];
-    [but setTitle:@"城市" forState:UIControlStateNormal];
-    [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
-    [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
-    _seachCityId = @"";
-    _projectListArray = [NSMutableArray array];
-    current = 1;
-    _isRequestFinish = YES;
-    [self loadData];
-    //获取城市列表
-    [self cityDatas];
-    
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -250,12 +224,11 @@ static NSString *size = @"20";
     paraments[@"room"] = _room;
     paraments[@"area"] = _area;
     paraments[@"buildingFeature"] = _buildingFeature;
-    paraments[@"buildingRenovation"] = _buildingRenovation;
     paraments[@"location"] = _lnglat;
     paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"size"] = size;
     
-    NSString *url = [NSString stringWithFormat:@"%@/proProject/projectList",HTTPURL];
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/projectListByLabelIdAndOther",HTTPURL];
     
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
@@ -312,63 +285,61 @@ static NSString *size = @"20";
     }];
     
 }
-//创建无图表
--(void)setNoData{
-    UIView *view = [[UIView alloc] init];
-    view.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight-50);
-    [view setHidden:NO];
-    _viewNo = view;
-    [self.view addSubview:view];
-    UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [UIImage imageNamed:@"vacancy"];
-    [view addSubview:imageView];
-    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(view.mas_top).offset(194);
-        make.width.offset(94);
-        make.height.offset(96);
-    }];
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"还没有任何楼盘哦~";
-    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
-    label.textColor = UIColorRBG(158, 158, 158);
-    label.textAlignment = NSTextAlignmentCenter;
-    label.numberOfLines = 0;
-    [view addSubview:label];
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(imageView.mas_bottom).offset(29);
-    }];
-    
-}
+
 #pragma mark -设置导航栏
--(void)setNarItem{
+-(void)setNavigation{
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
-    //创建菜单
-    [self getUpMenu];
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _menu.fY+_menu.fHeight+1, SCREEN_WIDTH, SCREEN_HEIGHT - _menu.fY-_menu.fHeight-45-JF_BOTTOM_SPACE-kApplicationStatusBarHeight)];
+    
+    UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, kApplicationStatusBarHeight+93)];
+    navView.backgroundColor = [UIColor whiteColor];
+    
+    navView.layer.shadowColor = [UIColor blackColor].CGColor;
+
+    navView.layer.shadowOffset = CGSizeMake(0, 1);
+    //3.设置阴影颜色的透明度
+    navView.layer.shadowOpacity = 0.1;
+    //4.设置阴影半径
+    navView.layer.shadowRadius = 3;
+    [self.view addSubview:navView];
+    
+    //创建返回按钮
+    UIButton *backButton = [[UIButton alloc] init];
+    [backButton setBackgroundImage:[UIImage imageNamed:@"dh_more_unfold"] forState:UIControlStateNormal];
+    [backButton setEnlargeEdgeWithTop:10 right:20 bottom:10 left:15];
+    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [navView addSubview:backButton];
+    [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(navView.mas_left).offset(15);
+        make.top.equalTo(navView.mas_top).offset(kApplicationStatusBarHeight+12);
+        make.width.offset(11);
+        make.height.offset(20);
+    }];
+    UILabel *title = [[UILabel alloc] init];
+    title.text = _name;
+    title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:18];
+    title.textColor = UIColorRBG(51, 51, 51);
+    [navView addSubview:title];
+    [title mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(navView.mas_centerX);
+        make.top.equalTo(navView.mas_top).offset(kApplicationStatusBarHeight+12);
+        make.height.offset(18);
+    }];
+    //设置选择栏
+    [self getUpMenu:navView];
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+93, SCREEN_WIDTH, SCREEN_HEIGHT -93-JF_BOTTOM_SPACE-kApplicationStatusBarHeight)];
     view.backgroundColor = [UIColor clearColor];
     [self.view addSubview:view];
     _viewTable = view;
 }
--(void)getUpMenu{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 30, SCREEN_WIDTH, 19)];
-    view.backgroundColor = [UIColor whiteColor];
-    
-    view.layer.shadowColor = [UIColor blackColor].CGColor;
-    //2.设置阴影偏移范围
-    view.layer.shadowOffset = CGSizeMake(0, 1);
-    //3.设置阴影颜色的透明度
-    view.layer.shadowOpacity = 0.1;
-    //4.设置阴影半径
-    view.layer.shadowRadius = 3;
-    [self.view addSubview:view];
-    
-    UIView *menuV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 49)];
+#pragma mark -选择栏
+-(void)getUpMenu:(UIView *)view{
+   
+    UIView *menuV = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+44, SCREEN_WIDTH, 49)];
     menuV.backgroundColor = [UIColor whiteColor];
     _menu = menuV;
-    [self.view addSubview:menuV];
-    NSArray *titles =@[@"城市",@"总价",@"类型",@"筛选"];
+    [view addSubview:menuV];
+    NSArray *titles =@[@"城市 ",@"总价 ",@"类型 ",@"筛选 "];
     CGFloat titleViewW = menuV.fWidth / 4;
     CGFloat titleViewH = menuV.fHeight;
     for (int i = 0; i < 4; i++) {
@@ -400,14 +371,44 @@ static NSString *size = @"20";
 //楼盘列表
 -(void)getUpTableView{
     
-    WZFindHouseTableView *tableView = [[WZFindHouseTableView alloc] initWithFrame:CGRectMake(0,0, _viewTable.fWidth, _viewTable.fHeight)];
+    WZGoodHouseTableView *tableView = [[WZGoodHouseTableView alloc] initWithFrame:CGRectMake(0,0, _viewTable.fWidth, _viewTable.fHeight)];
     tableView.backgroundColor = [UIColor clearColor];
     _tableView = tableView;
     [_viewTable addSubview:tableView];
     
 }
+//创建无图表
+-(void)setNoData{
+    UIView *view = [[UIView alloc] init];
+    view.frame = CGRectMake(0, kApplicationStatusBarHeight+93, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight-93);
+    [view setHidden:NO];
+    _viewNo = view;
+    [self.view addSubview:view];
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = [UIImage imageNamed:@"vacancy"];
+    [view addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(view.mas_top).offset(194);
+        make.width.offset(94);
+        make.height.offset(96);
+    }];
+    UILabel *label = [[UILabel alloc] init];
+    label.text = @"还没有任何楼盘哦~";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+    label.textColor = UIColorRBG(158, 158, 158);
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 0;
+    [view addSubview:label];
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(imageView.mas_bottom).offset(29);
+    }];
+    
+}
+#pragma mark  -菜单弹窗
 -(void)getUpMenuAlert{
-    UIView *framView = [[UIView alloc] initWithFrame:CGRectMake(0, 50, self.view.fWidth, self.view.fHeight - kApplicationStatusBarHeight-94)];
+    UIView *framView = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+94, self.view.fWidth, self.view.fHeight - kApplicationStatusBarHeight-94)];
     [self.view addSubview:framView];
     _framView = framView;
     [self getUpCover];
@@ -579,7 +580,7 @@ static NSString *size = @"20";
     cell.cityButton.textColor = UIColorRBG(49, 35, 6);
     cell.cityButton.backgroundColor = UIColorRBG(255, 216, 0);
     UIButton *but =  [_menu viewWithTag:10];
-    [but setTitle:cell.cityButton.text forState:UIControlStateNormal];
+    [but setTitle:[NSString stringWithFormat:@"%@ ",cell.cityButton.text] forState:UIControlStateNormal];
     [but setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
     [but setImage:[UIImage imageNamed:@"lp_icon5"] forState:UIControlStateNormal];
     [self hideView];
@@ -676,7 +677,7 @@ static NSString *size = @"20";
     _slider = slider;
     [_priceView addSubview:slider];
     UIButton *but =  [_menu viewWithTag:11];
-    [but setTitle:@"总价" forState:UIControlStateNormal];
+    [but setTitle:@"总价 " forState:UIControlStateNormal];
     [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
     [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
     [self hideView];
@@ -702,7 +703,7 @@ static NSString *size = @"20";
         _maxPrice = max;
     }
     UIButton *but =  [_menu viewWithTag:11];
-    [but setTitle:[NSString stringWithFormat:(@"%@-%@"),min,max] forState:UIControlStateNormal];
+    [but setTitle:[NSString stringWithFormat:(@"%@-%@ "),min,max] forState:UIControlStateNormal];
     [but setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
     [but setImage:[UIImage imageNamed:@"lp_icon5"] forState:UIControlStateNormal];
     [self hideView];
@@ -738,7 +739,7 @@ static NSString *size = @"20";
 -(void)getUpTypeButton:(UIButton *)button{
     __weak typeof(self) weakSelf = self;
     _typeTable.typeBlock = ^(NSMutableDictionary *typeDic) {
-        [button setTitle:[NSString stringWithFormat:(@"%@"),[typeDic valueForKey:@"labels"]] forState:UIControlStateNormal];
+        [button setTitle:[NSString stringWithFormat:@"%@ ",[typeDic valueForKey:@"labels"]] forState:UIControlStateNormal];
         _typeValue = [typeDic valueForKey:@"value"];
         button.selected = NO;
         [button setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
@@ -751,7 +752,7 @@ static NSString *size = @"20";
 //清除类型
 -(void)cleanButtonType{
     UIButton *but =  [_menu viewWithTag:12];
-    [but setTitle:@"类型" forState:UIControlStateNormal];
+    [but setTitle:@"类型 " forState:UIControlStateNormal];
     [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
     [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
     _typeValue = @"";
@@ -800,7 +801,6 @@ static NSString *size = @"20";
     _colles.selectBlock = ^(NSMutableDictionary *dicty) {
         _room = [dicty valueForKey:@"hxshi"];
         _buildingFeature = [dicty valueForKey:@"lpts"];
-        _buildingRenovation = [dicty valueForKey:@"lpzx"];
         _area = [dicty valueForKey:@"hxmj"];
         
     };
@@ -822,7 +822,7 @@ static NSString *size = @"20";
 -(void)cleanMore{
     [_colles clean];
     UIButton *button =  [_menu viewWithTag:13];
-    [button setTitle:@"筛选" forState: UIControlStateNormal];
+    [button setTitle:@"筛选 " forState: UIControlStateNormal];
     [button setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
     [button setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
     [self hideView];
@@ -834,12 +834,12 @@ static NSString *size = @"20";
 -(void)buttonCilck{
     UIButton *but =  [_menu viewWithTag:13];
     
-    if (_area.count == 0&&_buildingRenovation.count == 0&&_buildingFeature.count == 0&&_room.count == 0) {
-        [but setTitle:@"筛选" forState: UIControlStateNormal];
+    if (_area.count == 0&&_buildingFeature.count == 0&&_room.count == 0) {
+        [but setTitle:@"筛选 " forState: UIControlStateNormal];
         [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
         [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
     }else{
-        [but setTitle:[NSString stringWithFormat:(@"多选")] forState:UIControlStateNormal];
+        [but setTitle:[NSString stringWithFormat:(@"多选 ")] forState:UIControlStateNormal];
         [but setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
         [but setImage:[UIImage imageNamed:@"lp_icon5"] forState:UIControlStateNormal];
     }
@@ -849,9 +849,14 @@ static NSString *size = @"20";
     [self loadData];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-    
+#pragma mark -返回
+-(void)back{
+    [self.navigationController popViewControllerAnimated:YES];
 }
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
 @end
