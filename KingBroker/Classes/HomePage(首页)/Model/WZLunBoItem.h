@@ -14,4 +14,5 @@
 
 @property(nonatomic,strong)NSString *id;
 
+@property(nonatomic,strong)NSString *type;
 @end

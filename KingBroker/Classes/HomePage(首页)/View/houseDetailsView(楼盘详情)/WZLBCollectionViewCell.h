@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-@class WZLunBoItem;
+@class WZLunBoItems;
 @interface WZLBCollectionViewCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) IBOutlet UIButton *playBUtton;
 @property(nonatomic,strong)NSString *ID;
-@property(nonatomic,strong)WZLunBoItem *item;
+
+@property(nonatomic,strong)WZLunBoItems *item;
 
 @end

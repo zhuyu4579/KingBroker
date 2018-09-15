@@ -25,7 +25,7 @@ static NSString * const ID = @"cell";
     self.showsVerticalScrollIndicator = NO;
     self.showsHorizontalScrollIndicator = NO;
    
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor blueColor];
     [self setCollectionViewLayout:layout];
     self.frame = frame;
     //注册cell
