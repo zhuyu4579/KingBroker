@@ -49,6 +49,7 @@
                 <outlet property="title" destination="lvF-oL-Zo6" id="aDY-bl-W7g"/>
                 <outlet property="view" destination="pfq-rK-LvK" id="UrG-zJ-fdT"/>
             </connections>
+            <point key="canvasLocation" x="19" y="50"/>
         </collectionViewCell>
     </objects>
 </document>

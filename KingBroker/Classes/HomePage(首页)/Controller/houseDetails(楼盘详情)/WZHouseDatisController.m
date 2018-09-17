@@ -29,7 +29,6 @@
 #import "NSString+LCExtension.h"
 #import "WZPeripheryItem.h"
 #import "WZAlbumPhonesViewController.h"
-
 #import "WZHouseDetilItem.h"
 #import "WZJionStoreController.h"
 #import "WZNavigationController.h"
@@ -43,6 +42,8 @@
 @property(nonatomic,strong)UICollectionView *cycleView;
 @property(nonatomic,strong)UICollectionView *titleView;
 @property (nonatomic,strong)NSArray *titleArray;
+@property (nonatomic,strong)NSIndexPath *oldIndexPath;
+@property (nonatomic,assign)NSInteger sum;
 //底部按钮view
 @property(nonatomic,strong)UIView *buttonView;
 //导航栏view
@@ -115,7 +116,7 @@ static NSString * const IDS = @"cells";
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
-
+    _sum = 0;
     [super viewDidLoad];
     //设置背景色
     [self setNavTitle];
@@ -128,6 +129,12 @@ static NSString * const IDS = @"cells";
     [self headerRefresh];
     //分享弹框
     [self shareTasks];
+    
+    [self loadData];
+    
+    [self findCoustrom];
+    
+    [self findShare];
 }
 
 -(void)editClickNum{
@@ -242,19 +249,19 @@ static NSString * const IDS = @"cells";
     NSArray *pcad = [_houseDatils valueForKey:@"pcad"];
     _titleArray = [WZHouseDetilItem mj_objectArrayWithKeyValuesArray:pcad];
     
-    //[UIView setAnimationsEnabled:NO];
+    
     [UIView performWithoutAnimation:^{
         //刷新界面
        [_cycleView reloadData];
        [_titleView reloadData];
-        NSIndexPath *indexPath =[NSIndexPath indexPathForRow:0 inSection:0];
-        [self collectionView:_titleView didSelectItemAtIndexPath:indexPath];
+       NSIndexPath *indexPath =[NSIndexPath indexPathForRow:0 inSection:0];
+       [self.titleView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
 
     }];
-    
     //设置页面张数
-    NSString *alnumSum = [_houseDatils valueForKey:@"pictureNum"];
-    [_album setTitle:[NSString stringWithFormat:@"共%@张",alnumSum] forState:UIControlStateNormal];
+    if (pcad.count!=0) {
+         [_album setTitle:[NSString stringWithFormat:@"1/%@",[pcad[0] valueForKey:@"pcdNum"]] forState:UIControlStateNormal];
+    }
     //设置收藏
     NSString  *collect = [_houseDatils valueForKey:@"collect"];
     if ([collect isEqual:@"0"]) {
@@ -594,6 +601,9 @@ static NSString * const IDS = @"cells";
 }
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if (collectionView==_titleView) {
+        if(self.titleArray.count==1){
+            return 0;
+        }
         return self.titleArray.count;
     }
     WZHouseDetilItem *detilItem = _titleArray[section];
@@ -605,6 +615,10 @@ static NSString * const IDS = @"cells";
     if (collectionView == _titleView) {
         WZTitleCollectionCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:IDS forIndexPath:indexPath];
         cell.item = self.titleArray[indexPath.row];
+        if (indexPath.row == 0) {
+            _oldIndexPath = indexPath;
+            cell.view.backgroundColor = UIColorRBG(255, 224, 0);
+        }
         return cell;
     }
     else{
@@ -619,14 +633,17 @@ static NSString * const IDS = @"cells";
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     //点击标题栏上的标题 实现切换效果
     if (collectionView == self.titleView) {
+        WZTitleCollectionCell *cell1 = (WZTitleCollectionCell *) [collectionView cellForItemAtIndexPath:_oldIndexPath];
+        cell1.view.backgroundColor = [UIColor whiteColor];
         
         WZTitleCollectionCell *cell = (WZTitleCollectionCell *) [collectionView cellForItemAtIndexPath:indexPath];
         cell.view.backgroundColor = UIColorRBG(255, 224, 0);
-        
+        [_album setTitle:[NSString stringWithFormat:@"1/%@",cell.pcdNum] forState:UIControlStateNormal];
+        _oldIndexPath = indexPath;
         //滑动被点击的标题 至中心 并设置状态为选中
         [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
         //同时 根据点击的标题的indexPath.row 确定滑动至显示栏对应的section
-        NSIndexPath *viewIndexPath=[NSIndexPath indexPathForItem:0 inSection:indexPath.row];
+        NSIndexPath *viewIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.row];
         [self.cycleView scrollToItemAtIndexPath:viewIndexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
         
     }
@@ -634,35 +651,53 @@ static NSString * const IDS = @"cells";
 //分页效果
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    
-    float pageWidth = _cycleView.fWidth; // width + space
-    
-    float currentOffset = scrollView.contentOffset.x;
-    float targetOffset = targetContentOffset->x;
-    float newTargetOffset = 0;
-    
-    if (targetOffset > currentOffset)
-        newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth;
-    else
-        newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth;
-    
-    if (newTargetOffset < 0)
-        newTargetOffset = 0;
-    else if (newTargetOffset > scrollView.contentSize.width)
-        newTargetOffset = scrollView.contentSize.width;
-    
-    targetContentOffset->x = currentOffset;
-    
-    [scrollView setContentOffset:CGPointMake(newTargetOffset, 0) animated:YES];
-    
-}
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    if ([scrollView isEqual:self.cycleView]) {
-        //计算偏移量
-        CGFloat x = scrollView.contentOffset.x;
-        NSInteger i=x/[UIScreen mainScreen].bounds.size.width;
-        //当前偏移量/屏幕宽度 即为当前应滑动到的分区栏的section
-        [self.titleView selectItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+    if (scrollView != _scrollView) {
+        float pageWidth = _cycleView.fWidth; // width + space
+        
+        float currentOffset = scrollView.contentOffset.x;
+        float targetOffset = targetContentOffset->x;
+        float newTargetOffset = 0;
+        
+        if (targetOffset > currentOffset)
+            newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth;
+        else
+            newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth;
+        
+        if (newTargetOffset < 0)
+            newTargetOffset = 0;
+        else if (newTargetOffset > scrollView.contentSize.width)
+            newTargetOffset = scrollView.contentSize.width;
+        
+        targetContentOffset->x = currentOffset;
+        
+        [scrollView setContentOffset:CGPointMake(newTargetOffset, 0) animated:YES];
+         NSIndexPath *indexPath = [_cycleView indexPathForItemAtPoint:CGPointMake(newTargetOffset, 0)];
+         WZTitleCollectionCell *cell =(WZTitleCollectionCell *) [_titleView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:indexPath.section inSection:0]];
+        
+        NSInteger num = newTargetOffset/pageWidth +1;
+        if(indexPath.section == 0){
+            [_album setTitle:[NSString stringWithFormat:@"%ld/%@",(long)num,cell.pcdNum] forState:UIControlStateNormal];
+        }else if(indexPath.section == 1){
+             WZTitleCollectionCell *cell2 =(WZTitleCollectionCell *) [_titleView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+            num -= [cell2.pcdNum integerValue];
+              [_album setTitle:[NSString stringWithFormat:@"%ld/%@",(long)num,cell.pcdNum] forState:UIControlStateNormal];
+        }else{
+            WZTitleCollectionCell *cell3 =(WZTitleCollectionCell *) [_titleView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+            WZTitleCollectionCell *cell4 =(WZTitleCollectionCell *) [_titleView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]];
+            num -= ([cell3.pcdNum integerValue]+[cell4.pcdNum integerValue]);
+            [_album setTitle:[NSString stringWithFormat:@"%ld/%@",(long)num,cell.pcdNum] forState:UIControlStateNormal];
+        }
+        
+        
+        if (_titleArray.count > 1) {
+            WZTitleCollectionCell *cell1 =(WZTitleCollectionCell *) [_titleView cellForItemAtIndexPath:_oldIndexPath];
+            cell1.view.backgroundColor = [UIColor whiteColor];
+            
+            cell.view.backgroundColor = UIColorRBG(255, 224, 0);
+            
+            _oldIndexPath = [NSIndexPath indexPathForItem:indexPath.section inSection:0];
+        }
+        
     }
     
 }
@@ -684,6 +719,7 @@ static NSString * const IDS = @"cells";
     //创建返回按钮
     UIButton *popButton = [[UIButton alloc] init];
     [popButton setBackgroundImage:[UIImage imageNamed:@"lpxq_more_unfold"] forState:UIControlStateNormal];
+    [popButton setEnlargeEdgeWithTop:10 right:18 bottom:10 left:18];
     self.popButton = popButton;
     [popButton addTarget:self action:@selector(black) forControlEvents:UIControlEventTouchUpInside];
     [buttonView addSubview:popButton];
@@ -698,6 +734,7 @@ static NSString * const IDS = @"cells";
     UIButton *shareButton = [[UIButton alloc] init];
     [shareButton setBackgroundImage:[UIImage imageNamed:@"lpxq_share"] forState:UIControlStateNormal];
     self.shareButtons = shareButton;
+    [shareButton setEnlargeEdgeWithTop:10 right:18 bottom:10 left:18];
     [shareButton addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
     [buttonView addSubview:shareButton];
     [shareButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -1109,7 +1146,6 @@ static NSString * const IDS = @"cells";
         make.height.offset(13);
     }];
     UILabel *ScLabelThrees = [[UILabel alloc] init];
-    
     ScLabelThrees.font =  [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
     ScLabelThrees.textColor =UIColorRBG(153, 153, 153);
     self.ScLabelThrees = ScLabelThrees;
@@ -1287,12 +1323,12 @@ static NSString * const IDS = @"cells";
         NSString *types = [array[i] valueForKey:@"type"];
         if ([types isEqual:@"1"]) {
             type.text = @" 负责人 ";
-            type.textColor = [UIColor whiteColor];
-            type.backgroundColor = UIColorRBG(86, 177, 255);
+            type.textColor = UIColorRBG(255, 202, 118);
+            type.backgroundColor = UIColorRBG(255, 252, 238);
         }else{
             type.text = @" 报备对接人 ";
-            type.textColor = UIColorRBG(153, 153, 153);
-            type.backgroundColor = UIColorRBG(238, 238, 238);
+            type.textColor = UIColorRBG(204, 204, 204);
+            type.backgroundColor = UIColorRBG(242, 242, 242);
         }
         type.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
         [view addSubview:type];
@@ -1302,7 +1338,7 @@ static NSString * const IDS = @"cells";
             make.height.offset(16);
         }];
         UIButton *pButton = [[UIButton alloc] init];
-        [pButton setBackgroundImage:[UIImage imageNamed:@"xmxq_phone"] forState:UIControlStateNormal];
+        [pButton setBackgroundImage:[UIImage imageNamed:@"lpxq_icon2"] forState:UIControlStateNormal];
         pButton.tag = i;
         [pButton addTarget:self action:@selector(playTelphone:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:pButton];
@@ -1626,9 +1662,7 @@ static NSString * const IDS = @"cells";
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-    [self loadData];
-    [self findCoustrom];
-    [self findShare];
+  
 }
 //数据分解
 -(NSMutableArray *)setString:(NSArray *)array{

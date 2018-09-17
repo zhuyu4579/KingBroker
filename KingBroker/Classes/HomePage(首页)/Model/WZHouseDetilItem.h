@@ -17,6 +17,7 @@
 @property(nonatomic,strong)NSString *title;
 
 @end
+
 @interface WZLunBoItems : NSObject
 
 @property(nonatomic,strong)NSString *url;
@@ -24,4 +25,5 @@
 @property(nonatomic,strong)NSString *id;
 
 @property(nonatomic,strong)NSString *type;
+
 @end
