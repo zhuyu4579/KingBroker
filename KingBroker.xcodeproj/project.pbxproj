@@ -91,6 +91,7 @@
 		1F5B83252081FC260083DEC2 /* WZSetInfertionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B83242081FC260083DEC2 /* WZSetInfertionView.m */; };
 		1F5B83272081FC370083DEC2 /* WZSetInfertionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B83262081FC370083DEC2 /* WZSetInfertionView.xib */; };
 		1F60A9A72150EF7D002ED860 /* WZNewViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60A9A62150EF7D002ED860 /* WZNewViewCell.m */; };
+		1F60A9AE2150FEAB002ED860 /* WZHDMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60A9AD2150FEAB002ED860 /* WZHDMapController.m */; };
 		1F60D0F3214CDB9700E311B5 /* WZHouseDetilItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60D0F2214CDB9700E311B5 /* WZHouseDetilItem.m */; };
 		1F60D0F7214CE20000E311B5 /* WZTitleCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60D0F5214CE20000E311B5 /* WZTitleCollectionCell.m */; };
 		1F60D0F8214CE20000E311B5 /* WZTitleCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F60D0F6214CE20000E311B5 /* WZTitleCollectionCell.xib */; };
@@ -235,26 +236,6 @@
 		1FD9C679207DBD2C00BB0298 /* WZDynamictableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5C7207DBD2B00BB0298 /* WZDynamictableView.m */; };
 		1FD9C67A207DBD2C00BB0298 /* WZMainUnitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5C8207DBD2B00BB0298 /* WZMainUnitCell.m */; };
 		1FD9C67B207DBD2C00BB0298 /* WZCyclePhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5C9207DBD2B00BB0298 /* WZCyclePhotoView.m */; };
-		1FD9C67F207DBD2C00BB0298 /* WZLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C5D3207DBD2B00BB0298 /* WZLoginController.xib */; };
-		1FD9C680207DBD2C00BB0298 /* WZLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5D5207DBD2B00BB0298 /* WZLoginController.m */; };
-		1FD9C681207DBD2C00BB0298 /* WZfindPassWordController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C5D9207DBD2B00BB0298 /* WZfindPassWordController.xib */; };
-		1FD9C682207DBD2C00BB0298 /* WZfindPassWordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5DA207DBD2B00BB0298 /* WZfindPassWordController.m */; };
-		1FD9C683207DBD2C00BB0298 /* WZSetNewPassWordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5DB207DBD2B00BB0298 /* WZSetNewPassWordController.m */; };
-		1FD9C684207DBD2C00BB0298 /* WZSetNewPassWordController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C5DC207DBD2B00BB0298 /* WZSetNewPassWordController.xib */; };
-		1FD9C685207DBD2C00BB0298 /* WZRegSetPWController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5DE207DBD2B00BB0298 /* WZRegSetPWController.m */; };
-		1FD9C686207DBD2C00BB0298 /* WZRegSetPWController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C5DF207DBD2B00BB0298 /* WZRegSetPWController.xib */; };
-		1FD9C687207DBD2C00BB0298 /* WZRegController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C5E2207DBD2B00BB0298 /* WZRegController.xib */; };
-		1FD9C688207DBD2C00BB0298 /* WZRegController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5E4207DBD2B00BB0298 /* WZRegController.m */; };
-		1FD9C689207DBD2C00BB0298 /* WZLoginRegistar.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5E8207DBD2B00BB0298 /* WZLoginRegistar.m */; };
-		1FD9C68A207DBD2C00BB0298 /* WZLoginRegistar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C5EA207DBD2B00BB0298 /* WZLoginRegistar.xib */; };
-		1FD9C68D207DBD2C00BB0298 /* WZFindPWView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5EF207DBD2B00BB0298 /* WZFindPWView.m */; };
-		1FD9C68E207DBD2C00BB0298 /* WZFindPWView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C5F2207DBD2B00BB0298 /* WZFindPWView.xib */; };
-		1FD9C68F207DBD2C00BB0298 /* WZSetFindPWView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C5F3207DBD2B00BB0298 /* WZSetFindPWView.xib */; };
-		1FD9C690207DBD2C00BB0298 /* WZSetFindPWView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5F4207DBD2B00BB0298 /* WZSetFindPWView.m */; };
-		1FD9C691207DBD2C00BB0298 /* WZSetPassWordView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C5F7207DBD2B00BB0298 /* WZSetPassWordView.xib */; };
-		1FD9C692207DBD2C00BB0298 /* WZSetPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5F8207DBD2B00BB0298 /* WZSetPassWordView.m */; };
-		1FD9C693207DBD2C00BB0298 /* WZRegistarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5FA207DBD2B00BB0298 /* WZRegistarView.m */; };
-		1FD9C694207DBD2C00BB0298 /* WZRegistarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C5FB207DBD2B00BB0298 /* WZRegistarView.xib */; };
 		1FD9C69A207DDEFB00BB0298 /* WZCollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C699207DDEFB00BB0298 /* WZCollectionHeaderView.m */; };
 		1FD9C69D207DECC500BB0298 /* ViewOneReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C69C207DECC500BB0298 /* ViewOneReport.m */; };
 		1FD9C6A0207DED0F00BB0298 /* WZBatchReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C69F207DED0F00BB0298 /* WZBatchReport.m */; };
@@ -414,6 +395,8 @@
 		1F5B83242081FC260083DEC2 /* WZSetInfertionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZSetInfertionView.m; sourceTree = "<group>"; };
 		1F5B83262081FC370083DEC2 /* WZSetInfertionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZSetInfertionView.xib; sourceTree = "<group>"; };
 		1F60A9A62150EF7D002ED860 /* WZNewViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZNewViewCell.m; sourceTree = "<group>"; };
+		1F60A9AC2150FEAB002ED860 /* WZHDMapController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZHDMapController.h; sourceTree = "<group>"; };
+		1F60A9AD2150FEAB002ED860 /* WZHDMapController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZHDMapController.m; sourceTree = "<group>"; };
 		1F60D0F1214CDB9700E311B5 /* WZHouseDetilItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZHouseDetilItem.h; sourceTree = "<group>"; };
 		1F60D0F2214CDB9700E311B5 /* WZHouseDetilItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZHouseDetilItem.m; sourceTree = "<group>"; };
 		1F60D0F4214CE20000E311B5 /* WZTitleCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZTitleCollectionCell.h; sourceTree = "<group>"; };
@@ -675,36 +658,6 @@
 		1FD9C5C7207DBD2B00BB0298 /* WZDynamictableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZDynamictableView.m; sourceTree = "<group>"; };
 		1FD9C5C8207DBD2B00BB0298 /* WZMainUnitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZMainUnitCell.m; sourceTree = "<group>"; };
 		1FD9C5C9207DBD2B00BB0298 /* WZCyclePhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZCyclePhotoView.m; sourceTree = "<group>"; };
-		1FD9C5D3207DBD2B00BB0298 /* WZLoginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZLoginController.xib; sourceTree = "<group>"; };
-		1FD9C5D4207DBD2B00BB0298 /* WZLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZLoginController.h; sourceTree = "<group>"; };
-		1FD9C5D5207DBD2B00BB0298 /* WZLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZLoginController.m; sourceTree = "<group>"; };
-		1FD9C5D7207DBD2B00BB0298 /* WZSetNewPassWordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZSetNewPassWordController.h; sourceTree = "<group>"; };
-		1FD9C5D8207DBD2B00BB0298 /* WZfindPassWordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZfindPassWordController.h; sourceTree = "<group>"; };
-		1FD9C5D9207DBD2B00BB0298 /* WZfindPassWordController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZfindPassWordController.xib; sourceTree = "<group>"; };
-		1FD9C5DA207DBD2B00BB0298 /* WZfindPassWordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZfindPassWordController.m; sourceTree = "<group>"; };
-		1FD9C5DB207DBD2B00BB0298 /* WZSetNewPassWordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZSetNewPassWordController.m; sourceTree = "<group>"; };
-		1FD9C5DC207DBD2B00BB0298 /* WZSetNewPassWordController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZSetNewPassWordController.xib; sourceTree = "<group>"; };
-		1FD9C5DE207DBD2B00BB0298 /* WZRegSetPWController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZRegSetPWController.m; sourceTree = "<group>"; };
-		1FD9C5DF207DBD2B00BB0298 /* WZRegSetPWController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZRegSetPWController.xib; sourceTree = "<group>"; };
-		1FD9C5E0207DBD2B00BB0298 /* WZRegSetPWController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZRegSetPWController.h; sourceTree = "<group>"; };
-		1FD9C5E2207DBD2B00BB0298 /* WZRegController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZRegController.xib; sourceTree = "<group>"; };
-		1FD9C5E3207DBD2B00BB0298 /* WZRegController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZRegController.h; sourceTree = "<group>"; };
-		1FD9C5E4207DBD2B00BB0298 /* WZRegController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZRegController.m; sourceTree = "<group>"; };
-		1FD9C5E8207DBD2B00BB0298 /* WZLoginRegistar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZLoginRegistar.m; sourceTree = "<group>"; };
-		1FD9C5EA207DBD2B00BB0298 /* WZLoginRegistar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZLoginRegistar.xib; sourceTree = "<group>"; };
-		1FD9C5ED207DBD2B00BB0298 /* WZLoginRegistar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZLoginRegistar.h; sourceTree = "<group>"; };
-		1FD9C5EF207DBD2B00BB0298 /* WZFindPWView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZFindPWView.m; sourceTree = "<group>"; };
-		1FD9C5F0207DBD2B00BB0298 /* WZSetFindPWView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZSetFindPWView.h; sourceTree = "<group>"; };
-		1FD9C5F1207DBD2B00BB0298 /* WZFindPWView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZFindPWView.h; sourceTree = "<group>"; };
-		1FD9C5F2207DBD2B00BB0298 /* WZFindPWView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZFindPWView.xib; sourceTree = "<group>"; };
-		1FD9C5F3207DBD2B00BB0298 /* WZSetFindPWView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZSetFindPWView.xib; sourceTree = "<group>"; };
-		1FD9C5F4207DBD2B00BB0298 /* WZSetFindPWView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZSetFindPWView.m; sourceTree = "<group>"; };
-		1FD9C5F6207DBD2B00BB0298 /* WZSetPassWordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZSetPassWordView.h; sourceTree = "<group>"; };
-		1FD9C5F7207DBD2B00BB0298 /* WZSetPassWordView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZSetPassWordView.xib; sourceTree = "<group>"; };
-		1FD9C5F8207DBD2B00BB0298 /* WZSetPassWordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZSetPassWordView.m; sourceTree = "<group>"; };
-		1FD9C5FA207DBD2B00BB0298 /* WZRegistarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZRegistarView.m; sourceTree = "<group>"; };
-		1FD9C5FB207DBD2B00BB0298 /* WZRegistarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZRegistarView.xib; sourceTree = "<group>"; };
-		1FD9C5FC207DBD2B00BB0298 /* WZRegistarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZRegistarView.h; sourceTree = "<group>"; };
 		1FD9C698207DDEFB00BB0298 /* WZCollectionHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZCollectionHeaderView.h; sourceTree = "<group>"; };
 		1FD9C699207DDEFB00BB0298 /* WZCollectionHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZCollectionHeaderView.m; sourceTree = "<group>"; };
 		1FD9C69B207DECC500BB0298 /* ViewOneReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewOneReport.h; sourceTree = "<group>"; };
@@ -1532,6 +1485,8 @@
 				1FD9C560207DBD2B00BB0298 /* WZAlbumsViewController.m */,
 				1F533D9420C914ED0053FE4E /* WZAlbumPhonesViewController.h */,
 				1F533D9520C914ED0053FE4E /* WZAlbumPhonesViewController.m */,
+				1F60A9AC2150FEAB002ED860 /* WZHDMapController.h */,
+				1F60A9AD2150FEAB002ED860 /* WZHDMapController.m */,
 			);
 			path = "houseDetails(楼盘详情)";
 			sourceTree = "<group>";
@@ -1781,10 +1736,6 @@
 		1FD9C5D1207DBD2B00BB0298 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				1FD9C5D2207DBD2B00BB0298 /* login(登陆) */,
-				1FD9C5D6207DBD2B00BB0298 /* findPassWord(找回密码) */,
-				1FD9C5DD207DBD2B00BB0298 /* SetPassWord(设置密码) */,
-				1FD9C5E1207DBD2B00BB0298 /* Registar(注册) */,
 				1F8C35792115381D002E0C8B /* WZLoginAndRegistarController.h */,
 				1F8C357A2115381D002E0C8B /* WZLoginAndRegistarController.m */,
 				1F044D662115A7AF001C104F /* WZForgetPassWordController.h */,
@@ -1797,49 +1748,6 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		1FD9C5D2207DBD2B00BB0298 /* login(登陆) */ = {
-			isa = PBXGroup;
-			children = (
-				1FD9C5D4207DBD2B00BB0298 /* WZLoginController.h */,
-				1FD9C5D5207DBD2B00BB0298 /* WZLoginController.m */,
-				1FD9C5D3207DBD2B00BB0298 /* WZLoginController.xib */,
-			);
-			path = "login(登陆)";
-			sourceTree = "<group>";
-		};
-		1FD9C5D6207DBD2B00BB0298 /* findPassWord(找回密码) */ = {
-			isa = PBXGroup;
-			children = (
-				1FD9C5D8207DBD2B00BB0298 /* WZfindPassWordController.h */,
-				1FD9C5DA207DBD2B00BB0298 /* WZfindPassWordController.m */,
-				1FD9C5D9207DBD2B00BB0298 /* WZfindPassWordController.xib */,
-				1FD9C5D7207DBD2B00BB0298 /* WZSetNewPassWordController.h */,
-				1FD9C5DB207DBD2B00BB0298 /* WZSetNewPassWordController.m */,
-				1FD9C5DC207DBD2B00BB0298 /* WZSetNewPassWordController.xib */,
-			);
-			path = "findPassWord(找回密码)";
-			sourceTree = "<group>";
-		};
-		1FD9C5DD207DBD2B00BB0298 /* SetPassWord(设置密码) */ = {
-			isa = PBXGroup;
-			children = (
-				1FD9C5E0207DBD2B00BB0298 /* WZRegSetPWController.h */,
-				1FD9C5DE207DBD2B00BB0298 /* WZRegSetPWController.m */,
-				1FD9C5DF207DBD2B00BB0298 /* WZRegSetPWController.xib */,
-			);
-			path = "SetPassWord(设置密码)";
-			sourceTree = "<group>";
-		};
-		1FD9C5E1207DBD2B00BB0298 /* Registar(注册) */ = {
-			isa = PBXGroup;
-			children = (
-				1FD9C5E3207DBD2B00BB0298 /* WZRegController.h */,
-				1FD9C5E4207DBD2B00BB0298 /* WZRegController.m */,
-				1FD9C5E2207DBD2B00BB0298 /* WZRegController.xib */,
-			);
-			path = "Registar(注册)";
-			sourceTree = "<group>";
-		};
 		1FD9C5E5207DBD2B00BB0298 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1850,55 +1758,8 @@
 		1FD9C5E6207DBD2B00BB0298 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				1FD9C5E7207DBD2B00BB0298 /* login(登陆view) */,
-				1FD9C5EE207DBD2B00BB0298 /* findPassWord(找回密码) */,
-				1FD9C5F5207DBD2B00BB0298 /* RegSetPassWord(设置密码view) */,
-				1FD9C5F9207DBD2B00BB0298 /* Registar(注册view) */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		1FD9C5E7207DBD2B00BB0298 /* login(登陆view) */ = {
-			isa = PBXGroup;
-			children = (
-				1FD9C5ED207DBD2B00BB0298 /* WZLoginRegistar.h */,
-				1FD9C5E8207DBD2B00BB0298 /* WZLoginRegistar.m */,
-				1FD9C5EA207DBD2B00BB0298 /* WZLoginRegistar.xib */,
-			);
-			path = "login(登陆view)";
-			sourceTree = "<group>";
-		};
-		1FD9C5EE207DBD2B00BB0298 /* findPassWord(找回密码) */ = {
-			isa = PBXGroup;
-			children = (
-				1FD9C5F1207DBD2B00BB0298 /* WZFindPWView.h */,
-				1FD9C5EF207DBD2B00BB0298 /* WZFindPWView.m */,
-				1FD9C5F2207DBD2B00BB0298 /* WZFindPWView.xib */,
-				1FD9C5F0207DBD2B00BB0298 /* WZSetFindPWView.h */,
-				1FD9C5F4207DBD2B00BB0298 /* WZSetFindPWView.m */,
-				1FD9C5F3207DBD2B00BB0298 /* WZSetFindPWView.xib */,
-			);
-			path = "findPassWord(找回密码)";
-			sourceTree = "<group>";
-		};
-		1FD9C5F5207DBD2B00BB0298 /* RegSetPassWord(设置密码view) */ = {
-			isa = PBXGroup;
-			children = (
-				1FD9C5F6207DBD2B00BB0298 /* WZSetPassWordView.h */,
-				1FD9C5F8207DBD2B00BB0298 /* WZSetPassWordView.m */,
-				1FD9C5F7207DBD2B00BB0298 /* WZSetPassWordView.xib */,
-			);
-			path = "RegSetPassWord(设置密码view)";
-			sourceTree = "<group>";
-		};
-		1FD9C5F9207DBD2B00BB0298 /* Registar(注册view) */ = {
-			isa = PBXGroup;
-			children = (
-				1FD9C5FC207DBD2B00BB0298 /* WZRegistarView.h */,
-				1FD9C5FA207DBD2B00BB0298 /* WZRegistarView.m */,
-				1FD9C5FB207DBD2B00BB0298 /* WZRegistarView.xib */,
-			);
-			path = "Registar(注册view)";
 			sourceTree = "<group>";
 		};
 		8B9FABEFA8C48466445F922C /* Pods */ = {
@@ -1983,10 +1844,8 @@
 				1F451C7820B6E58100075240 /* WZTaskCell.xib in Resources */,
 				1F09952720F496F500524361 /* WZShareVideoCell.xib in Resources */,
 				1F4D6DCF20F5ACBB008A9514 /* WZSharePhoneCollectionCell.xib in Resources */,
-				1FD9C694207DBD2C00BB0298 /* WZRegistarView.xib in Resources */,
 				1F632EC6212D00140063AC4A /* WZNewsCell.xib in Resources */,
 				1F5B83272081FC370083DEC2 /* WZSetInfertionView.xib in Resources */,
-				1FD9C687207DBD2C00BB0298 /* WZRegController.xib in Resources */,
 				1F676368214A3C29005F1E37 /* WZGoodHouseCell.xib in Resources */,
 				1F3D658B20B29BBF003AEF39 /* WZSelectProjectCell.xib in Resources */,
 				1F63B1AF20E4B6BB009587C1 /* WZSharesCell.xib in Resources */,
@@ -1997,16 +1856,11 @@
 				1FD9C64D207DBD2C00BB0298 /* WZReportSuccessCell.xib in Resources */,
 				1FD9C65D207DBD2C00BB0298 /* WZBoaringCell.xib in Resources */,
 				1F47F4BA20CA85A30012F5EF /* WZAllPhotoCell.xib in Resources */,
-				1FD9C67F207DBD2C00BB0298 /* WZLoginController.xib in Resources */,
-				1FD9C68F207DBD2C00BB0298 /* WZSetFindPWView.xib in Resources */,
-				1FD9C684207DBD2C00BB0298 /* WZSetNewPassWordController.xib in Resources */,
 				1F4D6DF020FD7348008A9514 /* Info.plist in Resources */,
 				1F77530720A415C6003E1C07 /* WZCollectHouseCell.xib in Resources */,
 				1F63B1C120E72AD5009587C1 /* WZFrowardDetailedCell.xib in Resources */,
-				1FD9C68A207DBD2C00BB0298 /* WZLoginRegistar.xib in Resources */,
 				1FD9C658207DBD2C00BB0298 /* WZRecommendCell.xib in Resources */,
 				1F4D6DC620F5A95F008A9514 /* WZSharePhoneCell.xib in Resources */,
-				1FD9C686207DBD2C00BB0298 /* WZRegSetPWController.xib in Resources */,
 				1F5B831F2081ECEF0083DEC2 /* WZQuestionController.xib in Resources */,
 				1F60D0F8214CE20000E311B5 /* WZTitleCollectionCell.xib in Resources */,
 				1FD9C653207DBD2C00BB0298 /* WZTelePhoneCell.xib in Resources */,
@@ -2018,12 +1872,10 @@
 				1F451C7320B6C43E00075240 /* WZReadPassWordController.xib in Resources */,
 				1FD9C64F207DBD2C00BB0298 /* WZAddCustormCell.xib in Resources */,
 				1FD9C632207DBD2C00BB0298 /* WZNewViewCell.xib in Resources */,
-				1FD9C691207DBD2C00BB0298 /* WZSetPassWordView.xib in Resources */,
 				1F06AF1A208AED4100E774F0 /* WZModifyPhoneController.xib in Resources */,
 				1F4ABECD2080D42400DEA9A8 /* WZAuthenticationController.xib in Resources */,
 				1FD9C623207DBD2C00BB0298 /* WZHaveCodeView.xib in Resources */,
 				1FD9C61E207DBD2C00BB0298 /* WZExamineController.xib in Resources */,
-				1FD9C68E207DBD2C00BB0298 /* WZFindPWView.xib in Resources */,
 				1FD9C49C207DB91700BB0298 /* Main.storyboard in Resources */,
 				1FD9C65B207DBD2C00BB0298 /* WZPageButtonView.xib in Resources */,
 				1F4A267F21363B9300C794FC /* WZValidateCodeController.xib in Resources */,
@@ -2031,7 +1883,6 @@
 				1F69017920CB755E006147BF /* WZPhotoNameCell.xib in Resources */,
 				1F47F4A820CA549B0012F5EF /* WZLBCollectionViewCell.xib in Resources */,
 				1FD9C671207DBD2C00BB0298 /* WZAllTableViewCell.xib in Resources */,
-				1FD9C681207DBD2C00BB0298 /* WZfindPassWordController.xib in Resources */,
 				1FD9C621207DBD2C00BB0298 /* WZJionStoreController.xib in Resources */,
 				1FD9C663207DBD2C00BB0298 /* WZCityCollectionCell.xib in Resources */,
 				1FD9C662207DBD2C00BB0298 /* WZFindHouseCell.xib in Resources */,
@@ -2129,7 +1980,6 @@
 				1F3D658E20B2A35C003AEF39 /* WZSearchProjectController.m in Sources */,
 				1F4D6DE520FCEAD4008A9514 /* SelVideoPlayer.m in Sources */,
 				1F63B1B620E623C5009587C1 /* WZAddZFBAccountController.m in Sources */,
-				1FD9C688207DBD2C00BB0298 /* WZRegController.m in Sources */,
 				1F20C413214B410300FE8CC4 /* WZGoodHouseTableView.m in Sources */,
 				1F632EC1212CFFC00063AC4A /* WZNewsController.m in Sources */,
 				1FD9C604207DBD2C00BB0298 /* WZNavigationController.m in Sources */,
@@ -2219,7 +2069,6 @@
 				1FD9C65C207DBD2C00BB0298 /* WZBoaringCell.m in Sources */,
 				1F4D6DD220F5E9D9008A9514 /* WZHouseShareDetailController.m in Sources */,
 				1FD9C636207DBD2C00BB0298 /* WZBoardingTableController.m in Sources */,
-				1FD9C692207DBD2C00BB0298 /* WZSetPassWordView.m in Sources */,
 				1F09952020F48D9000524361 /* WZShareHouseDatisController.m in Sources */,
 				1F47F4A720CA549B0012F5EF /* WZLBCollectionViewCell.m in Sources */,
 				1F451C7220B6C43E00075240 /* WZReadPassWordController.m in Sources */,
@@ -2234,9 +2083,8 @@
 				1FFA9FAC20E32D6300F34B3B /* WZShareController.m in Sources */,
 				1FD9C65F207DBD2C00BB0298 /* WZTypeTableView.m in Sources */,
 				1F8C357B2115381D002E0C8B /* WZLoginAndRegistarController.m in Sources */,
-				1FD9C68D207DBD2C00BB0298 /* WZFindPWView.m in Sources */,
+				1F60A9AE2150FEAB002ED860 /* WZHDMapController.m in Sources */,
 				1FD9C6A0207DED0F00BB0298 /* WZBatchReport.m in Sources */,
-				1FD9C689207DBD2C00BB0298 /* WZLoginRegistar.m in Sources */,
 				1FD9C650207DBD2C00BB0298 /* WZReportSuccessTableView.m in Sources */,
 				1FD9C672207DBD2C00BB0298 /* WZSchoolTableView.m in Sources */,
 				1FD9C62A207DBD2C00BB0298 /* WZMallViewController.m in Sources */,
@@ -2247,12 +2095,9 @@
 				1F77530220A41567003E1C07 /* WZCollectTableView.m in Sources */,
 				1F676363214A3ABE005F1E37 /* WZGoodHouseCollectionView.m in Sources */,
 				1F859B782117E42600FCA5F3 /* WZRegistarSetPWController.m in Sources */,
-				1FD9C682207DBD2C00BB0298 /* WZfindPassWordController.m in Sources */,
 				1F1B78942086199D00BC6007 /* WZBoardingItem.m in Sources */,
 				1F5B83222081F93A0083DEC2 /* WZSetPersonalInforMationController.m in Sources */,
 				1F09951620F4571C00524361 /* WZShareHouseController.m in Sources */,
-				1FD9C685207DBD2C00BB0298 /* WZRegSetPWController.m in Sources */,
-				1FD9C683207DBD2C00BB0298 /* WZSetNewPassWordController.m in Sources */,
 				1F60D0F3214CDB9700E311B5 /* WZHouseDetilItem.m in Sources */,
 				1F3D658620B29B2D003AEF39 /* WZSelcetProjectItem.m in Sources */,
 				1FD9C676207DBD2C00BB0298 /* WZAlbumsCollectionView.m in Sources */,
@@ -2277,10 +2122,8 @@
 				1FD9C610207DBD2C00BB0298 /* UIView+Center.m in Sources */,
 				1F4D6DE420FCEAD4008A9514 /* SelPlaybackControls.m in Sources */,
 				1FFA9FA920E1CBCD00F34B3B /* WZTaskController.m in Sources */,
-				1FD9C680207DBD2C00BB0298 /* WZLoginController.m in Sources */,
 				1F5130512117D8B500C16679 /* WZFrogetSetPWController.m in Sources */,
 				1FD9C622207DBD2C00BB0298 /* WZHaveCodeView.m in Sources */,
-				1FD9C693207DBD2C00BB0298 /* WZRegistarView.m in Sources */,
 				1F4D6DD620F6E8E0008A9514 /* WZShareDetailCell.m in Sources */,
 				1FD9C666207DBD2C00BB0298 /* LJCollectionViewFlowLayout.m in Sources */,
 				1F2846372088858C007CFC7C /* UIView+WZView.m in Sources */,
@@ -2288,7 +2131,6 @@
 				1F4D6DCE20F5ACBB008A9514 /* WZSharePhoneCollectionCell.m in Sources */,
 				1FD9C617207DBD2C00BB0298 /* UIBarButtonItem+Item.m in Sources */,
 				1F47F4AF20CA77040012F5EF /* WZPhotoTypeNameView.m in Sources */,
-				1FD9C690207DBD2C00BB0298 /* WZSetFindPWView.m in Sources */,
 				1FD9C640207DBD2C00BB0298 /* WZPickerView.m in Sources */,
 				1F4B6D2B20CF6B0600E7F7F9 /* WZAuthenSuccessController.m in Sources */,
 				1F3885A420A5700700402B23 /* ZDMapController.m in Sources */,

@@ -10,13 +10,13 @@
 #import "UIView+Frame.h"
 #import <AFNetworking.h>
 #import <SVProgressHUD.h>
+#import "WZValidateCodeController.h"
 #import "WZForwardController.h"
 #import "UIBarButtonItem+Item.h"
 #import "NSString+LCExtension.h"
 #import "WZForwardDetailedController.h"
 #import "WZForwardWindowController.h"
 #import "WZAuthenticationController.h"
-#import "WZfindPassWordController.h"
 #import "WZAddZFBAccountController.h"
 @interface WZForwardController ()<UITextFieldDelegate>
 //余额
@@ -360,8 +360,9 @@
 -(void)findPassWord{
     [_password resignFirstResponder];
     [self closeTK];
-    WZfindPassWordController *findPassWord = [[WZfindPassWordController alloc] init];
-    findPassWord.navigationItem.title = @"修改密码";
+    WZValidateCodeController *findPassWord = [[WZValidateCodeController alloc] init];
+    findPassWord.navigationItem.title = @"修改登录密码";
+    findPassWord.type = @"3";
     [self.navigationController pushViewController:findPassWord animated:YES];
 }
 -(void)viewWillAppear:(BOOL)animated{

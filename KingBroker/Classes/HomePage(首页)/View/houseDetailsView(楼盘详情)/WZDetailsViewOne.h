@@ -26,6 +26,10 @@
 @property (weak, nonatomic) IBOutlet UIView *ineViewOne;
 @property (weak, nonatomic) IBOutlet UIView *ineViewTwo;
 @property (weak, nonatomic) IBOutlet UIView *ineViewThree;
+@property(nonatomic,strong)NSArray *lnglat;
+@property(nonatomic,strong)NSString *projectName;
+//位置
+@property(nonatomic,strong)NSString *addr;
 
 - (IBAction)addressButton:(UIButton *)sender;
 

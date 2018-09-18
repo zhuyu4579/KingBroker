@@ -4,7 +4,7 @@
 //
 //  Created by 朱玉隆 on 2018/3/27.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
-//
+//  项目详情
 
 #import "WZHouseDatisController.h"
 #import "UIView+Frame.h"
@@ -249,7 +249,6 @@ static NSString * const IDS = @"cells";
     NSArray *pcad = [_houseDatils valueForKey:@"pcad"];
     _titleArray = [WZHouseDetilItem mj_objectArrayWithKeyValuesArray:pcad];
     
-    
     [UIView performWithoutAnimation:^{
         //刷新界面
         [_cycleView reloadData];
@@ -271,7 +270,13 @@ static NSString * const IDS = @"cells";
     }
     //设置楼盘名
     _dView.itemName.text = [_houseDatils valueForKey:@"name"];
-    //设置单价
+    _dView.projectName = [_houseDatils valueForKey:@"name"];
+    NSString *lng = [_houseDatils valueForKey:@"lnglat"];
+    if ([lng isEqual:@""]) {
+        _lnglat = [lng componentsSeparatedByString:@","];
+        _dView.lnglat = _lnglat;
+    }
+    
     //总价
     NSString *totalPrice = [_houseDatils valueForKey:@"totalPrice"];
     NSString *price = [_houseDatils valueForKey:@"averagePrice"];
@@ -323,6 +328,7 @@ static NSString * const IDS = @"cells";
     }
     //地址
     _dView.address.text = [_houseDatils valueForKey:@"address"];
+    _dView.addr = [_houseDatils valueForKey:@"address"];
     //开发商
     _dView.developerName.text = [_houseDatils valueForKey:@"developer"];
     //公司名称
@@ -1671,21 +1677,6 @@ static NSString * const IDS = @"cells";
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     
-}
-//数据分解
--(NSMutableArray *)setString:(NSArray *)array{
-    NSMutableArray *arrays = [NSMutableArray array];
-    if (array.count == 0) {
-        return arrays;
-    }
-    for (int i = 0; i<array.count; i++) {
-        NSArray *strs = [array[i] componentsSeparatedByString:@"距离："];
-        NSMutableDictionary *data = [NSMutableDictionary dictionary];
-        data[@"name"] = [strs[0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        data[@"distance"] = [NSString stringWithFormat:@"%@m",strs[1]];
-        [arrays addObject:data];
-    }
-    return arrays;
 }
 //根据URL获取图片
 -(UIImage *) getImageFromURL:(NSString *)fileURL

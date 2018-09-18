@@ -11,7 +11,6 @@
 #import "WZSetTableController.h"
 #import "WZLoginAndRegistarController.h"
 #import "WZNavigationController.h"
-#import "WZRegController.h"
 #import "UIView+Frame.h"
 #import "WZJionStoreAndStoreHeadController.h"
 #import "UIButton+WZEnlargeTouchAre.h"

@@ -15,7 +15,7 @@
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 #define HTTPURL @"http://192.168.0.133:9001"
-#define HTTPH5 @"http://192.168.0.133/dev/apph5"
+#define HTTPH5 @"http://192.168.0.133/test/apph5"
 #define kApplicationStatusBarHeight  [UIApplication sharedApplication].statusBarFrame.size.height
 #define IOS11_OR_LATER_SPACE(par)({float space = 0.0;if(@available(iOS 11.0, *))space = par;(space);})
 #define JF_KEY_WINDOW [UIApplication sharedApplication].keyWindow

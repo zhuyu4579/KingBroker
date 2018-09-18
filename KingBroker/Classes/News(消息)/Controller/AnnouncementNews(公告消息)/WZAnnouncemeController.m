@@ -42,7 +42,7 @@ static NSString *size = @"20";
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     [self setNoData];
-    self.view.backgroundColor = UIColorRBG(242, 242, 242);
+    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"公告消息";
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButtons:self action:@selector(readAll) title:@"一键已读"];
     //注册cell

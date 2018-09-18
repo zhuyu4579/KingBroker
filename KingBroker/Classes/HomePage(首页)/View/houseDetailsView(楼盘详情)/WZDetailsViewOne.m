@@ -11,6 +11,7 @@
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZJionStoreController.h"
 #import "WZNavigationController.h"
+#import "WZHDMapController.h"
 #import "UIViewController+WZFindController.h"
 @implementation WZDetailsViewOne
 
@@ -39,7 +40,12 @@
     self.developerName.textColor = UIColorRBG(68, 68, 68);
 }
 - (IBAction)addressButton:(UIButton *)sender {
-    
+    WZHDMapController *map = [[WZHDMapController alloc] init];
+    map.navigationItem.title = _projectName;
+    map.lnglat = _lnglat;
+    map.address = _addr;
+    UIViewController *vc = [UIViewController viewController:self.superview];
+    [vc.navigationController pushViewController:map animated:YES];
 }
 
 - (IBAction)JoinStore:(id)sender {
