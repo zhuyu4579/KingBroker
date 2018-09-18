@@ -21,7 +21,7 @@
         //self.name = [[UILabel alloc] initWithFrame:CGRectMake(15,20, self.frame.size.width + 6, 25)];
         self.name = [[UILabel alloc] init];
         self.name.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-        self.name.layer.cornerRadius = 12.5;
+        self.name.layer.cornerRadius = 4;
         self.name.clipsToBounds = YES;
         self.name.textAlignment = NSTextAlignmentCenter;
         self.name.userInteractionEnabled = NO;
@@ -42,10 +42,10 @@
     _model = model;
     self.name.text = model.label;
     if (model.flag) {
-        self.name.textColor = [UIColor whiteColor];
-        self.name.backgroundColor = UIColorRBG(3, 133, 219);
+        self.name.textColor = UIColorRBG(49, 35, 6);
+        self.name.backgroundColor = UIColorRBG(255, 216, 0);
     }else{
-        self.name.textColor = UIColorRBG(102, 102, 102);
+        self.name.textColor = UIColorRBG(49, 35, 6);
         self.name.backgroundColor = UIColorRBG(242, 242, 242);
     }
     

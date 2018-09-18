@@ -13,17 +13,27 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.layer.borderColor =[UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1.0].CGColor;
-    self.layer.borderWidth = 1;
-    _labelTwo.textColor = UIColorRBG(40, 180, 230);
-    _labelThree.textColor = UIColorRBG(40, 180, 230);
-    _labelFour.textColor = UIColorRBG(40, 180, 230);
-    _labelTwo.backgroundColor = UIColorRBG(230, 244, 255);
-    _labelThree.backgroundColor = UIColorRBG(230, 244, 255);
-    _labelFour.backgroundColor = UIColorRBG(230, 244, 255);
+    self.layer.cornerRadius = 15.0;
+    self.layer.masksToBounds = YES;
+    self.layer.shadowColor = UIColorRBG(255, 222, 134).CGColor;
+    self.layer.shadowOpacity = 0.15f;
+    self.layer.shadowRadius = 5.0f;
+    self.layer.shouldRasterize = YES;
+    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    
+    _labelTwo.textColor = UIColorRBG(255, 202, 118);
+    _labelThree.textColor = UIColorRBG(255, 202, 118);
+    _labelFour.textColor = UIColorRBG(255, 202, 118);
+    
+    _labelTwo.backgroundColor = UIColorRBG(255, 249, 220);
+    _labelThree.backgroundColor = UIColorRBG(255, 249, 220);
+    _labelFour.backgroundColor = UIColorRBG(255, 249, 220);
+    
     _cityName.textColor = UIColorRBG(153, 153, 153);
     _companyName.textColor = UIColorRBG(102, 102, 102);
-    _commission.textColor = UIColorRBG(244, 102, 30);
+    _commission.textColor = UIColorRBG(255, 180, 61);
+    _commissionLabel.backgroundColor = UIColorRBG(255, 216, 0);
+    _commissionLabel.textColor = [UIColor whiteColor];
 }
 #pragma mark -点击cell做事情
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -33,7 +43,7 @@
     // Configure the view for the selected state
 }
 -(void)setFrame:(CGRect)frame{
-    frame.size.height -=10;
+    
     [super setFrame:frame];
 }
 -(void)setItem:(WZLikeProjectItem *)item{
@@ -46,23 +56,24 @@
     [_image sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"bb_5_pic"]];
     _labelOne.text = item.name;
     _projectId = item.id;
+    _labelTwo.text = @"";
+    _labelThree.text = @"";
+    _labelFour.text = @"";
     NSArray *array = item.tags;
     if (array.count != 0) {
-        _labelTwo.text = array[0];
+        _labelTwo.text =[NSString stringWithFormat:@" %@ ", array[0]];
         if (array.count >1) {
-            _labelThree.text = array[1];
+            _labelThree.text = [NSString stringWithFormat:@" %@ ", array[1]];
         }else if(array.count>2){
-            _labelFour.text = array[2];
+            _labelFour.text =[NSString stringWithFormat:@" %@ ", array[2]];
         }
     }
     _cityName.text = item.cityName;
     if([commissionFag isEqual:@"0"]){
         _commission.text = item.commission;
     }else{
-        [_commissionImage setHidden:YES];
         _commission.text = @"";
     }
-    
     _companyName.text = item.companyName;
 }
 @end

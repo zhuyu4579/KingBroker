@@ -20,10 +20,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *buttonFive;
 @property (strong, nonatomic) IBOutlet UIButton *buttonSix;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *headHeight;
-@property (strong, nonatomic) IBOutlet UIButton *telphoneButton;
-
 - (IBAction)actionButton:(UIButton *)sender;
-- (IBAction)playBUtton:(UIButton *)sender;
 
 
 

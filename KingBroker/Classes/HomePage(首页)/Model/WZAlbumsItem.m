@@ -9,5 +9,11 @@
 #import "WZAlbumsItem.h"
 
 @implementation WZAlbumsItem
++ (NSDictionary *)objectClassInArray
+{
+    return @{ @"picCollect": @"WZAlbumContensItem"};
+}
+@end
+@implementation WZAlbumContensItem
 
 @end

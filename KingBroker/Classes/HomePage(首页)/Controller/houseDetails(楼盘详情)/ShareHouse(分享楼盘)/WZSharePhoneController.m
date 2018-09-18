@@ -350,7 +350,6 @@ static  NSString * const ID = @"cell";
     //发送请求到微信,等待微信返回onResp
     [WXApi sendReq:req];
     [self closeGkCover];
-    
 }
 //分享到朋友圈
 -(void)friendsButton{

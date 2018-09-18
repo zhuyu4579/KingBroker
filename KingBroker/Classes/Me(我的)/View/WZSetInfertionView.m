@@ -38,20 +38,25 @@
 }
 //初始化控件
 -(void)layoutSubviews{
-    _name.textColor = UIColorRBG(102, 102, 102);
+    _name.textColor = UIColorRBG(51, 51, 51);
     _name.keyboardType = UIKeyboardTypeDefault;
     _name.delegate = self;
    
-    _sex.textColor = UIColorRBG(102, 102, 102);
-    _birthDate.textColor = UIColorRBG(102, 102, 102);
-    _birthAddress.textColor = UIColorRBG(102, 102, 102);
-    _employmentTime.textColor = UIColorRBG(102, 102, 102);
-    _entryTime.textColor = UIColorRBG(102, 102, 102);
+    _sex.textColor = UIColorRBG(204, 204, 204);
+    _manSex.textColor = UIColorRBG(204, 204, 204);
+    
+    _birthDate.textColor = UIColorRBG(204, 204, 204);
+    _birthAddress.textColor = UIColorRBG(204, 204, 204);
+    _employmentTime.textColor = UIColorRBG(204, 204, 204);
+    _entryTime.textColor = UIColorRBG(204, 204, 204);
    
     _headImage.layer.cornerRadius=self.headImage.frame.size.width/2;//裁成圆角
     _headImage.layer.masksToBounds=YES;//隐藏裁剪掉的部分
     _headImage.layer.borderWidth = 0.5f;//边框宽度
     _headImage.layer.borderColor = [UIColor whiteColor].CGColor;//边框颜色
+    
+    [_selectWomanSex setEnlargeEdgeWithTop:20 right:20 bottom:20 left:20];
+    [_selectSexMan setEnlargeEdgeWithTop:20 right:20 bottom:20 left:20];
 }
 //保存修改个人信息
 -(void)loadData:(UIImage *)image{
@@ -112,17 +117,26 @@
 //设置数据
 -(void)setDatas{
     
+    _manSex.textColor = UIColorRBG(204, 204, 204);
+    _sex.textColor = UIColorRBG(204, 204, 204);
+    _selectSexMan.selected = NO;
+    _selectWomanSex.selected = NO;
+    
     //姓名
     _name.text = [_loginItem valueForKey:@"realname"];
     //性别
     NSString *sex = [_loginItem valueForKey:@"sex"];
     if ([sex isEqual:@"1"]) {
-        _sex.text = @"男";
+        _selectSexMan.selected = YES;
+        _manSex.textColor = UIColorRBG(51, 51, 51);
     }else if([sex isEqual:@"2"]){
-        _sex.text = @"女";
+        _selectWomanSex.selected = YES;
+        _sex.textColor = UIColorRBG(51, 51, 51);
     }else{
-        _sex.text = @"男";
+        _selectSexMan.selected = YES;
+        _manSex.textColor = UIColorRBG(51, 51, 51);
     }
+    
     //出生年月
     NSString *birthDate = [_loginItem valueForKey:@"birthday"];
     if (birthDate) {
@@ -136,7 +150,6 @@
     //从业时间
     NSString *employmentTime = [_loginItem valueForKey:@"startWorkTime"];
     if (employmentTime){
-        
        _employmentTime.text = employmentTime;
     }
     //入职时间
@@ -165,6 +178,22 @@
         [self loadData:image];
     };
 }
+//选择性别
+- (IBAction)selectSex:(UIButton *)sender {
+    _manSex.textColor = UIColorRBG(204, 204, 204);
+    _sex.textColor = UIColorRBG(204, 204, 204);
+    _selectSexMan.selected = NO;
+    _selectWomanSex.selected = NO;
+    sender.selected = YES;
+    if (sender.tag == 10) {
+        _manSex.textColor = UIColorRBG(51, 51, 51);
+        _sexs = @"1";
+    }else{
+        _sex.textColor = UIColorRBG(51, 51, 51);
+        _sexs = @"2";
+    }
+    [self loadData:nil];
+}
 // 失去焦点
 - (void)textFieldDidEndEditing:(UITextField *)textField{
      _relname = textField.text;
@@ -188,22 +217,7 @@
     }
     return YES;
 }
-//选择性别
-- (IBAction)setUpSex:(UIButton *)sender {
-    [self.name resignFirstResponder];
-    [BRStringPickerView showStringPickerWithTitle:@"选择性别" dataSource:@[@"男",@"女"] defaultSelValue:@"男" resultBlock:^(id selectValue) {
-        
-        NSString *sex = selectValue;
-        if ([sex isEqual:@"男"]) {
-            _sexs = @"1";
-        }else if([sex isEqual:@"女"]){
-            _sexs = @"2";
-        }
-    
-        [self loadData:nil];
-        
-    }];
-}
+
 //出生日期
 - (IBAction)setUpBirthDate:(UIButton *)sender {
     [self.name resignFirstResponder];

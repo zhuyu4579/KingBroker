@@ -14,7 +14,22 @@
 
 @property (nonatomic, copy) NSString *name;
 
+@property (nonatomic, copy) NSString *num;
+
+@property (nonatomic, copy) NSString *picColectName;
+
 @property (nonatomic, copy) NSArray *picCollect;
 
 @end
+@interface WZAlbumContensItem : NSObject
 
+@property(nonatomic,strong)NSString *url;
+
+@property(nonatomic,strong)NSString *id;
+
+@property(nonatomic,strong)NSString *type;
+
+@property(nonatomic,strong)NSString *title;
+
+@property(nonatomic,strong)NSString *videoPictureUrl;
+@end

@@ -8,7 +8,7 @@
 #import "WZAllPhotosCollectionView.h"
 #import "WZAllPhotoCell.h"
 #import "WZAlbumsItem.h"
-#import <UIImageView+WebCache.h>
+
 static NSString * const ID = @"Cell";
 @interface WZAllPhotosCollectionView () <UICollectionViewDelegateFlowLayout,
 UICollectionViewDataSource>
@@ -58,15 +58,11 @@ UICollectionViewDataSource>
 {
     WZAllPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ID forIndexPath:indexPath];
     WZAlbumsItem *mdel = self.array[indexPath.section];
-    NSDictionary *data = mdel.picCollect[indexPath.row];
-    NSString *url = [data valueForKey:@"url"];
-    NSString *IDs  = [data valueForKey:@"id"];
-    
-    //转换图片地址
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"zlp_pic"]];
-    cell.ID = IDs;
+    WZAlbumContensItem *items = mdel.picCollect[indexPath.row];
+    cell.item = items;
     return cell;
 }
+
 //分页效果
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {

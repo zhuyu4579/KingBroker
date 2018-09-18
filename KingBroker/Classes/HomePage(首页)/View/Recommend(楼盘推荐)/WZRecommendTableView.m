@@ -34,8 +34,8 @@ static  NSString * const IDR = @"cells";
     self.bounces = NO;
     return self;
 }
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 350;
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 150;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -53,7 +53,7 @@ static  NSString * const IDR = @"cells";
     NSString *uuid = [ user objectForKey:@"uuid"];
     //点击跳转详情页
     UIViewController *vc = [UIViewController viewController:self];
-    if (![uuid isEqual:@""]&&uuid) {
+    if (uuid && ![uuid isEqual:@""]) {
         WZRecommendCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
         houseDatis.ID =  cell.ID;

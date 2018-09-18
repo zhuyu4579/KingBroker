@@ -19,7 +19,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *cityName;
 @property (strong, nonatomic) IBOutlet UILabel *companyName;
 @property (strong, nonatomic) IBOutlet UILabel *commission;
-@property (strong, nonatomic) IBOutlet UIImageView *commissionImage;
+@property (strong, nonatomic) IBOutlet UILabel *commissionLabel;
 
 
 @property (strong, nonatomic) WZLikeProjectItem *item;

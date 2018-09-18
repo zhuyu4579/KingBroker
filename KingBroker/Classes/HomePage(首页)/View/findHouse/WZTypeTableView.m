@@ -47,7 +47,7 @@ static  NSString * const ID = @"Tcell";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     WZTypeViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.typeHouse.textColor = UIColorRBG(3, 133, 219);
+    cell.typeHouse.textColor = UIColorRBG(254, 193, 0);
     UIView *view =  [[tableView  superview] superview];
     [view setHidden:YES];
     if (_typeBlock) {

@@ -23,4 +23,5 @@
 @property(nonatomic,strong)NSString *name;
 //客户电话
 @property(nonatomic,strong)NSString *phone;
+
 @end

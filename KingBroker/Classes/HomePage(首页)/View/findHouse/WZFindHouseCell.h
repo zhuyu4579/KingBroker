@@ -25,7 +25,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *cityName;
 //距离
 @property (strong, nonatomic) IBOutlet UILabel *distance;
-@property (strong, nonatomic) IBOutlet UIImageView *commissionImage;
 
 @property(nonatomic,strong)NSString *ID;
 

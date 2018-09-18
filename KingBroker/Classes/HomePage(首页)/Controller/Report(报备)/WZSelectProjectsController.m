@@ -185,9 +185,15 @@ static NSString *size = @"20";
     dicty[@"projectId"] = cell.projectId;
     dicty[@"signStatus"]= item.signStatus;
     dicty[@"telphone"]= item.tel;
+    dicty[@"orderTelFlag"] = item.orderTelFlag;
     if (_projectBlock) {
         _projectBlock(dicty);
     }
     [self.navigationController popViewControllerAnimated:YES];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    
 }
 @end

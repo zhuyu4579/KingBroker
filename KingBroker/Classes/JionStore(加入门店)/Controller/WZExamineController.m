@@ -37,7 +37,7 @@
     
     //创建一个图片
     UIImageView *imageV = [[UIImageView alloc] init];
-    [imageV setImage:[UIImage imageNamed:@"shzl_background"]];
+    [imageV setImage:[UIImage imageNamed:@"pic"]];
     [self.view addSubview:imageV];
     [imageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left);
@@ -68,7 +68,7 @@
     }];
     //创建第二个Lable
     UILabel *labelTwo = [[UILabel alloc] init];
-    labelTwo.text = @"名片上传成功，请耐心等待审核…";
+    labelTwo.text = @"资料上传成功，请耐心等待审核…";
     labelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     labelTwo.textColor = UIColorRBG(102, 102, 102);
     [self.view addSubview:labelTwo];
@@ -91,7 +91,7 @@
         make.left.equalTo(self.view.mas_left);
         make.bottom.equalTo(self.view.mas_bottom);
         make.height.offset(54);
-        make.width.offset(SCREEN_WIDTH/2.0-1);
+        make.width.offset(SCREEN_WIDTH/2.0);
     }];
     //创建第二个button
     UIButton *buttonTwo = [[UIButton alloc] init];

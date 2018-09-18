@@ -13,11 +13,13 @@
 #import "GKCover.h"
 #import "WZAuthenticationController.h"
 #import <SVProgressHUD.h>
-#import "WZJionStoreController.h"
+#import <AFNetworking.h>
+#import "NSString+LCExtension.h"
 #import "WZApplyStorePersonController.h"
 #import "WZUpdateStoreController.h"
 #import "WZNavigationController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
+#import "WZJionStoreAndStoreHeadController.h"
 #import "WZStoreAdministrationController.h"
 @interface WZBelongedStoreController ()
 
@@ -48,142 +50,194 @@
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
-    self.view.backgroundColor = UIColorRBG(242, 242, 242);
+    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"所属门店";
+ 
+}
+//获取数据
+-(void)loadData{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    _dutyFlag = [ user objectForKey:@"dutyFlag"];
-    _storeName = [ user objectForKey:@"storeName"];
-    _storeCode = [ user objectForKey:@"storeCode"];
-    _cityAdder = [ user objectForKey:@"addr"];
-    _cityName = [ user objectForKey:@"cityName"];
-    _realtorStatus = [ user objectForKey:@"realtorStatus"];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    NSString *userId = [ user objectForKey:@"userId"];
+    NSString *username = [ user objectForKey:@"username"];
     
-    //创建控件
-    if ([_realtorStatus isEqual:@"2"]) {
-        //self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(edit) title:@"编辑"];
-        //已加入门店
-        [self setUpStore];
-    }else{
-       // 未加入门店
-        [self setUpNoStore];
-    }
-}
-//编辑按钮
--(void)edit{
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(success) title:@"完成"] ;
-    _addrButton.enabled = YES;
-    [_addrButton setHidden:NO];
-    _labelThreeAddress.enabled = YES;
-}
-//完成按钮
--(void)success{
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(edit) title:@"编辑"] ;
-    _addrButton.enabled = NO;
-    [_addrButton setHidden:YES];
-    _labelThreeAddress.enabled = NO;
+    
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"username"] = username;
+    paraments[@"userId"] = userId;
+    
+    NSString *url = [NSString stringWithFormat:@"%@/sysUser/myInfo",HTTPURL];
+    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *loginItem = [responseObject valueForKey:@"data"];
+            
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:[loginItem valueForKey:@"realtorStatus"] forKey:@"realtorStatus"];
+            [defaults setObject:[loginItem valueForKey:@"idcardStatus"] forKey:@"idcardStatus"];
+            [defaults setObject:[loginItem valueForKey:@"storeId"] forKey:@"storeId"];
+            [defaults setObject:[loginItem valueForKey:@"cityId"] forKey:@"cityId"];
+            [defaults setObject:[loginItem valueForKey:@"commissionFag"] forKey:@"commissionFag"];
+            [defaults setObject:[loginItem valueForKey:@"realname"] forKey:@"realname"];
+            [defaults setObject:[loginItem valueForKey:@"name"] forKey:@"name"];
+            [defaults setObject:[loginItem valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
+            //门店名称
+            [defaults setObject:[loginItem valueForKey:@"storeName"] forKey:@"storeName"];
+            //门店编码
+            [defaults setObject:[loginItem valueForKey:@"storeCode"] forKey:@"storeCode"];
+            //门店位置
+            [defaults setObject:[loginItem valueForKey:@"cityName"] forKey:@"cityName"];
+            //门店地址
+            [defaults setObject:[loginItem valueForKey:@"addr"] forKey:@"addr"];
+            //门店负责人
+            [defaults setObject:[loginItem valueForKey:@"dutyFlag"] forKey:@"dutyFlag"];
+            [defaults synchronize];
+            
+            //设置数据
+            _dutyFlag = [loginItem valueForKey:@"dutyFlag"];
+            _storeName = [loginItem valueForKey:@"storeName"];
+            _storeCode = [loginItem valueForKey:@"storeCode"];
+            _cityAdder = [loginItem valueForKey:@"addr"];
+            _cityName = [loginItem valueForKey:@"cityName"];
+            _realtorStatus = [loginItem valueForKey:@"realtorStatus"];
+            
+            //创建控件
+            if ([_realtorStatus isEqual:@"2"]) {
+                
+                //已加入门店
+                [self setUpStore];
+            }else{
+                // 未加入门店
+                [self setUpNoStore];
+            }
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+            if ([code isEqual:@"401"]) {
+                [NSString isCode:self.navigationController code:code];
+            }
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+        
+    }];
+    
+    
 }
 //未加入门店
 -(void)setUpNoStore{
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [UIImage imageNamed:@"empty"];
+    imageView.image = [UIImage imageNamed:@"wdmd_k"];
     [self.view addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
-        make.top.equalTo(self.view.mas_top).offset(kApplicationStatusBarHeight+44+103);
-        make.width.offset(129);
-        make.height.offset(86);
+        make.top.equalTo(self.view.mas_top).offset(kApplicationStatusBarHeight+44+89);
+        make.width.offset(181);
+        make.height.offset(150);
     }];
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"太低调了，连个门店都没有~";
-    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
-    label.textColor = UIColorRBG(158, 158, 158);
+    label.text = @"太低调了，连个门店都没有";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:14];
+    label.textColor = UIColorRBG(187, 187, 187);
     [self.view addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
-        make.top.equalTo(imageView.mas_bottom).offset(29);
-        make.height.offset(13);
+        make.top.equalTo(imageView.mas_bottom).offset(43);
+        make.height.offset(14);
     }];
     UIButton *button = [[UIButton alloc] init];
     [button setTitle:@"加入门店" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont systemFontOfSize:16];
-    button.backgroundColor = UIColorRBG(3, 133, 219);
-    button.layer.cornerRadius = 4.0;
+    [button setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    button.backgroundColor = UIColorRBG(255, 224, 0);
+    button.layer.cornerRadius = 22.0;
     [button addTarget:self action:@selector(joinStore) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
-        make.top.equalTo(label.mas_bottom).offset(140);
+        make.top.equalTo(label.mas_bottom).offset(89);
         make.width.offset(215);
-        make.height.offset(49);
+        make.height.offset(44);
     }];
 }
 //加入门店
 -(void)setUpStore{
     
     UIView *viewOne = [[UIView alloc] init];
-    viewOne.frame = CGRectMake(0, kApplicationStatusBarHeight+45, self.view.fWidth, 151);
+    viewOne.frame = CGRectMake(0, kApplicationStatusBarHeight+45, self.view.fWidth, 230);
     viewOne.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:viewOne];
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [UIImage imageNamed:@"choose"];
+    imageView.image = [UIImage imageNamed:@"bb_succeed"];
     [viewOne addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(viewOne.mas_centerX);
         make.top.equalTo(viewOne.mas_top).offset(24);
-        make.width.offset(47);
-        make.height.offset(47);
+        make.width.offset(90);
+        make.height.offset(90);
     }];
     UILabel *label = [[UILabel alloc] init];
     label.text = @"已加入门店";
-    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
-    label.textColor = UIColorRBG(153, 153, 153);
+    label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+    label.textColor = UIColorRBG(49, 35, 6);
     [viewOne addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(viewOne.mas_centerX);
         make.top.equalTo(imageView.mas_bottom).offset(15);
-        make.height.offset(13);
+        make.height.offset(16);
     }];
     UIButton *button = [[UIButton alloc] init];
-    [button setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont systemFontOfSize:14];
-    button.layer.borderWidth = 1.0;
-    button.layer.borderColor = UIColorRBG(3, 133, 219).CGColor;
-    button.layer.cornerRadius = 12.5;
+    [button setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
+    button.backgroundColor = UIColorRBG(255, 224, 0);
+    button.layer.cornerRadius = 16;
     [button addTarget:self action:@selector(ApplyStoreDuty) forControlEvents:UIControlEventTouchUpInside];
     if ([_dutyFlag isEqual:@"0"]) {
         [button setTitle:@"申请门店负责人" forState:UIControlStateNormal];
     }else if([_dutyFlag isEqual:@"2"]){
         [button setTitle:@"门店管理" forState:UIControlStateNormal];
         button.enabled = YES;
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        button.backgroundColor = UIColorRBG(3, 133, 219);
+        [button setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+        button.backgroundColor = UIColorRBG(255, 224, 0);
         [button removeTarget:self action:@selector(ApplyStoreDuty) forControlEvents:UIControlEventTouchUpInside];
         [button addTarget:self action:@selector(storeAdministration) forControlEvents:UIControlEventTouchUpInside];
     }else if([_dutyFlag isEqual:@"1"]){
-        [button setTitle:@"门店负责人认证中" forState:UIControlStateNormal];
+        [button setTitle:@"门店负责人审核中" forState:UIControlStateNormal];
         button.enabled = NO;
     }else{
-        [button setTitle:@"门店负责人认证失败" forState:UIControlStateNormal];
+        [button setTitle:@"审核失败,请重新申请" forState:UIControlStateNormal];
     }
     _button = button;
     [viewOne addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(viewOne.mas_centerX);
-        make.top.equalTo(label.mas_bottom).offset(15);
+        make.top.equalTo(label.mas_bottom).offset(21);
         make.width.offset(150);
-        make.height.offset(25);
+        make.height.offset(32);
     }];
     
     UIView *viewTwo = [[UIView alloc] init];
-    viewTwo.frame = CGRectMake(0,viewOne.fY + viewOne.fHeight +10, self.view.fWidth, 101);
+    viewTwo.frame = CGRectMake(0,viewOne.fY + viewOne.fHeight, self.view.fWidth, 101);
     viewTwo.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:viewTwo];
     
     UILabel *labelTwo = [[UILabel alloc] init];
     labelTwo.text = @"门店名称";
     labelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    labelTwo.textColor =UIColorRBG(153, 153, 153);
+    labelTwo.textColor =UIColorRBG(68, 68, 68);
     [viewTwo addSubview:labelTwo];
     [labelTwo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(viewTwo.mas_left).offset(15);
@@ -208,7 +262,7 @@
     UILabel *labelTwos = [[UILabel alloc] init];
     labelTwos.text = @"门店编码";
     labelTwos.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    labelTwos.textColor =UIColorRBG(153, 153, 153);
+    labelTwos.textColor =UIColorRBG(68, 68, 68);
     [viewTwo addSubview:labelTwos];
     [labelTwos mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(viewTwo.mas_left).offset(15);
@@ -225,24 +279,28 @@
         make.top.equalTo(ineView.mas_bottom).offset(18);
         make.height.offset(14);
     }];
+    UIView *ines = [[UIView alloc] init];
+    ines.frame = CGRectMake(14, 100, viewTwo.fWidth-15, 1);
+    ines.backgroundColor = UIColorRBG(243, 243, 243);
+    [viewTwo addSubview:ines];
     
     
     UIView *viewThree = [[UIView alloc] init];
-    viewThree.frame = CGRectMake(0, viewTwo.fY+viewTwo.fHeight+10, self.view.fWidth, 101);
+    viewThree.frame = CGRectMake(0, viewTwo.fY+viewTwo.fHeight, self.view.fWidth, 101);
     viewThree.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:viewThree];
     
     UILabel *labelThree = [[UILabel alloc] init];
     labelThree.text = @"门店位置";
     labelThree.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    labelThree.textColor =UIColorRBG(153, 153, 153);
+    labelThree.textColor =UIColorRBG(68, 68, 68);
     [viewThree addSubview:labelThree];
     [labelThree mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(viewThree.mas_left).offset(15);
         make.top.equalTo(viewThree.mas_top).offset(18);
         make.height.offset(14);
     }];
-   
+    
     UILabel *labelThreeAddr = [[UILabel alloc] init];
     labelThreeAddr.text = _cityName;
     labelThreeAddr.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
@@ -277,7 +335,7 @@
     UILabel *labelThrees = [[UILabel alloc] init];
     labelThrees.text = @"门店地址";
     labelThrees.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    labelThrees.textColor =UIColorRBG(153, 153, 153);
+    labelThrees.textColor =UIColorRBG(68, 68, 68);
     [viewThree addSubview:labelThrees];
     [labelThrees mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(viewThree.mas_left).offset(15);
@@ -300,20 +358,24 @@
         make.width.offset(280);
         make.height.offset(50);
     }];
+    UIView *ineTwo = [[UIView alloc] init];
+    ineTwo.frame = CGRectMake(14, 100, viewThree.fWidth-15, 1);
+    ineTwo.backgroundColor = UIColorRBG(243, 243, 243);
+    [viewThree addSubview:ineTwo];
+    
     //更换门店
     UIButton *updateStore = [[UIButton alloc] init];
     [updateStore setTitle:@"更换绑定门店" forState:UIControlStateNormal];
-    [updateStore setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    updateStore.backgroundColor = UIColorRBG(3, 133, 219);
-    updateStore.titleLabel.font = [UIFont systemFontOfSize:16];
+    [updateStore setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+    updateStore.backgroundColor = UIColorRBG(255, 224, 0);
+    updateStore.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     [updateStore addTarget:self action:@selector(updateStore) forControlEvents:UIControlEventTouchUpInside];
-    updateStore.layer.cornerRadius = 5.0;
     [self.view addSubview:updateStore];
     [updateStore mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view.mas_centerX);
-        make.top.equalTo(viewThree.mas_bottom).offset(65);
+        make.left.equalTo(self.view.mas_left);
+        make.bottom.equalTo(self.view.mas_bottom);
         make.height.offset(44);
-        make.width.offset(self.view.fWidth - 30);
+        make.width.offset(self.view.fWidth);
     }];
     
 }
@@ -323,26 +385,26 @@
 }
 //申请门店负责人
 -(void)ApplyStoreDuty{
-       //跳转申请负责人
-        WZApplyStorePersonController *applyVc = [[WZApplyStorePersonController alloc] init];
-        applyVc.statusBlock = ^(NSString *status) {
-            if ([status isEqual:@"0"]) {
-                [_button setTitle:@"申请门店负责人" forState:UIControlStateNormal];
-            }else if([status isEqual:@"2"]){
-                [_button setTitle:@"门店管理" forState:UIControlStateNormal];
-                _button.enabled = YES;
-                [_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                _button.backgroundColor = UIColorRBG(3, 133, 219);
-                [_button removeTarget:self action:@selector(ApplyStoreDuty) forControlEvents:UIControlEventTouchUpInside];
-                [_button addTarget:self action:@selector(storeAdministration) forControlEvents:UIControlEventTouchUpInside];
-            }else if([status isEqual:@"1"]){
-                [_button setTitle:@"门店负责人认证中" forState:UIControlStateNormal];
-                _button.enabled = NO;
-            }else{
-                [_button setTitle:@"门店负责人认证失败" forState:UIControlStateNormal];
-            }
-        };
-        [self.navigationController pushViewController:applyVc animated:YES];
+    //跳转申请负责人
+    WZApplyStorePersonController *applyVc = [[WZApplyStorePersonController alloc] init];
+    applyVc.statusBlock = ^(NSString *status) {
+        if ([status isEqual:@"0"]) {
+            [_button setTitle:@"申请门店负责人" forState:UIControlStateNormal];
+        }else if([status isEqual:@"2"]){
+            [_button setTitle:@"门店管理" forState:UIControlStateNormal];
+            _button.enabled = YES;
+            [_button setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+            _button.backgroundColor = UIColorRBG(255, 224, 0);
+            [_button removeTarget:self action:@selector(ApplyStoreDuty) forControlEvents:UIControlEventTouchUpInside];
+            [_button addTarget:self action:@selector(storeAdministration) forControlEvents:UIControlEventTouchUpInside];
+        }else if([status isEqual:@"1"]){
+            [_button setTitle:@"门店负责人认证中" forState:UIControlStateNormal];
+            _button.enabled = NO;
+        }else{
+            [_button setTitle:@"门店负责人认证失败" forState:UIControlStateNormal];
+        }
+    };
+    [self.navigationController pushViewController:applyVc animated:YES];
 }
 //门店管理
 -(void)storeAdministration{
@@ -354,9 +416,9 @@
 //更换门店
 -(void)updateStore{
     UIView *view = [[UIView alloc] init];
-    view.fSize = CGSizeMake(270, 457);
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, view.fWidth, 392)];
-    imageView.image = [UIImage imageNamed:@"pop_3"];
+    view.fSize = CGSizeMake(270, 470);
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, view.fWidth, 399)];
+    imageView.image = [UIImage imageNamed:@"wd_pop_3"];
     [view addSubview:imageView];
     UILabel *labelOne = [[UILabel alloc] init];
     labelOne.textColor = UIColorRBG(68, 68, 68);
@@ -366,21 +428,21 @@
     [view addSubview:labelOne];
     [labelOne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(view.mas_top).offset(158);
+        make.top.equalTo(view.mas_top).offset(165);
         make.width.offset(view.fWidth - 60);
     }];
     UIButton *storeUpdate = [[UIButton alloc] init];
-    [storeUpdate setTitle:@"确认更换门店" forState:UIControlStateNormal];
-    [storeUpdate setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [storeUpdate setTitle:@"更换门店" forState:UIControlStateNormal];
+    [storeUpdate setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [storeUpdate addTarget:self action:@selector(updateStores) forControlEvents:UIControlEventTouchUpInside];
-    storeUpdate.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    storeUpdate.backgroundColor = UIColorRBG(3, 133, 219);
+    storeUpdate.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
+    storeUpdate.backgroundColor = UIColorRBG(255, 224, 0);
     storeUpdate.layer.cornerRadius = 4.0;
     [view addSubview:storeUpdate];
     [storeUpdate mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(labelOne.mas_bottom).offset(46);
-        make.width.offset(view.fWidth - 60);
+        make.top.equalTo(labelOne.mas_bottom).offset(36);
+        make.width.offset(view.fWidth - 76);
         make.height.offset(35);
     }];
     UIButton *closeButton = [[UIButton alloc] init];
@@ -406,8 +468,16 @@
     [GKCover hide];
 }
 -(void)joinStore{
-    WZJionStoreController *jionStore = [[WZJionStoreController alloc] init];
-    [self.navigationController pushViewController:jionStore animated:YES];
+    if ([_realtorStatus isEqual:@"1"]) {
+        [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
+    }else{
+        WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
+        JionStore.type = @"1";
+        JionStore.jionType = @"1";
+        WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
+        [self.navigationController presentViewController:nav animated:YES completion:nil];
+    }
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -417,7 +487,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    
+    [self loadData];
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

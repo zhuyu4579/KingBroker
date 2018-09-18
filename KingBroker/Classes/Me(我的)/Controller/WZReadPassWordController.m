@@ -5,9 +5,9 @@
 //  Created by 朱玉隆 on 2018/5/24.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
+#import "UIButton+WZEnlargeTouchAre.h"
 #import "WZReadPassWordController.h"
-#import "WZfindPassWordController.h"
+#import "WZValidateCodeController.h"
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
 @interface WZReadPassWordController ()<UITextFieldDelegate>
@@ -23,19 +23,42 @@
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"修改绑定手机号码";
+    self.navigationItem.title = @"修改绑定手机";
     _passWord.textColor =  UIColorRBG(68, 68, 68);
     _passWord.keyboardType = UIKeyboardTypeASCIICapable;
-   _passWord.clearButtonMode = UITextFieldViewModeWhileEditing;
+    [[_passWord valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
+    _passWord.clearButtonMode = UITextFieldViewModeWhileEditing;
     _passWord.delegate = self;
     //设置密码框
     [_passWord setSecureTextEntry:YES];
-    _nextButton.layer.cornerRadius = 4.0;
-    _nextButton.backgroundColor = UIColorRBG(3, 133, 219);
+    
+    [_showPassWord setEnlargeEdgeWithTop:20 right:20 bottom:20 left:10];
+    
+    _nextButton.layer.cornerRadius = 18.0;
+    _nextButton.backgroundColor = UIColorRBG(255, 224, 0);
+    _nextButton.layer.shadowColor = UIColorRBG(255, 204, 0).CGColor;
+    _nextButton.layer.shadowRadius = 5.0f;
+    _nextButton.layer.shadowOffset = CGSizeMake(0, 5);
+    _nextButton.layer.shadowOpacity = 0.32;
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [_passWord resignFirstResponder];
+    return YES;
+}
+//获取焦点
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    textField.returnKeyType = UIReturnKeyDone;
+}
+//文本框编辑时
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    NSString * toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    if (_passWord == textField) {
+        if (toBeString.length>16) {
+            return NO;
+        }
+    }
+    
     return YES;
 }
 - (void)didReceiveMemoryWarning {
@@ -78,9 +101,10 @@
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
-            WZfindPassWordController *findPassWord = [[WZfindPassWordController alloc] init];
-            findPassWord.modityID = password;
-            findPassWord.navigationItem.title = @"修改绑定手机";
+            WZValidateCodeController *findPassWord = [[WZValidateCodeController alloc] init];
+            findPassWord.passWord = password;
+            findPassWord.navigationItem.title = @"验证当前手机";
+            findPassWord.type = @"2";
             [self.navigationController pushViewController:findPassWord animated:YES];
         }else{
              NSString *msg = [responseObject valueForKey:@"msg"];
@@ -95,6 +119,7 @@
     
     
 }
+
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.passWord resignFirstResponder];

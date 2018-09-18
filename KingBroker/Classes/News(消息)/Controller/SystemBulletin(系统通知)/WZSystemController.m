@@ -49,7 +49,7 @@ static NSString *size = @"20";
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     [self setNoData];
-    self.view.backgroundColor = UIColorRBG(242, 242, 242);
+    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"系统通知";
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButtons:self action:@selector(readAll) title:@"一键已读"];
     //注册cell
@@ -210,16 +210,16 @@ static NSString *size = @"20";
     _viewNo = view;
     [self.view addSubview:view];
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [UIImage imageNamed:@"vacancy"];
+    imageView.image = [UIImage imageNamed:@"xx_k"];
     [view addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(view.mas_top).offset(194);
-        make.width.offset(94);
-        make.height.offset(96);
+        make.top.equalTo(view.mas_top).offset(kApplicationStatusBarHeight+90);
+        make.width.offset(180);
+        make.height.offset(150);
     }];
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"还没有收到任何通知哦~";
+    label.text = @"暂无消息记录";
     label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     label.textColor = UIColorRBG(158, 158, 158);
     label.textAlignment = NSTextAlignmentCenter;
@@ -232,7 +232,7 @@ static NSString *size = @"20";
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 200;
+    return 148;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _newsArray.count;
@@ -247,7 +247,13 @@ static NSString *size = @"20";
 #pragma mark -点击cell事件
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     WZTaskCell *anCell = [tableView cellForRowAtIndexPath:indexPath];
-    [self read:anCell];
+    NSString *readType = anCell.readType;
+    if ([readType isEqual:@"0"]) {
+         [self read:anCell];
+    }else{
+         [self NoreadNews:anCell];
+    }
+   
     
 }
 //已读接口
@@ -288,7 +294,7 @@ static NSString *size = @"20";
     NSString *param = anCell.param;
     //查询未读消息
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
+    NSString *uuid = [user objectForKey:@"uuid"];
  
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];

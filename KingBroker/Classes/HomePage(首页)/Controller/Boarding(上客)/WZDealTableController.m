@@ -185,24 +185,24 @@ static NSString *size = @"20";
     _viewNo = view;
     [self.view addSubview:view];
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [UIImage imageNamed:@"vacancy_2"];
+    imageView.image = [UIImage imageNamed:@"wddd_k"];
     [view addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
         make.top.equalTo(view.mas_top).offset(94);
-        make.width.offset(91);
-        make.height.offset(105);
+        make.width.offset(181);
+        make.height.offset(150);
     }];
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"还没有任何订单哦~";
-    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
-    label.textColor = UIColorRBG(158, 158, 158);
+    label.text = @"暂无订单";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:14];
+    label.textColor = UIColorRBG(187, 187, 187);
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 0;
     [view addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(imageView.mas_bottom).offset(29);
+        make.top.equalTo(imageView.mas_bottom).offset(42);
     }];
     
 }
@@ -229,7 +229,7 @@ static NSString *size = @"20";
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 119;
+    return 147;
 }
 #pragma mark -跳转详情页
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

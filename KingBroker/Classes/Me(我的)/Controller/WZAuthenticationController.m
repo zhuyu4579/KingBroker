@@ -27,16 +27,21 @@
     [super viewDidLoad];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"实名认证";
-    _headHeight.constant = kApplicationStatusBarHeight+54;
+    
+    _viewOne.layer.cornerRadius = 5.0;
+    _viewTwo.layer.cornerRadius = 5.0;
+    
+    _headHeight.constant = kApplicationStatusBarHeight+53;
     _titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     _titleLabel.textColor = UIColorRBG(153, 153, 153);
-    NSMutableAttributedString *attributedString =  [self changeSomeText:@"清晰可见，亮度均匀，易于识别" inText:_titleLabel.text withColor:UIColorRBG(3, 133, 219)];
+    
+    NSMutableAttributedString *attributedString =  [self changeSomeText:@"清晰可见，亮度均匀，易于识别" inText:_titleLabel.text withColor:UIColorRBG(102, 221, 85)];
     _titleLabel.attributedText = attributedString;
-    _getUpButton.backgroundColor = UIColorRBG(3, 133, 219);
+    
+    _getUpButton.backgroundColor = UIColorRBG(255, 224, 0);
     [_getUpButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_getUpButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-    _getUpButton.layer.cornerRadius = 5.0;
-    _getUpButton.layer.masksToBounds = YES;
+    
     _name.keyboardType = UIKeyboardTypeDefault;
     _name.delegate = self;
     _idCode.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
@@ -64,7 +69,7 @@
             return NO;
         }
     }else{
-        if (toBeString.length>20) {
+        if (toBeString.length>18) {
             return NO;
         }
     }
@@ -78,7 +83,7 @@
 //点击图片拍照
 -(void)clickImage{
     WZAlertView *redView = [WZAlertView new];
-    redView.imageName = @"rz_pic";
+    redView.imageName = @"wd_rz_pic";
     redView.fSize = CGSizeMake(KScreenW, 327);
     [GKCover coverFrom:self.view
            contentView:redView
@@ -105,10 +110,13 @@
 //提交实名认证
 - (IBAction)comfireButton:(id)sender {
     UIButton *button = sender;
-    if (!_image) {
+    CGImageRef cgref = [_image CGImage];
+    CIImage *cim = [_image CIImage];
+    if (cgref == NULL && cim == nil) {
         [SVProgressHUD showInfoWithStatus:@"请上传身份证照片"];
         return;
     }
+    
     NSString *name = _name.text;
     if (!name) {
         [SVProgressHUD showInfoWithStatus:@"真实姓名不能为空"];

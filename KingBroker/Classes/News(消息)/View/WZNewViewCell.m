@@ -7,16 +7,22 @@
 //
 
 #import "WZNewViewCell.h"
-#import "WZNewItem.h"
+#import "WZAnnNewItem.h"
 #import <UIImageView+WebCache.h>
 @implementation WZNewViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
-    _title.textColor = UIColorRBG(68, 68, 68);
-    _newsTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    _newsTitle.textColor = UIColorRBG(153, 153, 153);
+    self.backgroundColor = [UIColor whiteColor];
+    _newsTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    _newsTitle.textColor = UIColorRBG(68, 68, 68);
+    _title.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+    _title.textColor = UIColorRBG(153, 153, 153);
+    _view.backgroundColor = [UIColor whiteColor];
+    _view.layer.shadowColor = [UIColor blackColor].CGColor;
+    _view.layer.shadowOpacity = 0.05f;
+    _view.layer.shadowRadius = 15.0f;
+    _view.layer.cornerRadius = 3.0;
     
 }
 
@@ -24,36 +30,26 @@
     [super setSelected:selected animated:animated];
      self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
--(void)setFrame:(CGRect)frame{
-    frame.size.height -=1;
-    [super setFrame:frame];
-}
--(void)setItem:(WZNewItem *)item{
+
+-(void)setItem:(WZAnnNewItem *)item{
     _item = item;
-    [_image sd_setImageWithURL:[NSURL URLWithString:item.iconUrl] placeholderImage:[UIImage imageNamed:@"BBS"]];
-    if (_array.count != 0) {
-        for (NSDictionary *dic in _array) {
-            NSString *type = item.type;
-            NSString *value = [dic valueForKey:@"value"];
-            if ([type isEqual:value]) {
-                _title.text = [dic valueForKey:@"label"];
-                break;
-            }
-        }
-    }
-    
-    if ([item.title isEqual:@""]) {
-        _newsTitle.text = @"暂无消息";
-    }else{
-        _newsTitle.text = item.title;
-    }
-    NSString *count = item.count;
-    if(![count isEqual:@"0"]){
-         [_sumButton setHidden:NO];
-         [_sumButton setTitle:item.count forState:UIControlStateNormal];
+    _time.text = item.releaseDateStr;
+    NSString *readFlag = item.readFlag;
+    _readType = readFlag;
+    if ([readFlag isEqual:@"0"]) {
+        [_sumButton setHidden:NO];
     }else{
         [_sumButton setHidden:YES];
     }
-   
+    _newsTitle.text = item.title;
+    _title.text = item.content;
+    _ID = item.id;
+    _param = item.param;
+    _additional = item.additional;
+    _viewType = item.viewType;
+     _url = item.url;
+    
+    [_image sd_setImageWithURL:[NSURL URLWithString:item.pictureIds] placeholderImage:[UIImage imageNamed:@"gg_pic"]];
+    
 }
 @end

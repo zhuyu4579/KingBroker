@@ -7,7 +7,7 @@
 //
 
 #import "WZLBCollectionViewCell.h"
-#import "WZLunBoItem.h"
+#import "WZHouseDetilItem.h"
 #import <UIImageView+WebCache.h>
 @implementation WZLBCollectionViewCell
 
@@ -15,9 +15,16 @@
     [super awakeFromNib];
     
 }
--(void)setItem:(WZLunBoItem *)item{
+-(void)setItem:(WZLunBoItems *)item{
     _item = item;
     [_imageView sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"zlp_pic"]];
     _ID = item.id;
+    NSString *type = item.type;
+    if ([type isEqual:@"1"]) {
+        [_playBUtton setHidden:YES];
+    }else{
+         [_playBUtton setHidden:NO];
+    }
 }
+
 @end

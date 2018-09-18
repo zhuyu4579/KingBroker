@@ -16,14 +16,14 @@
 #import <MJExtension.h>
 #import "WZLikeProjectItem.h"
 #import "WZTabBarController.h"
-@interface WZReportSuccessController ()
+@interface WZReportSuccessController ()<UITextViewDelegate>
 //楼盘名
 @property (nonatomic,strong)UILabel *labelOne;
 
 //上客时间
 @property (nonatomic,strong)UILabel *labelFour;
 //未签约提醒
-@property (nonatomic,strong)UILabel *labels;
+@property (nonatomic,strong)UITextView *labels;
 //未签约提醒
 @property (nonatomic,strong)UILabel *labelRed;
 //电话
@@ -48,6 +48,7 @@
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
+
 }
 -(void)Datas{
     //猜你喜欢
@@ -60,149 +61,149 @@
     //数据
     NSDictionary *contacts = [_reportData valueForKey:@"contacts"];
     _labelOne.text = [contacts valueForKey:@"projectName"];
-     _labelFour.text = [NSString stringWithFormat:@"报备成功，最晚上客时间%@",[contacts valueForKey:@"boardingEnd"]];
+     _labelFour.text = [NSString stringWithFormat:@"报备成功，最晚上客时间 %@",[contacts valueForKey:@"boardingEnd"]];
     
     if ([_status isEqual:@"2"]) {
         [_labels setHidden:YES];
-        [_phone setHidden:YES];
         [_labelRed setHidden:YES];
+        
     }else{
         [_labels setHidden:NO];
-        [_phone setHidden:NO];
         [_labelRed setHidden:NO];
+        if ([_status isEqual:@"1"]) {
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"你所在经纪门店与该楼盘未签约，在最晚上客时间内，楼盘负责人将会与你联系，或你可致电%@了解签约事宜",_telphone]];
+            [attributedString addAttribute:NSLinkAttributeName value:@"cilck://" range:[[attributedString string] rangeOfString:_telphone]];
+             [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(0, attributedString.length)];
+            _labels.attributedText = attributedString;
+            _labels.linkTextAttributes = @{NSForegroundColorAttributeName:UIColorRBG(102, 221, 85),NSUnderlineColorAttributeName:UIColorRBG(102, 102, 102), NSUnderlineStyleAttributeName: @(NSUnderlinePatternDot)};
+    
+            _labelRed.text = @"楼盘须与门店签约，未签约可能会影响佣金结算，请及时签约";
+        }else{
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"你所在经纪门店和该楼盘的签约已过期，在最晚上客时间内，楼盘负责人将会与你联系，或你可致电%@了解续约事宜",_telphone]];
+            [attributedString addAttribute:NSLinkAttributeName value:@"cilck://" range:[[attributedString string] rangeOfString:_telphone]];
+            [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(0, attributedString.length)];
+            _labels.attributedText = attributedString;
+            _labels.linkTextAttributes = @{NSForegroundColorAttributeName:UIColorRBG(102, 221, 85),NSUnderlineColorAttributeName:UIColorRBG(102, 102, 102), NSUnderlineStyleAttributeName: @(NSUnderlinePatternDot)};
+            _labelRed.text = @"楼盘须与门店签约，签约过期可能影响佣金结算，请及时续约";
+        }
     }
     
 }
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    if ([[URL scheme] isEqualToString:@"cilck"]) {
+        [self playPhone];
+        return NO;
+    }
+    return YES;
+}
+
 -(void)ceartorController{
    
     UIView *view = [[UIView alloc] init];
-    view.frame = CGRectMake(15,kApplicationStatusBarHeight+88,self.view.fWidth-30,284);
+    view.frame = CGRectMake(35,kApplicationStatusBarHeight+65,self.view.fWidth-70,420);
     view.backgroundColor = [UIColor whiteColor];
+    view.layer.shadowColor = UIColorRBG(255, 221, 128).CGColor;
+    view.layer.shadowOpacity = 0.05f;
+    view.layer.shadowRadius = 20.0f;
+    view.layer.cornerRadius = 15;
+    view.layer.masksToBounds = NO;
     [self.view addSubview:view];
-    
+
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.frame = CGRectMake((self.view.fWidth-47)/2,kApplicationStatusBarHeight+64,47,47);
-    imageView.image = [UIImage imageNamed:@"succeed"];
+    imageView.image = [UIImage imageNamed:@"bb_succeed"];
     [self.view addSubview:imageView];
-    
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(view.mas_top).with.offset(31);
+        make.height.mas_offset(90);
+        make.width.mas_offset(90);
+    }];
+    //项目名称
     _labelOne = [[UILabel alloc] init];
-    _labelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
+    _labelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
     _labelOne.textColor = UIColorRBG(51, 51, 51);
+    _labelOne.textAlignment = NSTextAlignmentCenter;
     [view addSubview:_labelOne];
     [_labelOne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(view.mas_top).with.offset(43);
-        make.height.mas_offset(17);
+        make.top.equalTo(imageView.mas_bottom).with.offset(21);
+        make.height.mas_offset(16);
+        make.width.offset(view.fWidth-10);
     }];
-    UIView *ineView = [[UIView alloc] initWithFrame:CGRectMake(0, 84, view.fWidth, 1)];
-    ineView.backgroundColor = UIColorRBG(242, 242, 242);
-    [view addSubview:ineView];
-    
+    //提示上客时间
     _labelFour = [[UILabel alloc] init];
-    _labelFour.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    _labelFour.textColor = UIColorRBG(102, 102, 102);
+    _labelFour.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    _labelFour.textColor = UIColorRBG(153, 153, 153);
+    _labelFour.textAlignment = NSTextAlignmentCenter;
     [view addSubview:_labelFour];
     [_labelFour mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(ineView.mas_bottom).with.offset(25);
-        make.height.mas_offset(14);
+        make.top.equalTo(_labelOne.mas_bottom).with.offset(16);
+        make.height.mas_offset(12);
+        make.width.offset(view.fWidth-10);
     }];
-    UILabel *label  = [[UILabel alloc] init];
-    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
-    label.textColor = UIColorRBG(187, 187, 187);
-    label.numberOfLines = 0;
-    label.text = @"你所在经纪门店未和该楼盘签约， 在最晚上客时间内楼盘负责人会联系你确认签约事宜，或你可致电";
+    //项目未签约提示
+    UITextView *label  = [[UITextView alloc] init];
     _labels = label;
+    label.delegate = self;
+    label.editable = NO;//必须禁止输入，否则点击将会弹出输入键盘
+    label.scrollEnabled = NO;//可选的，视具体情况而定
     [view addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
         make.top.equalTo(_labelFour.mas_bottom).with.offset(15);
-        make.width.mas_offset(view.fWidth - 70);
+        make.width.mas_offset(view.fWidth - 40);
     }];
-    
-    UIButton *telphone  = [[UIButton alloc] init];
-    telphone.titleLabel.textAlignment = NSTextAlignmentLeft;
-    telphone.titleLabel.font = [UIFont systemFontOfSize:12];
-    [telphone setTitle:_telphone forState:UIControlStateNormal];
-    [telphone setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
-    _phone = telphone;
-    [telphone addTarget:self action:@selector(playPhone:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:telphone];
-    [telphone mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(view.mas_left).offset(33);
-        make.top.equalTo(label.mas_bottom);
-        make.width.mas_offset(85);
-        make.height.mas_offset(20);
-    }];
+    //警告
     UILabel *labelRed  = [[UILabel alloc] init];
-    labelRed.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
-    labelRed.textColor = UIColorRBG(255, 107, 1);
+    labelRed.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
+    labelRed.textColor = UIColorRBG(255, 108, 0);
     labelRed.numberOfLines = 0;
-    labelRed.text = @"注意:楼盘只会和门店签约,未签约时上客有可能无法结佣";
     _labelRed = labelRed;
     [view addSubview:labelRed];
     [labelRed mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(telphone.mas_bottom);
-        make.width.mas_offset(view.fWidth - 70);
+        make.top.equalTo(label.mas_bottom).offset(17);
+        make.width.mas_offset(view.fWidth - 50);
     }];
-    //按钮一
-    _resportButton = [[UIButton alloc] init];
-    [_resportButton setTitle:@"查看订单" forState: UIControlStateNormal];
-    [_resportButton setTitleColor: [UIColor colorWithRed:3/255.0 green:133/255.0 blue:219/255.0 alpha:1.0] forState:UIControlStateNormal];
-    
-    _resportButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
-    
-    _resportButton.layer.cornerRadius = 4.0;
-    _resportButton.layer.masksToBounds = YES;
-     [_resportButton.layer setBorderWidth:1.0];
-    _resportButton.layer.borderColor = [UIColor colorWithRed:3.0/255.0 green:133.0/255.0 blue:219.0/255.0 alpha:1.0].CGColor;
-    
-    [_resportButton addTarget:self action:@selector(order) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:_resportButton];
-    [_resportButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(view.mas_centerX).with.offset(-25);
-        make.bottom.equalTo(view.mas_bottom).with.offset(-25);
-        make.width.mas_offset(105);
-        make.height.mas_offset(40);
-    }];
-    //按钮一
+    //继续报备
     _viewOrder = [[UIButton alloc] init];
     [_viewOrder setTitle:@"继续报备" forState: UIControlStateNormal];
-    [_viewOrder setTitleColor: [UIColor whiteColor] forState:UIControlStateNormal];
-    
+    [_viewOrder setTitleColor: UIColorRBG(255, 224, 0) forState:UIControlStateNormal];
     _viewOrder.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
-    
-    _viewOrder.layer.cornerRadius = 4.0;
-    _viewOrder.layer.masksToBounds = YES;
-    _viewOrder.backgroundColor = UIColorRBG(3, 133, 219);
-    
     [_viewOrder addTarget:self action:@selector(report) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:_viewOrder];
     [_viewOrder mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(view.mas_centerX).with.offset(25);
-        make.bottom.equalTo(view.mas_bottom).with.offset(-25);
-        make.width.mas_offset(105);
-        make.height.mas_offset(40);
+        make.left.equalTo(view.mas_left);
+        make.bottom.equalTo(view.mas_bottom).with.offset(-20);
+        make.width.mas_offset(view.fWidth/2.0);
+        make.height.mas_offset(42);
+    }];
+    
+    //查看订单
+    _resportButton = [[UIButton alloc] init];
+    [_resportButton setTitle:@"查看订单" forState: UIControlStateNormal];
+    [_resportButton setTitleColor:UIColorRBG(255, 224, 0) forState:UIControlStateNormal];
+    
+    _resportButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    [_resportButton addTarget:self action:@selector(order) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:_resportButton];
+    [_resportButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view.mas_right);
+        make.bottom.equalTo(view.mas_bottom).with.offset(-20);
+        make.width.mas_offset(view.fWidth/2.0);
+        make.height.mas_offset(42);
     }];
    
     //创建为你推荐
     UIView *likeView = [[UIView alloc] init];
-    likeView.frame = CGRectMake(0,view.fY+view.fHeight+10,self.view.fWidth,266);
-    likeView.backgroundColor = [UIColor whiteColor];
+    likeView.frame = CGRectMake(35,view.fY+view.fHeight+19,self.view.fWidth-70,100);
     [self.view addSubview:likeView];
-    UILabel *likelabel = [[UILabel alloc] init];
-    likelabel.frame = CGRectMake((likeView.fWidth-71)/2,20,71,17);
-    likelabel.text = @"猜你喜欢";
-    likelabel.font = [UIFont fontWithName:@"PingFang-SC-Bold" size:18];
-    likelabel.textColor =UIColorRBG(68, 68, 68);
-    [likeView addSubview:likelabel];
     
-    UIView *sV = [[UIView alloc] initWithFrame:CGRectMake(0, 58, likeView.fWidth, 205)];
-    sV.backgroundColor =[UIColor clearColor];
+    UIView *sV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, likeView.fWidth, likeView.fHeight)];
     [likeView addSubview:sV];
     //自定义一个tableview
-    WZReportSuccessTableView *tbView = [[WZReportSuccessTableView alloc] initWithFrame:CGRectMake(0, 0, sV.fHeight, sV.fWidth-15)];
+    WZReportSuccessTableView *tbView = [[WZReportSuccessTableView alloc] initWithFrame:CGRectMake(0, 0, sV.fHeight, sV.fWidth)];
     NSArray *array = [_reportData valueForKey:@"projectList"];
     tbView.projectArray = [WZLikeProjectItem mj_objectArrayWithKeyValuesArray:array];
     [tbView reloadData];
@@ -210,8 +211,8 @@
     [sV addSubview:tbView];
 }
 //打电话
--(void)playPhone:(UIButton *)button{
-    NSString *phone = button.titleLabel.text;
+-(void)playPhone{
+    NSString *phone = _telphone;
     if (![phone isEqual:@""]) {
         NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", phone];
         if (@available(iOS 10.0, *)) {

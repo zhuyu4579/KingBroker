@@ -7,7 +7,7 @@
 //
 
 #import "WZPageButtonView.h"
-#import "WZReportController.h"
+#import "WZNewReportController.h"
 #import "UIViewController+WZFindController.h"
 #import "WZBoaringController.h"
 #import "WZHousePageController.h"
@@ -17,21 +17,15 @@
 #import "WZAnnouncemeController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZTaskController.h"
-#import "WZJionStoreController.h"
-#import "WZNavigationController.h"
+#import "WZJionStoreAndStoreHeadController.h"
 #import "WZNavigationController.h"
 @interface WZPageButtonView()
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *line2X;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *line1X;
+
 @property(nonatomic,strong) UIViewController *VC;
 @end
 
 @implementation WZPageButtonView
 -(void)layoutSubviews{
-    _line1X.constant =(SCREEN_WIDTH - 210)/3-2;
-    _line2X.constant =(SCREEN_WIDTH - 210)/3-2;
-    [_newsLable setEnlargeEdge:20];
-    
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
@@ -88,7 +82,7 @@
     if (![uuid isEqual:@""]&&uuid) {
         if([realtorStatus isEqual:@"2"]){
             //跳转报备页面
-            WZReportController *reportVC = [[WZReportController alloc] init];
+            WZNewReportController *reportVC = [[WZNewReportController alloc] init];
             [_VC.navigationController pushViewController:reportVC animated:YES];
         } else if([realtorStatus isEqual:@"0"] ||[realtorStatus isEqual:@"3"]){
             [self store:_VC];
@@ -125,6 +119,10 @@
     }
     
 }
+#pragma mark -楼盘笔记
+- (IBAction)houseBook:(UIButton *)sender {
+    
+}
 #pragma mark -查看新消息
 - (IBAction)seeNews:(id)sender {
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -149,12 +147,14 @@
                                                           }];
     UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
                                                            handler:^(UIAlertAction * action) {
-                                                               WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
+                                                               WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
                                                                WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
                                                                JionStore.type = @"1";
+                                                               JionStore.jionType = @"1";
                                                                [vc presentViewController:nav animated:YES completion:nil];
                                                            }];
-    
+    [cancelAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+    [defaultAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
     [alert addAction:defaultAction];
     [alert addAction:cancelAction];
     [vc presentViewController:alert animated:YES completion:nil];

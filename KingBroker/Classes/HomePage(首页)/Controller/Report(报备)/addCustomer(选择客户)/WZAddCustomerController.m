@@ -216,5 +216,7 @@ static NSString *size = @"20";
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
      _array = [NSMutableArray array];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
+
 @end

@@ -8,7 +8,7 @@
 
 #import "WZTabBarController.h"
 #import "WZPagesViewController.h"
-#import "WZNewsTableViewController.h"
+#import "WZNewsController.h"
 #import "WZMallViewController.h"
 #import "WZMeViewController.h"
 #import "UIImage+Tools.h"
@@ -27,7 +27,7 @@
     //设置按钮选择状态下文字的颜色
     //创建一个描述文本属性的字典
     NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
-    attrs[NSForegroundColorAttributeName] = UIColorRBG(3, 133, 219);
+    attrs[NSForegroundColorAttributeName] = UIColorRBG(49, 35, 6);
     [item setTitleTextAttributes:attrs forState:UIControlStateSelected];
     //设置字体的尺寸：只有在正常状态下才能有效果
     NSMutableDictionary *attrsNor = [NSMutableDictionary dictionary];
@@ -59,10 +59,18 @@
    
     [self addChildViewController:nav];
     //消息
-    WZNewsTableViewController *newVc = [[WZNewsTableViewController alloc] init];
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+     WZNewsController *newVc  = [[WZNewsController alloc] initWithCollectionViewLayout:layout];
+    newVc.edgesForExtendedLayout = UIRectEdgeNone;
+    layout.itemSize = CGSizeMake(150, 156);
+    layout.sectionInset = UIEdgeInsetsMake(25, 20, 25, 20);
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    layout.minimumLineSpacing = 25;
+    layout.minimumInteritemSpacing = 34;
+   
     //创建导航控制器
     WZNavigationController *nav1 = [[WZNavigationController alloc] initWithRootViewController:newVc];
-   
+    
     [self addChildViewController:nav1];
 
     //我的
@@ -79,20 +87,20 @@
     //0：pageVc首页
     UINavigationController *pageVc = self.childViewControllers[0];
         pageVc.tabBarItem.title = @"首页";
-        pageVc.tabBarItem.image = [UIImage imageNamed:@"home"];
-        pageVc.tabBarItem.selectedImage = [UIImage imageOfAlwaysOriginalWithImageNamed:@"home_2"];
+        pageVc.tabBarItem.image = [UIImage imageNamed:@"sy_home"];
+        pageVc.tabBarItem.selectedImage = [UIImage imageOfAlwaysOriginalWithImageNamed:@"sy_home2"];
     
     //1:nav1消息
     UINavigationController *nav1 = self.childViewControllers[1];
         nav1.tabBarItem.title = @"消息";
-        nav1.tabBarItem.image = [UIImage imageNamed:@"message"];
-        nav1.tabBarItem.selectedImage = [UIImage imageOfAlwaysOriginalWithImageNamed:@"message_2"];
+        nav1.tabBarItem.image = [UIImage imageNamed:@"sy_message"];
+        nav1.tabBarItem.selectedImage = [UIImage imageOfAlwaysOriginalWithImageNamed:@"sy_message2"];
 
     //3:nav3我的
     UINavigationController *nav3 = self.childViewControllers[2];
         nav3.tabBarItem.title = @"我的";
-        nav3.tabBarItem.image = [UIImage imageNamed:@"mine"];
-        nav3.tabBarItem.selectedImage = [UIImage imageOfAlwaysOriginalWithImageNamed:@"mine_2"];
+        nav3.tabBarItem.image = [UIImage imageNamed:@"sy_myself"];
+        nav3.tabBarItem.selectedImage = [UIImage imageOfAlwaysOriginalWithImageNamed:@"sy_myself2"];
 
 }
 

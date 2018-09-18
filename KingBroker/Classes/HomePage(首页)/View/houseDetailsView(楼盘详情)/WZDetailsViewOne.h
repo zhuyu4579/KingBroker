@@ -16,18 +16,18 @@
 @property (weak, nonatomic) IBOutlet UILabel *itemLabelTwo;
 @property (weak, nonatomic) IBOutlet UILabel *itemLabelThree;
 @property (weak, nonatomic) IBOutlet UILabel *Commission;
-@property (weak, nonatomic) IBOutlet UILabel *addressTitle;
 @property (weak, nonatomic) IBOutlet UILabel *address;
-@property (weak, nonatomic) IBOutlet UILabel *phoneTitle;
 @property (weak, nonatomic) IBOutlet UILabel *phone;
-@property (weak, nonatomic) IBOutlet UILabel *seeHouse;
 @property (strong, nonatomic) IBOutlet UIButton *JoinButton;
 @property (weak, nonatomic) IBOutlet UILabel *companyName;
 @property (weak, nonatomic) IBOutlet UILabel *chargeMan;
+@property (strong, nonatomic) IBOutlet UILabel *developerName;
+
 @property (weak, nonatomic) IBOutlet UIView *ineViewOne;
 @property (weak, nonatomic) IBOutlet UIView *ineViewTwo;
 @property (weak, nonatomic) IBOutlet UIView *ineViewThree;
-@property (strong, nonatomic) IBOutlet UIButton *commissionButton;
+
+- (IBAction)addressButton:(UIButton *)sender;
 
 - (IBAction)JoinStore:(id)sender;
 @end

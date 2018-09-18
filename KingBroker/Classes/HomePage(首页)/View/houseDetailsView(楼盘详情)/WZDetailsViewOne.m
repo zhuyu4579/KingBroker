@@ -18,37 +18,37 @@
      return [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass(self) owner:nil options:nil] firstObject];
 }
 -(void)layoutSubviews{
-    self.itemName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:18];
+    
     self.itemName.textColor = UIColorRBG(68, 68, 68);
-    _price.textColor =UIColorRBG(255, 127, 19);
+    _price.textColor =UIColorRBG(153, 153, 153);
     
-    self.itemLabel.backgroundColor = UIColorRBG(230, 244, 255);
-    self.itemLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    self.itemLabel.textColor = UIColorRBG(40, 180, 230);
-    self.itemLabelTwo.backgroundColor = UIColorRBG(230, 244, 255);
-    self.itemLabelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    self.itemLabelTwo.textColor = UIColorRBG(40, 180, 230);
-    self.itemLabelThree.backgroundColor = UIColorRBG(230, 244, 255);
-    self.itemLabelThree.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    self.itemLabelThree.textColor = UIColorRBG(40, 180, 230);
+    self.itemLabel.backgroundColor = UIColorRBG(255, 252, 238);
+    self.itemLabel.textColor = UIColorRBG(255, 202, 118);
+    self.itemLabelTwo.backgroundColor = UIColorRBG(255, 252, 238);
+    self.itemLabelTwo.textColor = UIColorRBG(255, 202, 118);
+    self.itemLabelThree.backgroundColor = UIColorRBG(255, 252, 238);
+    self.itemLabelThree.textColor = UIColorRBG(255, 202, 118);
     
-    self.Commission.textColor = UIColorRBG(244, 102, 30);
-    [self.JoinButton setTitleColor:UIColorRBG(244, 102, 30) forState:UIControlStateNormal];
-  
-    
-    self.ineViewOne.backgroundColor = UIColorRBG(242, 242, 242);
-    self.ineViewTwo.backgroundColor = UIColorRBG(242, 242, 242);
-    self.ineViewThree.backgroundColor = UIColorRBG(242, 242, 242);
-    self.addressTitle.textColor = UIColorRBG(153, 153, 153);
-    self.phoneTitle.textColor = UIColorRBG(153, 153, 153);
-    self.seeHouse.textColor = UIColorRBG(153, 153, 153);
-    
+    self.Commission.textColor = UIColorRBG(255, 180, 61);
+    [self.JoinButton setTitleColor:UIColorRBG(255, 180, 61) forState:UIControlStateNormal];
+ 
     self.address.textColor = UIColorRBG(68, 68, 68);
-    self.phone.textColor = UIColorRBG(68, 68, 68);
+    self.phone.textColor = UIColorRBG(102, 221, 85);
     self.companyName.textColor = UIColorRBG(68, 68, 68);
     self.chargeMan.textColor = UIColorRBG(68, 68, 68);
+    self.developerName.textColor = UIColorRBG(68, 68, 68);
 }
+- (IBAction)addressButton:(UIButton *)sender {
+    
+}
+
 - (IBAction)JoinStore:(id)sender {
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
+    if ([realtorStatus isEqual:@"1"]) {
+        [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
+        return;
+    }
     WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
     UIViewController *vc = [UIViewController viewController:self.superview];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];

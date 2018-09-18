@@ -22,7 +22,6 @@
                 <outlet property="headHeight" destination="rA9-MN-YFM" id="kTQ-CH-qEO"/>
                 <outlet property="labelThree" destination="f2E-Bw-GT7" id="lxy-Sa-S5z"/>
                 <outlet property="labelTwo" destination="2Cu-Nc-5OS" id="Gcl-Sz-JNg"/>
-                <outlet property="telphoneButton" destination="Szk-oC-oyN" id="12z-wg-ZfG"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -367,20 +366,6 @@
                         <constraint firstItem="D8H-xx-Gff" firstAttribute="top" secondItem="WSj-Ke-45J" secondAttribute="top" id="xWR-KA-Q9R"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="客服热线：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PkG-cH-nZG">
-                    <rect key="frame" x="109.5" y="606" width="62" height="15"/>
-                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="12"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Szk-oC-oyN">
-                    <rect key="frame" x="171.5" y="600" width="93" height="27"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <state key="normal" title="0571-88841808"/>
-                    <connections>
-                        <action selector="playBUtton:" destination="-1" eventType="touchUpInside" id="osf-Ea-ogj"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
@@ -388,15 +373,12 @@
                 <constraint firstItem="57a-X0-mJf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="4ct-Pr-3VY"/>
                 <constraint firstItem="WSj-Ke-45J" firstAttribute="top" secondItem="05D-ot-KYs" secondAttribute="bottom" constant="1" id="63j-p2-hgz"/>
                 <constraint firstAttribute="trailing" secondItem="uOe-kn-VQu" secondAttribute="trailing" id="ASU-zI-Qx0"/>
-                <constraint firstItem="PkG-cH-nZG" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" constant="-47" id="Atg-cX-PNZ"/>
                 <constraint firstItem="piS-qW-PUn" firstAttribute="top" secondItem="uOe-kn-VQu" secondAttribute="bottom" constant="1" id="CS7-ap-ZqV"/>
                 <constraint firstAttribute="trailing" secondItem="05D-ot-KYs" secondAttribute="trailing" id="D5d-7i-UG9"/>
-                <constraint firstItem="Szk-oC-oyN" firstAttribute="leading" secondItem="PkG-cH-nZG" secondAttribute="trailing" id="DYI-pz-4MG"/>
                 <constraint firstItem="lh6-Ay-OaV" firstAttribute="top" secondItem="PVg-cv-ptU" secondAttribute="bottom" constant="1" id="Hrr-W2-hI4"/>
                 <constraint firstItem="PVg-cv-ptU" firstAttribute="top" secondItem="WT1-CS-sCL" secondAttribute="bottom" constant="1" id="Hvk-dy-cBz"/>
                 <constraint firstItem="lh6-Ay-OaV" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="LMG-k5-GQV"/>
                 <constraint firstAttribute="trailing" secondItem="lh6-Ay-OaV" secondAttribute="trailing" id="NOb-Qy-LkV"/>
-                <constraint firstAttribute="bottom" secondItem="Szk-oC-oyN" secondAttribute="bottom" constant="40" id="Ra8-3v-kAh"/>
                 <constraint firstAttribute="trailing" secondItem="WT1-CS-sCL" secondAttribute="trailing" id="SsC-NA-4KN"/>
                 <constraint firstItem="CWq-fV-xey" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="UId-5u-Hkp"/>
                 <constraint firstItem="05D-ot-KYs" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Yg1-us-6BN"/>
@@ -412,7 +394,6 @@
                 <constraint firstItem="57a-X0-mJf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="rA9-MN-YFM"/>
                 <constraint firstItem="WSj-Ke-45J" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="wA3-pF-Vsy"/>
                 <constraint firstItem="PVg-cv-ptU" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="y5r-Qi-y4b"/>
-                <constraint firstAttribute="bottom" secondItem="PkG-cH-nZG" secondAttribute="bottom" constant="46" id="yTc-jU-aKK"/>
                 <constraint firstAttribute="trailing" secondItem="PVg-cv-ptU" secondAttribute="trailing" id="zt6-Vd-IHr"/>
             </constraints>
             <point key="canvasLocation" x="33.5" y="67.5"/>

@@ -20,7 +20,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *companyName;
 //距离
 @property (strong, nonatomic) IBOutlet UILabel *distance;
-@property (strong, nonatomic) IBOutlet UIImageView *commissionImage;
+
 @property (strong, nonatomic) IBOutlet UIButton *JoinStoreButton;
 @property (strong, nonatomic) IBOutlet UIButton *houseCollectionButton;
 @property(nonatomic,strong)NSString *ID;

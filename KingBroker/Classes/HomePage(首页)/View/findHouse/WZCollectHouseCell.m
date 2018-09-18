@@ -10,7 +10,7 @@
 #import <UIImageView+WebCache.h>
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "UIViewController+WZFindController.h"
-#import "WZJionStoreController.h"
+#import "WZJionStoreAndStoreHeadController.h"
 #import "WZNavigationController.h"
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
@@ -29,12 +29,12 @@
     if ([realtorStatus isEqual:@"2"]) {
         [_JoinStoreButton setHidden:YES];
         [_JoinStoreButton setEnabled:NO];
-        [_commissionImage setHidden:NO];
+        
         [_commsion setHidden:NO];
         if([commissionFag isEqual:@"0"]){
-            _commsion.text = item.commission;
+            _commsion.text = [NSString stringWithFormat:@"佣金：%@" ,item.commission];
         }else{
-            _commsion.text = @"";
+            _commsion.text = @"佣金结给门店";
         }
     }else{
         [_JoinStoreButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
@@ -63,33 +63,35 @@
     if (item.tage.count!=0) {
         for (int i = 0; i<item.tage.count; i++) {
             if (i == 0) {
-                _labelOne.text = item.tage[0];
+                _labelOne.text = [NSString stringWithFormat:@" %@ " ,item.tage[0]];
             }else if(i==1){
-                _labelTwo.text = item.tage[1];
+                _labelTwo.text = [NSString stringWithFormat:@" %@ " ,item.tage[1]];
             }else if(i==2){
-                _labelThree.text = item.tage[2];
+                _labelThree.text = [NSString stringWithFormat:@" %@ " ,item.tage[2]];
             }
         }
     }
 }
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _projectName.textColor = UIColorRBG(68, 68, 68);
- 
-    _labelOne.backgroundColor = UIColorRBG(230, 244, 255);
-    _labelOne.textColor = UIColorRBG(40, 180, 230);
-    _labelTwo.backgroundColor = UIColorRBG(230, 244, 255);
-    _labelTwo.textColor = UIColorRBG(40, 180, 230);
-    _labelThree.backgroundColor = UIColorRBG(230, 244, 255);
-    _labelThree.textColor = UIColorRBG(40, 180, 230);
-     _commsion.textColor = UIColorRBG(244, 102, 30);
-    [_JoinStoreButton setTitleColor:UIColorRBG(244, 102, 30) forState:UIControlStateNormal];
-    [_commissionImage setHidden:YES];
+    self.backgroundColor = [UIColor clearColor];
+    
+    _projectName.textColor = UIColorRBG(51, 51, 51);
+    _labelOne.backgroundColor = UIColorRBG(255, 252, 238);
+    _labelOne.textColor = UIColorRBG(255, 202, 118);
+    _labelTwo.backgroundColor = UIColorRBG(255, 252, 238);
+    _labelTwo.textColor = UIColorRBG(255, 202, 118);
+    _labelThree.backgroundColor = UIColorRBG(255, 252, 238);
+    _labelThree.textColor = UIColorRBG(255, 202, 118);
+    
+     _commsion.textColor = UIColorRBG(254, 193, 0);
+    [_JoinStoreButton setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
+    
     [_commsion setHidden:YES];
-     _prices.textColor = UIColorRBG(255, 127, 19);
-    _cityName.textColor = UIColorRBG(153, 153, 153);
-    _companyName.textColor = UIColorRBG(102, 102, 102);
-    _distance.textColor = UIColorRBG(203, 203, 203);
+     _prices.textColor = UIColorRBG(102, 102, 102);
+    _cityName.textColor = UIColorRBG(102, 102, 102);
+    _companyName.textColor = UIColorRBG(153,153,153);
+    _distance.textColor = UIColorRBG(170, 170, 170);
     [_houseCollectionButton setEnlargeEdge:40];
 }
 
@@ -99,7 +101,8 @@
     
 }
 -(void)setFrame:(CGRect)frame{
-    frame.size.height -=1;
+    frame.size.height -=8;
+    frame.origin.y +=8;
     [super setFrame:frame];
 }
 - (IBAction)houseCollectionClick:(id)sender {
@@ -127,16 +130,13 @@
             NSString *collect = [data valueForKey:@"collect"];
             if ([collect isEqual:@"1"]) {
                 but.selected = YES;
-                [SVProgressHUD showInfoWithStatus:@"加入我的楼盘成功"];
             }else{
                 but.selected = NO;
                 if (_deleteblock) {
                     _deleteblock(self);
                 }
             }
-            NSString *collectNum = [data valueForKey:@"collectNum"];
-            UILabel *label =  [but.superview viewWithTag:40];
-            label.text = [NSString stringWithFormat:@"%@",collectNum];
+           
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -152,10 +152,11 @@
     
 }
 - (IBAction)JoinStore:(UIButton *)sender {
-    WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
     UIViewController *vc = [UIViewController viewController:self.superview.superview];
+    WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
     JionStore.type = @"1";
+    JionStore.jionType = @"1";
     [vc presentViewController:nav animated:YES completion:nil];
 }
 @end

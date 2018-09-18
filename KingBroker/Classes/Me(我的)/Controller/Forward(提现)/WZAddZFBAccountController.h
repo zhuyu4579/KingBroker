@@ -10,7 +10,7 @@
 
 @interface WZAddZFBAccountController : UIViewController
 //支付宝账号
-@property(nonatomic,strong)UITextField *ZFBName;
+@property(nonatomic,strong)NSString *ZFBNames;
 //支付宝账号ID
 @property(nonatomic,strong)NSString *ID;
 @end

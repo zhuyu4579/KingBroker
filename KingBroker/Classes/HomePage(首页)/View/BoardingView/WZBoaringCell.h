@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 @class WZBoardingItem;
 @interface WZBoaringCell : UITableViewCell
+@property (strong, nonatomic) IBOutlet UIView *viewOne;
+@property (weak, nonatomic) IBOutlet UIView *viewTwo;
+@property (strong, nonatomic) IBOutlet UIView *viewThree;
+
+@property (strong, nonatomic) IBOutlet UIView *viewFour;
+
 @property (weak, nonatomic) IBOutlet UILabel *nameOne;
 @property (weak, nonatomic) IBOutlet UILabel *telephoneOne;
 @property (weak, nonatomic) IBOutlet UILabel *ItemNameOne;
@@ -29,7 +35,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *ItemNameThree;
 
 @property (weak, nonatomic) IBOutlet UILabel *boaringTimeThree;
-@property (weak, nonatomic) IBOutlet UILabel *stateThree;
 @property (weak, nonatomic) IBOutlet UILabel *nameFour;
 @property (weak, nonatomic) IBOutlet UILabel *telephoneFour;
 @property (weak, nonatomic) IBOutlet UILabel *ItemNameFour;
@@ -61,4 +66,6 @@
 @property(nonatomic,strong)NSString *orderCreateTime;
 //冷却时间
 @property(nonatomic,strong)NSString *boardingLimitTime;
+//是否为实号
+@property(nonatomic,strong)NSString *orderTelFlag;
 @end

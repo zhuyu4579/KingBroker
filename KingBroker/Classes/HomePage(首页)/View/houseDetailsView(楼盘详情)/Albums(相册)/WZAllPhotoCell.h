@@ -7,9 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class WZAlbumContensItem;
 @interface WZAllPhotoCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
-@property(nonatomic,strong)NSString *ID;
+@property (strong, nonatomic) IBOutlet UIView *voidView;
 
+@property (strong, nonatomic) IBOutlet UIButton *playButton;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+
+- (IBAction)playVoid:(UIButton *)sender;
+
+@property(nonatomic,strong)NSString *ID;
+@property(nonatomic,strong)NSString *title;
+@property(nonatomic,strong)WZAlbumContensItem *item;
 @end

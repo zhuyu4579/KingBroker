@@ -15,7 +15,8 @@
 #import "WZAddZFBAccountController.h"
 
 @interface WZAddZFBAccountController ()<UITextFieldDelegate>
-
+//支付宝账号
+@property(nonatomic,strong)UITextField *ZFBName;
 @end
 
 @implementation WZAddZFBAccountController
@@ -36,11 +37,11 @@
 //创建内容
 -(void)createContents{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *realname = [ user objectForKey:@"name"];
+    NSString *realname = [user objectForKey:@"name"];
     
     UILabel *lanbelOne = [[UILabel alloc] init];
     lanbelOne.textColor = UIColorRBG(135, 134, 140);
-    lanbelOne.text = @"为了资金安全，只能绑定当前实名认证人的支付宝";
+    lanbelOne.text = @"为了资金安全，只能绑定当前实名认证人的支付宝帐号";
     lanbelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     [self.view addSubview:lanbelOne];
     [lanbelOne mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -70,7 +71,7 @@
     UILabel *name = [[UILabel alloc] init];
     name.text = realname;
     name.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
-    name.textColor = UIColorRBG(153, 153, 153);
+    name.textColor = UIColorRBG(51, 51, 51);
     [view addSubview:name];
     [name mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(nameLabel.mas_right).offset(28);
@@ -104,6 +105,9 @@
     ZFBName.keyboardType = UIKeyboardTypeDefault;
     ZFBName.clearButtonMode = UITextFieldViewModeWhileEditing;
     ZFBName.delegate = self;
+    if (![_ZFBNames isEqual:@""]) {
+        ZFBName.text = _ZFBNames;
+    }
     _ZFBName = ZFBName;
     [view addSubview:ZFBName];
     [ZFBName mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -115,9 +119,9 @@
     //确定按钮
     UIButton *confirm = [[UIButton alloc] init];
     [confirm setTitle:@"确定" forState:UIControlStateNormal];
-    [confirm setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    confirm.backgroundColor = UIColorRBG(3, 133, 219);
-    confirm.layer.cornerRadius = 4.0;
+    [confirm setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+    confirm.backgroundColor = UIColorRBG(255, 216, 0);
+    confirm.layer.cornerRadius = 22.0;
     confirm.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
     [confirm addTarget:self action:@selector(confirmZFB:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:confirm];

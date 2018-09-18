@@ -5,7 +5,7 @@
 //  Created by 朱玉隆 on 2018/3/29.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
+#import <Masonry.h>
 #import "WZBoaringController.h"
 #import "UIBarButtonItem+Item.h"
 #import "UIView+Frame.h"
@@ -14,8 +14,8 @@
 #import "WZBoardingTableController.h"
 #import "WZCompleteTableController.h"
 #import "WZDealTableController.h"
-#import "WZReportController.h"
-
+#import "WZNewReportController.h"
+#import "UIButton+WZEnlargeTouchAre.h"
 
 @interface WZBoaringController ()<UIScrollViewDelegate>
 
@@ -71,7 +71,7 @@
     self.automaticallyAdjustsScrollViewInsets =NO;
     UIScrollView *scrollView = [[UIScrollView alloc] init];
     scrollView.frame = CGRectMake(self.view.fX, self.view.fY+1, self.view.fWidth, self.view.fHeight);
-    scrollView.backgroundColor = UIColorRBG(242, 242, 242);
+    scrollView.backgroundColor = UIColorRBG(247, 247, 247);
     scrollView.bounces = NO;
     scrollView.showsVerticalScrollIndicator = NO;
     scrollView.showsHorizontalScrollIndicator = NO;
@@ -81,12 +81,51 @@
     self.scrollView = scrollView;
     [self.view addSubview:scrollView];
     scrollView.contentSize =CGSizeMake(scrollView.fWidth*4,0);
+    
+    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, kApplicationStatusBarHeight+44)];
+    buttonView.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:buttonView];
+    
+    //创建返回按钮
+    UIButton *backButton = [[UIButton alloc] init];
+    [backButton setBackgroundImage:[UIImage imageNamed:@"wd_wmBack"] forState:UIControlStateNormal];
+    [backButton setEnlargeEdgeWithTop:10 right:20 bottom:10 left:15];
+    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [buttonView addSubview:backButton];
+    [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(buttonView.mas_left).offset(15);
+        make.top.equalTo(buttonView.mas_top).offset(kApplicationStatusBarHeight+13);
+        make.width.offset(11);
+        make.height.offset(20);
+    }];
+    UILabel *title = [[UILabel alloc] init];
+    title.text = @"我的订单";
+    title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:18];
+    title.textColor = [UIColor whiteColor];
+    [buttonView addSubview:title];
+    [title mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(buttonView.mas_centerX);
+        make.top.equalTo(buttonView.mas_top).offset(kApplicationStatusBarHeight+13);
+        make.height.offset(18);
+    }];
+    //创建报备按钮
+    UIButton *selectButton = [[UIButton alloc] init];
+    [selectButton setBackgroundImage:[UIImage imageNamed:@"wd_joinus"] forState:UIControlStateNormal];
+    [selectButton setEnlargeEdgeWithTop:10 right:15 bottom:10 left:20];
+    [selectButton addTarget:self action:@selector(addModel) forControlEvents:UIControlEventTouchUpInside];
+    [buttonView addSubview:selectButton];
+    [selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(buttonView.mas_right).offset(-15);
+        make.top.equalTo(buttonView.mas_top).offset(kApplicationStatusBarHeight+15);
+        make.width.offset(18);
+        make.height.offset(18);
+    }];
 }
 
 #pragma mark -创建标题栏
 -(void)setTitlesView{
-    UIView *titlesView = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+45, self.view.fWidth, 44)];
-    titlesView.backgroundColor = [UIColor whiteColor];
+    UIView *titlesView = [[UIView alloc] initWithFrame:CGRectMake(15, kApplicationStatusBarHeight+45, self.view.fWidth-30, 41)];
+    titlesView.backgroundColor = UIColorRBG(255, 224, 0);
     [self.view addSubview:titlesView];
     self.titlesView = titlesView;
     //设置标题栏按钮
@@ -109,9 +148,9 @@
         [self.titlesView addSubview:titleButton];
         [titleButton addTarget:self action:@selector(titleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         titleButton.frame = CGRectMake(i*titleButtonW, 0, titleButtonW, titleButtonH);
-        [titleButton setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
-        [titleButton setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateSelected];
-        titleButton.titleLabel.font =  [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
+        [titleButton setTitleColor:UIColorRBG(102, 96, 91) forState:UIControlStateNormal];
+        [titleButton setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateSelected];
+        titleButton.titleLabel.font =  [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
         if (i == 0) {
             
             [self titleButtonClick:titleButton];
@@ -143,7 +182,7 @@
     UIButton *firstTitleButton = self.titlesView.subviews.firstObject;
     UIView *titleUnderLine = [[UIView alloc] init];
     titleUnderLine.fHeight = 2;
-    titleUnderLine.fWidth = 65;
+    titleUnderLine.fWidth = 40;
     titleUnderLine.fY = self.titlesView.fHeight - titleUnderLine.fHeight;
     titleUnderLine.cX = self.titlesView.fWidth/8;
     titleUnderLine.backgroundColor = [firstTitleButton  titleColorForState:UIControlStateSelected];
@@ -152,12 +191,23 @@
 }
 #pragma mark -设置导航栏
 -(void)setNavItem{
-    self.view.backgroundColor = UIColorRBG(242, 242, 242);
+    self.view.backgroundColor = UIColorRBG(247, 247, 247);
     self.navigationItem.title = @"我的订单";
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"add_3"] highImage:[UIImage imageNamed:@"add_3"] target:self action:@selector(addModel)];
+}
+#pragma mark -返回
+-(void)back{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+- (UIStatusBarStyle)preferredStatusBarStyle {
+
+    return UIStatusBarStyleLightContent;
+}
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+
+    return UIStatusBarAnimationFade;
 }
 -(void)addModel{
-    WZReportController *report = [[WZReportController alloc] init];
+    WZNewReportController *report = [[WZNewReportController alloc] init];
     [self.navigationController pushViewController:report animated:YES];
 }
 - (void)didReceiveMemoryWarning {
@@ -175,6 +225,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+
 }
 @end
