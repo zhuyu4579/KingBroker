@@ -31,4 +31,5 @@
 
 @property(nonatomic,strong)NSString *title;
 
+@property(nonatomic,strong)NSString *videoPictureUrl;
 @end

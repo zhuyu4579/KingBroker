@@ -14,6 +14,7 @@
 #import "WZAlbumsItem.h"
 #import "WZCollectionHeaderView.h"
 #import "WZCollectionViewCell.h"
+#import "WZAlbumPhonesViewController.h"
 #import "WZTitleCollectionViewCell.h"
 @interface WZAlbumsViewController ()<UICollectionViewDelegateFlowLayout,
 UICollectionViewDataSource,UICollectionViewDataSource>
@@ -214,6 +215,7 @@ static NSString * const IDT = @"TCell";
         WZTitleCollectionViewCell *cell = (WZTitleCollectionViewCell *) [collectionView cellForItemAtIndexPath:indexPath];
         cell.ineView.backgroundColor = UIColorRBG(255, 224, 0);
         cell.title.textColor = UIColorRBG(255, 224, 0);
+        
         _oldIndexPath = indexPath;
         if (item.picCollect.count>0) {
             //滑动被点击的标题 至中心 并设置状态为选中
@@ -222,8 +224,14 @@ static NSString * const IDT = @"TCell";
             NSIndexPath *viewIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.row];
             [_colleContent scrollToItemAtIndexPath:viewIndexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
         }
-        
-        
+    }else{
+        WZCollectionViewCell *cell = (WZCollectionViewCell *) [collectionView cellForItemAtIndexPath:indexPath];
+        NSString *photoId = cell.ID;
+        WZAlbumPhonesViewController *albums = [[WZAlbumPhonesViewController alloc] init];
+        albums.type = @"1";
+        albums.projectId = _ID;
+        albums.photoId = photoId;
+        [self.navigationController pushViewController:albums animated:YES];
     }
 }
 

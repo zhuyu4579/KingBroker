@@ -646,6 +646,14 @@ static NSString * const IDS = @"cells";
         NSIndexPath *viewIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.row];
         [self.cycleView scrollToItemAtIndexPath:viewIndexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
         
+    }else{
+        WZLBCollectionViewCell *cell = (WZLBCollectionViewCell *) [collectionView cellForItemAtIndexPath:indexPath];
+        NSString *photoId = cell.ID;
+        WZAlbumPhonesViewController *ap = [[WZAlbumPhonesViewController alloc] init];
+        ap.type = @"0";
+        ap.projectId = _ID;
+        ap.photoId = photoId;
+        [self.navigationController pushViewController:ap animated:YES];
     }
 }
 //分页效果

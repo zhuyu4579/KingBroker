@@ -47,26 +47,31 @@ UICollectionViewDataSource>
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     WZPhotoNameCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ID forIndexPath:indexPath];
-    if ([_selectIndexPath isEqual:indexPath]) {
-        cell.name.textColor = [UIColor whiteColor];
-        cell.name.backgroundColor = UIColorRBG(3, 133, 219);
-    }
     WZAlbumsItem *item = self.arrays[indexPath.row];
     cell.item = item;
+    if (_oldIndexPath.row == indexPath.row) {
+        cell.name.textColor = UIColorRBG(49, 35, 6);
+        cell.name.backgroundColor = UIColorRBG(255, 224, 0);
+    }
     return cell;
 }
 //点击cell
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    WZPhotoNameCell *cell1 =(WZPhotoNameCell *) [collectionView cellForItemAtIndexPath:_oldIndexPath];
-    cell1.name.textColor = UIColorRBG(203, 203, 203);
-    cell1.name.backgroundColor = [UIColor clearColor];
-    
-     WZPhotoNameCell *cell =(WZPhotoNameCell *) [collectionView cellForItemAtIndexPath:indexPath];
-    _oldIndexPath = indexPath;
-    cell.name.textColor = [UIColor whiteColor];
-    cell.name.backgroundColor = UIColorRBG(3, 133, 219);
-    NSMutableDictionary *dicty = [NSMutableDictionary dictionary];
-    dicty[@"indexPath"] = indexPath;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"indexPaths" object:nil userInfo:dicty];
+    WZAlbumsItem  *item = _arrays[indexPath.row];
+    NSArray *arrays = item.picCollect;
+    if (arrays.count!=0) {
+        WZPhotoNameCell *cell1 =(WZPhotoNameCell *) [collectionView cellForItemAtIndexPath:_oldIndexPath];
+        cell1.name.textColor = UIColorRBG(203, 203, 203);
+        cell1.name.backgroundColor = [UIColor clearColor];
+        
+        WZPhotoNameCell *cell =(WZPhotoNameCell *) [collectionView cellForItemAtIndexPath:indexPath];
+        _oldIndexPath = indexPath;
+        cell.name.textColor = UIColorRBG(49, 35, 6);
+        cell.name.backgroundColor = UIColorRBG(255, 224, 0);
+        
+        NSMutableDictionary *dicty = [NSMutableDictionary dictionary];
+        dicty[@"indexPath"] = indexPath;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"indexPaths" object:nil userInfo:dicty];
+    }
 }
 @end

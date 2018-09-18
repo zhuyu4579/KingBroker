@@ -12,23 +12,24 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _name.textColor = UIColorRBG(203, 203, 203);
-    
+    _name.textColor = UIColorRBG(204, 204, 204);
+    _name.layer.cornerRadius = 2;
+    _name.layer.masksToBounds = YES;
 }
 -(void)setItem:(WZAlbumsItem *)item{
     _item = item;
-    NSArray *array = @[@"楼盘图",@"沙盘图",@"样板间图",@"位置及周边"];
-    NSInteger type = [item.type integerValue];
-    if (type != 5 ) {
-        _name.text = [NSString stringWithFormat:@" %@(%lu) ",array[type-1],(unsigned long)item.picCollect.count];
-    }else{
-        _name.text = [NSString stringWithFormat:@" %@(%lu) ",item.name,(unsigned long)item.picCollect.count];
-    }
+    _name.text = [NSString stringWithFormat:@" %@(%@) ",item.picColectName,item.num];
+    
 }
 -(void)setSelected:(BOOL)selected{
      [super setSelected:selected];
-   
-   
+    if (selected) {
+        _name.backgroundColor = UIColorRBG(255, 224, 0);
+        _name.textColor = UIColorRBG(49, 35, 6);
+    }else{
+        _name.backgroundColor = [UIColor clearColor];
+        _name.textColor = UIColorRBG(204, 204, 204);
+    }
 }
 
 @end
