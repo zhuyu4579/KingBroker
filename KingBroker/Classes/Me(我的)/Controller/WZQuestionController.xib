@@ -22,6 +22,7 @@
                 <outlet property="headHeight" destination="rA9-MN-YFM" id="kTQ-CH-qEO"/>
                 <outlet property="labelThree" destination="f2E-Bw-GT7" id="lxy-Sa-S5z"/>
                 <outlet property="labelTwo" destination="2Cu-Nc-5OS" id="Gcl-Sz-JNg"/>
+                <outlet property="playButton" destination="osR-vi-8xy" id="9Ic-nM-z0k"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -366,6 +367,29 @@
                         <constraint firstItem="D8H-xx-Gff" firstAttribute="top" secondItem="WSj-Ke-45J" secondAttribute="top" id="xWR-KA-Q9R"/>
                     </constraints>
                 </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="客户热线：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jq6-TA-f3f">
+                    <rect key="frame" x="106" y="606" width="61.5" height="12"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="12" id="y0O-Lr-kst"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.26666666666666666" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="osR-vi-8xy">
+                    <rect key="frame" x="169.5" y="606" width="100" height="12"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="mkt-0d-seh"/>
+                        <constraint firstAttribute="height" constant="12" id="mzH-xZ-W5x"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <state key="normal" title="0571-88841808">
+                        <color key="titleColor" red="1" green="0.84705882352941175" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="playTelphone:" destination="-1" eventType="touchUpInside" id="gx4-LY-jyO"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
@@ -379,18 +403,22 @@
                 <constraint firstItem="PVg-cv-ptU" firstAttribute="top" secondItem="WT1-CS-sCL" secondAttribute="bottom" constant="1" id="Hvk-dy-cBz"/>
                 <constraint firstItem="lh6-Ay-OaV" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="LMG-k5-GQV"/>
                 <constraint firstAttribute="trailing" secondItem="lh6-Ay-OaV" secondAttribute="trailing" id="NOb-Qy-LkV"/>
+                <constraint firstItem="osR-vi-8xy" firstAttribute="leading" secondItem="jq6-TA-f3f" secondAttribute="trailing" constant="2" id="SpA-kS-dBO"/>
                 <constraint firstAttribute="trailing" secondItem="WT1-CS-sCL" secondAttribute="trailing" id="SsC-NA-4KN"/>
                 <constraint firstItem="CWq-fV-xey" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="UId-5u-Hkp"/>
                 <constraint firstItem="05D-ot-KYs" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Yg1-us-6BN"/>
                 <constraint firstItem="uOe-kn-VQu" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="bOj-Qa-XkY"/>
                 <constraint firstAttribute="trailing" secondItem="WSj-Ke-45J" secondAttribute="trailing" id="cbT-Tc-wGa"/>
+                <constraint firstAttribute="bottom" secondItem="jq6-TA-f3f" secondAttribute="bottom" constant="49" id="egy-eL-Y4u"/>
                 <constraint firstAttribute="trailing" secondItem="piS-qW-PUn" secondAttribute="trailing" id="eyZ-FJ-bgQ"/>
                 <constraint firstItem="05D-ot-KYs" firstAttribute="top" secondItem="lh6-Ay-OaV" secondAttribute="bottom" constant="1" id="hRQ-Pq-SFB"/>
                 <constraint firstItem="piS-qW-PUn" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="i9S-Nb-RL9"/>
                 <constraint firstAttribute="trailing" secondItem="CWq-fV-xey" secondAttribute="trailing" id="j9W-6N-siY"/>
                 <constraint firstItem="WT1-CS-sCL" firstAttribute="top" secondItem="piS-qW-PUn" secondAttribute="bottom" constant="1" id="joK-NA-e39"/>
                 <constraint firstItem="uOe-kn-VQu" firstAttribute="top" secondItem="CWq-fV-xey" secondAttribute="bottom" constant="1" id="kzy-l1-a1B"/>
+                <constraint firstItem="jq6-TA-f3f" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" constant="-51" id="l1E-wa-okv"/>
                 <constraint firstItem="WT1-CS-sCL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="m4X-s9-IOU"/>
+                <constraint firstItem="osR-vi-8xy" firstAttribute="top" secondItem="jq6-TA-f3f" secondAttribute="top" id="nsL-my-RlE"/>
                 <constraint firstItem="57a-X0-mJf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="rA9-MN-YFM"/>
                 <constraint firstItem="WSj-Ke-45J" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="wA3-pF-Vsy"/>
                 <constraint firstItem="PVg-cv-ptU" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="y5r-Qi-y4b"/>

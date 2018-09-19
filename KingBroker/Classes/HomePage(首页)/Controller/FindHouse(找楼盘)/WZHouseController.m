@@ -141,7 +141,7 @@ static NSString *size = @"20";
             _typeTable.array = _typeArray;
         }
         //特色看房服务
-        if ([code isEqual:@"lpmd"]||[code isEqual:@"lpts"]||[code isEqual: @"hxshi"]||[code isEqual:@"hxmj"]) {
+        if ([code isEqual:@"yxlp"]||[code isEqual:@"lpts"]||[code isEqual: @"hxshi"]||[code isEqual:@"hxmj"]) {
             WZScreenItem *item = [[WZScreenItem alloc] init];
             item.code = [obj valueForKey:@"code"];
             item.name = [obj valueForKey:@"name"];
@@ -800,7 +800,7 @@ static NSString *size = @"20";
     _colles.selectBlock = ^(NSMutableDictionary *dicty) {
         _room = [dicty valueForKey:@"hxshi"];
         _buildingFeature = [dicty valueForKey:@"lpts"];
-        _buildingRenovation = [dicty valueForKey:@"lpmd"];
+        _buildingRenovation = [dicty valueForKey:@"yxlp"];
         _area = [dicty valueForKey:@"hxmj"];
         
     };
