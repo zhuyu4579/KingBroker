@@ -70,6 +70,22 @@
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     //创建控件
     [self createControl];
+    if(![_itemId isEqual:@""]&&_itemId){
+        [self loadTimeData];
+    }
+    if(_telphone.text.length!=11){
+        _telphone.text = @"";
+    }else{
+        if ([_orderTelFlag isEqual:@"0"]) {
+            if (![_telphone.text containsString:@"*"]) {
+                _telphone.text = [NSString stringWithFormat:@"%@****%@",[_telphone.text substringToIndex:3],[_telphone.text substringFromIndex:7]];
+            }
+        }else if([_orderTelFlag isEqual:@"1"]){
+            if ([_telphone.text containsString:@"*"]) {
+               _telphone.text = @"";
+            }
+        }
+    }
 }
 #pragma mark -创建控件
 -(void)createControl{
@@ -878,9 +894,16 @@
             NSString *name = [cusArray[i] valueForKey:@"name"];
             NSString *tel = [cusArray[i] valueForKey:@"telphone"];
             //判断是否实号显示
-            if ([_orderTelFlag isEqual:@"0"] && tel.length == 11) {
-                tel = [NSString stringWithFormat:@"%@****%@",[tel substringToIndex:3],[tel substringFromIndex:7]];
+            if (tel.length == 11) {
+                if ([_orderTelFlag isEqual:@"0"]) {
+                    tel = [NSString stringWithFormat:@"%@****%@",[tel substringToIndex:3],[tel substringFromIndex:7]];
+                }else {
+                    if ([tel containsString:@"*"]) {
+                        tel = @"";
+                    }
+                }
             }
+            
             if (i==0) {
                 _custormName.text = name;
                 _telphone.text = tel;
@@ -961,7 +984,7 @@
     };
     [self.navigationController pushViewController:projectVC animated:YES];
 }
-#pragma mark -设置电话号码是否为短号
+#pragma mark -设置电话号码
 -(void)setTelphoneType{
     NSInteger n = _scrollView.subviews.count - 3;
     for (int i = 0; i<n; i++) {
@@ -1159,6 +1182,13 @@
         if(telphoneOne.text.length != 11){
             [SVProgressHUD showInfoWithStatus:@"客户电话格式不正确"];
             return;
+        }else{
+            if ([_orderTelFlag isEqual:@"1"]) {
+                if ([telphoneOne.text containsString:@"*"]) {
+                    [SVProgressHUD showInfoWithStatus:@"客户电话必须实号"];
+                    return;
+                }
+            }
         }
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
         dictionary[@"name"] = name.text;
@@ -1348,6 +1378,10 @@
             if (telphone.length == 11) {
                 if ([_orderTelFlag isEqual:@"0"]) {
                     textField.text = [NSString stringWithFormat:@"%@****%@",[telphone substringToIndex:3],[telphone substringFromIndex:7]];
+                }else{
+                    if ([telphone containsString:@"*"]) {
+                        textField.text = @"";
+                    }
                 }
             }
         }

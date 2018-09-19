@@ -6,35 +6,38 @@
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //  项目详情
 
-#import "WZHouseDatisController.h"
-#import "UIView+Frame.h"
-#import "UIButton+WZEnlargeTouchAre.h"
-#import "WZCyclePhotoView.h"
-#import "WZDetailsViewOne.h"
-#import <Masonry.h>
-#import "WZDynamictableView.h"
-#import "WZMainUnitCollection.h"
-#import "UIView+Center.h"
-#import "WZReportController.h"
+
+
+
 #import "GKCover.h"
 #import <WXApi.h>
-#import <WXApiObject.h>
-#import "WZAlbumsViewController.h"
+#import <Masonry.h>
 #import <MJRefresh.h>
+#import <WXApiObject.h>
+#import "UIView+Frame.h"
 #import <MJExtension.h>
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
-#import <UIImageView+WebCache.h>
+#import "UIView+Center.h"
 #import "WZMainUnitItem.h"
-#import "NSString+LCExtension.h"
+#import "WZCyclePhotoView.h"
+#import "WZDetailsViewOne.h"
 #import "WZPeripheryItem.h"
-#import "WZAlbumPhonesViewController.h"
 #import "WZHouseDetilItem.h"
+#import "WZDynamictableView.h"
+#import <UIImageView+WebCache.h>
+#import "NSString+LCExtension.h"
+#import "WZMainUnitCollection.h"
+#import "WZHouseDatisController.h"
+#import "WZNewReportController.h"
+#import "WZTitleCollectionCell.h"
 #import "WZJionStoreController.h"
+#import "WZAlbumsViewController.h"
 #import "WZNavigationController.h"
 #import "WZShareHouseController.h"
 #import "WZLBCollectionViewCell.h"
-#import "WZTitleCollectionCell.h"
+#import "UIButton+WZEnlargeTouchAre.h"
+#import "WZAlbumPhonesViewController.h"
 @interface WZHouseDatisController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate>
 //总view
 @property(nonatomic,strong)UIScrollView *scrollView;
@@ -1635,14 +1638,13 @@ static NSString * const IDS = @"cells";
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *realtorStatus = [user objectForKey:@"realtorStatus"];
     if ([realtorStatus isEqual:@"2"]){
-        WZReportController *report = [[WZReportController alloc] init];
-        report.itemID = _ID;
-        report.itemName = [_houseDatils valueForKey:@"name"];
+        WZNewReportController *report = [[WZNewReportController alloc] init];
+        report.ItemNames = [_houseDatils valueForKey:@"name"];
+        report.itemId = _ID;
+        report.sginStatu = [_houseDatils valueForKey:@"sginStatus"];
+        report.dutyTelphone = [_houseDatils valueForKey:@"telphone"];
         report.types = @"1";
-        report.sginStatus = [_houseDatils valueForKey:@"sginStatus"];
-        report.telphone = [_houseDatils valueForKey:@"telphone"];
-        report.name = @"";
-        report.phone = @"";
+        report.orderTelFlag = [_houseDatils valueForKey:@"orderTelFlag"];;
         [self.navigationController pushViewController:report animated:YES];
     }else if([realtorStatus isEqual:@"1"]){
         [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];

@@ -209,8 +209,8 @@
 
 //登录入口
 -(void)loginSuccess{
-    
-    UIView *loginSuccessView = [[UIView alloc] initWithFrame:CGRectMake(0, -kApplicationStatusBarHeight, self.scrollView.fWidth, 194+kApplicationStatusBarHeight)];
+    CGFloat n = SCREEN_WIDTH / 375.0;
+    UIView *loginSuccessView = [[UIView alloc] initWithFrame:CGRectMake(0, -kApplicationStatusBarHeight, self.scrollView.fWidth, (194+kApplicationStatusBarHeight)*n)];
     loginSuccessView.backgroundColor = [UIColor whiteColor];
     [self.scrollView addSubview:loginSuccessView];
     self.loginSuccessView = loginSuccessView;

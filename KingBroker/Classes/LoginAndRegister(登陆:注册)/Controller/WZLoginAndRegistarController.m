@@ -17,6 +17,7 @@
 #import "WZLoginAndRegistarController.h"
 
 @interface WZLoginAndRegistarController ()<UITextFieldDelegate>
+@property(nonatomic,strong)UIScrollView *scrollView;
 //登录下划线
 @property(nonatomic,strong)UIButton *loginButton;
 @property(nonatomic,strong)UIView *ineLogin;
@@ -35,6 +36,8 @@
 @property(nonatomic,strong)UITextField *registarName;
 //注册的验证码
 @property(nonatomic,strong)UITextField *registarYZM;
+//邀请人
+@property(nonatomic,strong)UITextField *invite;
 //注册-获取验证码
 @property(nonatomic,strong)UIButton *YZMButton;
 //注册-选中协议
@@ -58,26 +61,31 @@
 }
 #pragma mark - 创建控件
 -(void)createControl{
-  
+    _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    _scrollView.backgroundColor = [UIColor whiteColor];
+    _scrollView.bounces = NO;
+    _scrollView.showsVerticalScrollIndicator = NO;
+    _scrollView.showsHorizontalScrollIndicator = NO;
+    [self.view addSubview:_scrollView];
     //关闭按钮
     UIButton *closeButton = [[UIButton alloc] init];
     [closeButton setBackgroundImage:[UIImage imageNamed:@"close_login"] forState:UIControlStateNormal];
     [closeButton addTarget:self action:@selector(closeButton) forControlEvents:UIControlEventTouchUpInside];
     [closeButton setEnlargeEdge:44];
-    [self.view addSubview:closeButton];
+    [_scrollView addSubview:closeButton];
     [closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view.mas_left).offset(15);
-        make.top.equalTo(self.view.mas_top).mas_offset(kApplicationStatusBarHeight+22);
+        make.left.equalTo(_scrollView.mas_left).offset(15);
+        make.top.equalTo(_scrollView.mas_top).mas_offset(kApplicationStatusBarHeight+22);
         make.height.offset(15);
         make.width.offset(15);
     }];
     //图标
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.image = [UIImage imageNamed:@"logo"];
-    [self.view addSubview:imageView];
+    [_scrollView addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view.mas_centerX);
-        make.top.equalTo(self.view.mas_top).mas_offset(kApplicationStatusBarHeight+50);
+        make.centerX.equalTo(_scrollView.mas_centerX);
+        make.top.equalTo(_scrollView.mas_top).mas_offset(kApplicationStatusBarHeight+50);
         make.height.offset(109);
         make.width.offset(109);
     }];
@@ -89,9 +97,9 @@
     loginButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
     [loginButton addTarget:self action:@selector(loginButton:) forControlEvents:UIControlEventTouchUpInside];
     _loginButton = loginButton;
-    [self.view addSubview:loginButton];
+    [_scrollView addSubview:loginButton];
     [loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view.mas_left).offset(59);
+        make.left.equalTo(_scrollView.mas_left).offset(59);
         make.top.equalTo(imageView.mas_bottom).mas_offset(32);
         make.height.offset(27);
         make.width.offset(35);
@@ -100,9 +108,9 @@
     UIView *ineLogin = [[UIView alloc] init];
     ineLogin.backgroundColor = [UIColor clearColor];
     _ineLogin = ineLogin;
-    [self.view addSubview:ineLogin];
+    [_scrollView addSubview:ineLogin];
     [ineLogin mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view.mas_left).offset(59);
+        make.left.equalTo(_scrollView.mas_left).offset(59);
         make.top.equalTo(loginButton.mas_bottom);
         make.height.offset(2);
         make.width.offset(35);
@@ -111,7 +119,7 @@
     UILabel *ines = [[UILabel alloc] init];
     ines.text = @"/";
     ines.textColor = UIColorRBG(153, 153, 153);
-    [self.view addSubview:ines];
+    [_scrollView addSubview:ines];
     [ines mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(loginButton.mas_right).offset(26);
         make.top.equalTo(imageView.mas_bottom).mas_offset(40);
@@ -125,7 +133,7 @@
     registarButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
      [registarButton addTarget:self action:@selector(registarButton:) forControlEvents:UIControlEventTouchUpInside];
     _registarButton = registarButton;
-    [self.view addSubview:registarButton];
+    [_scrollView addSubview:registarButton];
     [registarButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(ines.mas_right).offset(26);
         make.top.equalTo(imageView.mas_bottom).mas_offset(32);
@@ -136,7 +144,7 @@
     UIView *ineRegistar = [[UIView alloc] init];
     ineRegistar.backgroundColor = [UIColor clearColor];
     _ineRegistar = ineRegistar;
-    [self.view addSubview:ineRegistar];
+    [_scrollView addSubview:ineRegistar];
     [ineRegistar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(ines.mas_right).offset(26);
         make.top.equalTo(registarButton.mas_bottom);
@@ -156,6 +164,7 @@
         ineRegistar.backgroundColor = UIColorRBG(255, 204, 0);
         [_registarView setHidden:NO];
     }
+    _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight);
 }
 #pragma mark -创建登录模块
 -(void)login{
@@ -164,12 +173,12 @@
     UIView *loginView = [[UIView alloc] init];
     _loginView = loginView;
     [loginView setHidden:YES];
-    [self.view addSubview:loginView];
+    [_scrollView addSubview:loginView];
     [loginView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view.mas_left);
+        make.left.equalTo(_scrollView.mas_left);
         make.top.equalTo(_ineLogin.mas_bottom);
         make.height.offset(300);
-        make.width.offset(self.view.fWidth);
+        make.width.offset(_scrollView.fWidth);
     }];
     UILabel *nameLabel = [[UILabel alloc] init];
     nameLabel.text = @"用户名";
@@ -199,7 +208,7 @@
         make.left.equalTo(loginView.mas_left).offset(57);
         make.top.equalTo(nameLabel.mas_bottom);
         make.height.offset(38);
-        make.width.offset(self.view.fWidth-107);
+        make.width.offset(_scrollView.fWidth-107);
     }];
     //下划线
     UIView  *loginIne = [[UIView alloc] init];
@@ -209,7 +218,7 @@
         make.left.equalTo(loginView.mas_left).offset(57);
         make.top.equalTo(loginName.mas_bottom);
         make.height.offset(1);
-        make.width.offset(self.view.fWidth-107);
+        make.width.offset(_scrollView.fWidth-107);
     }];
     //密码
     UILabel *passwordLabel = [[UILabel alloc] init];
@@ -237,7 +246,7 @@
         make.left.equalTo(loginView.mas_left).offset(57);
         make.top.equalTo(passwordLabel.mas_bottom);
         make.height.offset(38);
-        make.width.offset(self.view.fWidth-138);
+        make.width.offset(_scrollView.fWidth-138);
     }];
     //下划线
     UIView  *loginInes = [[UIView alloc] init];
@@ -247,7 +256,7 @@
         make.left.equalTo(loginView.mas_left).offset(57);
         make.top.equalTo(loginPassWord.mas_bottom);
         make.height.offset(1);
-        make.width.offset(self.view.fWidth-138);
+        make.width.offset(_scrollView.fWidth-138);
     }];
     //显示密码
     UIButton *showPw = [[UIButton alloc] init];
@@ -316,12 +325,12 @@
     UIView *registarView = [[UIView alloc] init];
     _registarView = registarView;
     [registarView setHidden:YES];
-    [self.view addSubview:registarView];
+    [_scrollView addSubview:registarView];
     [registarView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view.mas_left);
+        make.left.equalTo(_scrollView.mas_left);
         make.top.equalTo(_ineLogin.mas_bottom);
-        make.height.offset(300);
-        make.width.offset(self.view.fWidth);
+        make.height.offset(350);
+        make.width.offset(_scrollView.fWidth);
     }];
     UILabel *telLabel = [[UILabel alloc] init];
     telLabel.text = @"手机号";
@@ -348,7 +357,7 @@
         make.left.equalTo(registarView.mas_left).offset(57);
         make.top.equalTo(telLabel.mas_bottom);
         make.height.offset(38);
-        make.width.offset(self.view.fWidth-107);
+        make.width.offset(_scrollView.fWidth-107);
     }];
     //下划线
     UIView  *registarIne = [[UIView alloc] init];
@@ -358,7 +367,7 @@
         make.left.equalTo(registarView.mas_left).offset(57);
         make.top.equalTo(telphone.mas_bottom);
         make.height.offset(1);
-        make.width.offset(self.view.fWidth-107);
+        make.width.offset(_scrollView.fWidth-107);
     }];
     UILabel *YZMLabel = [[UILabel alloc] init];
     YZMLabel.text = @"验证码";
@@ -385,7 +394,7 @@
         make.left.equalTo(registarView.mas_left).offset(57);
         make.top.equalTo(YZMLabel.mas_bottom);
         make.height.offset(38);
-        make.width.offset(self.view.fWidth-205);
+        make.width.offset(_scrollView.fWidth-205);
     }];
     //下划线
     UIView  *registarInes = [[UIView alloc] init];
@@ -395,7 +404,7 @@
         make.left.equalTo(registarView.mas_left).offset(57);
         make.top.equalTo(registarYZM.mas_bottom);
         make.height.offset(1);
-        make.width.offset(self.view.fWidth-205);
+        make.width.offset(_scrollView.fWidth-205);
     }];
     //获取验证码
     UIButton *findYZM = [[UIButton alloc] init];
@@ -415,6 +424,58 @@
         make.height.offset(24);
         make.width.offset(80);
     }];
+    //邀请人
+    UILabel *inviteLabel = [[UILabel alloc] init];
+    inviteLabel.text = @"邀请人";
+    inviteLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    inviteLabel.textColor = UIColorRBG(51, 51, 51);
+    [registarView addSubview:inviteLabel];
+    [inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(registarView.mas_left).offset(57);
+        make.top.equalTo(registarInes.mas_bottom).offset(31);
+        make.height.offset(12);
+    }];
+    
+    UILabel *inviteLabels = [[UILabel alloc] init];
+    inviteLabels.text = @"(不必填)";
+    inviteLabels.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:11];
+    inviteLabels.textColor = UIColorRBG(204, 204, 204);
+    [registarView addSubview:inviteLabels];
+    [inviteLabels mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(inviteLabel.mas_right).offset(16);
+        make.top.equalTo(registarInes.mas_bottom).offset(32);
+        make.height.offset(11);
+    }];
+    
+    UITextField *invite = [[UITextField alloc] init];
+    invite.placeholder = @"请输入邀请人手机号";
+    invite.textColor = UIColorRBG(49, 35, 6);
+    invite.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    invite.delegate = self;
+    invite.keyboardType = UIKeyboardTypeNumberPad;
+    [[invite valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
+    invite.clearButtonMode = UITextFieldViewModeWhileEditing;
+    invite.clearsOnBeginEditing = NO;
+    _invite = invite;
+    [registarView addSubview:invite];
+    [invite mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(registarView.mas_left).offset(57);
+        make.top.equalTo(inviteLabel.mas_bottom);
+        make.height.offset(38);
+        make.width.offset(_scrollView.fWidth-107);
+    }];
+    //下划线
+    UIView  *registarIness = [[UIView alloc] init];
+    registarIness.backgroundColor = UIColorRBG(255, 204, 0);
+    [registarView addSubview:registarIness];
+    [registarIness mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(registarView.mas_left).offset(57);
+        make.top.equalTo(invite.mas_bottom);
+        make.height.offset(1);
+        make.width.offset(_scrollView.fWidth-107);
+    }];
+    
+    //同意协议按钮
     UIButton *selectAgreement = [[UIButton alloc] init];
     [selectAgreement setBackgroundImage:[UIImage imageNamed:@"ZC_YES_1"] forState:UIControlStateNormal];
     [selectAgreement setBackgroundImage:[UIImage imageNamed:@"ZC_YES"] forState:UIControlStateSelected];
@@ -424,7 +485,7 @@
     [registarView addSubview:selectAgreement];
     [selectAgreement mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(registarView.mas_left).offset(58);
-        make.top.equalTo(registarInes.mas_bottom).offset(17);
+        make.top.equalTo(registarIness.mas_bottom).offset(17);
         make.height.offset(14);
         make.width.offset(14);
     }];
@@ -435,7 +496,7 @@
     [registarView addSubview:aLabel];
     [aLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(selectAgreement.mas_right).offset(7);
-        make.top.equalTo(registarInes.mas_bottom).offset(19);
+        make.top.equalTo(registarIness.mas_bottom).offset(19);
         make.height.offset(11);
     }];
     //查看协议
@@ -447,7 +508,7 @@
     [registarView addSubview:findAgreement];
     [findAgreement mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(aLabel.mas_right);
-        make.top.equalTo(registarInes.mas_bottom).offset(14);
+        make.top.equalTo(registarIness.mas_bottom).offset(14);
         make.height.offset(21);
         make.width.offset(110);
     }];
@@ -498,11 +559,13 @@
 }
 #pragma mark -登录-忘记密码
 -(void)forgetPw{
+    [self touches];
     WZForgetPassWordController *fPW = [[WZForgetPassWordController alloc] init];
     [self.navigationController pushViewController:fPW animated:YES];
 }
 #pragma mark -登录
 -(void)logins:(UIButton *)button{
+    [self touches];
     NSString *name = _loginName.text;
     if (name.length != 11 || [name isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"用户名格式不正确"];
@@ -574,12 +637,14 @@
 }
 #pragma mark -注册-查看协议
 -(void)findAgreement{
+    [self touches];
     WZNEWHTMLController *html = [[WZNEWHTMLController alloc] init];
     html.url = [NSString stringWithFormat:@"%@/apph5/agreement.html",HTTPH5];
     [self.navigationController pushViewController:html animated:YES];
 }
 #pragma mark -获取验证码
 -(void)findYZM:(UIButton *)button{
+    [self touches];
     NSString *telphone = _registarName.text;
     if ([telphone isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"手机号不能为空"];
@@ -660,6 +725,7 @@
 }
 #pragma mark -下一步
 -(void)next{
+    [self touches];
     NSString *telphone = _registarName.text;
     if ([telphone isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"手机号不能为空"];
@@ -746,6 +812,10 @@
 //获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     textField.returnKeyType = UIReturnKeyDone;
+    if (_invite == textField) {
+        _scrollView.contentSize = CGSizeMake(0, self.view.fHeight+150);
+    }
+    
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -760,7 +830,7 @@
             return NO;
         }
     }
-    if (_loginName == textField||_registarName == textField) {
+    if (_loginName == textField||_registarName == textField||_invite == textField) {
         if (toBeString.length>11) {
             return NO;
         }
@@ -780,15 +850,19 @@
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight);
     [_loginName resignFirstResponder];
     [_loginPassWord resignFirstResponder];
     [_registarName resignFirstResponder];
     [_registarYZM resignFirstResponder];
+    [_invite resignFirstResponder];
 }
 -(void)touches{
+    _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight);
     [_loginName resignFirstResponder];
     [_loginPassWord resignFirstResponder];
     [_registarName resignFirstResponder];
     [_registarYZM resignFirstResponder];
+    [_invite resignFirstResponder];
 }
 @end

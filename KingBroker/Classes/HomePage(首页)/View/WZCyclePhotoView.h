@@ -21,7 +21,7 @@ typedef NS_ENUM(int,CCCycleScrollPageViewPosition){
 
 @optional
 //点击图片触发操作
-- (void)cyclePageClickAction:(NSInteger)clickIndex;
+- (void)cyclePageClickAction:(NSDictionary *)data;
 
 @end
 @interface WZCyclePhotoView : UIView

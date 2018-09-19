@@ -30,6 +30,7 @@
 #import "WZRecommendTableView.h"
 #import "NSString+LCExtension.h"
 #import "WZPagesViewController.h"
+#import "WZHouseDatisController.h"
 #import "WZNavigationController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "WZGoodHouseCollectionView.h"
@@ -71,6 +72,7 @@
     
     [self loadNewsAnnounceme];
     
+    [self loadBanner];
 }
 
 //开启定位
@@ -143,15 +145,9 @@
     _cycleView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, SCREEN_WIDTH, 190*n)];
     _cycleView.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:_cycleView];
-    //初始化轮播图
-    NSMutableArray *images = [[NSMutableArray alloc]init];
-    UIImage *image = [UIImage imageNamed:@"banner_1"];
-    [images addObject:image];
-    self.cyclePlayView = [[WZCyclePhotoView alloc] initWithImages:images withFrame:CGRectMake(15, 0, _cycleView.fWidth-15, _cycleView.fHeight)];
-    self.cyclePlayView.delegate = self;
-    //  [self.cyclePlayView.timer  invalidate];
-    self.cyclePlayView.backgroundColor = [UIColor whiteColor];
-    [_cycleView addSubview:self.cyclePlayView];
+    
+   
+    
     //创建按钮栏
     UIView *buttons = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight, SCREEN_WIDTH, 200)];
     buttons.backgroundColor = [UIColor whiteColor];
@@ -250,6 +246,45 @@
     
     _scrollView.contentSize = CGSizeMake(0, Recommend.fY+Recommend.fHeight);
     
+}
+#pragma mark -查询banner
+-(void)loadBanner{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 10;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    //申明请求的数据是json类型
+    mgr.requestSerializer = [AFJSONRequestSerializer serializer];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    NSString *url = [NSString stringWithFormat:@"%@/banner/read/list",HTTPURL];
+    [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSArray  *rows = [data valueForKey:@"rows"];
+            [self setBanner:rows];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+}
+#pragma mark -加载banner图
+-(void)setBanner:(NSArray *)array{
+    if (_cycleView.subviews.count>0) {
+        [_cycleView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    }
+    //初始化轮播图
+    self.cyclePlayView = [[WZCyclePhotoView alloc] initWithImages:array withFrame:CGRectMake(15, 0, _cycleView.fWidth-15, _cycleView.fHeight)];
+    self.cyclePlayView.delegate = self;
+    //[self.cyclePlayView.timer  invalidate];
+    self.cyclePlayView.backgroundColor = [UIColor whiteColor];
+    [_cycleView addSubview:self.cyclePlayView];
 }
 #pragma mark -查询最新动态公告
 -(void)loadNewsAnnounceme{
@@ -401,11 +436,28 @@
     
 }
 #pragma mark -点击图片事件
-- (void)cyclePageClickAction:(NSInteger)clickIndex
+- (void)cyclePageClickAction:(NSDictionary *)data
 {
-    WZNEWHTMLController *html = [[WZNEWHTMLController alloc] init];
-    html.url = [NSString stringWithFormat:@"%@/apph5/noticemessage.html",HTTPH5];
-    [self.navigationController pushViewController:html animated:YES];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    NSString *parameters = [data valueForKey:@"parameters"];
+    NSInteger type = [[data valueForKey:@"type"] integerValue];
+    NSString *url = [data valueForKey:@"url"];
+    if (type == 1) {
+        WZNEWHTMLController *html = [[WZNEWHTMLController alloc] init];
+        html.url = url;
+        [self.navigationController pushViewController:html animated:YES];
+    } else if(type == 2){
+        WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
+        houseDatis.ID = parameters;
+        [self.navigationController pushViewController:houseDatis animated:YES];
+    }else if(type == 3){
+        WZTaskController *task = [[WZTaskController alloc] init];
+        task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
+        WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
+        [self.navigationController presentViewController:nav animated:YES completion:nil];
+    }
+    
 }
 #pragma mark -去刷新或者加载数据
 -(void)loadNewTopic:(id)refrech{

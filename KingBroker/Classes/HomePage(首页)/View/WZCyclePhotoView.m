@@ -5,7 +5,7 @@
 //  Created by 朱玉隆 on 2018/3/24.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
+#import <UIImageView+WebCache.h>
 #import "WZCyclePhotoView.h"
 #import "UIView+Frame.h"
 #define CC_CYCLEINDEX_CALCULATE(x,y) (x+y)%y  //计算循环索引
@@ -129,9 +129,20 @@ return [self initWithImages:images withPageViewLocation:CCCycleScrollPageViewPos
         return;
     }
     
-    _middleImageView.image = (UIImage *)_images[CC_CYCLEINDEX_CALCULATE(_currentNumber,_images.count)];
-    _leftImageView.image = (UIImage *)_images[CC_CYCLEINDEX_CALCULATE(_currentNumber - 1,_images.count)];
-    _rightImageView.image = (UIImage *)_images[CC_CYCLEINDEX_CALCULATE(_currentNumber + 1,_images.count)];
+//    _middleImageView.image = (UIImage *)_images[CC_CYCLEINDEX_CALCULATE(_currentNumber,_images.count)];
+    NSDictionary *date1 = _images[CC_CYCLEINDEX_CALCULATE(_currentNumber,_images.count)];
+    NSString *url = [date1 valueForKey:@"pictureIds"];
+    [_middleImageView sd_setImageWithURL:[NSURL URLWithString:url]];
+    
+//    _leftImageView.image = (UIImage *)_images[CC_CYCLEINDEX_CALCULATE(_currentNumber - 1,_images.count)];
+    NSDictionary *date2 = _images[CC_CYCLEINDEX_CALCULATE(_currentNumber - 1,_images.count)];
+    NSString *url2 = [date2 valueForKey:@"pictureIds"];
+    [_leftImageView sd_setImageWithURL:[NSURL URLWithString:url2]];
+    
+//    _rightImageView.image = (UIImage *)_images[CC_CYCLEINDEX_CALCULATE(_currentNumber + 1,_images.count)];
+    NSDictionary *date3 = _images[CC_CYCLEINDEX_CALCULATE(_currentNumber + 1,_images.count)];
+    NSString *url3 = [date3 valueForKey:@"pictureIds"];
+    [_rightImageView sd_setImageWithURL:[NSURL URLWithString:url3]];
     if (flag) {
         [self timeSetter];
     }
@@ -141,7 +152,7 @@ return [self initWithImages:images withPageViewLocation:CCCycleScrollPageViewPos
 - (void)clickPageAction
 {
     if ([self.delegate respondsToSelector:@selector(cyclePageClickAction:)]) {
-        [self.delegate cyclePageClickAction:self.currentNumber];
+        [self.delegate cyclePageClickAction:_images[_currentNumber]];
     }else {
         
     }
@@ -240,9 +251,21 @@ return [self initWithImages:images withPageViewLocation:CCCycleScrollPageViewPos
  */
 - (void)changeImageViewWith:(NSInteger)imageNumber
 {
-    self.middleImageView.image = self.images[CC_CYCLEINDEX_CALCULATE(imageNumber,self.images.count)];
-    self.leftImageView.image = self.images[CC_CYCLEINDEX_CALCULATE(imageNumber - 1,self.images.count)];
-    self.rightImageView.image = self.images[CC_CYCLEINDEX_CALCULATE(imageNumber + 1,self.images.count)];
+//    self.middleImageView.image = self.images[CC_CYCLEINDEX_CALCULATE(imageNumber,self.images.count)];
+    
+    NSDictionary *date1 = self.images[CC_CYCLEINDEX_CALCULATE(imageNumber,self.images.count)];
+    NSString *url = [date1 valueForKey:@"pictureIds"];
+    [_middleImageView sd_setImageWithURL:[NSURL URLWithString:url]];
+    
+//    self.leftImageView.image = self.images[CC_CYCLEINDEX_CALCULATE(imageNumber - 1,self.images.count)];
+    NSDictionary *date2 = self.images[CC_CYCLEINDEX_CALCULATE(imageNumber - 1,self.images.count)];
+    NSString *url2 = [date2 valueForKey:@"pictureIds"];
+    [_leftImageView sd_setImageWithURL:[NSURL URLWithString:url2]];
+    
+//    self.rightImageView.image = self.images[CC_CYCLEINDEX_CALCULATE(imageNumber + 1,self.images.count)];
+    NSDictionary *date3 = self.images[CC_CYCLEINDEX_CALCULATE(imageNumber + 1,self.images.count)];
+    NSString *url3 = [date3 valueForKey:@"pictureIds"];
+    [_rightImageView sd_setImageWithURL:[NSURL URLWithString:url3]];
 }
 
 

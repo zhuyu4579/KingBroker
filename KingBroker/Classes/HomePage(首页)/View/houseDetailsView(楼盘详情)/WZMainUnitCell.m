@@ -21,7 +21,7 @@
     }else{
         [_views setHidden:NO];
     }
-    [_houseImage sd_setImageWithURL:[NSURL URLWithString:item.pictures[0]] placeholderImage:[UIImage imageNamed:@"lp_pic"]];
+    [_houseImage sd_setImageWithURL:[NSURL URLWithString:item.pictures[0]] placeholderImage:[UIImage imageNamed:@"xq_pic"]];
     NSInteger room = [item.room integerValue];
     NSInteger living = [item.living integerValue];
     NSInteger toilet = [item.toilet integerValue];
