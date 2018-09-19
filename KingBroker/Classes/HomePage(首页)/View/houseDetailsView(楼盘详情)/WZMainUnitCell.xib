@@ -52,28 +52,72 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5af-Iu-nQR">
+                        <rect key="frame" x="90" y="108" width="40" height="18"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="多图" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q7I-5F-u0U">
+                                <rect key="frame" x="9.5" y="3.5" width="22.5" height="11"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="11" id="z0y-vv-1zj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="18" id="A3x-ma-e15"/>
+                            <constraint firstItem="Q7I-5F-u0U" firstAttribute="centerX" secondItem="5af-Iu-nQR" secondAttribute="centerX" id="BT3-gs-jRj"/>
+                            <constraint firstAttribute="width" constant="40" id="hIo-rq-5Up"/>
+                            <constraint firstItem="Q7I-5F-u0U" firstAttribute="centerY" secondItem="5af-Iu-nQR" secondAttribute="centerY" id="p2k-UI-7RE"/>
+                        </constraints>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hVw-zs-c0W">
+                        <rect key="frame" x="0.0" y="0.0" width="130" height="128"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="128" id="Tqy-2d-vlp"/>
+                        </constraints>
+                        <connections>
+                            <action selector="seePhotos:" destination="gTV-IL-0wX" eventType="touchUpInside" id="0G5-TQ-ECW"/>
+                        </connections>
+                    </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="xq_pic2" translatesAutoresizingMaskIntoConstraints="NO" id="9HG-gl-TKg">
+                        <rect key="frame" x="0.0" y="0.0" width="130" height="193"/>
+                    </imageView>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstItem="H3G-VI-Usy" firstAttribute="top" secondItem="VbP-3g-hBf" secondAttribute="bottom" constant="6" id="433-0o-Pf2"/>
+                <constraint firstItem="9HG-gl-TKg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="9sM-bh-hD8"/>
+                <constraint firstAttribute="trailing" secondItem="9HG-gl-TKg" secondAttribute="trailing" id="EtL-6F-BCm"/>
+                <constraint firstItem="hVw-zs-c0W" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="GAd-tI-u0H"/>
+                <constraint firstAttribute="trailing" secondItem="hVw-zs-c0W" secondAttribute="trailing" id="Lg0-as-Jnz"/>
                 <constraint firstItem="VbP-3g-hBf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="6" id="PWL-TZ-6iV"/>
+                <constraint firstAttribute="bottom" secondItem="9HG-gl-TKg" secondAttribute="bottom" id="RJ3-mj-wwF"/>
                 <constraint firstItem="faI-JR-eqU" firstAttribute="top" secondItem="H3G-VI-Usy" secondAttribute="bottom" constant="5" id="Stg-0a-ut8"/>
                 <constraint firstItem="h4d-47-owX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="W5W-zc-U74"/>
                 <constraint firstItem="faI-JR-eqU" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="6" id="ZR7-Cc-WNd"/>
+                <constraint firstItem="5af-Iu-nQR" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="108" id="bcP-k3-Jvj"/>
                 <constraint firstItem="h4d-47-owX" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="diS-kr-5eO"/>
+                <constraint firstItem="9HG-gl-TKg" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="djb-ef-XuH"/>
                 <constraint firstItem="H3G-VI-Usy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="6" id="fyP-87-Lr4"/>
                 <constraint firstItem="VbP-3g-hBf" firstAttribute="top" secondItem="h4d-47-owX" secondAttribute="bottom" constant="8" id="lVp-Qo-tsH"/>
+                <constraint firstItem="hVw-zs-c0W" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="qFA-Jl-UN6"/>
+                <constraint firstAttribute="trailing" secondItem="5af-Iu-nQR" secondAttribute="trailing" id="wkU-jE-hQ2"/>
             </constraints>
             <connections>
                 <outlet property="houseImage" destination="h4d-47-owX" id="d2c-7k-7lh"/>
                 <outlet property="mainUnitLabelOne" destination="VbP-3g-hBf" id="pUT-JH-uN8"/>
                 <outlet property="mainUnitLabelThree" destination="H3G-VI-Usy" id="lw1-Rs-2Dj"/>
                 <outlet property="mianUnitLabelFour" destination="faI-JR-eqU" id="Bq3-EP-odp"/>
+                <outlet property="noItemImage" destination="9HG-gl-TKg" id="rHy-aO-tGV"/>
+                <outlet property="views" destination="5af-Iu-nQR" id="Lpk-Xv-7l6"/>
             </connections>
             <point key="canvasLocation" x="42" y="137.5"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="illusration_3" width="165" height="110"/>
+        <image name="xq_pic2" width="130" height="192"/>
     </resources>
 </document>

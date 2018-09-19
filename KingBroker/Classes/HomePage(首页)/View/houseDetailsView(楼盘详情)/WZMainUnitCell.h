@@ -17,7 +17,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *mainUnitLabelThree;
 //价格
 @property (weak, nonatomic) IBOutlet UILabel *mianUnitLabelFour;
+@property (strong, nonatomic) IBOutlet UIView *views;
+@property (strong, nonatomic) IBOutlet UIImageView *noItemImage;
+- (IBAction)seePhotos:(UIButton *)sender;
 
 //mode
 @property(nonatomic,strong)WZMainUnitItem *item;
+@property(nonatomic,strong)NSArray *array;
+@property(nonatomic,strong)NSString *title;
 @end

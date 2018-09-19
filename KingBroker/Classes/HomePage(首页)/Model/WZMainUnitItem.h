@@ -21,4 +21,6 @@
 @property(nonatomic,strong)NSString *area;
 //价格
 @property(nonatomic,strong)NSString *price;
+//名称
+@property(nonatomic,strong)NSString *name;
 @end

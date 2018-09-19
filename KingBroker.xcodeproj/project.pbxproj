@@ -26,6 +26,9 @@
 		1F09DDCA2087100A00C4D0A3 /* WZSettingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F09DDC82087100A00C4D0A3 /* WZSettingController.xib */; };
 		1F0AB38B20AC57BE00AC967E /* WZLikeProjectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0AB38A20AC57BE00AC967E /* WZLikeProjectItem.m */; };
 		1F170AEC20A189A60090A5A8 /* UIScrollView+UITouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F170AEB20A189A50090A5A8 /* UIScrollView+UITouch.m */; };
+		1F19C5B92151EB060016A1C2 /* WZHuxingPhotosController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F19C5B82151EB060016A1C2 /* WZHuxingPhotosController.m */; };
+		1F19C5BD2151F42A0016A1C2 /* WZHuxingPhotosCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F19C5BB2151F42A0016A1C2 /* WZHuxingPhotosCell.m */; };
+		1F19C5BE2151F42A0016A1C2 /* WZHuxingPhotosCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F19C5BC2151F42A0016A1C2 /* WZHuxingPhotosCell.xib */; };
 		1F1B7891208584CD00BC6007 /* WZMainUnitItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B7890208584CD00BC6007 /* WZMainUnitItem.m */; };
 		1F1B78942086199D00BC6007 /* WZBoardingItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B78932086199D00BC6007 /* WZBoardingItem.m */; };
 		1F1B789720864CCB00BC6007 /* WZReportItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B789620864CCB00BC6007 /* WZReportItems.m */; };
@@ -281,6 +284,11 @@
 		1F0AB38A20AC57BE00AC967E /* WZLikeProjectItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZLikeProjectItem.m; sourceTree = "<group>"; };
 		1F170AEA20A189A50090A5A8 /* UIScrollView+UITouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+UITouch.h"; sourceTree = "<group>"; };
 		1F170AEB20A189A50090A5A8 /* UIScrollView+UITouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+UITouch.m"; sourceTree = "<group>"; };
+		1F19C5B72151EB060016A1C2 /* WZHuxingPhotosController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZHuxingPhotosController.h; sourceTree = "<group>"; };
+		1F19C5B82151EB060016A1C2 /* WZHuxingPhotosController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZHuxingPhotosController.m; sourceTree = "<group>"; };
+		1F19C5BA2151F42A0016A1C2 /* WZHuxingPhotosCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZHuxingPhotosCell.h; sourceTree = "<group>"; };
+		1F19C5BB2151F42A0016A1C2 /* WZHuxingPhotosCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZHuxingPhotosCell.m; sourceTree = "<group>"; };
+		1F19C5BC2151F42A0016A1C2 /* WZHuxingPhotosCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZHuxingPhotosCell.xib; sourceTree = "<group>"; };
 		1F1B788F208584CD00BC6007 /* WZMainUnitItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZMainUnitItem.h; sourceTree = "<group>"; };
 		1F1B7890208584CD00BC6007 /* WZMainUnitItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZMainUnitItem.m; sourceTree = "<group>"; };
 		1F1B78922086199D00BC6007 /* WZBoardingItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZBoardingItem.h; sourceTree = "<group>"; };
@@ -1487,6 +1495,8 @@
 				1F533D9520C914ED0053FE4E /* WZAlbumPhonesViewController.m */,
 				1F60A9AC2150FEAB002ED860 /* WZHDMapController.h */,
 				1F60A9AD2150FEAB002ED860 /* WZHDMapController.m */,
+				1F19C5B72151EB060016A1C2 /* WZHuxingPhotosController.h */,
+				1F19C5B82151EB060016A1C2 /* WZHuxingPhotosController.m */,
 			);
 			path = "houseDetails(楼盘详情)";
 			sourceTree = "<group>";
@@ -1687,6 +1697,9 @@
 				1F60D0F4214CE20000E311B5 /* WZTitleCollectionCell.h */,
 				1F60D0F5214CE20000E311B5 /* WZTitleCollectionCell.m */,
 				1F60D0F6214CE20000E311B5 /* WZTitleCollectionCell.xib */,
+				1F19C5BA2151F42A0016A1C2 /* WZHuxingPhotosCell.h */,
+				1F19C5BB2151F42A0016A1C2 /* WZHuxingPhotosCell.m */,
+				1F19C5BC2151F42A0016A1C2 /* WZHuxingPhotosCell.xib */,
 			);
 			path = "houseDetailsView(楼盘详情)";
 			sourceTree = "<group>";
@@ -1880,6 +1893,7 @@
 				1FD9C65B207DBD2C00BB0298 /* WZPageButtonView.xib in Resources */,
 				1F4A267F21363B9300C794FC /* WZValidateCodeController.xib in Resources */,
 				1FD9C628207DBD2C00BB0298 /* WZAlertView.xib in Resources */,
+				1F19C5BE2151F42A0016A1C2 /* WZHuxingPhotosCell.xib in Resources */,
 				1F69017920CB755E006147BF /* WZPhotoNameCell.xib in Resources */,
 				1F47F4A820CA549B0012F5EF /* WZLBCollectionViewCell.xib in Resources */,
 				1FD9C671207DBD2C00BB0298 /* WZAllTableViewCell.xib in Resources */,
@@ -2084,6 +2098,7 @@
 				1FD9C65F207DBD2C00BB0298 /* WZTypeTableView.m in Sources */,
 				1F8C357B2115381D002E0C8B /* WZLoginAndRegistarController.m in Sources */,
 				1F60A9AE2150FEAB002ED860 /* WZHDMapController.m in Sources */,
+				1F19C5BD2151F42A0016A1C2 /* WZHuxingPhotosCell.m in Sources */,
 				1FD9C6A0207DED0F00BB0298 /* WZBatchReport.m in Sources */,
 				1FD9C650207DBD2C00BB0298 /* WZReportSuccessTableView.m in Sources */,
 				1FD9C672207DBD2C00BB0298 /* WZSchoolTableView.m in Sources */,
@@ -2096,6 +2111,7 @@
 				1F676363214A3ABE005F1E37 /* WZGoodHouseCollectionView.m in Sources */,
 				1F859B782117E42600FCA5F3 /* WZRegistarSetPWController.m in Sources */,
 				1F1B78942086199D00BC6007 /* WZBoardingItem.m in Sources */,
+				1F19C5B92151EB060016A1C2 /* WZHuxingPhotosController.m in Sources */,
 				1F5B83222081F93A0083DEC2 /* WZSetPersonalInforMationController.m in Sources */,
 				1F09951620F4571C00524361 /* WZShareHouseController.m in Sources */,
 				1F60D0F3214CDB9700E311B5 /* WZHouseDetilItem.m in Sources */,
