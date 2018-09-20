@@ -19,5 +19,6 @@
 
 @property(nonatomic,strong)NSString *ID;
 @property(nonatomic,strong)NSString *title;
+@property(nonatomic,strong)NSString *videoPictureUrl;
 @property(nonatomic,strong)WZAlbumContensItem *item;
 @end

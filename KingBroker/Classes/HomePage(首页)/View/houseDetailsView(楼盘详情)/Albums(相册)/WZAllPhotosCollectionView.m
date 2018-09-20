@@ -87,6 +87,9 @@ UICollectionViewDataSource>
     
     [scrollView setContentOffset:CGPointMake(newTargetOffset, 0) animated:YES];
     NSIndexPath *indexPath = [self indexPathForItemAtPoint:CGPointMake(newTargetOffset, 0)];
+    WZAllPhotoCell *cell1 =(WZAllPhotoCell *) [self cellForItemAtIndexPath:indexPath];
+    cell1.imageView.frame = CGRectMake(0, 100, SCREEN_WIDTH, 280);
+    
     _currentIndexPath = indexPath;
     _currentIndex = newTargetOffset/pageWidth +1;
     NSMutableDictionary *dicty = [NSMutableDictionary dictionary];

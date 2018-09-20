@@ -10,7 +10,7 @@
 @class WZLunBoItems;
 @interface WZLBCollectionViewCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
-@property (strong, nonatomic) IBOutlet UIButton *playBUtton;
+@property (strong, nonatomic) IBOutlet UIImageView *playBUtton;
 @property(nonatomic,strong)NSString *ID;
 
 @property(nonatomic,strong)WZLunBoItems *item;

@@ -21,27 +21,26 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ivw-pB-Goy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="317"/>
                     </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rwg-8s-T2T">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="xq_button" translatesAutoresizingMaskIntoConstraints="NO" id="ROG-x0-G6o">
                         <rect key="frame" x="162" y="133" width="50" height="50"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="50" id="6LB-Df-E8L"/>
-                            <constraint firstAttribute="height" constant="50" id="IgX-QP-Asl"/>
+                            <constraint firstAttribute="height" constant="50" id="SFb-0g-8QL"/>
+                            <constraint firstAttribute="width" constant="50" id="ogv-sp-Jp2"/>
                         </constraints>
-                        <state key="normal" backgroundImage="xq_button"/>
-                    </button>
+                    </imageView>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Ivw-pB-Goy" secondAttribute="trailing" id="9h4-PJ-FWI"/>
                 <constraint firstAttribute="bottom" secondItem="Ivw-pB-Goy" secondAttribute="bottom" id="EEa-Bf-u57"/>
-                <constraint firstItem="Rwg-8s-T2T" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="F8t-Uo-ELk"/>
+                <constraint firstItem="ROG-x0-G6o" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="e5K-vM-qkn"/>
+                <constraint firstItem="ROG-x0-G6o" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="rHd-sX-rrf"/>
                 <constraint firstItem="Ivw-pB-Goy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="vfB-bO-WoW"/>
-                <constraint firstItem="Rwg-8s-T2T" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="xca-ms-oQ8"/>
                 <constraint firstItem="Ivw-pB-Goy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="y7o-rq-EbX"/>
             </constraints>
             <connections>
                 <outlet property="imageView" destination="Ivw-pB-Goy" id="pVT-z6-jf3"/>
-                <outlet property="playBUtton" destination="Rwg-8s-T2T" id="oRT-xx-2dT"/>
+                <outlet property="playBUtton" destination="ROG-x0-G6o" id="FEc-Yn-lzI"/>
             </connections>
         </collectionViewCell>
     </objects>

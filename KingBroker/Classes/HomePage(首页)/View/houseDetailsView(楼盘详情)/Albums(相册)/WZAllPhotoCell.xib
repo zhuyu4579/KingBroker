@@ -25,8 +25,14 @@
                             <constraint firstAttribute="height" constant="280" id="edX-8F-6XE"/>
                         </constraints>
                     </view>
+                    <imageView userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="baY-80-Oyc">
+                        <rect key="frame" x="0.0" y="100" width="375" height="280"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="280" id="mQm-1n-KRv"/>
+                        </constraints>
+                    </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yrs-q0-Lqt">
-                        <rect key="frame" x="155" y="207.5" width="65" height="65"/>
+                        <rect key="frame" x="155" y="207" width="65" height="65"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="65" id="Eb7-Ox-KkV"/>
                             <constraint firstAttribute="width" constant="65" id="K1e-ir-4ge"/>
@@ -37,12 +43,6 @@
                             <action selector="playVoid:" destination="gTV-IL-0wX" eventType="touchUpInside" id="s9f-mO-itK"/>
                         </connections>
                     </button>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="baY-80-Oyc">
-                        <rect key="frame" x="0.0" y="100" width="375" height="280"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="280" id="mQm-1n-KRv"/>
-                        </constraints>
-                    </imageView>
                     <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dxK-fq-xve">
                         <rect key="frame" x="0.0" y="380" width="375" height="100"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -66,9 +66,9 @@
                 <constraint firstAttribute="trailing" secondItem="40O-Gq-ria" secondAttribute="trailing" constant="15" id="ZJd-yf-868"/>
                 <constraint firstItem="dxK-fq-xve" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="as5-hx-cgt"/>
                 <constraint firstItem="dxK-fq-xve" firstAttribute="top" secondItem="NrQ-RL-QxQ" secondAttribute="bottom" id="bvS-7S-WET"/>
+                <constraint firstItem="NrQ-RL-QxQ" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" id="f63-su-khN"/>
                 <constraint firstAttribute="bottom" secondItem="dxK-fq-xve" secondAttribute="bottom" id="hvV-41-ANH"/>
                 <constraint firstAttribute="trailing" secondItem="baY-80-Oyc" secondAttribute="trailing" id="k3N-FZ-XVh"/>
-                <constraint firstAttribute="trailing" secondItem="NrQ-RL-QxQ" secondAttribute="trailing" id="pdW-e6-7MB"/>
                 <constraint firstItem="baY-80-Oyc" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="100" id="rTQ-Pw-usP"/>
                 <constraint firstItem="NrQ-RL-QxQ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="100" id="v3X-ho-qw6"/>
             </constraints>

@@ -258,6 +258,7 @@
     [_photosName scrollToItemAtIndexPath:indexPath1 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
     
     WZPhotoNameCell *cell1 =(WZPhotoNameCell *) [_photosName cellForItemAtIndexPath:_oldIndexPath];
+    cell1.selected = NO;
     cell1.name.textColor = UIColorRBG(203, 203, 203);
     cell1.name.backgroundColor = [UIColor clearColor];
     

@@ -23,13 +23,15 @@
 }
 -(void)setSelected:(BOOL)selected{
      [super setSelected:selected];
-    if (selected) {
-        _name.backgroundColor = UIColorRBG(255, 224, 0);
-        _name.textColor = UIColorRBG(49, 35, 6);
-    }else{
-        _name.backgroundColor = [UIColor clearColor];
-        _name.textColor = UIColorRBG(204, 204, 204);
-    }
+//    if (selected) {
+//        _name.backgroundColor = UIColorRBG(255, 224, 0);
+//        _name.textColor = UIColorRBG(49, 35, 6);
+//    }else{
+//        _name.backgroundColor = [UIColor clearColor];
+//        _name.textColor = UIColorRBG(204, 204, 204);
+//    }
+    _name.backgroundColor = [UIColor clearColor];
+    _name.textColor = UIColorRBG(204, 204, 204);
 }
 
 @end
