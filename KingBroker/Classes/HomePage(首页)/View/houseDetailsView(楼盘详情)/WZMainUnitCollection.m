@@ -36,7 +36,9 @@ static NSString * const ID = @"Mcell";
 }
 //返回每个分区的item个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    
+    if (_collectDatas.count==0) {
+        return 1;
+    }
     return _collectDatas.count;
 }
 //返回每个item
@@ -45,8 +47,10 @@ static NSString * const ID = @"Mcell";
     cell.layer.borderColor = UIColorRBG(242, 242, 242).CGColor;
     cell.layer.borderWidth = 1;
     WZMainUnitItem *item = [[WZMainUnitItem alloc] init];
-    item = _collectDatas[indexPath.row];
-    cell.item = item;
+    if (_collectDatas.count!=0) {
+        item = _collectDatas[indexPath.row];
+        cell.item = item;
+    }
     return cell;
 }
 

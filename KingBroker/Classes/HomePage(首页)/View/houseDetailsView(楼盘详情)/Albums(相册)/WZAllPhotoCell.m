@@ -16,7 +16,8 @@
 @interface WZAllPhotoCell(){
     CGFloat _lastScale;
     CGPoint _gestureInteractionStartPoint;
-    CGRect oldframe;
+    
+    float _lastTransX, _lastTransY;
 }
 
 @property (nonatomic, strong) SelVideoPlayer *player;
@@ -30,7 +31,6 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     _imageView.userInteractionEnabled = YES;//打开用户交互
-    oldframe = CGRectMake(0, 100, SCREEN_WIDTH, 280);
     UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
 
     [_imageView addGestureRecognizer:pinch];
@@ -43,7 +43,8 @@
 - (void)hideImageView:(UITapGestureRecognizer *)tap{
     //恢复
     [UIView animateWithDuration:0.4 animations:^{
-        [[tap view] setFrame:oldframe];
+        
+       [tap view].transform = CGAffineTransformIdentity;
 
     } completion:^(BOOL finished) {
 

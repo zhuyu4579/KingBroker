@@ -53,6 +53,7 @@
 		1F451C7320B6C43E00075240 /* WZReadPassWordController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F451C7120B6C43E00075240 /* WZReadPassWordController.xib */; };
 		1F451C7720B6E58100075240 /* WZTaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F451C7520B6E58100075240 /* WZTaskCell.m */; };
 		1F451C7820B6E58100075240 /* WZTaskCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F451C7620B6E58100075240 /* WZTaskCell.xib */; };
+		1F453F2321538995007C8A20 /* WZHouseNoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F453F2221538995007C8A20 /* WZHouseNoteController.m */; };
 		1F46104520BBA12D00216FDB /* WZPhonesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F46104420BBA12D00216FDB /* WZPhonesController.m */; };
 		1F46104820BC26C400216FDB /* WZNEWHTMLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F46104720BC26C400216FDB /* WZNEWHTMLController.m */; };
 		1F47F49D20CA1FF80012F5EF /* WZLBCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F47F49C20CA1FF80012F5EF /* WZLBCollectionView.m */; };
@@ -334,6 +335,8 @@
 		1F451C7420B6E58100075240 /* WZTaskCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZTaskCell.h; sourceTree = "<group>"; };
 		1F451C7520B6E58100075240 /* WZTaskCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZTaskCell.m; sourceTree = "<group>"; };
 		1F451C7620B6E58100075240 /* WZTaskCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZTaskCell.xib; sourceTree = "<group>"; };
+		1F453F2121538995007C8A20 /* WZHouseNoteController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZHouseNoteController.h; sourceTree = "<group>"; };
+		1F453F2221538995007C8A20 /* WZHouseNoteController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZHouseNoteController.m; sourceTree = "<group>"; };
 		1F46104320BBA12D00216FDB /* WZPhonesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZPhonesController.h; sourceTree = "<group>"; };
 		1F46104420BBA12D00216FDB /* WZPhonesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZPhonesController.m; sourceTree = "<group>"; };
 		1F46104620BC26C400216FDB /* WZNEWHTMLController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZNEWHTMLController.h; sourceTree = "<group>"; };
@@ -755,6 +758,15 @@
 			path = GoodHouseView;
 			sourceTree = "<group>";
 		};
+		1F453F2021538942007C8A20 /* HouseNote(楼盘笔记) */ = {
+			isa = PBXGroup;
+			children = (
+				1F453F2121538995007C8A20 /* WZHouseNoteController.h */,
+				1F453F2221538995007C8A20 /* WZHouseNoteController.m */,
+			);
+			path = "HouseNote(楼盘笔记)";
+			sourceTree = "<group>";
+		};
 		1F47F4A920CA73290012F5EF /* Albums(相册) */ = {
 			isa = PBXGroup;
 			children = (
@@ -787,13 +799,13 @@
 		1F4D6DD820FCEAD4008A9514 /* VideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				1F4D6DDC20FCEAD4008A9514 /* SelPlaybackControls.h */,
 				1F4D6DD920FCEAD4008A9514 /* SelPlaybackControls.m */,
+				1F4D6DE220FCEAD4008A9514 /* SelVideoPlayer.h */,
 				1F4D6DDA20FCEAD4008A9514 /* SelVideoPlayer.m */,
 				1F4D6DDB20FCEAD4008A9514 /* SelVideoSlider.h */,
-				1F4D6DDC20FCEAD4008A9514 /* SelPlaybackControls.h */,
-				1F4D6DDD20FCEAD4008A9514 /* Configs */,
-				1F4D6DE220FCEAD4008A9514 /* SelVideoPlayer.h */,
 				1F4D6DE320FCEAD4008A9514 /* SelVideoSlider.m */,
+				1F4D6DDD20FCEAD4008A9514 /* Configs */,
 			);
 			path = VideoPlayer;
 			sourceTree = "<group>";
@@ -802,8 +814,8 @@
 			isa = PBXGroup;
 			children = (
 				1F4D6DDE20FCEAD4008A9514 /* UIViewController+PlayerRotation.m */,
-				1F4D6DDF20FCEAD4008A9514 /* SelPlayerConfiguration.h */,
 				1F4D6DE020FCEAD4008A9514 /* UIViewController+PlayerRotation.h */,
+				1F4D6DDF20FCEAD4008A9514 /* SelPlayerConfiguration.h */,
 				1F4D6DE120FCEAD4008A9514 /* SelPlayerConfiguration.m */,
 			);
 			path = Configs;
@@ -1378,6 +1390,7 @@
 		1FD9C53A207DBD2B00BB0298 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				1F453F2021538942007C8A20 /* HouseNote(楼盘笔记) */,
 				1FD9C53B207DBD2B00BB0298 /* Boarding(上客) */,
 				1FD9C54B207DBD2B00BB0298 /* Report(报备) */,
 				1FD9C558207DBD2B00BB0298 /* FindHouse(找楼盘) */,
@@ -1980,6 +1993,7 @@
 				1F676372214A67C4005F1E37 /* WZGoodHouseController.m in Sources */,
 				1F1B7891208584CD00BC6007 /* WZMainUnitItem.m in Sources */,
 				1FD9C61D207DBD2C00BB0298 /* AppDelegate.m in Sources */,
+				1F453F2321538995007C8A20 /* WZHouseNoteController.m in Sources */,
 				1F09952620F496F500524361 /* WZShareVideoCell.m in Sources */,
 				1FD9C65E207DBD2C00BB0298 /* WZTypeViewCell.m in Sources */,
 				1F533D9620C914ED0053FE4E /* WZAlbumPhonesViewController.m in Sources */,

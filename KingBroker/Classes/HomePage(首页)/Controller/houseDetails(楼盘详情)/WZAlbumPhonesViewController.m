@@ -98,7 +98,7 @@
                     //刷新界面
                     [_photosCV reloadData];
                     [_photosName reloadData];
-                    //[_photosName reloadSections:[NSIndexSet indexSetWithIndex:0]];
+                
                 }];
                 [self selectPhoto];
         }
@@ -205,6 +205,11 @@
     WZPhotoTypeNameView *photoName= [[WZPhotoTypeNameView alloc]initWithFrame:CGRectMake(0, 0,buttonView.fWidth, buttonView.fHeight) collectionViewLayout:layoutN];
     _photosName = photoName;
     [buttonView addSubview:photoName];
+    if ([_photosName respondsToSelector:@selector(setPrefetchingEnabled:)]) {
+        if (@available(iOS 10.0, *)) {
+            _photosName.prefetchingEnabled = false;
+        }
+    }
     //创造通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changes:) name:@"indexPaths" object:nil];
 }
@@ -226,7 +231,9 @@
             }
         }
     }
-    
+    if(n==0 && m==0){
+        return;
+    }
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:m inSection:n];
     
     NSIndexPath *indexPath1 = [NSIndexPath indexPathForItem:indexPath.section inSection:0];

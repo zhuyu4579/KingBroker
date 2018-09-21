@@ -341,6 +341,7 @@ static NSString * const ID = @"Cell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     WZHuxingPhotosCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ID forIndexPath:indexPath];
+    cell.photo.contentMode = UIViewContentModeScaleAspectFit;
     [cell.photo sd_setImageWithURL:[NSURL URLWithString:_item[indexPath.row]] placeholderImage:[UIImage imageNamed:@"lp_pic"]];
     return cell;
 }

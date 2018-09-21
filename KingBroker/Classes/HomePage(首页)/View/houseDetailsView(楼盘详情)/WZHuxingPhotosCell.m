@@ -5,10 +5,11 @@
 //  Created by 朱玉隆 on 2018/9/19.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
+#import "UIView+Frame.h"
 #import "WZHuxingPhotosCell.h"
 @interface WZHuxingPhotosCell(){
     CGFloat _lastScale;
+    float _lastTransX, _lastTransY;
 }
 
 @end
@@ -17,41 +18,61 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     _photo.userInteractionEnabled = YES;//打开用户交互
-    
+    [_photo setMultipleTouchEnabled:YES];
     UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
     
     [_photo addGestureRecognizer:pinch];
+    // 移动手势
+//    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panView:)];
+//    [panGestureRecognizer setMinimumNumberOfTouches:1];
+//    [panGestureRecognizer setMaximumNumberOfTouches:1];
+//    [_photo addGestureRecognizer:panGestureRecognizer];
+    
+    //添加点击事件同样是类方法 -> 作用是再次点击回到初始大小
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideImageView:)];
+    [_photo addGestureRecognizer:tapGestureRecognizer];
+}
+
+//-(void) panView:(UIPanGestureRecognizer *)panGestureRecognizer
+//{
+//    CGPoint translatedPoint = [panGestureRecognizer translationInView:self];
+//
+//    if([panGestureRecognizer state] == UIGestureRecognizerStateBegan) {
+//        _lastTransX = 0.0;
+//        _lastTransY = 0.0;
+//    }
+//
+//    CGAffineTransform trans = CGAffineTransformMakeTranslation(translatedPoint.x - _lastTransX, translatedPoint.y - _lastTransY);
+//    CGAffineTransform newTransform = CGAffineTransformConcat(_photo.transform, trans);
+//    _lastTransX = translatedPoint.x;
+//    _lastTransY = translatedPoint.y;
+//    _photo.transform = newTransform;
+//
+//
+//}
+- (void)hideImageView:(UITapGestureRecognizer *)tap{
+    //恢复
+    [UIView animateWithDuration:0.4 animations:^{
+        
+    [tap view].transform = CGAffineTransformIdentity;
+        
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+
+{
+    return YES;
+    
 }
 - (void)pinch:(UIPinchGestureRecognizer *)recognizer{
     
-    UIGestureRecognizerState state = [recognizer state];
-    
-    if(state == UIGestureRecognizerStateBegan) {
-        // Reset the last scale, necessary if there are multiple objects with different scales
-        //获取最后的比例
-        _lastScale = [recognizer scale];
-    }
-    
-    if (state == UIGestureRecognizerStateBegan ||
-        state == UIGestureRecognizerStateChanged) {
-        //获取当前的比例
-        CGFloat currentScale = [[[recognizer view].layer valueForKeyPath:@"transform.scale"] floatValue];
-        
-        // Constants to adjust the max/min values of zoom
-        //设置最大最小的比例
-        const CGFloat kMaxScale = 3.0;
-        const CGFloat kMinScale = 1.0;
-        //设置
-        
-        //获取上次比例减去想去得到的比例
-        CGFloat newScale = 1 -  (_lastScale - [recognizer scale]);
-        newScale = MIN(newScale, kMaxScale / currentScale);
-        newScale = MAX(newScale, kMinScale / currentScale);
-        CGAffineTransform transform = CGAffineTransformScale([[recognizer view] transform], newScale, newScale);
-        [recognizer view].transform = transform;
-        // Store the previous scale factor for the next pinch gesture call
-        //获取最后比例 下次再用
-        _lastScale = [recognizer scale];
+    UIView *view = recognizer.view;
+    if (recognizer.state == UIGestureRecognizerStateBegan || recognizer.state == UIGestureRecognizerStateChanged) {
+        view.transform = CGAffineTransformScale(view.transform, recognizer.scale, recognizer.scale);
+        recognizer.scale = 1;
     }
     
 }
