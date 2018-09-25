@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface WZAnnNewItem : NSObject
+
 @property(nonatomic,strong)NSString *id;
 //h5地址
 @property(nonatomic,strong)NSString *url;

@@ -6,14 +6,6 @@
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
 
-
-
-
-
-
-
-
-
 #import "GKCover.h"
 #import <Masonry.h>
 #import <MJRefresh.h>
@@ -448,14 +440,24 @@
         html.url = url;
         [self.navigationController pushViewController:html animated:YES];
     } else if(type == 2){
-        WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
-        houseDatis.ID = parameters;
-        [self.navigationController pushViewController:houseDatis animated:YES];
+        if (uuid&&![uuid isEqual:@""]) {
+            WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
+            houseDatis.ID = parameters;
+            [self.navigationController pushViewController:houseDatis animated:YES];
+        }else{
+            [NSString isCode:self.navigationController code:@"401"];
+        }
+        
     }else if(type == 3){
-        WZTaskController *task = [[WZTaskController alloc] init];
-        task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
-        WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
-        [self.navigationController presentViewController:nav animated:YES completion:nil];
+        if (uuid&&![uuid isEqual:@""]) {
+            WZTaskController *task = [[WZTaskController alloc] init];
+            task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
+            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
+            [self.navigationController presentViewController:nav animated:YES completion:nil];
+        }else{
+            [NSString isCode:self.navigationController code:@"401"];
+        }
+       
     }
     
 }
@@ -465,7 +467,7 @@
     [self goodHouseLoadData];
     [self loadDateTask];
     [self loadNewsAnnounceme];
-    
+    [self loadBanner];
 }
 //获取版本号
 -(void)findversion{
@@ -526,25 +528,25 @@
 #pragma mark - 创建更新弹窗
 -(void)updateVersion:(NSDictionary *)dicy{
     UIView *view = [[UIView alloc] init];
-    view.fSize = CGSizeMake(290, 300);
+    view.fSize = CGSizeMake(245, 313);
     _updateView = view;
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.frame = CGRectMake(0, 0, view.fWidth, view.fHeight);
-    imageView.image = [UIImage imageNamed:@"pop"];
+    imageView.image = [UIImage imageNamed:@"gx"];
     [view addSubview:imageView];
     
     UILabel *label = [[UILabel alloc] init];
     label.text = @"发现新版本";
-    label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:18];
-    label.textColor = UIColorRBG(68, 68, 68);
+    label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    label.textColor = UIColorRBG(51, 51, 51);
     [view addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(view.mas_top).offset(115);
-        make.height.offset(18);
+        make.top.equalTo(view.mas_top).offset(137);
+        make.height.offset(13);
     }];
     UIButton *cleanButton = [[UIButton alloc] init];
-    [cleanButton setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+    [cleanButton setBackgroundImage:[UIImage imageNamed:@"gb"] forState:UIControlStateNormal];
     [cleanButton addTarget:self action:@selector(closeVersion) forControlEvents:UIControlEventTouchUpInside];
     [cleanButton setEnlargeEdge:44];
     NSString *isno_up = [dicy valueForKey:@"isnoUp"];
@@ -557,34 +559,35 @@
     }
     [view addSubview:cleanButton];
     [cleanButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(view.mas_right).offset(-21);
-        make.top.equalTo(view.mas_top).offset(110);
+        make.right.equalTo(view.mas_right).offset(-12);
+        make.top.equalTo(view.mas_top).offset(64);
         make.height.offset(22);
         make.width.offset(22);
     }];
     UILabel *description = [[UILabel alloc] init];
     description.text = [dicy valueForKey:@"versionDescription"];
-    description.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    description.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:11];
     description.textColor = UIColorRBG(153, 153, 153);
     description.numberOfLines = 0;
     [view addSubview:description];
     [description mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(label.mas_bottom).offset(24);
-        make.width.offset(view.fWidth-40);
+        make.top.equalTo(label.mas_bottom).offset(35);
+        make.width.offset(view.fWidth-32);
     }];
     UIButton *button = [[UIButton alloc] init];
     [button setTitle:@"立即更新" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:14];
+    [button setBackgroundImage:[UIImage imageNamed:@"gx_button"] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(updataVersions) forControlEvents:UIControlEventTouchUpInside];
-    button.backgroundColor = UIColorRBG(3, 133, 219);
-    button.layer.cornerRadius = 17.0;
+    button.layer.cornerRadius = 18;
     [view addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
-        make.bottom.equalTo(view.mas_bottom).offset(-21);
-        make.height.offset(34);
-        make.width.offset(124);
+        make.bottom.equalTo(view.mas_bottom).offset(-13);
+        make.height.offset(36);
+        make.width.offset(145);
     }];
     
     [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];

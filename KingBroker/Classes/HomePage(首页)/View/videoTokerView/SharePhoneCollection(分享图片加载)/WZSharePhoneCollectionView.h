@@ -12,5 +12,5 @@
 
 @property(nonatomic,strong)NSArray *array;
 //选择图片
-@property(nonatomic,strong)void(^selectPhone)(NSString *url);
+@property(nonatomic,strong)void(^selectPhone)(NSDictionary *dicty);
 @end

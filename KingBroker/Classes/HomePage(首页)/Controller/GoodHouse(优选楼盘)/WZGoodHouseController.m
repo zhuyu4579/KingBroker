@@ -507,7 +507,6 @@ static NSString *size = @"20";
 }
 //查询城市列表
 -(void)cityDatas{
-    
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -517,10 +516,9 @@ static NSString *size = @"20";
     [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    
     paraments[@"location"] = _lnglat;
-    NSString *url = [NSString stringWithFormat:@"%@/proProject/cityList",HTTPURL];
     
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/cityList",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
@@ -528,7 +526,6 @@ static NSString *size = @"20";
             NSArray *cityArray = [data valueForKey:@"rows"];
             _cityArray = [WZCityItem mj_objectArrayWithKeyValuesArray:cityArray];
             [_collectionView reloadData];
-            
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         

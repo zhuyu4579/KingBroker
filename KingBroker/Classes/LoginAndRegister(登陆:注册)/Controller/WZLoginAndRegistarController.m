@@ -212,7 +212,7 @@
     }];
     //下划线
     UIView  *loginIne = [[UIView alloc] init];
-    loginIne.backgroundColor = UIColorRBG(255, 204, 0);
+    loginIne.backgroundColor = UIColorRBG(255, 245, 177);
     [loginView addSubview:loginIne];
     [loginIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(loginView.mas_left).offset(57);
@@ -250,7 +250,7 @@
     }];
     //下划线
     UIView  *loginInes = [[UIView alloc] init];
-    loginInes.backgroundColor = UIColorRBG(255, 204, 0);
+    loginInes.backgroundColor = UIColorRBG(255, 245, 177);
     [loginView addSubview:loginInes];
     [loginInes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(loginView.mas_left).offset(57);
@@ -273,7 +273,7 @@
     }];
     //下划线
     UIView  *showIne = [[UIView alloc] init];
-    showIne.backgroundColor = UIColorRBG(255, 204, 0);
+    showIne.backgroundColor = UIColorRBG(255, 245, 177);
     [loginView addSubview:showIne];
     [showIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(loginInes.mas_right).offset(6);
@@ -310,7 +310,7 @@
     }];
     //下划线
     UIView  *findIne = [[UIView alloc] init];
-    findIne.backgroundColor = UIColorRBG(255, 204, 0);
+    findIne.backgroundColor = UIColorRBG(255, 245, 177);
     [loginView addSubview:findIne];
     [findIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(loginButton.mas_right).offset(16);
@@ -361,7 +361,7 @@
     }];
     //下划线
     UIView  *registarIne = [[UIView alloc] init];
-    registarIne.backgroundColor = UIColorRBG(255, 204, 0);
+    registarIne.backgroundColor = UIColorRBG(255, 245, 177);
     [registarView addSubview:registarIne];
     [registarIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(registarView.mas_left).offset(57);
@@ -398,7 +398,7 @@
     }];
     //下划线
     UIView  *registarInes = [[UIView alloc] init];
-    registarInes.backgroundColor = UIColorRBG(255, 204, 0);
+    registarInes.backgroundColor = UIColorRBG(255, 245, 177);
     [registarView addSubview:registarInes];
     [registarInes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(registarView.mas_left).offset(57);
@@ -466,7 +466,7 @@
     }];
     //下划线
     UIView  *registarIness = [[UIView alloc] init];
-    registarIness.backgroundColor = UIColorRBG(255, 204, 0);
+    registarIness.backgroundColor = UIColorRBG(255, 245, 177);
     [registarView addSubview:registarIness];
     [registarIness mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(registarView.mas_left).offset(57);

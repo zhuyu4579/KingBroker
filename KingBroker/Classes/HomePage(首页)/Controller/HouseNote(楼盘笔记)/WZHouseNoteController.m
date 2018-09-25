@@ -8,7 +8,6 @@
 #import <WXApi.h>
 #import "GKCover.h"
 #import <SVProgressHUD.h>
-#import "UIView+Frame.h"
 #import <AFNetworking.h>
 #import <Masonry.h>
 #import <MJRefresh.h>
@@ -31,9 +30,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    [self createWebView];
 }
 -(void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
+
     _webView.frame = CGRectMake(0, kApplicationStatusBarHeight-20, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight+20);
    
 }
@@ -47,6 +48,11 @@
     _webView = webView;
     webView.navigationDelegate = self;
     webView.UIDelegate = self;
+    if (@available(iOS 11.0, *)) {
+        webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+    self.automaticallyAdjustsScrollViewInsets = YES;
+    
     [(UIScrollView *)[[webView subviews] objectAtIndex:0] setBounces:NO];
     [self.view addSubview:webView];
     
@@ -61,7 +67,14 @@
     [[webView configuration].userContentController addScriptMessageHandler:self name:@"black"];
     [[webView configuration].userContentController addScriptMessageHandler:self name:@"login"];
     
+     [[webView configuration].userContentController addScriptMessageHandler:self name:@"WXFriends"];
+     [[webView configuration].userContentController addScriptMessageHandler:self name:@"WXFriendsCircle"];
+     [[webView configuration].userContentController addScriptMessageHandler:self name:@"WXVideoShare"];
+     [[webView configuration].userContentController addScriptMessageHandler:self name:@"WYFriends"];
+     [[webView configuration].userContentController addScriptMessageHandler:self name:@"WYFriendsCircle"];
+    
 }
+
 //页面加载完成时调用
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -73,6 +86,8 @@
     [webView evaluateJavaScript:inputValueJS completionHandler:^(id _Nullable response, NSError * _Nullable error) {
         
     }];
+
+    
 }
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
@@ -108,6 +123,25 @@
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }else if([message.name isEqualToString:@"login"]){
         [NSString isCode:self.navigationController code:@"401"];
+    }else if([message.name isEqualToString:@"WYFriends"]){
+        //楼盘详情分享好友
+        
+        NSDictionary *data = message.body;
+        [self WYShare:data];
+        
+    }else if([message.name isEqualToString:@"WYFriendsCircle"]){
+        //楼盘详情分享朋友圈
+         NSDictionary *data = message.body;
+        [self WYFriendsButton:data];
+    }else if([message.name isEqualToString:@"WXFriends"]){
+        NSString *url = message.body;
+        [self WXShare:url];
+    }else if([message.name isEqualToString:@"WXFriendsCircle"]){
+        NSString *url = message.body;
+        [self friendsButton:url];
+    }else if([message.name isEqualToString:@"WXVideoShare"]){
+        NSString *url = message.body;
+        [self downloadVideo:url];
     }
     
 }
@@ -144,7 +178,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-    [self createWebView];
+    
 }
 //分享到微信
 -(void)WXShare:(NSString *)url{
@@ -255,42 +289,46 @@
 //提示弹框
 -(void)shareRemind{
     UIView *view = [[UIView alloc] init];
-    view.fSize = CGSizeMake(295, 240);
-    UIView *viewTwo = [[UIView alloc] init];
-    viewTwo.frame = CGRectMake(0, 57, view.fWidth, 183);
-    viewTwo.backgroundColor = [UIColor whiteColor];
-    viewTwo.layer.cornerRadius = 7.0;
-    viewTwo.layer.masksToBounds = YES;
-    [view addSubview:viewTwo];
+    view.fSize = CGSizeMake(243, 244);
+    
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [UIImage imageNamed:@"icon"];
+    imageView.image = [UIImage imageNamed:@"XC_PIC"];
     [imageView sizeToFit];
     [view addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(view.mas_centerX);
+        make.left.equalTo(view.mas_left);
         make.top.equalTo(view.mas_top);
+        make.width.offset(view.fWidth);
+        make.height.offset(view.fHeight);
     }];
+    
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"需要您上传视频才能分享";
-    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:15];
+    label.text = @"需要你到微信或朋友圈上传视频才能分享";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     label.textColor = UIColorRBG(51, 51, 51);
-    [viewTwo addSubview:label];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 2;
+    [view addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(viewTwo.mas_centerX);
-        make.top.equalTo(viewTwo.mas_top).offset(82);
-        make.height.offset(15);
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(view.mas_top).offset(138);
+        make.width.offset(view.fWidth-90);
     }];
+    
     UIButton *button = [[UIButton alloc] init];
-    [button setBackgroundImage:[UIImage imageNamed:@"background_2"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"xc_shareButton"] forState:UIControlStateNormal];
+    button.layer.cornerRadius = 18;
+    button.layer.masksToBounds = YES;
     [button setTitle:@"去分享" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:14];
+    [button setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
     [button addTarget:self action:@selector(shareVideo) forControlEvents:UIControlEventTouchUpInside];
-    [viewTwo addSubview:button];
+    [view addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(viewTwo.mas_left);
-        make.bottom.equalTo(viewTwo.mas_bottom);
-        make.height.offset(51);
-        make.width.offset(viewTwo.fWidth);
+        make.centerX.equalTo(view.mas_centerX);
+        make.bottom.equalTo(view.mas_bottom).offset(-18);
+        make.height.offset(36);
+        make.width.offset(145);
     }];
     [GKCover translucentWindowCenterCoverContent:view animated:NO];
 }
@@ -315,13 +353,13 @@
     [defaults synchronize];
     //1.创建多媒体消息结构体
     WXMediaMessage *mediaMsg = [WXMediaMessage message];
-    mediaMsg.title = [data valueForKey:@"name"];
-    mediaMsg.description = [data valueForKey:@"outlining"];
-    UIImage *image =  [self handleImageWithURLStr:[data valueForKey:@"url"]];
+    mediaMsg.title = [data valueForKey:@"title"];
+    mediaMsg.description = [data valueForKey:@"desc"];
+    UIImage *image =  [self handleImageWithURLStr:[data valueForKey:@"img"]];
     [mediaMsg setThumbImage:image];
     //分享网站
     WXWebpageObject *webpageObject = [WXWebpageObject object];
-    webpageObject.webpageUrl = [data valueForKey:@"shareUrl"];
+    webpageObject.webpageUrl = [data valueForKey:@"url"];
     mediaMsg.mediaObject = webpageObject;
     
     //3.创建发送消息至微信终端程序的消息结构体
@@ -344,15 +382,15 @@
     //1.创建多媒体消息结构体
     WXMediaMessage *mediaMsg = [WXMediaMessage message];
     
-    mediaMsg.title = [data valueForKey:@"name"];
-    mediaMsg.description = [data valueForKey:@"outlining"];
+    mediaMsg.title = [data valueForKey:@"title"];
+    mediaMsg.description = [data valueForKey:@"desc"];
     
-    UIImage *image =  [self handleImageWithURLStr:[data valueForKey:@"url"]];
+    UIImage *image =  [self handleImageWithURLStr:[data valueForKey:@"img"]];
     [mediaMsg setThumbImage:image];
     
     //2.分享网站
     WXWebpageObject *webpageObject = [WXWebpageObject object];
-    webpageObject.webpageUrl = [data valueForKey:@"shareUrl"];
+    webpageObject.webpageUrl = [data valueForKey:@"url"];
     mediaMsg.mediaObject = webpageObject;
     
     //3.创建发送消息至微信终端程序的消息结构体

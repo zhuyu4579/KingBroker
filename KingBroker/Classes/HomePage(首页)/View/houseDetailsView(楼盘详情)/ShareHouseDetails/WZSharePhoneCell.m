@@ -45,9 +45,7 @@
     WZSharePhoneCollectionView *phoneCv = [[WZSharePhoneCollectionView alloc] initWithFrame:CGRectMake(0, 0, _phoneView.fWidth, 145*n) collectionViewLayout:layout];
     phoneCv.array = urls;
     [_phoneView addSubview:phoneCv];
-    phoneCv.selectPhone = ^(NSString *url) {
-        _url = url;
-    };
+   
     _title.text = item.title;
     NSString *type = item.type;
      _type = type;

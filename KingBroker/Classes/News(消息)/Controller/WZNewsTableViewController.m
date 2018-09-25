@@ -181,8 +181,8 @@ static  NSString * const ID = @"NewCell";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     WZNewViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     cell.array = _ZDArray;
-    WZNewItem *ItemTags = self.Item[indexPath.row];
-    cell.item = ItemTags;
+    WZNewItem *ItemTag = self.Item[indexPath.row];
+    cell.item = ItemTag;
     return cell;
 }
 #pragma mark -点击cell传递数据

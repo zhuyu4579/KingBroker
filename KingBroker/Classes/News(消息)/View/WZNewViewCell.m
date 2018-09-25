@@ -18,6 +18,7 @@
     _newsTitle.textColor = UIColorRBG(68, 68, 68);
     _title.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     _title.textColor = UIColorRBG(153, 153, 153);
+    _time.textColor = UIColorRBG(153, 153, 153);
     _view.backgroundColor = [UIColor whiteColor];
     _view.layer.shadowColor = [UIColor blackColor].CGColor;
     _view.layer.shadowOpacity = 0.05f;

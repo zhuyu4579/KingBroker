@@ -263,6 +263,45 @@
                                 <constraint firstAttribute="bottom" secondItem="cWy-jd-O7f" secondAttribute="bottom" constant="10" id="o8f-Aj-PJ9"/>
                             </constraints>
                         </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eos-OE-1Eg">
+                            <rect key="frame" x="94" y="131" width="94" height="69"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sy_icon6" translatesAutoresizingMaskIntoConstraints="NO" id="8yx-qH-imJ">
+                                    <rect key="frame" x="35" y="10" width="24" height="21"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="24" id="AOm-Va-V3T"/>
+                                        <constraint firstAttribute="height" constant="21" id="ZOx-Ds-zZY"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="视频拓客" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jSA-TR-KIS">
+                                    <rect key="frame" x="18" y="46" width="58" height="13"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="13" id="t1x-wN-0hZ"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1XP-Ki-gCV">
+                                    <rect key="frame" x="0.0" y="0.0" width="94" height="69"/>
+                                    <connections>
+                                        <action selector="videToker:" destination="iN0-l3-epB" eventType="touchUpInside" id="OTv-kd-kUx"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="1XP-Ki-gCV" firstAttribute="leading" secondItem="Eos-OE-1Eg" secondAttribute="leading" id="EBw-2p-LsU"/>
+                                <constraint firstAttribute="trailing" secondItem="1XP-Ki-gCV" secondAttribute="trailing" id="dt4-lg-R8z"/>
+                                <constraint firstItem="8yx-qH-imJ" firstAttribute="top" secondItem="Eos-OE-1Eg" secondAttribute="top" constant="10" id="lcT-Pn-bUm"/>
+                                <constraint firstItem="1XP-Ki-gCV" firstAttribute="top" secondItem="Eos-OE-1Eg" secondAttribute="top" id="pZg-Km-m8G"/>
+                                <constraint firstItem="8yx-qH-imJ" firstAttribute="centerX" secondItem="Eos-OE-1Eg" secondAttribute="centerX" id="u6W-Mi-8Tj"/>
+                                <constraint firstAttribute="height" constant="69" id="vSN-MX-PC7"/>
+                                <constraint firstAttribute="bottom" secondItem="jSA-TR-KIS" secondAttribute="bottom" constant="10" id="vhU-b8-m3P"/>
+                                <constraint firstItem="jSA-TR-KIS" firstAttribute="centerX" secondItem="Eos-OE-1Eg" secondAttribute="centerX" id="xmj-7S-RsF"/>
+                                <constraint firstAttribute="bottom" secondItem="1XP-Ki-gCV" secondAttribute="bottom" id="yQX-TF-fle"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
@@ -277,6 +316,7 @@
                         <constraint firstItem="Jg7-Za-65t" firstAttribute="leading" secondItem="B1c-dg-ZXJ" secondAttribute="leading" constant="12" id="FcR-a1-glA"/>
                         <constraint firstItem="wH0-N4-UD7" firstAttribute="top" secondItem="Jg7-Za-65t" secondAttribute="bottom" constant="9" id="Ju8-64-X38"/>
                         <constraint firstItem="Jg7-Za-65t" firstAttribute="bottom" secondItem="B5k-8F-ZDV" secondAttribute="bottom" id="KdR-hf-zwU"/>
+                        <constraint firstItem="Eos-OE-1Eg" firstAttribute="top" secondItem="Vfh-iG-jbp" secondAttribute="top" id="Kvs-FN-iER"/>
                         <constraint firstItem="wH0-N4-UD7" firstAttribute="leading" secondItem="B1c-dg-ZXJ" secondAttribute="leading" id="LK6-w0-kBI"/>
                         <constraint firstItem="O63-BU-2tP" firstAttribute="top" secondItem="6nr-fD-qq0" secondAttribute="top" id="LLW-pF-jjM"/>
                         <constraint firstItem="Z09-uv-sVF" firstAttribute="width" secondItem="O63-BU-2tP" secondAttribute="width" id="OWE-Ms-QYA"/>
@@ -285,6 +325,7 @@
                         <constraint firstItem="6nr-fD-qq0" firstAttribute="leading" secondItem="wH0-N4-UD7" secondAttribute="trailing" id="WSJ-u0-kkB"/>
                         <constraint firstItem="Vfh-iG-jbp" firstAttribute="width" secondItem="B1c-dg-ZXJ" secondAttribute="width" multiplier="1/4" id="Xz9-Rs-RVg"/>
                         <constraint firstItem="Z09-uv-sVF" firstAttribute="top" secondItem="O63-BU-2tP" secondAttribute="top" id="amu-Gw-A7z"/>
+                        <constraint firstItem="Eos-OE-1Eg" firstAttribute="width" secondItem="Vfh-iG-jbp" secondAttribute="width" id="cIr-Uy-d2R"/>
                         <constraint firstItem="wH0-N4-UD7" firstAttribute="width" secondItem="B1c-dg-ZXJ" secondAttribute="width" multiplier="1/4" id="cra-8q-Nma"/>
                         <constraint firstItem="Vfh-iG-jbp" firstAttribute="leading" secondItem="B1c-dg-ZXJ" secondAttribute="leading" id="e8f-ef-AD2"/>
                         <constraint firstAttribute="trailing" secondItem="Z09-uv-sVF" secondAttribute="trailing" id="eM9-RO-Urc"/>
@@ -293,6 +334,7 @@
                         <constraint firstItem="B5k-8F-ZDV" firstAttribute="top" secondItem="bGK-Ua-f9v" secondAttribute="bottom" constant="9" id="u0S-za-H97"/>
                         <constraint firstItem="4Lx-H2-6hh" firstAttribute="leading" secondItem="bGK-Ua-f9v" secondAttribute="trailing" constant="10" id="ugn-5H-WZn"/>
                         <constraint firstItem="B5k-8F-ZDV" firstAttribute="leading" secondItem="B1c-dg-ZXJ" secondAttribute="leading" constant="16" id="vRZ-a4-WwY"/>
+                        <constraint firstItem="Eos-OE-1Eg" firstAttribute="leading" secondItem="Vfh-iG-jbp" secondAttribute="trailing" id="vW6-fC-cdC"/>
                         <constraint firstAttribute="trailing" secondItem="rAW-lL-JFC" secondAttribute="trailing" constant="16" id="vvm-7X-twc"/>
                         <constraint firstItem="bGK-Ua-f9v" firstAttribute="top" secondItem="B1c-dg-ZXJ" secondAttribute="top" constant="15" id="wdH-lm-dNK"/>
                         <constraint firstItem="O63-BU-2tP" firstAttribute="width" secondItem="6nr-fD-qq0" secondAttribute="width" id="xbG-qj-uBW"/>
@@ -312,6 +354,7 @@
                 <outlet property="buttonFive" destination="Jbu-r1-ny0" id="12L-4s-ySV"/>
                 <outlet property="buttonFour" destination="ALa-44-Vn5" id="fmV-So-NAb"/>
                 <outlet property="buttonOne" destination="wns-Hy-HpZ" id="PIr-WX-Hp3"/>
+                <outlet property="buttonSix" destination="1XP-Ki-gCV" id="ww4-uf-kWk"/>
                 <outlet property="buttonThree" destination="Vmj-Be-hp6" id="xL3-Cz-vKk"/>
                 <outlet property="buttonTwo" destination="fsn-mV-pyc" id="NIk-TG-Jsc"/>
                 <outlet property="newsLable" destination="Jg7-Za-65t" id="Plp-sm-RAe"/>
@@ -325,6 +368,7 @@
         <image name="sy_icon3" width="20" height="25"/>
         <image name="sy_icon4" width="25" height="23"/>
         <image name="sy_icon5" width="17" height="21"/>
+        <image name="sy_icon6" width="24" height="20"/>
         <image name="sy_more_unfold" width="7" height="11"/>
         <image name="sy_notice" width="27" height="26"/>
     </resources>

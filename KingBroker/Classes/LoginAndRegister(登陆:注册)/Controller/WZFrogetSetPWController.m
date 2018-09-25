@@ -68,7 +68,7 @@
     }];
     UITextField *loginPassWord = [[UITextField alloc] init];
     loginPassWord.placeholder = @"请输入6-16位数字或字母";
-    loginPassWord.textColor = UIColorRBG(255, 204, 0);
+    loginPassWord.textColor = UIColorRBG(51, 51, 51);
     loginPassWord.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     loginPassWord.delegate = self;
     loginPassWord.keyboardType = UIKeyboardTypeASCIICapable;
@@ -85,7 +85,7 @@
     }];
     //下划线
     UIView  *loginInes = [[UIView alloc] init];
-    loginInes.backgroundColor = UIColorRBG(255, 204, 0);
+    loginInes.backgroundColor = UIColorRBG(255, 245, 177);
     [self.view addSubview:loginInes];
     [loginInes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(57);
@@ -108,7 +108,7 @@
     }];
     //下划线
     UIView  *showIne = [[UIView alloc] init];
-    showIne.backgroundColor = UIColorRBG(255, 204, 0);
+    showIne.backgroundColor = UIColorRBG(255, 245, 177);
     [self.view addSubview:showIne];
     [showIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(loginInes.mas_right).offset(6);
@@ -129,7 +129,7 @@
     }];
     UITextField *loginPassWordTwo = [[UITextField alloc] init];
     loginPassWordTwo.placeholder = @"请再次输入密码";
-    loginPassWordTwo.textColor = UIColorRBG(255, 204, 0);
+    loginPassWordTwo.textColor = UIColorRBG(51, 51, 51);
     loginPassWordTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     loginPassWordTwo.delegate = self;
     loginPassWordTwo.keyboardType = UIKeyboardTypeASCIICapable;
@@ -146,7 +146,7 @@
     }];
     //下划线
     UIView  *loginIneTwo = [[UIView alloc] init];
-    loginIneTwo.backgroundColor = UIColorRBG(255, 204, 0);
+    loginIneTwo.backgroundColor = UIColorRBG(255, 245, 177);
     [self.view addSubview:loginIneTwo];
     [loginIneTwo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(57);
@@ -169,7 +169,7 @@
     }];
     //下划线
     UIView  *showIneTwo = [[UIView alloc] init];
-    showIneTwo.backgroundColor = UIColorRBG(255, 204, 0);
+    showIneTwo.backgroundColor = UIColorRBG(255, 245, 177);
     [self.view addSubview:showIneTwo];
     [showIneTwo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(loginIneTwo.mas_right).offset(6);

@@ -623,15 +623,18 @@
     }];
     
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"需要您上传视频才能分享";
-    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:15];
+    label.text = @"需要你到微信或朋友圈上传视频才能分享";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     label.textColor = UIColorRBG(51, 51, 51);
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 2;
     [view addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(view.mas_top).offset(147);
-        make.height.offset(15);
+        make.top.equalTo(view.mas_top).offset(138);
+        make.width.offset(view.fWidth-90);
     }];
+    
     UIButton *button = [[UIButton alloc] init];
     [button setBackgroundImage:[UIImage imageNamed:@"xc_shareButton"] forState:UIControlStateNormal];
     button.layer.cornerRadius = 18;

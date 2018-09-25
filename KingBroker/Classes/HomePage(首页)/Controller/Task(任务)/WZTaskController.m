@@ -36,7 +36,7 @@
 -(void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
     _webView.frame = CGRectMake(0, kApplicationStatusBarHeight-20, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight+20);
-    _pV.frame = CGRectMake(0, kApplicationStatusBarHeight+44, self.view.fWidth, 2);
+    
 }
 - (void)createWebView
 {
@@ -48,6 +48,11 @@
     _webView = webView;
     webView.navigationDelegate = self;
     webView.UIDelegate = self;
+    if (@available(iOS 11.0, *)) {
+        webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     [(UIScrollView *)[[webView subviews] objectAtIndex:0] setBounces:NO];
     [self.view addSubview:webView];
     

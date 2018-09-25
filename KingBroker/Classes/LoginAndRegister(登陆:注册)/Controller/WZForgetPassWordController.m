@@ -57,7 +57,7 @@
     }];
     UITextField *telphone = [[UITextField alloc] init];
     telphone.placeholder = @"请输入手机号";
-    telphone.textColor = UIColorRBG(255, 204, 0);
+    telphone.textColor = UIColorRBG(51, 51, 51);
     telphone.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     telphone.delegate = self;
     telphone.keyboardType = UIKeyboardTypeNumberPad;
@@ -73,7 +73,7 @@
     }];
     //下划线
     UIView  *registarIne = [[UIView alloc] init];
-    registarIne.backgroundColor = UIColorRBG(255, 204, 0);
+    registarIne.backgroundColor = UIColorRBG(255, 245, 177);
     [self.view addSubview:registarIne];
     [registarIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(57);
@@ -94,7 +94,7 @@
     //验证码
     UITextField *registarYZM = [[UITextField alloc] init];
     registarYZM.placeholder = @"请输入验证码";
-    registarYZM.textColor = UIColorRBG(255, 204, 0);
+    registarYZM.textColor = UIColorRBG(51, 51, 51);
     registarYZM.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     registarYZM.delegate = self;
     registarYZM.keyboardType = UIKeyboardTypeNumberPad;
@@ -110,7 +110,7 @@
     }];
     //下划线
     UIView  *registarInes = [[UIView alloc] init];
-    registarInes.backgroundColor = UIColorRBG(255, 204, 0);
+    registarInes.backgroundColor = UIColorRBG(255, 245, 177);
     [self.view addSubview:registarInes];
     [registarInes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(57);

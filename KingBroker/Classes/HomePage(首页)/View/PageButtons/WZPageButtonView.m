@@ -19,6 +19,8 @@
 #import "WZTaskController.h"
 #import "WZJionStoreAndStoreHeadController.h"
 #import "WZNavigationController.h"
+#import "WZVideoTokerController.h"
+#import "WZHouseNoteController.h"
 @interface WZPageButtonView()
 
 @property(nonatomic,strong) UIViewController *VC;
@@ -121,7 +123,40 @@
 }
 #pragma mark -楼盘笔记
 - (IBAction)houseBook:(UIButton *)sender {
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
+    _VC = [UIViewController viewController:[self superview]];
+    if(![uuid isEqual:@""]&&uuid){
+        if([realtorStatus isEqual:@"2"]){
+            //跳转
+            WZHouseNoteController *task = [[WZHouseNoteController alloc] init];
+            task.url = [NSString stringWithFormat:@"%@/hoursenote/getuuid.html",HTTPH5];
+            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
+            [_VC.navigationController presentViewController:nav animated:YES completion:nil];
+            
+        }else if([realtorStatus isEqual:@"0"] ||[realtorStatus isEqual:@"3"]){
+            [self store:_VC];
+        }else{
+            [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
+            [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
+        }
+    }else{
+        [NSString isCode:_VC.navigationController code:@"401"];
+    }
     
+}
+#pragma mark -视频拓客
+- (IBAction)videToker:(UIButton *)sender {
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    _VC = [UIViewController viewController:[self superview]];
+    if (![uuid isEqual:@""]&&uuid) {
+        WZVideoTokerController *videoToker = [[WZVideoTokerController alloc] init];
+         [_VC.navigationController pushViewController:videoToker animated:YES];
+    }else{
+        [NSString isCode:_VC.navigationController code:@"401"];
+    }
 }
 #pragma mark -查看新消息
 - (IBAction)seeNews:(id)sender {

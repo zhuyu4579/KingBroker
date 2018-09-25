@@ -72,7 +72,7 @@
     }];
     UITextField *registarPassWord = [[UITextField alloc] init];
     registarPassWord.placeholder = @"请输入6-16位数字或字母";
-    registarPassWord.textColor = UIColorRBG(255, 204, 0);
+    registarPassWord.textColor = UIColorRBG(51, 51, 51);
     registarPassWord.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     registarPassWord.delegate = self;
     registarPassWord.keyboardType = UIKeyboardTypeASCIICapable;
@@ -89,7 +89,7 @@
     }];
     //下划线
     UIView  *registarInes = [[UIView alloc] init];
-    registarInes.backgroundColor = UIColorRBG(255, 204, 0);
+    registarInes.backgroundColor = UIColorRBG(255, 245, 177);
     [self.view addSubview:registarInes];
     [registarInes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(57);
@@ -112,7 +112,7 @@
     }];
     //下划线
     UIView  *showIne = [[UIView alloc] init];
-    showIne.backgroundColor = UIColorRBG(255, 204, 0);
+    showIne.backgroundColor = UIColorRBG(255, 245, 177);
     [self.view addSubview:showIne];
     [showIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(registarInes.mas_right).offset(6);
@@ -133,7 +133,7 @@
     }];
     UITextField *registarPassWordTwo = [[UITextField alloc] init];
     registarPassWordTwo.placeholder = @"请再次输入密码";
-    registarPassWordTwo.textColor = UIColorRBG(255, 204, 0);
+    registarPassWordTwo.textColor = UIColorRBG(51, 51, 51);
     registarPassWordTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     registarPassWordTwo.delegate = self;
     registarPassWordTwo.keyboardType = UIKeyboardTypeASCIICapable;
@@ -150,7 +150,7 @@
     }];
     //下划线
     UIView  *registarIneTwo = [[UIView alloc] init];
-    registarIneTwo.backgroundColor = UIColorRBG(255, 204, 0);
+    registarIneTwo.backgroundColor = UIColorRBG(255, 245, 177);
     [self.view addSubview:registarIneTwo];
     [registarIneTwo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(57);
@@ -173,7 +173,7 @@
     }];
     //下划线
     UIView  *showIneTwo = [[UIView alloc] init];
-    showIneTwo.backgroundColor = UIColorRBG(255, 204, 0);
+    showIneTwo.backgroundColor = UIColorRBG(255, 245, 177);
     [self.view addSubview:showIneTwo];
     [showIneTwo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(registarIneTwo.mas_right).offset(6);

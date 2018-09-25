@@ -29,7 +29,7 @@
 -(void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
     _webView.frame = CGRectMake(0, kApplicationStatusBarHeight-20, self.view.fWidth, self.view.fHeight-kApplicationStatusBarHeight+20);
-    _pV.frame = CGRectMake(0, kApplicationStatusBarHeight+44, self.view.fWidth, 2);
+   
 }
 - (void)createWebView
 {
@@ -40,7 +40,11 @@
     WKWebView *webView = [[WKWebView alloc] init];
     _webView = webView;
     [self.view addSubview:webView];
-    
+    if (@available(iOS 11.0, *)) {
+        webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = YES;
+    }
     NSURL *url = [NSURL URLWithString:_url];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [webView loadRequest:request];

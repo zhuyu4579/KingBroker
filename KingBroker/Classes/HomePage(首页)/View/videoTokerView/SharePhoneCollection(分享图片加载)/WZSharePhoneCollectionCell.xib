@@ -12,27 +12,47 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="WZSharePhoneCollectionCell">
-            <rect key="frame" x="0.0" y="0.0" width="100" height="145"/>
+            <rect key="frame" x="0.0" y="0.0" width="100" height="130"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="100" height="145"/>
+                <rect key="frame" x="0.0" y="0.0" width="100" height="130"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BTl-Hi-K99">
-                        <rect key="frame" x="0.0" y="0.0" width="100" height="145"/>
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="130"/>
+                    </imageView>
+                    <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PN1-4n-jZQ">
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="130"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sptk_play2" translatesAutoresizingMaskIntoConstraints="NO" id="3xJ-HX-hdC">
+                        <rect key="frame" x="37.5" y="52.5" width="25" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="25" id="N9n-OR-wch"/>
+                            <constraint firstAttribute="height" constant="25" id="kU1-IU-wtE"/>
+                        </constraints>
                     </imageView>
                 </subviews>
             </view>
             <constraints>
+                <constraint firstItem="PN1-4n-jZQ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="8Vi-AT-iq8"/>
                 <constraint firstItem="BTl-Hi-K99" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Cm2-7N-hQy"/>
                 <constraint firstAttribute="trailing" secondItem="BTl-Hi-K99" secondAttribute="trailing" id="Erf-5f-Zgt"/>
+                <constraint firstItem="3xJ-HX-hdC" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="GFJ-DX-T7m"/>
                 <constraint firstAttribute="bottom" secondItem="BTl-Hi-K99" secondAttribute="bottom" id="IZR-ZX-0wB"/>
+                <constraint firstItem="3xJ-HX-hdC" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="KSX-oM-5gv"/>
+                <constraint firstAttribute="trailing" secondItem="PN1-4n-jZQ" secondAttribute="trailing" id="RP2-8B-yea"/>
+                <constraint firstItem="PN1-4n-jZQ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Rsk-IA-sd7"/>
+                <constraint firstAttribute="bottom" secondItem="PN1-4n-jZQ" secondAttribute="bottom" id="vaV-Cw-BIV"/>
                 <constraint firstItem="BTl-Hi-K99" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="zvd-Io-yzh"/>
             </constraints>
             <connections>
                 <outlet property="phoneImage" destination="BTl-Hi-K99" id="7n2-4P-2XY"/>
             </connections>
-            <point key="canvasLocation" x="34" y="94.5"/>
+            <point key="canvasLocation" x="34" y="94"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="sptk_play2" width="25" height="25"/>
+    </resources>
 </document>

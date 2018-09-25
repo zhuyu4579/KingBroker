@@ -88,8 +88,8 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="annTitleName" destination="Hne-Yo-pif" id="2dO-Xq-ehW"/>
-                <outlet property="content" destination="Ya5-Bz-G5x" id="dmu-Bv-Xm2"/>
+                <outlet property="annTitleName" destination="Ya5-Bz-G5x" id="wrO-5V-WGA"/>
+                <outlet property="content" destination="Hne-Yo-pif" id="dT3-iX-ckx"/>
                 <outlet property="imageViews" destination="2Hw-hx-Ejm" id="w3c-19-SKV"/>
                 <outlet property="readFlag" destination="PgU-RJ-ZTX" id="bRL-YX-jIn"/>
                 <outlet property="time" destination="EaT-Hg-omS" id="3hm-4n-eVL"/>

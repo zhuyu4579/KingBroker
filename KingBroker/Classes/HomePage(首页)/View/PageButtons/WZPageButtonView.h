@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonThree;
 @property (weak, nonatomic) IBOutlet UIButton *buttonFour;
 @property (strong, nonatomic) IBOutlet UIButton *buttonFive;
+@property (strong, nonatomic) IBOutlet UIButton *buttonSix;
 
 @property (weak, nonatomic) IBOutlet UIButton *newsLable;
 @property (strong, nonatomic) IBOutlet UILabel *anNewLabel;
@@ -23,6 +24,7 @@
 - (IBAction)Report:(id)sender;
 - (IBAction)Boarding:(id)sender;
 - (IBAction)houseBook:(UIButton *)sender;
+- (IBAction)videToker:(UIButton *)sender;
 
 - (IBAction)seeNews:(id)sender;
 
