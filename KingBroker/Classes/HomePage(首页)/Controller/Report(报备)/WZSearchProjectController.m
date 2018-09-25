@@ -7,7 +7,7 @@
 //
 
 #import "WZSearchProjectController.h"
-#import "WZReportController.h"
+#import "WZNewReportController.h"
 #import "WZSelectProjectCell.h"
 #import "UIView+Frame.h"
 #import "WZSelcetProjectItem.h"
@@ -233,7 +233,7 @@ static NSString *size = @"20";
     }
     
     for (UIViewController *temp in self.navigationController.viewControllers) {
-        if ([temp isKindOfClass:[WZReportController class]]) {
+        if ([temp isKindOfClass:[WZNewReportController class]]) {
             [self.navigationController popToViewController:temp animated:YES];
         }
     }

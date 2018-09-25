@@ -433,7 +433,7 @@
     }];
     UIButton *storeUpdate = [[UIButton alloc] init];
     [storeUpdate setTitle:@"更换门店" forState:UIControlStateNormal];
-    [storeUpdate setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [storeUpdate setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
     [storeUpdate addTarget:self action:@selector(updateStores) forControlEvents:UIControlEventTouchUpInside];
     storeUpdate.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     storeUpdate.backgroundColor = UIColorRBG(255, 224, 0);

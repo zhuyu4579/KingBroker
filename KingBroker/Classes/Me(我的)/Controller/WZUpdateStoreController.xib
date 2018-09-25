@@ -55,7 +55,7 @@
                     </constraints>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                     <state key="normal" title="下一步">
-                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.82745612160000004" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleColor" red="0.19215686269999999" green="0.13725490200000001" blue="0.023529411760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
                         <action selector="nextAction:" destination="-1" eventType="touchUpInside" id="0my-9I-SiH"/>
@@ -69,7 +69,7 @@
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hn7-bp-T2I">
                     <rect key="frame" x="58" y="263.5" width="194" height="1"/>
-                    <color key="backgroundColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="1" green="0.92549019610000005" blue="0.52549019610000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="ACZ-uD-LiZ"/>
                     </constraints>
@@ -97,7 +97,7 @@
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                     <state key="normal" title="人工客服">
-                        <color key="titleColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleColor" red="1" green="0.75294117647058822" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
                         <action selector="palyTelphone:" destination="-1" eventType="touchUpInside" id="vaE-bd-diA"/>

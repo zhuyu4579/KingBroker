@@ -63,7 +63,7 @@
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0,40, self.width, 34)];
     view.backgroundColor = [UIColor whiteColor];
-    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowColor = [UIColor grayColor].CGColor;
     //2.设置阴影偏移范围
     view.layer.shadowOffset = CGSizeMake(0, 1);
     //3.设置阴影颜色的透明度

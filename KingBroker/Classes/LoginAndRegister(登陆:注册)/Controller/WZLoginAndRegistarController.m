@@ -756,6 +756,7 @@
     paraments[@"type"] = @"1";
     paraments[@"telphone"] = telphone;
     paraments[@"smsCode"] = YZM;
+    paraments[@"parentPhone"] = _invite.text;
     NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
         
@@ -764,6 +765,7 @@
             WZRegistarSetPWController *registar = [[WZRegistarSetPWController alloc] init];
             registar.telphone = telphone;
             registar.YZM = YZM;
+            registar.parentPhone = _invite.text;
             [self.navigationController pushViewController:registar animated:YES];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];

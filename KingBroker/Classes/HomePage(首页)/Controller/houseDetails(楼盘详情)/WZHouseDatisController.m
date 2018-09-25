@@ -994,7 +994,7 @@ static NSString * const IDS = @"cells";
     UIButton *button = [[UIButton alloc] init];
     [button setTitleColor:UIColorRBG(102, 221, 85) forState:UIControlStateNormal];
     [button setTitle:@"查看更多" forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
+    button.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     [button addTarget:self action:@selector(MoreContents) forControlEvents:UIControlEventTouchUpInside];
     _moreButton = button;
     [view addSubview:button];

@@ -22,6 +22,7 @@
         self.name = [[UILabel alloc] init];
         self.name.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
         self.name.layer.cornerRadius = 4;
+        self.name.textColor = UIColorRBG(49, 35, 6);
         self.name.clipsToBounds = YES;
         self.name.textAlignment = NSTextAlignmentCenter;
         self.name.userInteractionEnabled = NO;

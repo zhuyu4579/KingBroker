@@ -125,7 +125,7 @@
     }];
     UIButton *telphone = [[UIButton alloc] init];
     [telphone setTitle:@"0571-88841808" forState:UIControlStateNormal];
-    [telphone setTitleColor:UIColorRBG(255, 216, 0) forState:UIControlStateNormal];
+    [telphone setTitleColor:UIColorRBG(255, 192, 0) forState:UIControlStateNormal];
     telphone.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
     [telphone setEnlargeEdge:44];
     [telphone addTarget:self action:@selector(telphone:) forControlEvents:UIControlEventTouchUpInside];

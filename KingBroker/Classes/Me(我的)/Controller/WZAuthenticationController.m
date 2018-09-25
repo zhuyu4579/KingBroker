@@ -39,7 +39,7 @@
     _titleLabel.attributedText = attributedString;
     
     _getUpButton.backgroundColor = UIColorRBG(255, 224, 0);
-    [_getUpButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_getUpButton setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
     [_getUpButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
     
     _name.keyboardType = UIKeyboardTypeDefault;

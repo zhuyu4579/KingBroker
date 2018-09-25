@@ -326,7 +326,7 @@
     }];
     //下划线
     UIView  *nameIne = [[UIView alloc] init];
-    nameIne.backgroundColor = UIColorRBG(255, 204, 0);
+    nameIne.backgroundColor = UIColorRBG(255, 236, 134);
     [view addSubview:nameIne];
     [nameIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -471,7 +471,7 @@
     }];
     //下划线
     UIView  *nameIne = [[UIView alloc] init];
-    nameIne.backgroundColor = UIColorRBG(255, 204, 0);
+    nameIne.backgroundColor = UIColorRBG(255, 236, 134);
     [view addSubview:nameIne];
     [nameIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -504,7 +504,7 @@
     }];
     //下划线
     UIView  *positionIne = [[UIView alloc] init];
-    positionIne.backgroundColor = UIColorRBG(255, 204, 0);
+    positionIne.backgroundColor = UIColorRBG(255, 236, 134);
     [view addSubview:positionIne];
     [positionIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -532,7 +532,7 @@
     }];
     //下划线
     UIView  *positionInes = [[UIView alloc] init];
-    positionInes.backgroundColor = UIColorRBG(255, 204, 0);
+    positionInes.backgroundColor = UIColorRBG(255, 236, 134);
     [view addSubview:positionInes];
     [positionInes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(storePosition.mas_right).offset(14);
@@ -568,7 +568,7 @@
     }];
     //下划线
     UIView  *addressIne = [[UIView alloc] init];
-    addressIne.backgroundColor = UIColorRBG(255, 204, 0);
+    addressIne.backgroundColor = UIColorRBG(255, 236, 134);
     [view addSubview:addressIne];
     [addressIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -667,7 +667,7 @@
     }];
     //下划线
     UIView  *nameIne = [[UIView alloc] init];
-    nameIne.backgroundColor = UIColorRBG(255, 204, 0);
+    nameIne.backgroundColor = UIColorRBG(255, 236, 134);
     [view addSubview:nameIne];
     [nameIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -716,7 +716,7 @@
     }];
     //下划线
     UIView  *nameIne = [[UIView alloc] init];
-    nameIne.backgroundColor = UIColorRBG(255, 204, 0);
+    nameIne.backgroundColor = UIColorRBG(255, 236, 134);
     [view addSubview:nameIne];
     [nameIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -749,7 +749,7 @@
     }];
     //下划线
     UIView  *positionIne = [[UIView alloc] init];
-    positionIne.backgroundColor = UIColorRBG(255, 204, 0);
+    positionIne.backgroundColor = UIColorRBG(255, 236, 134);
     [view addSubview:positionIne];
     [positionIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -777,7 +777,7 @@
     }];
     //下划线
     UIView  *positionInes = [[UIView alloc] init];
-    positionInes.backgroundColor = UIColorRBG(255, 204, 0);
+    positionInes.backgroundColor = UIColorRBG(255, 236, 134);
     [view addSubview:positionInes];
     [positionInes mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(storePosition.mas_right).offset(14);
@@ -813,7 +813,7 @@
     }];
     //下划线
     UIView  *addressIne = [[UIView alloc] init];
-    addressIne.backgroundColor = UIColorRBG(255, 204, 0);
+    addressIne.backgroundColor = UIColorRBG(255, 236, 134);
     [view addSubview:addressIne];
     [addressIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
