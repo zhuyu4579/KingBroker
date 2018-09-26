@@ -27,6 +27,7 @@
 #import "NSString+LCExtension.h"
 #import "WZBelongedStoreController.h"
 #import "WZForwardController.h"
+#import "WZInvitePrizeController.h"
 @interface WZMeViewController ()
 //主view
 @property(nonatomic,strong)UIScrollView *scrollView;
@@ -415,8 +416,27 @@
         make.height.offset(58);
     }];
     
-    UIView *mySettingView = [self createViewClass:@selector(setting) image:[UIImage imageNamed:@"wd_icon8"] title:@"设置" fY:0 size:CGSizeMake(19, 19)];
+    UIView *mySettingView = [self createViewClass:@selector(invitePrize) image:[UIImage imageNamed:@"wd_icon8"] title:@"分享有奖" fY:0 size:CGSizeMake(19, 19)];
     [viewThree addSubview:mySettingView];
+    
+    UIView *viewFour = [[UIView alloc] init];
+    viewFour.backgroundColor = [UIColor whiteColor];
+    viewFour.layer.cornerRadius = 10;
+    viewFour.layer.shadowColor = UIColorRBG(255, 185, 76).CGColor;
+    viewFour.layer.shadowOpacity = 0.05f;
+    viewFour.layer.shadowRadius = 20.0f;
+    viewFour.layer.shadowOffset = CGSizeMake(0, 1);
+    [_scrollView addSubview:viewFour];
+    [viewFour mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_scrollView.mas_left).offset(15);
+        make.top.equalTo(viewThree.mas_bottom).offset(10);
+        make.width.offset(_scrollView.fWidth-30);
+        make.height.offset(58);
+    }];
+    
+    UIView *inviteView = [self createViewClass:@selector(setting) image:[UIImage imageNamed:@"wd_icon8"] title:@"设置" fY:0 size:CGSizeMake(19, 19)];
+    [viewFour addSubview:inviteView];
+    
 }
 #pragma mark -创建分类
 -(UIView *)createViewClass:(SEL)sel image:(UIImage *)image title:(NSString *)title fY:(CGFloat)fY size:(CGSize)size{
@@ -553,6 +573,15 @@
         [NSString isCode:self.navigationController code:@"401"];
     }
     
+}
+#pragma mark -邀请有奖
+-(void)invitePrize{
+    if (_uuid&&![_uuid isEqual:@""]) {
+        WZInvitePrizeController *setting = [[WZInvitePrizeController alloc] init];
+        [self.navigationController pushViewController:setting animated:YES];
+    }else{
+        [NSString isCode:self.navigationController code:@"401"];
+    }
 }
 #pragma mark -我的设置
 -(void)setting{

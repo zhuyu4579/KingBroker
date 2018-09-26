@@ -517,7 +517,7 @@ static NSString *size = @"20";
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"location"] = _lnglat;
-    
+    paraments[@"id"] = _ID;
     NSString *url = [NSString stringWithFormat:@"%@/proProject/cityList",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];

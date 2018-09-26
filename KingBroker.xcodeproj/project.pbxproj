@@ -91,6 +91,7 @@
 		1F4D6DE820FCEAD4008A9514 /* SelVideoSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4D6DE320FCEAD4008A9514 /* SelVideoSlider.m */; };
 		1F4D6DEC20FCF232008A9514 /* WZMainUnitCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4D6DEB20FCF232008A9514 /* WZMainUnitCell.xib */; };
 		1F4D6DF020FD7348008A9514 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F4D6DEF20FD7347008A9514 /* Info.plist */; };
+		1F4E41E5215B3B820039A151 /* WZInvitePrizeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4E41E4215B3B820039A151 /* WZInvitePrizeController.m */; };
 		1F504ECA2154987B00AA06D6 /* WZVideoTokerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F504EC92154987B00AA06D6 /* WZVideoTokerController.m */; };
 		1F504ECE21549D4A00AA06D6 /* WZTokerLabelCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F504ECD21549D4A00AA06D6 /* WZTokerLabelCollectionView.m */; };
 		1F504ED121549D6D00AA06D6 /* WZTokerVideoTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F504ED021549D6D00AA06D6 /* WZTokerVideoTableView.m */; };
@@ -415,6 +416,8 @@
 		1F4D6DE320FCEAD4008A9514 /* SelVideoSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelVideoSlider.m; sourceTree = "<group>"; };
 		1F4D6DEB20FCF232008A9514 /* WZMainUnitCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZMainUnitCell.xib; sourceTree = "<group>"; };
 		1F4D6DEF20FD7347008A9514 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F4E41E3215B3B820039A151 /* WZInvitePrizeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZInvitePrizeController.h; sourceTree = "<group>"; };
+		1F4E41E4215B3B820039A151 /* WZInvitePrizeController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZInvitePrizeController.m; sourceTree = "<group>"; };
 		1F504EC82154987B00AA06D6 /* WZVideoTokerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZVideoTokerController.h; sourceTree = "<group>"; };
 		1F504EC92154987B00AA06D6 /* WZVideoTokerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZVideoTokerController.m; sourceTree = "<group>"; };
 		1F504ECC21549D4A00AA06D6 /* WZTokerLabelCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZTokerLabelCollectionView.h; sourceTree = "<group>"; };
@@ -1058,6 +1061,8 @@
 				1F63E6E820A67BD0001A1B75 /* WZApplyStorePersonController.m */,
 				1F46104320BBA12D00216FDB /* WZPhonesController.h */,
 				1F46104420BBA12D00216FDB /* WZPhonesController.m */,
+				1F4E41E3215B3B820039A151 /* WZInvitePrizeController.h */,
+				1F4E41E4215B3B820039A151 /* WZInvitePrizeController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2081,6 +2086,7 @@
 				1F676372214A67C4005F1E37 /* WZGoodHouseController.m in Sources */,
 				1F504EE42154CCE400AA06D6 /* WZTokerVItem.m in Sources */,
 				1F1B7891208584CD00BC6007 /* WZMainUnitItem.m in Sources */,
+				1F4E41E5215B3B820039A151 /* WZInvitePrizeController.m in Sources */,
 				1FD9C61D207DBD2C00BB0298 /* AppDelegate.m in Sources */,
 				1F453F2321538995007C8A20 /* WZHouseNoteController.m in Sources */,
 				1F09952620F496F500524361 /* WZShareVideoCell.m in Sources */,
