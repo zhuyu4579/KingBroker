@@ -247,7 +247,6 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"password"] = password;
     paraments[@"phone"] = _telphone;
-    paraments[@"parentPhone"] = _parentPhone;
     paraments[@"verificationCode"] = _YZM;
     NSString *url = [NSString stringWithFormat:@"%@/sysUser/register",HTTPURL];
     [mgr POST:url  parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {

@@ -36,8 +36,6 @@
 @property(nonatomic,strong)UITextField *registarName;
 //注册的验证码
 @property(nonatomic,strong)UITextField *registarYZM;
-//邀请人
-@property(nonatomic,strong)UITextField *invite;
 //注册-获取验证码
 @property(nonatomic,strong)UIButton *YZMButton;
 //注册-选中协议
@@ -424,57 +422,7 @@
         make.height.offset(24);
         make.width.offset(80);
     }];
-    //邀请人
-    UILabel *inviteLabel = [[UILabel alloc] init];
-    inviteLabel.text = @"邀请人";
-    inviteLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    inviteLabel.textColor = UIColorRBG(51, 51, 51);
-    [registarView addSubview:inviteLabel];
-    [inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarView.mas_left).offset(57);
-        make.top.equalTo(registarInes.mas_bottom).offset(31);
-        make.height.offset(12);
-    }];
-    
-    UILabel *inviteLabels = [[UILabel alloc] init];
-    inviteLabels.text = @"(不必填)";
-    inviteLabels.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:11];
-    inviteLabels.textColor = UIColorRBG(204, 204, 204);
-    [registarView addSubview:inviteLabels];
-    [inviteLabels mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(inviteLabel.mas_right).offset(16);
-        make.top.equalTo(registarInes.mas_bottom).offset(32);
-        make.height.offset(11);
-    }];
-    
-    UITextField *invite = [[UITextField alloc] init];
-    invite.placeholder = @"请输入邀请人手机号";
-    invite.textColor = UIColorRBG(49, 35, 6);
-    invite.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    invite.delegate = self;
-    invite.keyboardType = UIKeyboardTypeNumberPad;
-    [[invite valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
-    invite.clearButtonMode = UITextFieldViewModeWhileEditing;
-    invite.clearsOnBeginEditing = NO;
-    _invite = invite;
-    [registarView addSubview:invite];
-    [invite mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarView.mas_left).offset(57);
-        make.top.equalTo(inviteLabel.mas_bottom);
-        make.height.offset(38);
-        make.width.offset(_scrollView.fWidth-107);
-    }];
-    //下划线
-    UIView  *registarIness = [[UIView alloc] init];
-    registarIness.backgroundColor = UIColorRBG(255, 245, 177);
-    [registarView addSubview:registarIness];
-    [registarIness mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarView.mas_left).offset(57);
-        make.top.equalTo(invite.mas_bottom);
-        make.height.offset(1);
-        make.width.offset(_scrollView.fWidth-107);
-    }];
-    
+   
     //同意协议按钮
     UIButton *selectAgreement = [[UIButton alloc] init];
     [selectAgreement setBackgroundImage:[UIImage imageNamed:@"ZC_YES_1"] forState:UIControlStateNormal];
@@ -485,7 +433,7 @@
     [registarView addSubview:selectAgreement];
     [selectAgreement mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(registarView.mas_left).offset(58);
-        make.top.equalTo(registarIness.mas_bottom).offset(17);
+        make.top.equalTo(registarInes.mas_bottom).offset(17);
         make.height.offset(14);
         make.width.offset(14);
     }];
@@ -496,7 +444,7 @@
     [registarView addSubview:aLabel];
     [aLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(selectAgreement.mas_right).offset(7);
-        make.top.equalTo(registarIness.mas_bottom).offset(19);
+        make.top.equalTo(registarInes.mas_bottom).offset(19);
         make.height.offset(11);
     }];
     //查看协议
@@ -508,7 +456,7 @@
     [registarView addSubview:findAgreement];
     [findAgreement mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(aLabel.mas_right);
-        make.top.equalTo(registarIness.mas_bottom).offset(14);
+        make.top.equalTo(registarInes.mas_bottom).offset(14);
         make.height.offset(21);
         make.width.offset(110);
     }];
@@ -756,7 +704,7 @@
     paraments[@"type"] = @"1";
     paraments[@"telphone"] = telphone;
     paraments[@"smsCode"] = YZM;
-    paraments[@"parentPhone"] = _invite.text;
+    
     NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
         
@@ -765,7 +713,6 @@
             WZRegistarSetPWController *registar = [[WZRegistarSetPWController alloc] init];
             registar.telphone = telphone;
             registar.YZM = YZM;
-            registar.parentPhone = _invite.text;
             [self.navigationController pushViewController:registar animated:YES];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
@@ -814,9 +761,6 @@
 //获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     textField.returnKeyType = UIReturnKeyDone;
-    if (_invite == textField) {
-        _scrollView.contentSize = CGSizeMake(0, self.view.fHeight+150);
-    }
     
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -832,7 +776,7 @@
             return NO;
         }
     }
-    if (_loginName == textField||_registarName == textField||_invite == textField) {
+    if (_loginName == textField||_registarName == textField) {
         if (toBeString.length>11) {
             return NO;
         }
@@ -857,7 +801,7 @@
     [_loginPassWord resignFirstResponder];
     [_registarName resignFirstResponder];
     [_registarYZM resignFirstResponder];
-    [_invite resignFirstResponder];
+    
 }
 -(void)touches{
     _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight);
@@ -865,6 +809,6 @@
     [_loginPassWord resignFirstResponder];
     [_registarName resignFirstResponder];
     [_registarYZM resignFirstResponder];
-    [_invite resignFirstResponder];
+    
 }
 @end

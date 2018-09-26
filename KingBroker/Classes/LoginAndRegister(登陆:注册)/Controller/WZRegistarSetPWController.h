@@ -13,6 +13,5 @@
 @property(nonatomic,strong)NSString *telphone;
 //验证码
 @property(nonatomic,strong)NSString *YZM;
-//邀请人号码
-@property(nonatomic,strong)NSString *parentPhone;
+
 @end
