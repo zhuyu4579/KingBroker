@@ -61,6 +61,12 @@
             [self setLunNews:[data valueForKey:@"infos"]];
             _num.text = [data valueForKey:@"countNum"];
             _money.text = [data valueForKey:@"countPrice"];
+            NSMutableDictionary *dicty = [NSMutableDictionary dictionary];
+            dicty[@"url"] = [data valueForKey:@"url"];
+            dicty[@"title"] = [data valueForKey:@"title"];
+            dicty[@"describe"] = [data valueForKey:@"describe"];
+            dicty[@"imageUrl"] = [data valueForKey:@"imageUrl"];
+            _data = dicty;
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -76,6 +82,7 @@
         }
     }];
 }
+
 #pragma mark - 邀请有奖
 -(void)setControl{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -419,8 +426,8 @@
     //1.创建多媒体消息结构体
     WXMediaMessage *mediaMsg = [WXMediaMessage message];
     mediaMsg.title = [_data valueForKey:@"title"];
-    mediaMsg.description = [_data valueForKey:@"desc"];
-    UIImage *image =  [self handleImageWithURLStr:[_data valueForKey:@"img"]];
+    mediaMsg.description = [_data valueForKey:@"describe"];
+    UIImage *image =  [self handleImageWithURLStr:[_data valueForKey:@"imageUrl"]];
     [mediaMsg setThumbImage:image];
     //分享网站
     WXWebpageObject *webpageObject = [WXWebpageObject object];
@@ -448,9 +455,9 @@
     WXMediaMessage *mediaMsg = [WXMediaMessage message];
     
     mediaMsg.title = [_data valueForKey:@"title"];
-    mediaMsg.description = [_data valueForKey:@"desc"];
+    mediaMsg.description = [_data valueForKey:@"describe"];
     
-    UIImage *image =  [self handleImageWithURLStr:[_data valueForKey:@"img"]];
+    UIImage *image =  [self handleImageWithURLStr:[_data valueForKey:@"imageUrl"]];
     [mediaMsg setThumbImage:image];
     
     //2.分享网站

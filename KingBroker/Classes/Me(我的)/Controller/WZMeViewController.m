@@ -416,7 +416,7 @@
         make.height.offset(58);
     }];
     
-    UIView *mySettingView = [self createViewClass:@selector(invitePrize) image:[UIImage imageNamed:@"wd_icon8"] title:@"分享有奖" fY:0 size:CGSizeMake(19, 19)];
+    UIView *mySettingView = [self createViewClass:@selector(invitePrize) image:[UIImage imageNamed:@"wd_icon9"] title:@"分享有奖" fY:0 size:CGSizeMake(19, 18)];
     [viewThree addSubview:mySettingView];
     
     UIView *viewFour = [[UIView alloc] init];
