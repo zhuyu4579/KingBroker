@@ -972,6 +972,7 @@
 }
 #pragma mark -无编码-选择位置
 -(void)positionButton:(UIButton *)button{
+    [self touches];
     ZDMapController *map = [[ZDMapController alloc] init];
     [self.navigationController pushViewController:map animated:YES];
     map.addrBlock = ^(NSMutableDictionary *address) {
@@ -983,6 +984,7 @@
 }
 #pragma mark -无编码-名片正面
 -(void)cardButton:(UIButton *)button{
+    [self touches];
    WZAlertView *redView = [WZAlertView new];
     
    redView.imageName = @"card_2";
@@ -1002,7 +1004,7 @@
 }
 #pragma mark -无编码-名片反面
 -(void)cardSideButton:(UIButton *)button{
-
+    [self touches];
     WZAlertView *redView = [WZAlertView new];
     
     redView.imageName = @"card_1";
@@ -1022,6 +1024,7 @@
 }
 #pragma mark -门店负责人-选择位置
 -(void)headPositionButton:(UIButton *)button{
+    [self touches];
     ZDMapController *map = [[ZDMapController alloc] init];
     [self.navigationController pushViewController:map animated:YES];
     map.addrBlock = ^(NSMutableDictionary *address) {
@@ -1033,6 +1036,7 @@
 }
 #pragma mark -门店负责人-名片正面
 -(void)headCardButton:(UIButton *)button{
+    [self touches];
     WZAlertView *redView = [WZAlertView new];
     
     redView.imageName = @"card_2";
@@ -1052,7 +1056,7 @@
 }
 #pragma mark -门店负责人-营业执照
 -(void)cardStoreButton:(UIButton *)button{
-    
+    [self touches];
     WZAlertView *redView = [WZAlertView new];
     
     redView.imageName = @"rz_pic";

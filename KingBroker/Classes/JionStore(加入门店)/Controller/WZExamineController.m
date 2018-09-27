@@ -68,14 +68,16 @@
     }];
     //创建第二个Lable
     UILabel *labelTwo = [[UILabel alloc] init];
-    labelTwo.text = @"资料上传成功，请耐心等待审核…";
+    labelTwo.text = _titleLabel;
     labelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     labelTwo.textColor = UIColorRBG(102, 102, 102);
+    labelTwo.textAlignment = NSTextAlignmentCenter;
+    labelTwo.numberOfLines = 0;
     [self.view addSubview:labelTwo];
     [labelTwo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
         make.top.equalTo(imageV.mas_bottom).offset(65);
-        make.height.offset(15);
+        make.width.offset(self.view.fWidth-46);
     }];
     //创建第一个button
     UIButton *buttonOne = [[UIButton alloc] init];

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface WZExamineController : UIViewController
-
+@property(nonatomic,strong)NSString *titleLabel;
 @end
