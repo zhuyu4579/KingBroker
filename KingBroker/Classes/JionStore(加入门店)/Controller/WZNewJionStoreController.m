@@ -1,10 +1,12 @@
 //
-//  WZJionStoreAndStoreHeadController.m
+//  WZNewJionStoreController.m
 //  KingBroker
 //
-//  Created by 朱玉隆 on 2018/8/6.
+//  Created by 朱玉隆 on 2018/9/27.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
+
+
 #import <Masonry.h>
 #import "GKCover.h"
 #import "WZAlertView.h"
@@ -16,9 +18,9 @@
 #import "WZExamineController.h"
 #import "WZNavigationController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
-#import "WZJionStoreAndStoreHeadController.h"
+#import "WZNewJionStoreController.h"
 
-@interface WZJionStoreAndStoreHeadController ()<UITextFieldDelegate,UIScrollViewDelegate>
+@interface WZNewJionStoreController()<UITextFieldDelegate,UIScrollViewDelegate>
 //滑动页面
 @property(nonatomic,strong)UIScrollView *scrollView;
 //导航栏view
@@ -61,6 +63,12 @@
 @property(nonatomic,strong)UIView *noCodeViews;
 //有编码-编码
 @property(nonatomic,strong)UITextField *code;
+//有编码名片正面
+@property(nonatomic,strong)UIImage *cardImages;
+//有编码名片反面
+@property(nonatomic,strong)UIImage *cardSideImages;
+//有编码-邀请码
+@property(nonatomic,strong)UITextField *inviteCode;
 //无编码-门店名称
 @property(nonatomic,strong)UITextField *storeName;
 //无编码-门店位置
@@ -73,6 +81,8 @@
 @property(nonatomic,strong)UIImage *cardImage;
 //无编码名片反面
 @property(nonatomic,strong)UIImage *cardSideImage;
+//无编码-邀请码
+@property(nonatomic,strong)UITextField *inviteNOCode;
 //门店负责人-门店名称
 @property(nonatomic,strong)UITextField *headStoreName;
 //门店负责人-门店位置
@@ -85,9 +95,11 @@
 @property(nonatomic,strong)UIImage *headCardImage;
 //门店负责人营业执照
 @property(nonatomic,strong)UIImage *headStoreImage;
+//门店负责人-邀请码
+@property(nonatomic,strong)UITextField *inviteHeadCode;
 @end
 
-@implementation WZJionStoreAndStoreHeadController
+@implementation WZNewJionStoreController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -102,7 +114,7 @@
 }
 #pragma mark - 创建控件
 -(void)createControl{
-     float n = [UIScreen mainScreen].bounds.size.width/375.0;
+    float n = [UIScreen mainScreen].bounds.size.width/375.0;
     //创建UISrceenView
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, self.view.fHeight-JF_BOTTOM_SPACE-49)];
     _scrollView.bounces = NO;
@@ -132,7 +144,7 @@
     [closeButton addTarget:self action:@selector(closeButton) forControlEvents:UIControlEventTouchUpInside];
     [closeButton setEnlargeEdge:44];
     [tabView addSubview:closeButton];
-   
+    
     UIView *ine = [[UIView alloc] initWithFrame:CGRectMake(0, self.tabView.fHeight, self.tabView.fWidth, 1)];
     ine.backgroundColor =[UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:0];
     self.ineView = ine;
@@ -157,7 +169,7 @@
     title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:18];
     title.textColor = UIColorRBG(255, 168, 66);
     [_scrollView addSubview:title];
-   
+    
     //文字一
     UILabel *labelOne = [[UILabel alloc] init];
     labelOne.text = @"1.门店编码是经服APP合作门店的唯一标识，你可咨询你的店长或者同事";
@@ -201,7 +213,7 @@
     if ([_jionType isEqual:@"1"]) {
         [button setTitle:@"加入门店" forState:UIControlStateNormal];
         [button addTarget:self action:@selector(jionStore:) forControlEvents:UIControlEventTouchUpInside];
-        _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight-49-JF_BOTTOM_SPACE);
+        _scrollView.contentSize = CGSizeMake(0,800);
     }else{
         //门店负责人
         [button setTitle:@"提交审核" forState:UIControlStateNormal];
@@ -627,6 +639,45 @@
         make.height.offset(100);
         make.width.offset(100);
     }];
+    
+    UIView *inviteView = [[UIView alloc] init];
+    inviteView.backgroundColor = [UIColor whiteColor];
+    inviteView.layer.cornerRadius = 5.0;
+    inviteView.layer.shadowColor = UIColorRBG(60, 48, 0).CGColor;
+    inviteView.layer.shadowOpacity = 0.05;
+    inviteView.layer.shadowRadius = 10.0;
+    [view addSubview:inviteView];
+    [inviteView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left);
+        make.top.equalTo(imageViews.mas_bottom).offset(10);
+        make.width.offset(self.view.fWidth-26);
+        make.height.offset(50);
+    }];
+    UILabel *inviteLabel = [[UILabel alloc] init];
+    inviteLabel.text = @"邀请码";
+    inviteLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    inviteLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
+    [inviteView addSubview:inviteLabel];
+    [inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(inviteView.mas_left).offset(15);
+        make.centerY.equalTo(inviteView.mas_centerY);
+        make.height.offset(13);
+    }];
+    UITextField *inviteCode = [[UITextField alloc] init];
+    inviteCode.placeholder = @"输入邀请码";
+    inviteCode.textColor = UIColorRBG(68, 68, 68);
+    inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    inviteCode.delegate = self;
+    inviteCode.keyboardType = UIKeyboardTypeNumberPad;
+    inviteCode.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _inviteHeadCode = inviteCode;
+    [inviteView addSubview:inviteCode];
+    [inviteCode mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(inviteLabel.mas_right).offset(36);
+        make.centerY.equalTo(inviteView.mas_centerY);
+        make.right.equalTo(inviteView.mas_right);
+        make.height.offset(50);
+    }];
 }
 #pragma mark -有编码模块
 -(void)codeView{
@@ -636,7 +687,7 @@
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_viewTwo.mas_left);
         make.top.equalTo(_ineCode.mas_bottom);
-        make.height.offset(91);
+        make.height.offset(431);
         make.width.offset(self.view.fWidth-26);
     }];
     
@@ -676,6 +727,122 @@
         make.width.offset(self.view.fWidth-62);
     }];
     
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = [UIImage imageNamed:@"rz_wbm_pic_3"];
+    [view addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left);
+        make.top.equalTo(_codeImageView.mas_bottom).offset(10);
+        make.height.offset(183);
+        make.width.offset(self.view.fWidth-26);
+    }];
+    UIView *ine = [[UIView alloc] init];
+    ine.backgroundColor = UIColorRBG(238, 238, 238);
+    [view addSubview:ine];
+    [ine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(8);
+        make.top.equalTo(imageView.mas_top).offset(48);
+        make.height.offset(1);
+        make.width.offset(self.view.fWidth-42);
+    }];
+    //名片
+    UILabel *cardLabel = [[UILabel alloc] init];
+    cardLabel.text = @"上传名片";
+    cardLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+    cardLabel.textColor = UIColorRBG(51, 51, 51);
+    [view addSubview:cardLabel];
+    [cardLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(18);
+        make.top.equalTo(_codeImageView.mas_bottom).offset(25);
+        make.height.offset(16);
+    }];
+    UILabel *cardLabels = [[UILabel alloc] init];
+    cardLabels.text = @"（上传名片正面和反面可获得现金红包）";
+    cardLabels.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    cardLabels.textColor = UIColorRBG(204, 204, 204);
+    [view addSubview:cardLabels];
+    [cardLabels mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(cardLabel.mas_right).offset(12);
+        make.top.equalTo(_codeImageView.mas_bottom).offset(28);
+        make.height.offset(13);
+    }];
+    //名片正面
+    UIButton *cardButton = [[UIButton alloc] init];
+    [cardButton setBackgroundImage:[UIImage imageNamed:@"camera_zm"] forState:UIControlStateNormal];
+    cardButton.tag = 155;
+    [cardButton addTarget:self action:@selector(cardButton:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:cardButton];
+    [cardButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view.mas_centerX).offset(-36);
+        make.top.equalTo(ine.mas_bottom).offset(15);
+        make.height.offset(100);
+        make.width.offset(100);
+    }];
+    //名片反面
+    UIButton *cardSideButton = [[UIButton alloc] init];
+    [cardSideButton setBackgroundImage:[UIImage imageNamed:@"camera_fm"] forState:UIControlStateNormal];
+    cardSideButton.tag = 156;
+    [cardSideButton addTarget:self action:@selector(cardSideButton:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:cardSideButton];
+    [cardSideButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_centerX).offset(36);
+        make.top.equalTo(ine.mas_bottom).offset(15);
+        make.height.offset(100);
+        make.width.offset(100);
+    }];
+    UILabel *titleLabelThree = [[UILabel alloc] init];
+    titleLabelThree.text = @"";
+    titleLabelThree.textColor = UIColorRBG(153, 153, 153);
+    titleLabelThree.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
+    NSString *strs = @"3.请上传名片正反面照片，拍摄时确保各项信息清晰可见，亮度均匀，易于识别\n4.照片必须真实拍摄，不得使用复印件和扫描件";
+    NSMutableAttributedString *attributedString =  [self changeSomeText:@"清晰可见，亮度均匀，易于识别" inText:strs withColor:UIColorRBG(102, 221, 85)];
+    titleLabelThree.attributedText = attributedString;
+    titleLabelThree.numberOfLines = 0;
+    [view addSubview:titleLabelThree];
+    [titleLabelThree mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(2);
+        make.top.equalTo(imageView.mas_bottom).offset(10);
+        make.width.offset(self.view.fWidth-30);
+    }];
+    
+    UIView *inviteView = [[UIView alloc] init];
+    inviteView.backgroundColor = [UIColor whiteColor];
+    inviteView.layer.cornerRadius = 5.0;
+    inviteView.layer.shadowColor = UIColorRBG(60, 48, 0).CGColor;
+    inviteView.layer.shadowOpacity = 0.05;
+    inviteView.layer.shadowRadius = 10.0;
+    [view addSubview:inviteView];
+    [inviteView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left);
+        make.top.equalTo(titleLabelThree.mas_bottom).offset(18);
+        make.width.offset(self.view.fWidth-26);
+        make.height.offset(50);
+    }];
+    UILabel *inviteLabel = [[UILabel alloc] init];
+    inviteLabel.text = @"邀请码";
+    inviteLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    inviteLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
+    [inviteView addSubview:inviteLabel];
+    [inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(inviteView.mas_left).offset(15);
+       make.centerY.equalTo(inviteView.mas_centerY);
+        make.height.offset(13);
+    }];
+    UITextField *inviteCode = [[UITextField alloc] init];
+    inviteCode.placeholder = @"输入邀请码";
+    inviteCode.textColor = UIColorRBG(68, 68, 68);
+    inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    inviteCode.delegate = self;
+    inviteCode.keyboardType = UIKeyboardTypeNumberPad;
+    inviteCode.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _inviteCode = inviteCode;
+    [inviteView addSubview:inviteCode];
+    [inviteCode mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(inviteLabel.mas_right).offset(36);
+        make.centerY.equalTo(inviteView.mas_centerY);
+        make.right.equalTo(inviteView.mas_right);
+        make.height.offset(50);
+    }];
 }
 #pragma mark -无编码模块
 -(void)noCodeView{
@@ -685,7 +852,7 @@
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_viewTwo.mas_left);
         make.top.equalTo(_ineCode.mas_bottom);
-        make.height.offset(430);
+        make.height.offset(490);
         make.width.offset(self.view.fWidth-26);
     }];
     //门店名称
@@ -853,6 +1020,7 @@
     //名片正面
     UIButton *cardButton = [[UIButton alloc] init];
     [cardButton setBackgroundImage:[UIImage imageNamed:@"camera_zm"] forState:UIControlStateNormal];
+    cardButton.tag = 150;
     [cardButton addTarget:self action:@selector(cardButton:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:cardButton];
     [cardButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -864,7 +1032,8 @@
     //名片反面
     UIButton *cardSideButton = [[UIButton alloc] init];
     [cardSideButton setBackgroundImage:[UIImage imageNamed:@"camera_fm"] forState:UIControlStateNormal];
-     [cardSideButton addTarget:self action:@selector(cardSideButton:) forControlEvents:UIControlEventTouchUpInside];
+    cardSideButton.tag = 151;
+    [cardSideButton addTarget:self action:@selector(cardSideButton:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:cardSideButton];
     [cardSideButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_centerX).offset(36);
@@ -872,12 +1041,51 @@
         make.height.offset(100);
         make.width.offset(100);
     }];
+    
+    UIView *inviteView = [[UIView alloc] init];
+    inviteView.backgroundColor = [UIColor whiteColor];
+    inviteView.layer.cornerRadius = 5.0;
+    inviteView.layer.shadowColor = UIColorRBG(60, 48, 0).CGColor;
+    inviteView.layer.shadowOpacity = 0.05;
+    inviteView.layer.shadowRadius = 10.0;
+    [view addSubview:inviteView];
+    [inviteView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left);
+        make.top.equalTo(imageView.mas_bottom).offset(10);
+        make.width.offset(self.view.fWidth-26);
+        make.height.offset(50);
+    }];
+    UILabel *inviteLabel = [[UILabel alloc] init];
+    inviteLabel.text = @"邀请码";
+    inviteLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    inviteLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
+    [inviteView addSubview:inviteLabel];
+    [inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(inviteView.mas_left).offset(15);
+        make.centerY.equalTo(inviteView.mas_centerY);
+        make.height.offset(13);
+    }];
+    UITextField *inviteCode = [[UITextField alloc] init];
+    inviteCode.placeholder = @"输入邀请码";
+    inviteCode.textColor = UIColorRBG(68, 68, 68);
+    inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    inviteCode.delegate = self;
+    inviteCode.keyboardType = UIKeyboardTypeNumberPad;
+    inviteCode.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _inviteNOCode = inviteCode;
+    [inviteView addSubview:inviteCode];
+    [inviteCode mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(inviteLabel.mas_right).offset(36);
+        make.centerY.equalTo(inviteView.mas_centerY);
+        make.right.equalTo(inviteView.mas_right);
+        make.height.offset(50);
+    }];
 }
 #pragma mark -设置滑动值
 -(void)viewDidLayoutSubviews{
     _viewOne.frame = CGRectMake(13, kApplicationStatusBarHeight+160, self.view.fWidth-26, 139);
-    _viewTwo.frame = CGRectMake(13, _viewOne.fY+_viewOne.fHeight+10, self.view.fWidth-26, 476);
-    _viewThree.frame = CGRectMake(13, _viewOne.fY+_viewOne.fHeight+10, self.view.fWidth-26, 435);
+    _viewTwo.frame = CGRectMake(13, _viewOne.fY+_viewOne.fHeight+10, self.view.fWidth-26, 536);
+    _viewThree.frame = CGRectMake(13, _viewOne.fY+_viewOne.fHeight+10, self.view.fWidth-26, 490);
 }
 #pragma mark -经纪人按钮
 -(void)agentButton:(UIButton *)button{
@@ -891,7 +1099,7 @@
     if([_codeType isEqual:@"0"]){
         [_button setTitle:@"加入门店" forState:UIControlStateNormal];
         [_button addTarget:self action:@selector(jionStore:) forControlEvents:UIControlEventTouchUpInside];
-        _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight-49-JF_BOTTOM_SPACE);
+        _scrollView.contentSize = CGSizeMake(0,_viewTwo.fHeight+kApplicationStatusBarHeight+_viewTwo.fY-76);
         //设置文字
         _labelOne.attributedText = [[NSAttributedString alloc] initWithString:@"1.门店编码是经服APP合作门店的唯一标识，你可咨询你的店长或者同事"];
         _labelTwo.text = @"2.加入门店后报备客户，成交后可赚取佣金；APP内做任 务赚取现金奖励";
@@ -944,7 +1152,7 @@
     _labelTwo.text = @"2.加入门店后报备客户，成交后可赚取佣金；APP内做任 务赚取现金奖励";
     [_button setTitle:@"加入门店" forState:UIControlStateNormal];
     [_button addTarget:self action:@selector(jionStore:) forControlEvents:UIControlEventTouchUpInside];
-    _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight-49-JF_BOTTOM_SPACE);
+    _scrollView.contentSize = CGSizeMake(0, _viewTwo.fHeight+kApplicationStatusBarHeight+_viewTwo.fY-76);
 }
 #pragma mark -无编码按钮
 -(void)noCodeButton:(UIButton *)button{
@@ -972,6 +1180,7 @@
 }
 #pragma mark -无编码-选择位置
 -(void)positionButton:(UIButton *)button{
+    [self touches];
     ZDMapController *map = [[ZDMapController alloc] init];
     [self.navigationController pushViewController:map animated:YES];
     map.addrBlock = ^(NSMutableDictionary *address) {
@@ -983,10 +1192,13 @@
 }
 #pragma mark -无编码-名片正面
 -(void)cardButton:(UIButton *)button{
-   WZAlertView *redView = [WZAlertView new];
+    [self touches];
+    NSInteger tag = button.tag;
     
-   redView.imageName = @"card_2";
-   
+    WZAlertView *redView = [WZAlertView new];
+    
+    redView.imageName = @"card_2";
+    
     redView.fSize = CGSizeMake(KScreenW, 327);
     [GKCover coverFrom:self.view
            contentView:redView
@@ -997,12 +1209,18 @@
      ];
     redView.imageBlock = ^(UIImage *image) {
         [button setBackgroundImage:image forState:UIControlStateNormal];
-        _cardImage = image;
+        if (tag == 155) {
+            _cardImages = image;
+        }else{
+          _cardImage = image;
+        }
+        
     };
 }
 #pragma mark -无编码-名片反面
 -(void)cardSideButton:(UIButton *)button{
-
+    [self touches];
+    NSInteger tag = button.tag;
     WZAlertView *redView = [WZAlertView new];
     
     redView.imageName = @"card_1";
@@ -1017,11 +1235,17 @@
      ];
     redView.imageBlock = ^(UIImage *image) {
         [button setBackgroundImage:image forState:UIControlStateNormal];
-        _cardSideImage = image;
+        if (tag == 156) {
+           _cardSideImages = image;
+        }else{
+          _cardSideImage = image;
+        }
+        
     };
 }
 #pragma mark -门店负责人-选择位置
 -(void)headPositionButton:(UIButton *)button{
+    [self touches];
     ZDMapController *map = [[ZDMapController alloc] init];
     [self.navigationController pushViewController:map animated:YES];
     map.addrBlock = ^(NSMutableDictionary *address) {
@@ -1033,6 +1257,7 @@
 }
 #pragma mark -门店负责人-名片正面
 -(void)headCardButton:(UIButton *)button{
+    [self touches];
     WZAlertView *redView = [WZAlertView new];
     
     redView.imageName = @"card_2";
@@ -1052,7 +1277,7 @@
 }
 #pragma mark -门店负责人-营业执照
 -(void)cardStoreButton:(UIButton *)button{
-    
+    [self touches];
     WZAlertView *redView = [WZAlertView new];
     
     redView.imageName = @"rz_pic";
@@ -1079,12 +1304,12 @@
         self.tabView.backgroundColor =[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha: 1 - ((64 - offsetY) / 64)];
         self.ineView.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha: 1 - ((64 - offsetY) / 64)];
         self.Bartitle.textColor = [UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha: 1 - ((64 - offsetY) / 64)];
-     
+        
     }else{
         self.tabView.backgroundColor =[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0];
         self.ineView.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:0];
         self.Bartitle.textColor = [UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha: 0];
-      
+        
     }
 }
 #pragma mark -关闭页面
@@ -1124,7 +1349,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"realname"] = name;
     paraments[@"storeCode"] = code;
-    paraments[@"type"] = @"2";
+    paraments[@"type"] = @"1";
     NSString *url = [NSString stringWithFormat:@"%@/sysUser/companyAuthentication",HTTPURL];
     button.enabled = NO;
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
@@ -1153,7 +1378,7 @@
             }else{
                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
             }
-        
+            
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -1224,7 +1449,7 @@
     parament[@"storeName"] = storeName;
     parament[@"lnglat"] = _lnglat;
     parament[@"adCode"] = _adCode;
-    parament[@"type"] = @"2";
+    parament[@"type"] = @"1";
     NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/cardAuthentication",HTTPURL];
     button.enabled = NO;
     [mgr POST:url parameters:parament constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -1308,7 +1533,7 @@
         [SVProgressHUD showInfoWithStatus:@"请上传营业执照照片"];
         return;
     }
- 
+    
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD showWithStatus:@"提交中"];
     
@@ -1328,7 +1553,7 @@
     parament[@"storeName"] = storeName;
     parament[@"lnglat"] = _headLnglat;
     parament[@"adCode"] = _headAdCode;
-    parament[@"type"] = @"2";
+    parament[@"type"] = @"1";
     NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/dutyAuthentication",HTTPURL];
     button.enabled = NO;
     [mgr POST:url parameters:parament constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -1353,10 +1578,10 @@
         [SVProgressHUD dismiss];
         button.enabled = YES;
         if ([code isEqual:@"200"]) {
-           //保存审核状态
-           NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-           [defaults setObject:@"1" forKey:@"realtorStatus"];
-           [defaults synchronize];
+            //保存审核状态
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:@"1" forKey:@"realtorStatus"];
+            [defaults synchronize];
             //审核页面
             WZExamineController *exVc = [[WZExamineController alloc] init];
             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:exVc];
@@ -1378,6 +1603,16 @@
 //获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     textField.returnKeyType = UIReturnKeyDone;
+  
+    _scrollView.contentSize = CGSizeMake(0, _scrollView.contentSize.height+200);
+    
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    
+   _scrollView.contentSize = CGSizeMake(0, _scrollView.contentSize.height-200);
+    
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -1389,6 +1624,11 @@
     NSString * toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string];
     if (_name == textField) {
         if (toBeString.length>16) {
+            return NO;
+        }
+    }
+    if (_inviteCode == textField||_inviteHeadCode == textField||_inviteNOCode == textField) {
+        if (toBeString.length>11) {
             return NO;
         }
     }
@@ -1409,17 +1649,23 @@
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-  [_name resignFirstResponder];
-  [_code resignFirstResponder];
-  [_storeName resignFirstResponder];
-  [_storeAddress resignFirstResponder];
-  [_headStoreName resignFirstResponder];
-  [_headStoreAddress resignFirstResponder];
+    [_name resignFirstResponder];
+    [_code resignFirstResponder];
+    [_storeName resignFirstResponder];
+    [_inviteCode resignFirstResponder];
+    [_inviteNOCode resignFirstResponder];
+    [_inviteHeadCode resignFirstResponder];
+    [_storeAddress resignFirstResponder];
+    [_headStoreName resignFirstResponder];
+    [_headStoreAddress resignFirstResponder];
 }
 -(void)touches{
     [_name resignFirstResponder];
     [_code resignFirstResponder];
+    [_inviteCode resignFirstResponder];
     [_storeName resignFirstResponder];
+    [_inviteNOCode resignFirstResponder];
+    [_inviteHeadCode resignFirstResponder];
     [_storeAddress resignFirstResponder];
     [_headStoreName resignFirstResponder];
     [_headStoreAddress resignFirstResponder];
@@ -1437,3 +1683,4 @@
 }
 
 @end
+

@@ -14,7 +14,7 @@
 #import <WebKit/WebKit.h>
 #import "UIView+Frame.h"
 #import "WZInvitePrizeController.h"
-
+#import "NSString+LCExtension.h"
 @interface WZInvitePrizeController ()<UIScrollViewDelegate>
 @property(nonatomic,strong)UIScrollView *scrollView;
 @property(nonatomic,strong)NSTimer *timer;
@@ -35,6 +35,46 @@
     [self setControl];
     [self shareRuleTask];
     [self shareTasks];
+    
+}
+#pragma mark -请求数据
+-(void)loadData{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSString *url = [NSString stringWithFormat:@"%@/userRelation/userRelationInfo",HTTPURL];
+    [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            [self setLunNews:[data valueForKey:@"infos"]];
+            _num.text = [data valueForKey:@"countNum"];
+            _money.text = [data valueForKey:@"countPrice"];
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+            if ([code isEqual:@"401"]) {
+                [NSString isCode:self.navigationController code:code];
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error.code == -1001) {
+            [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+        }
+    }];
 }
 #pragma mark - 邀请有奖
 -(void)setControl{
@@ -265,9 +305,9 @@
 #pragma mark -邀请弹框
 -(void)shareRuleTask{
     UIView *ruleView = [[UIView alloc] init];
-    ruleView.fSize = CGSizeMake(295, 505);
+    ruleView.fSize = CGSizeMake(295, 525);
     _ruleView = ruleView;
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ruleView.fWidth, 450)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ruleView.fWidth, 470)];
     view.layer.cornerRadius = 5.0;
     view.backgroundColor = [UIColor whiteColor];
     [ruleView addSubview:view];
@@ -286,7 +326,7 @@
     UILabel *labelTwo = [[UILabel alloc] init];
     labelTwo.textColor = UIColorRBG(51, 51, 51);
     labelTwo.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
-    labelTwo.text = @"1.所有经服用户均可邀请好友成为经服app新用户，好友受邀后，注册并填写你的邀请码，成功加入门店后，你就获得现金奖励，每位用户每日分享次数不设上限。\n\n2.你的好友必须是从未注册过经服app的新用户，新用户下载经服app，注册并填写邀请码，成功加入门店后视作邀请成功。（注：若通过门店编码加入门店，必须上传经纪人名片）。\n\n3.邀请成功后，经服app将会给你发放现金奖励，你可在“分享有奖”—“我的邀请”或“我的钱包”—“钱包明细”中查看。\n\n4.如发现恶意套取现金奖励行为，经服将有权根据情节严重程度采取相关措施：包括不限于不发放奖励、冻结所获得奖励、停止分享有奖功能、依法追究法律责任。\n\n5.本活动的最终解释权归运营方所有，本活动和商品内容与设备生产商Apple Inc无关。";
+    labelTwo.text = @"1.所有经服用户均可邀请好友成为经服app新用户，同一用户仅限一台设备登录，如同一登录设备中途更换设备参与本活动，可能无法领取红包。\n\n2.好友受邀后，注册并填写你的邀请码，成功加入门店后，你就获得现金奖励，每位用户每日分享次数不设上限。\n\n3.你的好友必须是从未注册过经服app的新用户，新用户下载经服app，注册并填写邀请码，成功加入门店后并且名片审核通过后视作邀请成功。（注：若通过门店编码加入门店，必须上传经纪人名片）。\n\n4.邀请成功后，经服app将会给你发放现金奖励，你可在“分享有奖”—“我的邀请”或“我的钱包”—“钱包明细”中查看。\n\n5.如发现恶意套取现金奖励行为，经服将有权根据情节严重程度采取相关措施：包括不限于不发放奖励、冻结所获得奖励、停止分享有奖功能、依法追究法律责任。";
     labelTwo.numberOfLines = 0;
     [view addSubview:labelTwo];
     [labelTwo mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -445,6 +485,10 @@
     UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self loadData];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

@@ -19,7 +19,7 @@
 #import "WZUpdateStoreController.h"
 #import "WZNavigationController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
-#import "WZJionStoreAndStoreHeadController.h"
+#import "WZNewJionStoreController.h"
 #import "WZStoreAdministrationController.h"
 @interface WZBelongedStoreController ()
 
@@ -471,8 +471,7 @@
     if ([_realtorStatus isEqual:@"1"]) {
         [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
     }else{
-        WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
-        JionStore.type = @"1";
+        WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
         JionStore.jionType = @"1";
         WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
         [self.navigationController presentViewController:nav animated:YES completion:nil];

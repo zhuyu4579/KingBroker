@@ -796,7 +796,6 @@
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight);
     [_loginName resignFirstResponder];
     [_loginPassWord resignFirstResponder];
     [_registarName resignFirstResponder];
@@ -804,7 +803,6 @@
     
 }
 -(void)touches{
-    _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight);
     [_loginName resignFirstResponder];
     [_loginPassWord resignFirstResponder];
     [_registarName resignFirstResponder];

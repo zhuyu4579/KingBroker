@@ -125,7 +125,6 @@
         [NSString isCode:self.navigationController code:@"401"];
     }else if([message.name isEqualToString:@"WYFriends"]){
         //楼盘详情分享好友
-        
         NSDictionary *data = message.body;
         [self WYShare:data];
         
@@ -134,13 +133,13 @@
          NSDictionary *data = message.body;
         [self WYFriendsButton:data];
     }else if([message.name isEqualToString:@"WXFriends"]){
-        NSString *url = message.body;
+        NSString *url = [message.body valueForKey:@"url"];
         [self WXShare:url];
     }else if([message.name isEqualToString:@"WXFriendsCircle"]){
-        NSString *url = message.body;
+        NSString *url = [message.body valueForKey:@"url"];
         [self friendsButton:url];
     }else if([message.name isEqualToString:@"WXVideoShare"]){
-        NSString *url = message.body;
+        NSString *url = [message.body valueForKey:@"url"];
         [self downloadVideo:url];
     }
     

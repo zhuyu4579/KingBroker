@@ -12,7 +12,7 @@
 #import <UIImageView+WebCache.h>
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
-#import "WZJionStoreAndStoreHeadController.h"
+#import "WZNewJionStoreController.h"
 #import "WZNavigationController.h"
 #import "UIViewController+WZFindController.h"
 
@@ -151,9 +151,8 @@
 }
 - (IBAction)JoinStore:(UIButton *)sender {
     UIViewController *vc = [UIViewController viewController:self.superview.superview];
-    WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
+    WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
-    JionStore.type = @"1";
     JionStore.jionType = @"1";
     [vc presentViewController:nav animated:YES completion:nil];
 }

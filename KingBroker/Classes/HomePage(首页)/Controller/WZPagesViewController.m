@@ -27,7 +27,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "WZGoodHouseCollectionView.h"
 #import "UIButton+WZEnlargeTouchAre.h"
-#import "WZJionStoreAndStoreHeadController.h"
+#import "WZNewJionStoreController.h"
 
 @interface WZPagesViewController ()<WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate,CLLocationManagerDelegate>
 @property(nonatomic,strong)UIView *cycleView;
@@ -406,9 +406,8 @@
                                                                   }];
             UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction * action) {
-                                                                       WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
+                                                                       WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
                                                                        WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
-                                                                       JionStore.type = @"1";
                                                                        JionStore.jionType = @"1";
                                                                        [self presentViewController:nav animated:YES completion:nil];
                                                                    }];

@@ -17,7 +17,7 @@
 #import "WZAnnouncemeController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZTaskController.h"
-#import "WZJionStoreAndStoreHeadController.h"
+#import "WZNewJionStoreController.h"
 #import "WZNavigationController.h"
 #import "WZVideoTokerController.h"
 #import "WZHouseNoteController.h"
@@ -182,10 +182,8 @@
                                                           }];
     UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
                                                            handler:^(UIAlertAction * action) {
-                                                               WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
-                                                               WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
-                                                               JionStore.type = @"1";
-                                                               JionStore.jionType = @"1";
+                                                               WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
+                                                               WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore]; JionStore.jionType = @"1";
                                                                [vc presentViewController:nav animated:YES completion:nil];
                                                            }];
     [cancelAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];

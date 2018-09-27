@@ -169,7 +169,6 @@
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
-            JionStore.type = @"2";
             JionStore.jionType = @"1";
             JionStore.types = @"1";
             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];

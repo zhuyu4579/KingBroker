@@ -14,7 +14,7 @@
 #import "WZNavigationController.h"
 #import "WZRegistarSetPWController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
-#import "WZJionStoreAndStoreHeadController.h"
+#import "WZNewJionStoreController.h"
 @interface WZRegistarSetPWController ()<UITextFieldDelegate>
 //密码
 @property(nonatomic,strong)UITextField *registarPassWord;
@@ -257,9 +257,8 @@
             //查询未读消息
             [self setloadData];
             //将数据传入加入门店中
-            WZJionStoreAndStoreHeadController *store = [[WZJionStoreAndStoreHeadController alloc] init];
+            WZNewJionStoreController *store = [[WZNewJionStoreController alloc] init];
             store.types = @"1";
-            store.type = @"1";
             store.jionType = @"1";
              WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:store];
             [self.navigationController presentViewController:nav animated:YES completion:nil];

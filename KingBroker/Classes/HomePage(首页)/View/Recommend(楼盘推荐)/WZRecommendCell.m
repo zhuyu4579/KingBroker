@@ -14,7 +14,7 @@
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
 #import "NSString+LCExtension.h"
-#import "WZJionStoreAndStoreHeadController.h"
+#import "WZNewJionStoreController.h"
 #import "WZNavigationController.h"
 @implementation WZRecommendCell
 
@@ -177,10 +177,9 @@
         [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
         return;
     }
-    WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
+    WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
     UIViewController *vc = [UIViewController viewController:self.superview.superview];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
-    JionStore.type = @"1";
     JionStore.jionType = @"1";
     [vc presentViewController:nav animated:YES completion:nil];
 }

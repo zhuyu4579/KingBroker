@@ -12,7 +12,7 @@
 #import "WZLoginAndRegistarController.h"
 #import "WZNavigationController.h"
 #import "UIView+Frame.h"
-#import "WZJionStoreAndStoreHeadController.h"
+#import "WZNewJionStoreController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZBoaringController.h"
 #import "WZHousePageController.h"
@@ -488,8 +488,7 @@
 }
 #pragma mark -跳转加入门店
 -(void)JoinStore{
-    WZJionStoreAndStoreHeadController *JionStore = [[WZJionStoreAndStoreHeadController alloc] init];
-    JionStore.type = @"1";
+    WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
     JionStore.jionType = @"1";
      WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
     [self.navigationController presentViewController:nav animated:YES completion:nil];
