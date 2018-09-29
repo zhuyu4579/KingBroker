@@ -16,7 +16,7 @@
 //第一个缺失号码
 @property(nonatomic,strong)NSString *missContacto;
 //订单时间
-@property(nonatomic,strong)NSString *updateDate;
+@property(nonatomic,strong)NSString *createDate;
 //楼盘名
 @property(nonatomic,strong)NSString *projectName;
 //交易状态

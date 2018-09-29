@@ -33,10 +33,10 @@
     _ItemNameThree.text = item.projectName;
     _ItemNameFour.text = item.projectName;
     //订单时间
-    _boaringTimeOne.text = item.updateDate;
-    _boaringTimeTwo.text = item.updateDate;
-    _boaringTimeThree.text = item.updateDate;
-    _boaringTimeFour.text = item.updateDate;
+    _boaringTimeOne.text = item.createDate;
+    _boaringTimeTwo.text = item.createDate;
+    _boaringTimeThree.text = item.createDate;
+    _boaringTimeFour.text = item.createDate;
     //状态
     NSArray *stateArray = @[@"已报备", @"已上客", @"已成交",@"已失效"];
     NSString *state = item.dealStatus;
