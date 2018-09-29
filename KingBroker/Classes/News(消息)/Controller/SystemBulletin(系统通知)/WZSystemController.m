@@ -323,7 +323,12 @@ static NSString *size = @"20";
    //跳转对应页面
     if([viewType isEqual:@"1"]){
         WZTaskController *task = [[WZTaskController alloc] init];
-        task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
+    
+        if ([url containsString:@"?"]) {
+            task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
+        } else {
+            task.url = [NSString stringWithFormat:@"%@?uuid=%@",url,uuid];
+        }
         WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
         [self.navigationController presentViewController:nav animated:YES completion:nil];
     }else if ([viewType isEqual:@"2"]){
@@ -368,7 +373,7 @@ static NSString *size = @"20";
             [self.navigationController presentViewController:nav animated:YES completion:nil];
         }else if(paramId == 116){
             WZForwardController *forward = [[WZForwardController alloc] init];
-            [self.navigationController presentViewController:forward animated:YES completion:nil];
+            [self.navigationController pushViewController:forward animated:YES];
         }
         
     }else{

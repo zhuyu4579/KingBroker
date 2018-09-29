@@ -65,10 +65,16 @@
     //设置布局方向为垂直流布局
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     layout.sectionInset = UIEdgeInsetsMake(10, 15, 10, 15);
-    layout.minimumLineSpacing = 5;
+    layout.minimumLineSpacing = 10;
     layout.minimumInteritemSpacing = 10;
-    layout.estimatedItemSize = CGSizeMake(80, 23);
-    //layout.itemSize = CGSizeMake(70, 25);
+    
+    if (@available(iOS 10.0, *)) {
+        //layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
+        layout.itemSize = CGSizeMake(120, 23);
+    } else {
+        layout.estimatedItemSize = CGSizeMake(80, 23);
+    }
+   
     WZTokerLabelCollectionView *collectionView = [[WZTokerLabelCollectionView alloc] initWithFrame:CGRectMake(0, 25, _titleView.fWidth, _titleView.fHeight-25) collectionViewLayout:layout];
     collectionView.backgroundColor = [UIColor whiteColor];
     _tokerTitleView = collectionView;
@@ -102,7 +108,7 @@
         if ([code isEqual:@"200"]) {
             NSDictionary *data = [responseObject valueForKey:@"data"];
             NSArray *rows = [data valueForKey:@"rows"];
-            
+            NSLog(@"%@",rows);
             _tokerTitleView.albumArray = [WZTokerTitleItem mj_objectArrayWithKeyValuesArray:rows];
             [_tokerTitleView reloadData];
         }

@@ -672,7 +672,7 @@ static NSString *size = @"20";
     WZSlider *slider = [[WZSlider alloc]initWithFrame:CGRectMake(30, 40, _priceView.fWidth-60, 40)];
     slider.minTintColor = UIColorRBG(204, 204, 204);
     slider.maxTintColor = UIColorRBG(204, 204, 204);
-    slider.mainTintColor = UIColorRBG(255, 168, 66);
+    slider.mainTintColor = UIColorRBG(244, 197, 79);
     _slider = slider;
     [_priceView addSubview:slider];
     UIButton *but =  [_menu viewWithTag:11];

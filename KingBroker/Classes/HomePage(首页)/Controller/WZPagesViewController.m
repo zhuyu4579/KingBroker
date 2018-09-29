@@ -62,9 +62,7 @@
     //获取最新版本
     [self findversion];
     
-    [self loadNewsAnnounceme];
     
-    [self loadBanner];
 }
 
 //开启定位
@@ -277,6 +275,9 @@
     //[self.cyclePlayView.timer  invalidate];
     self.cyclePlayView.backgroundColor = [UIColor whiteColor];
     [_cycleView addSubview:self.cyclePlayView];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [_cyclePlayView.timer invalidate];
 }
 #pragma mark -查询最新动态公告
 -(void)loadNewsAnnounceme{
@@ -668,6 +669,8 @@
     [self setloadData];
     [self goodHouseLoadData];
     [self dictList];
+    [self loadNewsAnnounceme];
+    [self loadBanner];
 }
 #pragma mark-查询未读消息
 -(void)setloadData{

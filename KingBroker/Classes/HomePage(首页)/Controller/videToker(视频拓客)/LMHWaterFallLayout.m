@@ -7,219 +7,133 @@
 //
 
 #import "LMHWaterFallLayout.h"
-
-/** 默认的列数    */
-static const CGFloat LMHDefaultColunmCount = 2;
-/** 每一列之间的间距    */
-static const CGFloat LMHDefaultColunmMargin = 15;
-
-/** 每一行之间的间距    */
-static const CGFloat LMHDefaultRowMargin = 15;
-
-/** 内边距    */
-static const UIEdgeInsets LMHDefaultEdgeInsets = {10,15,10,15};
-
+#define JPCollectionW self.collectionView.frame.size.width
+/** 每一行之间的间距 */
+static const CGFloat JPDefaultRowMargin = 10;
+/** 每一列之间的间距 */
+static const CGFloat JPDefaultColumnMargin = 10;
+/** 每一列之间的间距 top, left, bottom, right */
+static const UIEdgeInsets JPDefaultInsets = {10, 15, 10, 15};
+/** 默认的列数 */
+static const int JPDefaultColumsCount = 2;
 
 @interface LMHWaterFallLayout()
-/** 存放所有的布局属性 */
-@property (nonatomic, strong) NSMutableArray * attrsArr;
-/** 存放所有列的当前高度 */
-@property (nonatomic, strong) NSMutableArray *columnHeights;
-/** 内容的高度 */
-@property (nonatomic, assign) CGFloat contentHeight;
-
-- (NSUInteger)colunmCount;
-- (CGFloat)columnMargin;
-- (CGFloat)rowMargin;
-- (UIEdgeInsets)edgeInsets;
+/** 每一列的最大Y值 */
+@property (nonatomic, strong) NSMutableArray *columnMaxYs;
+/** 存放所有cell的布局属性 */
+@property (nonatomic, strong) NSMutableArray *attrsArray;
 
 @end
 
 @implementation LMHWaterFallLayout
 
 
-
-#pragma mark 懒加载
-- (NSMutableArray *)attrsArr{
-    if (!_attrsArr) {
-        _attrsArr = [NSMutableArray array];
+#pragma mark - 懒加载
+- (NSMutableArray *)columnMaxYs
+{
+    if (!_columnMaxYs) {
+        _columnMaxYs = [[NSMutableArray alloc] init];
     }
-    
-    return _attrsArr;
+    return _columnMaxYs;
 }
 
-- (NSMutableArray *)columnHeights{
-    if (!_columnHeights) {
-        _columnHeights = [NSMutableArray array];
+- (NSMutableArray *)attrsArray
+{
+    if (!_attrsArray) {
+        _attrsArray = [[NSMutableArray alloc] init];
     }
-    
-    return _columnHeights;
+    return _attrsArray;
 }
 
-#pragma mark - 数据处理
+#pragma mark - 实现内部的方法
 /**
- * 列数
+ * 决定了collectionView的contentSize
  */
-- (NSUInteger)colunmCount{
-    
-    if ([self.delegate respondsToSelector:@selector(columnCountInWaterFallLayout:)]) {
-        return [self.delegate columnCountInWaterFallLayout:self];
-    }else{
-        return LMHDefaultColunmCount;
+- (CGSize)collectionViewContentSize
+{
+    // 找出最长那一列的最大Y值
+    CGFloat destMaxY = [self.columnMaxYs[0] doubleValue];
+    for (NSUInteger i = 1; i<self.columnMaxYs.count; i++) {
+        // 取出第i列的最大Y值
+        CGFloat columnMaxY = [self.columnMaxYs[i] doubleValue];
+        
+        // 找出数组中的最大值
+        if (destMaxY < columnMaxY) {
+            destMaxY = columnMaxY;
+        }
     }
+    return CGSizeMake(0, destMaxY + JPDefaultInsets.bottom);
 }
 
-/**
- * 列间距
- */
-- (CGFloat)columnMargin{
-    if ([self.delegate respondsToSelector:@selector(columnMarginInWaterFallLayout:)]) {
-        return [self.delegate columnMarginInWaterFallLayout:self];
-    }else{
-        return LMHDefaultColunmMargin;
-    }
-}
-
-/**
- * 行间距
- */
-- (CGFloat)rowMargin{
-    if ([self.delegate respondsToSelector:@selector(rowMarginInWaterFallLayout:)]) {
-        return [self.delegate rowMarginInWaterFallLayout:self];
-    }else{
-        return LMHDefaultRowMargin;
-    }
-}
-
-/**
- * item的内边距
- */
-- (UIEdgeInsets)edgeInsets{
-    if ([self.delegate respondsToSelector:@selector(edgeInsetdInWaterFallLayout:)]) {
-        return [self.delegate edgeInsetdInWaterFallLayout:self];
-    }else{
-        return LMHDefaultEdgeInsets;
-    }
-}
-
-
-
-/**
- * 初始化
- */
-- (void)prepareLayout{
-    
+- (void)prepareLayout
+{
     [super prepareLayout];
     
-    self.contentHeight = 0;
-    
-    // 清楚之前计算的所有高度
-    [self.columnHeights removeAllObjects];
-    
-    // 设置每一列默认的高度
-    for (NSInteger i = 0; i < LMHDefaultColunmCount ; i ++) {
-        [self.columnHeights addObject:@(LMHDefaultEdgeInsets.top)];
+    // 重置每一列的最大Y值
+    [self.columnMaxYs removeAllObjects];
+    for (NSUInteger i = 0; i<JPDefaultColumsCount; i++) {
+        [self.columnMaxYs addObject:@(JPDefaultInsets.top)];
     }
     
-    
-    // 清楚之前所有的布局属性
-    [self.attrsArr removeAllObjects];
-    
-    // 开始创建每一个cell对应的布局属性
-    NSInteger count = [self.collectionView numberOfItemsInSection:0];
-    
-    for (int i = 0; i < count; i++) {
-        
-        // 创建位置
-        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:i inSection:0];
-        
-        // 获取indexPath位置上cell对应的布局属性
-        UICollectionViewLayoutAttributes * attrs = [self layoutAttributesForItemAtIndexPath:indexPath];
-        
-        [self.attrsArr addObject:attrs];
+    // 计算所有cell的布局属性
+    [self.attrsArray removeAllObjects];
+    NSUInteger count = [self.collectionView numberOfItemsInSection:0];
+    for (NSUInteger i = 0; i < count; ++i) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+        UICollectionViewLayoutAttributes *attrs = [self layoutAttributesForItemAtIndexPath:indexPath];
+        [self.attrsArray addObject:attrs];
     }
-    
 }
 
+/**
+ * 说明所有元素（比如cell、补充控件、装饰控件）的布局属性
+ */
+- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
+{
+    return self.attrsArray;
+}
 
 /**
- * 返回indexPath位置cell对应的布局属性
+ * 说明cell的布局属性
  */
-- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath{
+- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewLayoutAttributes *attrs = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
     
-    // 创建布局属性
-    UICollectionViewLayoutAttributes * attrs = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+    /** 计算indexPath位置cell的布局属性 */
     
-    //collectionView的宽度
-    CGFloat collectionViewW = self.collectionView.frame.size.width;
+    // 水平方向上的总间距
+    CGFloat xMargin = JPDefaultInsets.left + JPDefaultInsets.right + (JPDefaultColumsCount - 1) * JPDefaultColumnMargin;
+    // cell的宽度
+    CGFloat w = (JPCollectionW - xMargin) / JPDefaultColumsCount;
+    // cell的高度，测试数据，随机数
+    CGFloat h = 150 + arc4random_uniform(100);
     
-    // 设置布局属性的frame
-    
-    CGFloat cellW = (collectionViewW - self.edgeInsets.left - self.edgeInsets.right - (self.colunmCount - 1) * self.columnMargin) / self.colunmCount;
-    CGFloat cellH = [self.delegate waterFallLayout:self heightForItemAtIndexPath:indexPath.item itemWidth:cellW];
-
-    
-    // 找出最短的那一列
-    NSInteger destColumn = 0;
-    CGFloat minColumnHeight = [self.columnHeights[0] doubleValue];
-    
-    for (int i = 0; i < LMHDefaultColunmCount; i++) {
+    // 找出最短那一列的 列号 和 最大Y值
+    CGFloat destMaxY = [self.columnMaxYs[0] doubleValue];
+    NSUInteger destColumn = 0;
+    for (NSUInteger i = 1; i<self.columnMaxYs.count; i++) {
+        // 取出第i列的最大Y值
+        CGFloat columnMaxY = [self.columnMaxYs[i] doubleValue];
         
-        // 取得第i列的高度
-        CGFloat columnHeight = [self.columnHeights[i] doubleValue];
-        
-        if (minColumnHeight > columnHeight) {
-            minColumnHeight = columnHeight;
+        // 找出数组中的最小值
+        if (destMaxY > columnMaxY) {
+            destMaxY = columnMaxY;
             destColumn = i;
         }
     }
     
-    CGFloat cellX = self.edgeInsets.left + destColumn * (cellW + self.columnMargin);
-    CGFloat cellY = minColumnHeight;
-    if (cellY != self.edgeInsets.top) {
-        
-        cellY += self.rowMargin;
-    }
+    // cell的x值
+    CGFloat x = JPDefaultInsets.left + destColumn * (w + JPDefaultColumnMargin);
+    // cell的y值
+    CGFloat y = destMaxY + JPDefaultRowMargin;
+    // cell的frame
+    attrs.frame = CGRectMake(x, y, w, h);
     
-    attrs.frame = CGRectMake(cellX, cellY, cellW, cellH);
-    
-    // 更新最短那一列的高度
-    self.columnHeights[destColumn] = @(CGRectGetMaxY(attrs.frame));
-    
-    // 记录内容的高度 - 即最长那一列的高度
-    CGFloat maxColumnHeight = [self.columnHeights[destColumn] doubleValue];
-    if (self.contentHeight < maxColumnHeight) {
-        self.contentHeight = maxColumnHeight;
-    }
+    // 更新数组中的最大Y值
+    self.columnMaxYs[destColumn] = @(CGRectGetMaxY(attrs.frame));
     
     return attrs;
 }
 
-/**
- * 决定cell的高度
- */
-- (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect{
-    
-    return self.attrsArr;
-}
-
-/**
- * 内容的高度
- */
-- (CGSize)collectionViewContentSize{
- 
-//    CGFloat maxColumnHeight = [self.columnHeights[0] doubleValue];
-//    for (int i = 0; i < LMHDefaultColunmCount; i++) {
-//        
-//        // 取得第i列的高度
-//        CGFloat columnHeight = [self.columnHeights[i] doubleValue];
-//        
-//        if (maxColumnHeight < columnHeight) {
-//            maxColumnHeight = columnHeight;
-//        }
-//
-//    }
-    
-    return CGSizeMake(0, self.contentHeight + self.edgeInsets.bottom);
-}
 @end

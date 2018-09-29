@@ -32,6 +32,7 @@ static NSString * const ID = @"cell";
     [self registerNib:[UINib nibWithNibName:@"WZTokerLabelCell" bundle:nil] forCellWithReuseIdentifier:ID];
     return self;
 }
+
 //返回每个分区的item个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return _albumArray.count;
