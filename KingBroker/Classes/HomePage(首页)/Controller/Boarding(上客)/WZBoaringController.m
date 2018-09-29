@@ -179,7 +179,6 @@
 }
 #pragma mark -设置下划线
 -(void)setupTitlesUnderline{
-    
     UIView *titleUnderLine = [[UIView alloc] init];
     titleUnderLine.fHeight = 2;
     titleUnderLine.fWidth = 40;
@@ -214,7 +213,6 @@
     //算出按钮的索引
     NSUInteger index = scrollView.contentOffset.x / scrollView.fWidth;
     UIButton *titleButton = self.titlesView.subviews[index];
-    
     [self titleButtonClick:titleButton];
 }
 

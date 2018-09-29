@@ -17,7 +17,7 @@
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 62, 15)];
     
     [btn setTitle:title forState:UIControlStateNormal];
-    [btn setTitleColor:UIColorRBG(102, 221, 85) forState:UIControlStateNormal];
+    [btn setTitleColor:UIColorRBG(255, 198, 0) forState:UIControlStateNormal];
     [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     btn.titleLabel.font = [UIFont systemFontOfSize:15];
     UIView *containView = [[UIView alloc] initWithFrame:btn.bounds];
@@ -45,7 +45,7 @@
     //创建一个button
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     [btn setTitle:title forState:UIControlStateNormal];
-    [btn setTitleColor:UIColorRBG(255, 216, 0) forState:UIControlStateNormal];
+    [btn setTitleColor:UIColorRBG(255, 224, 0) forState:UIControlStateNormal];
     [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     btn.titleLabel.font = [UIFont systemFontOfSize:15];
     //调整按钮位置
