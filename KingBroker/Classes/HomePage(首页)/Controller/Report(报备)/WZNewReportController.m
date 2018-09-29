@@ -366,7 +366,7 @@
     //创建增加号码按钮
     UIButton *addTelephone = [[UIButton alloc] init];
     [addTelephone setEnlargeEdge:44];
-    [addTelephone setBackgroundImage:[UIImage imageNamed:@"bb_add-1"] forState:UIControlStateNormal];
+    [addTelephone setBackgroundImage:[UIImage imageNamed:@"bb_addT"] forState:UIControlStateNormal];
     [addTelephone addTarget:self action:@selector(addTelephones:) forControlEvents:UIControlEventTouchUpInside];
     addTelephone.tag = 63;
     [cusTelphoneView addSubview:addTelephone];
@@ -395,12 +395,12 @@
     [_scrollView addSubview:addCustomerView];
     //按钮
     UIButton *addCustomerButton = [[UIButton alloc] init];
-    [addCustomerButton setImage:[UIImage imageNamed:@"bb_addition"] forState:UIControlStateNormal];
+    [addCustomerButton setImage:[UIImage imageNamed:@"bb_add"] forState:UIControlStateNormal];
     [addCustomerButton setTitle:@" 添加客户" forState:UIControlStateNormal];
     [addCustomerButton setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
     addCustomerButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     addCustomerButton.layer.borderWidth = 1.0;
-    addCustomerButton.layer.borderColor = UIColorRBG(102, 221, 85).CGColor;
+    addCustomerButton.layer.borderColor = UIColorRBG(49, 35, 6).CGColor;
     addCustomerButton.layer.cornerRadius = 3.0;
     [addCustomerButton setEnlargeEdgeWithTop:20 right:20 bottom:20 left:20];
     [addCustomerButton addTarget:self action:@selector(addCustomer) forControlEvents:UIControlEventTouchUpInside];
@@ -606,7 +606,7 @@
     UIButton *modeButtonOne = [[UIButton alloc] init];
     [modeButtonOne setEnlargeEdge:30];
     [modeButtonOne setBackgroundImage:[UIImage imageNamed:@"choose_2"] forState:UIControlStateNormal];
-    [modeButtonOne setBackgroundImage:[UIImage imageNamed:@"bb_choose-1"] forState:UIControlStateSelected];
+    [modeButtonOne setBackgroundImage:[UIImage imageNamed:@"bb_icon"] forState:UIControlStateSelected];
     modeButtonOne.tag = 20;
     modeButtonOne.selected = YES;
     [modeButtonOne addTarget:self action:@selector(modeButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -631,7 +631,7 @@
     UIButton *modeButtonTwo = [[UIButton alloc] init];
     [modeButtonTwo setEnlargeEdge:30];
     [modeButtonTwo setBackgroundImage:[UIImage imageNamed:@"choose_2"] forState:UIControlStateNormal];
-    [modeButtonTwo setBackgroundImage:[UIImage imageNamed:@"bb_choose-1"] forState:UIControlStateSelected];
+    [modeButtonTwo setBackgroundImage:[UIImage imageNamed:@"bb_icon"] forState:UIControlStateSelected];
     modeButtonTwo.tag = 21;
     [modeButtonTwo addTarget:self action:@selector(modeButton:) forControlEvents:UIControlEventTouchUpInside];
     [viewFour addSubview:modeButtonTwo];
@@ -655,7 +655,7 @@
     UIButton *modeButtonThree = [[UIButton alloc] init];
     [modeButtonThree setEnlargeEdge:30];
     [modeButtonThree setBackgroundImage:[UIImage imageNamed:@"choose_2"] forState:UIControlStateNormal];
-    [modeButtonThree setBackgroundImage:[UIImage imageNamed:@"bb_choose-1"] forState:UIControlStateSelected];
+    [modeButtonThree setBackgroundImage:[UIImage imageNamed:@"bb_icon"] forState:UIControlStateSelected];
     modeButtonThree.tag = 22;
     [modeButtonThree addTarget:self action:@selector(modeButton:) forControlEvents:UIControlEventTouchUpInside];
     [viewFour addSubview:modeButtonThree];
@@ -789,7 +789,7 @@
     UIButton *addTelephone = [[UIButton alloc] init];
     [addTelephone setEnlargeEdge:44];
     [addTelephone setTag:63];
-    [addTelephone setBackgroundImage:[UIImage imageNamed:@"bb_add-1"] forState:UIControlStateNormal];
+    [addTelephone setBackgroundImage:[UIImage imageNamed:@"bb_addT"] forState:UIControlStateNormal];
     [addTelephone addTarget:self action:@selector(addTelephones:) forControlEvents:UIControlEventTouchUpInside];
     [cusTelphoneView addSubview:addTelephone];
     [addTelephone mas_makeConstraints:^(MASConstraintMaker *make) {

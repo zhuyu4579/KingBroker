@@ -7,19 +7,23 @@
 //  邀请有奖
 #import <WXApi.h>
 #import "GKCover.h"
-#import <SVProgressHUD.h>
-#import <AFNetworking.h>
 #import <Masonry.h>
+#import "CCPScrollView.h"
 #import <WXApiObject.h>
-#import <WebKit/WebKit.h>
 #import "UIView+Frame.h"
-#import "WZInvitePrizeController.h"
+#import <AFNetworking.h>
+#import <SVProgressHUD.h>
+#import <WebKit/WebKit.h>
 #import "NSString+LCExtension.h"
+#import "WZInvitePrizeController.h"
+
 @interface WZInvitePrizeController ()<UIScrollViewDelegate>
-@property(nonatomic,strong)UIScrollView *scrollView;
+@property(nonatomic,strong)CCPScrollView *scrollView;
+@property(nonatomic,strong)UIView *lunView;
 @property(nonatomic,strong)NSTimer *timer;
 @property(nonatomic,strong)UILabel *num;
 @property(nonatomic,strong)UILabel *money;
+@property(nonatomic,strong)UILabel *inviteCode;
 @property(nonatomic,strong)UIView *redView;
 @property(nonatomic,strong)UIView *ruleView;
 @property(nonatomic,strong)NSDictionary *data;
@@ -39,6 +43,7 @@
 }
 #pragma mark -请求数据
 -(void)loadData{
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     
@@ -54,19 +59,21 @@
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     //2.拼接参数
     NSString *url = [NSString stringWithFormat:@"%@/userRelation/userRelationInfo",HTTPURL];
-    [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             NSDictionary *data = [responseObject valueForKey:@"data"];
             [self setLunNews:[data valueForKey:@"infos"]];
             _num.text = [data valueForKey:@"countNum"];
             _money.text = [data valueForKey:@"countPrice"];
+            _inviteCode.text = [data valueForKey:@"username"];
             NSMutableDictionary *dicty = [NSMutableDictionary dictionary];
             dicty[@"url"] = [data valueForKey:@"url"];
             dicty[@"title"] = [data valueForKey:@"title"];
             dicty[@"describe"] = [data valueForKey:@"describe"];
             dicty[@"imageUrl"] = [data valueForKey:@"imageUrl"];
             _data = dicty;
+            
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -85,9 +92,7 @@
 
 #pragma mark - 邀请有奖
 -(void)setControl{
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *username = [ user objectForKey:@"username"];
-    
+   
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.frame = CGRectMake(0, kApplicationStatusBarHeight+44, self.view.fWidth, self.view.fHeight);
     imageView.image = [UIImage imageNamed:@"yq_background"];
@@ -109,6 +114,7 @@
     }];
     //创建滚动动态
     UIView *lunView =[[UIView alloc] init];
+    _lunView = lunView;
     [self.view addSubview:lunView];
     [lunView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(15);
@@ -116,13 +122,7 @@
         make.width.offset(self.view.fWidth-30);
         make.height.offset(22);
     }];
-    _scrollView = [[UIScrollView alloc] init];
-    _scrollView.frame = CGRectMake(0, 0, self.view.fWidth-30, 22);
-    _scrollView.delegate = self;
-    _scrollView.bounces = YES;
-    _scrollView.showsVerticalScrollIndicator = NO;
-    _scrollView.showsHorizontalScrollIndicator = NO;
-    [lunView addSubview:_scrollView];
+
     //邀请码
     UIView *inviteCodeView = [[UIView alloc] init];
     [self.view addSubview:inviteCodeView];
@@ -152,9 +152,9 @@
         make.height.offset(12);
     }];
     UILabel *inviteCode = [[UILabel alloc] init];
-    inviteCode.text = username;
     inviteCode.textColor = UIColorRBG(255, 109, 26);
     inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:20];
+    _inviteCode = inviteCode;
     [inviteCodeView addSubview:inviteCode];
     [inviteCode mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(inviteCodeView.mas_centerX);
@@ -258,56 +258,23 @@
 }
 #pragma mark -创建消息轮播
 -(void)setLunNews:(NSArray *)array{
+    CCPScrollView *ccpView = [[CCPScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth-30, 22)];
     
-    for (int i = 0; i < (array.count > 1 ? array.count + 1 : array.count); i++) {
-        
-        CGFloat height = self.scrollView.fHeight;
-        CGFloat width = self.scrollView.fWidth;
-        
-        UIView *view = [[UIView alloc] init];
-        view.frame = CGRectMake(0, height * i, width, height);
-        [self.scrollView addSubview:view];
-
-        UILabel *contentLabel = [[UILabel alloc] init];
-        contentLabel.textColor = UIColorRBG(51, 51, 51);
-        contentLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
-        [view addSubview:contentLabel];
-        [contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(view.mas_centerX);
-            make.top.equalTo(view.mas_top);
-            make.height.offset(view.fHeight);
-        }];
-        
-        if (i == array.count) {
-            contentLabel.text = [array firstObject];
-        }else {
-          
-            contentLabel.text = array[i];
-        }
-        
-    }
+    ccpView.titleArray = array;
     
-    _timer = [NSTimer timerWithTimeInterval:2 target:self selector:@selector(doCycleScroll) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop]addTimer:_timer forMode:NSRunLoopCommonModes];
+    ccpView.titleFont = 12;
     
-    //当数组里面的数据大于1的时候，才会滚动
-    if (array.count > 1) {
-        [_timer fire];
-    }
-    _scrollView.contentOffset = CGPointMake(0, 0);
+    ccpView.titleColor = UIColorRBG(51, 51, 51);
+    
+    ccpView.BGColor = [UIColor clearColor];
+    
+    _scrollView = ccpView;
+    [_lunView addSubview:ccpView];
     
 }
--(void)doCycleScroll
-{
-    CGFloat offsety = _scrollView.contentOffset.y;
-    offsety += _scrollView.fHeight;
-    
-    if (offsety > _scrollView.contentSize.height) {
-        [_scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
-        [_scrollView setContentOffset:CGPointMake(0, _scrollView.frame.size.height) animated:YES];
-    }else{
-        [_scrollView setContentOffset:CGPointMake(0, offsety) animated:YES];
-    }
+-(void)viewWillDisappear:(BOOL)animated{
+    [_scrollView removeTimer];
+    [_scrollView removeFromSuperview];
 }
 #pragma mark -邀请弹框
 -(void)shareRuleTask{

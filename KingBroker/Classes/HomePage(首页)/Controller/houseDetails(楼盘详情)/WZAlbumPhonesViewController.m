@@ -92,12 +92,12 @@
              NSArray *array = [WZAlbumsItem mj_objectArrayWithKeyValuesArray:rows];
              _list = array;
                 _photosCV.array = array;
-                _photosName.arrays = array;
+               // _photosName.arrays = array;
                 //[UIView setAnimationsEnabled:NO];
-                [UIView performWithoutAnimation:^{
+                    [UIView performWithoutAnimation:^{
                     //刷新界面
                     [_photosCV reloadData];
-                    [_photosName reloadData];
+                   // [_photosName reloadData];
                 
                 }];
                 [self selectPhoto];
@@ -189,6 +189,7 @@
     WZAllPhotosCollectionView *allPhotos= [[WZAllPhotosCollectionView alloc]initWithFrame:CGRectMake(0, 0,view.fWidth, view.fHeight) collectionViewLayout:layouts];
     _photosCV = allPhotos;
     [view addSubview:allPhotos];
+
     //创造通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(change:) name:@"indexPath" object:nil];
     
@@ -205,9 +206,9 @@
     WZPhotoTypeNameView *photoName= [[WZPhotoTypeNameView alloc]initWithFrame:CGRectMake(0, 0,buttonView.fWidth, buttonView.fHeight) collectionViewLayout:layoutN];
     _photosName = photoName;
     [buttonView addSubview:photoName];
-    if ([_photosName respondsToSelector:@selector(setPrefetchingEnabled:)]) {
+    if ([photoName respondsToSelector:@selector(setPrefetchingEnabled:)]) {
         if (@available(iOS 10.0, *)) {
-            _photosName.prefetchingEnabled = false;
+            photoName.prefetchingEnabled = false;
         }
     }
     //创造通知
@@ -220,6 +221,7 @@
 -(void)selectPhoto{
     int n = 0;
     int m = 0;
+    int x = 0;
     for (int i = 0; i<_list.count; i++) {
         NSArray *picCollect = [_list[i] valueForKey:@"picCollect"];
         for (int j = 0; j<picCollect.count; j++) {
@@ -227,12 +229,14 @@
             if ([_photoId isEqual:ID]) {
                 n = i;
                 m = j;
+                x = 1;
                 break;
             }
         }
     }
-    if(n==0 && m==0){
-        return;
+    if (x == 0) {
+         n = 0;
+         m = 0;
     }
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:m inSection:n];
     
@@ -248,6 +252,9 @@
     _oldIndexPath = indexPath1;
     _photosName.oldIndexPath = _oldIndexPath;
     _photosName.selectIndexPath = _oldIndexPath;
+    
+    _photosName.arrays = _list;
+    [_photosName reloadSections:[NSIndexSet indexSetWithIndex:0]];
     
     [_photosName scrollToItemAtIndexPath:indexPath1 atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
     WZPhotoNameCell *cell =(WZPhotoNameCell *) [_photosName cellForItemAtIndexPath:indexPath1];

@@ -82,50 +82,50 @@
     [self.view addSubview:scrollView];
     scrollView.contentSize =CGSizeMake(scrollView.fWidth*4,0);
     
-    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, kApplicationStatusBarHeight+44)];
-    buttonView.backgroundColor = [UIColor blackColor];
-    [self.view addSubview:buttonView];
+//    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, kApplicationStatusBarHeight+44)];
+//    buttonView.backgroundColor = [UIColor blackColor];
+//    [self.view addSubview:buttonView];
     
-    //创建返回按钮
-    UIButton *backButton = [[UIButton alloc] init];
-    [backButton setBackgroundImage:[UIImage imageNamed:@"wd_wmBack"] forState:UIControlStateNormal];
-    [backButton setEnlargeEdgeWithTop:10 right:20 bottom:10 left:15];
-    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [buttonView addSubview:backButton];
-    [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(buttonView.mas_left).offset(15);
-        make.top.equalTo(buttonView.mas_top).offset(kApplicationStatusBarHeight+13);
-        make.width.offset(11);
-        make.height.offset(20);
-    }];
-    UILabel *title = [[UILabel alloc] init];
-    title.text = @"我的订单";
-    title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:18];
-    title.textColor = [UIColor whiteColor];
-    [buttonView addSubview:title];
-    [title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(buttonView.mas_centerX);
-        make.top.equalTo(buttonView.mas_top).offset(kApplicationStatusBarHeight+13);
-        make.height.offset(18);
-    }];
-    //创建报备按钮
-    UIButton *selectButton = [[UIButton alloc] init];
-    [selectButton setBackgroundImage:[UIImage imageNamed:@"wd_joinus"] forState:UIControlStateNormal];
-    [selectButton setEnlargeEdgeWithTop:10 right:15 bottom:10 left:20];
-    [selectButton addTarget:self action:@selector(addModel) forControlEvents:UIControlEventTouchUpInside];
-    [buttonView addSubview:selectButton];
-    [selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(buttonView.mas_right).offset(-15);
-        make.top.equalTo(buttonView.mas_top).offset(kApplicationStatusBarHeight+15);
-        make.width.offset(18);
-        make.height.offset(18);
-    }];
+//    //创建返回按钮
+//    UIButton *backButton = [[UIButton alloc] init];
+//    [backButton setBackgroundImage:[UIImage imageNamed:@"wd_wmBack"] forState:UIControlStateNormal];
+//    [backButton setEnlargeEdgeWithTop:10 right:20 bottom:10 left:15];
+//    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+//    [buttonView addSubview:backButton];
+//    [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(buttonView.mas_left).offset(15);
+//        make.top.equalTo(buttonView.mas_top).offset(kApplicationStatusBarHeight+13);
+//        make.width.offset(11);
+//        make.height.offset(20);
+//    }];
+//    UILabel *title = [[UILabel alloc] init];
+//    title.text = @"我的订单";
+//    title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:18];
+//    title.textColor = [UIColor whiteColor];
+//    [buttonView addSubview:title];
+//    [title mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(buttonView.mas_centerX);
+//        make.top.equalTo(buttonView.mas_top).offset(kApplicationStatusBarHeight+13);
+//        make.height.offset(18);
+//    }];
+//    //创建报备按钮
+//    UIButton *selectButton = [[UIButton alloc] init];
+//    [selectButton setBackgroundImage:[UIImage imageNamed:@"wd_joinus"] forState:UIControlStateNormal];
+//    [selectButton setEnlargeEdgeWithTop:10 right:15 bottom:10 left:20];
+//    [selectButton addTarget:self action:@selector(addModel) forControlEvents:UIControlEventTouchUpInside];
+//    [buttonView addSubview:selectButton];
+//    [selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(buttonView.mas_right).offset(-15);
+//        make.top.equalTo(buttonView.mas_top).offset(kApplicationStatusBarHeight+15);
+//        make.width.offset(18);
+//        make.height.offset(18);
+//    }];
 }
 
 #pragma mark -创建标题栏
 -(void)setTitlesView{
-    UIView *titlesView = [[UIView alloc] initWithFrame:CGRectMake(15, kApplicationStatusBarHeight+45, self.view.fWidth-30, 41)];
-    titlesView.backgroundColor = UIColorRBG(255, 224, 0);
+    UIView *titlesView = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+45, self.view.fWidth, 41)];
+    titlesView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:titlesView];
     self.titlesView = titlesView;
     //设置标题栏按钮
@@ -179,13 +179,13 @@
 }
 #pragma mark -设置下划线
 -(void)setupTitlesUnderline{
-    UIButton *firstTitleButton = self.titlesView.subviews.firstObject;
+    
     UIView *titleUnderLine = [[UIView alloc] init];
     titleUnderLine.fHeight = 2;
     titleUnderLine.fWidth = 40;
     titleUnderLine.fY = self.titlesView.fHeight - titleUnderLine.fHeight;
     titleUnderLine.cX = self.titlesView.fWidth/8;
-    titleUnderLine.backgroundColor = [firstTitleButton  titleColorForState:UIControlStateSelected];
+    titleUnderLine.backgroundColor = UIColorRBG(255, 216, 0);
     [self.titlesView addSubview:titleUnderLine];
     self.titleUnderLine = titleUnderLine;
 }
@@ -193,19 +193,14 @@
 -(void)setNavItem{
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
     self.navigationItem.title = @"我的订单";
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"add_3"] highImage:[UIImage imageNamed:@"add_3"] target:self action:@selector(addModel)];
+    
 }
 #pragma mark -返回
 -(void)back{
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (UIStatusBarStyle)preferredStatusBarStyle {
 
-    return UIStatusBarStyleLightContent;
-}
-- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
-
-    return UIStatusBarAnimationFade;
-}
 -(void)addModel{
     WZNewReportController *report = [[WZNewReportController alloc] init];
     [self.navigationController pushViewController:report animated:YES];
@@ -225,7 +220,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 
 }
 @end

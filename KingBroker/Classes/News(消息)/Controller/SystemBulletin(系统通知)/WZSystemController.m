@@ -15,7 +15,9 @@
 #import <MJExtension.h>
 #import <Masonry.h>
 #import "UIView+Frame.h"
-#import "WZJionStoreController.h"
+#import "WZTaskController.h"
+#import "WZForwardController.h"
+#import "WZNewJionStoreController.h"
 #import "WZNEWHTMLController.h"
 #import "WZTabBarController.h"
 #import "WZSettingController.h"
@@ -320,9 +322,10 @@ static NSString *size = @"20";
     }];
    //跳转对应页面
     if([viewType isEqual:@"1"]){
-        WZNEWHTMLController *new = [[WZNEWHTMLController alloc] init];
-        new.url = url;
-        [self.navigationController pushViewController:new animated:YES];
+        WZTaskController *task = [[WZTaskController alloc] init];
+        task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
+        WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
+        [self.navigationController presentViewController:nav animated:YES completion:nil];
     }else if ([viewType isEqual:@"2"]){
         NSInteger paramId = [param integerValue];
         
@@ -359,11 +362,15 @@ static NSString *size = @"20";
             WZBelongedStoreController *store = [[WZBelongedStoreController alloc] init];
             [self.navigationController pushViewController:store animated:YES];
         }else if(paramId == 115){
-            WZJionStoreController *jionStore = [[WZJionStoreController alloc] init];
-            jionStore.type = @"1";
+            WZNewJionStoreController *jionStore = [[WZNewJionStoreController alloc] init];
+            jionStore.jionType = @"1";
              WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:jionStore];
             [self.navigationController presentViewController:nav animated:YES completion:nil];
+        }else if(paramId == 116){
+            WZForwardController *forward = [[WZForwardController alloc] init];
+            [self.navigationController presentViewController:forward animated:YES completion:nil];
         }
+        
     }else{
         
         _listArray = [NSMutableArray array];

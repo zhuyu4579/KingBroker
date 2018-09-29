@@ -448,15 +448,33 @@
         }
         
     }else if(type == 3){
-        if (uuid&&![uuid isEqual:@""]) {
+        if (uuid&&![uuid isEqual:@""]){
             WZTaskController *task = [[WZTaskController alloc] init];
-            task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
+            if ([url containsString:@"?"]) {
+                task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
+            } else {
+                task.url = [NSString stringWithFormat:@"%@?uuid=%@",url,uuid];
+            }
             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
             [self.navigationController presentViewController:nav animated:YES completion:nil];
         }else{
             [NSString isCode:self.navigationController code:@"401"];
         }
        
+    }else if(type == 4){
+        if (uuid&&![uuid isEqual:@""]) {
+            WZTaskController *task = [[WZTaskController alloc] init];
+            if ([url containsString:@"?"]) {
+                task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
+            } else {
+                task.url = [NSString stringWithFormat:@"%@?uuid=%@",url,uuid];
+            }
+            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
+            [self.navigationController presentViewController:nav animated:YES completion:nil];
+        }else{
+            [NSString isCode:self.navigationController code:@"401"];
+        }
+        
     }
     
 }

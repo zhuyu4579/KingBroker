@@ -825,7 +825,7 @@
     [inviteView addSubview:inviteLabel];
     [inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(inviteView.mas_left).offset(15);
-       make.centerY.equalTo(inviteView.mas_centerY);
+        make.centerY.equalTo(inviteView.mas_centerY);
         make.height.offset(13);
     }];
     UITextField *inviteCode = [[UITextField alloc] init];
@@ -1212,7 +1212,7 @@
         if (tag == 155) {
             _cardImages = image;
         }else{
-          _cardImage = image;
+            _cardImage = image;
         }
         
     };
@@ -1236,9 +1236,9 @@
     redView.imageBlock = ^(UIImage *image) {
         [button setBackgroundImage:image forState:UIControlStateNormal];
         if (tag == 156) {
-           _cardSideImages = image;
+            _cardSideImages = image;
         }else{
-          _cardSideImage = image;
+            _cardSideImage = image;
         }
         
     };
@@ -1418,7 +1418,7 @@
                     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                 }
             }
-        
+            
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -1521,7 +1521,7 @@
             [defaults synchronize];
             //审核页面
             WZExamineController *exVc = [[WZExamineController alloc] init];
-             exVc.titleLabel = @"资料上传成功，请耐心等待审核...";
+            exVc.titleLabel = @"资料上传成功，请耐心等待审核...";
             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:exVc];
             [self.navigationController presentViewController:nav animated:YES completion:nil];
             
@@ -1647,7 +1647,7 @@
 //获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     textField.returnKeyType = UIReturnKeyDone;
-  
+    
     _scrollView.contentSize = CGSizeMake(0, _scrollView.contentSize.height+200);
     
 }
@@ -1655,7 +1655,7 @@
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     
-   _scrollView.contentSize = CGSizeMake(0, _scrollView.contentSize.height-200);
+    _scrollView.contentSize = CGSizeMake(0, _scrollView.contentSize.height-200);
     
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

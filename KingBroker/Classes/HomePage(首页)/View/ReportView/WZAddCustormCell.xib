@@ -43,7 +43,7 @@
                             <constraint firstAttribute="height" constant="19" id="y07-98-vY3"/>
                         </constraints>
                         <state key="normal" backgroundImage="choose_2"/>
-                        <state key="selected" backgroundImage="bb_choose-1"/>
+                        <state key="selected" backgroundImage="bb_icon"/>
                     </button>
                 </subviews>
                 <constraints>
@@ -63,7 +63,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="bb_choose-1" width="19" height="19"/>
+        <image name="bb_icon" width="19" height="19"/>
         <image name="choose_2" width="19" height="19"/>
     </resources>
 </document>

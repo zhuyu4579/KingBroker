@@ -217,6 +217,7 @@ static NSString * const IDS = @"cells";
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             _houseDatils = [responseObject valueForKey:@"data"];
+            
             [self setData];
             
         }else{
@@ -692,8 +693,12 @@ static NSString * const IDS = @"cells";
         WZTitleCollectionCell *cell =(WZTitleCollectionCell *) [_titleView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:indexPath.section inSection:0]];
         
         NSInteger num = newTargetOffset/pageWidth +1;
+        
         if(indexPath.section == 0){
-            [_album setTitle:[NSString stringWithFormat:@"%ld/%@",(long)num,cell.pcdNum] forState:UIControlStateNormal];
+            
+            WZHouseDetilItem *item = _titleArray[indexPath.section];
+            [_album setTitle:[NSString stringWithFormat:@"%ld/%@",(long)num,item.pcdNum] forState:UIControlStateNormal];
+            
         }else if(indexPath.section == 1){
             WZTitleCollectionCell *cell2 =(WZTitleCollectionCell *) [_titleView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
             num -= [cell2.pcdNum integerValue];
@@ -704,8 +709,6 @@ static NSString * const IDS = @"cells";
             num -= ([cell3.pcdNum integerValue]+[cell4.pcdNum integerValue]);
             [_album setTitle:[NSString stringWithFormat:@"%ld/%@",(long)num,cell.pcdNum] forState:UIControlStateNormal];
         }
-        
-        
         if (_titleArray.count > 1) {
             WZTitleCollectionCell *cell1 =(WZTitleCollectionCell *) [_titleView cellForItemAtIndexPath:_oldIndexPath];
             cell1.view.backgroundColor = [UIColor whiteColor];
