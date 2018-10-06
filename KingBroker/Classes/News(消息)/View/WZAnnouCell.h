@@ -22,6 +22,9 @@
 //时间
 @property (strong, nonatomic) IBOutlet UILabel *time;
 @property (strong, nonatomic) IBOutlet UIView *view;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *titleY;
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *contentY;
 //未读/已读
 @property(nonatomic,strong)NSString *readType;
 

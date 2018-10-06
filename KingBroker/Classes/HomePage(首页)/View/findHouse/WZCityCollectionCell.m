@@ -28,8 +28,14 @@
 }
 -(void)setSelected:(BOOL)selected{
     [super setSelected:selected];
-    _cityButton.textColor = UIColorRBG(102, 102, 102);
-    [_cityButton setBackgroundColor:UIColorRBG(242, 242, 242)];
+    if (selected) {
+        _cityButton.textColor = UIColorRBG(49, 35, 6);
+        _cityButton.backgroundColor = UIColorRBG(255, 216, 0);
+    }else{
+        _cityButton.textColor = UIColorRBG(102, 102, 102);
+        [_cityButton setBackgroundColor:UIColorRBG(242, 242, 242)];
+    }
+    
 }
 - (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes{
     

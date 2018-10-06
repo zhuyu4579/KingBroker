@@ -49,8 +49,16 @@
     _additional = item.additional;
     _viewType = item.viewType;
      _url = item.url;
-    
-    [_image sd_setImageWithURL:[NSURL URLWithString:item.pictureIds] placeholderImage:[UIImage imageNamed:@"gg_pic"]];
-    
+    if([item.pictureIds isEqual:@""]){
+        [_image setHidden:YES];
+        _titleY.constant = 15;
+        _viewH.constant = 258-163;
+    }else{
+        [_image setHidden:NO];
+        _titleY.constant = 178;
+        _viewH.constant = 258;
+        [_image sd_setImageWithURL:[NSURL URLWithString:item.pictureIds] placeholderImage:[UIImage imageNamed:@"gg_pic"]];
+    }
+
 }
 @end

@@ -65,7 +65,7 @@
                             <constraint firstAttribute="trailing" secondItem="XyK-mH-UHI" secondAttribute="trailing" constant="15" id="gnV-eh-xdq"/>
                             <constraint firstAttribute="trailing" secondItem="G6r-i5-nak" secondAttribute="trailing" constant="15" id="i2T-0b-l3P"/>
                             <constraint firstAttribute="height" constant="258" id="iKP-Nc-LvZ"/>
-                            <constraint firstItem="XyK-mH-UHI" firstAttribute="top" secondItem="G6r-i5-nak" secondAttribute="bottom" constant="13" id="iob-zw-Q5c"/>
+                            <constraint firstItem="XyK-mH-UHI" firstAttribute="top" secondItem="TMT-vO-eL2" secondAttribute="bottom" constant="178" id="iob-zw-Q5c"/>
                             <constraint firstItem="G6r-i5-nak" firstAttribute="top" secondItem="TMT-vO-eL2" secondAttribute="bottom" constant="15" id="m57-TR-Dw5"/>
                             <constraint firstItem="G6r-i5-nak" firstAttribute="leading" secondItem="s6g-Wk-rNj" secondAttribute="leading" constant="15" id="wEt-Gh-8jo"/>
                         </constraints>
@@ -85,6 +85,7 @@
                     <constraint firstItem="s6g-Wk-rNj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Vvq-gF-Q1n"/>
                     <constraint firstItem="gHs-aI-cfY" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="bUO-vS-bYQ"/>
                     <constraint firstItem="s6g-Wk-rNj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="45" id="n3a-cd-0jO"/>
+                    <constraint firstAttribute="bottom" secondItem="s6g-Wk-rNj" secondAttribute="bottom" constant="9.5" id="q9d-zX-TOl"/>
                     <constraint firstAttribute="trailing" secondItem="s6g-Wk-rNj" secondAttribute="trailing" constant="15" id="u2i-dE-kn4"/>
                 </constraints>
             </tableViewCellContentView>
@@ -94,7 +95,9 @@
                 <outlet property="sumButton" destination="YDQ-bx-Hwf" id="niw-uc-Jt0"/>
                 <outlet property="time" destination="gHs-aI-cfY" id="Anx-he-FNa"/>
                 <outlet property="title" destination="XyK-mH-UHI" id="cxx-zB-SN5"/>
+                <outlet property="titleY" destination="iob-zw-Q5c" id="b2z-Sn-B3W"/>
                 <outlet property="view" destination="s6g-Wk-rNj" id="h5b-pJ-RDl"/>
+                <outlet property="viewH" destination="iKP-Nc-LvZ" id="Af4-l0-ya0"/>
             </connections>
         </tableViewCell>
     </objects>

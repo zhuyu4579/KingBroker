@@ -121,7 +121,7 @@
     NSURL *movieURL = [NSURL URLWithString:url];
     SelPlayerConfiguration *configuration = [[SelPlayerConfiguration alloc]init];
     _configuration = configuration;
-    configuration.shouldAutoPlay = NO;
+    configuration.shouldAutoPlay = YES;
     configuration.supportedDoubleTap = YES;
     configuration.shouldAutorotate = YES;
     configuration.repeatPlay = YES;
@@ -135,13 +135,16 @@
 - (IBAction)playVoid:(UIButton *)sender {
     _playButton = sender;
     sender.selected = !sender.selected;
+    
     if (sender.selected==YES) {
+        [_playButton setHidden:YES];
         if (![_videoPictureUrl isEqual:@""]) {
             [self createAVPlayer:_videoPictureUrl];
         }
         [_player _playVideo];
         [_imageView setHidden:YES];
     }else{
+        [_playButton setHidden:NO];
         [_imageView setHidden:NO];
          _configuration.repeatPlay = NO;
         [_player _pauseVideo];

@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *sumButton;
 @property (strong, nonatomic) IBOutlet UILabel *time;
 @property (strong, nonatomic) IBOutlet UIView *view;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *titleY;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *viewH;
 
 @property(nonatomic,strong)WZAnnNewItem *item;
 

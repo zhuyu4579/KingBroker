@@ -525,7 +525,7 @@ static NSString *size = @"20";
             NSArray *cityArray = [data valueForKey:@"rows"];
             _cityArray = [WZCityItem mj_objectArrayWithKeyValuesArray:cityArray];
             [_collectionView reloadData];
-            
+            [_collectionView selectItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -559,11 +559,11 @@ static NSString *size = @"20";
 }
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     WZCityCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ID forIndexPath:indexPath];
-    if (indexPath.row == 0) {
-        cell.cityButton.textColor = UIColorRBG(49, 35, 6);
-        cell.cityButton.backgroundColor = UIColorRBG(255, 216, 0);
-        _indexPath = indexPath;
-    }
+//    if (indexPath.row == 0) {
+//        cell.cityButton.textColor = UIColorRBG(49, 35, 6);
+//        cell.cityButton.backgroundColor = UIColorRBG(255, 216, 0);
+//        _indexPath = indexPath;
+//    }
     WZCityItem *item = self.cityArray[indexPath.row];
     cell.item = item;
     return cell;
@@ -578,6 +578,8 @@ static NSString *size = @"20";
     WZCityCollectionCell *cell =(WZCityCollectionCell *) [collectionView cellForItemAtIndexPath:indexPath];
     cell.cityButton.textColor = UIColorRBG(49, 35, 6);
     cell.cityButton.backgroundColor = UIColorRBG(255, 216, 0);
+    _indexPath = indexPath;
+    
     UIButton *but =  [_menu viewWithTag:10];
     [but setTitle:[NSString stringWithFormat:@"%@ ",cell.cityButton.text] forState:UIControlStateNormal];
     [but setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
@@ -592,6 +594,7 @@ static NSString *size = @"20";
 -(void)getUpMoreButton:(UIView *)view{
     UIButton *moreButton = [[UIButton alloc] initWithFrame:CGRectMake(view.fWidth/2-20, 2, 26, 15)];
     [moreButton setTitle:@"更多" forState:UIControlStateNormal];
+    [moreButton setTitle:@"收起" forState:UIControlStateSelected];
     [moreButton setEnlargeEdgeWithTop:5 right:view.fWidth/2 bottom:5 left:view.fWidth/2];
     [moreButton setTitleColor:UIColorRBG(204, 204, 204) forState:UIControlStateNormal];
     [moreButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateSelected];

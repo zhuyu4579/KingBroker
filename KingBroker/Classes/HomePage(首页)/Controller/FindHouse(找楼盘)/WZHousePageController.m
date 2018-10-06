@@ -32,6 +32,22 @@
     [super viewDidLoad];
     //设置导航栏标题
     [self setNarItem];
+    
+    if (_status == 0) {
+        _allButton.selected = YES;
+        _meButton.selected = NO;
+        [_ineOne setHidden:NO];
+        [_ineTwo setHidden:YES];
+        [self.view addSubview:self.allHouseVC.view];
+        [_allHouseVC loadRefreshs];
+    }else{
+        _allButton.selected = NO;
+        _meButton.selected = YES;
+        [_ineOne setHidden:YES];
+        [_ineTwo setHidden:NO];
+        [self.view addSubview:self.collectHouseVC.view];
+        [_collectHouseVC loadRefreshs];
+    }
 }
 -(WZHouseController *)allHouseVC{
     if (_allHouseVC == nil) {
@@ -164,21 +180,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-        if (_status == 0) {
-            _allButton.selected = YES;
-            _meButton.selected = NO;
-            [_ineOne setHidden:NO];
-            [_ineTwo setHidden:YES];
-            [self.view addSubview:self.allHouseVC.view];
-            [_allHouseVC loadRefreshs];
-        }else{
-            _allButton.selected = NO;
-            _meButton.selected = YES;
-            [_ineOne setHidden:YES];
-            [_ineTwo setHidden:NO];
-            [self.view addSubview:self.collectHouseVC.view];
-            [_collectHouseVC loadRefreshs];
-        }
+    
 }
-
 @end

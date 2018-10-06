@@ -36,7 +36,17 @@
     _item = item;
     _annTitleName.text = item.title;
     _content.text = item.content;
-    [_imageViews sd_setImageWithURL:[NSURL URLWithString:item.pictureIds] placeholderImage:[UIImage imageNamed:@"gg_pic"]];
+    if ([item.pictureIds isEqual:@""]) {
+        [_imageViews setHidden:YES];
+        _titleY.constant = 17;
+        _contentY.constant = 17;
+    }else{
+        [_imageViews setHidden:NO];
+        [_imageViews sd_setImageWithURL:[NSURL URLWithString:item.pictureIds] placeholderImage:[UIImage imageNamed:@"gg_pic"]];
+        _titleY.constant = 120;
+        _contentY.constant = 120;
+    }
+  
     NSString *readType = item.readFlag;
     _readType = readType;
     if ([readType isEqual:@"1"]) {

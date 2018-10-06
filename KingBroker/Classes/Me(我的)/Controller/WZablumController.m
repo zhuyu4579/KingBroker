@@ -113,29 +113,29 @@
         make.height.offset(44);
         make.width.offset(240);
     }];
-    UILabel *telphoneLabel = [[UILabel alloc] init];
-    telphoneLabel.textColor = [UIColor whiteColor];
-    telphoneLabel.text = @"客服热线：";
-    telphoneLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
-    [self.view addSubview:telphoneLabel];
-    [telphoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_bottom).with.offset(-49);
-        make.centerX.equalTo(self.view.mas_centerX).offset(-47);
-        make.height.offset(12);
-    }];
-    UIButton *telphone = [[UIButton alloc] init];
-    [telphone setTitle:@"0571-88841808" forState:UIControlStateNormal];
-    [telphone setTitleColor:UIColorRBG(255, 192, 0) forState:UIControlStateNormal];
-    telphone.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
-    [telphone setEnlargeEdge:44];
-    [telphone addTarget:self action:@selector(telphone:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:telphone];
-    [telphone mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_bottom).with.offset(-49);
-        make.left.equalTo(telphoneLabel.mas_right);
-        make.height.offset(12);
-        make.width.offset(93);
-    }];
+//    UILabel *telphoneLabel = [[UILabel alloc] init];
+//    telphoneLabel.textColor = [UIColor whiteColor];
+//    telphoneLabel.text = @"客服热线：";
+//    telphoneLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
+//    [self.view addSubview:telphoneLabel];
+//    [telphoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.equalTo(self.view.mas_bottom).with.offset(-49);
+//        make.centerX.equalTo(self.view.mas_centerX).offset(-47);
+//        make.height.offset(12);
+//    }];
+//    UIButton *telphone = [[UIButton alloc] init];
+//    [telphone setTitle:@"0571-88841808" forState:UIControlStateNormal];
+//    [telphone setTitleColor:UIColorRBG(255, 192, 0) forState:UIControlStateNormal];
+//    telphone.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
+//    [telphone setEnlargeEdge:44];
+//    [telphone addTarget:self action:@selector(telphone:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:telphone];
+//    [telphone mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.equalTo(self.view.mas_bottom).with.offset(-49);
+//        make.left.equalTo(telphoneLabel.mas_right);
+//        make.height.offset(12);
+//        make.width.offset(93);
+//    }];
 
 }
 

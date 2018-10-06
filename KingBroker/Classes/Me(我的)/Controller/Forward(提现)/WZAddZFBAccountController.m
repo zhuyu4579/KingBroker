@@ -36,6 +36,7 @@
 }
 //创建内容
 -(void)createContents{
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *realname = [user objectForKey:@"name"];
     
@@ -141,7 +142,7 @@
     }
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
-    NSString *realname = [ user objectForKey:@"name"];
+    NSString *realname = [user objectForKey:@"name"];
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     

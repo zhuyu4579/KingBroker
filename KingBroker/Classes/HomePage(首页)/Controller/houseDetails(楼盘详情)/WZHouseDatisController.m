@@ -314,6 +314,7 @@ static NSString * const IDS = @"cells";
             _dView.Commission.text = @"佣金结给门店";
             _reportButton.enabled = YES;
         }
+        
         if ([invisibleLinkmanFlag isEqual:@"0"]) {
             _dView.chargeMan.text = [_houseDatils valueForKey:@"chargeMan"];
             _dView.phone.text = [_houseDatils valueForKey:@"telphone"];
@@ -321,6 +322,7 @@ static NSString * const IDS = @"cells";
             _dView.chargeMan.text = @"电话不可见";
             _dView.phone.text = @"";
         }
+        
     }else{
         [_dView.JoinButton setHidden:NO];
         [_dView.JoinButton setEnabled:YES];
@@ -915,7 +917,6 @@ static NSString * const IDS = @"cells";
     _collect = collect;
     [Unit addSubview:collect];
 }
-
 
 #pragma mark -楼盘动态
 -(void)getUpThree:(UIView *)view{

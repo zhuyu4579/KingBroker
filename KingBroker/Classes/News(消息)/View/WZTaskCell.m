@@ -53,6 +53,7 @@
     NSString *url = item.pictureIds;
     
     if (![url isEqual:@""]) {
+        [_imageViews setHidden:NO];
         [_imageViews sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"xx_2、3_pic"]];
         _titleIne.constant = 122;
         _contentIne.constant = 122;

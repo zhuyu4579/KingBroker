@@ -147,7 +147,7 @@
     _pageView = pageView;
     [buttons addSubview:pageView];
     //创建优质楼盘
-    UIView *goodHouseView = [[UIView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 288)];
+    UIView *goodHouseView = [[UIView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 288*n)];
     goodHouseView.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:goodHouseView];
     //创建为你推荐图标
@@ -186,8 +186,8 @@
     layout.sectionInset = UIEdgeInsetsMake(15, 15, 15, 15);
     layout.minimumLineSpacing = 20;
     layout.minimumInteritemSpacing = 10;
-    layout.itemSize = CGSizeMake(100, 100);
-    WZGoodHouseCollectionView *goodHouseCollectView = [[WZGoodHouseCollectionView alloc] initWithFrame:CGRectMake(0, 43, goodHouseView.fWidth, 245) collectionViewLayout:layout];
+    layout.itemSize = CGSizeMake(100*n, 100*n);
+    WZGoodHouseCollectionView *goodHouseCollectView = [[WZGoodHouseCollectionView alloc] initWithFrame:CGRectMake(0, 43, goodHouseView.fWidth, 288*n-43) collectionViewLayout:layout];
     goodHouseCollectView.backgroundColor = [UIColor clearColor];
     _goodHouseCollectView = goodHouseCollectView;
     //禁止滑动

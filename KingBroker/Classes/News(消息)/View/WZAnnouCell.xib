@@ -22,7 +22,7 @@
                         <rect key="frame" x="15" y="45" width="345" height="103"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="择一城终老，遇一人白首，等你陪我在..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hne-Yo-pif">
-                                <rect key="frame" x="17" y="51" width="209" height="33.5"/>
+                                <rect key="frame" x="17" y="51" width="208" height="33.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -35,7 +35,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="好开额呵呵就届世界记得界记得界记得及记..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ya5-Bz-G5x">
-                                <rect key="frame" x="17" y="20" width="209" height="16"/>
+                                <rect key="frame" x="17" y="20" width="208" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="H26-4k-6WA"/>
                                 </constraints>
@@ -58,12 +58,12 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="2Hw-hx-Ejm" secondAttribute="trailing" constant="9" id="ABk-40-yGV"/>
                             <constraint firstItem="PgU-RJ-ZTX" firstAttribute="leading" secondItem="aGR-KH-Qkr" secondAttribute="leading" constant="8" id="D6y-GW-g80"/>
-                            <constraint firstItem="2Hw-hx-Ejm" firstAttribute="leading" secondItem="Ya5-Bz-G5x" secondAttribute="trailing" constant="15" id="EkE-sk-Qup"/>
                             <constraint firstItem="Hne-Yo-pif" firstAttribute="leading" secondItem="aGR-KH-Qkr" secondAttribute="leading" constant="17" id="Myf-fu-0nI"/>
                             <constraint firstItem="Ya5-Bz-G5x" firstAttribute="top" secondItem="aGR-KH-Qkr" secondAttribute="top" constant="20" id="VCz-np-vNw"/>
                             <constraint firstItem="2Hw-hx-Ejm" firstAttribute="top" secondItem="aGR-KH-Qkr" secondAttribute="top" constant="15" id="ViY-on-yUs"/>
                             <constraint firstAttribute="height" constant="103" id="WAX-oa-BlB"/>
-                            <constraint firstItem="2Hw-hx-Ejm" firstAttribute="leading" secondItem="Hne-Yo-pif" secondAttribute="trailing" constant="15" id="lfn-rY-LUH"/>
+                            <constraint firstAttribute="trailing" secondItem="Hne-Yo-pif" secondAttribute="trailing" constant="120" id="aiz-06-Nsd"/>
+                            <constraint firstAttribute="trailing" secondItem="Ya5-Bz-G5x" secondAttribute="trailing" constant="120" id="flG-K7-Lri"/>
                             <constraint firstItem="Ya5-Bz-G5x" firstAttribute="leading" secondItem="aGR-KH-Qkr" secondAttribute="leading" constant="17" id="u7A-Am-ylH"/>
                             <constraint firstItem="Hne-Yo-pif" firstAttribute="top" secondItem="Ya5-Bz-G5x" secondAttribute="bottom" constant="15" id="v0W-0O-PIY"/>
                             <constraint firstItem="PgU-RJ-ZTX" firstAttribute="top" secondItem="aGR-KH-Qkr" secondAttribute="top" constant="8" id="ynX-rR-zrQ"/>
@@ -90,9 +90,11 @@
             <connections>
                 <outlet property="annTitleName" destination="Ya5-Bz-G5x" id="wrO-5V-WGA"/>
                 <outlet property="content" destination="Hne-Yo-pif" id="dT3-iX-ckx"/>
+                <outlet property="contentY" destination="aiz-06-Nsd" id="Fze-hq-pnj"/>
                 <outlet property="imageViews" destination="2Hw-hx-Ejm" id="w3c-19-SKV"/>
                 <outlet property="readFlag" destination="PgU-RJ-ZTX" id="bRL-YX-jIn"/>
                 <outlet property="time" destination="EaT-Hg-omS" id="3hm-4n-eVL"/>
+                <outlet property="titleY" destination="flG-K7-Lri" id="Fcx-dT-o5T"/>
                 <outlet property="view" destination="aGR-KH-Qkr" id="P4L-GF-oBd"/>
             </connections>
             <point key="canvasLocation" x="-32.5" y="66"/>
