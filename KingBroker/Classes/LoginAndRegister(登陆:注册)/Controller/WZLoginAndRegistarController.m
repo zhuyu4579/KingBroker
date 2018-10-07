@@ -500,7 +500,7 @@
     }];
     //查看协议
     UIButton *findAgreement = [[UIButton alloc] init];
-    [findAgreement setTitle:@"《经服用户服务协议》" forState:UIControlStateNormal];
+    [findAgreement setTitle:@"《经喜用户服务协议》" forState:UIControlStateNormal];
     [findAgreement setTitleColor:UIColorRBG(68, 68, 68) forState:UIControlStateNormal];
     findAgreement.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
     [findAgreement addTarget:self action:@selector(findAgreement) forControlEvents:UIControlEventTouchUpInside];
@@ -755,7 +755,7 @@
     paraments[@"type"] = @"1";
     paraments[@"telphone"] = telphone;
     paraments[@"smsCode"] = YZM;
-    
+    paraments[@"parentPhone"] = _inviteCode.text;
     NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
         
@@ -764,6 +764,7 @@
             WZRegistarSetPWController *registar = [[WZRegistarSetPWController alloc] init];
             registar.telphone = telphone;
             registar.YZM = YZM;
+            registar.inviteCode = _inviteCode.text;
             [self.navigationController pushViewController:registar animated:YES];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];

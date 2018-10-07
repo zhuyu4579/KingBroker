@@ -160,7 +160,7 @@
    
     //文字一
     UILabel *labelOne = [[UILabel alloc] init];
-    labelOne.text = @"1.门店编码是经服APP合作门店的唯一标识，你可咨询你的店长或者同事";
+    labelOne.text = @"1.门店编码是经喜APP合作门店的唯一标识，你可咨询你的店长或者同事";
     labelOne.numberOfLines = 2;
     labelOne.textColor = UIColorRBG(159, 129, 79);
     labelOne.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
@@ -893,7 +893,7 @@
         [_button addTarget:self action:@selector(jionStore:) forControlEvents:UIControlEventTouchUpInside];
         _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight-49-JF_BOTTOM_SPACE);
         //设置文字
-        _labelOne.attributedText = [[NSAttributedString alloc] initWithString:@"1.门店编码是经服APP合作门店的唯一标识，你可咨询你的店长或者同事"];
+        _labelOne.attributedText = [[NSAttributedString alloc] initWithString:@"1.门店编码是经喜APP合作门店的唯一标识，你可咨询你的店长或者同事"];
         _labelTwo.text = @"2.加入门店后报备客户，成交后可赚取佣金；APP内做任 务赚取现金奖励";
     }else{
         [_button setTitle:@"提交审核" forState:UIControlStateNormal];
@@ -940,7 +940,7 @@
     [_codeViews setHidden:NO];
     [_noCodeViews setHidden:YES];
     //设置文字
-    _labelOne.attributedText = [[NSAttributedString alloc] initWithString:@"1.门店编码是经服APP合作门店的唯一标识，你可咨询你的店长或者同事"];
+    _labelOne.attributedText = [[NSAttributedString alloc] initWithString:@"1.门店编码是经喜APP合作门店的唯一标识，你可咨询你的店长或者同事"];
     _labelTwo.text = @"2.加入门店后报备客户，成交后可赚取佣金；APP内做任 务赚取现金奖励";
     [_button setTitle:@"加入门店" forState:UIControlStateNormal];
     [_button addTarget:self action:@selector(jionStore:) forControlEvents:UIControlEventTouchUpInside];

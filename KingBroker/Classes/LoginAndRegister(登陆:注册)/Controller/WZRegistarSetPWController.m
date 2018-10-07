@@ -248,6 +248,7 @@
     paraments[@"password"] = password;
     paraments[@"phone"] = _telphone;
     paraments[@"verificationCode"] = _YZM;
+    paraments[@"parentPhone"] = _inviteCode;
     NSString *url = [NSString stringWithFormat:@"%@/sysUser/register",HTTPURL];
     [mgr POST:url  parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];

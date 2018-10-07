@@ -34,7 +34,7 @@
     [self.JoinButton setTitleColor:UIColorRBG(255, 180, 61) forState:UIControlStateNormal];
  
     self.address.textColor = UIColorRBG(68, 68, 68);
-    self.phone.textColor = UIColorRBG(102, 221, 85);
+    self.phone.textColor = UIColorRBG(255, 108, 0);
     self.companyName.textColor = UIColorRBG(68, 68, 68);
     self.chargeMan.textColor = UIColorRBG(68, 68, 68);
     self.developerName.textColor = UIColorRBG(68, 68, 68);

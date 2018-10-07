@@ -741,7 +741,7 @@ static NSString * const IDS = @"cells";
     //创建返回按钮
     UIButton *popButton = [[UIButton alloc] init];
     [popButton setBackgroundImage:[UIImage imageNamed:@"lpxq_more_unfold"] forState:UIControlStateNormal];
-    [popButton setEnlargeEdgeWithTop:10 right:18 bottom:10 left:18];
+    [popButton setEnlargeEdgeWithTop:44 right:18 bottom:44 left:44];
     self.popButton = popButton;
     [popButton addTarget:self action:@selector(black) forControlEvents:UIControlEventTouchUpInside];
     [buttonView addSubview:popButton];
@@ -756,7 +756,7 @@ static NSString * const IDS = @"cells";
     UIButton *shareButton = [[UIButton alloc] init];
     [shareButton setBackgroundImage:[UIImage imageNamed:@"lpxq_share"] forState:UIControlStateNormal];
     self.shareButtons = shareButton;
-    [shareButton setEnlargeEdgeWithTop:10 right:18 bottom:10 left:18];
+    [shareButton setEnlargeEdgeWithTop:44 right:44 bottom:44 left:18];
     [shareButton addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
     [buttonView addSubview:shareButton];
     [shareButton mas_makeConstraints:^(MASConstraintMaker *make) {

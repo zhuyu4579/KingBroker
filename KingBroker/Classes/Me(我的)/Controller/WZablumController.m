@@ -66,7 +66,7 @@
     [self.view addSubview:imageView];
     
     UILabel *labelOne = [[UILabel alloc] init];
-    labelOne.text = @"经服";
+    labelOne.text = @"经喜";
     labelOne.font = [UIFont fontWithName:@"PingFang-SC-Bold" size:18];
     labelOne.textColor = [UIColor whiteColor];
     [self.view addSubview:labelOne];
@@ -86,7 +86,7 @@
         make.height.offset(13);
     }];
     UILabel *labelThree = [[UILabel alloc] init];
-    labelThree.text = @"经服是中国领先的房地产服务平台，\n提供真实的房源。提供\n收藏、分享、报备客户、\n带客户上客等服务。更好的服务于经纪人和总代。";
+    labelThree.text = @"经喜是中国领先的房地产服务平台，\n提供真实的房源。提供\n收藏、分享、报备客户、\n带客户上客等服务。更好的服务于经纪人和总代。";
     labelThree.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:14];
     labelThree.textColor = [UIColor whiteColor];
     labelThree.numberOfLines = 0;
@@ -108,7 +108,7 @@
     [buttons addTarget:self action:@selector(versionUpdate) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:buttons];
     [buttons mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(labelThree.mas_bottom).with.offset(92);
+        make.top.equalTo(labelThree.mas_bottom).with.offset(154);
         make.centerX.equalTo(self.view.mas_centerX);
         make.height.offset(44);
         make.width.offset(240);

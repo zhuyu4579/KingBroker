@@ -51,7 +51,7 @@
     }];
     //创建lable一
     UILabel *texthavelabel = [[UILabel alloc] init];
-    texthavelabel.text = @"1.门店编码是经服合作门店的唯一标识，你可咨询你的店长或者同事";
+    texthavelabel.text = @"1.门店编码是经喜合作门店的唯一标识，你可咨询你的店长或者同事";
     texthavelabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     texthavelabel.textColor = UIColorRBG(153, 153, 153);
     texthavelabel.numberOfLines = 0;
@@ -64,7 +64,7 @@
     }];
     //创建lable二
     UILabel *texthavelabelTwo = [[UILabel alloc] init];
-    texthavelabelTwo.text = @"2.加入门店后报备客户，成交后可赚取佣金；经服APP内完成悬赏赚取现金奖励";
+    texthavelabelTwo.text = @"2.加入门店后报备客户，成交后可赚取佣金；经喜APP内完成悬赏赚取现金奖励";
     texthavelabelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     texthavelabelTwo.textColor = UIColorRBG(153, 153, 153);
     texthavelabelTwo.numberOfLines = 0;
