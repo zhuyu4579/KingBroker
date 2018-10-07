@@ -36,6 +36,8 @@
 @property(nonatomic,strong)UITextField *registarName;
 //注册的验证码
 @property(nonatomic,strong)UITextField *registarYZM;
+//注册的邀请码
+@property(nonatomic,strong)UITextField *inviteCode;
 //注册-获取验证码
 @property(nonatomic,strong)UIButton *YZMButton;
 //注册-选中协议
@@ -423,17 +425,66 @@
         make.width.offset(80);
     }];
    
+    //邀请码
+    UILabel *inviteLabel = [[UILabel alloc] init];
+    inviteLabel.text = @"邀请人";
+    inviteLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    inviteLabel.textColor = UIColorRBG(51, 51, 51);
+    [registarView addSubview:inviteLabel];
+    [inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(registarView.mas_left).offset(57);
+        make.top.equalTo(registarInes.mas_bottom).offset(31);
+        make.height.offset(12);
+    }];
+    UILabel *inviteLabels = [[UILabel alloc] init];
+    inviteLabels.text = @"(不必填)";
+    inviteLabels.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    inviteLabels.textColor = UIColorRBG(204, 204, 204);
+    [registarView addSubview:inviteLabels];
+    [inviteLabels mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(inviteLabel.mas_right).offset(16);
+        make.top.equalTo(registarInes.mas_bottom).offset(32);
+        make.height.offset(12);
+    }];
+    UITextField *inviteCode = [[UITextField alloc] init];
+    inviteCode.placeholder = @"请输入邀请人手机号";
+    inviteCode.textColor = UIColorRBG(49, 35, 6);
+    inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+    inviteCode.delegate = self;
+    inviteCode.keyboardType = UIKeyboardTypeNumberPad;
+    [[inviteCode valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
+    inviteCode.clearButtonMode = UITextFieldViewModeWhileEditing;
+    inviteCode.clearsOnBeginEditing = NO;
+    _inviteCode = inviteCode;
+    [registarView addSubview:inviteCode];
+    [inviteCode mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(registarView.mas_left).offset(57);
+        make.top.equalTo(inviteLabel.mas_bottom);
+        make.height.offset(38);
+        make.width.offset(_scrollView.fWidth-107);
+    }];
+    //下划线
+    UIView  *inviteIne = [[UIView alloc] init];
+    inviteIne.backgroundColor = UIColorRBG(255, 245, 177);
+    [registarView addSubview:inviteIne];
+    [inviteIne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(registarView.mas_left).offset(57);
+        make.top.equalTo(inviteCode.mas_bottom);
+        make.height.offset(1);
+        make.width.offset(_scrollView.fWidth-107);
+    }];
+    
     //同意协议按钮
     UIButton *selectAgreement = [[UIButton alloc] init];
     [selectAgreement setBackgroundImage:[UIImage imageNamed:@"ZC_YES_1"] forState:UIControlStateNormal];
     [selectAgreement setBackgroundImage:[UIImage imageNamed:@"ZC_YES"] forState:UIControlStateSelected];
     [selectAgreement addTarget:self action:@selector(selectAgreement:) forControlEvents:UIControlEventTouchUpInside];
-    [selectAgreement setEnlargeEdge:44];
+    [selectAgreement setEnlargeEdgeWithTop:17 right:30 bottom:30 left:44];
     _selectAgreement = selectAgreement;
     [registarView addSubview:selectAgreement];
     [selectAgreement mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(registarView.mas_left).offset(58);
-        make.top.equalTo(registarInes.mas_bottom).offset(17);
+        make.top.equalTo(inviteIne.mas_bottom).offset(17);
         make.height.offset(14);
         make.width.offset(14);
     }];
@@ -444,7 +495,7 @@
     [registarView addSubview:aLabel];
     [aLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(selectAgreement.mas_right).offset(7);
-        make.top.equalTo(registarInes.mas_bottom).offset(19);
+        make.top.equalTo(inviteIne.mas_bottom).offset(19);
         make.height.offset(11);
     }];
     //查看协议
@@ -456,7 +507,7 @@
     [registarView addSubview:findAgreement];
     [findAgreement mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(aLabel.mas_right);
-        make.top.equalTo(registarInes.mas_bottom).offset(14);
+        make.top.equalTo(inviteIne.mas_bottom).offset(14);
         make.height.offset(21);
         make.width.offset(110);
     }];
@@ -776,7 +827,7 @@
             return NO;
         }
     }
-    if (_loginName == textField||_registarName == textField) {
+    if (_loginName == textField||_registarName == textField||_inviteCode == textField) {
         if (toBeString.length>11) {
             return NO;
         }
@@ -800,6 +851,7 @@
     [_loginPassWord resignFirstResponder];
     [_registarName resignFirstResponder];
     [_registarYZM resignFirstResponder];
+    [_inviteCode resignFirstResponder];
     
 }
 -(void)touches{
@@ -807,6 +859,6 @@
     [_loginPassWord resignFirstResponder];
     [_registarName resignFirstResponder];
     [_registarYZM resignFirstResponder];
-    
+    [_inviteCode resignFirstResponder];
 }
 @end

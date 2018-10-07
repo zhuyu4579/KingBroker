@@ -213,7 +213,7 @@
     if ([_jionType isEqual:@"1"]) {
         [button setTitle:@"加入门店" forState:UIControlStateNormal];
         [button addTarget:self action:@selector(jionStore:) forControlEvents:UIControlEventTouchUpInside];
-        _scrollView.contentSize = CGSizeMake(0,800);
+        _scrollView.contentSize = CGSizeMake(0,740);
     }else{
         //门店负责人
         [button setTitle:@"提交审核" forState:UIControlStateNormal];
@@ -640,44 +640,44 @@
         make.width.offset(100);
     }];
     
-    UIView *inviteView = [[UIView alloc] init];
-    inviteView.backgroundColor = [UIColor whiteColor];
-    inviteView.layer.cornerRadius = 5.0;
-    inviteView.layer.shadowColor = UIColorRBG(60, 48, 0).CGColor;
-    inviteView.layer.shadowOpacity = 0.05;
-    inviteView.layer.shadowRadius = 10.0;
-    [view addSubview:inviteView];
-    [inviteView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(view.mas_left);
-        make.top.equalTo(imageViews.mas_bottom).offset(10);
-        make.width.offset(self.view.fWidth-26);
-        make.height.offset(50);
-    }];
-    UILabel *inviteLabel = [[UILabel alloc] init];
-    inviteLabel.text = @"邀请码";
-    inviteLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    inviteLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
-    [inviteView addSubview:inviteLabel];
-    [inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(inviteView.mas_left).offset(15);
-        make.centerY.equalTo(inviteView.mas_centerY);
-        make.height.offset(13);
-    }];
-    UITextField *inviteCode = [[UITextField alloc] init];
-    inviteCode.placeholder = @"输入邀请码";
-    inviteCode.textColor = UIColorRBG(68, 68, 68);
-    inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    inviteCode.delegate = self;
-    inviteCode.keyboardType = UIKeyboardTypeNumberPad;
-    inviteCode.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _inviteHeadCode = inviteCode;
-    [inviteView addSubview:inviteCode];
-    [inviteCode mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(inviteLabel.mas_right).offset(36);
-        make.centerY.equalTo(inviteView.mas_centerY);
-        make.right.equalTo(inviteView.mas_right);
-        make.height.offset(50);
-    }];
+//    UIView *inviteView = [[UIView alloc] init];
+//    inviteView.backgroundColor = [UIColor whiteColor];
+//    inviteView.layer.cornerRadius = 5.0;
+//    inviteView.layer.shadowColor = UIColorRBG(60, 48, 0).CGColor;
+//    inviteView.layer.shadowOpacity = 0.05;
+//    inviteView.layer.shadowRadius = 10.0;
+//    [view addSubview:inviteView];
+//    [inviteView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(view.mas_left);
+//        make.top.equalTo(imageViews.mas_bottom).offset(10);
+//        make.width.offset(self.view.fWidth-26);
+//        make.height.offset(50);
+//    }];
+//    UILabel *inviteLabel = [[UILabel alloc] init];
+//    inviteLabel.text = @"邀请码";
+//    inviteLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+//    inviteLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
+//    [inviteView addSubview:inviteLabel];
+//    [inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(inviteView.mas_left).offset(15);
+//        make.centerY.equalTo(inviteView.mas_centerY);
+//        make.height.offset(13);
+//    }];
+//    UITextField *inviteCode = [[UITextField alloc] init];
+//    inviteCode.placeholder = @"输入邀请码";
+//    inviteCode.textColor = UIColorRBG(68, 68, 68);
+//    inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+//    inviteCode.delegate = self;
+//    inviteCode.keyboardType = UIKeyboardTypeNumberPad;
+//    inviteCode.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _inviteHeadCode = inviteCode;
+//    [inviteView addSubview:inviteCode];
+//    [inviteCode mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(inviteLabel.mas_right).offset(36);
+//        make.centerY.equalTo(inviteView.mas_centerY);
+//        make.right.equalTo(inviteView.mas_right);
+//        make.height.offset(50);
+//    }];
 }
 #pragma mark -有编码模块
 -(void)codeView{
@@ -687,7 +687,7 @@
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_viewTwo.mas_left);
         make.top.equalTo(_ineCode.mas_bottom);
-        make.height.offset(431);
+        make.height.offset(353);
         make.width.offset(self.view.fWidth-26);
     }];
     
@@ -805,44 +805,44 @@
         make.width.offset(self.view.fWidth-30);
     }];
     
-    UIView *inviteView = [[UIView alloc] init];
-    inviteView.backgroundColor = [UIColor whiteColor];
-    inviteView.layer.cornerRadius = 5.0;
-    inviteView.layer.shadowColor = UIColorRBG(60, 48, 0).CGColor;
-    inviteView.layer.shadowOpacity = 0.05;
-    inviteView.layer.shadowRadius = 10.0;
-    [view addSubview:inviteView];
-    [inviteView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(view.mas_left);
-        make.top.equalTo(titleLabelThree.mas_bottom).offset(18);
-        make.width.offset(self.view.fWidth-26);
-        make.height.offset(50);
-    }];
-    UILabel *inviteLabel = [[UILabel alloc] init];
-    inviteLabel.text = @"邀请码";
-    inviteLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    inviteLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
-    [inviteView addSubview:inviteLabel];
-    [inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(inviteView.mas_left).offset(15);
-        make.centerY.equalTo(inviteView.mas_centerY);
-        make.height.offset(13);
-    }];
-    UITextField *inviteCode = [[UITextField alloc] init];
-    inviteCode.placeholder = @"输入邀请码";
-    inviteCode.textColor = UIColorRBG(68, 68, 68);
-    inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    inviteCode.delegate = self;
-    inviteCode.keyboardType = UIKeyboardTypeNumberPad;
-    inviteCode.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _inviteCode = inviteCode;
-    [inviteView addSubview:inviteCode];
-    [inviteCode mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(inviteLabel.mas_right).offset(36);
-        make.centerY.equalTo(inviteView.mas_centerY);
-        make.right.equalTo(inviteView.mas_right);
-        make.height.offset(50);
-    }];
+//    UIView *inviteView = [[UIView alloc] init];
+//    inviteView.backgroundColor = [UIColor whiteColor];
+//    inviteView.layer.cornerRadius = 5.0;
+//    inviteView.layer.shadowColor = UIColorRBG(60, 48, 0).CGColor;
+//    inviteView.layer.shadowOpacity = 0.05;
+//    inviteView.layer.shadowRadius = 10.0;
+//    [view addSubview:inviteView];
+//    [inviteView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(view.mas_left);
+//        make.top.equalTo(titleLabelThree.mas_bottom).offset(18);
+//        make.width.offset(self.view.fWidth-26);
+//        make.height.offset(50);
+//    }];
+//    UILabel *inviteLabel = [[UILabel alloc] init];
+//    inviteLabel.text = @"邀请码";
+//    inviteLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+//    inviteLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
+//    [inviteView addSubview:inviteLabel];
+//    [inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(inviteView.mas_left).offset(15);
+//        make.centerY.equalTo(inviteView.mas_centerY);
+//        make.height.offset(13);
+//    }];
+//    UITextField *inviteCode = [[UITextField alloc] init];
+//    inviteCode.placeholder = @"输入邀请码";
+//    inviteCode.textColor = UIColorRBG(68, 68, 68);
+//    inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+//    inviteCode.delegate = self;
+//    inviteCode.keyboardType = UIKeyboardTypeNumberPad;
+//    inviteCode.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _inviteCode = inviteCode;
+//    [inviteView addSubview:inviteCode];
+//    [inviteCode mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(inviteLabel.mas_right).offset(36);
+//        make.centerY.equalTo(inviteView.mas_centerY);
+//        make.right.equalTo(inviteView.mas_right);
+//        make.height.offset(50);
+//    }];
 }
 #pragma mark -无编码模块
 -(void)noCodeView{
@@ -852,7 +852,7 @@
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_viewTwo.mas_left);
         make.top.equalTo(_ineCode.mas_bottom);
-        make.height.offset(490);
+        make.height.offset(430);
         make.width.offset(self.view.fWidth-26);
     }];
     //门店名称
@@ -1042,50 +1042,50 @@
         make.width.offset(100);
     }];
     
-    UIView *inviteView = [[UIView alloc] init];
-    inviteView.backgroundColor = [UIColor whiteColor];
-    inviteView.layer.cornerRadius = 5.0;
-    inviteView.layer.shadowColor = UIColorRBG(60, 48, 0).CGColor;
-    inviteView.layer.shadowOpacity = 0.05;
-    inviteView.layer.shadowRadius = 10.0;
-    [view addSubview:inviteView];
-    [inviteView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(view.mas_left);
-        make.top.equalTo(imageView.mas_bottom).offset(10);
-        make.width.offset(self.view.fWidth-26);
-        make.height.offset(50);
-    }];
-    UILabel *inviteLabel = [[UILabel alloc] init];
-    inviteLabel.text = @"邀请码";
-    inviteLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    inviteLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
-    [inviteView addSubview:inviteLabel];
-    [inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(inviteView.mas_left).offset(15);
-        make.centerY.equalTo(inviteView.mas_centerY);
-        make.height.offset(13);
-    }];
-    UITextField *inviteCode = [[UITextField alloc] init];
-    inviteCode.placeholder = @"输入邀请码";
-    inviteCode.textColor = UIColorRBG(68, 68, 68);
-    inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    inviteCode.delegate = self;
-    inviteCode.keyboardType = UIKeyboardTypeNumberPad;
-    inviteCode.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _inviteNOCode = inviteCode;
-    [inviteView addSubview:inviteCode];
-    [inviteCode mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(inviteLabel.mas_right).offset(36);
-        make.centerY.equalTo(inviteView.mas_centerY);
-        make.right.equalTo(inviteView.mas_right);
-        make.height.offset(50);
-    }];
+//    UIView *inviteView = [[UIView alloc] init];
+//    inviteView.backgroundColor = [UIColor whiteColor];
+//    inviteView.layer.cornerRadius = 5.0;
+//    inviteView.layer.shadowColor = UIColorRBG(60, 48, 0).CGColor;
+//    inviteView.layer.shadowOpacity = 0.05;
+//    inviteView.layer.shadowRadius = 10.0;
+//    [view addSubview:inviteView];
+//    [inviteView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(view.mas_left);
+//        make.top.equalTo(imageView.mas_bottom).offset(10);
+//        make.width.offset(self.view.fWidth-26);
+//        make.height.offset(50);
+//    }];
+//    UILabel *inviteLabel = [[UILabel alloc] init];
+//    inviteLabel.text = @"邀请码";
+//    inviteLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+//    inviteLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
+//    [inviteView addSubview:inviteLabel];
+//    [inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(inviteView.mas_left).offset(15);
+//        make.centerY.equalTo(inviteView.mas_centerY);
+//        make.height.offset(13);
+//    }];
+//    UITextField *inviteCode = [[UITextField alloc] init];
+//    inviteCode.placeholder = @"输入邀请码";
+//    inviteCode.textColor = UIColorRBG(68, 68, 68);
+//    inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+//    inviteCode.delegate = self;
+//    inviteCode.keyboardType = UIKeyboardTypeNumberPad;
+//    inviteCode.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    _inviteNOCode = inviteCode;
+//    [inviteView addSubview:inviteCode];
+//    [inviteCode mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(inviteLabel.mas_right).offset(36);
+//        make.centerY.equalTo(inviteView.mas_centerY);
+//        make.right.equalTo(inviteView.mas_right);
+//        make.height.offset(50);
+//    }];
 }
 #pragma mark -设置滑动值
 -(void)viewDidLayoutSubviews{
     _viewOne.frame = CGRectMake(13, kApplicationStatusBarHeight+160, self.view.fWidth-26, 139);
-    _viewTwo.frame = CGRectMake(13, _viewOne.fY+_viewOne.fHeight+10, self.view.fWidth-26, 536);
-    _viewThree.frame = CGRectMake(13, _viewOne.fY+_viewOne.fHeight+10, self.view.fWidth-26, 490);
+    _viewTwo.frame = CGRectMake(13, _viewOne.fY+_viewOne.fHeight+10, self.view.fWidth-26, 476);
+    _viewThree.frame = CGRectMake(13, _viewOne.fY+_viewOne.fHeight+10, self.view.fWidth-26, 430);
 }
 #pragma mark -经纪人按钮
 -(void)agentButton:(UIButton *)button{
@@ -1350,7 +1350,7 @@
     paraments[@"realname"] = name;
     paraments[@"storeCode"] = code;
     paraments[@"type"] = @"1";
-    paraments[@"parentPhone"] = _inviteCode.text;
+//    paraments[@"parentPhone"] = _inviteCode.text;
     NSString *url = [NSString stringWithFormat:@"%@/sysUser/companyAuthentication",HTTPURL];
     button.enabled = NO;
     [mgr POST:url parameters:paraments constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -1490,7 +1490,7 @@
     parament[@"lnglat"] = _lnglat;
     parament[@"adCode"] = _adCode;
     parament[@"type"] = @"1";
-    parament[@"parentPhone"] = _inviteNOCode.text;
+//    parament[@"parentPhone"] = _inviteNOCode.text;
     NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/cardAuthentication",HTTPURL];
     button.enabled = NO;
     [mgr POST:url parameters:parament constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -1596,7 +1596,7 @@
     parament[@"lnglat"] = _headLnglat;
     parament[@"adCode"] = _headAdCode;
     parament[@"type"] = @"1";
-    parament[@"parentPhone"] = _inviteHeadCode.text;
+//    parament[@"parentPhone"] = _inviteHeadCode.text;
     NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/dutyAuthentication",HTTPURL];
     button.enabled = NO;
     [mgr POST:url parameters:parament constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {

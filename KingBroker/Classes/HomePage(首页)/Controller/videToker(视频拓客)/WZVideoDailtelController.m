@@ -75,7 +75,7 @@
     [videoView addSubview:_player];
     //头像
     UIImageView *imageHead = [[UIImageView alloc] init];
-    [imageHead sd_setImageWithURL:[NSURL URLWithString:[_dicty valueForKey:@"portrait"]] placeholderImage:[UIImage imageNamed:@"xx_pic"]];
+//    [imageHead sd_setImageWithURL:[NSURL URLWithString:[_dicty valueForKey:@"portrait"]] placeholderImage:[UIImage imageNamed:@""]];
     imageHead.layer.cornerRadius = 25.0;
     imageHead.layer.masksToBounds = YES;
     [self.view addSubview:imageHead];

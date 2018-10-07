@@ -55,6 +55,7 @@
 @property(nonatomic,strong)NSString *uuid;
 //参数
 @property(nonatomic,strong)NSDictionary *paraments;
+
 @end
 
 @implementation WZNewReportController
@@ -73,19 +74,19 @@
     if(![_itemId isEqual:@""]&&_itemId){
         [self loadTimeData];
     }
-    if(_telphone.text.length!=11){
-        _telphone.text = @"";
-    }else{
-        if ([_orderTelFlag isEqual:@"0"]) {
-            if (![_telphone.text containsString:@"*"]) {
-                _telphone.text = [NSString stringWithFormat:@"%@****%@",[_telphone.text substringToIndex:3],[_telphone.text substringFromIndex:7]];
-            }
-        }else if([_orderTelFlag isEqual:@"1"]){
-            if ([_telphone.text containsString:@"*"]) {
-               _telphone.text = @"";
-            }
-        }
-    }
+//    if(_telphone.text.length!=11){
+//        _telphone.text = @"";
+//    }else{
+//        if ([_orderTelFlag isEqual:@"0"]) {
+//            if (![_telphone.text containsString:@"*"]) {
+//                _telphone.text = [NSString stringWithFormat:@"%@****%@",[_telphone.text substringToIndex:3],[_telphone.text substringFromIndex:7]];
+//            }
+//        }else if([_orderTelFlag isEqual:@"1"]){
+//            if ([_telphone.text containsString:@"*"]) {
+//               _telphone.text = @"";
+//            }
+//        }
+//    }
 }
 #pragma mark -创建控件
 -(void)createControl{
@@ -231,7 +232,7 @@
         make.left.equalTo(view.mas_left).offset(15);
         make.bottom.equalTo(itemName.mas_bottom).offset(15);
         make.height.offset(1);
-        make.width.offset(self.view.fWidth-80);
+        make.width.offset(self.view.fWidth-30);
     }];
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.image = [UIImage imageNamed:@"bb_more_unfold"];
@@ -242,16 +243,16 @@
         make.height.mas_offset(15);
         make.width.mas_offset(9);
     }];
-    //下划线
-    UIView  *ineTwo = [[UIView alloc] init];
-    ineTwo.backgroundColor = UIColorRBG(255, 204, 0);
-    [view addSubview:ineTwo];
-    [ineTwo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(view.mas_right).offset(-15);
-        make.bottom.equalTo(itemName.mas_bottom).offset(15);
-        make.height.offset(1);
-        make.width.offset(36);
-    }];
+//    //下划线
+//    UIView  *ineTwo = [[UIView alloc] init];
+//    ineTwo.backgroundColor = UIColorRBG(255, 204, 0);
+//    [view addSubview:ineTwo];
+//    [ineTwo mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(view.mas_right).offset(-15);
+//        make.bottom.equalTo(itemName.mas_bottom).offset(15);
+//        make.height.offset(1);
+//        make.width.offset(36);
+//    }];
     //点击按钮选择楼盘
     UIButton *titemNameButton = [[UIButton alloc] init];
     [titemNameButton addTarget:self action:@selector(itemNameButton) forControlEvents:UIControlEventTouchUpInside];
@@ -264,8 +265,11 @@
     }];
     if([_types isEqual:@"1"]){
         [titemNameButton setEnabled:NO];
+        [imageView setHidden:YES];
     }else{
         [titemNameButton setEnabled:YES];
+        [imageView setHidden:NO];
+        
     }
     //创建默认客户
     UIView *views = [[UIView alloc] initWithFrame:CGRectMake(0,view.fY+view.fHeight, _scrollView.fWidth, 118)];
@@ -334,32 +338,64 @@
         make.top.equalTo(cusTelphoneView.mas_top).with.offset(20);
         make.height.mas_offset(13);
     }];
-    //电话
-    UITextField *telphone = [[UITextField alloc] init];
-    telphone.tag = 61;
-    telphone.placeholder = @"输入手机号";
+    //电话前三位
+    UITextField *frontTelphone = [[UITextField alloc] init];
+    frontTelphone.tag = 61;
+    frontTelphone.placeholder = @"前三位";
     if (![_telphones isEqual:@""]) {
-        telphone.text = _telphones;
+        frontTelphone.text = [_telphones substringToIndex:3];
     }
-    telphone.delegate = self;
-    telphone.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    telphone.textColor = UIColorRBG(68, 68, 68);
-    telphone.keyboardType = UIKeyboardTypeNumberPad;
-    _telphone = telphone;
-    [cusTelphoneView addSubview:telphone];
-    [telphone mas_makeConstraints:^(MASConstraintMaker *make) {
+    frontTelphone.delegate = self;
+    frontTelphone.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    frontTelphone.textColor = UIColorRBG(68, 68, 68);
+    frontTelphone.keyboardType = UIKeyboardTypeNumberPad;
+    _telphone = frontTelphone;
+    [cusTelphoneView addSubview:frontTelphone];
+    [frontTelphone mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(telphoneLabel.mas_right).with.offset(40);
         make.top.equalTo(cusTelphoneView.mas_top).with.offset(5);
         make.height.mas_offset(43);
-        make.width.mas_offset(view.fWidth-170);
+        make.width.mas_offset(44);
     }];
+    
+    UILabel *hideLable = [[UILabel alloc] init];
+    hideLable.text = @"****";
+    hideLable.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    hideLable.textColor = UIColorRBG(68, 68, 68);
+    [cusTelphoneView addSubview:hideLable];
+    [hideLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(frontTelphone.mas_right).offset(-5);
+        make.top.equalTo(cusTelphoneView.mas_top).with.offset(20);
+        make.height.mas_offset(15);
+    }];
+    //电话后四位
+    UITextField *afterTelphone = [[UITextField alloc] init];
+    afterTelphone.tag = 41;
+    afterTelphone.placeholder = @"后四位";
+    if (![_telphones isEqual:@""]) {
+        afterTelphone.text = [_telphones substringFromIndex:7];
+    }
+    afterTelphone.delegate = self;
+    afterTelphone.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    afterTelphone.textColor = UIColorRBG(68, 68, 68);
+    afterTelphone.keyboardType = UIKeyboardTypeNumberPad;
+    afterTelphone.textAlignment = NSTextAlignmentRight;
+    _afterTelphone = afterTelphone;
+    [cusTelphoneView addSubview:afterTelphone];
+    [afterTelphone mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(hideLable.mas_right).offset(-5);
+        make.top.equalTo(cusTelphoneView.mas_top).with.offset(5);
+        make.height.mas_offset(43);
+        make.width.mas_offset(44);
+    }];
+    
     //下划线
     UIView  *ineTwos = [[UIView alloc] init];
     ineTwos.backgroundColor = UIColorRBG(240, 240, 240);
     [cusTelphoneView addSubview:ineTwos];
     [ineTwos mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(cusTelphoneView.mas_left).offset(15);
-        make.top.equalTo(telphone.mas_bottom);
+        make.top.equalTo(frontTelphone.mas_bottom);
         make.height.offset(1);
         make.width.offset(view.fWidth-80);
     }];
@@ -382,7 +418,7 @@
     [cusTelphoneView addSubview:ineThree];
     [ineThree mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(cusTelphoneView.mas_right).offset(-15);
-        make.top.equalTo(telphone.mas_bottom);
+        make.top.equalTo(frontTelphone.mas_bottom);
         make.height.offset(1);
         make.width.offset(36);
     }];
@@ -762,7 +798,7 @@
     }];
     //电话
     UITextField *telphone = [[UITextField alloc] init];
-    telphone.placeholder = @"输入手机号";
+    telphone.placeholder = @"前三位";
     telphone.delegate = self;
     telphone.tag = 61;
     telphone.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
@@ -773,8 +809,35 @@
         make.left.equalTo(telphoneLabel.mas_right).with.offset(40);
         make.top.equalTo(cusTelphoneView.mas_top).with.offset(5);
         make.height.mas_offset(43);
-        make.width.mas_offset(view.fWidth-170);
+        make.width.mas_offset(44);
     }];
+    UILabel *hideLable = [[UILabel alloc] init];
+    hideLable.text = @"****";
+    hideLable.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    hideLable.textColor = UIColorRBG(68, 68, 68);
+    [cusTelphoneView addSubview:hideLable];
+    [hideLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(telphone.mas_right).offset(-5);
+        make.top.equalTo(cusTelphoneView.mas_top).with.offset(20);
+        make.height.mas_offset(15);
+    }];
+    //电话后四位
+    UITextField *afterTelphone = [[UITextField alloc] init];
+    afterTelphone.tag = 41;
+    afterTelphone.placeholder = @"后四位";
+    afterTelphone.delegate = self;
+    afterTelphone.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    afterTelphone.textColor = UIColorRBG(68, 68, 68);
+    afterTelphone.keyboardType = UIKeyboardTypeNumberPad;
+    afterTelphone.textAlignment = NSTextAlignmentRight;
+    [cusTelphoneView addSubview:afterTelphone];
+    [afterTelphone mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(hideLable.mas_right).offset(-5);
+        make.top.equalTo(cusTelphoneView.mas_top).with.offset(5);
+        make.height.mas_offset(43);
+        make.width.mas_offset(44);
+    }];
+    
     //下划线
     UIView  *ineTwo = [[UIView alloc] init];
     ineTwo.backgroundColor = UIColorRBG(240, 240, 240);
@@ -827,7 +890,7 @@
     }];
     //电话
     UITextField *telphone = [[UITextField alloc] init];
-    telphone.placeholder = @"输入手机号";
+    telphone.placeholder = @"前三位";
     telphone.delegate = self;
     telphone.tag = 70;
     telphone.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
@@ -838,7 +901,33 @@
         make.left.equalTo(telphoneLabel.mas_right).with.offset(40);
         make.top.equalTo(view.mas_top).with.offset(5);
         make.height.mas_offset(43);
-        make.width.mas_offset(view.fWidth-170);
+        make.width.mas_offset(44);
+    }];
+    UILabel *hideLable = [[UILabel alloc] init];
+    hideLable.text = @"****";
+    hideLable.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    hideLable.textColor = UIColorRBG(68, 68, 68);
+    [view addSubview:hideLable];
+    [hideLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(telphone.mas_right).offset(-5);
+        make.top.equalTo(view.mas_top).with.offset(20);
+        make.height.mas_offset(15);
+    }];
+    //电话后四位
+    UITextField *afterTelphone = [[UITextField alloc] init];
+    afterTelphone.tag = 41;
+    afterTelphone.placeholder = @"后四位";
+    afterTelphone.delegate = self;
+    afterTelphone.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    afterTelphone.textColor = UIColorRBG(68, 68, 68);
+    afterTelphone.keyboardType = UIKeyboardTypeNumberPad;
+    afterTelphone.textAlignment = NSTextAlignmentRight;
+    [view addSubview:afterTelphone];
+    [afterTelphone mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(hideLable.mas_right).offset(-5);
+        make.top.equalTo(view.mas_top).with.offset(5);
+        make.height.mas_offset(43);
+        make.width.mas_offset(44);
     }];
     //下划线
     UIView  *ineTwo = [[UIView alloc] init];
@@ -893,20 +982,21 @@
         for (int i=0; i<cusArray.count; i++) {
             NSString *name = [cusArray[i] valueForKey:@"name"];
             NSString *tel = [cusArray[i] valueForKey:@"telphone"];
-            //判断是否实号显示
-            if (tel.length == 11) {
-                if ([_orderTelFlag isEqual:@"0"]) {
-                    tel = [NSString stringWithFormat:@"%@****%@",[tel substringToIndex:3],[tel substringFromIndex:7]];
-                }else {
-                    if ([tel containsString:@"*"]) {
-                        tel = @"";
-                    }
-                }
-            }
+//            //判断是否实号显示
+//            if (tel.length == 11) {
+//                if ([_orderTelFlag isEqual:@"0"]) {
+//                    tel = [NSString stringWithFormat:@"%@****%@",[tel substringToIndex:3],[tel substringFromIndex:7]];
+//                }else {
+//                    if ([tel containsString:@"*"]) {
+//                        tel = @"";
+//                    }
+//                }
+//            }
             
             if (i==0) {
                 _custormName.text = name;
-                _telphone.text = tel;
+                _telphone.text = [tel substringToIndex:3];
+                _afterTelphone.text = [tel substringFromIndex:7];
             }else{
                 NSUInteger n = _scrollView.subviews.count-3;
                 _addCustomerView.fY += 128;
@@ -919,8 +1009,11 @@
                 _scrollView.contentSize =  CGSizeMake(0, _scrollView.contentSize.height + height);
                 UITextField *cusName = [[customerView viewWithTag:8] viewWithTag:60];
                 UITextField *telphone = [[customerView viewWithTag:9] viewWithTag:61];
+                UITextField *afterTelphone = [[customerView viewWithTag:9] viewWithTag:41];
                 cusName.text = name;
-                telphone.text = tel;
+                telphone.text = [tel substringToIndex:3];
+                afterTelphone.text = [tel substringFromIndex:7];
+                
             }
         }
     };
@@ -978,7 +1071,7 @@
         _dutyTelphone = [dicty valueForKey:@"telphone"];
         _orderTelFlag = [dicty valueForKey:@"orderTelFlag"];
         //清除手机号
-        [self setTelphoneType];
+        //[self setTelphoneType];
         //请求数据
         [self loadTimeData];
     };
@@ -990,24 +1083,44 @@
     for (int i = 0; i<n; i++) {
         UIView *view = [_scrollView viewWithTag:(1000+i)];
         UITextField *telphoneOne = [[view viewWithTag:9] viewWithTag:61];
+        UITextField *afterTelphoneOne = [[view viewWithTag:9] viewWithTag:41];
         if (![telphoneOne.text isEqual:@""]) {
             telphoneOne.text = @"";
-            telphoneOne.placeholder = @"输入手机号";
+            telphoneOne.placeholder = @"前三位";
+        }
+        if (![afterTelphoneOne.text isEqual:@""]) {
+            afterTelphoneOne.text = @"";
+            afterTelphoneOne.placeholder = @"后四位";
         }
         UITextField *telphoneTwo = [[view viewWithTag:10] viewWithTag:70];
+        UITextField *afterTelphoneTwo = [[view viewWithTag:10] viewWithTag:41];
         if (![telphoneTwo.text isEqual:@""]) {
             telphoneTwo.text = @"";
-            telphoneTwo.placeholder = @"输入手机号";
+            telphoneTwo.placeholder = @"前三位";
+        }
+        if (![afterTelphoneTwo.text isEqual:@""]) {
+            afterTelphoneTwo.text = @"";
+            afterTelphoneTwo.placeholder = @"后四位";
         }
         UITextField *telphoneThree = [[view viewWithTag:11] viewWithTag:70];
+        UITextField *afterTelphoneThree = [[view viewWithTag:11] viewWithTag:41];
         if (![telphoneThree.text isEqual:@""]) {
             telphoneThree.text = @"";
-            telphoneThree.placeholder = @"输入手机号";
+            telphoneThree.placeholder = @"前三位";
+        }
+        if (![afterTelphoneThree.text isEqual:@""]) {
+            afterTelphoneThree.text = @"";
+            afterTelphoneThree.placeholder = @"后四位";
         }
         UITextField *telphoneFour = [[view viewWithTag:12] viewWithTag:70];
+        UITextField *afterTelphoneFour = [[view viewWithTag:12] viewWithTag:41];
         if (![telphoneFour.text isEqual:@""]) {
             telphoneFour.text = @"";
-            telphoneFour.placeholder = @"输入手机号";
+            telphoneFour.placeholder = @"前三位";
+        }
+        if (![afterTelphoneFour.text isEqual:@""]) {
+            afterTelphoneFour.text = @"";
+            afterTelphoneFour.placeholder = @"后四位";
         }
         
     }
@@ -1171,31 +1284,34 @@
     for (int i = 0; i<n; i++) {
         UIView *view = [_scrollView viewWithTag:(1000+i)];
         UITextField *name = [[view viewWithTag:8] viewWithTag:60];
-        UITextField *telphoneOne = [[view viewWithTag:9] viewWithTag:61];
-        UITextField *telphoneTwo = [[view viewWithTag:10] viewWithTag:70];
-        UITextField *telphoneThree = [[view viewWithTag:11] viewWithTag:70];
-        UITextField *telphoneFour = [[view viewWithTag:12] viewWithTag:70];
+        NSString *telphoneOne = [NSString stringWithFormat:@"%@****%@",[[view viewWithTag:9] viewWithTag:61],[[view viewWithTag:9] viewWithTag:41] ];
+        
+        NSString *telphoneTwo = [NSString stringWithFormat:@"%@****%@",[[view viewWithTag:10] viewWithTag:70],[[view viewWithTag:10] viewWithTag:41] ];
+        NSString *telphoneThree = [NSString stringWithFormat:@"%@****%@",[[view viewWithTag:11] viewWithTag:70],[[view viewWithTag:11] viewWithTag:41] ];
+        NSString *telphoneFour = [NSString stringWithFormat:@"%@****%@",[[view viewWithTag:12] viewWithTag:70],[[view viewWithTag:12] viewWithTag:41] ];
         if ([name isEqual:@""]) {
             [SVProgressHUD showInfoWithStatus:@"请填写客户姓名"];
             return;
         }
-        if(telphoneOne.text.length != 11){
+        if(telphoneOne.length != 11){
             [SVProgressHUD showInfoWithStatus:@"客户电话格式不正确"];
             return;
-        }else{
-            if ([_orderTelFlag isEqual:@"1"]) {
-                if ([telphoneOne.text containsString:@"*"]) {
-                    [SVProgressHUD showInfoWithStatus:@"客户电话必须实号"];
-                    return;
-                }
-            }
+        }
+        if (telphoneTwo.length != 11) {
+            telphoneTwo = @"";
+        }
+        if (telphoneThree.length != 11) {
+            telphoneThree = @"";
+        }
+        if (telphoneFour.length != 11) {
+            telphoneFour = @"";
         }
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
         dictionary[@"name"] = name.text;
-        dictionary[@"missContacto"] = telphoneOne.text;
-        dictionary[@"missContacttw"] = telphoneTwo.text;
-        dictionary[@"missContactth"] = telphoneThree.text;
-        dictionary[@"missContactf"] = telphoneFour.text;
+        dictionary[@"missContacto"] = telphoneOne;
+        dictionary[@"missContacttw"] = telphoneTwo;
+        dictionary[@"missContactth"] = telphoneThree;
+        dictionary[@"missContactf"] = telphoneFour;
         [customerArrays addObject:dictionary];
     }
     //预计上客时间
@@ -1353,8 +1469,38 @@
         UITextField *telphoneTwo = [[view viewWithTag:10] viewWithTag:70];
         UITextField *telphoneThree = [[view viewWithTag:11] viewWithTag:70];
         UITextField *telphoneFour = [[view viewWithTag:12] viewWithTag:70];
-        if (telphoneOne == textField ||telphoneTwo == textField||telphoneThree == textField||telphoneFour == textField) {
-            if (toBeString.length>11) {
+        
+        UITextField *telphoneOnes = [[view viewWithTag:9] viewWithTag:41];
+        UITextField *telphoneTwos = [[view viewWithTag:10] viewWithTag:41];
+        UITextField *telphoneThrees = [[view viewWithTag:11] viewWithTag:41];
+        UITextField *telphoneFours = [[view viewWithTag:12] viewWithTag:41];
+       
+        if (telphoneOne == textField) {
+            if (toBeString.length>3) {
+                [telphoneOnes becomeFirstResponder];
+                return NO;
+            }
+        }
+        if (telphoneTwo == textField) {
+            if (toBeString.length>3) {
+                [telphoneTwos becomeFirstResponder];
+                return NO;
+            }
+        }
+        if (telphoneThree == textField) {
+            if (toBeString.length>3) {
+                [telphoneThrees becomeFirstResponder];
+                return NO;
+            }
+        }
+        if (telphoneFour == textField) {
+            if (toBeString.length>3) {
+                [telphoneFours becomeFirstResponder];
+                return NO;
+            }
+        }
+        if (telphoneOnes == textField ||telphoneTwos == textField||telphoneThrees == textField||telphoneFours == textField) {
+            if (toBeString.length>4) {
                 return NO;
             }
         }
@@ -1364,29 +1510,29 @@
     }
     return YES;
 }
-#pragma mark -失去焦点
-- (void)textFieldDidEndEditing:(UITextField *)textField{
-    NSInteger n = _scrollView.subviews.count - 3;
-    for (int i = 0; i<n; i++) {
-        UIView *view = [_scrollView viewWithTag:(1000+i)];
-        UITextField *telphoneOne = [[view viewWithTag:9] viewWithTag:61];
-        UITextField *telphoneTwo = [[view viewWithTag:10] viewWithTag:70];
-        UITextField *telphoneThree = [[view viewWithTag:11] viewWithTag:70];
-        UITextField *telphoneFour = [[view viewWithTag:12] viewWithTag:70];
-        if (telphoneOne == textField ||telphoneTwo == textField||telphoneThree == textField||telphoneFour == textField) {
-            NSString *telphone = textField.text;
-            if (telphone.length == 11) {
-                if ([_orderTelFlag isEqual:@"0"]) {
-                    textField.text = [NSString stringWithFormat:@"%@****%@",[telphone substringToIndex:3],[telphone substringFromIndex:7]];
-                }else{
-                    if ([telphone containsString:@"*"]) {
-                        textField.text = @"";
-                    }
-                }
-            }
-        }
-    }
-}
+//#pragma mark -失去焦点
+//- (void)textFieldDidEndEditing:(UITextField *)textField{
+//    NSInteger n = _scrollView.subviews.count - 3;
+//    for (int i = 0; i<n; i++) {
+//        UIView *view = [_scrollView viewWithTag:(1000+i)];
+//        UITextField *telphoneOne = [[view viewWithTag:9] viewWithTag:61];
+//        UITextField *telphoneTwo = [[view viewWithTag:10] viewWithTag:70];
+//        UITextField *telphoneThree = [[view viewWithTag:11] viewWithTag:70];
+//        UITextField *telphoneFour = [[view viewWithTag:12] viewWithTag:70];
+//        if (telphoneOne == textField ||telphoneTwo == textField||telphoneThree == textField||telphoneFour == textField) {
+//            NSString *telphone = textField.text;
+//            if (telphone.length == 11) {
+//                if ([_orderTelFlag isEqual:@"0"]) {
+//                    textField.text = [NSString stringWithFormat:@"%@****%@",[telphone substringToIndex:3],[telphone substringFromIndex:7]];
+//                }else{
+//                    if ([telphone containsString:@"*"]) {
+//                        textField.text = @"";
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 #pragma mark-显示导航栏
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

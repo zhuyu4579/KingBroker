@@ -23,8 +23,11 @@
 //默认第一个客户姓名
 @property (nonatomic, strong)UITextField *custormName;
 @property (nonatomic, copy)NSString *custormNames;
-//默认第一个客户电话
+//默认第一个客户电话前半部分
 @property (nonatomic, strong)UITextField *telphone;
+//默认第一个客户电话后半部分
+@property (nonatomic, strong)UITextField *afterTelphone;
+
 @property (nonatomic, copy)NSString *telphones;
 //其他报备入口类型
 @property(nonatomic,strong)NSString *types;
