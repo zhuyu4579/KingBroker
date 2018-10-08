@@ -1521,7 +1521,7 @@
             [defaults synchronize];
             //审核页面
             WZExamineController *exVc = [[WZExamineController alloc] init];
-            exVc.titleLabel = @"资料上传成功，请耐心等待审核...";
+            exVc.titleLabel = @"资料上传成功，审核通过后，你可在系统\n消息里领取你的新人专属现金红包，耐心等待审核...";
             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:exVc];
             [self.navigationController presentViewController:nav animated:YES completion:nil];
             
@@ -1627,7 +1627,7 @@
             [defaults synchronize];
             //审核页面
             WZExamineController *exVc = [[WZExamineController alloc] init];
-            exVc.titleLabel = @"资料上传成功，请耐心等待审核...";
+            exVc.titleLabel = @"资料上传成功，审核通过后，你可在系统\n消息里领取你的新人专属现金红包，耐心等待审核...";
             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:exVc];
             [self.navigationController presentViewController:nav animated:YES completion:nil];
             

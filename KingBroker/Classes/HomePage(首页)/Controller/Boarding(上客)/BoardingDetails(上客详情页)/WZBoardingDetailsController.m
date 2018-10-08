@@ -771,7 +771,7 @@
         if (time1 >boardingLimitTime*60*1000) {
             [GKCover translucentWindowCenterCoverContent:_codeView animated:YES notClick:YES];
         }else{
-            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"订单创建时间小于%d分钟",boardingLimitTime]];
+            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"报备%d分钟后才能上客",boardingLimitTime]];
         }
     }
 }

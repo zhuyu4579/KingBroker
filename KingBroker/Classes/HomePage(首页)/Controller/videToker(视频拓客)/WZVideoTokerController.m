@@ -70,7 +70,7 @@
     
     if (@available(iOS 10.0, *)) {
         //layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
-        layout.itemSize = CGSizeMake(120, 23);
+        layout.itemSize = CGSizeMake(100, 23);
     } else {
         layout.estimatedItemSize = CGSizeMake(80, 23);
     }

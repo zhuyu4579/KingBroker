@@ -141,7 +141,7 @@
     UILabel *titles= [[UILabel alloc] init];
     titles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
     titles.textColor = [UIColor colorWithRed:68/255.0 green:68/255.0 blue:68/255.0 alpha:0];
-    titles.text = @"加入门店";
+    titles.text = @"更换门店";
     self.Bartitle = titles;
     [tabView addSubview:titles];
     [titles mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -153,7 +153,7 @@
     
     //标题
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, kApplicationStatusBarHeight+30,200, 18)];
-    title.text = @"加入门店";
+    title.text = @"更换门店";
     title.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:18];
     title.textColor = UIColorRBG(255, 168, 66);
     [_scrollView addSubview:title];
@@ -199,7 +199,7 @@
         make.width.offset(self.view.fWidth);
     }];
     if ([_jionType isEqual:@"1"]) {
-        [button setTitle:@"加入门店" forState:UIControlStateNormal];
+        [button setTitle:@"更换门店" forState:UIControlStateNormal];
         [button addTarget:self action:@selector(jionStore:) forControlEvents:UIControlEventTouchUpInside];
         _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight-49-JF_BOTTOM_SPACE);
     }else{
@@ -212,6 +212,9 @@
 
 #pragma mark -创建名字
 -(void)createName{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *realname = [ user objectForKey:@"realname"];
+    
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(13, kApplicationStatusBarHeight+160, self.view.fWidth-26, 139)];
     _viewOne = view;
     [_scrollView addSubview:view];
@@ -258,31 +261,31 @@
         make.height.offset(2);
         make.width.offset(50);
     }];
-    //门店负责人
-    UIButton *headButton = [[UIButton alloc] init];
-    [headButton setTitle:@"门店负责人" forState:UIControlStateNormal];
-    [headButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
-    headButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
-    [headButton addTarget:self action:@selector(headButton:) forControlEvents:UIControlEventTouchUpInside];
-    _headButton = headButton;
-    [view addSubview:headButton];
-    [headButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(agentButton.mas_right).offset(40);
-        make.top.equalTo(view.mas_top).mas_offset(8);
-        make.height.offset(35);
-        make.width.offset(80);
-    }];
+//    //门店负责人
+//    UIButton *headButton = [[UIButton alloc] init];
+//    [headButton setTitle:@"门店负责人" forState:UIControlStateNormal];
+//    [headButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
+//    headButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+//    [headButton addTarget:self action:@selector(headButton:) forControlEvents:UIControlEventTouchUpInside];
+//    _headButton = headButton;
+//    [view addSubview:headButton];
+//    [headButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(agentButton.mas_right).offset(40);
+//        make.top.equalTo(view.mas_top).mas_offset(8);
+//        make.height.offset(35);
+//        make.width.offset(80);
+//    }];
     //划线
-    UIView *ineHead = [[UIView alloc] init];
-    ineHead.backgroundColor = [UIColor clearColor];
-    _ineHead = ineHead;
-    [view addSubview:ineHead];
-    [ineHead mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(agentButton.mas_right).offset(40);
-        make.top.equalTo(headButton.mas_bottom).offset(4);
-        make.height.offset(2);
-        make.width.offset(80);
-    }];
+//    UIView *ineHead = [[UIView alloc] init];
+//    ineHead.backgroundColor = [UIColor clearColor];
+//    _ineHead = ineHead;
+//    [view addSubview:ineHead];
+//    [ineHead mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(agentButton.mas_right).offset(40);
+//        make.top.equalTo(headButton.mas_bottom).offset(4);
+//        make.height.offset(2);
+//        make.width.offset(80);
+//    }];
     //经纪人模块
     [self agrentView];
     //门店负责人模块
@@ -293,10 +296,10 @@
         [_viewThree setHidden:YES];
         [_viewTwo setHidden:NO];
     }else{
-        [headButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-        ineHead.backgroundColor = UIColorRBG(255, 204, 0);
-        [_viewTwo setHidden:YES];
-        [_viewThree setHidden:NO];
+//        [headButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
+//        ineHead.backgroundColor = UIColorRBG(255, 204, 0);
+//        [_viewTwo setHidden:YES];
+//        [_viewThree setHidden:NO];
     }
     
     UILabel *nameLabel = [[UILabel alloc] init];
@@ -311,6 +314,7 @@
     }];
     UITextField *name = [[UITextField alloc] init];
     name.placeholder = @"填写个人姓名";
+    name.text = realname;
     name.textColor = UIColorRBG(68, 68, 68);
     name.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     name.delegate = self;
@@ -889,7 +893,7 @@
     [_viewThree setHidden:YES];
     [_viewTwo setHidden:NO];
     if([_codeType isEqual:@"0"]){
-        [_button setTitle:@"加入门店" forState:UIControlStateNormal];
+        [_button setTitle:@"更换门店" forState:UIControlStateNormal];
         [_button addTarget:self action:@selector(jionStore:) forControlEvents:UIControlEventTouchUpInside];
         _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight-49-JF_BOTTOM_SPACE);
         //设置文字
@@ -942,7 +946,7 @@
     //设置文字
     _labelOne.attributedText = [[NSAttributedString alloc] initWithString:@"1.门店编码是经喜APP合作门店的唯一标识，你可咨询你的店长或者同事"];
     _labelTwo.text = @"2.加入门店后报备客户，成交后可赚取佣金；APP内做任 务赚取现金奖励";
-    [_button setTitle:@"加入门店" forState:UIControlStateNormal];
+    [_button setTitle:@"更换门店" forState:UIControlStateNormal];
     [_button addTarget:self action:@selector(jionStore:) forControlEvents:UIControlEventTouchUpInside];
     _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight-49-JF_BOTTOM_SPACE);
 }
@@ -1228,7 +1232,7 @@
     parament[@"storeName"] = storeName;
     parament[@"lnglat"] = _lnglat;
     parament[@"adCode"] = _adCode;
-    parament[@"type"] = @"2";
+    parament[@"type"] = @"4";
     NSString *url = [NSString stringWithFormat:@"%@/sysAuthenticationInfo/cardAuthentication",HTTPURL];
     button.enabled = NO;
     [mgr POST:url parameters:parament constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -1259,6 +1263,7 @@
             [defaults synchronize];
             //审核页面
             WZExamineController *exVc = [[WZExamineController alloc] init];
+            exVc.titleLabel = @"资料上传成功，请耐心等待审核...";
             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:exVc];
             [self.navigationController presentViewController:nav animated:YES completion:nil];
             

@@ -118,7 +118,7 @@
     [self.view addSubview:lunView];
     [lunView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(15);
-        make.top.equalTo(self.view.mas_top).offset(kApplicationStatusBarHeight+244*n);
+        make.top.equalTo(self.view.mas_top).offset(kApplicationStatusBarHeight+249*n);
         make.width.offset(self.view.fWidth-30);
         make.height.offset(22);
     }];

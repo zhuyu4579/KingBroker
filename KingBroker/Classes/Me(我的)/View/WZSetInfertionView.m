@@ -141,21 +141,29 @@
     NSString *birthDate = [_loginItem valueForKey:@"birthday"];
     if (birthDate) {
         _birthDate.text = birthDate;
+    }else{
+        _birthDate.text = @"请选择";
     }
     //籍贯
     NSString *birthAddress = [_loginItem valueForKey:@"navitePlace"];
     if (birthAddress){
         _birthAddress.text = birthAddress;
+    }else{
+        _birthAddress.text = @"请选择";
     }
     //从业时间
     NSString *employmentTime = [_loginItem valueForKey:@"startWorkTime"];
     if (employmentTime){
        _employmentTime.text = employmentTime;
+    }else{
+        _employmentTime.text = @"请选择";
     }
     //入职时间
     NSString *entryTime = [_loginItem valueForKey:@"hiredate"];
     if (entryTime){
         _entryTime.text = entryTime;
+    }else{
+        _entryTime.text = @"请选择";
     }
     _url = [_loginItem valueForKey:@"portrait"];
 }

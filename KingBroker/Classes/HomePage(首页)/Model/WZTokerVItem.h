@@ -15,4 +15,6 @@
 @property(nonatomic,strong)NSString *videoImg;
 @property(nonatomic,strong)NSString *realname;
 @property(nonatomic,strong)NSString *portrait;
+@property(nonatomic,strong)NSString *height;
+@property(nonatomic,strong)NSString *width;
 @end
