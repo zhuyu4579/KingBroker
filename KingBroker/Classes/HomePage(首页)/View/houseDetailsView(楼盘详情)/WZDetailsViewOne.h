@@ -17,7 +17,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *itemLabelThree;
 @property (weak, nonatomic) IBOutlet UILabel *Commission;
 @property (weak, nonatomic) IBOutlet UILabel *address;
-@property (weak, nonatomic) IBOutlet UILabel *phone;
 @property (strong, nonatomic) IBOutlet UIButton *JoinButton;
 @property (weak, nonatomic) IBOutlet UILabel *companyName;
 @property (weak, nonatomic) IBOutlet UILabel *chargeMan;

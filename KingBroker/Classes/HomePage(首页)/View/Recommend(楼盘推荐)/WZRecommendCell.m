@@ -64,7 +64,7 @@
             if([commissionFag isEqual:@"0"]){
                  _Commission.text = [NSString stringWithFormat:@"佣金：%@" ,item.commission];
             }else{
-                _Commission.text = @"佣金结给门店";
+                _Commission.text = @"请咨询负责人";
             }
         }else{
             [_joinButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];

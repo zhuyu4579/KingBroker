@@ -178,7 +178,7 @@
     NSString *portrait = [_loginItem valueForKey:@"portrait"];
     NSURL *url =[NSURL URLWithString:portrait];
     //0是未加入门店
-    [_headImageViewTwo sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"xx_pic"]];
+    [_headImageViewTwo sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"zw_icon6"]];
     
     if (state == 0) {
         [_joinButton setTitle:@"点击加入门店" forState:UIControlStateNormal];
@@ -221,7 +221,7 @@
     [loginSuccessView addSubview:imageView];
     //头像
     UIImageView *headImageView = [[UIImageView alloc] init];
-    headImageView.image = [UIImage imageNamed:@"xx_pic"];
+    headImageView.image = [UIImage imageNamed:@"zw_icon6"];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickImage)];
     [headImageView addGestureRecognizer:tapGesture];
     headImageView.layer.cornerRadius= 67/2.0;//裁成圆角
@@ -320,7 +320,7 @@
 }
 #pragma mark - 未登录
 -(void)nologins{
-    _headImageViewTwo.image = [UIImage imageNamed:@"xx_pic"];
+    _headImageViewTwo.image = [UIImage imageNamed:@"zw_icon6"];
     [_loginButton setEnabled:YES];
     [_loginButton setHidden:NO];
     [_name setHidden:YES];

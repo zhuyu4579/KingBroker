@@ -299,13 +299,13 @@ static NSString *size = @"20";
     _viewNo = view;
     [self.view addSubview:view];
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [UIImage imageNamed:@"vacancy"];
+    imageView.image = [UIImage imageNamed:@"lp_kIcon"];
     [view addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(view.mas_top).offset(194);
-        make.width.offset(94);
-        make.height.offset(96);
+        make.top.equalTo(view.mas_top).offset(120);
+        make.width.offset(181);
+        make.height.offset(150);
     }];
     UILabel *label = [[UILabel alloc] init];
     label.text = @"还没有任何楼盘哦~";

@@ -46,7 +46,7 @@
     _cancel.frame = CGRectMake(10,260,SCREEN_WIDTH-20,57);
     [_cancel setTitle:@"取消" forState:UIControlStateNormal];
     _cancel.titleLabel.font = [UIFont systemFontOfSize:16];
-    [_cancel setTitleColor:[UIColor colorWithRed:153.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1.0] forState:UIControlStateNormal];
+    [_cancel setTitleColor:[UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0] forState:UIControlStateNormal];
     [_cancel setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
     [_cancel setBackgroundColor:[UIColor whiteColor]];
     _cancel.layer.cornerRadius = 5.0;
@@ -59,7 +59,7 @@
     confirm.frame = CGRectMake(0,195,SCREEN_WIDTH-20,57);
     [confirm setTitle:@"拍照" forState:UIControlStateNormal];
     confirm.titleLabel.font = [UIFont systemFontOfSize:16];
-    [confirm setTitleColor:UIColorRBG(255, 216, 0) forState:UIControlStateNormal];
+    [confirm setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
      [confirm setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
    
     [confirm addTarget:self action:@selector(confirmAlert) forControlEvents:UIControlEventTouchUpInside];

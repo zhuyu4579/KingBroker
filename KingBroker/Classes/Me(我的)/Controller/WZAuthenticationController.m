@@ -35,7 +35,7 @@
     _titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     _titleLabel.textColor = UIColorRBG(153, 153, 153);
     
-    NSMutableAttributedString *attributedString =  [self changeSomeText:@"清晰可见，亮度均匀，易于识别" inText:_titleLabel.text withColor:UIColorRBG(102, 221, 85)];
+    NSMutableAttributedString *attributedString =  [self changeSomeText:@"清晰可见，亮度均匀，易于识别" inText:_titleLabel.text withColor:UIColorRBG(255, 108, 0)];
     _titleLabel.attributedText = attributedString;
     
     _getUpButton.backgroundColor = UIColorRBG(255, 224, 0);

@@ -16,6 +16,8 @@
 #import <SVProgressHUD.h>
 #import <MJRefresh.h>
 #import <MJExtension.h>
+#import "UIView+Frame.h"
+#import <Masonry.h>
 static  NSString * const ID = @"cell";
 @interface WZSelectProjectsController (){
     //页数
@@ -28,6 +30,7 @@ static  NSString * const ID = @"cell";
 //数据请求是否完毕
 @property (nonatomic, assign) BOOL isRequestFinish;
 
+@property(nonatomic,strong)UIView *viewNo;
 @end
 //查询条数
 static NSString *size = @"20";
@@ -36,6 +39,7 @@ static NSString *size = @"20";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setNoData];
     self.navigationItem.title = @"选择楼盘";
     self.tableView.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:[UIImage imageNamed:@"search_1"] highImage:[UIImage imageNamed:@"search"] target:self action:@selector(searchProject)];
@@ -125,6 +129,11 @@ static NSString *size = @"20";
                 current +=1;
                 [self.tableView.mj_footer endRefreshing];
             }
+            if (_projectListArray.count>0) {
+                [_viewNo setHidden:YES];
+            }else{
+                [_viewNo setHidden:NO];
+            }
             _projectListArrays = [WZSelcetProjectItem mj_objectArrayWithKeyValuesArray:_projectListArray];
             [self.tableView reloadData];
             [self.tableView.mj_header endRefreshing];
@@ -151,6 +160,35 @@ static NSString *size = @"20";
         [self.tableView.mj_footer endRefreshing];
         _isRequestFinish = YES;
     }];
+}
+//创建无图表
+-(void)setNoData{
+    UIView *view = [[UIView alloc] init];
+    view.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight-50);
+    [view setHidden:NO];
+    _viewNo = view;
+    [self.view addSubview:view];
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = [UIImage imageNamed:@"bb_ss_k"];
+    [view addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(view.mas_top).offset(120);
+        make.width.offset(181);
+        make.height.offset(150);
+    }];
+    UILabel *label = [[UILabel alloc] init];
+    label.text = @"暂无可报备的楼盘";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+    label.textColor = UIColorRBG(158, 158, 158);
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 0;
+    [view addSubview:label];
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(imageView.mas_bottom).offset(29);
+    }];
+    
 }
 //搜索楼盘
 -(void)searchProject{

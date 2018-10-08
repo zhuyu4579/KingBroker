@@ -31,7 +31,7 @@
 #import "WZHouseDatisController.h"
 #import "WZNewReportController.h"
 #import "WZTitleCollectionCell.h"
-#import "WZJionStoreController.h"
+#import "WZNewJionStoreController.h"
 #import "WZAlbumsViewController.h"
 #import "WZNavigationController.h"
 #import "WZShareHouseController.h"
@@ -302,7 +302,7 @@ static NSString * const IDS = @"cells";
             _dView.itemLabelThree.text = [NSString stringWithFormat:@" %@ ",labelArray[2]];
         }
     }
-    
+    _dView.chargeMan.text = [_houseDatils valueForKey:@"chargeMan"];
     if ([realtorStatus isEqual:@"2"]) {
         [_dView.JoinButton setHidden:YES];
         [_dView.JoinButton setEnabled:NO];
@@ -311,16 +311,8 @@ static NSString * const IDS = @"cells";
             _dView.Commission.text = [NSString stringWithFormat:@"佣金：%@",[_houseDatils valueForKey:@"commission"]];
             _reportButton.enabled = YES;
         }else{
-            _dView.Commission.text = @"佣金结给门店";
+            _dView.Commission.text = @"请咨询负责人";
             _reportButton.enabled = YES;
-        }
-        
-        if ([invisibleLinkmanFlag isEqual:@"0"]) {
-            _dView.chargeMan.text = [_houseDatils valueForKey:@"chargeMan"];
-            _dView.phone.text = [_houseDatils valueForKey:@"telphone"];
-        }else{
-            _dView.chargeMan.text = @"电话不可见";
-            _dView.phone.text = @"";
         }
         
     }else{
@@ -329,8 +321,6 @@ static NSString * const IDS = @"cells";
         [_dView.Commission setHidden:YES];
         [_dView.JoinButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
         _reportButton.enabled = YES;
-        _dView.chargeMan.text = @"加入门店可见电话";
-        _dView.phone.text = @"";
     }
     //地址
     _dView.address.text = [_houseDatils valueForKey:@"address"];
@@ -343,7 +333,7 @@ static NSString * const IDS = @"cells";
     //佣金规则
     NSString *rule = [_houseDatils valueForKey:@"commissionRule"];
     if ([rule isEqual:@""]||!rule) {
-        _maidRule.text = @"佣金结给门店";
+        _maidRule.text = @"请咨询负责人";
     }else{
         _maidRule.text = rule;
     }
@@ -1414,6 +1404,7 @@ static NSString * const IDS = @"cells";
                                                                   handler:^(UIAlertAction * action) {
                                                                       
                                                                   }];
+            [cancelAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
             [alert addAction:cancelAction];
             [self presentViewController:alert animated:YES completion:nil];
         }
@@ -1428,12 +1419,13 @@ static NSString * const IDS = @"cells";
                                                               }];
         UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
                                                                handler:^(UIAlertAction * action) {
-                                                                   WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
+                                                                   WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
                                                                    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
-                                                                   JionStore.type = @"1";
+                                                                   JionStore.jionType = @"1";
                                                                    [self presentViewController:nav animated:YES completion:nil];
                                                                }];
-        
+        [cancelAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+        [defaultAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
         [alert addAction:defaultAction];
         [alert addAction:cancelAction];
         [self presentViewController:alert animated:YES completion:nil];
@@ -1661,9 +1653,9 @@ static NSString * const IDS = @"cells";
                                                               }];
         UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
                                                                handler:^(UIAlertAction * action) {
-                                                                   WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
+                                                                   WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
                                                                    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
-                                                                   JionStore.type = @"1";
+                                                                   JionStore.jionType = @"1";
                                                                    [self presentViewController:nav animated:YES completion:nil];
                                                                }];
         [cancelAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];

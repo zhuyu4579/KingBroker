@@ -34,7 +34,7 @@
         if([commissionFag isEqual:@"0"]){
             _commsion.text = [NSString stringWithFormat:@"佣金：%@" ,item.commission];
         }else{
-            _commsion.text = @"佣金结给门店";
+            _commsion.text = @"请咨询负责人";
         }
     }else{
         [_JoinStoreButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
@@ -59,7 +59,7 @@
         _houseCollectionButton.selected = YES;
     }
     
-    [_projectIamge sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"sy_wntj_pic"]];
+    [_projectIamge sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"zw_icon2"]];
     if (item.tage.count!=0) {
         for (int i = 0; i<item.tage.count; i++) {
             if (i == 0) {
@@ -152,7 +152,7 @@
     
 }
 - (IBAction)JoinStore:(UIButton *)sender {
-    UIViewController *vc = [UIViewController viewController:self.superview.superview];
+    UIViewController *vc = [UIViewController viewController:self.superview.superview.superview.superview];
     WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
     JionStore.jionType = @"1";

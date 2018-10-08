@@ -118,7 +118,7 @@
     labels.textColor = UIColorRBG(153, 153, 153);
     labels.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
     NSString *titleLabel = @"1.请上传相关证件，拍摄时确保各项信息清晰可见，亮度均匀，易于识别\n2.照片必须真实拍摄，不得使用复印件和扫描件";
-    NSMutableAttributedString *attributedString =  [self changeSomeText:@"清晰可见，亮度均匀，易于识别" inText:titleLabel withColor:UIColorRBG(102, 221, 85)];
+    NSMutableAttributedString *attributedString =  [self changeSomeText:@"清晰可见，亮度均匀，易于识别" inText:titleLabel withColor:UIColorRBG(255, 108, 0)];
     labels.attributedText = attributedString;
     labels.numberOfLines = 0;
     [self.view addSubview:labels];

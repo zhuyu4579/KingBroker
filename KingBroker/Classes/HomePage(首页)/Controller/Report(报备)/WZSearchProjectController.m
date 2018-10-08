@@ -17,6 +17,7 @@
 #import <SVProgressHUD.h>
 #import <MJRefresh.h>
 #import <MJExtension.h>
+#import <Masonry.h>
 static  NSString * const ID = @"cell";
 @interface WZSearchProjectController ()<UISearchBarDelegate>{
     //页数
@@ -29,6 +30,8 @@ static  NSString * const ID = @"cell";
 @property(nonatomic,strong)NSMutableArray *projectListArrays;
 //搜索内容
 @property(nonatomic,strong)NSString *name;
+
+@property(nonatomic,strong)UIView *viewNo;
 @end
 //查询条数
 static NSString *size = @"20";
@@ -37,6 +40,7 @@ static NSString *size = @"20";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setNoData];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] init];
      self.navigationItem.hidesBackButton = YES;
     //创建搜索框
@@ -143,6 +147,11 @@ static NSString *size = @"20";
                 current +=1;
                 [self.tableView.mj_footer endRefreshing];
             }
+            if (_projectListArray.count>0) {
+                [_viewNo setHidden:YES];
+            }else{
+                [_viewNo setHidden:NO];
+            }
             _projectListArrays = [WZSelcetProjectItem mj_objectArrayWithKeyValuesArray:_projectListArray];
             [self.tableView reloadData];
             [self.tableView.mj_header endRefreshing];
@@ -169,6 +178,35 @@ static NSString *size = @"20";
         [self.tableView.mj_footer endRefreshing];
     }];
 }
+//创建无图表
+-(void)setNoData{
+    UIView *view = [[UIView alloc] init];
+    view.frame = CGRectMake(0, 0, self.view.fWidth, self.view.fHeight-50);
+    [view setHidden:NO];
+    _viewNo = view;
+    [self.view addSubview:view];
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = [UIImage imageNamed:@"bb_ss_k"];
+    [view addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(view.mas_top).offset(120);
+        make.width.offset(181);
+        make.height.offset(150);
+    }];
+    UILabel *label = [[UILabel alloc] init];
+    label.text = @"暂无搜索楼盘";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+    label.textColor = UIColorRBG(158, 158, 158);
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 0;
+    [view addSubview:label];
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(imageView.mas_bottom).offset(29);
+    }];
+    
+}
 //开始输入
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     searchBar.showsCancelButton = YES;
@@ -178,7 +216,7 @@ static NSString *size = @"20";
         {
             UIButton *btn = (UIButton *)cencelButton;
             [btn setTitle:@"取消"  forState:UIControlStateNormal];
-            [btn setTitleColor:UIColorRBG(3, 133, 219) forState:UIControlStateNormal];
+            [btn setTitleColor:UIColorRBG(255, 224, 0) forState:UIControlStateNormal];
             btn.titleLabel.font = [UIFont systemFontOfSize:14];
         }
     }

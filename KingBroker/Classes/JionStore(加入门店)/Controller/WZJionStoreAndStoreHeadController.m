@@ -522,7 +522,7 @@
         make.width.offset(20);
     }];
     UIButton *position = [[UIButton alloc] init];
-    [position addTarget:self action:@selector(positionButton:) forControlEvents:UIControlEventTouchUpInside];
+    [position addTarget:self action:@selector(headPositionButton:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:position];
     [position mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);

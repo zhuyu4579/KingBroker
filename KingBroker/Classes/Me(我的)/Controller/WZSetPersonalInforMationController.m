@@ -84,7 +84,7 @@
     NSURL *url =[NSURL URLWithString:portrait];
     
     //头像
-    [_infoView.headImage sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"head"]];
+    [_infoView.headImage sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"zw_icon6"]];
     //姓名
     _infoView.name.text = [_loginItem valueForKey:@"realname"];
     //门店位置

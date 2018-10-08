@@ -516,7 +516,6 @@
     //发送请求到微信,等待微信返回onResp
     [WXApi sendReq:req];
     [self closeGkCover];
-    
 }
 //保存图片到相册
 - (void)toSaveImage:(NSString *)urlString {

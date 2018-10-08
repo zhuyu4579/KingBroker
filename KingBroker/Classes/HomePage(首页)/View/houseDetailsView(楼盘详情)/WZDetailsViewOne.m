@@ -9,7 +9,7 @@
 #import "WZDetailsViewOne.h"
 #import <SVProgressHUD.h>
 #import "UIButton+WZEnlargeTouchAre.h"
-#import "WZJionStoreController.h"
+#import "WZNewJionStoreController.h"
 #import "WZNavigationController.h"
 #import "WZHDMapController.h"
 #import "UIViewController+WZFindController.h"
@@ -34,7 +34,6 @@
     [self.JoinButton setTitleColor:UIColorRBG(255, 180, 61) forState:UIControlStateNormal];
  
     self.address.textColor = UIColorRBG(68, 68, 68);
-    self.phone.textColor = UIColorRBG(255, 108, 0);
     self.companyName.textColor = UIColorRBG(68, 68, 68);
     self.chargeMan.textColor = UIColorRBG(68, 68, 68);
     self.developerName.textColor = UIColorRBG(68, 68, 68);
@@ -55,10 +54,10 @@
         [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
         return;
     }
-    WZJionStoreController *JionStore = [[WZJionStoreController alloc] init];
+    WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
     UIViewController *vc = [UIViewController viewController:self.superview];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
-    JionStore.type = @"1";
+    JionStore.jionType = @"1";
     [vc presentViewController:nav animated:YES completion:nil];
 }
 @end

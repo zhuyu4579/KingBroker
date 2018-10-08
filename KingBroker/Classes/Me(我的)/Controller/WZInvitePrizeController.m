@@ -92,7 +92,7 @@
 
 #pragma mark - 邀请有奖
 -(void)setControl{
-   
+    CGFloat n  = SCREEN_WIDTH/375.0;
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.frame = CGRectMake(0, kApplicationStatusBarHeight+44, self.view.fWidth, self.view.fHeight);
     imageView.image = [UIImage imageNamed:@"yq_background"];
@@ -118,7 +118,7 @@
     [self.view addSubview:lunView];
     [lunView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(15);
-        make.top.equalTo(self.view.mas_top).offset(kApplicationStatusBarHeight+244);
+        make.top.equalTo(self.view.mas_top).offset(kApplicationStatusBarHeight+244*n);
         make.width.offset(self.view.fWidth-30);
         make.height.offset(22);
     }];

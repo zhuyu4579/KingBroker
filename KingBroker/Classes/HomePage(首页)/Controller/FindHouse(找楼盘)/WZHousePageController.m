@@ -41,6 +41,7 @@
         [self.view addSubview:self.allHouseVC.view];
         [_allHouseVC loadRefreshs];
     }else{
+        
         _allButton.selected = NO;
         _meButton.selected = YES;
         [_ineOne setHidden:YES];
@@ -175,11 +176,11 @@
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    //[self.navigationController setNavigationBarHidden:YES animated:animated];
     
 }
 @end

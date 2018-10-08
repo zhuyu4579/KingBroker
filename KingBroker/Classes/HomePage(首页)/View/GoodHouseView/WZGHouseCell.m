@@ -32,7 +32,7 @@
         if([commissionFag isEqual:@"0"]){
             [_commissionButton setTitle:[NSString stringWithFormat:@" 佣金：%@ " ,item.commission] forState:UIControlStateNormal];
         }else{
-             [_commissionButton setTitle:@" 佣金结给门店 " forState:UIControlStateNormal];
+             [_commissionButton setTitle:@"请咨询负责人" forState:UIControlStateNormal];
         }
     }else{
         [_commissionButton setTitle:@" 加入门店可见佣金 " forState:UIControlStateNormal];

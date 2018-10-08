@@ -31,6 +31,10 @@
 @property (nonatomic, strong)UILabel *reportLabel;
 //批量报备按钮
 @property (nonatomic, strong)UILabel *batchReportLabel;
+//下划线
+@property (nonatomic, strong)UIView *labelIne;
+//下划线
+@property (nonatomic, strong)UIView *labelInes;
 //第-个客户view
 @property (nonatomic, strong)UIView *viewOne;
 //增加客户view
@@ -160,6 +164,18 @@
         make.height.offset(20);
         make.width.offset(40);
     }];
+    
+    UIView *labelIne = [[UIView alloc] init];
+    labelIne.backgroundColor = UIColorRBG(255, 216, 0);
+    _labelIne = labelIne;
+    [_buttonView addSubview:labelIne];
+    [labelIne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(reportLabel.mas_centerX);
+        make.bottom.equalTo(_buttonView.mas_bottom);
+        make.height.offset(3);
+        make.width.offset(30);
+    }];
+    
     UIButton *reportButton = [[UIButton alloc] init];
     [reportButton addTarget:self action:@selector(reportButtons) forControlEvents:UIControlEventTouchUpInside];
     [_buttonView addSubview:reportButton];
@@ -169,6 +185,7 @@
         make.height.offset(33);
         make.width.offset(70);
     }];
+    
     //批量报备按钮
     UILabel *batchReportLabel = [[UILabel alloc] init];
     batchReportLabel.text = @"批量报备";
@@ -181,6 +198,19 @@
         make.bottom.equalTo(_buttonView.mas_bottom).offset(-13);
         make.height.offset(20);
     }];
+    
+    UIView *labelInes = [[UIView alloc] init];
+    labelInes.backgroundColor = UIColorRBG(255, 216, 0);
+    [labelInes setHidden:YES];
+    _labelInes = labelInes;
+    [_buttonView addSubview:labelInes];
+    [labelInes mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(batchReportLabel.mas_centerX);
+        make.bottom.equalTo(_buttonView.mas_bottom);
+        make.height.offset(3);
+        make.width.offset(30);
+    }];
+    
     UIButton *batchReportButton = [[UIButton alloc] init];
     [batchReportButton addTarget:self action:@selector(batchReportButtons) forControlEvents:UIControlEventTouchUpInside];
     [_buttonView addSubview:batchReportButton];
@@ -1022,8 +1052,11 @@
 #pragma mark -单个报备按钮
 -(void)reportButtons{
     _reportType = @"0";
+    [_labelIne setHidden:NO];
+    [_labelInes setHidden:YES];
     [self findSubView:self.view];
     [_addCustomerView setHidden:YES];
+  
     NSUInteger n = _scrollView.subviews.count-4;
     
     for (int i = 1; i<= n; i++) {
@@ -1041,8 +1074,12 @@
 #pragma mark -批量报备按钮
 -(void)batchReportButtons{
     _reportType = @"1";
+    [_labelIne setHidden:YES];
+    [_labelInes setHidden:NO];
+    
     [self findSubView:self.view];
     [_addCustomerView setHidden:NO];
+  
     NSUInteger n = _scrollView.subviews.count-4;
     
     for (int i = 1; i<= n; i++) {
@@ -1284,15 +1321,26 @@
     for (int i = 0; i<n; i++) {
         UIView *view = [_scrollView viewWithTag:(1000+i)];
         UITextField *name = [[view viewWithTag:8] viewWithTag:60];
-        NSString *telphoneOne = [NSString stringWithFormat:@"%@****%@",[[view viewWithTag:9] viewWithTag:61],[[view viewWithTag:9] viewWithTag:41] ];
+        UITextField *topOne = [[view viewWithTag:9] viewWithTag:61];
+        UITextField *botOne = [[view viewWithTag:9] viewWithTag:41];
+        NSString *telphoneOne = [NSString stringWithFormat:@"%@****%@",topOne.text, botOne.text];
         
-        NSString *telphoneTwo = [NSString stringWithFormat:@"%@****%@",[[view viewWithTag:10] viewWithTag:70],[[view viewWithTag:10] viewWithTag:41] ];
-        NSString *telphoneThree = [NSString stringWithFormat:@"%@****%@",[[view viewWithTag:11] viewWithTag:70],[[view viewWithTag:11] viewWithTag:41] ];
-        NSString *telphoneFour = [NSString stringWithFormat:@"%@****%@",[[view viewWithTag:12] viewWithTag:70],[[view viewWithTag:12] viewWithTag:41] ];
+        UITextField *topTwo = [[view viewWithTag:10] viewWithTag:70];
+        UITextField *botTwo = [[view viewWithTag:10] viewWithTag:41];
+        NSString *telphoneTwo = [NSString stringWithFormat:@"%@****%@",topTwo.text,botTwo.text];
+        
+        UITextField *topThree = [[view viewWithTag:11] viewWithTag:70];
+        UITextField *botThree = [[view viewWithTag:11] viewWithTag:41];
+        NSString *telphoneThree = [NSString stringWithFormat:@"%@****%@",topThree.text,botThree.text];
+        
+        UITextField *topFour = [[view viewWithTag:12] viewWithTag:70];
+        UITextField *botFour = [[view viewWithTag:12] viewWithTag:41];
+        NSString *telphoneFour = [NSString stringWithFormat:@"%@****%@",topFour.text,botFour.text];
         if ([name isEqual:@""]) {
             [SVProgressHUD showInfoWithStatus:@"请填写客户姓名"];
             return;
         }
+        
         if(telphoneOne.length != 11){
             [SVProgressHUD showInfoWithStatus:@"客户电话格式不正确"];
             return;

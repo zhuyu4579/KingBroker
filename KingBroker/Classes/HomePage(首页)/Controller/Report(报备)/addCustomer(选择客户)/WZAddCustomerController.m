@@ -162,7 +162,7 @@ static NSString *size = @"20";
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(confirmCustomer) title:@"确定"];
     //创建占位图
-    UIView *view = [UIView createView:CGRectMake(0, 150, self.view.fWidth, 157) image:[UIImage imageNamed:@"vacancy"] titles:@"没有历史客户!"];
+    UIView *view = [UIView createView:CGRectMake(0, 150, self.view.fWidth, 157) image:[UIImage imageNamed:@"bb_ss_k"] titles:@"没有历史客户"];
     _views = view;
     [self.view addSubview:view];
 }

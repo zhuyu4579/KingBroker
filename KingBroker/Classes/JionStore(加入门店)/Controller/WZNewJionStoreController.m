@@ -502,13 +502,13 @@
         make.top.equalTo(nameIne.mas_top).offset(15);
         make.height.offset(13);
     }];
-    UILabel *storePosition = [[UILabel alloc] init];
-    storePosition.text = @"点击选择";
-    storePosition.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    storePosition.textColor = UIColorRBG(204, 204, 204);
-    _headStorePosition = storePosition;
-    [view addSubview:storePosition];
-    [storePosition mas_makeConstraints:^(MASConstraintMaker *make) {
+    UILabel *headStorePosition = [[UILabel alloc] init];
+    headStorePosition.text = @"点击选择";
+    headStorePosition.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    headStorePosition.textColor = UIColorRBG(204, 204, 204);
+    _headStorePosition = headStorePosition;
+    [view addSubview:headStorePosition];
+    [headStorePosition mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
         make.top.equalTo(positionLabel.mas_bottom).offset(18);
         make.height.offset(13);
@@ -520,7 +520,7 @@
     [view addSubview:positionIne];
     [positionIne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
-        make.top.equalTo(storePosition.mas_bottom).offset(15);
+        make.top.equalTo(headStorePosition.mas_bottom).offset(15);
         make.height.offset(1);
         make.width.offset(self.view.fWidth-97);
     }];
@@ -528,13 +528,13 @@
     poImage.image = [UIImage imageNamed:@"zc_map"];
     [view addSubview:poImage];
     [poImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(storePosition.mas_right).offset(14);
+        make.left.equalTo(headStorePosition.mas_right).offset(14);
         make.top.equalTo(positionLabel.mas_bottom).offset(11);
         make.height.offset(26);
         make.width.offset(20);
     }];
     UIButton *position = [[UIButton alloc] init];
-    [position addTarget:self action:@selector(positionButton:) forControlEvents:UIControlEventTouchUpInside];
+    [position addTarget:self action:@selector(headPositionButton:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:position];
     [position mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(18);
@@ -547,7 +547,7 @@
     positionInes.backgroundColor = UIColorRBG(255, 236, 134);
     [view addSubview:positionInes];
     [positionInes mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(storePosition.mas_right).offset(14);
+        make.left.equalTo(headStorePosition.mas_right).offset(14);
         make.top.equalTo(poImage.mas_bottom).offset(9);
         make.height.offset(1);
         make.width.offset(21);
@@ -795,7 +795,7 @@
     titleLabelThree.textColor = UIColorRBG(153, 153, 153);
     titleLabelThree.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
     NSString *strs = @"3.请上传名片正反面照片，拍摄时确保各项信息清晰可见，亮度均匀，易于识别\n4.照片必须真实拍摄，不得使用复印件和扫描件";
-    NSMutableAttributedString *attributedString =  [self changeSomeText:@"清晰可见，亮度均匀，易于识别" inText:strs withColor:UIColorRBG(102, 221, 85)];
+    NSMutableAttributedString *attributedString =  [self changeSomeText:@"清晰可见，亮度均匀，易于识别" inText:strs withColor:UIColorRBG(255, 108, 0)];
     titleLabelThree.attributedText = attributedString;
     titleLabelThree.numberOfLines = 0;
     [view addSubview:titleLabelThree];

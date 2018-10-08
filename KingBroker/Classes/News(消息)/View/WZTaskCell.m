@@ -54,7 +54,7 @@
     
     if (![url isEqual:@""]) {
         [_imageViews setHidden:NO];
-        [_imageViews sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"xx_2、3_pic"]];
+        [_imageViews sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"zw_icon4"]];
         _titleIne.constant = 122;
         _contentIne.constant = 122;
     }else{

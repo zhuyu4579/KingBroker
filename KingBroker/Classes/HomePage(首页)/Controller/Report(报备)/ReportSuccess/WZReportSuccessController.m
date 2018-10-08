@@ -75,7 +75,7 @@
             [attributedString addAttribute:NSLinkAttributeName value:@"cilck://" range:[[attributedString string] rangeOfString:_telphone]];
              [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(0, attributedString.length)];
             _labels.attributedText = attributedString;
-            _labels.linkTextAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor],NSUnderlineColorAttributeName:UIColorRBG(102, 102, 102), NSUnderlineStyleAttributeName: @(NSUnderlinePatternDot)};
+            _labels.linkTextAttributes = @{NSForegroundColorAttributeName:UIColorRBG(255, 108, 0),NSUnderlineColorAttributeName:UIColorRBG(102, 102, 102), NSUnderlineStyleAttributeName: @(NSUnderlinePatternDot)};
     
             _labelRed.text = @"楼盘须与门店签约，未签约可能会影响佣金结算，请及时签约";
         }else{
@@ -83,7 +83,7 @@
             [attributedString addAttribute:NSLinkAttributeName value:@"cilck://" range:[[attributedString string] rangeOfString:_telphone]];
             [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(0, attributedString.length)];
             _labels.attributedText = attributedString;
-            _labels.linkTextAttributes = @{NSForegroundColorAttributeName:[UIColor blackColor],NSUnderlineColorAttributeName:UIColorRBG(102, 102, 102), NSUnderlineStyleAttributeName: @(NSUnderlinePatternDot)};
+            _labels.linkTextAttributes = @{NSForegroundColorAttributeName:UIColorRBG(255, 108, 0),NSUnderlineColorAttributeName:UIColorRBG(102, 102, 102), NSUnderlineStyleAttributeName: @(NSUnderlinePatternDot)};
             _labelRed.text = @"楼盘须与门店签约，签约过期可能影响佣金结算，请及时续约";
         }
     }

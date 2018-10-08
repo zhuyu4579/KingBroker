@@ -35,7 +35,7 @@
         if([commissionFag isEqual:@"0"]){
             _houseCommission.text = [NSString stringWithFormat:@"佣金：%@" ,item.commission];
         }else{
-            _houseCommission.text = @"佣金结给门店";
+            _houseCommission.text = @"请咨询负责人";
         }
     }else{
         [_JoinStoreButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
@@ -57,7 +57,7 @@
     }
     _cityName.text = item.cityName;
     _companyName.text = item.companyName;
-    [_houseImage sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"lp_pic"]];
+    [_houseImage sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"zw_icon2"]];
     _houseLabelOne.text = @"";
     _houseLabelTwo.text = @"";
     _houseLabelThree.text = @"";
@@ -150,7 +150,7 @@
     
 }
 - (IBAction)JoinStore:(UIButton *)sender {
-    UIViewController *vc = [UIViewController viewController:self.superview.superview];
+    UIViewController *vc = [UIViewController viewController:self.superview.superview.superview.superview];
     WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
     JionStore.jionType = @"1";
