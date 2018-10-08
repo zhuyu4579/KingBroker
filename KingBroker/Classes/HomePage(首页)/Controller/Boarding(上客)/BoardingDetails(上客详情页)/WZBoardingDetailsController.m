@@ -180,21 +180,21 @@
     //设置按钮
     NSString *verify = [_order valueForKey:@"verify"];
     //设置打电话按钮
-    if([_orderTelFlag isEqual:@"1"]){
-        [_playTelphoneButton setHidden:NO];
-        [_playTelphoneButton setEnabled:YES];
-        [_codeButton mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(_viewOne.mas_right).with.offset(-75);
-        }];
-        [self.view layoutIfNeeded];
-    }else{
-        [_playTelphoneButton setHidden:YES];
-        [_playTelphoneButton setEnabled:NO];
-        [_codeButton mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(_viewOne.mas_right).with.offset(-15);
-        }];
-        [self.view layoutIfNeeded];
-    }
+//    if([_orderTelFlag isEqual:@"1"]){
+//        [_playTelphoneButton setHidden:NO];
+//        [_playTelphoneButton setEnabled:YES];
+//        [_codeButton mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.right.equalTo(_viewOne.mas_right).with.offset(-75);
+//        }];
+//        [self.view layoutIfNeeded];
+//    }else{
+//        [_playTelphoneButton setHidden:YES];
+//        [_playTelphoneButton setEnabled:NO];
+//        [_codeButton mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.right.equalTo(_viewOne.mas_right).with.offset(-15);
+//        }];
+//        [self.view layoutIfNeeded];
+//    }
     
     //订单记录
     NSInteger statu = [status integerValue];
@@ -415,33 +415,33 @@
         make.height.mas_offset(12);
     }];
     
-    //分割线
-    UIView *ineCode = [[UIView alloc] init];
-    ineCode.backgroundColor = UIColorRBG(240, 240, 240);
-    [ineCode setHidden:YES];
-    _codeIne = ineCode;
-    [viewOne addSubview:ineCode];
-    [ineCode mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(viewOne.mas_right).with.offset(-50);
-        make.top.equalTo(viewOne.mas_top).with.offset(16);
-        make.height.mas_offset(55);
-        make.width.mas_offset(1);
-    }];
-    //打电话
-    UIButton *playTelphoneButton = [[UIButton alloc] init];
-    [playTelphoneButton setEnlargeEdge:20];
-    [playTelphoneButton setBackgroundImage:[UIImage imageNamed:@"ddxq_phone"] forState:UIControlStateNormal];
-    playTelphoneButton.enabled = NO;
-    [playTelphoneButton setHidden:YES];
-    [playTelphoneButton addTarget:self action:@selector(playTelphone) forControlEvents:UIControlEventTouchUpInside];
-    [viewOne addSubview:playTelphoneButton];
-    self.playTelphoneButton = playTelphoneButton;
-    [playTelphoneButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(viewOne.mas_right).with.offset(-15);
-        make.top.equalTo(viewOne.mas_top).with.offset(31);
-        make.height.mas_offset(23);
-        make.width.mas_offset(16);
-    }];
+//    //分割线
+//    UIView *ineCode = [[UIView alloc] init];
+//    ineCode.backgroundColor = UIColorRBG(240, 240, 240);
+//    [ineCode setHidden:YES];
+//    _codeIne = ineCode;
+//    [viewOne addSubview:ineCode];
+//    [ineCode mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(viewOne.mas_right).with.offset(-50);
+//        make.top.equalTo(viewOne.mas_top).with.offset(16);
+//        make.height.mas_offset(55);
+//        make.width.mas_offset(1);
+//    }];
+//    //打电话
+//    UIButton *playTelphoneButton = [[UIButton alloc] init];
+//    [playTelphoneButton setEnlargeEdge:20];
+//    [playTelphoneButton setBackgroundImage:[UIImage imageNamed:@"ddxq_phone"] forState:UIControlStateNormal];
+//    playTelphoneButton.enabled = NO;
+//    [playTelphoneButton setHidden:YES];
+//    [playTelphoneButton addTarget:self action:@selector(playTelphone) forControlEvents:UIControlEventTouchUpInside];
+//    [viewOne addSubview:playTelphoneButton];
+//    self.playTelphoneButton = playTelphoneButton;
+//    [playTelphoneButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(viewOne.mas_right).with.offset(-15);
+//        make.top.equalTo(viewOne.mas_top).with.offset(31);
+//        make.height.mas_offset(23);
+//        make.width.mas_offset(16);
+//    }];
     //二维码
     UIButton *codeButton = [[UIButton alloc] init];
     [codeButton setEnlargeEdge:20];
@@ -452,7 +452,7 @@
     [viewOne addSubview:codeButton];
     self.codeButton = codeButton;
     [codeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(viewOne.mas_right).with.offset(-75);
+        make.right.equalTo(viewOne.mas_right).with.offset(-15);
         make.top.equalTo(viewOne.mas_top).with.offset(32);
         make.height.mas_offset(23);
         make.width.mas_offset(23);

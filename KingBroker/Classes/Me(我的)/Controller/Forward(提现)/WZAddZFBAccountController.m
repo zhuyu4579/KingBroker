@@ -12,6 +12,7 @@
 #import <SVProgressHUD.h>
 #import "NSString+LCExtension.h"
 #import "WZForwardController.h"
+#import "WZForwardWindowController.h"
 #import "WZAddZFBAccountController.h"
 
 @interface WZAddZFBAccountController ()<UITextFieldDelegate>
@@ -174,16 +175,18 @@
         [SVProgressHUD dismiss];
         if ([code isEqual:@"200"]) {
             [SVProgressHUD showInfoWithStatus:@"绑定成功"];
-            for (UIViewController *subVC in self.navigationController.viewControllers) {
-                
-                if ([subVC isKindOfClass:[WZForwardController class]]) {
-                    
-                    [self.navigationController popToViewController:(WZForwardController *)subVC animated:YES];
-                    
-                }
-                
+//            for (UIViewController *subVC in self.navigationController.viewControllers) {
+//                if ([subVC isKindOfClass:[WZForwardController class]]) {
+//                    [self.navigationController popToViewController:(WZForwardController *)subVC animated:YES];
+//                }
+//            }
+            if ([_ID isEqual:@""]) {
+                WZForwardWindowController *forward = [[WZForwardWindowController alloc] init];
+                [self.navigationController pushViewController:forward animated:YES];
+            }else{
+                [self.navigationController popViewControllerAnimated:YES];
             }
-            
+           
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){

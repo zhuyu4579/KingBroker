@@ -138,6 +138,7 @@
 		1F676372214A67C4005F1E37 /* WZGoodHouseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F676371214A67C4005F1E37 /* WZGoodHouseController.m */; };
 		1F69017820CB755E006147BF /* WZPhotoNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F69017620CB755E006147BF /* WZPhotoNameCell.m */; };
 		1F69017920CB755E006147BF /* WZPhotoNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F69017720CB755E006147BF /* WZPhotoNameCell.xib */; };
+		1F693E16216B41DE00C21A64 /* WZVideoLIstLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F693E15216B41DE00C21A64 /* WZVideoLIstLayout.m */; };
 		1F6F1879215C6AF000F54865 /* WZNewJionStoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6F1878215C6AF000F54865 /* WZNewJionStoreController.m */; };
 		1F77530220A41567003E1C07 /* WZCollectTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F77530120A41567003E1C07 /* WZCollectTableView.m */; };
 		1F77530620A415C6003E1C07 /* WZCollectHouseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F77530420A415C6003E1C07 /* WZCollectHouseCell.m */; };
@@ -501,6 +502,8 @@
 		1F69017520CB755E006147BF /* WZPhotoNameCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZPhotoNameCell.h; sourceTree = "<group>"; };
 		1F69017620CB755E006147BF /* WZPhotoNameCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZPhotoNameCell.m; sourceTree = "<group>"; };
 		1F69017720CB755E006147BF /* WZPhotoNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZPhotoNameCell.xib; sourceTree = "<group>"; };
+		1F693E14216B41DE00C21A64 /* WZVideoLIstLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZVideoLIstLayout.h; sourceTree = "<group>"; };
+		1F693E15216B41DE00C21A64 /* WZVideoLIstLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZVideoLIstLayout.m; sourceTree = "<group>"; };
 		1F6F1877215C6AF000F54865 /* WZNewJionStoreController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZNewJionStoreController.h; sourceTree = "<group>"; };
 		1F6F1878215C6AF000F54865 /* WZNewJionStoreController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZNewJionStoreController.m; sourceTree = "<group>"; };
 		1F77530020A41567003E1C07 /* WZCollectTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZCollectTableView.h; sourceTree = "<group>"; };
@@ -878,6 +881,8 @@
 				1F504EC92154987B00AA06D6 /* WZVideoTokerController.m */,
 				1F48F18421588AC4003CE6DC /* LMHWaterFallLayout.h */,
 				1F48F18321588AC3003CE6DC /* LMHWaterFallLayout.m */,
+				1F693E14216B41DE00C21A64 /* WZVideoLIstLayout.h */,
+				1F693E15216B41DE00C21A64 /* WZVideoLIstLayout.m */,
 				1F48F18B2158D386003CE6DC /* WZVideoListLabelController.h */,
 				1F48F18C2158D386003CE6DC /* WZVideoListLabelController.m */,
 				1F48C1492159D01200497E1B /* WZVideoDailtelController.h */,
@@ -2098,6 +2103,7 @@
 				1F504EE42154CCE400AA06D6 /* WZTokerVItem.m in Sources */,
 				1F1B7891208584CD00BC6007 /* WZMainUnitItem.m in Sources */,
 				1F4E41E5215B3B820039A151 /* WZInvitePrizeController.m in Sources */,
+				1F693E16216B41DE00C21A64 /* WZVideoLIstLayout.m in Sources */,
 				1FD9C61D207DBD2C00BB0298 /* AppDelegate.m in Sources */,
 				1F453F2321538995007C8A20 /* WZHouseNoteController.m in Sources */,
 				1F09952620F496F500524361 /* WZShareVideoCell.m in Sources */,

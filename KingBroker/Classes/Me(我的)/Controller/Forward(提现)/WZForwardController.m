@@ -333,9 +333,6 @@
             if ([exist isEqual:@"1"]) {
                 //已绑定支付宝帐号
                 WZForwardWindowController *forwardVc = [[WZForwardWindowController alloc] init];
-                forwardVc.ZFBName = [[data valueForKey:@"data"] valueForKey:@"payAccount"];
-                forwardVc.detailPrice = _price;
-                forwardVc.ID = [[data valueForKey:@"data"] valueForKey:@"id"];
                 [self.navigationController pushViewController:forwardVc animated:YES];
             }else{
                 //绑定支付宝帐号

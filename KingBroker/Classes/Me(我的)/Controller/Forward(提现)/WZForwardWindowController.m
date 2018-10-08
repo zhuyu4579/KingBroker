@@ -24,6 +24,12 @@
 //确定按钮
 @property(nonatomic,strong)UIButton *confirm;
 
+//可提现金额
+@property(nonatomic,strong)NSString *detailPrice;
+//支付宝账号
+@property(nonatomic,strong)UILabel *ZFBName;
+//账号Id
+@property(nonatomic,strong)NSString *ID;
 @end
 
 @implementation WZForwardWindowController
@@ -36,8 +42,51 @@
     [self createContent];
     
     //添加接收通知的观察者(popToB事件)
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notiPopToB) name:@"popToB" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notiPopToB) name:@"popToB" object:nil];
 }
+//查询支付宝账号
+-(void)findZFBAccount{
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/userPayAccount/payAccount",HTTPURL];
+    
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        
+        if ([code isEqual:@"200"]) {
+            
+            NSDictionary *data = [[responseObject valueForKey:@"data"] valueForKey:@"data"];
+            
+            _ID = [data valueForKey:@"id"];
+            _detailPrice = [[responseObject valueForKey:@"sum"] valueForKey:@"forwardPrice"];
+            if ([_detailPrice isEqual:@""]||!_detailPrice) {
+                _detailPrice = @"0.00";
+            }
+            _waring.text = [NSString stringWithFormat:@"可提现金额%@元",_detailPrice];
+            _ZFBName.text = [data valueForKey:@"payAccount"];
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+    }];
+}
+
 -(void)notiPopToB
 
 {
@@ -78,7 +127,7 @@
     UILabel *ZFBName = [[UILabel alloc] init];
     ZFBName.textColor = UIColorRBG(153, 153, 153);
     ZFBName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
-    ZFBName.text = _ZFBName;
+    _ZFBName = ZFBName;
     [viewOne addSubview:ZFBName];
     [ZFBName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(ZFBLabel.mas_right).offset(28);
@@ -158,7 +207,6 @@
     UILabel *detailPrice = [[UILabel alloc] init];
     detailPrice.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     detailPrice.textColor = UIColorRBG(153, 153, 153);
-    detailPrice.text = [NSString stringWithFormat:@"可提现金额%@元",_detailPrice];
     _waring = detailPrice;
     [viewTwo addSubview:detailPrice];
     [detailPrice mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -245,7 +293,7 @@
 -(void)updateButton{
     WZAddZFBAccountController *addZFB = [[WZAddZFBAccountController alloc] init];
     addZFB.navigationItem.title = @"修改支付宝账号";
-    addZFB.ZFBNames = _ZFBName;
+    addZFB.ZFBNames = _ZFBName.text;
     addZFB.ID = _ID;
     [self.navigationController pushViewController:addZFB animated:YES];
 }
@@ -394,5 +442,9 @@
     
     return[scan scanInt:&val] && [scan isAtEnd];
     
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self findZFBAccount];
 }
 @end

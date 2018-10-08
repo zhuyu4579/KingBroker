@@ -9,10 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface WZForwardWindowController : UIViewController
-//可提现金额
-@property(nonatomic,strong)NSString *detailPrice;
-//支付宝账号
-@property(nonatomic,strong)NSString *ZFBName;
-//账号Id
-@property(nonatomic,strong)NSString *ID;
+
 @end

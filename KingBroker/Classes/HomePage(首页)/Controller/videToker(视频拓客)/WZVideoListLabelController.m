@@ -11,11 +11,12 @@
 #import <MJExtension.h>
 #import "WZTokerVItem.h"
 #import "LMHWaterFallLayout.h"
+#import "WZVideoLIstLayout.h"
 #import "NSString+LCExtension.h"
 #import "WZLabelVideoListCell.h"
 #import "WZVideoListLabelController.h"
 #import "WZVideoDailtelController.h"
-@interface WZVideoListLabelController ()<UICollectionViewDataSource, UICollectionViewDelegate>{
+@interface WZVideoListLabelController ()<UICollectionViewDataSource, UICollectionViewDelegate,WZVideoLIstLayoutDeleaget>{
     //页数
     NSInteger current;
 }
@@ -25,6 +26,9 @@
 @property (nonatomic, assign) BOOL isRequestFinish;
 
 @property(nonatomic,strong)UICollectionView *collectionView;
+/** 列数 */
+@property (nonatomic, assign) NSUInteger columnCount;
+
 @end
 
 static NSString * const ID = @"Cells";
@@ -44,7 +48,10 @@ static NSString * const ID = @"Cells";
     
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
     
-    LMHWaterFallLayout *waterFallLayout = [[LMHWaterFallLayout alloc] init];
+    //LMHWaterFallLayout *waterFallLayout = [[LMHWaterFallLayout alloc] init];
+    // 创建布局
+    WZVideoLIstLayout * waterFallLayout = [[WZVideoLIstLayout alloc]init];
+    waterFallLayout.delegate = self;
     
     // 创建collectionView
     UICollectionView * collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:waterFallLayout];
@@ -197,6 +204,29 @@ static NSString * const ID = @"Cells";
     WZTokerVItem *item = _array[indexPath.row];
     cell.item = item;
     return cell;
+}
+#pragma mark  - <LMHWaterFallLayoutDeleaget>
+- (CGFloat)waterFallLayout:(WZVideoLIstLayout *)waterFallLayout heightForItemAtIndexPath:(NSUInteger)indexPath itemWidth:(CGFloat)itemWidth{
+    
+    WZTokerVItem *item = _array[indexPath];
+    NSInteger height = [item.height integerValue];
+    NSInteger width = [item.width integerValue];
+    if(height ==0 || width == 0 ){
+        height = 102;
+        width = 165;
+    }
+    return itemWidth * [item.height integerValue]/ [item.width integerValue];
+}
+
+- (CGFloat)rowMarginInWaterFallLayout:(WZVideoLIstLayout *)waterFallLayout{
+    
+    return 10;
+    
+}
+- (NSUInteger)columnCountInWaterFallLayout:(WZVideoLIstLayout *)waterFallLayout{
+    
+    return 2;
+    
 }
 //点击图片
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{

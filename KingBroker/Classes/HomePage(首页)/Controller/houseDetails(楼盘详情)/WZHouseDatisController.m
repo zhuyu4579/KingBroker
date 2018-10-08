@@ -302,7 +302,7 @@ static NSString * const IDS = @"cells";
             _dView.itemLabelThree.text = [NSString stringWithFormat:@" %@ ",labelArray[2]];
         }
     }
-    _dView.chargeMan.text = [_houseDatils valueForKey:@"chargeMan"];
+    
     if ([realtorStatus isEqual:@"2"]) {
         [_dView.JoinButton setHidden:YES];
         [_dView.JoinButton setEnabled:NO];
@@ -459,7 +459,7 @@ static NSString * const IDS = @"cells";
     }];
     
     //创建第二个view
-    UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight-kApplicationStatusBarHeight-24, scrollView.fWidth, 307)];
+    UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight-kApplicationStatusBarHeight-24, scrollView.fWidth, 258)];
     viewTwo.backgroundColor = [UIColor whiteColor];
     //绘制圆角 要设置的圆角 使用“|”来组合
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:viewTwo.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(15, 15)];
@@ -1390,6 +1390,7 @@ static NSString * const IDS = @"cells";
 }
 //打电话弹框
 -(void)playPhones{
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *invisibleLinkmanFlag = [user objectForKey:@"invisibleLinkmanFlag"];
     NSString *realtorStatus = [user objectForKey:@"realtorStatus"];
@@ -1430,7 +1431,6 @@ static NSString * const IDS = @"cells";
         [alert addAction:cancelAction];
         [self presentViewController:alert animated:YES completion:nil];
     }
-    
     
     
 }

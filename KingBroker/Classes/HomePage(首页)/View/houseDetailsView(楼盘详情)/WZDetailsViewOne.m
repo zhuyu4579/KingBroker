@@ -35,7 +35,6 @@
  
     self.address.textColor = UIColorRBG(68, 68, 68);
     self.companyName.textColor = UIColorRBG(68, 68, 68);
-    self.chargeMan.textColor = UIColorRBG(68, 68, 68);
     self.developerName.textColor = UIColorRBG(68, 68, 68);
 }
 - (IBAction)addressButton:(UIButton *)sender {

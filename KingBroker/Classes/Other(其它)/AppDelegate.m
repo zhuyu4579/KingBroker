@@ -74,7 +74,7 @@
    
     [NSThread sleepForTimeInterval:1];
     //创建引导页
-    LaunchIntroductionView *launchView =  [LaunchIntroductionView sharedWithImages:@[@"picture",@"picture_2",@"picture_3"]];
+    LaunchIntroductionView *launchView =  [LaunchIntroductionView sharedWithImages:@[@"picture",@"picture_2",@"picture_3",@"picture_4"]];
     launchView.currentColor = [UIColor blackColor];
     launchView.nomalColor = UIColorRBG(158, 158, 158);
     [self setloadData];

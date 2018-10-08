@@ -19,12 +19,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *address;
 @property (strong, nonatomic) IBOutlet UIButton *JoinButton;
 @property (weak, nonatomic) IBOutlet UILabel *companyName;
-@property (weak, nonatomic) IBOutlet UILabel *chargeMan;
 @property (strong, nonatomic) IBOutlet UILabel *developerName;
 
 @property (weak, nonatomic) IBOutlet UIView *ineViewOne;
 @property (weak, nonatomic) IBOutlet UIView *ineViewTwo;
-@property (weak, nonatomic) IBOutlet UIView *ineViewThree;
 @property(nonatomic,strong)NSArray *lnglat;
 @property(nonatomic,strong)NSString *projectName;
 //位置
