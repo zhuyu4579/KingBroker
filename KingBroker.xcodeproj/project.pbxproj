@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1F044D682115A7AF001C104F /* WZForgetPassWordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F044D672115A7AF001C104F /* WZForgetPassWordController.m */; };
-		1F047F35216C353E009063A2 /* startImages@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F047F32216C353D009063A2 /* startImages@2x.png */; };
-		1F047F36216C353E009063A2 /* startImages.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F047F33216C353D009063A2 /* startImages.png */; };
-		1F047F37216C353E009063A2 /* startImages@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F047F34216C353E009063A2 /* startImages@3x.png */; };
 		1F06AF15208AC8A400E774F0 /* WZablumController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F06AF14208AC8A400E774F0 /* WZablumController.m */; };
 		1F06AF19208AED4100E774F0 /* WZModifyPhoneController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F06AF17208AED4100E774F0 /* WZModifyPhoneController.m */; };
 		1F06AF1A208AED4100E774F0 /* WZModifyPhoneController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F06AF18208AED4100E774F0 /* WZModifyPhoneController.xib */; };
@@ -274,9 +271,6 @@
 		162D7BC404A4A373859D567F /* Pods-KingBroker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KingBroker.release.xcconfig"; path = "Pods/Target Support Files/Pods-KingBroker/Pods-KingBroker.release.xcconfig"; sourceTree = "<group>"; };
 		1F044D662115A7AF001C104F /* WZForgetPassWordController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZForgetPassWordController.h; sourceTree = "<group>"; };
 		1F044D672115A7AF001C104F /* WZForgetPassWordController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZForgetPassWordController.m; sourceTree = "<group>"; };
-		1F047F32216C353D009063A2 /* startImages@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "startImages@2x.png"; sourceTree = "<group>"; };
-		1F047F33216C353D009063A2 /* startImages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startImages.png; sourceTree = "<group>"; };
-		1F047F34216C353E009063A2 /* startImages@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "startImages@3x.png"; sourceTree = "<group>"; };
 		1F06AF13208AC8A400E774F0 /* WZablumController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZablumController.h; sourceTree = "<group>"; };
 		1F06AF14208AC8A400E774F0 /* WZablumController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZablumController.m; sourceTree = "<group>"; };
 		1F06AF16208AED4100E774F0 /* WZModifyPhoneController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZModifyPhoneController.h; sourceTree = "<group>"; };
@@ -969,9 +963,6 @@
 				1FD9C4AF207DBD2B00BB0298 /* Classes */,
 				1FD9C49A207DB91700BB0298 /* Main.storyboard */,
 				1FD9C49D207DB91700BB0298 /* Assets.xcassets */,
-				1F047F33216C353D009063A2 /* startImages.png */,
-				1F047F32216C353D009063A2 /* startImages@2x.png */,
-				1F047F34216C353E009063A2 /* startImages@3x.png */,
 				1FD9C49F207DB91700BB0298 /* LaunchScreen.storyboard */,
 				1F4D6DEF20FD7347008A9514 /* Info.plist */,
 			);
@@ -2006,7 +1997,6 @@
 				1F60D0F8214CE20000E311B5 /* WZTitleCollectionCell.xib in Resources */,
 				1FD9C653207DBD2C00BB0298 /* WZTelePhoneCell.xib in Resources */,
 				1F4D6DD720F6E8E0008A9514 /* WZShareDetailCell.xib in Resources */,
-				1F047F35216C353E009063A2 /* startImages@2x.png in Resources */,
 				1FD9C631207DBD2C00BB0298 /* WZAnnouCell.xib in Resources */,
 				1F4D6DEC20FCF232008A9514 /* WZMainUnitCell.xib in Resources */,
 				1FD9C665207DBD2C00BB0298 /* WZTypeViewCell.xib in Resources */,
@@ -2018,7 +2008,6 @@
 				1F4ABECD2080D42400DEA9A8 /* WZAuthenticationController.xib in Resources */,
 				1FD9C623207DBD2C00BB0298 /* WZHaveCodeView.xib in Resources */,
 				1F504ED621549E1E00AA06D6 /* WZTokerLabelCell.xib in Resources */,
-				1F047F36216C353E009063A2 /* startImages.png in Resources */,
 				1FD9C61E207DBD2C00BB0298 /* WZExamineController.xib in Resources */,
 				1FD9C49C207DB91700BB0298 /* Main.storyboard in Resources */,
 				1F48F18A21588CDB003CE6DC /* WZLabelVideoListCell.xib in Resources */,
@@ -2029,7 +2018,6 @@
 				1F69017920CB755E006147BF /* WZPhotoNameCell.xib in Resources */,
 				1F47F4A820CA549B0012F5EF /* WZLBCollectionViewCell.xib in Resources */,
 				1FD9C671207DBD2C00BB0298 /* WZAllTableViewCell.xib in Resources */,
-				1F047F37216C353E009063A2 /* startImages@3x.png in Resources */,
 				1FD9C621207DBD2C00BB0298 /* WZJionStoreController.xib in Resources */,
 				1FD9C663207DBD2C00BB0298 /* WZCityCollectionCell.xib in Resources */,
 				1FD9C662207DBD2C00BB0298 /* WZFindHouseCell.xib in Resources */,
