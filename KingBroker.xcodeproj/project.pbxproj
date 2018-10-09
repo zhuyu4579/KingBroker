@@ -139,6 +139,9 @@
 		1F69017820CB755E006147BF /* WZPhotoNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F69017620CB755E006147BF /* WZPhotoNameCell.m */; };
 		1F69017920CB755E006147BF /* WZPhotoNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F69017720CB755E006147BF /* WZPhotoNameCell.xib */; };
 		1F693E16216B41DE00C21A64 /* WZVideoLIstLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F693E15216B41DE00C21A64 /* WZVideoLIstLayout.m */; };
+		1F693E28216B962900C21A64 /* startImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F693E25216B962800C21A64 /* startImage.png */; };
+		1F693E29216B962900C21A64 /* startImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F693E26216B962800C21A64 /* startImage@3x.png */; };
+		1F693E2A216B962900C21A64 /* startImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F693E27216B962900C21A64 /* startImage@2x.png */; };
 		1F6F1879215C6AF000F54865 /* WZNewJionStoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6F1878215C6AF000F54865 /* WZNewJionStoreController.m */; };
 		1F77530220A41567003E1C07 /* WZCollectTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F77530120A41567003E1C07 /* WZCollectTableView.m */; };
 		1F77530620A415C6003E1C07 /* WZCollectHouseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F77530420A415C6003E1C07 /* WZCollectHouseCell.m */; };
@@ -504,6 +507,9 @@
 		1F69017720CB755E006147BF /* WZPhotoNameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZPhotoNameCell.xib; sourceTree = "<group>"; };
 		1F693E14216B41DE00C21A64 /* WZVideoLIstLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZVideoLIstLayout.h; sourceTree = "<group>"; };
 		1F693E15216B41DE00C21A64 /* WZVideoLIstLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZVideoLIstLayout.m; sourceTree = "<group>"; };
+		1F693E25216B962800C21A64 /* startImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startImage.png; sourceTree = "<group>"; };
+		1F693E26216B962800C21A64 /* startImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "startImage@3x.png"; sourceTree = "<group>"; };
+		1F693E27216B962900C21A64 /* startImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "startImage@2x.png"; sourceTree = "<group>"; };
 		1F6F1877215C6AF000F54865 /* WZNewJionStoreController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZNewJionStoreController.h; sourceTree = "<group>"; };
 		1F6F1878215C6AF000F54865 /* WZNewJionStoreController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZNewJionStoreController.m; sourceTree = "<group>"; };
 		1F77530020A41567003E1C07 /* WZCollectTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZCollectTableView.h; sourceTree = "<group>"; };
@@ -963,6 +969,9 @@
 				1FD9C4AF207DBD2B00BB0298 /* Classes */,
 				1FD9C49A207DB91700BB0298 /* Main.storyboard */,
 				1FD9C49D207DB91700BB0298 /* Assets.xcassets */,
+				1F693E25216B962800C21A64 /* startImage.png */,
+				1F693E27216B962900C21A64 /* startImage@2x.png */,
+				1F693E26216B962800C21A64 /* startImage@3x.png */,
 				1FD9C49F207DB91700BB0298 /* LaunchScreen.storyboard */,
 				1F4D6DEF20FD7347008A9514 /* Info.plist */,
 			);
@@ -1983,6 +1992,7 @@
 				1FD9C678207DBD2C00BB0298 /* WZDetailsViewOne.xib in Resources */,
 				1F20C418214B412F00FE8CC4 /* WZGHouseCell.xib in Resources */,
 				1FD9C49E207DB91700BB0298 /* Assets.xcassets in Resources */,
+				1F693E2A216B962900C21A64 /* startImage@2x.png in Resources */,
 				1F09DDCA2087100A00C4D0A3 /* WZSettingController.xib in Resources */,
 				1FD9C64D207DBD2C00BB0298 /* WZReportSuccessCell.xib in Resources */,
 				1FD9C65D207DBD2C00BB0298 /* WZBoaringCell.xib in Resources */,
@@ -1995,7 +2005,9 @@
 				1F4D6DC620F5A95F008A9514 /* WZSharePhoneCell.xib in Resources */,
 				1F5B831F2081ECEF0083DEC2 /* WZQuestionController.xib in Resources */,
 				1F60D0F8214CE20000E311B5 /* WZTitleCollectionCell.xib in Resources */,
+				1F693E28216B962900C21A64 /* startImage.png in Resources */,
 				1FD9C653207DBD2C00BB0298 /* WZTelePhoneCell.xib in Resources */,
+				1F693E29216B962900C21A64 /* startImage@3x.png in Resources */,
 				1F4D6DD720F6E8E0008A9514 /* WZShareDetailCell.xib in Resources */,
 				1FD9C631207DBD2C00BB0298 /* WZAnnouCell.xib in Resources */,
 				1F4D6DEC20FCF232008A9514 /* WZMainUnitCell.xib in Resources */,

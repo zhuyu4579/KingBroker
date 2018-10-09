@@ -209,13 +209,16 @@ static NSString * const ID = @"Cells";
 - (CGFloat)waterFallLayout:(WZVideoLIstLayout *)waterFallLayout heightForItemAtIndexPath:(NSUInteger)indexPath itemWidth:(CGFloat)itemWidth{
     
     WZTokerVItem *item = _array[indexPath];
-    NSInteger height = [item.height integerValue];
-    NSInteger width = [item.width integerValue];
+    NSInteger height = [item.height integerValue]/2.0;
+    NSInteger width = [item.width integerValue]/2.0;
     if(height ==0 || width == 0 ){
-        height = 102;
+        height = 150;
         width = 165;
     }
-    return itemWidth * [item.height integerValue]/ [item.width integerValue];
+    if (itemWidth * height/width<150) {
+        return 150;
+    }
+    return itemWidth * height/width;
 }
 
 - (CGFloat)rowMarginInWaterFallLayout:(WZVideoLIstLayout *)waterFallLayout{

@@ -65,11 +65,11 @@
         NSString *code = [responseObject valueForKey:@"code"];
         
         if ([code isEqual:@"200"]) {
-            
+             NSDictionary *datas = [responseObject valueForKey:@"data"] ;
             NSDictionary *data = [[responseObject valueForKey:@"data"] valueForKey:@"data"];
             
             _ID = [data valueForKey:@"id"];
-            _detailPrice = [[responseObject valueForKey:@"sum"] valueForKey:@"forwardPrice"];
+            _detailPrice = [[datas valueForKey:@"sum"] valueForKey:@"forwardPrice"];
             if ([_detailPrice isEqual:@""]||!_detailPrice) {
                 _detailPrice = @"0.00";
             }
@@ -284,7 +284,6 @@
             return;
         }
     }
-    
     _waring.text = [NSString stringWithFormat:@"可提现金额%@元",_detailPrice];
     _waring.textColor = UIColorRBG(153, 153, 153);
     _confirm.enabled = YES;
@@ -299,6 +298,9 @@
 }
 //全部提现
 -(void)allPrice{
+    _waring.text = [NSString stringWithFormat:@"可提现金额%@元",_detailPrice];
+    _waring.textColor = UIColorRBG(153, 153, 153);
+    _confirm.enabled = YES;
     _prices.text = _detailPrice;
 }
 //提交

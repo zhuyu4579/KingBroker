@@ -41,6 +41,26 @@
     _appVersion = appVersion;
     NSString *newVersion = [user objectForKey:@"newVersion"];
     _newsVersion = newVersion;
+    
+    NSArray * array1 = [appVersion componentsSeparatedByString:@"."];
+    NSInteger currentVersionInt = 0;
+    if (array1.count == 3)//默认版本号1.0.0类型
+    {
+        currentVersionInt = [array1[0] integerValue]*100 + [array1[1] integerValue]*10 + [array1[2] integerValue];
+    }else if(array1.count == 2){
+        currentVersionInt = [array1[0] integerValue]*100 + [array1[1] integerValue]*10;
+    }
+    NSArray * array2 = [newVersion componentsSeparatedByString:@"."];
+    NSInteger lineVersionInt = 0;
+    if (array2.count == 3)
+    {
+        lineVersionInt = [array2[0] integerValue]*100 + [array2[1] integerValue]*10 + [array2[2] integerValue];
+    }else if(array2.count == 2){
+        lineVersionInt = [array2[0] integerValue]*100 + [array2[1] integerValue]*10;
+    }
+    
+    
+    
     UIImageView *image = [[UIImageView alloc] init];
     image.image = [UIImage imageNamed:@"wd_wmbag"];
     [self.view addSubview:image];
@@ -99,13 +119,18 @@
     }];
     
     UIButton *buttons = [[UIButton alloc] init];
-    [buttons setTitle:@"版本更新" forState:UIControlStateNormal];
+    
     [buttons setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
     buttons.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     buttons.layer.cornerRadius = 22.0;
     buttons.layer.masksToBounds = YES;
     buttons.backgroundColor = UIColorRBG(255, 224, 0);
     [buttons addTarget:self action:@selector(versionUpdate) forControlEvents:UIControlEventTouchUpInside];
+    if (lineVersionInt>currentVersionInt) {
+        [buttons setTitle:@"版本更新" forState:UIControlStateNormal];
+    }else{
+        [buttons setTitle:@"已是最新版本" forState:UIControlStateNormal];
+    }
     [self.view addSubview:buttons];
     [buttons mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(labelThree.mas_bottom).with.offset(154);

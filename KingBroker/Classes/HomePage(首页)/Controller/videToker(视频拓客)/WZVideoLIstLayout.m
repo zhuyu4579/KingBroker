@@ -8,7 +8,7 @@
 
 #import "WZVideoLIstLayout.h"
 /** 默认的列数    */
-static const CGFloat LMHDefaultColunmCount = 3;
+static const CGFloat LMHDefaultColunmCount = 2;
 /** 每一列之间的间距    */
 static const CGFloat LMHDefaultColunmMargin = 10;
 
@@ -105,7 +105,7 @@ static const UIEdgeInsets LMHDefaultEdgeInsets = {10,15,10,15};
     
     [super prepareLayout];
     
-    self.contentHeight = 0;
+    self.contentHeight = 150;
     
     // 清楚之前计算的所有高度
     [self.columnHeights removeAllObjects];

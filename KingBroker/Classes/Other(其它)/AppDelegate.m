@@ -48,14 +48,14 @@
     
     [JPUSHService setupWithOption:launchOptions appKey:@"2c971480b42a2584471eaadb"
                           channel:@"App Store"
-                 apsForProduction:0
+                 apsForProduction:1
             advertisingIdentifier:advertisingId];
 
     
     //友盟统计
     //测试：5b766107a40fa379e70000bd
     //正式：5b7bcec0f29d986f34000286
-    [UMConfigure initWithAppkey:@"5b766107a40fa379e70000bd" channel:@"App Store"];
+    [UMConfigure initWithAppkey:@"5b7bcec0f29d986f34000286" channel:@"App Store"];
 
     //获取自定义消息
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
