@@ -22,6 +22,7 @@
 #import "WZRecommendTableView.h"
 #import "NSString+LCExtension.h"
 #import "WZPagesViewController.h"
+#import "WZHouseNoteController.h"
 #import "WZHouseDatisController.h"
 #import "WZNavigationController.h"
 #import <CoreLocation/CoreLocation.h>
@@ -463,8 +464,10 @@
         }
        
     }else if(type == 4){
-        if (uuid&&![uuid isEqual:@""]) {
-            WZTaskController *task = [[WZTaskController alloc] init];
+        //活动详情页
+//        if (uuid&&![uuid isEqual:@""]) {
+            //跳转
+            WZHouseNoteController *task = [[WZHouseNoteController alloc] init];
             if ([url containsString:@"?"]) {
                 task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
             } else {
@@ -472,9 +475,9 @@
             }
             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
             [self.navigationController presentViewController:nav animated:YES completion:nil];
-        }else{
-            [NSString isCode:self.navigationController code:@"401"];
-        }
+//        }else{
+//            [NSString isCode:self.navigationController code:@"401"];
+//        }
         
     }
     

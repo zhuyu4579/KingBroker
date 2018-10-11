@@ -1336,20 +1336,7 @@
         [SVProgressHUD showInfoWithStatus:@"门店编码不能为空"];
         return;
     }
-    
-//    CGImageRef cgref = [_cardImages CGImage];
-//    CIImage *cim = [_cardImages CIImage];
-//    CGImageRef cgrefs = [_cardSideImages CGImage];
-//    CIImage *cims = [_cardSideImages CIImage];
-    
-//    if ((cgref != NULL && cim != nil)||(cgrefs != NULL && cims != nil)) {
-//        if ((cgref != NULL && cim != nil)&&(cgrefs != NULL && cims != nil)) {
-//
-//        }else{
-//            [SVProgressHUD showInfoWithStatus:@"请上传完整"];
-//            return;
-//        }
-//    }
+
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -1367,11 +1354,13 @@
 //    paraments[@"parentPhone"] = _inviteCode.text;
     NSString *url = [NSString stringWithFormat:@"%@/sysUser/companyAuthentication",HTTPURL];
     button.enabled = NO;
-    [mgr POST:url parameters:paraments constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+ [mgr POST:url parameters:paraments constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
         CGImageRef cgref = [_cardImages CGImage];
         CIImage *cim = [_cardImages CIImage];
-        if (cgref != NULL && cim != nil) {
+        if (cgref == NULL && cim == nil) {
+            
+        }else{
             NSData *imageData = [WZAlertView imageProcessWithImage:_cardImages];//进行图片压缩
             // 使用日期生成图片名称
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -1383,7 +1372,9 @@
         
         CGImageRef cgrefs = [_cardSideImages CGImage];
         CIImage *cims = [_cardSideImages CIImage];
-        if (cgrefs != NULL && cims != nil) {
+        if (cgrefs == NULL && cims == nil) {
+        
+        }else{
             NSData *imageData1 = [WZAlertView imageProcessWithImage:_cardSideImages];//进行图片压缩
             // 使用日期生成图片名称
             NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
@@ -1393,9 +1384,6 @@
             [formData appendPartWithFileData:imageData1 name:@"opposite" fileName:fileName1 mimeType:@"image/png"];
         }
        
-        
-        
-        
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         button.enabled = YES;
@@ -1424,15 +1412,7 @@
             }else{
                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
             }
-//            if (cgref != NULL && cim != nil&&cgrefs != NULL && cims != nil) {
-//                //审核页面
-//                WZExamineController *exVc = [[WZExamineController alloc] init];
-//                exVc.titleLabel = @"资料上传成功，审核通过后，你可在系统\n消息里领取你的新人专属现金红包，耐心等待审核...";
-//                WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:exVc];
-//                [self.navigationController presentViewController:nav animated:YES completion:nil];
-//            }else{
-            
-           // }
+
             
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];

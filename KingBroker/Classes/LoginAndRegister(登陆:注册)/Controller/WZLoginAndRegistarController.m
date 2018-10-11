@@ -75,7 +75,7 @@
     [_scrollView addSubview:closeButton];
     [closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_scrollView.mas_left).offset(15);
-        make.top.equalTo(_scrollView.mas_top).mas_offset(kApplicationStatusBarHeight+22);
+        make.top.equalTo(_scrollView.mas_top).mas_offset(22);
         make.height.offset(15);
         make.width.offset(15);
     }];
@@ -85,7 +85,7 @@
     [_scrollView addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_scrollView.mas_centerX);
-        make.top.equalTo(_scrollView.mas_top).mas_offset(kApplicationStatusBarHeight+50);
+        make.top.equalTo(_scrollView.mas_top).mas_offset(50);
         make.height.offset(109);
         make.width.offset(109);
     }];
@@ -159,12 +159,15 @@
         [loginButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
         ineLogin.backgroundColor = UIColorRBG(255, 204, 0);
         [_loginView setHidden:NO];
+        
     }else{
         [registarButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
         ineRegistar.backgroundColor = UIColorRBG(255, 204, 0);
         [_registarView setHidden:NO];
+        
     }
     _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight);
+
 }
 #pragma mark -创建登录模块
 -(void)login{
@@ -536,6 +539,7 @@
     _ineLogin.backgroundColor = UIColorRBG(255, 204, 0);
     [_registarView setHidden:YES];
     [_loginView setHidden:NO];
+   
 }
 #pragma mark -点击切换注册模块
 -(void)registarButton:(UIButton *)button{
@@ -546,6 +550,7 @@
     _ineRegistar.backgroundColor = UIColorRBG(255, 204, 0);
     [_loginView setHidden:YES];
     [_registarView setHidden:NO];
+     
 }
 #pragma mark -登录-显示密码
 -(void)showPw:(UIButton *)button{
@@ -813,7 +818,15 @@
 //获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     textField.returnKeyType = UIReturnKeyDone;
-    
+    if(textField==_inviteCode){
+         _scrollView.contentSize = CGSizeMake(0, self.view.fHeight+100);
+    }
+}
+// 失去焦点
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    if(textField==_inviteCode){
+        _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight);
+    }
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {

@@ -276,7 +276,7 @@ static NSString * const IDS = @"cells";
     _dView.itemName.text = [_houseDatils valueForKey:@"name"];
     _dView.projectName = [_houseDatils valueForKey:@"name"];
     NSString *lng = [_houseDatils valueForKey:@"lnglat"];
-    if ([lng isEqual:@""]) {
+    if (![lng isEqual:@""]) {
         _lnglat = [lng componentsSeparatedByString:@","];
         _dView.lnglat = _lnglat;
     }
