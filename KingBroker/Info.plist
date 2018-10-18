@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.1</string>
+	<string>2.0.2</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -26,6 +26,16 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wx03f7c2825a2266a4</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>jingxi</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.jingfuapp.KingBroker</string>
 			</array>
 		</dict>
 	</array>

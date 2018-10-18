@@ -233,15 +233,16 @@ static NSString * const ID = @"Cells";
 }
 //点击图片
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [self loadUpVideo];
+    
     WZLabelVideoListCell *cell = (WZLabelVideoListCell *) [collectionView cellForItemAtIndexPath:indexPath];
+    [self loadUpVideo:[cell.dicty valueForKey:@"id"]];
     WZVideoDailtelController *videoDail = [[WZVideoDailtelController alloc] init];
     videoDail.dicty = cell.dicty;
     [self.navigationController pushViewController:videoDail animated:YES];
     
 }
 #pragma mark -点击视频
--(void)loadUpVideo{
+-(void)loadUpVideo:(NSString *)ID{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     //创建会话请求
@@ -255,11 +256,14 @@ static NSString * const ID = @"Cells";
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     NSString *url = [NSString stringWithFormat:@"%@/video/videoClick",HTTPURL];
-    [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"id"] = ID;
+    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{

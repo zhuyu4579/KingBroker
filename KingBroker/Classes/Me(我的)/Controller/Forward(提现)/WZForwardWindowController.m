@@ -369,7 +369,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"serviceCharge"] = @"0";
     paraments[@"actualAmount"] = _prices.text;
-    paraments[@"payAccount"] = _ZFBName;
+    paraments[@"payAccount"] = _ZFBName.text;
     paraments[@"type"] = @"1";
     paraments[@"payType"] = @"1";
     paraments[@"token"] = token;
@@ -386,6 +386,7 @@
         [GKCover hide];
         _confirm.enabled = YES;
         [SVProgressHUD dismiss];
+        
         if ([code isEqual:@"200"]) {
             WZForwardSuccessController *forwardSuccess = [[WZForwardSuccessController alloc] init];
             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:forwardSuccess];
