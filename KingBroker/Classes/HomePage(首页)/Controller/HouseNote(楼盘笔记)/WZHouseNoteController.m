@@ -173,6 +173,13 @@
     [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
     [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"black"];
     [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"login"];
+    
+     [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"WYFriends"];
+     [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"WYFriendsCircle"];
+     [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"WXFriends"];
+     [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"WXFriendsCircle"];
+     [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"WXVideoShare"];
+
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
