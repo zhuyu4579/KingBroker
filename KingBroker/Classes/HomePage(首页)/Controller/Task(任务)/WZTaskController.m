@@ -35,7 +35,8 @@
     
     [self.view addSubview:pV];
     
-   
+    //创造通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskShareSuccess) name:@"tasks" object:nil];
 }
 -(void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
@@ -88,6 +89,15 @@
     //执行JS
     [webView evaluateJavaScript:inputValueJS completionHandler:^(id _Nullable response, NSError * _Nullable error) {
         
+    }];
+}
+-(void)taskShareSuccess{
+    
+    //设置JS
+    NSString *inputValueJS = @"sharecallback()";
+    //执行JS
+    [_webView evaluateJavaScript:inputValueJS completionHandler:^(id _Nullable response, NSError * _Nullable error) {
+        [SVProgressHUD showInfoWithStatus:@"分享成功"];
     }];
 }
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
@@ -188,6 +198,8 @@
     [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"WXFriends"];
     [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"WXFriendsCircle"];
     [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"WXVideoShare"];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 //分享到微信
 -(void)WXShare:(NSString *)url{

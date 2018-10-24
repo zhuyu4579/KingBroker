@@ -633,7 +633,7 @@
 }
 //分享回调
 -(void)shareSuccess{
-    
+    [SVProgressHUD showInfoWithStatus:@"分享成功"];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     //创建会话请求

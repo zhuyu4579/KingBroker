@@ -841,7 +841,7 @@
             return NO;
         }
     }
-    if (_loginName == textField||_registarName == textField||_inviteCode == textField) {
+    if (_loginName == textField||_registarName == textField) {
         if (toBeString.length>11) {
             return NO;
         }

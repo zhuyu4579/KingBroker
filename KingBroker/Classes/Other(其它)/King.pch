@@ -10,7 +10,9 @@
  使用PCH使用步骤：
  1.提前编译PCH
  */
-
+//正式地址
+//#define HTTPURL @"https://www.jingfuapp.com/proapp"
+//#define HTTPH5 @"https://www.jingfuapp.com/apph5"
 #define UIColorRBG(r,b,g) [UIColor colorWithRed:r/255.0 green:b/255.0 blue:g/255.0 alpha:1.0]
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height

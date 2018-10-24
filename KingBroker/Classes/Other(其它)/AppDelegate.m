@@ -199,8 +199,9 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
         if (resp.errCode == 0) {
             //通知回调
             if ([shareSuccessType isEqual:@"0"]) {
-                [SVProgressHUD showInfoWithStatus:@"分享成功"];
+                
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"taskShare" object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"tasks" object:nil];
             }
             
         }else{
