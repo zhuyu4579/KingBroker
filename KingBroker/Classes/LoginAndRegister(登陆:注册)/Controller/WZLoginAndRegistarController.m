@@ -440,7 +440,7 @@
         make.height.offset(12);
     }];
     UILabel *inviteLabels = [[UILabel alloc] init];
-    inviteLabels.text = @"(不必填)";
+    inviteLabels.text = @"(选填)";
     inviteLabels.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     inviteLabels.textColor = UIColorRBG(204, 204, 204);
     [registarView addSubview:inviteLabels];
