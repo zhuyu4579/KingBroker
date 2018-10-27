@@ -450,11 +450,11 @@
         make.height.offset(12);
     }];
     UITextField *inviteCode = [[UITextField alloc] init];
-    inviteCode.placeholder = @"请输入邀请人手机号";
+    inviteCode.placeholder = @"请输入邀请码";
     inviteCode.textColor = UIColorRBG(49, 35, 6);
     inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     inviteCode.delegate = self;
-    inviteCode.keyboardType = UIKeyboardTypeNumberPad;
+    inviteCode.keyboardType = UIKeyboardTypeDefault;
     [[inviteCode valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
     inviteCode.clearButtonMode = UITextFieldViewModeWhileEditing;
     inviteCode.clearsOnBeginEditing = NO;
