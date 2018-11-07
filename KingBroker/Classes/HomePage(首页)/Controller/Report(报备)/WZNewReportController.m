@@ -41,18 +41,8 @@
 @property (nonatomic, strong)UIView *addCustomerView;
 //其他view
 @property (nonatomic, strong)UIView *otherView;
-//上客时间
-@property (nonatomic, strong)UILabel *loadTime;
-//出行人数
-@property (nonatomic, strong)UITextField *peopleSum;
-//用餐人数
-@property (nonatomic, strong)UITextField *eatPeople;
-//出发城市
-@property (nonatomic, strong)UITextField *setOutCity;
 //时间数组
 @property (nonatomic, strong)NSArray *timeArray;
-//出行方式
-@property(nonatomic,assign)NSInteger tags;
 //报备方式
 @property (nonatomic, strong)NSString *reportType;
 //请求数据
@@ -674,7 +664,9 @@
     [modeButtonOne setBackgroundImage:[UIImage imageNamed:@"choose_2"] forState:UIControlStateNormal];
     [modeButtonOne setBackgroundImage:[UIImage imageNamed:@"bb_icon"] forState:UIControlStateSelected];
     modeButtonOne.tag = 20;
-    modeButtonOne.selected = YES;
+    if (_tags == 1) {
+         modeButtonOne.selected = YES;
+    }
     [modeButtonOne addTarget:self action:@selector(modeButton:) forControlEvents:UIControlEventTouchUpInside];
     [viewFour addSubview:modeButtonOne];
     [modeButtonOne mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -699,6 +691,9 @@
     [modeButtonTwo setBackgroundImage:[UIImage imageNamed:@"choose_2"] forState:UIControlStateNormal];
     [modeButtonTwo setBackgroundImage:[UIImage imageNamed:@"bb_icon"] forState:UIControlStateSelected];
     modeButtonTwo.tag = 21;
+    if (_tags == 2) {
+        modeButtonTwo.selected = YES;
+    }
     [modeButtonTwo addTarget:self action:@selector(modeButton:) forControlEvents:UIControlEventTouchUpInside];
     [viewFour addSubview:modeButtonTwo];
     [modeButtonTwo mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -723,6 +718,9 @@
     [modeButtonThree setBackgroundImage:[UIImage imageNamed:@"choose_2"] forState:UIControlStateNormal];
     [modeButtonThree setBackgroundImage:[UIImage imageNamed:@"bb_icon"] forState:UIControlStateSelected];
     modeButtonThree.tag = 22;
+    if (_tags == 3) {
+        modeButtonThree.selected = YES;
+    }
     [modeButtonThree addTarget:self action:@selector(modeButton:) forControlEvents:UIControlEventTouchUpInside];
     [viewFour addSubview:modeButtonThree];
     [modeButtonThree mas_makeConstraints:^(MASConstraintMaker *make) {

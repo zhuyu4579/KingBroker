@@ -86,7 +86,6 @@
 		1F4D6DE720FCEAD4008A9514 /* SelPlayerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4D6DE120FCEAD4008A9514 /* SelPlayerConfiguration.m */; };
 		1F4D6DE820FCEAD4008A9514 /* SelVideoSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4D6DE320FCEAD4008A9514 /* SelVideoSlider.m */; };
 		1F4D6DEC20FCF232008A9514 /* WZMainUnitCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4D6DEB20FCF232008A9514 /* WZMainUnitCell.xib */; };
-		1F4D6DF020FD7348008A9514 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F4D6DEF20FD7347008A9514 /* Info.plist */; };
 		1F4E41E5215B3B820039A151 /* WZInvitePrizeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4E41E4215B3B820039A151 /* WZInvitePrizeController.m */; };
 		1F504ECA2154987B00AA06D6 /* WZVideoTokerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F504EC92154987B00AA06D6 /* WZVideoTokerController.m */; };
 		1F504ECE21549D4A00AA06D6 /* WZTokerLabelCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F504ECD21549D4A00AA06D6 /* WZTokerLabelCollectionView.m */; };
@@ -335,6 +334,10 @@
 		1F3885A620A5718600402B23 /* AMapTipAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMapTipAnnotation.m; sourceTree = "<group>"; };
 		1F3885A820A5719000402B23 /* POIAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POIAnnotation.h; sourceTree = "<group>"; };
 		1F3885A920A5719000402B23 /* POIAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POIAnnotation.m; sourceTree = "<group>"; };
+		1F3A5385218D51E600844905 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		1F3A5386218D51E600844905 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "usr/lib/libc++.1.tbd"; sourceTree = SDKROOT; };
+		1F3A5387218D51E600844905 /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
+		1F3A538B218D547200844905 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "../../../Downloads/libstdc++.6.0.9.tbd"; sourceTree = "<group>"; };
 		1F3D657E20B2646D003AEF39 /* WZPeripheryItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZPeripheryItem.h; sourceTree = "<group>"; };
 		1F3D657F20B2646D003AEF39 /* WZPeripheryItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZPeripheryItem.m; sourceTree = "<group>"; };
 		1F3D658120B29704003AEF39 /* WZSelectProjectsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZSelectProjectsController.h; sourceTree = "<group>"; };
@@ -752,6 +755,10 @@
 		02C4B21E396866AF9A807651 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1F3A538B218D547200844905 /* libstdc++.6.0.9.tbd */,
+				1F3A5386218D51E600844905 /* libc++.1.tbd */,
+				1F3A5385218D51E600844905 /* libc++.tbd */,
+				1F3A5387218D51E600844905 /* libc++abi.tbd */,
 				A97EFF16D9DB12DDDDB58E31 /* libPods-KingBroker.a */,
 			);
 			name = Frameworks;
@@ -1987,7 +1994,6 @@
 				1F09DDCA2087100A00C4D0A3 /* WZSettingController.xib in Resources */,
 				1FD9C64D207DBD2C00BB0298 /* WZReportSuccessCell.xib in Resources */,
 				1FD9C65D207DBD2C00BB0298 /* WZBoaringCell.xib in Resources */,
-				1F4D6DF020FD7348008A9514 /* Info.plist in Resources */,
 				1F5156E2217D61EE0089D482 /* WZAllPhotoCell.xib in Resources */,
 				1F77530720A415C6003E1C07 /* WZCollectHouseCell.xib in Resources */,
 				1F63B1C120E72AD5009587C1 /* WZFrowardDetailedCell.xib in Resources */,

@@ -27,6 +27,16 @@
 @property (nonatomic, strong)UITextField *telphone;
 //默认第一个客户电话后半部分
 @property (nonatomic, strong)UITextField *afterTelphone;
+//上客时间
+@property (nonatomic, strong)UILabel *loadTime;
+//出行人数
+@property (nonatomic, strong)UITextField *peopleSum;
+//用餐人数
+@property (nonatomic, strong)UITextField *eatPeople;
+//出发城市
+@property (nonatomic, strong)UITextField *setOutCity;
+//出行方式
+@property(nonatomic,assign)NSInteger tags;
 
 @property (nonatomic, copy)NSString *telphones;
 //其他报备入口类型

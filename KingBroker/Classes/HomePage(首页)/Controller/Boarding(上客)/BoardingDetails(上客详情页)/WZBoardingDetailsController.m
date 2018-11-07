@@ -277,7 +277,7 @@
     _viewTwo.fHeight += _n*79;
     _ineViewFive.fHeight += 79*(_n-1);
     _viewThree.fY = 141+_viewTwo.fHeight+10;
-    if ((_viewThree.fY+166)>(self.view.fHeight-49)) {
+    if ((_viewThree.fY+166)>(self.view.fHeight-93)) {
          _scrollView.contentSize = CGSizeMake(0, _viewThree.fY+166);
     }
     //根据数据条数绘制记录
@@ -941,6 +941,10 @@
     report.custormNames = _name.text;
     report.telphones = _telephone.text;
     report.orderTelFlag = _orderTelFlag;
+    report.loadTime.text = [_order valueForKey:@"boardingPlanes"];
+    report.peopleSum.text = [_order valueForKey:@"partPersonNum"];
+    report.setOutCity.text = [_order valueForKey:@"departureCity"];
+    report.tags = [[_order valueForKey:@"partWay"] integerValue];
     [self.navigationController pushViewController:report animated:YES];
 }
 #pragma mark -打电话
