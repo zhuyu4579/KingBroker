@@ -75,6 +75,11 @@
     _orderTelFlag = item.orderTelFlag;
     _orderCreateTime = item.orderCreateTime;
     _boardingLimitTime = item.boardingLimitTime;
+    _partPersonNum = item.partPersonNum;
+    _lunchNum = item.lunchNum;
+    _departureCity = item.departureCity;
+    _partWay = item.partWay;
+    _boardingPlane = item.boardingPlane;
 }
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -213,6 +218,11 @@
     report.telphones = _telephoneFour.text;
     report.types = @"1";
     report.orderTelFlag = _orderTelFlag;
+    report.loadTimes = _boardingPlane;
+    report.peopleSums = _partPersonNum;
+    report.setOutCitys = _departureCity;
+    report.eatPeoples = _lunchNum;
+    report.tags = [_partWay integerValue];
     [Vc.navigationController pushViewController:report animated:YES];
 }
 @end

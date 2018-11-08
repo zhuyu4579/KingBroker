@@ -41,6 +41,14 @@
 @property (nonatomic, strong)UIView *addCustomerView;
 //其他view
 @property (nonatomic, strong)UIView *otherView;
+//上客时间
+@property (nonatomic, strong)UILabel *loadTime;
+//出行人数
+@property (nonatomic, strong)UITextField *peopleSum;
+//用餐人数
+@property (nonatomic, strong)UITextField *eatPeople;
+//出发城市
+@property (nonatomic, strong)UITextField *setOutCity;
 //时间数组
 @property (nonatomic, strong)NSArray *timeArray;
 //报备方式
@@ -68,19 +76,7 @@
     if(![_itemId isEqual:@""]&&_itemId){
         [self loadTimeData];
     }
-//    if(_telphone.text.length!=11){
-//        _telphone.text = @"";
-//    }else{
-//        if ([_orderTelFlag isEqual:@"0"]) {
-//            if (![_telphone.text containsString:@"*"]) {
-//                _telphone.text = [NSString stringWithFormat:@"%@****%@",[_telphone.text substringToIndex:3],[_telphone.text substringFromIndex:7]];
-//            }
-//        }else if([_orderTelFlag isEqual:@"1"]){
-//            if ([_telphone.text containsString:@"*"]) {
-//               _telphone.text = @"";
-//            }
-//        }
-//    }
+    
 }
 #pragma mark -创建控件
 -(void)createControl{
@@ -493,6 +489,9 @@
     _loadTime.text = @"选择预计上客时间";
     _loadTime.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     _loadTime.textColor = UIColorRBG(204, 204, 204);
+    if (![_loadTimes isEqual:@""]) {
+        _loadTime.text = _loadTimes;
+    }
     [_otherView addSubview:_loadTime];
     [_loadTime mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(loadTimeLabel.mas_right).with.offset(40);
@@ -541,6 +540,9 @@
     }];
     UITextField *peopleSum = [[UITextField alloc] init];
     peopleSum.placeholder = @"必填";
+    if (![_peopleSums isEqual:@""]) {
+        peopleSum.text = _peopleSums;
+    }
     peopleSum.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     peopleSum.textColor = UIColorRBG(68, 68, 68);
     peopleSum.keyboardType = UIKeyboardTypeNumberPad;
@@ -576,6 +578,9 @@
     }];
     UITextField *eatPeople = [[UITextField alloc] init];
     eatPeople.placeholder = @"可选填";
+    if (![_eatPeoples isEqual:@""]) {
+        eatPeople.text = _eatPeoples;
+    }
     eatPeople.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     eatPeople.textColor = UIColorRBG(68, 68, 68);
     eatPeople.delegate = self;
@@ -615,6 +620,9 @@
     //创建第三个view中出发城市
     _setOutCity = [[UITextField alloc] init];
     _setOutCity.placeholder = @"必填";
+    if (![_setOutCitys isEqual:@""]) {
+        _setOutCity.text = _setOutCitys;
+    }
     _setOutCity.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     _setOutCity.textColor = UIColorRBG(68, 68, 68);
     //键盘设置
@@ -718,7 +726,7 @@
     [modeButtonThree setBackgroundImage:[UIImage imageNamed:@"choose_2"] forState:UIControlStateNormal];
     [modeButtonThree setBackgroundImage:[UIImage imageNamed:@"bb_icon"] forState:UIControlStateSelected];
     modeButtonThree.tag = 22;
-    if (_tags == 3) {
+    if (_tags == 0) {
         modeButtonThree.selected = YES;
     }
     [modeButtonThree addTarget:self action:@selector(modeButton:) forControlEvents:UIControlEventTouchUpInside];

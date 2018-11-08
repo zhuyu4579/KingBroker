@@ -111,7 +111,7 @@
         if ([code isEqual:@"200"]) {
             NSDictionary *data = [responseObject valueForKey:@"data"];
             NSArray *rows = [data valueForKey:@"rows"];
-            NSLog(@"%@",rows);
+            
             _tokerTitleView.albumArray = [WZTokerTitleItem mj_objectArrayWithKeyValuesArray:rows];
             [_tokerTitleView reloadData];
         }

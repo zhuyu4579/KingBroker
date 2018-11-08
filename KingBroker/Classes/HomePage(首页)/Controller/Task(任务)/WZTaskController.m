@@ -221,6 +221,7 @@
     req.scene = WXSceneSession;
     //发送请求到微信,等待微信返回onResp
     [WXApi sendReq:req];
+    
 }
 //分享到朋友圈
 -(void)friendsButton:(NSString *)url{

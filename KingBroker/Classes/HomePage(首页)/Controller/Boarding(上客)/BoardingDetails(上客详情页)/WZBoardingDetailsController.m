@@ -941,9 +941,10 @@
     report.custormNames = _name.text;
     report.telphones = _telephone.text;
     report.orderTelFlag = _orderTelFlag;
-    report.loadTime.text = [_order valueForKey:@"boardingPlanes"];
-    report.peopleSum.text = [_order valueForKey:@"partPersonNum"];
-    report.setOutCity.text = [_order valueForKey:@"departureCity"];
+    report.loadTimes = [_order valueForKey:@"boardingPlanes"];
+    report.peopleSums = [_order valueForKey:@"partPersonNum"];
+    report.setOutCitys = [_order valueForKey:@"departureCity"];
+    report.eatPeoples = [_order valueForKey:@"lunchNum"];
     report.tags = [[_order valueForKey:@"partWay"] integerValue];
     [self.navigationController pushViewController:report animated:YES];
 }

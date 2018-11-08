@@ -39,4 +39,14 @@
 @property(nonatomic,strong)NSString *boardingLimitTime;
 //是否为实号
 @property(nonatomic,strong)NSString *orderTelFlag;
+//出行人数
+@property(nonatomic,strong)NSString *partPersonNum;
+//用餐人数
+@property(nonatomic,strong)NSString *lunchNum;
+//出行方式
+@property(nonatomic,strong)NSString *partWay;
+//出发城市
+@property(nonatomic,strong)NSString *departureCity;
+//预计上客时间
+@property(nonatomic,strong)NSString *boardingPlane;
 @end

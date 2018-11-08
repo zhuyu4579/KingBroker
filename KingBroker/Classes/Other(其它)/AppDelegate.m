@@ -195,7 +195,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *shareSuccessType = [defaults valueForKey:@"shareSuccessType"];
-        
         if (resp.errCode == 0) {
             //通知回调
             if ([shareSuccessType isEqual:@"0"]) {
