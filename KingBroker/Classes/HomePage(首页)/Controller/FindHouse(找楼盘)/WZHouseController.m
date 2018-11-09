@@ -10,8 +10,9 @@
 #import "WZTypeItem.h"
 #import <MJRefresh.h>
 #import "WZCityItem.h"
-#import "UIView+Frame.h"
 #import <MJExtension.h>
+#import "DropMenuView.h"
+#import "UIView+Frame.h"
 #import <AFNetworking.h>
 #import "WZScreenItem.h"
 #import <SVProgressHUD.h>
@@ -29,11 +30,10 @@
 #import "UIButton+WZEnlargeTouchAre.h"
 
 static NSString * const ID = @"Citycell";
-@interface WZHouseController ()<UICollectionViewDataSource,UICollectionViewDelegate>{
+@interface WZHouseController ()<DropMenuViewDelegate>{
     //页数
     NSInteger current;
 }
-
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 //列表按钮
 @property(nonatomic,weak)UIButton *previousClickButton;
@@ -44,8 +44,9 @@ static NSString * const ID = @"Citycell";
 
 @property(nonatomic,weak)UIView *menu;
 @property(nonatomic,weak)UIView *city;
-@property(nonatomic,weak)UIView *cityMore;
-@property(nonatomic,weak)UICollectionView *collectionView;
+@property (nonatomic, strong) DropMenuView *threeLinkageDropMenu;
+@property (nonatomic, strong) NSArray *addressArr;
+
 @property(nonatomic,weak)WZSlider *slider;
 @property(nonatomic,weak)UIView *cityView;
 @property(nonatomic,weak)UIView *priceView;
@@ -59,6 +60,10 @@ static NSString * const ID = @"Citycell";
 @property (nonatomic, strong)NSIndexPath *indexPath;
 //保存数据数组
 @property (nonatomic, strong)WZFindHouseTableView *tableView;
+//省ID
+@property(nonatomic,strong)NSString *provinceId;
+//区域ID
+@property(nonatomic,strong)NSString *areaId;
 //城市ID
 @property(nonatomic,strong)NSString *cityId;
 //UUID
@@ -234,9 +239,9 @@ static NSString *size = @"20";
     [mgr.requestSerializer setValue:_uuid forHTTPHeaderField:@"uuid"];
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    paraments[@"provinceId"] = @"";
-    paraments[@"cityId"] = @"";
-    paraments[@"areaId"] = @"";
+    paraments[@"provinceId"] = _provinceId;
+    paraments[@"cityId"] = _cityId;
+    paraments[@"areaId"] = _areaId;
     paraments[@"minPrice"] = _minPrice;
     paraments[@"maxPrice"] = _maxPrice;
     paraments[@"type"] = _typeValue;
@@ -432,7 +437,6 @@ static NSString *size = @"20";
     switch (button.tag) {
         case 10:
             [_cityView setHidden:NO];
-            [_cityMore setHidden:NO];
             break;
         case 11:
             [_priceView setHidden:NO];
@@ -466,7 +470,6 @@ static NSString *size = @"20";
 -(void)hideView{
     [_framView setHidden:YES];
     [_cityView setHidden:YES];
-    [_cityMore setHidden:YES];
     [_priceView setHidden:YES];
     [_typeView setHidden:YES];
     [_screenView setHidden:YES];
@@ -481,17 +484,13 @@ static NSString *size = @"20";
 -(void)cityMenu{
     //创建城市view
     UIView *view = [[UIView alloc] init];
-    UIView *viewMore = [[UIView alloc] init];
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 120);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, _framView.fHeight);
     _cityView = view;
-    viewMore.frame = CGRectMake(0, 120, SCREEN_WIDTH, 30);
-    viewMore.backgroundColor = [UIColor whiteColor];
-    [_framView addSubview:viewMore];
-    [self getUpCityItem:view];
-    _city = view;
-    _cityMore = viewMore;
     view.backgroundColor = [UIColor whiteColor];
     [_framView addSubview:view];
+    self.threeLinkageDropMenu = [[DropMenuView alloc] init];
+    self.threeLinkageDropMenu.delegate = self;
+   
 }
 //查询城市列表
 -(void)cityDatas{
@@ -513,73 +512,59 @@ static NSString *size = @"20";
         if ([code isEqual:@"200"]) {
             NSDictionary *data = [responseObject valueForKey:@"data"];
             NSArray *cityArray = [data valueForKey:@"rows"];
-            _cityArray = [WZCityItem mj_objectArrayWithKeyValuesArray:cityArray];
-            [_collectionView reloadData];
-            [_collectionView selectItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+            _addressArr = cityArray;
+            
+            if (_cityView.subviews>0) {
+                [_cityView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+            }
+            [self.threeLinkageDropMenu creatDropView:_cityView withShowTableNum:3 withData:self.addressArr];
+            [_cityView addSubview:_threeLinkageDropMenu];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
     
 }
+#pragma mark - 协议实现
+-(void)dropMenuView:(DropMenuView *)view didSelectName:(NSDictionary *)dicty{
+    
+    if (view == self.threeLinkageDropMenu){
+        
+//        [self.threeLinkageButton setTitle:str forState:UIControlStateNormal];
+//        [self buttonEdgeInsets:self.threeLinkageButton];
+        _provinceId = [dicty valueForKey:@"provinceId"];
+        _cityId = [dicty valueForKey:@"cityId"];
+        _areaId = [dicty valueForKey:@"areaId"];
+        NSString *areaName = [dicty valueForKey:@"areaName"];
+        if ([areaName isEqual:@""]) {
+            areaName = @"城市";
+        }
+        if ([_provinceId isEqual:@"0"]||[_cityId isEqual:@"0"]||![_areaId isEqual:@""]) {
+            [self hideView];
+            
+            if ([areaName isEqual:@""]||[areaName isEqual:@"城市"]) {
+                areaName = @"不限";
+            }
+        }
+        if ([_provinceId isEqual:@"0"]) {
+            _provinceId = @"";
+        }
+        if ([_cityId isEqual:@"0"]) {
+            _cityId = @"";
+        }
+        if ([_areaId isEqual:@"0"]) {
+            _areaId = @"";
+        }
+        UIButton *but =  [_menu viewWithTag:10];
+        [but setTitle:[NSString stringWithFormat:@"%@ ",areaName] forState:UIControlStateNormal];
+        [but setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
+        [but setImage:[UIImage imageNamed:@"lp_icon5"] forState:UIControlStateNormal];
+        _projectListArray = [NSMutableArray array];
+        current = 1;
+        [self loadData];
+    }
+}
 
-#pragma mark -创建城市列表
--(void)getUpCityItem:(UIView *)view{
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    //设置布局方向为垂直流布局
-    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    layout.sectionInset = UIEdgeInsetsMake(20, 15, 20, 15);
-    layout.minimumLineSpacing = 30;
-    layout.minimumInteritemSpacing = 10;
-    //layout.estimatedItemSize = CGSizeMake(80, 25);
-    layout.itemSize = CGSizeMake(70, 25);
-    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(view.fX, view.fY, view.fWidth, view.fHeight) collectionViewLayout:layout];
-    collectionView.backgroundColor = [UIColor whiteColor];
-    self.collectionView = collectionView;
-    //禁止滑动
-    collectionView.scrollEnabled = NO;
-    [view addSubview:collectionView];
-    collectionView.dataSource = self;
-    collectionView.delegate = self;
-    
-    [collectionView registerNib:[UINib nibWithNibName:@"WZCityCollectionCell" bundle:nil] forCellWithReuseIdentifier:ID];
-}
--(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return _cityArray.count;
-}
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    WZCityCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ID forIndexPath:indexPath];
-//    if (indexPath.row == 0) {
-//        cell.cityButton.textColor = UIColorRBG(49, 35, 6);
-//        cell.cityButton.backgroundColor = UIColorRBG(255, 216, 0);
-//        _indexPath = indexPath;
-//    }
-    WZCityItem *item = self.cityArray[indexPath.row];
-    cell.item = item;
-    return cell;
-}
-#pragma mark -点击cell
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    WZCityCollectionCell *cell1 =(WZCityCollectionCell *) [collectionView cellForItemAtIndexPath:_indexPath];
-    cell1.cityButton.textColor = UIColorRBG(102, 102, 102);
-    cell1.cityButton.backgroundColor = UIColorRBG(242, 242, 242);
-    
-    WZCityCollectionCell *cell =(WZCityCollectionCell *) [collectionView cellForItemAtIndexPath:indexPath];
-    cell.cityButton.textColor = UIColorRBG(49, 35, 6);
-    cell.cityButton.backgroundColor = UIColorRBG(255, 216, 0);
-    _indexPath = indexPath;
-    
-    UIButton *but =  [_menu viewWithTag:10];
-    [but setTitle:[NSString stringWithFormat:@"%@ ",cell.cityButton.text] forState:UIControlStateNormal];
-    [but setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
-    [but setImage:[UIImage imageNamed:@"lp_icon5"] forState:UIControlStateNormal];
-    [self hideView];
-    _seachCityId = cell.cityId;
-    _projectListArray = [NSMutableArray array];
-    current = 1;
-    [self loadData];
-}
 
 
 #pragma mark -总价格菜单
