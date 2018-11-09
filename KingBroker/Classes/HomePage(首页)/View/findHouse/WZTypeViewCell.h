@@ -15,4 +15,5 @@
 @property(nonatomic,strong)WZTypeItem *item;
 //数据的value
 @property(nonatomic,strong)NSString *value;
+
 @end

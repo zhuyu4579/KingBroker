@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface WZTypeTableView : UITableView
+//类型
+@property (nonatomic,strong)NSString *type;
 //数据模型
 @property (nonatomic,strong)NSArray *array;
 //传递点选值

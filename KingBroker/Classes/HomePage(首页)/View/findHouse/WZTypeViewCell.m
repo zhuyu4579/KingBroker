@@ -14,17 +14,23 @@
     _item = item;
     _typeHouse.text = item.label;
     _value = item.value;
+    
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     
 }
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
      self.selectionStyle = UITableViewCellSelectionStyleNone;
-    _typeHouse.textColor = UIColorRBG(102, 102, 102);
+    if (selected) {
+      _typeHouse.textColor = UIColorRBG(254, 193, 0);
+    }else{
+      _typeHouse.textColor = UIColorRBG(102, 102, 102);
+    }
+    
+    
 }
 -(void)setFrame:(CGRect)frame{
     frame.size.height -=1;
