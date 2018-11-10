@@ -67,7 +67,6 @@
 		1F48F18921588CDB003CE6DC /* WZLabelVideoListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F48F18721588CDB003CE6DC /* WZLabelVideoListCell.m */; };
 		1F48F18A21588CDB003CE6DC /* WZLabelVideoListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F48F18821588CDB003CE6DC /* WZLabelVideoListCell.xib */; };
 		1F48F18D2158D386003CE6DC /* WZVideoListLabelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F48F18C2158D386003CE6DC /* WZVideoListLabelController.m */; };
-		1F493FC921952B530046B04E /* address.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F493FC621952B520046B04E /* address.plist */; };
 		1F493FCA21952B530046B04E /* DropMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F493FC821952B520046B04E /* DropMenuView.m */; };
 		1F4A267E21363B9300C794FC /* WZValidateCodeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4A267C21363B9300C794FC /* WZValidateCodeController.m */; };
 		1F4A267F21363B9300C794FC /* WZValidateCodeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4A267D21363B9300C794FC /* WZValidateCodeController.xib */; };
@@ -384,7 +383,6 @@
 		1F48F18821588CDB003CE6DC /* WZLabelVideoListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZLabelVideoListCell.xib; sourceTree = "<group>"; };
 		1F48F18B2158D386003CE6DC /* WZVideoListLabelController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZVideoListLabelController.h; sourceTree = "<group>"; };
 		1F48F18C2158D386003CE6DC /* WZVideoListLabelController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZVideoListLabelController.m; sourceTree = "<group>"; };
-		1F493FC621952B520046B04E /* address.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = address.plist; sourceTree = "<group>"; };
 		1F493FC721952B520046B04E /* DropMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropMenuView.h; sourceTree = "<group>"; };
 		1F493FC821952B520046B04E /* DropMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropMenuView.m; sourceTree = "<group>"; };
 		1F4A267B21363B9300C794FC /* WZValidateCodeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZValidateCodeController.h; sourceTree = "<group>"; };
@@ -1602,7 +1600,6 @@
 				1F09949820EE0FDC00524361 /* WZHouseCollectController.m */,
 				1F77530020A41567003E1C07 /* WZCollectTableView.h */,
 				1F77530120A41567003E1C07 /* WZCollectTableView.m */,
-				1F493FC621952B520046B04E /* address.plist */,
 				1F493FC721952B520046B04E /* DropMenuView.h */,
 				1F493FC821952B520046B04E /* DropMenuView.m */,
 			);
@@ -1985,7 +1982,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FD9C4A1207DB91700BB0298 /* LaunchScreen.storyboard in Resources */,
-				1F493FC921952B530046B04E /* address.plist in Resources */,
 				1F489C5020CE9669005889D8 /* WZUpdateStoreController.xib in Resources */,
 				1FD9C624207DBD2C00BB0298 /* WZNoCodeView.xib in Resources */,
 				1F451C7820B6E58100075240 /* WZTaskCell.xib in Resources */,

@@ -157,14 +157,11 @@ static NSString *size = @"20";
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     _uuid = uuid;
-    NSString *cityId = [ user objectForKey:@"cityId"];
-    _cityId = cityId;
     _lnglat = [user objectForKey:@"lnglat"];
-    UIButton *but =  [_menu viewWithTag:10];
-    [but setTitle:@"城市 " forState:UIControlStateNormal];
-    [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
-    [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
-    _seachCityId = @"";
+//    UIButton *but =  [_menu viewWithTag:10];
+//    [but setTitle:@"城市 " forState:UIControlStateNormal];
+//    [but setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
+//    [but setImage:[UIImage imageNamed:@"lp_icon1"] forState:UIControlStateNormal];
     _projectListArray = [NSMutableArray array];
     current = 1;
     _isRequestFinish = YES;
@@ -252,7 +249,6 @@ static NSString *size = @"20";
     paraments[@"size"] = size;
     paraments[@"keyword"] = @"";
     NSString *url = [NSString stringWithFormat:@"%@/proProject/v2/projectList",HTTPURL];
-    
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         
