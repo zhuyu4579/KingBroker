@@ -10,6 +10,8 @@
 @class WZFindHouseListItem;
 @interface WZFindHouseCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *houseImage;
+@property (strong, nonatomic) IBOutlet UILabel *labelTag;
+
 @property (weak, nonatomic) IBOutlet UILabel *houseItemName;
 @property (weak, nonatomic) IBOutlet UILabel *houseLabelOne;
 @property (weak, nonatomic) IBOutlet UILabel *houseLabelTwo;

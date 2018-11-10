@@ -33,5 +33,6 @@
 @property(nonatomic,strong)NSString *distance;
 //公司名称
 @property(nonatomic,strong)NSString *companyName;
-
+//运营标签
+@property(nonatomic,strong)NSString *runTag;
 @end

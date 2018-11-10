@@ -5,7 +5,7 @@
 //  Created by 朱玉隆 on 2018/4/3.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
+#import <Masonry.h>
 #import "WZFindHouseCell.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZFindHouseListItem.h"
@@ -25,8 +25,13 @@
     //设置ID
     _ID = item.id;
     _houseItemName.text = item.name;
+    if(item.name.length>10){
+        [_houseItemName mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.offset(140);
+        }];
+    }
     _distance.text = item.distance;
-   
+    
     if ([realtorStatus isEqual:@"2"]) {
         [_JoinStoreButton setHidden:YES];
         [_JoinStoreButton setEnabled:NO];
@@ -68,8 +73,13 @@
         }else if(item.tage.count > 2){
             _houseLabelThree.text = [NSString stringWithFormat:@" %@ " ,item.tage[2]];
         }
-        
-        
+    }
+    NSString *runTag = item.runTag;
+    if (![runTag isEqual:@""]&&runTag) {
+        [_labelTag setHidden:NO];
+        _labelTag.text = [runTag substringToIndex:1];
+    }else{
+        [_labelTag setHidden:YES];
     }
 }
 - (void)awakeFromNib {
@@ -83,6 +93,10 @@
     _houseLabelTwo.textColor = UIColorRBG(255, 202, 118);
     _houseLabelThree.backgroundColor = UIColorRBG(255, 252, 238);
     _houseLabelThree.textColor = UIColorRBG(255, 202, 118);
+    
+    _labelTag.backgroundColor = UIColorRBG(135, 148, 227);
+    _labelTag.layer.cornerRadius = 2.0;
+    _labelTag.layer.masksToBounds = YES;
     
     _houseCommission.textColor = UIColorRBG(254, 193, 0);
     [_JoinStoreButton setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];

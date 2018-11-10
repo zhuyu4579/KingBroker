@@ -13,6 +13,7 @@
 #import <WXApi.h>
 #import <Masonry.h>
 #import <MJRefresh.h>
+
 #import <WXApiObject.h>
 #import "UIView+Frame.h"
 #import <MJExtension.h>
@@ -289,9 +290,19 @@ static NSString * const IDS = @"cells";
     }else{
         _dView.price.text = price;
     }
+    _dView.runTageOne.text = @"";
+    _dView.runTageTwo.text = @"";
     _dView.itemLabel.text = @"";
     _dView.itemLabelTwo.text = @"";
     _dView.itemLabelThree.text = @"";
+    NSArray *runArray = [_houseDatils valueForKey:@"runTagList"];
+    for (int i = 0; i<runArray.count; i++) {
+        if (i==0) {
+            _dView.runTageOne.text = [NSString stringWithFormat:@" %@ ",runArray[i]];
+        }else if(i == 1){
+           _dView.runTageTwo.text = [NSString stringWithFormat:@" %@ ",runArray[i]];
+        }
+    }
     NSArray *labelArray = [_houseDatils valueForKey:@"tage"];
     for (int i = 0; i<labelArray.count; i++) {
         if (i == 0) {
@@ -301,6 +312,10 @@ static NSString * const IDS = @"cells";
         }else if(i == 2){
             _dView.itemLabelThree.text = [NSString stringWithFormat:@" %@ ",labelArray[2]];
         }
+    }
+    NSString *houseSum = [_houseDatils valueForKey:@"houseNum"];
+    if (![houseSum isEqual:@""]&&houseSum) {
+        _dView.houseSum.text = [NSString stringWithFormat:@"%@套",houseSum];
     }
     
     if ([realtorStatus isEqual:@"2"]) {

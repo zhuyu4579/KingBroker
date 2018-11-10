@@ -11,6 +11,8 @@
 @interface WZCollectHouseCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UIImageView *projectIamge;
 @property (strong, nonatomic) IBOutlet UILabel *projectName;
+@property (strong, nonatomic) IBOutlet UILabel *labelTag;
+
 @property (strong, nonatomic) IBOutlet UILabel *prices;
 @property (strong, nonatomic) IBOutlet UILabel *labelOne;
 @property (strong, nonatomic) IBOutlet UILabel *labelTwo;

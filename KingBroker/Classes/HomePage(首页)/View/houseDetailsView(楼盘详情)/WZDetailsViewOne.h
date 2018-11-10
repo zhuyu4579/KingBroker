@@ -12,9 +12,14 @@
 +(instancetype)detailViewTwo;
 @property (weak, nonatomic) IBOutlet UILabel *itemName;
 @property (weak, nonatomic) IBOutlet UILabel *price;
+@property (strong, nonatomic) IBOutlet UILabel *runTageOne;
+@property (strong, nonatomic) IBOutlet UILabel *runTageTwo;
+
 @property (weak, nonatomic) IBOutlet UILabel *itemLabel;
 @property (weak, nonatomic) IBOutlet UILabel *itemLabelTwo;
 @property (weak, nonatomic) IBOutlet UILabel *itemLabelThree;
+@property (strong, nonatomic) IBOutlet UILabel *houseSum;
+
 @property (weak, nonatomic) IBOutlet UILabel *Commission;
 @property (weak, nonatomic) IBOutlet UILabel *address;
 @property (strong, nonatomic) IBOutlet UIButton *JoinButton;

@@ -105,6 +105,7 @@
 		1F5156E1217D61EE0089D482 /* WZPhotoNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5156D8217D61EE0089D482 /* WZPhotoNameCell.xib */; };
 		1F5156E2217D61EE0089D482 /* WZAllPhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5156DA217D61EE0089D482 /* WZAllPhotoCell.xib */; };
 		1F5156E3217D61EE0089D482 /* WZAllPhotosCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5156DC217D61EE0089D482 /* WZAllPhotosCollectionView.m */; };
+		1F5230DD2196C3E0006151C9 /* EwenCopyLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5230DC2196C3E0006151C9 /* EwenCopyLabel.m */; };
 		1F533D9620C914ED0053FE4E /* WZAlbumPhonesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F533D9520C914ED0053FE4E /* WZAlbumPhonesViewController.m */; };
 		1F54D2C5215F1EE8005FA945 /* CCPScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F54D2C4215F1EE8005FA945 /* CCPScrollView.m */; };
 		1F5B74F5214F5C94007CA432 /* WZTitleCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B74F4214F5C94007CA432 /* WZTitleCollectionViewCell.m */; };
@@ -450,6 +451,8 @@
 		1F5156DB217D61EE0089D482 /* WZPhotoTypeNameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZPhotoTypeNameView.h; sourceTree = "<group>"; };
 		1F5156DC217D61EE0089D482 /* WZAllPhotosCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZAllPhotosCollectionView.m; sourceTree = "<group>"; };
 		1F5156DD217D61EE0089D482 /* WZAllPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZAllPhotoCell.h; sourceTree = "<group>"; };
+		1F5230DB2196C3E0006151C9 /* EwenCopyLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EwenCopyLabel.h; sourceTree = "<group>"; };
+		1F5230DC2196C3E0006151C9 /* EwenCopyLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EwenCopyLabel.m; sourceTree = "<group>"; };
 		1F533D9420C914ED0053FE4E /* WZAlbumPhonesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZAlbumPhonesViewController.h; sourceTree = "<group>"; };
 		1F533D9520C914ED0053FE4E /* WZAlbumPhonesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAlbumPhonesViewController.m; sourceTree = "<group>"; };
 		1F54D2C3215F1EE7005FA945 /* CCPScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPScrollView.h; sourceTree = "<group>"; };
@@ -1128,6 +1131,8 @@
 		1FD9C4C1207DBD2B00BB0298 /* ToolDemo(工具模型) */ = {
 			isa = PBXGroup;
 			children = (
+				1F5230DB2196C3E0006151C9 /* EwenCopyLabel.h */,
+				1F5230DC2196C3E0006151C9 /* EwenCopyLabel.m */,
 				1FD9C4C2207DBD2B00BB0298 /* UIView+Dimension.h */,
 				1FD9C4C4207DBD2B00BB0298 /* UIView+Dimension.m */,
 				1FD9C4C5207DBD2B00BB0298 /* WZSlider.h */,
@@ -2301,6 +2306,7 @@
 				1F3885A420A5700700402B23 /* ZDMapController.m in Sources */,
 				1F504ED521549E1E00AA06D6 /* WZTokerLabelCell.m in Sources */,
 				1FD9C674207DBD2C00BB0298 /* WZDynamicCell.m in Sources */,
+				1F5230DD2196C3E0006151C9 /* EwenCopyLabel.m in Sources */,
 				1FD9C61A207DBD2C00BB0298 /* UIButton+WZEnlargeTouchAre.m in Sources */,
 				1FD9C655207DBD2C00BB0298 /* WZReportSuccessCell.m in Sources */,
 				1F09951320F4453900524361 /* WZStoreAdministrationController.m in Sources */,

@@ -5,6 +5,7 @@
 //  Created by 朱玉隆 on 2018/5/10.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
+#import <Masonry.h>
 #import "WZCollectHouseCell.h"
 #import "WZFindHouseListItem.h"
 #import <UIImageView+WebCache.h>
@@ -23,7 +24,11 @@
     //设置ID
     _ID = item.id;
     _projectName.text = item.name;
-    
+    if(item.name.length>10){
+        [_projectName mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.offset(140);
+        }];
+    }
     _distance.text = item.distance;
     
     if ([realtorStatus isEqual:@"2"]) {
@@ -71,6 +76,13 @@
             }
         }
     }
+    NSString *runTag = item.runTag;
+    if (![runTag isEqual:@""]&&runTag) {
+        [_labelTag setHidden:NO];
+        _labelTag.text = [runTag substringToIndex:1];
+    }else{
+        [_labelTag setHidden:YES];
+    }
 }
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -86,6 +98,10 @@
     
      _commsion.textColor = UIColorRBG(254, 193, 0);
     [_JoinStoreButton setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
+    
+    _labelTag.backgroundColor = UIColorRBG(135, 148, 227);
+    _labelTag.layer.cornerRadius = 2.0;
+    _labelTag.layer.masksToBounds = YES;
     
     [_commsion setHidden:YES];
      _prices.textColor = UIColorRBG(102, 102, 102);
