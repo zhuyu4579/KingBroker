@@ -119,6 +119,7 @@
 		1F60D0F3214CDB9700E311B5 /* WZHouseDetilItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60D0F2214CDB9700E311B5 /* WZHouseDetilItem.m */; };
 		1F60D0F7214CE20000E311B5 /* WZTitleCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60D0F5214CE20000E311B5 /* WZTitleCollectionCell.m */; };
 		1F60D0F8214CE20000E311B5 /* WZTitleCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F60D0F6214CE20000E311B5 /* WZTitleCollectionCell.xib */; };
+		1F618C9521990F5400110EDC /* WZFindHousesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F618C9421990F5400110EDC /* WZFindHousesController.m */; };
 		1F632EC1212CFFC00063AC4A /* WZNewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F632EC0212CFFC00063AC4A /* WZNewsController.m */; };
 		1F632EC5212D00140063AC4A /* WZNewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F632EC3212D00140063AC4A /* WZNewsCell.m */; };
 		1F632EC6212D00140063AC4A /* WZNewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F632EC4212D00140063AC4A /* WZNewsCell.xib */; };
@@ -475,6 +476,8 @@
 		1F60D0F4214CE20000E311B5 /* WZTitleCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZTitleCollectionCell.h; sourceTree = "<group>"; };
 		1F60D0F5214CE20000E311B5 /* WZTitleCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZTitleCollectionCell.m; sourceTree = "<group>"; };
 		1F60D0F6214CE20000E311B5 /* WZTitleCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZTitleCollectionCell.xib; sourceTree = "<group>"; };
+		1F618C9321990F5400110EDC /* WZFindHousesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZFindHousesController.h; sourceTree = "<group>"; };
+		1F618C9421990F5400110EDC /* WZFindHousesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZFindHousesController.m; sourceTree = "<group>"; };
 		1F632EBF212CFFC00063AC4A /* WZNewsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZNewsController.h; sourceTree = "<group>"; };
 		1F632EC0212CFFC00063AC4A /* WZNewsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZNewsController.m; sourceTree = "<group>"; };
 		1F632EC2212D00140063AC4A /* WZNewsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZNewsCell.h; sourceTree = "<group>"; };
@@ -1607,6 +1610,8 @@
 				1F77530120A41567003E1C07 /* WZCollectTableView.m */,
 				1F493FC721952B520046B04E /* DropMenuView.h */,
 				1F493FC821952B520046B04E /* DropMenuView.m */,
+				1F618C9321990F5400110EDC /* WZFindHousesController.h */,
+				1F618C9421990F5400110EDC /* WZFindHousesController.m */,
 			);
 			path = "FindHouse(找楼盘)";
 			sourceTree = "<group>";
@@ -2235,6 +2240,7 @@
 				1F09952020F48D9000524361 /* WZShareHouseDatisController.m in Sources */,
 				1F47F4A720CA549B0012F5EF /* WZLBCollectionViewCell.m in Sources */,
 				1F451C7220B6C43E00075240 /* WZReadPassWordController.m in Sources */,
+				1F618C9521990F5400110EDC /* WZFindHousesController.m in Sources */,
 				1F46104520BBA12D00216FDB /* WZPhonesController.m in Sources */,
 				1FD9C646207DBD2C00BB0298 /* WZPagesViewController.m in Sources */,
 				1FD9C633207DBD2C00BB0298 /* WZAnnouCell.m in Sources */,

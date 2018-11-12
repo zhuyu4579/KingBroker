@@ -6,11 +6,12 @@
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
 #import <Masonry.h>
-#import "UIButton+WZEnlargeTouchAre.h"
-#import "WZHousePageController.h"
-#import "WZHouseController.h"
-#import "WZHouseCollectController.h"
 #import "UIView+Frame.h"
+#import "WZHouseController.h"
+#import "WZHousePageController.h"
+#import "WZFindHousesController.h"
+#import "WZHouseCollectController.h"
+#import "UIButton+WZEnlargeTouchAre.h"
 @interface WZHousePageController ()
 //子控制器
 @property(nonatomic,strong)WZHouseController *allHouseVC;
@@ -85,6 +86,18 @@
         make.width.offset(11);
         make.height.offset(20);
     }];
+    //搜索按钮
+    UIButton *findButton = [[UIButton alloc] init];
+    [findButton setBackgroundImage:[UIImage imageNamed:@"search_1"] forState:UIControlStateNormal];
+    [findButton setEnlargeEdgeWithTop:10 right:20 bottom:10 left:15];
+    [findButton addTarget:self action:@selector(findHouse) forControlEvents:UIControlEventTouchUpInside];
+    [navView addSubview:findButton];
+    [findButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(navView.mas_right).offset(-15);
+        make.top.equalTo(navView.mas_top).offset(kApplicationStatusBarHeight+13);
+        make.width.offset(20);
+        make.height.offset(21);
+    }];
     //导航栏按钮view
     UIView *buttonView = [[UIView alloc] init];
     buttonView.backgroundColor = [UIColor whiteColor];
@@ -152,6 +165,11 @@
 -(void)back{
     [self.navigationController popViewControllerAnimated:YES];
 }
+#pragma mark -搜索楼盘
+-(void)findHouse{
+    WZFindHousesController *findHouse = [[WZFindHousesController alloc] init];
+    [self.navigationController pushViewController:findHouse animated:YES];
+}
 #pragma mark -全部楼盘
 -(void)allHouse{
     _status = 0;
@@ -180,7 +198,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    //[self.navigationController setNavigationBarHidden:YES animated:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
     
 }
 @end

@@ -1,25 +1,24 @@
 //
-//  WZSearchProjectController.m
+//  WZFindHousesController.m
 //  KingBroker
 //
-//  Created by 朱玉隆 on 2018/5/21.
+//  Created by 朱玉隆 on 2018/11/12.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
-#import "WZSearchProjectController.h"
-#import "WZNewReportController.h"
-#import "WZSelectProjectCell.h"
-#import "UIView+Frame.h"
-#import "WZSelcetProjectItem.h"
-#import "UIBarButtonItem+Item.h"
-#import "NSString+LCExtension.h"
-#import <AFNetworking.h>
-#import <SVProgressHUD.h>
+#import <Masonry.h>
 #import <MJRefresh.h>
 #import <MJExtension.h>
-#import <Masonry.h>
-static  NSString * const ID = @"cell";
-@interface WZSearchProjectController ()<UISearchBarDelegate>{
+#import "UIView+Frame.h"
+#import <AFNetworking.h>
+#import <SVProgressHUD.h>
+#import "WZFindHouseCell.h"
+#import "WZFindHouseListItem.h"
+#import "NSString+LCExtension.h"
+#import "UIBarButtonItem+Item.h"
+#import "WZHouseDatisController.h"
+#import "WZFindHousesController.h"
+
+@interface WZFindHousesController ()<UISearchBarDelegate>{
     //页数
     NSInteger current;
 }
@@ -33,26 +32,39 @@ static  NSString * const ID = @"cell";
 
 @property(nonatomic,strong)UIView *viewNo;
 @end
+
 //查询条数
 static NSString *size = @"20";
+static  NSString * const ID = @"cells";
 
-@implementation WZSearchProjectController
+@implementation WZFindHousesController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setNoData];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] init];
-     self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.hidesBackButton = YES;
     //创建搜索框
     UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth-40, 45)];
     
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, searchView.fWidth, 44)];
-    searchBar.placeholder = @"请输入楼盘名称";
+    searchBar.placeholder = @"请输入楼盘名,公司名";
     searchBar.barTintColor = [UIColor whiteColor];
     searchBar.searchBarStyle = UISearchBarStyleMinimal;
     searchBar.returnKeyType = UIReturnKeyDone;
     searchBar.delegate = self;
     _searchBar = searchBar;
+    searchBar.showsCancelButton = YES;
+    for (id cencelButton in [searchBar.subviews[0] subviews])
+    {
+        if([cencelButton isKindOfClass:[UIButton class]])
+        {
+            UIButton *btn = (UIButton *)cencelButton;
+            [btn setTitle:@"取消"  forState:UIControlStateNormal];
+            [btn setTitleColor:UIColorRBG(255, 224, 0) forState:UIControlStateNormal];
+            btn.titleLabel.font = [UIFont systemFontOfSize:14];
+        }
+    }
     UITextField *searchField1 = [searchBar valueForKey:@"_searchField"];
     [searchField1 setValue:[UIFont boldSystemFontOfSize:13] forKeyPath:@"_placeholderLabel.font"];
     searchField1.backgroundColor = [UIColor whiteColor];
@@ -63,16 +75,9 @@ static NSString *size = @"20";
     self.tableView.backgroundColor = UIColorRBG(242, 242, 242);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //注册cell
-    [self.tableView registerNib:[UINib nibWithNibName:@"WZSelectProjectCell" bundle:nil] forCellReuseIdentifier:ID];
+    [self.tableView registerNib:[UINib nibWithNibName:@"WZFindHouseCell" bundle:nil] forCellReuseIdentifier:ID];
     
-     [self headerRefresh];
-}
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self performSelector:@selector(setCorrectFocus) withObject:NULL afterDelay:0.5];
-}
--(void) setCorrectFocus {
-    [self.searchBar becomeFirstResponder];
+    [self headerRefresh];
 }
 //下拉刷新
 -(void)headerRefresh{
@@ -93,7 +98,7 @@ static NSString *size = @"20";
     // 设置颜色
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     self.tableView.mj_header = header;
-     
+    
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     footer.mj_h +=JF_BOTTOM_SPACE + 20;
@@ -116,7 +121,6 @@ static NSString *size = @"20";
 -(void)loadData{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
-    NSString *storeId = [ user objectForKey:@"storeId"];
     
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -127,12 +131,20 @@ static NSString *size = @"20";
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    paraments[@"storeId"] = storeId;
-    paraments[@"name"] = _name;
+    paraments[@"provinceId"] = @"";
+    paraments[@"cityId"] = @"";
+    paraments[@"areaId"] = @"";
+    paraments[@"minPrice"] = @"";
+    paraments[@"maxPrice"] = @"";
+    paraments[@"type"] = @"";
+    paraments[@"proSort"] = @"";
+    paraments[@"isCollect"] = @"";
+    paraments[@"location"] = @"";
     paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"size"] = size;
-    NSString *url = [NSString stringWithFormat:@"%@/projectCompany/projectList",HTTPURL];
-    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+    paraments[@"keyword"] = _name;
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/v2/projectList",HTTPURL];
+    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             NSDictionary *dacty = [responseObject valueForKey:@"data"];
@@ -152,15 +164,15 @@ static NSString *size = @"20";
             }else{
                 [_viewNo setHidden:NO];
             }
-            _projectListArrays = [WZSelcetProjectItem mj_objectArrayWithKeyValuesArray:_projectListArray];
+            _projectListArrays = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:_projectListArray];
             [self.tableView reloadData];
             [self.tableView.mj_header endRefreshing];
             
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
-                if(![code isEqual:@"401"] && ![msg isEqual:@""]){
-                    [SVProgressHUD showInfoWithStatus:msg];
-                }
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
             if ([code isEqual:@"401"]) {
                 
                 [NSString isCode:self.navigationController code:code];
@@ -195,7 +207,7 @@ static NSString *size = @"20";
         make.height.offset(150);
     }];
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"暂无搜索楼盘";
+    label.text = @"暂无搜索数据";
     label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     label.textColor = UIColorRBG(158, 158, 158);
     label.textAlignment = NSTextAlignmentCenter;
@@ -208,19 +220,6 @@ static NSString *size = @"20";
     
 }
 //开始输入
--(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    searchBar.showsCancelButton = YES;
-    for (id cencelButton in [searchBar.subviews[0] subviews])
-    {
-        if([cencelButton isKindOfClass:[UIButton class]])
-        {
-            UIButton *btn = (UIButton *)cencelButton;
-            [btn setTitle:@"取消"  forState:UIControlStateNormal];
-            [btn setTitleColor:UIColorRBG(255, 224, 0) forState:UIControlStateNormal];
-            btn.titleLabel.font = [UIFont systemFontOfSize:14];
-        }
-    }
-}
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     _name = searchText;
     _projectListArray = [NSMutableArray array];
@@ -228,9 +227,10 @@ static NSString *size = @"20";
     [self loadData];
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar*)searchBar{
-    [searchBar setShowsCancelButton:NO animated:YES];
+    //[searchBar setShowsCancelButton:NO animated:YES];
     // 如果希望在点击取消按钮调用结束编辑方法需要让加上这句代码
     [searchBar resignFirstResponder];
+
 }
 //点击取消
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
@@ -240,46 +240,32 @@ static NSString *size = @"20";
     [searchBar resignFirstResponder];
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
-#pragma mark - Table view data source
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 68;
+    return 146;
 }
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return _projectListArrays.count;
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.projectListArrays.count;
 }
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    WZSelectProjectCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    WZSelcetProjectItem *item = _projectListArrays[indexPath.row];
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    WZFindHouseCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    WZFindHouseListItem *item = [[WZFindHouseListItem alloc] init];
+    item = self.projectListArrays[indexPath.row];
     cell.item = item;
     return cell;
 }
-//选择数据
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    WZSelectProjectCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    NSMutableDictionary *dicty = [NSMutableDictionary dictionary];
-     WZSelcetProjectItem *item = _projectListArrays[indexPath.row];
-    dicty[@"projectName"] = cell.projectName.text;
-    dicty[@"projectId"] = cell.projectId;
-    dicty[@"signStatus"]= item.signStatus;
-    dicty[@"telphone"]= item.tel;
-    dicty[@"orderTelFlag"] = item.orderTelFlag;
-    if (_blockItem) {
-        _blockItem(dicty);
-    }
-    
-    for (UIViewController *temp in self.navigationController.viewControllers) {
-        if ([temp isKindOfClass:[WZNewReportController class]]) {
-            [self.navigationController popToViewController:temp animated:YES];
-        }
-    }
+    WZFindHouseCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    //点击跳转详情页
+    WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
+    houseDatis.ID =  cell.ID;
+    [self.navigationController pushViewController:houseDatis animated:YES];
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }
-
 @end

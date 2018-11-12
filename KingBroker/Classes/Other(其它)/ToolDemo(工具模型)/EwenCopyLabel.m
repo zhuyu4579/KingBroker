@@ -55,10 +55,10 @@
 
 -(void)handleTap:(UIGestureRecognizer*) recognizer {
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        NSLog(@"111");
+        //NSLog(@"111");
         return;
     }else if (recognizer.state == UIGestureRecognizerStateBegan){
-        NSLog(@"222");
+        //NSLog(@"222");
         [self becomeFirstResponder];
         self.backgroundColor = UIColorRGB(236, 236, 236, 1.0);
         UIMenuItem * item = [[UIMenuItem alloc]initWithTitle:@"复制" action:@selector(newFunc)];

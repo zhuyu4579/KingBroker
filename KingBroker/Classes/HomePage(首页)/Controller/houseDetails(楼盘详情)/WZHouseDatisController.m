@@ -13,10 +13,10 @@
 #import <WXApi.h>
 #import <Masonry.h>
 #import <MJRefresh.h>
-
 #import <WXApiObject.h>
 #import "UIView+Frame.h"
 #import <MJExtension.h>
+#import "EwenCopyLabel.h"
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
 #import "UIView+Center.h"
@@ -871,7 +871,7 @@ static NSString * const IDS = @"cells";
         make.width.offset(view.fWidth-15);
     }];
     //
-    UILabel *maidRule = [[UILabel alloc] init];
+    UILabel *maidRule = [[EwenCopyLabel alloc] init];
     _maidRule = maidRule;
     maidRule.numberOfLines = 0;
     maidRule.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
@@ -945,7 +945,7 @@ static NSString * const IDS = @"cells";
         make.width.offset(view.fWidth-15);
     }];
     
-    UILabel *dyname = [[UILabel alloc] init];
+    UILabel *dyname = [[EwenCopyLabel alloc] init];
     _dyname = dyname;
     dyname.numberOfLines = 0;
     dyname.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
@@ -989,7 +989,7 @@ static NSString * const IDS = @"cells";
         make.width.offset(view.fWidth-15);
     }];
     
-    UILabel *contents = [[UILabel alloc] init];
+    UILabel *contents = [[EwenCopyLabel alloc] init];
     _contents = contents;
     contents.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     contents.numberOfLines = 5;
