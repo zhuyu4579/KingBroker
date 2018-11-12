@@ -570,6 +570,9 @@
 #pragma mark -登录
 -(void)logins:(UIButton *)button{
     [self touches];
+    //获取设备ID
+    NSString *deviceId = [[UIDevice currentDevice] identifierForVendor].UUIDString;
+    
     NSString *name = _loginName.text;
     if (name.length != 11 || [name isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"用户名格式不正确"];
@@ -592,6 +595,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"username"] = name;
     paraments[@"password"] = passWord;
+    paraments[@"deviceId"] = deviceId;
     //3.发送请求
     NSString *url = [NSString stringWithFormat:@"%@/app/login.api",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
