@@ -489,7 +489,7 @@
     _loadTime.text = @"选择预计上客时间";
     _loadTime.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     _loadTime.textColor = UIColorRBG(204, 204, 204);
-    if (![_loadTimes isEqual:@""]) {
+    if (![_loadTimes isEqual:@""]&&_loadTimes) {
         _loadTime.text = _loadTimes;
     }
     [_otherView addSubview:_loadTime];

@@ -13,24 +13,18 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.layer.cornerRadius = 15.0;
-    self.layer.masksToBounds = YES;
-    self.layer.shadowColor = UIColorRBG(255, 222, 134).CGColor;
-    self.layer.shadowOpacity = 0.15f;
+    self.layer.shadowColor = UIColorRBG(0, 0, 0).CGColor;
+    self.layer.shadowOffset = CGSizeMake(0, 2);
+    self.layer.shadowOpacity = 0.08f;
     self.layer.shadowRadius = 5.0f;
     self.layer.shouldRasterize = YES;
+    self.layer.cornerRadius = 7.0;
+    self.layer.masksToBounds = NO;
     self.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    
-    _labelTwo.textColor = UIColorRBG(255, 202, 118);
-    _labelThree.textColor = UIColorRBG(255, 202, 118);
-    _labelFour.textColor = UIColorRBG(255, 202, 118);
-    
-    _labelTwo.backgroundColor = UIColorRBG(255, 249, 220);
-    _labelThree.backgroundColor = UIColorRBG(255, 249, 220);
-    _labelFour.backgroundColor = UIColorRBG(255, 249, 220);
+    _image.layer.cornerRadius = 7.0;
+    _image.layer.masksToBounds = YES;
     
     _cityName.textColor = UIColorRBG(153, 153, 153);
-    _companyName.textColor = UIColorRBG(102, 102, 102);
     _commission.textColor = UIColorRBG(255, 180, 61);
     _commissionLabel.backgroundColor = UIColorRBG(255, 216, 0);
     _commissionLabel.textColor = [UIColor whiteColor];
@@ -43,7 +37,10 @@
     // Configure the view for the selected state
 }
 -(void)setFrame:(CGRect)frame{
-    
+    frame.size.height -=15;
+    frame.origin.y +=15;
+    frame.size.width -=20;
+    frame.origin.x += 10;
     [super setFrame:frame];
 }
 -(void)setItem:(WZLikeProjectItem *)item{
@@ -56,24 +53,13 @@
     [_image sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"bb_5_pic"]];
     _labelOne.text = item.name;
     _projectId = item.id;
-    _labelTwo.text = @"";
-    _labelThree.text = @"";
-    _labelFour.text = @"";
-    NSArray *array = item.tags;
-    if (array.count != 0) {
-        _labelTwo.text =[NSString stringWithFormat:@" %@ ", array[0]];
-        if (array.count >1) {
-            _labelThree.text = [NSString stringWithFormat:@" %@ ", array[1]];
-        }else if(array.count>2){
-            _labelFour.text =[NSString stringWithFormat:@" %@ ", array[2]];
-        }
-    }
+   
     _cityName.text = item.cityName;
     if([commissionFag isEqual:@"0"]){
         _commission.text = item.commission;
     }else{
-        _commission.text = @"";
+        _commission.text = @"请咨询负责人";
     }
-    _companyName.text = item.companyName;
+    
 }
 @end

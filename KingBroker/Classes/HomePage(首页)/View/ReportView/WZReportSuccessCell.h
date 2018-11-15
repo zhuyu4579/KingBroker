@@ -12,12 +12,8 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *image;
 @property (weak, nonatomic) IBOutlet UILabel *labelOne;
-@property (weak, nonatomic) IBOutlet UILabel *labelTwo;
-@property (weak, nonatomic) IBOutlet UILabel *labelThree;
-@property (strong, nonatomic) IBOutlet UILabel *labelFour;
 
 @property (strong, nonatomic) IBOutlet UILabel *cityName;
-@property (strong, nonatomic) IBOutlet UILabel *companyName;
 @property (strong, nonatomic) IBOutlet UILabel *commission;
 @property (strong, nonatomic) IBOutlet UILabel *commissionLabel;
 

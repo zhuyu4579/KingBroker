@@ -22,10 +22,18 @@
 
 //上客时间
 @property (nonatomic,strong)UILabel *labelFour;
+//标签
+@property (nonatomic,strong)UIView *imageOne;
+//标签
+@property (nonatomic,strong)UIView *imageTwo;
 //未签约提醒
 @property (nonatomic,strong)UITextView *labels;
 //未签约提醒
 @property (nonatomic,strong)UILabel *labelRed;
+//背景图
+@property (nonatomic,strong)UIImageView *imageViews;
+//提示
+@property (nonatomic,strong)UILabel *label;
 //电话
 @property (nonatomic,strong)UIButton *phone;
 
@@ -66,14 +74,21 @@
     if ([_status isEqual:@"2"]) {
         [_labels setHidden:YES];
         [_labelRed setHidden:YES];
-        
+        [_imageTwo setHidden:YES];
+        [_imageOne setHidden:YES];
+        [_imageViews setHidden:NO];
+        [_label setHidden:NO];
     }else{
         [_labels setHidden:NO];
         [_labelRed setHidden:NO];
+        [_imageTwo setHidden:NO];
+        [_imageOne setHidden:NO];
+        [_imageViews setHidden:YES];
+        [_label setHidden:YES];
         if ([_status isEqual:@"1"]) {
             NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"你所在经纪门店与该楼盘未签约，在最晚上客时间内，楼盘负责人将会与你联系，或你可致电%@了解签约事宜",_telphone]];
             [attributedString addAttribute:NSLinkAttributeName value:@"cilck://" range:[[attributedString string] rangeOfString:_telphone]];
-             [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(0, attributedString.length)];
+             [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PingFang-SC-Medium" size:12] range:NSMakeRange(0, attributedString.length)];
             _labels.attributedText = attributedString;
             _labels.linkTextAttributes = @{NSForegroundColorAttributeName:UIColorRBG(255, 108, 0),NSUnderlineColorAttributeName:UIColorRBG(102, 102, 102), NSUnderlineStyleAttributeName: @(NSUnderlinePatternDot)};
     
@@ -81,7 +96,7 @@
         }else{
             NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"你所在经纪门店和该楼盘的签约已过期，在最晚上客时间内，楼盘负责人将会与你联系，或你可致电%@了解续约事宜",_telphone]];
             [attributedString addAttribute:NSLinkAttributeName value:@"cilck://" range:[[attributedString string] rangeOfString:_telphone]];
-            [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(0, attributedString.length)];
+            [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PingFang-SC-Medium" size:12] range:NSMakeRange(0, attributedString.length)];
             _labels.attributedText = attributedString;
             _labels.linkTextAttributes = @{NSForegroundColorAttributeName:UIColorRBG(255, 108, 0),NSUnderlineColorAttributeName:UIColorRBG(102, 102, 102), NSUnderlineStyleAttributeName: @(NSUnderlinePatternDot)};
             _labelRed.text = @"楼盘须与门店签约，签约过期可能影响佣金结算，请及时续约";
@@ -100,47 +115,69 @@
 -(void)ceartorController{
    
     UIView *view = [[UIView alloc] init];
-    view.frame = CGRectMake(35,kApplicationStatusBarHeight+65,self.view.fWidth-70,420);
+    view.frame = CGRectMake(0,kApplicationStatusBarHeight+78,self.view.fWidth,self.view.fHeight-34);
     view.backgroundColor = [UIColor whiteColor];
-    view.layer.shadowColor = UIColorRBG(255, 221, 128).CGColor;
-    view.layer.shadowOpacity = 0.05f;
-    view.layer.shadowRadius = 20.0f;
-    view.layer.cornerRadius = 15;
-    view.layer.masksToBounds = NO;
     [self.view addSubview:view];
-
+    
+    UIView *viewOne = [[UIView alloc] init];
+    viewOne.layer.shadowColor = UIColorRBG(0, 0, 0).CGColor;
+    viewOne.layer.shadowOpacity = 0.05f;
+    viewOne.layer.shadowRadius =5.0f;
+    viewOne.layer.shadowOffset = CGSizeMake(0, 2);
+    viewOne.layer.cornerRadius = 5;
+    viewOne.layer.masksToBounds = NO;
+    viewOne.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:viewOne];
+    [viewOne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left).offset(15);
+        make.top.equalTo(self.view.mas_top).offset(kApplicationStatusBarHeight+53);
+        make.height.mas_offset(60);
+        make.width.mas_offset(self.view.fWidth-30);
+    }];
+    
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.image = [UIImage imageNamed:@"bb_succeed"];
-    [self.view addSubview:imageView];
+    [viewOne addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(view.mas_top).with.offset(31);
-        make.height.mas_offset(90);
-        make.width.mas_offset(90);
+        make.left.equalTo(viewOne.mas_left).offset(18);
+        make.top.equalTo(viewOne.mas_top).with.offset(13);
+        make.height.mas_offset(35);
+        make.width.mas_offset(35);
     }];
     //项目名称
     _labelOne = [[UILabel alloc] init];
     _labelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
     _labelOne.textColor = UIColorRBG(51, 51, 51);
-    _labelOne.textAlignment = NSTextAlignmentCenter;
-    [view addSubview:_labelOne];
+    [viewOne addSubview:_labelOne];
     [_labelOne mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(imageView.mas_bottom).with.offset(21);
+        make.left.equalTo(imageView.mas_right).offset(23);
+        make.top.equalTo(viewOne.mas_top).with.offset(16);
         make.height.mas_offset(16);
-        make.width.offset(view.fWidth-10);
+        make.width.offset(self.view.fWidth-115);
     }];
     //提示上客时间
     _labelFour = [[UILabel alloc] init];
     _labelFour.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     _labelFour.textColor = UIColorRBG(153, 153, 153);
-    _labelFour.textAlignment = NSTextAlignmentCenter;
-    [view addSubview:_labelFour];
+    [viewOne addSubview:_labelFour];
     [_labelFour mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(_labelOne.mas_bottom).with.offset(16);
+        make.left.equalTo(imageView.mas_right).offset(20);
+        make.top.equalTo(_labelOne.mas_bottom).with.offset(6);
         make.height.mas_offset(12);
-        make.width.offset(view.fWidth-10);
+        make.width.offset(self.view.fWidth-115);
+    }];
+    //标签图
+    UIView *imgViewOne = [[UIView alloc] init];
+    imgViewOne.backgroundColor = UIColorRBG(255, 224, 0);
+    imgViewOne.layer.cornerRadius = 2.0;
+    imgViewOne.layer.masksToBounds = YES;
+    _imageOne = imgViewOne;
+    [view addSubview:imgViewOne];
+    [imgViewOne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(19);
+        make.top.equalTo(view.mas_top).with.offset(65);
+        make.height.mas_offset(14);
+        make.width.offset(4);
     }];
     //项目未签约提示
     UITextView *label  = [[UITextView alloc] init];
@@ -150,9 +187,22 @@
     label.scrollEnabled = NO;//可选的，视具体情况而定
     [view addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(_labelFour.mas_bottom).with.offset(15);
-        make.width.mas_offset(view.fWidth - 40);
+        make.left.equalTo(imgViewOne.mas_left).offset(7);
+        make.top.equalTo(view.mas_top).with.offset(55);
+        make.width.mas_offset(view.fWidth - 52);
+    }];
+    //标签图
+    UIView *imgViewTwo = [[UIView alloc] init];
+    imgViewTwo.backgroundColor = UIColorRBG(255, 224, 0);
+    imgViewTwo.layer.cornerRadius = 2.0;
+    imgViewTwo.layer.masksToBounds = YES;
+    _imageTwo = imgViewTwo;
+    [view addSubview:imgViewTwo];
+    [imgViewTwo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(19);
+        make.top.equalTo(imgViewOne.mas_bottom).with.offset(53);
+        make.height.mas_offset(14);
+        make.width.offset(4);
     }];
     //警告
     UILabel *labelRed  = [[UILabel alloc] init];
@@ -162,45 +212,102 @@
     _labelRed = labelRed;
     [view addSubview:labelRed];
     [labelRed mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(label.mas_bottom).offset(17);
-        make.width.mas_offset(view.fWidth - 50);
+        make.left.equalTo(imgViewTwo.mas_right).offset(7);
+        make.top.equalTo(imgViewOne.mas_bottom).offset(52);
+        make.width.mas_offset(view.fWidth - 52);
     }];
+    UIImageView *imageViews = [[UIImageView alloc] init];
+    imageViews.image = [UIImage imageNamed:@"bb_suss_pic"];
+    _imageViews = imageViews;
+    [imageViews setHidden:YES];
+    [view addSubview:imageViews];
+    [imageViews mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(view.mas_top).offset(47);
+        make.width.mas_offset(117);
+        make.height.offset(92);
+    }];
+    UILabel *labels  = [[UILabel alloc] init];
+    labels.text = @"报备成功!";
+    labels.font =[UIFont fontWithName:@"PingFang-SC-Medium" size:14];
+    labels.textColor = UIColorRBG(255, 196, 109);
+    labels.textAlignment = NSTextAlignmentCenter;
+    _label = labels;
+    [labels setHidden:YES];
+    [view addSubview:labels];
+    [labels mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(imageViews.mas_bottom).offset(22);
+        make.height.mas_offset(14);
+    }];
+    
     //继续报备
     _viewOrder = [[UIButton alloc] init];
     [_viewOrder setTitle:@"继续报备" forState: UIControlStateNormal];
-    [_viewOrder setTitleColor: UIColorRBG(255, 224, 0) forState:UIControlStateNormal];
+    [_viewOrder setTitleColor: [UIColor whiteColor] forState:UIControlStateNormal];
     _viewOrder.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    _viewOrder.layer.cornerRadius = 3.0;
+    _viewOrder.layer.masksToBounds = YES;
+    _viewOrder.backgroundColor = UIColorRBG(74, 76, 91);
     [_viewOrder addTarget:self action:@selector(report) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:_viewOrder];
     [_viewOrder mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(view.mas_left);
-        make.bottom.equalTo(view.mas_bottom).with.offset(-20);
-        make.width.mas_offset(view.fWidth/2.0);
-        make.height.mas_offset(42);
+        make.left.equalTo(view.mas_left).offset(15);
+        make.top.equalTo(view.mas_top).with.offset(200);
+        make.width.mas_offset(view.fWidth/2.0-28);
+        make.height.mas_offset(39);
     }];
     
     //查看订单
     _resportButton = [[UIButton alloc] init];
     [_resportButton setTitle:@"查看订单" forState: UIControlStateNormal];
-    [_resportButton setTitleColor:UIColorRBG(255, 224, 0) forState:UIControlStateNormal];
-    
+    [_resportButton setTitleColor:UIColorRBG(74, 76, 91) forState:UIControlStateNormal];
+    _resportButton.backgroundColor = UIColorRBG(250, 246, 254);
     _resportButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    _resportButton.layer.cornerRadius = 3.0;
+    _resportButton.layer.masksToBounds  = YES;
+    _resportButton.layer.borderColor = UIColorRBG(185, 183, 186).CGColor;
+    _resportButton.layer.borderWidth = 1.0;
     [_resportButton addTarget:self action:@selector(order) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:_resportButton];
     [_resportButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(view.mas_right);
-        make.bottom.equalTo(view.mas_bottom).with.offset(-20);
-        make.width.mas_offset(view.fWidth/2.0);
-        make.height.mas_offset(42);
+        make.right.equalTo(view.mas_right).offset(-28);
+        make.top.equalTo(_viewOrder.mas_top);
+        make.width.mas_offset(view.fWidth/2.0-28);
+        make.height.mas_offset(39);
     }];
-   
+    
+    UIImageView *imageIne = [[UIImageView alloc] init];
+    imageIne.image = [UIImage imageNamed:@"bb_ss_x"];
+    [view addSubview:imageIne];
+    [imageIne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(15);
+        make.top.equalTo(_resportButton.mas_bottom).offset(25);
+        make.height.mas_offset(1);
+        make.width.mas_offset(view.fWidth-30);
+    }];
+    
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.text = @"猜你喜欢";
+    titleLabel.textColor = UIColorRBG(51, 51, 51);
+    titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+    [view addSubview:titleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(15);
+        make.top.equalTo(_resportButton.mas_bottom).offset(43);
+        make.height.mas_offset(16);
+    }];
     //创建为你推荐
     UIView *likeView = [[UIView alloc] init];
-    likeView.frame = CGRectMake(35,view.fY+view.fHeight+19,self.view.fWidth-70,100);
-    [self.view addSubview:likeView];
+    [view addSubview:likeView];
+    [likeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left);
+        make.top.equalTo(titleLabel.mas_bottom).offset(8);
+        make.width.offset(view.fWidth);
+        make.height.mas_offset(249);
+    }];
     
-    UIView *sV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, likeView.fWidth, likeView.fHeight)];
+    UIView *sV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, view.fWidth, 249)];
     [likeView addSubview:sV];
     //自定义一个tableview
     WZReportSuccessTableView *tbView = [[WZReportSuccessTableView alloc] initWithFrame:CGRectMake(0, 0, sV.fHeight, sV.fWidth)];

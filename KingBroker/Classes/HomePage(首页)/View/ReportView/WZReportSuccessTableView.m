@@ -39,7 +39,7 @@ static  NSString * const ID = @"Scell";
     return self;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return SCREEN_WIDTH-70;
+    return 201;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _projectArray.count;
