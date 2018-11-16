@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "LaunchIntroductionView.h"
 #import "WZTabBarController.h"
-#import "JPUSHService.h"
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
 #import <UserNotifications/UserNotifications.h>
 #endif
@@ -25,7 +24,7 @@
 #import <SVProgressHUD.h>
 #import <UMCommon/UMCommon.h>
 
-@interface AppDelegate()<JPUSHRegisterDelegate,WXApiDelegate>
+@interface AppDelegate()<WXApiDelegate>
 
 @property(nonatomic,strong)NSString *registerid;
 
@@ -35,32 +34,14 @@
 
 //程序启动时就会调用
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    //注册推送
-    JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
-    
-    entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound;
-    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
-      
-    }
-    [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
-    
-    NSString *advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
-    
-    [JPUSHService setupWithOption:launchOptions appKey:@"2c971480b42a2584471eaadb"
-                          channel:@"App Store"
-                 apsForProduction:1
-            advertisingIdentifier:advertisingId];
-
+   
     
     //友盟统计
     //测试：5b766107a40fa379e70000bd
     //正式：5b7bcec0f29d986f34000286
     [UMConfigure initWithAppkey:@"5b7bcec0f29d986f34000286" channel:@"App Store"];
 
-    //获取自定义消息
-    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-    
-    [defaultCenter addObserver:self selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
+   
     
     //注册微信
     [WXApi registerApp:@"wx03f7c2825a2266a4"];
@@ -145,14 +126,7 @@
     }];
     
 }
-- (void)application:(UIApplication *)application
-didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    /// Required - 注册 DeviceToken
-     [JPUSHService registerDeviceToken:deviceToken];
-    //获得注册后的regist_id，此值一般传给后台做推送的标记用,先存储起来
-    _registerid = [JPUSHService registrationID];
-    
-}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -161,15 +135,13 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    [JPUSHService setBadge:0];
+   
     [self setloadData];
 }
 
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    [JPUSHService setBadge:0];
+   
     [self setloadData];
 }
 
@@ -209,37 +181,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     }
     
 }
-//点击推送条幅
-- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler  API_AVAILABLE(ios(10.0)){
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    [JPUSHService setBadge:0];
-        
-    NSDictionary *userInfo = response.notification.request.content.userInfo;
-    //自定义内容
-    //NSLog(@"收到的推送消息 userinfo %@",userInfo);
-    if ([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-        [JPUSHService handleRemoteNotification:userInfo];
-        // NSLog(@"前台收到消息1");
-       [self setControllers:userInfo]; //收到推送消息，需要调整的界面
-        
-    }
-    completionHandler();
-}
 
-- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler  API_AVAILABLE(ios(10.0)){
-    
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    [JPUSHService setBadge:0];
-    
-    NSDictionary * userInfo = notification.request.content.userInfo;
-    [self setloadData];
-    if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-        
-        [JPUSHService handleRemoteNotification:userInfo];
-        
-    }
-    completionHandler(UNNotificationPresentationOptionAlert); // 需要执行这个方法，选择是否提醒用户，有Badge、Sound、Alert三种类型可以选择设置
-}
 
 -(void)setControllers:(NSDictionary *)userInfo{
     //自定义的内容

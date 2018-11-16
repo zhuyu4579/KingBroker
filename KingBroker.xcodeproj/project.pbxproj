@@ -114,6 +114,7 @@
 		1F5B83222081F93A0083DEC2 /* WZSetPersonalInforMationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B83212081F93A0083DEC2 /* WZSetPersonalInforMationController.m */; };
 		1F5B83252081FC260083DEC2 /* WZSetInfertionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B83242081FC260083DEC2 /* WZSetInfertionView.m */; };
 		1F5B83272081FC370083DEC2 /* WZSetInfertionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B83262081FC370083DEC2 /* WZSetInfertionView.xib */; };
+		1F5E8C55219EB46E006A0A1A /* AliyunEmasServices-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F5E8C54219EB46E006A0A1A /* AliyunEmasServices-Info.plist */; };
 		1F60A9A72150EF7D002ED860 /* WZNewViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60A9A62150EF7D002ED860 /* WZNewViewCell.m */; };
 		1F60A9AE2150FEAB002ED860 /* WZHDMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60A9AD2150FEAB002ED860 /* WZHDMapController.m */; };
 		1F60D0F3214CDB9700E311B5 /* WZHouseDetilItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60D0F2214CDB9700E311B5 /* WZHouseDetilItem.m */; };
@@ -468,6 +469,7 @@
 		1F5B83232081FC260083DEC2 /* WZSetInfertionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZSetInfertionView.h; sourceTree = "<group>"; };
 		1F5B83242081FC260083DEC2 /* WZSetInfertionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZSetInfertionView.m; sourceTree = "<group>"; };
 		1F5B83262081FC370083DEC2 /* WZSetInfertionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZSetInfertionView.xib; sourceTree = "<group>"; };
+		1F5E8C54219EB46E006A0A1A /* AliyunEmasServices-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AliyunEmasServices-Info.plist"; sourceTree = "<group>"; };
 		1F60A9A62150EF7D002ED860 /* WZNewViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZNewViewCell.m; sourceTree = "<group>"; };
 		1F60A9AC2150FEAB002ED860 /* WZHDMapController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZHDMapController.h; sourceTree = "<group>"; };
 		1F60A9AD2150FEAB002ED860 /* WZHDMapController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZHDMapController.m; sourceTree = "<group>"; };
@@ -980,6 +982,7 @@
 				1FD9C49A207DB91700BB0298 /* Main.storyboard */,
 				1FD9C49D207DB91700BB0298 /* Assets.xcassets */,
 				1FD9C49F207DB91700BB0298 /* LaunchScreen.storyboard */,
+				1F5E8C54219EB46E006A0A1A /* AliyunEmasServices-Info.plist */,
 				1F4D6DEF20FD7347008A9514 /* Info.plist */,
 			);
 			path = KingBroker;
@@ -1961,6 +1964,9 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -2039,6 +2045,7 @@
 				1F19C5BE2151F42A0016A1C2 /* WZHuxingPhotosCell.xib in Resources */,
 				1F47F4A820CA549B0012F5EF /* WZLBCollectionViewCell.xib in Resources */,
 				1FD9C671207DBD2C00BB0298 /* WZAllTableViewCell.xib in Resources */,
+				1F5E8C55219EB46E006A0A1A /* AliyunEmasServices-Info.plist in Resources */,
 				1FD9C621207DBD2C00BB0298 /* WZJionStoreController.xib in Resources */,
 				1FD9C663207DBD2C00BB0298 /* WZCityCollectionCell.xib in Resources */,
 				1FD9C662207DBD2C00BB0298 /* WZFindHouseCell.xib in Resources */,
