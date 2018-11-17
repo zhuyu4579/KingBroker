@@ -115,6 +115,14 @@
 		1F5B83252081FC260083DEC2 /* WZSetInfertionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B83242081FC260083DEC2 /* WZSetInfertionView.m */; };
 		1F5B83272081FC370083DEC2 /* WZSetInfertionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B83262081FC370083DEC2 /* WZSetInfertionView.xib */; };
 		1F5E8C55219EB46E006A0A1A /* AliyunEmasServices-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F5E8C54219EB46E006A0A1A /* AliyunEmasServices-Info.plist */; };
+		1F5E8C5E219ECD43006A0A1A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5E8C5D219ECD43006A0A1A /* libz.tbd */; };
+		1F5E8C60219ECD51006A0A1A /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5E8C5F219ECD50006A0A1A /* libresolv.tbd */; };
+		1F5E8C62219ECD60006A0A1A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5E8C61219ECD60006A0A1A /* CoreTelephony.framework */; };
+		1F5E8C64219ECD6C006A0A1A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5E8C63219ECD6C006A0A1A /* SystemConfiguration.framework */; };
+		1F5E8C66219ECD78006A0A1A /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5E8C65219ECD78006A0A1A /* libsqlite3.tbd */; };
+		1F5E8C69219ECEEC006A0A1A /* AlicloudUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5E8C67219ECEEB006A0A1A /* AlicloudUtils.framework */; };
+		1F5E8C6A219ECEEC006A0A1A /* CloudPushSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5E8C68219ECEEC006A0A1A /* CloudPushSDK.framework */; };
+		1F5E8C6C219ECEF5006A0A1A /* UTMini.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5E8C6B219ECEF5006A0A1A /* UTMini.framework */; };
 		1F60A9A72150EF7D002ED860 /* WZNewViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60A9A62150EF7D002ED860 /* WZNewViewCell.m */; };
 		1F60A9AE2150FEAB002ED860 /* WZHDMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60A9AD2150FEAB002ED860 /* WZHDMapController.m */; };
 		1F60D0F3214CDB9700E311B5 /* WZHouseDetilItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60D0F2214CDB9700E311B5 /* WZHouseDetilItem.m */; };
@@ -470,6 +478,14 @@
 		1F5B83242081FC260083DEC2 /* WZSetInfertionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZSetInfertionView.m; sourceTree = "<group>"; };
 		1F5B83262081FC370083DEC2 /* WZSetInfertionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZSetInfertionView.xib; sourceTree = "<group>"; };
 		1F5E8C54219EB46E006A0A1A /* AliyunEmasServices-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AliyunEmasServices-Info.plist"; sourceTree = "<group>"; };
+		1F5E8C5D219ECD43006A0A1A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		1F5E8C5F219ECD50006A0A1A /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		1F5E8C61219ECD60006A0A1A /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		1F5E8C63219ECD6C006A0A1A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		1F5E8C65219ECD78006A0A1A /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		1F5E8C67219ECEEB006A0A1A /* AlicloudUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlicloudUtils.framework; sourceTree = "<group>"; };
+		1F5E8C68219ECEEC006A0A1A /* CloudPushSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CloudPushSDK.framework; sourceTree = "<group>"; };
+		1F5E8C6B219ECEF5006A0A1A /* UTMini.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UTMini.framework; sourceTree = "<group>"; };
 		1F60A9A62150EF7D002ED860 /* WZNewViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZNewViewCell.m; sourceTree = "<group>"; };
 		1F60A9AC2150FEAB002ED860 /* WZHDMapController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZHDMapController.h; sourceTree = "<group>"; };
 		1F60A9AD2150FEAB002ED860 /* WZHDMapController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZHDMapController.m; sourceTree = "<group>"; };
@@ -756,6 +772,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F5E8C66219ECD78006A0A1A /* libsqlite3.tbd in Frameworks */,
+				1F5E8C64219ECD6C006A0A1A /* SystemConfiguration.framework in Frameworks */,
+				1F5E8C6C219ECEF5006A0A1A /* UTMini.framework in Frameworks */,
+				1F5E8C69219ECEEC006A0A1A /* AlicloudUtils.framework in Frameworks */,
+				1F5E8C6A219ECEEC006A0A1A /* CloudPushSDK.framework in Frameworks */,
+				1F5E8C62219ECD60006A0A1A /* CoreTelephony.framework in Frameworks */,
+				1F5E8C60219ECD51006A0A1A /* libresolv.tbd in Frameworks */,
+				1F5E8C5E219ECD43006A0A1A /* libz.tbd in Frameworks */,
 				731B820F5E7CEC81175CC671 /* libPods-KingBroker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -766,6 +790,14 @@
 		02C4B21E396866AF9A807651 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1F5E8C6B219ECEF5006A0A1A /* UTMini.framework */,
+				1F5E8C67219ECEEB006A0A1A /* AlicloudUtils.framework */,
+				1F5E8C68219ECEEC006A0A1A /* CloudPushSDK.framework */,
+				1F5E8C65219ECD78006A0A1A /* libsqlite3.tbd */,
+				1F5E8C63219ECD6C006A0A1A /* SystemConfiguration.framework */,
+				1F5E8C61219ECD60006A0A1A /* CoreTelephony.framework */,
+				1F5E8C5F219ECD50006A0A1A /* libresolv.tbd */,
+				1F5E8C5D219ECD43006A0A1A /* libz.tbd */,
 				1F3A538B218D547200844905 /* libstdc++.6.0.9.tbd */,
 				1F3A5386218D51E600844905 /* libc++.1.tbd */,
 				1F3A5385218D51E600844905 /* libc++.tbd */,
@@ -2466,6 +2498,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J2K489YL4Z;
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/KingBroker/Classes/Other(其它)/King.pch";
 				INFOPLIST_FILE = KingBroker/Info.plist;
@@ -2489,6 +2525,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J2K489YL4Z;
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/KingBroker/Classes/Other(其它)/King.pch";
 				INFOPLIST_FILE = KingBroker/Info.plist;

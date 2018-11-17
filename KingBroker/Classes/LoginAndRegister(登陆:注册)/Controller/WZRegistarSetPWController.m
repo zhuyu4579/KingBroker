@@ -9,12 +9,12 @@
 #import "UIView+Frame.h"
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
-#import "JPUSHService.h"
 #import "NSString+LCExtension.h"
 #import "WZNavigationController.h"
 #import "WZRegistarSetPWController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZNewJionStoreController.h"
+#import <CloudPushSDK/CloudPushSDK.h>
 @interface WZRegistarSetPWController ()<UITextFieldDelegate>
 //密码
 @property(nonatomic,strong)UITextField *registarPassWord;
@@ -255,6 +255,7 @@
         button.enabled = YES;
         if ([code isEqual:@"200"]) {
             [SVProgressHUD showInfoWithStatus:@"注册成功"];
+            
             //查询未读消息
             [self setloadData];
             //将数据传入加入门店中
@@ -265,11 +266,9 @@
             [self.navigationController presentViewController:nav animated:YES completion:nil];
             
             NSMutableDictionary *regis = [responseObject valueForKey:@"data"];
-            [JPUSHService setAlias:[regis valueForKey:@"id"] completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
-                if (iResCode == 0) {
-                    NSLog(@"添加别名成功");
-                }
-            } seq:1];
+            [CloudPushSDK addAlias:[regis valueForKey:@"id"] withCallback:^(CloudPushCallbackResult *res) {
+                NSLog(@"绑定别名成功");
+            }];
             //将数据持久化
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:[regis valueForKey:@"uuid"] forKey:@"uuid"];
@@ -354,5 +353,8 @@
     [super didReceiveMemoryWarning];
     
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
 @end

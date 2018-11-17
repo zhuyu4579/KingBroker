@@ -9,13 +9,12 @@
 #import "UIView+Frame.h"
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
-#import "JPUSHService.h"
 #import "WZNEWHTMLController.h"
 #import "WZForgetPassWordController.h"
 #import "WZRegistarSetPWController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZLoginAndRegistarController.h"
-
+#import <CloudPushSDK/CloudPushSDK.h>
 @interface WZLoginAndRegistarController ()<UITextFieldDelegate>
 @property(nonatomic,strong)UIScrollView *scrollView;
 //登录下划线
@@ -604,12 +603,9 @@
         button.enabled = YES;
         if ([code isEqual:@"200"]) {
            NSDictionary *data = [responseObject valueForKey:@"data"];
-            
-            [JPUSHService setAlias:[data valueForKey:@"id"] completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
-                if (iResCode == 0) {
-                    NSLog(@"添加别名成功");
-                }
-            } seq:1];
+            [CloudPushSDK addAlias:[data valueForKey:@"id"] withCallback:^(CloudPushCallbackResult *res) {
+                NSLog(@"绑定别名成功");
+            }];
            
             //数据持久化
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

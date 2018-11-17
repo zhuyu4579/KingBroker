@@ -10,7 +10,7 @@
 #import "WZTabBarController.h"
 #import "WZLoginAndRegistarController.h"
 #import "WZNavigationController.h"
-#import "JPUSHService.h"
+#import <CloudPushSDK/CloudPushSDK.h>
 @implementation NSString (LCExtension)
 
 + (instancetype)musicTimeFormater:(NSInteger)time {
@@ -44,6 +44,10 @@
     if ([code isEqual:@"401"]) {
        
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        //退出的时候删除别名
+        [CloudPushSDK removeAlias:[userDefaults objectForKey:@"userId"] withCallback:^(CloudPushCallbackResult *res) {
+            NSLog(@"删除别名成功");
+        }];
         NSDictionary *dic = [userDefaults dictionaryRepresentation];
         for (NSString *key in dic) {
             if (![key isEqual:@"oldName"]&&![key isEqual:@"appVersion"]) {
@@ -51,12 +55,7 @@
             }
         }
         [userDefaults synchronize];
-        //退出的时候删除别名
-        [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
-            if (iResCode == 0) {
-                NSLog(@"删除别名成功");
-            }
-        } seq:1];
+        
         
         //跳转登录页面
         WZLoginAndRegistarController *login = [[WZLoginAndRegistarController alloc] init];

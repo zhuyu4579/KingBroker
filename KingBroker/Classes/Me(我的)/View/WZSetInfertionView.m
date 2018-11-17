@@ -139,28 +139,28 @@
     
     //出生年月
     NSString *birthDate = [_loginItem valueForKey:@"birthday"];
-    if (birthDate) {
+    if (birthDate&&![birthDate isEqual:@""]) {
         _birthDate.text = birthDate;
     }else{
         _birthDate.text = @"请选择";
     }
     //籍贯
     NSString *birthAddress = [_loginItem valueForKey:@"navitePlace"];
-    if (birthAddress){
+    if (birthAddress&&![birthAddress isEqual:@""]){
         _birthAddress.text = birthAddress;
     }else{
         _birthAddress.text = @"请选择";
     }
     //从业时间
     NSString *employmentTime = [_loginItem valueForKey:@"startWorkTime"];
-    if (employmentTime){
+    if (employmentTime&&![employmentTime isEqual:@""]){
        _employmentTime.text = employmentTime;
     }else{
         _employmentTime.text = @"请选择";
     }
     //入职时间
     NSString *entryTime = [_loginItem valueForKey:@"hiredate"];
-    if (entryTime){
+    if (entryTime&&![entryTime isEqual:@""]){
         _entryTime.text = entryTime;
     }else{
         _entryTime.text = @"请选择";
@@ -245,16 +245,21 @@
 
 - (IBAction)setUpBirthAddress:(id)sender {
     [self.name resignFirstResponder];
-    [BRAddressPickerView showAddressPickerWithShowType:BRAddressPickerModeArea defaultSelected:@[@"浙江省",@"杭州市",@"西湖区"] isAutoSelect:NO themeColor:nil resultBlock:^(NSArray *selectAddressArr) {
-        NSString *addr = @"";
-        for (NSString *str in selectAddressArr) {
-            addr = [NSString stringWithFormat:@"%@%@",addr,str];
-        }
-        _navitePlace = addr;
+    
+    [BRAddressPickerView showAddressPickerWithDefaultSelected:@[@"浙江省",@"杭州市",@"西湖区"] resultBlock:^(BRProvinceModel *province, BRCityModel *city, BRAreaModel *area) {
+        _navitePlace = [NSString stringWithFormat:@"%@%@%@",province.name,city.name,area.name];
         [self loadData:nil];
-    } cancelBlock:^{
-        
     }];
+//    [BRAddressPickerView showAddressPickerWithShowType:BRAddressPickerModeArea defaultSelected:@[@"浙江省",@"杭州市",@"西湖区"] isAutoSelect:NO themeColor:nil resultBlock:^(NSArray *selectAddressArr) {
+//        NSString *addr = @"";
+//        for (NSString *str in selectAddressArr) {
+//            addr = [NSString stringWithFormat:@"%@%@",addr,str];
+//        }
+//        _navitePlace = addr;
+//        [self loadData:nil];
+//    } cancelBlock:^{
+//
+//    }];
 }
 //入职时间
 - (IBAction)setUpEntryTime:(UIButton *)sender {

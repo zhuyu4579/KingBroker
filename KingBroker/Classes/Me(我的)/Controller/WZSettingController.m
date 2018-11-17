@@ -15,7 +15,7 @@
 #import "WZReadPassWordController.h"
 #import "WZAuthenticationController.h"
 #import "WZAuthenSuccessController.h"
-#import "JPUSHService.h"
+#import <CloudPushSDK/CloudPushSDK.h>
 @interface WZSettingController ()
 @property (strong, nonatomic) UIAlertAction *okAction;
 @property (strong, nonatomic) UIAlertAction *cancelAction;
@@ -124,6 +124,10 @@
             //清除持久数据
             [SVProgressHUD showInfoWithStatus:@"退出成功"];
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            //退出的时候删除别名
+            [CloudPushSDK removeAlias:[userDefaults objectForKey:@"userId"] withCallback:^(CloudPushCallbackResult *res) {
+                NSLog(@"删除别名成功");
+            }];
             
             NSDictionary *dic = [userDefaults dictionaryRepresentation];
             for (NSString *key in dic) {
@@ -132,13 +136,6 @@
                 }
             }
             [userDefaults synchronize];
-            //退出的时候删除别名
-            [JPUSHService deleteAlias:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
-                if (iResCode == 0) {
-                    NSLog(@"删除别名成功");
-                }
-            } seq:1];
-            
             
             //获取指定item
             UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];
