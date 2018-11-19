@@ -569,8 +569,7 @@
 #pragma mark -登录
 -(void)logins:(UIButton *)button{
     [self touches];
-    //获取设备ID
-    NSString *deviceId = [[UIDevice currentDevice] identifierForVendor].UUIDString;
+    
     
     NSString *name = _loginName.text;
     if (name.length != 11 || [name isEqual:@""]) {
@@ -594,7 +593,7 @@
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"username"] = name;
     paraments[@"password"] = passWord;
-    paraments[@"deviceId"] = deviceId;
+    
     //3.发送请求
     NSString *url = [NSString stringWithFormat:@"%@/app/login.api",HTTPURL];
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
@@ -788,7 +787,8 @@
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
-    
+    //获取设备ID
+    NSString *deviceId = [[UIDevice currentDevice] identifierForVendor].UUIDString;
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -798,9 +798,12 @@
     //防止返回值为null
     ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"appType"] = @"1";
+    paraments[@"deviceCode"] = deviceId;
     
-    NSString *url = [NSString stringWithFormat:@"%@/sysJpush/findJpushhistoryList",HTTPURL];
-    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+    NSString *url = [NSString stringWithFormat:@"%@/app/loginCallback",HTTPURL];
+    [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         

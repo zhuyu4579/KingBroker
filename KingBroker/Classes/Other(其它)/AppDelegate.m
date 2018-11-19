@@ -43,10 +43,8 @@ static NSString *const appSecret = @"b5a606ec885dd1ed01abdece86a9322b";
     //友盟统计
     //测试：5b766107a40fa379e70000bd
     //正式：5b7bcec0f29d986f34000286
-    [UMConfigure initWithAppkey:@"5b7bcec0f29d986f34000286" channel:@"App Store"];
+    [UMConfigure initWithAppkey:@"5b766107a40fa379e70000bd" channel:@"App Store"];
 
-   
-    
     //注册微信
     [WXApi registerApp:@"wx03f7c2825a2266a4"];
     //1.创建窗口
@@ -357,15 +355,15 @@ static NSString *const appSecret = @"b5a606ec885dd1ed01abdece86a9322b";
 
 #pragma mark 获取自定义消息内容
 //- (void)networkDidReceiveMessage:(NSNotification *)notification {
-//    
+//
 //    [self setloadData];
-//    
+//
 //    NSDictionary *userInfo = [notification userInfo];
-//    
+//
 //    NSDictionary *extras = [userInfo valueForKey:@"extras"];
-//    
+//
 //    NSString *param = [extras valueForKey:@"param"];
-//    
+//
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRefresh" object:nil];
 //    //NSLog(@"%@",userInfo);
 //    if ([param isEqual:@"100"]||[param isEqual:@"101"]) {
@@ -376,7 +374,7 @@ static NSString *const appSecret = @"b5a606ec885dd1ed01abdece86a9322b";
 //        //通知刷新我的页面
 //        [[NSNotificationCenter defaultCenter] postNotificationName:@"MeRefresh" object:nil];
 //    }
-//   
+//
 //}
 //查询未读消息
 -(void)setloadData{
@@ -501,6 +499,7 @@ static NSString *const appSecret = @"b5a606ec885dd1ed01abdece86a9322b";
         [NSString isCode:self.window.rootViewController.navigationController code:@"401"];
         return;
     }
+    
     //跳转页面
     if([viewType isEqual:@"1"]){
         if([param isEqual:@"111"]){
