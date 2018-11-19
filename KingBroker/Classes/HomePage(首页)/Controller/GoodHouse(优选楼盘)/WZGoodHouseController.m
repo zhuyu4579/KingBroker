@@ -31,6 +31,7 @@
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZGoodHouseTableView.h"
 #import "WZFindHouseListItem.h"
+#import "WZFindGoodHouseController.h"
 @interface WZGoodHouseController ()<DropMenuViewDelegate>{
     //页数
     NSInteger current;
@@ -223,6 +224,7 @@ static NSString *size = @"20";
     paraments[@"proSort"] = _sortValue;
     paraments[@"lableId"] = _ID;
     paraments[@"location"] = _lnglat;
+    paraments[@"search"] = @"1";
     paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"size"] = size;
     paraments[@"keyword"] = @"";
@@ -311,6 +313,18 @@ static NSString *size = @"20";
         make.top.equalTo(navView.mas_top).offset(kApplicationStatusBarHeight+12);
         make.width.offset(11);
         make.height.offset(20);
+    }];
+    //搜索按钮
+    UIButton *findButton = [[UIButton alloc] init];
+    [findButton setBackgroundImage:[UIImage imageNamed:@"search_1"] forState:UIControlStateNormal];
+    [findButton setEnlargeEdgeWithTop:10 right:20 bottom:10 left:15];
+    [findButton addTarget:self action:@selector(findGoodHouse) forControlEvents:UIControlEventTouchUpInside];
+    [navView addSubview:findButton];
+    [findButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(navView.mas_right).offset(-15);
+        make.top.equalTo(navView.mas_top).offset(kApplicationStatusBarHeight+10);
+        make.width.offset(20);
+        make.height.offset(21);
     }];
     UILabel *title = [[UILabel alloc] init];
     title.text = _name;
@@ -736,7 +750,12 @@ static NSString *size = @"20";
         [weakSelf loadData];
     };
 }
-
+#pragma mark -搜索楼盘
+-(void)findGoodHouse{
+    WZFindGoodHouseController *findHouse = [[WZFindGoodHouseController alloc] init];
+    findHouse.ID = _ID;
+    [self.navigationController pushViewController:findHouse animated:YES];
+}
 #pragma mark -返回
 -(void)back{
     [self.navigationController popViewControllerAnimated:YES];

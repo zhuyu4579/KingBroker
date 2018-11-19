@@ -72,6 +72,7 @@
 		1F4A267F21363B9300C794FC /* WZValidateCodeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4A267D21363B9300C794FC /* WZValidateCodeController.xib */; };
 		1F4ABECC2080D42400DEA9A8 /* WZAuthenticationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4ABECA2080D42400DEA9A8 /* WZAuthenticationController.m */; };
 		1F4ABECD2080D42400DEA9A8 /* WZAuthenticationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4ABECB2080D42400DEA9A8 /* WZAuthenticationController.xib */; };
+		1F4ADFED21A2A2D90093C80B /* WZFindGoodHouseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4ADFEC21A2A2D90093C80B /* WZFindGoodHouseController.m */; };
 		1F4B6D2B20CF6B0600E7F7F9 /* WZAuthenSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4B6D2A20CF6B0600E7F7F9 /* WZAuthenSuccessController.m */; };
 		1F4D6DC520F5A95F008A9514 /* WZSharePhoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4D6DC320F5A95F008A9514 /* WZSharePhoneCell.m */; };
 		1F4D6DC620F5A95F008A9514 /* WZSharePhoneCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4D6DC420F5A95F008A9514 /* WZSharePhoneCell.xib */; };
@@ -402,6 +403,8 @@
 		1F4ABEC92080D42400DEA9A8 /* WZAuthenticationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZAuthenticationController.h; sourceTree = "<group>"; };
 		1F4ABECA2080D42400DEA9A8 /* WZAuthenticationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAuthenticationController.m; sourceTree = "<group>"; };
 		1F4ABECB2080D42400DEA9A8 /* WZAuthenticationController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZAuthenticationController.xib; sourceTree = "<group>"; };
+		1F4ADFEB21A2A2D90093C80B /* WZFindGoodHouseController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZFindGoodHouseController.h; sourceTree = "<group>"; };
+		1F4ADFEC21A2A2D90093C80B /* WZFindGoodHouseController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZFindGoodHouseController.m; sourceTree = "<group>"; };
 		1F4B6D2920CF6B0600E7F7F9 /* WZAuthenSuccessController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZAuthenSuccessController.h; sourceTree = "<group>"; };
 		1F4B6D2A20CF6B0600E7F7F9 /* WZAuthenSuccessController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAuthenSuccessController.m; sourceTree = "<group>"; };
 		1F4D6DC220F5A95F008A9514 /* WZSharePhoneCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZSharePhoneCell.h; sourceTree = "<group>"; };
@@ -984,6 +987,8 @@
 			children = (
 				1F676370214A67C4005F1E37 /* WZGoodHouseController.h */,
 				1F676371214A67C4005F1E37 /* WZGoodHouseController.m */,
+				1F4ADFEB21A2A2D90093C80B /* WZFindGoodHouseController.h */,
+				1F4ADFEC21A2A2D90093C80B /* WZFindGoodHouseController.m */,
 			);
 			path = "GoodHouse(优选楼盘)";
 			sourceTree = "<group>";
@@ -2221,6 +2226,7 @@
 				1FD9C60B207DBD2C00BB0298 /* UIImage+Image.m in Sources */,
 				1FD9C668207DBD2C00BB0298 /* WZCollectionView.m in Sources */,
 				1FD9C606207DBD2C00BB0298 /* WZMeViewController.m in Sources */,
+				1F4ADFED21A2A2D90093C80B /* WZFindGoodHouseController.m in Sources */,
 				1FD9C675207DBD2C00BB0298 /* WZDetailsViewOne.m in Sources */,
 				1F77530620A415C6003E1C07 /* WZCollectHouseCell.m in Sources */,
 				1F3D658320B29704003AEF39 /* WZSelectProjectsController.m in Sources */,

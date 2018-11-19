@@ -222,6 +222,7 @@ static NSString *size = @"20";
     paraments[@"type"] = _typeValue;
     paraments[@"proSort"] = _sortValue;
     paraments[@"isCollect"] = @"1";
+    paraments[@"search"] = @"1";
     paraments[@"location"] = _lnglat;
     paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"size"] = size;

@@ -122,7 +122,6 @@ static NSString *size = @"20";
     //创建tableview
     [self getUpTableView];
     
-  
     //创建菜单弹框
     [self getUpMenuAlert];
     
@@ -244,6 +243,7 @@ static NSString *size = @"20";
     paraments[@"type"] = _typeValue;
     paraments[@"proSort"] = _sortValue;
     paraments[@"isCollect"] = @"0";
+    paraments[@"search"] = @"1";
     paraments[@"location"] = _lnglat;
     paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"size"] = size;
