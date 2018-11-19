@@ -197,17 +197,17 @@ static  NSString * const ID = @"cells";
     [view setHidden:NO];
     _viewNo = view;
     [self.view addSubview:view];
-    UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [UIImage imageNamed:@"bb_ss_k"];
-    [view addSubview:imageView];
-    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(view.mas_top).offset(120);
-        make.width.offset(181);
-        make.height.offset(150);
-    }];
+//    UIImageView *imageView = [[UIImageView alloc] init];
+//    imageView.image = [UIImage imageNamed:@"bb_ss_k"];
+//    [view addSubview:imageView];
+//    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(view.mas_centerX);
+//        make.top.equalTo(view.mas_top).offset(120);
+//        make.width.offset(181);
+//        make.height.offset(150);
+//    }];
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"暂无搜索数据";
+    label.text = @"小的无能，找不到你想要的，换个关键词试试吧";
     label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     label.textColor = UIColorRBG(158, 158, 158);
     label.textAlignment = NSTextAlignmentCenter;
@@ -215,7 +215,7 @@ static  NSString * const ID = @"cells";
     [view addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(imageView.mas_bottom).offset(29);
+        make.top.equalTo(view.mas_top).offset(194);
     }];
     
 }

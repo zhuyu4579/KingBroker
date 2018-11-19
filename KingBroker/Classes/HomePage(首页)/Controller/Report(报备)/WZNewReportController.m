@@ -491,6 +491,7 @@
     _loadTime.textColor = UIColorRBG(204, 204, 204);
     if (![_loadTimes isEqual:@""]&&_loadTimes) {
         _loadTime.text = _loadTimes;
+        _loadTime.textColor = UIColorRBG(51, 51, 51);
     }
     [_otherView addSubview:_loadTime];
     [_loadTime mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -297,7 +297,7 @@
         [recordTime mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_viewTwo.mas_left).with.offset(15);
             make.top.equalTo(_ineViewFour.mas_bottom).with.offset(23+79*(i));
-            make.width.mas_offset(37);
+            make.width.mas_offset(40);
         }];
         UIImageView *imagePoint = [[UIImageView alloc] init];
         imagePoint.backgroundColor = UIColorRBG(255, 244, 160);
