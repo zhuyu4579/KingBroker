@@ -6,9 +6,6 @@
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //  项目详情
 
-
-
-
 #import "GKCover.h"
 #import <WXApi.h>
 #import <Masonry.h>
@@ -39,7 +36,7 @@
 #import "WZLBCollectionViewCell.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZAlbumPhonesViewController.h"
-
+#import "UILabel+ChangeLineSpaceAndWordSpace.h"
 @interface WZHouseDatisController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate>
 //总view
 @property(nonatomic,strong)UIScrollView *scrollView;
@@ -248,7 +245,7 @@ static NSString * const IDS = @"cells";
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *realtorStatus = [user objectForKey:@"realtorStatus"];
     NSString *commissionFag = [ user objectForKey:@"commissionFag"];
-    NSString *invisibleLinkmanFlag = [user objectForKey:@"invisibleLinkmanFlag"];
+    
     //楼盘ID
     _ID = [_houseDatils valueForKey:@"id"];
     //设置照片
@@ -353,6 +350,8 @@ static NSString * const IDS = @"cells";
     }else{
         _maidRule.text = rule;
     }
+    
+    [UILabel changeSpaceForLabel:_maidRule withLineSpace:4 WordSpace:1];
     //楼盘动态
     //    _dynamic.name = [_houseDatils valueForKey:@"dynamic"];
     //    [_dynamic reloadData];
@@ -362,9 +361,10 @@ static NSString * const IDS = @"cells";
     }else{
         _dyname.text = dynames;
     }
-    
+    [UILabel changeSpaceForLabel:_dyname withLineSpace:4 WordSpace:1];
     //楼盘简介
     _contents.text = [_houseDatils valueForKey:@"outlining"];
+     [UILabel changeSpaceForLabel:_contents withLineSpace:4 WordSpace:1];
     //合同有效期
     _contract.text = [_houseDatils valueForKey:@"strCollEndTime"];
     //结佣时间
@@ -385,10 +385,14 @@ static NSString * const IDS = @"cells";
 }
 #pragma mark -动态修改佣金规则高度
 -(void)setmaidHeight{
+   NSAttributedString  *attrString = [self attributedStringWithString:_maidRule.text andFont:[UIFont fontWithName:@"PingFang-SC-Regular" size:13] andLineSpacing:4];
     
-    CGSize titleSize = [_maidRule.text sizeWithFont:_maidRule.font constrainedToSize:CGSizeMake(_maidRule.frame.size.width, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
+   CGRect rect = [attrString boundingRectWithSize:CGSizeMake(_maidRule.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
     
-    CGFloat n = titleSize.height+75;
+    
+    CGFloat n = rect.size.height+60;
+    
+    
     if (n == _maidHeight) {
         return;
     }
@@ -413,9 +417,12 @@ static NSString * const IDS = @"cells";
 #pragma mark -动态修改楼盘动态高度
 -(void)setDynamicHeight{
     
-    CGSize titleSize = [_dyname.text sizeWithFont:_dyname.font constrainedToSize:CGSizeMake(_dyname.frame.size.width, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
+    NSAttributedString  *attrString = [self attributedStringWithString:_dyname.text andFont:[UIFont fontWithName:@"PingFang-SC-Regular" size:13] andLineSpacing:4];
     
-    CGFloat n = titleSize.height+75;
+    CGRect rect = [attrString boundingRectWithSize:CGSizeMake(_dyname.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+    
+    
+    CGFloat n = rect.size.height+60;
     if (n == _dynameHeight) {
         return;
     }
@@ -557,7 +564,7 @@ static NSString * const IDS = @"cells";
     [scrollView addSubview:viewFive];
     
     //楼盘简介
-    UIView *houseIntroduce = [[UIView alloc] initWithFrame:CGRectMake(0, viewFive.fY +viewFive.fHeight +10, scrollView.fWidth, 208)];
+    UIView *houseIntroduce = [[UIView alloc] initWithFrame:CGRectMake(0, viewFive.fY +viewFive.fHeight +10, scrollView.fWidth, 200)];
     houseIntroduce.backgroundColor = [UIColor whiteColor];
     _houseIntroduce = houseIntroduce;
     [self houseIntroduce:houseIntroduce];
@@ -854,20 +861,20 @@ static NSString * const IDS = @"cells";
 -(void)getMaidView:(UIView *)view{
     UILabel *labelTitle = [[UILabel alloc] init];
     labelTitle.text = @"佣金规则";
-    labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+    labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     labelTitle.textColor =  UIColorRBG(68, 68, 68);
     [view addSubview:labelTitle];
     [labelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).mas_offset(15);
-        make.top.equalTo(view.mas_top).mas_offset(15);
-        make.height.offset(16);
+        make.top.equalTo(view.mas_top).mas_offset(12);
+        make.height.offset(15);
     }];
     UIView *ineView = [[UIView alloc] init];
     ineView.backgroundColor = UIColorRBG(242, 242, 242);
     [view addSubview:ineView];
     [ineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(15);
-        make.top.equalTo(labelTitle.mas_bottom).mas_offset(15);
+        make.top.equalTo(labelTitle.mas_bottom).mas_offset(12);
         make.height.offset(1);
         make.width.offset(view.fWidth-15);
     }];
@@ -875,12 +882,13 @@ static NSString * const IDS = @"cells";
     UILabel *maidRule = [[EwenCopyLabel alloc] init];
     _maidRule = maidRule;
     maidRule.numberOfLines = 0;
-    maidRule.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
+    maidRule.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+   
     maidRule.textColor =  UIColorRBG(102, 102, 102);
     [view addSubview:maidRule];
     [maidRule mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).mas_offset(15);
-        make.top.equalTo(ineView.mas_bottom).mas_offset(15);
+        make.top.equalTo(ineView.mas_bottom).mas_offset(8);
         make.width.offset(view.fWidth-30);
     }];
     
@@ -889,20 +897,20 @@ static NSString * const IDS = @"cells";
 -(void)getUpSix:(UIView *)view{
     UILabel *labelTitle = [[UILabel alloc] init];
     labelTitle.text = @"主力户型";
-    labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+    labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     labelTitle.textColor =  UIColorRBG(68, 68, 68);
     [view addSubview:labelTitle];
     [labelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).mas_offset(15);
-        make.top.equalTo(view.mas_top).mas_offset(15);
-        make.height.offset(16);
+        make.top.equalTo(view.mas_top).mas_offset(12);
+        make.height.offset(15);
     }];
     UIView *ineView = [[UIView alloc] init];
     ineView.backgroundColor = UIColorRBG(242, 242, 242);
     [view addSubview:ineView];
     [ineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(15);
-        make.top.equalTo(labelTitle.mas_bottom).mas_offset(14);
+        make.top.equalTo(labelTitle.mas_bottom).mas_offset(12);
         make.height.offset(1);
         make.width.offset(view.fWidth-15);
     }];
@@ -928,20 +936,20 @@ static NSString * const IDS = @"cells";
 -(void)getUpThree:(UIView *)view{
     UILabel *labelTitle = [[UILabel alloc] init];
     labelTitle.text = @"楼盘动态";
-    labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+    labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     labelTitle.textColor =  UIColorRBG(68, 68, 68);
     [view addSubview:labelTitle];
     [labelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).mas_offset(15);
-        make.top.equalTo(view.mas_top).mas_offset(15);
-        make.height.offset(16);
+        make.top.equalTo(view.mas_top).mas_offset(12);
+        make.height.offset(15);
     }];
     UIView *ineView = [[UIView alloc] init];
     ineView.backgroundColor = UIColorRBG(242, 242, 242);
     [view addSubview:ineView];
     [ineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(15);
-        make.top.equalTo(labelTitle.mas_bottom).mas_offset(15);
+        make.top.equalTo(labelTitle.mas_bottom).mas_offset(12);
         make.height.offset(1);
         make.width.offset(view.fWidth-15);
     }];
@@ -949,12 +957,12 @@ static NSString * const IDS = @"cells";
     UILabel *dyname = [[EwenCopyLabel alloc] init];
     _dyname = dyname;
     dyname.numberOfLines = 0;
-    dyname.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
+    dyname.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     dyname.textColor =  UIColorRBG(102, 102, 102);
     [view addSubview:dyname];
     [dyname mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).mas_offset(15);
-        make.top.equalTo(ineView.mas_bottom).mas_offset(20);
+        make.top.equalTo(ineView.mas_bottom).mas_offset(8);
         make.width.offset(view.fWidth-30);
     }];
     
@@ -972,20 +980,20 @@ static NSString * const IDS = @"cells";
 -(void)houseIntroduce:(UIView *)view{
     UILabel *labelTitle = [[UILabel alloc] init];
     labelTitle.text = @"楼盘简介";
-    labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Bold" size:16];
+    labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     labelTitle.textColor =  UIColorRBG(68, 68, 68);
     [view addSubview:labelTitle];
     [labelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).mas_offset(15);
-        make.top.equalTo(view.mas_top).mas_offset(15);
-        make.height.offset(16);
+        make.top.equalTo(view.mas_top).mas_offset(12);
+        make.height.offset(15);
     }];
     UIView *ineView = [[UIView alloc] init];
     ineView.backgroundColor = UIColorRBG(242, 242, 242);
     [view addSubview:ineView];
     [ineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(15);
-        make.top.equalTo(labelTitle.mas_bottom).mas_offset(15);
+        make.top.equalTo(labelTitle.mas_bottom).mas_offset(12);
         make.height.offset(1);
         make.width.offset(view.fWidth-15);
     }];
@@ -998,7 +1006,7 @@ static NSString * const IDS = @"cells";
     [view addSubview:contents];
     [contents mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
-        make.top.equalTo(ineView.mas_bottom).mas_offset(20);
+        make.top.equalTo(ineView.mas_bottom).mas_offset(8);
         make.width.offset(view.fWidth-30);
     }];
     UIButton *button = [[UIButton alloc] init];
@@ -1048,20 +1056,20 @@ static NSString * const IDS = @"cells";
 -(void)getUpFive:(UIView *)view{
     UILabel *labelTitle = [[UILabel alloc] init];
     labelTitle.text = @"分销流程";
-    labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+    labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     labelTitle.textColor =  UIColorRBG(68, 68, 68);
     [view addSubview:labelTitle];
     [labelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).mas_offset(15);
-        make.top.equalTo(view.mas_top).mas_offset(15);
-        make.height.offset(16);
+        make.top.equalTo(view.mas_top).mas_offset(12);
+        make.height.offset(15);
     }];
     UIView *ineView = [[UIView alloc] init];
     ineView.backgroundColor = UIColorRBG(242, 242, 242);
     [view addSubview:ineView];
     [ineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(15);
-        make.top.equalTo(labelTitle.mas_bottom).mas_offset(15);
+        make.top.equalTo(labelTitle.mas_bottom).mas_offset(12);
         make.height.offset(1);
         make.width.offset(view.fWidth-15);
     }];
@@ -1699,5 +1707,16 @@ static NSString * const IDS = @"cells";
     NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:fileURL]];
     result = [UIImage imageWithData:data];
     return result;
+}
+//特定字符串
+- (NSAttributedString *)attributedStringWithString: (NSString *)string andFont: (UIFont *)font andLineSpacing:(CGFloat)spacing
+{
+    NSMutableAttributedString *contentString = [[NSMutableAttributedString alloc] initWithString:string];
+    [contentString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, contentString.length)];
+    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setAlignment:NSTextAlignmentLeft];
+    [paragraphStyle setLineSpacing:spacing];
+    [contentString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [contentString length])];
+    return [contentString copy];
 }
 @end

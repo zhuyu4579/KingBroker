@@ -88,6 +88,9 @@ static NSString *const appSecret = @"b5a606ec885dd1ed01abdece86a9322b";
     [CloudPushSDK asyncInit:appKey appSecret:appSecret callback:^(CloudPushCallbackResult *res) {
         if (res.success) {
             NSLog(@"Push SDK init success, deviceId: %@.", [CloudPushSDK getDeviceId]);
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:[CloudPushSDK getDeviceId] forKey:@"deviceId"];
+            [defaults synchronize];
         } else {
             NSLog(@"Push SDK init failed, error: %@", res.error);
         }
@@ -499,7 +502,7 @@ static NSString *const appSecret = @"b5a606ec885dd1ed01abdece86a9322b";
         [NSString isCode:self.window.rootViewController.navigationController code:@"401"];
         return;
     }
-    
+    NSLog(@"%@",userInfo);
     //跳转页面
     if([viewType isEqual:@"1"]){
         if([param isEqual:@"111"]){

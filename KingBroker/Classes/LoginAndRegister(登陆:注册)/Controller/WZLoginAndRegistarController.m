@@ -788,7 +788,8 @@
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     //获取设备ID
-    NSString *deviceId = [[UIDevice currentDevice] identifierForVendor].UUIDString;
+    NSString *deviceId = [user objectForKey:@"deviceId"];
+    NSLog(@"%@",deviceId);
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -803,7 +804,7 @@
     paraments[@"deviceCode"] = deviceId;
     
     NSString *url = [NSString stringWithFormat:@"%@/app/loginCallback",HTTPURL];
-    [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
