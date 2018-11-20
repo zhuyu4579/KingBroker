@@ -42,6 +42,7 @@
 		1F3885A420A5700700402B23 /* ZDMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3885A320A5700700402B23 /* ZDMapController.m */; };
 		1F3885A720A5718600402B23 /* AMapTipAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3885A620A5718600402B23 /* AMapTipAnnotation.m */; };
 		1F3885AA20A5719000402B23 /* POIAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3885A920A5719000402B23 /* POIAnnotation.m */; };
+		1F3BDA2121A3ACD90070E308 /* UILabel+ChangeLineSpaceAndWordSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3BDA2021A3ACD90070E308 /* UILabel+ChangeLineSpaceAndWordSpace.m */; };
 		1F3D658020B2646D003AEF39 /* WZPeripheryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3D657F20B2646D003AEF39 /* WZPeripheryItem.m */; };
 		1F3D658320B29704003AEF39 /* WZSelectProjectsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3D658220B29704003AEF39 /* WZSelectProjectsController.m */; };
 		1F3D658620B29B2D003AEF39 /* WZSelcetProjectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3D658520B29B2D003AEF39 /* WZSelcetProjectItem.m */; };
@@ -351,6 +352,8 @@
 		1F3A5386218D51E600844905 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "usr/lib/libc++.1.tbd"; sourceTree = SDKROOT; };
 		1F3A5387218D51E600844905 /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
 		1F3A538B218D547200844905 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "../../../Downloads/libstdc++.6.0.9.tbd"; sourceTree = "<group>"; };
+		1F3BDA1F21A3ACD90070E308 /* UILabel+ChangeLineSpaceAndWordSpace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+ChangeLineSpaceAndWordSpace.h"; sourceTree = "<group>"; };
+		1F3BDA2021A3ACD90070E308 /* UILabel+ChangeLineSpaceAndWordSpace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+ChangeLineSpaceAndWordSpace.m"; sourceTree = "<group>"; };
 		1F3D657E20B2646D003AEF39 /* WZPeripheryItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZPeripheryItem.h; sourceTree = "<group>"; };
 		1F3D657F20B2646D003AEF39 /* WZPeripheryItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZPeripheryItem.m; sourceTree = "<group>"; };
 		1F3D658120B29704003AEF39 /* WZSelectProjectsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZSelectProjectsController.h; sourceTree = "<group>"; };
@@ -1214,6 +1217,8 @@
 				1F170AEB20A189A50090A5A8 /* UIScrollView+UITouch.m */,
 				1F77530920A42CA9003E1C07 /* ZDAlertView.h */,
 				1F77530820A42CA9003E1C07 /* ZDAlertView.m */,
+				1F3BDA1F21A3ACD90070E308 /* UILabel+ChangeLineSpaceAndWordSpace.h */,
+				1F3BDA2021A3ACD90070E308 /* UILabel+ChangeLineSpaceAndWordSpace.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -2256,6 +2261,7 @@
 				1F46104820BC26C400216FDB /* WZNEWHTMLController.m in Sources */,
 				1F77530D20A45316003E1C07 /* WZBelongedStoreController.m in Sources */,
 				1F3D658020B2646D003AEF39 /* WZPeripheryItem.m in Sources */,
+				1F3BDA2121A3ACD90070E308 /* UILabel+ChangeLineSpaceAndWordSpace.m in Sources */,
 				1FD9C648207DBD2C00BB0298 /* WZTaskTagItem.m in Sources */,
 				1FD9C66D207DBD2C00BB0298 /* WZTrafficTableView.m in Sources */,
 				1FD9C625207DBD2C00BB0298 /* WZNoCodeView.m in Sources */,

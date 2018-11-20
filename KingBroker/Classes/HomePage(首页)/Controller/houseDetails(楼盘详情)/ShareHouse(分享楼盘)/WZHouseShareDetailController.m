@@ -546,7 +546,7 @@
         make.top.equalTo(view.mas_top);
     }];
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"需要您上传视频才能分享";
+    label.text = @"视频已保存到相册，请到微信或朋友圈上传视频完成分享";
     label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:15];
     label.textColor = UIColorRBG(51, 51, 51);
     [viewTwo addSubview:label];

@@ -575,42 +575,46 @@
 //提示弹框
 -(void)shareRemind{
     UIView *view = [[UIView alloc] init];
-    view.fSize = CGSizeMake(295, 240);
-    UIView *viewTwo = [[UIView alloc] init];
-    viewTwo.frame = CGRectMake(0, 57, view.fWidth, 183);
-    viewTwo.backgroundColor = [UIColor whiteColor];
-    viewTwo.layer.cornerRadius = 7.0;
-    viewTwo.layer.masksToBounds = YES;
-    [view addSubview:viewTwo];
+    view.fSize = CGSizeMake(243, 244);
+    
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [UIImage imageNamed:@"icon"];
+    imageView.image = [UIImage imageNamed:@"XC_PIC"];
     [imageView sizeToFit];
     [view addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(view.mas_centerX);
+        make.left.equalTo(view.mas_left);
         make.top.equalTo(view.mas_top);
+        make.width.offset(view.fWidth);
+        make.height.offset(view.fHeight);
     }];
+    
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"需要您上传视频才能分享";
-    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:15];
+    label.text = @"视频已保存到相册，请到朋友圈上传视频完成分享";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     label.textColor = UIColorRBG(51, 51, 51);
-    [viewTwo addSubview:label];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 2;
+    [view addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(viewTwo.mas_centerX);
-        make.top.equalTo(viewTwo.mas_top).offset(82);
-        make.height.offset(15);
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(view.mas_top).offset(138);
+        make.width.offset(view.fWidth-90);
     }];
+    
     UIButton *button = [[UIButton alloc] init];
-    [button setBackgroundImage:[UIImage imageNamed:@"background_2"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"xc_shareButton"] forState:UIControlStateNormal];
+    button.layer.cornerRadius = 18;
+    button.layer.masksToBounds = YES;
     [button setTitle:@"去分享" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:14];
+    [button setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
     [button addTarget:self action:@selector(shareVideo) forControlEvents:UIControlEventTouchUpInside];
-    [viewTwo addSubview:button];
+    [view addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(viewTwo.mas_left);
-        make.bottom.equalTo(viewTwo.mas_bottom);
-        make.height.offset(51);
-        make.width.offset(viewTwo.fWidth);
+        make.centerX.equalTo(view.mas_centerX);
+        make.bottom.equalTo(view.mas_bottom).offset(-18);
+        make.height.offset(36);
+        make.width.offset(145);
     }];
     [GKCover translucentWindowCenterCoverContent:view animated:NO];
 }
@@ -633,7 +637,7 @@
 }
 //分享回调
 -(void)shareSuccess{
-    [SVProgressHUD showInfoWithStatus:@"分享成功"];
+    //[SVProgressHUD showInfoWithStatus:@"分享成功"];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     //创建会话请求

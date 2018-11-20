@@ -39,6 +39,7 @@
 #import "WZLBCollectionViewCell.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZAlbumPhonesViewController.h"
+
 @interface WZHouseDatisController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate>
 //总view
 @property(nonatomic,strong)UIScrollView *scrollView;
