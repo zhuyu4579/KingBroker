@@ -228,14 +228,13 @@ static NSString *const appSecret = @"b5a606ec885dd1ed01abdece86a9322b";
     NSLog(@"Receive message title: %@, content: %@.", title, body);
     [self setloadData];
     
-    NSDictionary *userInfo = [notification userInfo];
+    NSDictionary *userInfo = [NSJSONSerialization JSONObjectWithData:message.body options:NSJSONReadingMutableContainers error:nil];
     
-    NSDictionary *extras = [userInfo valueForKey:@"extras"];
-    
-    NSString *param = [extras valueForKey:@"param"];
+    NSString *param = [userInfo valueForKey:@"param"];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRefresh" object:nil];
     NSLog(@"%@",userInfo);
+    
     if ([param isEqual:@"100"]||[param isEqual:@"101"]) {
         //通知二维码关闭
         [[NSNotificationCenter defaultCenter] postNotificationName:@"BoaringVC" object:nil];
