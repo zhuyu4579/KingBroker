@@ -1557,9 +1557,9 @@
 				1FD9C558207DBD2B00BB0298 /* FindHouse(找楼盘) */,
 				1FD9C55E207DBD2B00BB0298 /* houseDetails(楼盘详情) */,
 				1F67636C214A6234005F1E37 /* GoodHouse(优选楼盘) */,
+				1FD9C564207DBD2B00BB0298 /* Task(任务) */,
 				1FD9C557207DBD2B00BB0298 /* WZPagesViewController.h */,
 				1FD9C563207DBD2B00BB0298 /* WZPagesViewController.m */,
-				1FD9C564207DBD2B00BB0298 /* Task(任务) */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
