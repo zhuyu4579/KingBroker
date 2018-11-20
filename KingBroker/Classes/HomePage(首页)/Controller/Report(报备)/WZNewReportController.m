@@ -12,6 +12,7 @@
 #import "UIView+Frame.h"
 #import <AFNetworking.h>
 #import "WZPickerView.h"
+#import "NSDate+Tools.h"
 #import <SVProgressHUD.h>
 #import "WZCustomerItem.h"
 #import "NSString+LCExtension.h"
@@ -1373,6 +1374,11 @@
     NSString *boardingPlane = _loadTime.text;
     if ([boardingPlane isEqual:@"选择预计上客时间"]||[boardingPlane isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"请选择预计上客时间"];
+        return;
+    }
+   BOOL isYES = [NSDate dateWithStrings:boardingPlane dateFormat:@"yyyy-MM-dd"];
+    if (isYES) {
+        [SVProgressHUD showInfoWithStatus:@"请重新选择上客时间"];
         return;
     }
     //出行人数

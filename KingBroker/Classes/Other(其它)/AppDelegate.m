@@ -235,7 +235,7 @@ static NSString *const appSecret = @"b5a606ec885dd1ed01abdece86a9322b";
     NSString *param = [extras valueForKey:@"param"];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRefresh" object:nil];
-    //NSLog(@"%@",userInfo);
+    NSLog(@"%@",userInfo);
     if ([param isEqual:@"100"]||[param isEqual:@"101"]) {
         //通知二维码关闭
         [[NSNotificationCenter defaultCenter] postNotificationName:@"BoaringVC" object:nil];

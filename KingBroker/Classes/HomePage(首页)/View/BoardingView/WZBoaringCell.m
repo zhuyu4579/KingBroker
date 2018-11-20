@@ -79,7 +79,7 @@
     _lunchNum = item.lunchNum;
     _departureCity = item.departureCity;
     _partWay = item.partWay;
-    _boardingPlane = item.boardingPlane;
+    _boardingPlane = item.boardingPlanes;
 }
 - (void)awakeFromNib {
     [super awakeFromNib];

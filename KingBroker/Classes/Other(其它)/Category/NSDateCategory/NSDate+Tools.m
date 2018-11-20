@@ -17,7 +17,22 @@
     
     return [dfmt dateFromString:str];
 }
-
++ (BOOL)dateWithStrings:(NSString *)str dateFormat:(NSString *)dateFormat {
+    NSDateFormatter *dfmt = [[NSDateFormatter alloc] init];
+    dfmt.dateFormat = dateFormat;
+    
+    NSDate *datas = [dfmt dateFromString:str];
+    
+    long timeSp = [datas timeIntervalSince1970]*1000;
+    
+    long time = [[NSDate date] timeIntervalSince1970]*1000;
+    if (time>timeSp) {
+        return YES;
+    }else{
+        return NO;
+    }
+    
+}
 + (NSDateComponents *)compareDateFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate {
     
     NSCalendar *calendar = [NSCalendar currentCalendar];

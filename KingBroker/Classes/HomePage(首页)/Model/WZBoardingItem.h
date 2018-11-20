@@ -49,4 +49,6 @@
 @property(nonatomic,strong)NSString *departureCity;
 //预计上客时间
 @property(nonatomic,strong)NSString *boardingPlane;
+//预计上客时间
+@property(nonatomic,strong)NSString *boardingPlanes;
 @end

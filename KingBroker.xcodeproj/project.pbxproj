@@ -1250,8 +1250,8 @@
 		1FD9C4E3207DBD2B00BB0298 /* NSDateCategory */ = {
 			isa = PBXGroup;
 			children = (
-				1FD9C4E4207DBD2B00BB0298 /* NSDate+Tools.m */,
 				1FD9C4E5207DBD2B00BB0298 /* NSDate+Tools.h */,
+				1FD9C4E4207DBD2B00BB0298 /* NSDate+Tools.m */,
 			);
 			path = NSDateCategory;
 			sourceTree = "<group>";

@@ -13,7 +13,7 @@
 + (NSDate *)dateWithString:(NSString *)str dateFormat:(NSString *)dateFormat;
 
 + (NSDateComponents *)compareDateFromDate:(NSDate *)fromDate toDate:(NSDate *)toDate;
-
++ (BOOL)dateWithStrings:(NSString *)str dateFormat:(NSString *)dateFormat;
 - (BOOL)isThisDay;
 - (BOOL)isYesterDay;
 - (BOOL)isThisYear;
