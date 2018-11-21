@@ -43,7 +43,7 @@ static NSString *const appSecret = @"b5a606ec885dd1ed01abdece86a9322b";
     //友盟统计
     //测试：5b766107a40fa379e70000bd
     //正式：5b7bcec0f29d986f34000286
-    [UMConfigure initWithAppkey:@"5b766107a40fa379e70000bd" channel:@"App Store"];
+    [UMConfigure initWithAppkey:@"5b7bcec0f29d986f34000286" channel:@"App Store"];
 
     //注册微信
     [WXApi registerApp:@"wx03f7c2825a2266a4"];
@@ -233,7 +233,7 @@ static NSString *const appSecret = @"b5a606ec885dd1ed01abdece86a9322b";
     NSString *param = [userInfo valueForKey:@"param"];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NewRefresh" object:nil];
-    NSLog(@"%@",userInfo);
+//    NSLog(@"%@",userInfo);
     
     if ([param isEqual:@"100"]||[param isEqual:@"101"]) {
         //通知二维码关闭

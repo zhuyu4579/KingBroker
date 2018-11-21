@@ -318,7 +318,7 @@
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(view.mas_centerX);
         make.top.equalTo(view.mas_top).offset(138);
-        make.width.offset(view.fWidth-90);
+        make.width.offset(view.fWidth-60);
     }];
     
     UIButton *button = [[UIButton alloc] init];
