@@ -385,12 +385,12 @@ static NSString * const IDS = @"cells";
 }
 #pragma mark -动态修改佣金规则高度
 -(void)setmaidHeight{
-   NSAttributedString  *attrString = [self attributedStringWithString:_maidRule.text andFont:[UIFont fontWithName:@"PingFang-SC-Regular" size:13] andLineSpacing:4];
+//   NSAttributedString  *attrString = [self attributedStringWithString:_maidRule.text andFont:[UIFont fontWithName:@"PingFang-SC-Regular" size:13] andLineSpacing:4];
+//    
+//   CGRect rect = [attrString boundingRectWithSize:CGSizeMake(_maidRule.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
+    CGSize size = [_maidRule sizeThatFits:CGSizeMake(_maidRule.frame.size.width, CGFLOAT_MAX)];
     
-   CGRect rect = [attrString boundingRectWithSize:CGSizeMake(_maidRule.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
-    
-    
-    CGFloat n = rect.size.height+60;
+    CGFloat n = size.height+60;
     
     
     if (n == _maidHeight) {
@@ -417,12 +417,12 @@ static NSString * const IDS = @"cells";
 #pragma mark -动态修改楼盘动态高度
 -(void)setDynamicHeight{
     
-    NSAttributedString  *attrString = [self attributedStringWithString:_dyname.text andFont:[UIFont fontWithName:@"PingFang-SC-Regular" size:13] andLineSpacing:4];
+//    NSAttributedString  *attrString = [self attributedStringWithString:_dyname.text andFont:[UIFont fontWithName:@"PingFang-SC-Regular" size:14] andLineSpacing:4];
+//
+//    CGRect rect = [attrString boundingRectWithSize:CGSizeMake(_dyname.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+     CGSize size = [_dyname sizeThatFits:CGSizeMake(_dyname.frame.size.width, CGFLOAT_MAX)];
     
-    CGRect rect = [attrString boundingRectWithSize:CGSizeMake(_dyname.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
-    
-    
-    CGFloat n = rect.size.height+60;
+    CGFloat n = size.height+60;
     if (n == _dynameHeight) {
         return;
     }
