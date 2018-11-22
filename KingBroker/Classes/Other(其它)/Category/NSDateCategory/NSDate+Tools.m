@@ -26,7 +26,7 @@
     long timeSp = [datas timeIntervalSince1970]*1000;
     
     long time = [[NSDate date] timeIntervalSince1970]*1000;
-    if (time>timeSp) {
+    if ((time-timeSp)>3600*24) {
         return YES;
     }else{
         return NO;
