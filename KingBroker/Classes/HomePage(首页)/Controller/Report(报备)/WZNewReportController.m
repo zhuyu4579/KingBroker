@@ -50,6 +50,8 @@
 @property (nonatomic, strong)UITextField *eatPeople;
 //出发城市
 @property (nonatomic, strong)UITextField *setOutCity;
+//车牌号
+@property (nonatomic, strong)UITextField *carCards;
 //时间数组
 @property (nonatomic, strong)NSArray *timeArray;
 //报备方式
@@ -465,7 +467,7 @@
         make.width.offset(85);
     }];
     //其他view
-    UIView *otherView = [[UIView alloc] initWithFrame:CGRectMake(0, views.fHeight+views.fY+8, _scrollView.fWidth, 261)];
+    UIView *otherView = [[UIView alloc] initWithFrame:CGRectMake(0, views.fHeight+views.fY+8, _scrollView.fWidth, 318)];
     otherView.backgroundColor = [UIColor whiteColor];
     _otherView = otherView;
     [_scrollView addSubview:otherView];
@@ -579,7 +581,7 @@
         make.height.mas_offset(13);
     }];
     UITextField *eatPeople = [[UITextField alloc] init];
-    eatPeople.placeholder = @"可选填";
+    eatPeople.placeholder = @"输入用餐人数";
     if (![_eatPeoples isEqual:@""]) {
         eatPeople.text = _eatPeoples;
     }
@@ -748,6 +750,47 @@
         make.left.equalTo(modeButtonThree.mas_right).with.offset(10);
         make.top.equalTo(viewFour.mas_top).with.offset(20);
         make.height.mas_offset(13);
+    }];
+    
+    //绘制线
+    UIView *ineView7 = [[UIView alloc] init];
+    ineView7.backgroundColor =UIColorRBG(242, 242, 242);
+    [_otherView addSubview:ineView7];
+    [ineView7 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_otherView.mas_left).with.offset(15);
+        make.top.equalTo(eatPeople.mas_bottom).offset(107);
+        make.height.mas_offset(1);
+        make.width.mas_offset(_otherView.fWidth-30);
+    }];
+    
+    UILabel *carCard = [[UILabel alloc] init];
+    carCard.text = @"车 牌 号 ";
+    carCard.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    carCard.textColor = UIColorRBG(51, 51, 51);
+    [_otherView addSubview:carCard];
+    [carCard mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_otherView.mas_left).with.offset(15);
+        make.top.equalTo(ineView7.mas_bottom).with.offset(20);
+        make.height.mas_offset(13);
+    }];
+    
+    //创建第三个view中出发城市
+    _carCards = [[UITextField alloc] init];
+    _carCards.placeholder = @"输入车牌号";
+    if (![_carCards isEqual:@""]) {
+        _carCards.text = _carsCard;
+    }
+    _carCards.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
+    _carCards.textColor = UIColorRBG(68, 68, 68);
+    //键盘设置
+    _carCards.keyboardType = UIKeyboardTypeDefault;
+    _carCards.delegate = self;
+    [_otherView addSubview:_carCards];
+    [_carCards mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(carCard.mas_right).with.offset(40);
+        make.top.equalTo(ineView7.mas_bottom);
+        make.width.mas_offset(_otherView.fWidth-121);
+        make.height.mas_offset(53);
     }];
 }
 
@@ -1414,6 +1457,7 @@
     order[@"partPersonNum"] = partPersonNum;
     order[@"partWay"] = partWay;
     order[@"lunchNum"] = lunchNum;
+    order[@"licensePlate"] = _carCards.text;
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"order"] = order;
     paraments[@"list"] = customerArrays;
@@ -1518,7 +1562,7 @@
 #pragma mark -获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     textField.returnKeyType = UIReturnKeyDone;
-    _scrollView.contentSize=CGSizeMake(0, _otherView.fY+_otherView.fHeight+220);
+    _scrollView.contentSize=CGSizeMake(0, _otherView.fY+_otherView.fHeight+240);
 }
 #pragma mark -文本框编辑时
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{

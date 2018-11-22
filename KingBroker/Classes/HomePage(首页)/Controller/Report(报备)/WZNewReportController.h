@@ -35,6 +35,8 @@
 @property (nonatomic, strong)NSString *eatPeoples;
 //出发城市
 @property (nonatomic, strong)NSString *setOutCitys;
+//出发城市
+@property (nonatomic, strong)NSString *carsCard;
 //出行方式
 @property(nonatomic,assign)NSInteger tags;
 
