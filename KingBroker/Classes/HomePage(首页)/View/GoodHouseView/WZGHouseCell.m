@@ -26,7 +26,16 @@
     //设置ID
     _ID = item.id;
     _houseItemName.text = item.name;
-    
+    NSString *houseType = item.selfEmployed;
+    _companyName.text = item.companyName;
+    if ([houseType isEqual:@"1"]) {
+        [_houseTypeImage setHidden:YES];
+        _houseTypeY.constant = 33;
+    }else if ([houseType isEqual:@"2"]){
+        [_houseTypeImage setHidden:NO];
+        _companyName.text =@"";
+        _houseTypeY.constant = 10;
+    }
     if ([realtorStatus isEqual:@"2"]) {
         [_commissionButton setEnabled:NO];
         if([commissionFag isEqual:@"0"]){
@@ -53,7 +62,7 @@
         _houseCollectionButton.selected = YES;
     }
     _cityName.text = item.cityName;
-    _companyName.text = item.companyName;
+    
     [_houseImage sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"lp_pic"]];
     _houseLabelOne.text = @"";
     _houseLabelTwo.text = @"";
@@ -72,7 +81,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.backgroundColor = [UIColor whiteColor];
-    
+    [_houseTypeImage setHidden:YES];
     _houseImage.layer.cornerRadius = 5.0;
     _houseImage.layer.masksToBounds = YES;
     _collenView.layer.cornerRadius = 25.0;

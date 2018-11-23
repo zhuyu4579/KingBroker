@@ -48,6 +48,16 @@
     
     _cityName.text = item.cityName;
     _companyName.text = item.companyName;
+    NSString *houseType = item.selfEmployed;
+    if ([houseType isEqual:@"1"]) {
+        [_houseTypeImage setHidden:YES];
+        _houseTypeY.constant = 43.5;
+        [_companyView setHidden:NO];
+    }else if([houseType isEqual:@"2"]){
+        [_houseTypeImage setHidden:NO];
+        _houseTypeY.constant = 16;
+        [_companyView setHidden:YES];
+    }
     //总价
     NSString *totalPrice = item.totalPrice;
     
@@ -87,7 +97,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.backgroundColor = [UIColor clearColor];
-    
+    [_houseTypeImage setHidden:YES];
     _projectName.textColor = UIColorRBG(51, 51, 51);
     _labelOne.backgroundColor = UIColorRBG(255, 252, 238);
     _labelOne.textColor = UIColorRBG(255, 202, 118);
@@ -117,8 +127,6 @@
     
 }
 -(void)setFrame:(CGRect)frame{
-    frame.size.height -=8;
-    frame.origin.y +=8;
     [super setFrame:frame];
 }
 - (IBAction)houseCollectionClick:(id)sender {

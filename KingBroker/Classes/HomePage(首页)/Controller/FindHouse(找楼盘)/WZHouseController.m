@@ -335,7 +335,7 @@ static NSString *size = @"20";
 }
 #pragma mark -设置导航栏
 -(void)setNarItem{
-    self.view.backgroundColor = UIColorRBG(247, 247, 247);
+    self.view.backgroundColor = [UIColor whiteColor];
     //创建菜单
     [self getUpMenu];
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _menu.fY+_menu.fHeight+1, SCREEN_WIDTH, SCREEN_HEIGHT - _menu.fY-_menu.fHeight-45-JF_BOTTOM_SPACE-kApplicationStatusBarHeight)];

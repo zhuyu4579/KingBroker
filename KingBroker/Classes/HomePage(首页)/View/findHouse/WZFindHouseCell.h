@@ -10,6 +10,9 @@
 @class WZFindHouseListItem;
 @interface WZFindHouseCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *houseImage;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *houseTypeY;
+@property (strong, nonatomic) IBOutlet UIImageView *houseTypeImage;
+
 @property (strong, nonatomic) IBOutlet UILabel *labelTag;
 
 @property (weak, nonatomic) IBOutlet UILabel *houseItemName;
@@ -23,6 +26,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *housePrice;
 @property (strong, nonatomic) IBOutlet UIButton *houseCollectionButton;
 @property (strong, nonatomic) IBOutlet UIButton *JoinStoreButton;
+@property (strong, nonatomic) IBOutlet UIView *companyView;
 
 @property (strong, nonatomic) IBOutlet UILabel *cityName;
 //距离

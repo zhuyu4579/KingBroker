@@ -62,6 +62,16 @@
     }
     _cityName.text = item.cityName;
     _companyName.text = item.companyName;
+    NSString *houseType = item.selfEmployed;
+    if ([houseType isEqual:@"1"]) {
+        [_houseTypeImage setHidden:YES];
+        _houseTypeY.constant = 43.5;
+        [_companyView setHidden:NO];
+    }else if([houseType isEqual:@"2"]){
+        [_houseTypeImage setHidden:NO];
+        _houseTypeY.constant = 16;
+        [_companyView setHidden:YES];
+    }
     [_houseImage sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"zw_icon2"]];
     _houseLabelOne.text = @"";
     _houseLabelTwo.text = @"";
@@ -85,7 +95,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.backgroundColor = [UIColor clearColor];
-    
+    [_houseTypeImage setHidden:YES];
     _houseItemName.textColor = UIColorRBG(51, 51, 51);
     _houseLabelOne.backgroundColor = UIColorRBG(255, 252, 238);
     _houseLabelOne.textColor = UIColorRBG(255, 202, 118);
@@ -115,8 +125,6 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 -(void)setFrame:(CGRect)frame{
-    frame.size.height -=8;
-    frame.origin.y +=8;
     [super setFrame:frame];
 }
 - (IBAction)houseCollectionClick:(id)sender {

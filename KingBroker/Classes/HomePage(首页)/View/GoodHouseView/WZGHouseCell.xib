@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -28,7 +28,7 @@
                         <rect key="frame" x="303" y="171" width="50" height="50"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u2w-v3-bA0">
-                                <rect key="frame" x="16.5" y="16.5" width="18" height="17"/>
+                                <rect key="frame" x="16" y="16.5" width="18" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="18" id="M8P-G4-MUR"/>
                                     <constraint firstAttribute="height" constant="17" id="pzb-FJ-LnE"/>
@@ -124,22 +124,32 @@
                             <action selector="JoinStore:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Kyr-Ru-hKy"/>
                         </connections>
                     </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bq" translatesAutoresizingMaskIntoConstraints="NO" id="Vx8-8S-2cc">
+                        <rect key="frame" x="19" y="8" width="51" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="51" id="M8x-tv-Cx3"/>
+                            <constraint firstAttribute="height" constant="20" id="sod-gD-EL7"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="bbd-lj-qiD" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="22" id="0U8-fw-SxB"/>
                     <constraint firstItem="c4T-bX-mHl" firstAttribute="leading" secondItem="WbX-Pc-VKf" secondAttribute="trailing" constant="6" id="2Nj-jl-bnC"/>
                     <constraint firstItem="WbX-Pc-VKf" firstAttribute="top" secondItem="XMZ-YE-Jlc" secondAttribute="top" id="6BL-GF-xfH"/>
+                    <constraint firstAttribute="bottom" secondItem="bbd-lj-qiD" secondAttribute="bottom" constant="7.5" id="8iO-X1-XW3"/>
                     <constraint firstItem="MLm-2v-hqb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="AAA-H5-Abv"/>
                     <constraint firstItem="fmU-P8-G05" firstAttribute="top" secondItem="rbJ-fG-m5F" secondAttribute="bottom" constant="12" id="CZZ-ac-rk7"/>
+                    <constraint firstItem="Vx8-8S-2cc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Ehh-Xg-Ncs"/>
                     <constraint firstAttribute="trailing" secondItem="MLm-2v-hqb" secondAttribute="trailing" constant="15" id="GwA-ZH-64n"/>
                     <constraint firstItem="XMZ-YE-Jlc" firstAttribute="top" secondItem="MLm-2v-hqb" secondAttribute="bottom" constant="11" id="LUl-Lb-gtB"/>
                     <constraint firstItem="fmU-P8-G05" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="22" id="LcO-Kh-TPi"/>
                     <constraint firstItem="bBl-BK-hse" firstAttribute="leading" secondItem="hPW-RO-tYH" secondAttribute="trailing" constant="11" id="TKR-Zb-y5L"/>
-                    <constraint firstItem="bBl-BK-hse" firstAttribute="top" secondItem="fmU-P8-G05" secondAttribute="bottom" constant="17" id="X96-VI-c6g"/>
+                    <constraint firstAttribute="bottom" secondItem="bBl-BK-hse" secondAttribute="bottom" constant="13.5" id="Tj6-jY-eDN"/>
                     <constraint firstItem="rbJ-fG-m5F" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="22" id="ZXi-Yg-7Cw"/>
-                    <constraint firstItem="bbd-lj-qiD" firstAttribute="top" secondItem="fmU-P8-G05" secondAttribute="bottom" constant="10" id="dfu-nL-r4j"/>
+                    <constraint firstItem="bbd-lj-qiD" firstAttribute="top" secondItem="rbJ-fG-m5F" secondAttribute="bottom" constant="33" id="dfu-nL-r4j"/>
                     <constraint firstItem="06f-3F-S4u" firstAttribute="top" secondItem="MLm-2v-hqb" secondAttribute="bottom" constant="-25" id="gCt-PY-2S1"/>
                     <constraint firstItem="hPW-RO-tYH" firstAttribute="top" secondItem="bBl-BK-hse" secondAttribute="top" id="gjh-z3-Wv4"/>
+                    <constraint firstItem="Vx8-8S-2cc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="19" id="lWY-Jh-9Fp"/>
                     <constraint firstItem="WbX-Pc-VKf" firstAttribute="leading" secondItem="XMZ-YE-Jlc" secondAttribute="trailing" constant="6" id="nOc-jY-6Qy"/>
                     <constraint firstItem="c4T-bX-mHl" firstAttribute="top" secondItem="WbX-Pc-VKf" secondAttribute="top" id="ree-BH-ypG"/>
                     <constraint firstItem="MLm-2v-hqb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="sB5-e2-a5t"/>
@@ -161,11 +171,14 @@
                 <outlet property="houseLabelThree" destination="c4T-bX-mHl" id="ZRM-LC-NdK"/>
                 <outlet property="houseLabelTwo" destination="WbX-Pc-VKf" id="Hnn-rj-fff"/>
                 <outlet property="housePrice" destination="hPW-RO-tYH" id="o69-Fc-jC0"/>
+                <outlet property="houseTypeImage" destination="Vx8-8S-2cc" id="ry5-jZ-JcD"/>
+                <outlet property="houseTypeY" destination="dfu-nL-r4j" id="f8Y-ll-eLB"/>
             </connections>
-            <point key="canvasLocation" x="33.5" y="53.5"/>
+            <point key="canvasLocation" x="32.799999999999997" y="52.623688155922046"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="bq" width="51" height="20"/>
         <image name="lp_icon2" width="18" height="17"/>
         <image name="lp_icon3" width="18" height="17"/>
     </resources>

@@ -11,6 +11,9 @@
 @interface WZGHouseCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *houseImage;
+@property (strong, nonatomic) IBOutlet UIImageView *houseTypeImage;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *houseTypeY;
+
 @property (strong, nonatomic) IBOutlet UIView *collenView;
 @property (weak, nonatomic) IBOutlet UILabel *houseItemName;
 @property (weak, nonatomic) IBOutlet UILabel *houseLabelOne;
