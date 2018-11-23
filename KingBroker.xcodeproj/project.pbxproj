@@ -968,6 +968,15 @@
 			path = videoTokerView;
 			sourceTree = "<group>";
 		};
+		1F5F55BD21A7AC45004FB1C0 /* page(首页) */ = {
+			isa = PBXGroup;
+			children = (
+				1FD9C557207DBD2B00BB0298 /* WZPagesViewController.h */,
+				1FD9C563207DBD2B00BB0298 /* WZPagesViewController.m */,
+			);
+			path = "page(首页)";
+			sourceTree = "<group>";
+		};
 		1F63B1B020E5BF5C009587C1 /* Forward(提现) */ = {
 			isa = PBXGroup;
 			children = (
@@ -1550,6 +1559,7 @@
 		1FD9C53A207DBD2B00BB0298 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				1F5F55BD21A7AC45004FB1C0 /* page(首页) */,
 				1F504EC7215497D100AA06D6 /* videToker(视频拓客) */,
 				1F453F2021538942007C8A20 /* HouseNote(楼盘笔记) */,
 				1FD9C53B207DBD2B00BB0298 /* Boarding(上客) */,
@@ -1558,8 +1568,6 @@
 				1FD9C55E207DBD2B00BB0298 /* houseDetails(楼盘详情) */,
 				1F67636C214A6234005F1E37 /* GoodHouse(优选楼盘) */,
 				1FD9C564207DBD2B00BB0298 /* Task(任务) */,
-				1FD9C557207DBD2B00BB0298 /* WZPagesViewController.h */,
-				1FD9C563207DBD2B00BB0298 /* WZPagesViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
