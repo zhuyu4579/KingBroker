@@ -35,4 +35,6 @@
 @property(nonatomic,strong)NSString *companyName;
 //运营标签
 @property(nonatomic,strong)NSString *runTag;
+//是否是自营楼盘
+@property(nonatomic,strong)NSString *selfEmployed;
 @end

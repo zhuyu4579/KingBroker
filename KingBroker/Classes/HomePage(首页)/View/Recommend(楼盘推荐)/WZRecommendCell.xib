@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,10 +19,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nbx-NN-7IW">
-                        <rect key="frame" x="15" y="0.0" width="345" height="140"/>
+                        <rect key="frame" x="15" y="0.0" width="345" height="139.5"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="umP-ZU-G93">
-                                <rect key="frame" x="10" y="10" width="155" height="120"/>
+                                <rect key="frame" x="10" y="10" width="155" height="119.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="155" id="Mjf-4L-Zer"/>
                                 </constraints>
@@ -117,11 +117,19 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bq" translatesAutoresizingMaskIntoConstraints="NO" id="0Bn-bL-Scj">
+                                <rect key="frame" x="15" y="7" width="51" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="51" id="d4s-EN-3ng"/>
+                                    <constraint firstAttribute="height" constant="20" id="fNz-QL-IqH"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="b2x-jm-6iG" firstAttribute="top" secondItem="Krz-yu-Y0d" secondAttribute="bottom" constant="10" id="0kt-xO-38g"/>
                             <constraint firstItem="b2x-jm-6iG" firstAttribute="leading" secondItem="umP-ZU-G93" secondAttribute="trailing" constant="25" id="11O-81-gUJ"/>
+                            <constraint firstItem="0Bn-bL-Scj" firstAttribute="top" secondItem="nbx-NN-7IW" secondAttribute="top" constant="7" id="2bh-4Y-uqa"/>
                             <constraint firstAttribute="trailing" secondItem="35G-xX-KfV" secondAttribute="trailing" constant="10" id="3Fw-9q-w6i"/>
                             <constraint firstItem="wZ9-jb-4IF" firstAttribute="top" secondItem="Krz-yu-Y0d" secondAttribute="bottom" constant="10" id="67a-ZF-oYl"/>
                             <constraint firstItem="z6O-we-pHO" firstAttribute="top" secondItem="1Pb-kV-kmY" secondAttribute="top" id="8r2-Mo-Se7"/>
@@ -131,6 +139,7 @@
                             <constraint firstAttribute="trailing" secondItem="z6O-we-pHO" secondAttribute="trailing" constant="5" id="Nfj-cz-7hT"/>
                             <constraint firstItem="1Pb-kV-kmY" firstAttribute="top" secondItem="5dP-et-VdT" secondAttribute="bottom" constant="7" id="P8b-mo-jX8"/>
                             <constraint firstItem="Krz-yu-Y0d" firstAttribute="leading" secondItem="umP-ZU-G93" secondAttribute="trailing" constant="17" id="T8x-iS-MhR"/>
+                            <constraint firstItem="0Bn-bL-Scj" firstAttribute="leading" secondItem="nbx-NN-7IW" secondAttribute="leading" constant="15" id="ZWM-h2-Pl0"/>
                             <constraint firstItem="wZ9-jb-4IF" firstAttribute="leading" secondItem="umP-ZU-G93" secondAttribute="trailing" constant="25" id="hPx-33-6Fa"/>
                             <constraint firstItem="35G-xX-KfV" firstAttribute="leading" secondItem="umP-ZU-G93" secondAttribute="trailing" constant="25" id="iMR-Ze-tiN"/>
                             <constraint firstItem="JTO-qL-1nW" firstAttribute="leading" secondItem="fef-2m-Df4" secondAttribute="trailing" constant="8" id="iaF-fj-RWB"/>
@@ -168,11 +177,15 @@
                 <outlet property="RecommendTitleTwo" destination="fef-2m-Df4" id="EhQ-GE-6LI"/>
                 <outlet property="cityName" destination="z6O-we-pHO" id="cnb-3T-Pbo"/>
                 <outlet property="companyName" destination="35G-xX-KfV" id="DRg-6w-6ob"/>
+                <outlet property="houseType" destination="0Bn-bL-Scj" id="pyv-DX-KWz"/>
                 <outlet property="joinButton" destination="b2x-jm-6iG" id="i7F-OR-5Qj"/>
                 <outlet property="prices" destination="1Pb-kV-kmY" id="0fj-H8-RBo"/>
                 <outlet property="view" destination="nbx-NN-7IW" id="tbc-OA-etU"/>
             </connections>
-            <point key="canvasLocation" x="-24.5" y="93"/>
+            <point key="canvasLocation" x="-24.800000000000001" y="92.653673163418304"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="bq" width="51" height="20"/>
+    </resources>
 </document>

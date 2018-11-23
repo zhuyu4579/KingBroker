@@ -11,6 +11,7 @@
 @interface WZRecommendCell : UITableViewCell
 
 @property (strong, nonatomic) IBOutlet UIView *view;
+@property (strong, nonatomic) IBOutlet UIImageView *houseType;
 
 @property (weak, nonatomic) IBOutlet UIImageView *RecommendImage;
 @property (weak, nonatomic) IBOutlet UILabel *RecommendName;

@@ -26,7 +26,7 @@
     _view.layer.shadowOpacity = 0.05;
     //4.设置阴影半径
     _view.layer.shadowRadius = 15;
-    
+    [_houseType setHidden:YES];
     _RecommendImage.layer.cornerRadius = 5.0;
     _RecommendImage.layer.masksToBounds = YES;
     
@@ -55,6 +55,12 @@
     NSString *uuid = [ user objectForKey:@"uuid"];
     //设置ID
     _ID = item.id;
+    NSString *houseTypes = item.selfEmployed;
+    if ([houseTypes isEqual:@"1"]) {
+        [_houseType setHidden:YES];
+    }else if([houseTypes isEqual:@"2"]){
+        [_houseType setHidden:NO];
+    }
     _RecommendName.text = item.name;
     if (![uuid isEqual:@""] && uuid) {
         if ([realtorStatus isEqual:@"2"]) {
