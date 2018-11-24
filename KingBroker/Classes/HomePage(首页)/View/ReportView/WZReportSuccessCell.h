@@ -21,4 +21,5 @@
 
 @property (strong, nonatomic) WZLikeProjectItem *item;
 @property(nonatomic,strong)NSString *projectId;
+@property(nonatomic,strong)NSString *selfEmployed;
 @end

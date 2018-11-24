@@ -32,6 +32,7 @@
 
 @property(nonatomic,strong)NSString *ID;
 
+@property(nonatomic,strong)NSString *selfEmployed;
 - (IBAction)JoinStore:(UIButton *)sender;
 @property(nonatomic,strong)WZFindHouseListItem *item;
 - (IBAction)houseCollectionClick:(id)sender;

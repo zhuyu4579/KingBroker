@@ -30,6 +30,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *JoinStoreButton;
 @property (strong, nonatomic) IBOutlet UIButton *houseCollectionButton;
 @property(nonatomic,strong)NSString *ID;
+@property(nonatomic,strong)NSString *selfEmployed;
 @property(nonatomic,strong)WZFindHouseListItem *item;
 - (IBAction)JoinStore:(UIButton *)sender;
 - (IBAction)houseCollectionClick:(id)sender;

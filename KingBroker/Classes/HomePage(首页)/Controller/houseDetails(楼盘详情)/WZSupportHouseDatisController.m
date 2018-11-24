@@ -1,11 +1,10 @@
 //
-//  WZHouseDatisController.m
-//  WZJJ
+//  WZSupportHouseDatisController.m
+//  KingBroker
 //
-//  Created by 朱玉隆 on 2018/3/27.
+//  Created by 朱玉隆 on 2018/11/24.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
-//  项目详情
-
+//
 #import "GKCover.h"
 #import <WXApi.h>
 #import <Masonry.h>
@@ -19,14 +18,13 @@
 #import "UIView+Center.h"
 #import "WZMainUnitItem.h"
 #import "WZCyclePhotoView.h"
-#import "WZDetailsViewOne.h"
+#import "WZDetailsViewTwo.h"
 #import "WZPeripheryItem.h"
 #import "WZHouseDetilItem.h"
 #import "WZDynamictableView.h"
 #import <UIImageView+WebCache.h>
 #import "NSString+LCExtension.h"
 #import "WZMainUnitCollection.h"
-#import "WZHouseDatisController.h"
 #import "WZNewReportController.h"
 #import "WZTitleCollectionCell.h"
 #import "WZNewJionStoreController.h"
@@ -37,7 +35,9 @@
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZAlbumPhonesViewController.h"
 #import "UILabel+ChangeLineSpaceAndWordSpace.h"
-@interface WZHouseDatisController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate>
+#import "WZSupportHouseDatisController.h"
+
+@interface WZSupportHouseDatisController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate>
 //总view
 @property(nonatomic,strong)UIScrollView *scrollView;
 //轮播图
@@ -85,7 +85,7 @@
 //数据字典
 @property(nonatomic,strong)NSDictionary *houseDatils;
 //基本信息
-@property(nonatomic,strong)WZDetailsViewOne *dView;
+@property(nonatomic,strong)WZDetailsViewTwo *dView;
 //楼盘动态
 @property(nonatomic,strong)UIView *dynamicView;
 @property(nonatomic,strong)UILabel *dyname;
@@ -115,7 +115,8 @@
 @end
 static NSString * const ID = @"cell";
 static NSString * const IDS = @"cells";
-@implementation WZHouseDatisController
+
+@implementation WZSupportHouseDatisController
 
 - (void)viewDidLoad {
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
@@ -302,7 +303,7 @@ static NSString * const IDS = @"cells";
         if (i==0) {
             _dView.runTageOne.text = [NSString stringWithFormat:@" %@ ",runArray[i]];
         }else if(i == 1){
-           _dView.runTageTwo.text = [NSString stringWithFormat:@" %@ ",runArray[i]];
+            _dView.runTageTwo.text = [NSString stringWithFormat:@" %@ ",runArray[i]];
         }
     }
     NSArray *labelArray = [_houseDatils valueForKey:@"tage"];
@@ -344,8 +345,6 @@ static NSString * const IDS = @"cells";
     _dView.addr = [_houseDatils valueForKey:@"address"];
     //开发商
     _dView.developerName.text = [_houseDatils valueForKey:@"developer"];
-    //公司名称
-    _dView.companyName.text = [_houseDatils valueForKey:@"companyName"];
     
     //佣金规则
     NSString *rule = [_houseDatils valueForKey:@"commissionRule"];
@@ -368,7 +367,7 @@ static NSString * const IDS = @"cells";
     [UILabel changeSpaceForLabel:_dyname withLineSpace:4 WordSpace:1];
     //楼盘简介
     _contents.text = [_houseDatils valueForKey:@"outlining"];
-     [UILabel changeSpaceForLabel:_contents withLineSpace:4 WordSpace:1];
+    [UILabel changeSpaceForLabel:_contents withLineSpace:4 WordSpace:1];
     //车费报销说明
     NSString *fareReimbursedesc = [_houseDatils valueForKey:@"fareReimbursedesc"];
     NSArray *fareImglist = [_houseDatils valueForKey:@"fareImglist"];
@@ -377,7 +376,7 @@ static NSString * const IDS = @"cells";
     }else{
         _fare.text = fareReimbursedesc;
     }
-     [UILabel changeSpaceForLabel:_fare withLineSpace:4 WordSpace:1];
+    [UILabel changeSpaceForLabel:_fare withLineSpace:4 WordSpace:1];
     if (fareImglist.count==0) {
         [_fareImageOne setHidden:YES];
         [_fareImageTwo setHidden:YES];
@@ -411,9 +410,9 @@ static NSString * const IDS = @"cells";
 }
 #pragma mark -动态修改佣金规则高度
 -(void)setmaidHeight{
-//   NSAttributedString  *attrString = [self attributedStringWithString:_maidRule.text andFont:[UIFont fontWithName:@"PingFang-SC-Regular" size:13] andLineSpacing:4];
-//    
-//   CGRect rect = [attrString boundingRectWithSize:CGSizeMake(_maidRule.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
+    //   NSAttributedString  *attrString = [self attributedStringWithString:_maidRule.text andFont:[UIFont fontWithName:@"PingFang-SC-Regular" size:13] andLineSpacing:4];
+    //
+    //   CGRect rect = [attrString boundingRectWithSize:CGSizeMake(_maidRule.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading  context:nil];
     CGSize size = [_maidRule sizeThatFits:CGSizeMake(_maidRule.frame.size.width, CGFLOAT_MAX)];
     
     CGFloat n = size.height+60;
@@ -445,10 +444,10 @@ static NSString * const IDS = @"cells";
 #pragma mark -动态修改楼盘动态高度
 -(void)setDynamicHeight{
     
-//    NSAttributedString  *attrString = [self attributedStringWithString:_dyname.text andFont:[UIFont fontWithName:@"PingFang-SC-Regular" size:14] andLineSpacing:4];
-//
-//    CGRect rect = [attrString boundingRectWithSize:CGSizeMake(_dyname.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
-     CGSize size = [_dyname sizeThatFits:CGSizeMake(_dyname.frame.size.width, CGFLOAT_MAX)];
+    //    NSAttributedString  *attrString = [self attributedStringWithString:_dyname.text andFont:[UIFont fontWithName:@"PingFang-SC-Regular" size:14] andLineSpacing:4];
+    //
+    //    CGRect rect = [attrString boundingRectWithSize:CGSizeMake(_dyname.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+    CGSize size = [_dyname sizeThatFits:CGSizeMake(_dyname.frame.size.width, CGFLOAT_MAX)];
     
     CGFloat n = size.height+60;
     if (n == _dynameHeight) {
@@ -490,7 +489,7 @@ static NSString * const IDS = @"cells";
         _houseIntroduce.fY += n-110;
         _scrollView.contentSize = CGSizeMake(0,_houseIntroduce.fY + _houseIntroduce.fHeight+10);
     }else{
-         _fareView.fHeight -=110-n;
+        _fareView.fHeight -=110-n;
         _houseIntroduce.fY -= 110-n;
         _scrollView.contentSize = CGSizeMake(0,_houseIntroduce.fY + _houseIntroduce.fHeight+10);
     }
@@ -536,7 +535,7 @@ static NSString * const IDS = @"cells";
     }];
     
     //创建第二个view
-    UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight-kApplicationStatusBarHeight-24, scrollView.fWidth, 258)];
+    UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight-kApplicationStatusBarHeight-24, scrollView.fWidth, 207)];
     viewTwo.backgroundColor = [UIColor whiteColor];
     //绘制圆角 要设置的圆角 使用“|”来组合
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:viewTwo.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(15, 15)];
@@ -547,7 +546,7 @@ static NSString * const IDS = @"cells";
     maskLayer.path = maskPath.CGPath;
     viewTwo.layer.mask = maskLayer;
     [scrollView addSubview:viewTwo];
-    WZDetailsViewOne *dView = [WZDetailsViewOne detailViewTwo];
+    WZDetailsViewTwo *dView = [WZDetailsViewTwo detailViewTwo];
     dView.frame = viewTwo.bounds;
     _dView = dView;
     [viewTwo addSubview:dView];
@@ -943,7 +942,7 @@ static NSString * const IDS = @"cells";
     _maidRule = maidRule;
     maidRule.numberOfLines = 0;
     maidRule.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
-   
+    
     maidRule.textColor =  UIColorRBG(102, 102, 102);
     [view addSubview:maidRule];
     [maidRule mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -1833,4 +1832,5 @@ static NSString * const IDS = @"cells";
     [contentString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [contentString length])];
     return [contentString copy];
 }
+
 @end

@@ -56,6 +56,7 @@
     //设置ID
     _ID = item.id;
     NSString *houseTypes = item.selfEmployed;
+    _selfEmployed = houseTypes;
     if ([houseTypes isEqual:@"1"]) {
         [_houseType setHidden:YES];
     }else if([houseTypes isEqual:@"2"]){

@@ -11,6 +11,7 @@
 #import "WZLikeProjectItem.h"
 #import "WZHouseDatisController.h"
 #import "UIViewController+WZFindController.h"
+#import "WZSupportHouseDatisController.h"
 static  NSString * const ID = @"Scell";
 @interface WZReportSuccessTableView()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,assign)NSInteger currentIndex;
@@ -56,9 +57,18 @@ static  NSString * const ID = @"Scell";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     WZReportSuccessCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    WZHouseDatisController *datis = [[WZHouseDatisController alloc] init];
-    datis.ID = cell.projectId;
     UIViewController *vc = [UIViewController viewController:self.superview];
-    [vc.navigationController pushViewController:datis animated:YES];
+    NSString *selfEmployed = cell.selfEmployed;
+    if ([selfEmployed isEqual:@"2"]) {
+        WZSupportHouseDatisController *houseDatis = [[WZSupportHouseDatisController alloc] init];
+        houseDatis.ID =  cell.projectId;
+        [vc.navigationController pushViewController:houseDatis animated:YES];
+    }else{
+        WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
+        houseDatis.ID =  cell.projectId;
+        [vc.navigationController pushViewController:houseDatis animated:YES];
+        
+    }
+    
 }
 @end

@@ -11,6 +11,7 @@
 #import "WZHouseDatisController.h"
 #import "UIViewController+WZFindController.h"
 #import "WZFindHouseListItem.h"
+#import "WZSupportHouseDatisController.h"
 static  NSString * const ID = @"GCells";
 @interface WZGoodHouseTableView()<UITableViewDelegate,UITableViewDataSource>
 
@@ -52,9 +53,18 @@ static  NSString * const ID = @"GCells";
     WZGHouseCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     //点击跳转详情页
     UIViewController *vc = [UIViewController viewController:self.superview];
-    WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
-    houseDatis.ID =  cell.ID;
-    [vc.navigationController pushViewController:houseDatis animated:YES];
+    NSString *selfEmployed = cell.selfEmployed;
+    if ([selfEmployed isEqual:@"2"]) {
+        WZSupportHouseDatisController *houseDatis = [[WZSupportHouseDatisController alloc] init];
+        houseDatis.ID =  cell.ID;
+        [vc.navigationController pushViewController:houseDatis animated:YES];
+    }else{
+        WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
+        houseDatis.ID =  cell.ID;
+        [vc.navigationController pushViewController:houseDatis animated:YES];
+        
+    }
+  
 }
 
 @end

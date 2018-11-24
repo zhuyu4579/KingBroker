@@ -27,6 +27,7 @@
     _ID = item.id;
     _houseItemName.text = item.name;
     NSString *houseType = item.selfEmployed;
+    _selfEmployed = houseType;
     _companyName.text = item.companyName;
     if ([houseType isEqual:@"1"]) {
         [_houseTypeImage setHidden:YES];

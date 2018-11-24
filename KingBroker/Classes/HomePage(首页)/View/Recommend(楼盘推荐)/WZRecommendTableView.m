@@ -13,6 +13,7 @@
 #import "UIViewController+WZFindController.h"
 #import "WZFindHouseListItem.h"
 #import "NSString+LCExtension.h"
+#import "WZSupportHouseDatisController.h"
 static  NSString * const IDR = @"cells";
 @interface WZRecommendTableView()<UITableViewDelegate,UITableViewDataSource>
 
@@ -55,9 +56,18 @@ static  NSString * const IDR = @"cells";
     UIViewController *vc = [UIViewController viewController:self];
     if (uuid && ![uuid isEqual:@""]) {
         WZRecommendCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
-        houseDatis.ID =  cell.ID;
-        [vc.navigationController pushViewController:houseDatis animated:YES];
+        NSString *selfEmployed = cell.selfEmployed;
+        if ([selfEmployed isEqual:@"2"]) {
+            WZSupportHouseDatisController *houseDatis = [[WZSupportHouseDatisController alloc] init];
+            houseDatis.ID =  cell.ID;
+            [vc.navigationController pushViewController:houseDatis animated:YES];
+        }else{
+            WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
+            houseDatis.ID =  cell.ID;
+            [vc.navigationController pushViewController:houseDatis animated:YES];
+        
+        }
+       
     }else{
         [NSString isCode:vc.navigationController code:@"401"];
     }

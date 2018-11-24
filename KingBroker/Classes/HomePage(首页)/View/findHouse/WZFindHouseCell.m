@@ -63,6 +63,7 @@
     _cityName.text = item.cityName;
     _companyName.text = item.companyName;
     NSString *houseType = item.selfEmployed;
+    _selfEmployed = houseType;
     if ([houseType isEqual:@"1"]) {
         [_houseTypeImage setHidden:YES];
         _houseTypeY.constant = 43.5;

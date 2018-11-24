@@ -125,6 +125,9 @@
 		1F5E8C69219ECEEC006A0A1A /* AlicloudUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5E8C67219ECEEB006A0A1A /* AlicloudUtils.framework */; };
 		1F5E8C6A219ECEEC006A0A1A /* CloudPushSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5E8C68219ECEEC006A0A1A /* CloudPushSDK.framework */; };
 		1F5E8C6C219ECEF5006A0A1A /* UTMini.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5E8C6B219ECEF5006A0A1A /* UTMini.framework */; };
+		1F6013A321A9204900468730 /* WZSupportHouseDatisController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6013A221A9204900468730 /* WZSupportHouseDatisController.m */; };
+		1F6013A621A9215700468730 /* WZDetailsViewTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6013A521A9215700468730 /* WZDetailsViewTwo.m */; };
+		1F6013A821A9217900468730 /* WZDetailsViewTwo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F6013A721A9217900468730 /* WZDetailsViewTwo.xib */; };
 		1F60A9A72150EF7D002ED860 /* WZNewViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60A9A62150EF7D002ED860 /* WZNewViewCell.m */; };
 		1F60A9AE2150FEAB002ED860 /* WZHDMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60A9AD2150FEAB002ED860 /* WZHDMapController.m */; };
 		1F60D0F3214CDB9700E311B5 /* WZHouseDetilItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F60D0F2214CDB9700E311B5 /* WZHouseDetilItem.m */; };
@@ -492,6 +495,11 @@
 		1F5E8C67219ECEEB006A0A1A /* AlicloudUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlicloudUtils.framework; sourceTree = "<group>"; };
 		1F5E8C68219ECEEC006A0A1A /* CloudPushSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CloudPushSDK.framework; sourceTree = "<group>"; };
 		1F5E8C6B219ECEF5006A0A1A /* UTMini.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UTMini.framework; sourceTree = "<group>"; };
+		1F6013A121A9204900468730 /* WZSupportHouseDatisController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZSupportHouseDatisController.h; sourceTree = "<group>"; };
+		1F6013A221A9204900468730 /* WZSupportHouseDatisController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZSupportHouseDatisController.m; sourceTree = "<group>"; };
+		1F6013A421A9215700468730 /* WZDetailsViewTwo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZDetailsViewTwo.h; sourceTree = "<group>"; };
+		1F6013A521A9215700468730 /* WZDetailsViewTwo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZDetailsViewTwo.m; sourceTree = "<group>"; };
+		1F6013A721A9217900468730 /* WZDetailsViewTwo.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZDetailsViewTwo.xib; sourceTree = "<group>"; };
 		1F60A9A62150EF7D002ED860 /* WZNewViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZNewViewCell.m; sourceTree = "<group>"; };
 		1F60A9AC2150FEAB002ED860 /* WZHDMapController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZHDMapController.h; sourceTree = "<group>"; };
 		1F60A9AD2150FEAB002ED860 /* WZHDMapController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZHDMapController.m; sourceTree = "<group>"; };
@@ -1683,6 +1691,8 @@
 				1F60A9AD2150FEAB002ED860 /* WZHDMapController.m */,
 				1F19C5B72151EB060016A1C2 /* WZHuxingPhotosController.h */,
 				1F19C5B82151EB060016A1C2 /* WZHuxingPhotosController.m */,
+				1F6013A121A9204900468730 /* WZSupportHouseDatisController.h */,
+				1F6013A221A9204900468730 /* WZSupportHouseDatisController.m */,
 			);
 			path = "houseDetails(楼盘详情)";
 			sourceTree = "<group>";
@@ -1880,6 +1890,9 @@
 				1FD9C5A8207DBD2B00BB0298 /* WZDetailsViewOne.h */,
 				1FD9C5C1207DBD2B00BB0298 /* WZDetailsViewOne.m */,
 				1FD9C5C5207DBD2B00BB0298 /* WZDetailsViewOne.xib */,
+				1F6013A421A9215700468730 /* WZDetailsViewTwo.h */,
+				1F6013A521A9215700468730 /* WZDetailsViewTwo.m */,
+				1F6013A721A9217900468730 /* WZDetailsViewTwo.xib */,
 				1FD9C698207DDEFB00BB0298 /* WZCollectionHeaderView.h */,
 				1FD9C699207DDEFB00BB0298 /* WZCollectionHeaderView.m */,
 				1F47F49B20CA1FF80012F5EF /* WZLBCollectionView.h */,
@@ -2067,6 +2080,7 @@
 				1FD9C65D207DBD2C00BB0298 /* WZBoaringCell.xib in Resources */,
 				1F5156E2217D61EE0089D482 /* WZAllPhotoCell.xib in Resources */,
 				1F77530720A415C6003E1C07 /* WZCollectHouseCell.xib in Resources */,
+				1F6013A821A9217900468730 /* WZDetailsViewTwo.xib in Resources */,
 				1F63B1C120E72AD5009587C1 /* WZFrowardDetailedCell.xib in Resources */,
 				1FD9C658207DBD2C00BB0298 /* WZRecommendCell.xib in Resources */,
 				1F504EE12154A35600AA06D6 /* WZTokerVideoCell.xib in Resources */,
@@ -2172,6 +2186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F5B74F5214F5C94007CA432 /* WZTitleCollectionViewCell.m in Sources */,
+				1F6013A321A9204900468730 /* WZSupportHouseDatisController.m in Sources */,
 				1FD9C61C207DBD2C00BB0298 /* main.m in Sources */,
 				1F54D2C5215F1EE8005FA945 /* CCPScrollView.m in Sources */,
 				1FD9C616207DBD2C00BB0298 /* UIImageView+JMCyclePhotoViewExt.m in Sources */,
@@ -2179,6 +2194,7 @@
 				1F47F49D20CA1FF80012F5EF /* WZLBCollectionView.m in Sources */,
 				1F3885A720A5718600402B23 /* AMapTipAnnotation.m in Sources */,
 				1FD9C644207DBD2C00BB0298 /* WZHouseDatisController.m in Sources */,
+				1F6013A621A9215700468730 /* WZDetailsViewTwo.m in Sources */,
 				1F676372214A67C4005F1E37 /* WZGoodHouseController.m in Sources */,
 				1F504EE42154CCE400AA06D6 /* WZTokerVItem.m in Sources */,
 				1F1B7891208584CD00BC6007 /* WZMainUnitItem.m in Sources */,

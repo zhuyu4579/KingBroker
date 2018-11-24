@@ -28,6 +28,8 @@
 
 @property(nonatomic,strong)NSString *ID;
 
+@property(nonatomic,strong)NSString *selfEmployed;
+
 @property(nonatomic,strong)WZFindHouseListItem *item;
 - (IBAction)JoinStore:(UIButton *)sender;
 

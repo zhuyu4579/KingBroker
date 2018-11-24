@@ -11,6 +11,7 @@
 #import "UIViewController+WZFindController.h"
 #import "WZFindHouseListItem.h"
 #import "WZCollectHouseCell.h"
+#import "WZSupportHouseDatisController.h"
 @interface WZCollectTableView()<UITableViewDelegate,UITableViewDataSource>
 
 @end
@@ -66,9 +67,18 @@ static  NSString * const ID = @"cells";
     //点击跳转详情页
     UIViewController *vc = [UIViewController viewController:self.superview];
     UIViewController *Vc = [UIViewController viewController:vc.view.superview];
-    WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
-    houseDatis.ID =  cell.ID;
-    [Vc.navigationController pushViewController:houseDatis animated:YES];
+    NSString *selfEmployed = cell.selfEmployed;
+    
+    if ([selfEmployed isEqual:@"2"]) {
+        WZSupportHouseDatisController *houseDatis = [[WZSupportHouseDatisController alloc] init];
+        houseDatis.ID =  cell.ID;
+        [Vc.navigationController pushViewController:houseDatis animated:YES];
+    }else{
+        WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
+        houseDatis.ID =  cell.ID;
+        [Vc.navigationController pushViewController:houseDatis animated:YES];
+        
+    }
 }
 
 @end

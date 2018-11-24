@@ -50,6 +50,7 @@
     
     NSString *url = item.url;
     NSString *houseType = item.selfEmployed;
+    _selfEmployed = houseType;
     if ([houseType isEqual:@"2"]) {
         [_houseTypeImage setHidden:NO];
     }else{
