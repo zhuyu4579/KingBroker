@@ -16,4 +16,5 @@
 @property(nonatomic,strong)NSString *commission;
 @property(nonatomic,strong)NSString *cityName;
 @property(nonatomic,strong)NSString *companyName;
+@property(nonatomic,strong)NSString *selfEmployed;
 @end

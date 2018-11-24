@@ -15,5 +15,6 @@
 @property(nonatomic,strong)NSString *status;
 //楼盘负责人电话
 @property(nonatomic,strong)NSString *telphone;
-
+//楼盘类型
+@property (nonatomic, copy)NSString *houseType;
 @end

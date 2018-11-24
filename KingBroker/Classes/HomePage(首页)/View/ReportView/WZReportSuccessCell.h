@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *image;
 @property (weak, nonatomic) IBOutlet UILabel *labelOne;
+@property (strong, nonatomic) IBOutlet UIImageView *houseTypeImage;
 
 @property (strong, nonatomic) IBOutlet UILabel *cityName;
 @property (strong, nonatomic) IBOutlet UILabel *commission;

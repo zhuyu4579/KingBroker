@@ -1096,6 +1096,7 @@
     _ineAgent.backgroundColor = UIColorRBG(255, 204, 0);
     [_viewThree setHidden:YES];
     [_viewTwo setHidden:NO];
+    [_button removeTarget:self action:@selector(storeHeads:) forControlEvents:UIControlEventTouchUpInside];
     if([_codeType isEqual:@"0"]){
         [_button setTitle:@"加入门店" forState:UIControlStateNormal];
         [_button addTarget:self action:@selector(jionStore:) forControlEvents:UIControlEventTouchUpInside];
@@ -1131,6 +1132,11 @@
     _labelOne.attributedText = attributedString;
     _labelTwo.text = @"2.照片必须真实拍摄，不得使用复印件和扫描件";
     [_button setTitle:@"提交审核" forState:UIControlStateNormal];
+    if ([_codeType isEqual:@"0"]) {
+        [_button removeTarget:self action:@selector(jionStore:) forControlEvents:UIControlEventTouchUpInside];
+    }else{
+       [_button removeTarget:self action:@selector(jionStoreNoCode:) forControlEvents:UIControlEventTouchUpInside];
+    }
     [_button addTarget:self action:@selector(storeHeads:) forControlEvents:UIControlEventTouchUpInside];
     
     _scrollView.contentSize = CGSizeMake(0,_viewThree.fHeight+kApplicationStatusBarHeight+_viewThree.fY);
@@ -1151,6 +1157,7 @@
     _labelOne.attributedText = [[NSAttributedString alloc] initWithString:@"1.门店编码是经喜APP合作门店的唯一标识，你可咨询你的店长或者同事"];
     _labelTwo.text = @"2.加入门店后报备客户，成交后可赚取佣金；APP内做任 务赚取现金奖励";
     [_button setTitle:@"加入门店" forState:UIControlStateNormal];
+    [_button removeTarget:self action:@selector(jionStoreNoCode:) forControlEvents:UIControlEventTouchUpInside];
     [_button addTarget:self action:@selector(jionStore:) forControlEvents:UIControlEventTouchUpInside];
     _scrollView.contentSize = CGSizeMake(0, _viewTwo.fHeight+kApplicationStatusBarHeight+_viewTwo.fY-76);
 }
@@ -1174,6 +1181,7 @@
     _labelTwo.text = @"2.照片必须真实拍摄，不得使用复印件和扫描件";
     
     [_button setTitle:@"提交审核" forState:UIControlStateNormal];
+    [_button removeTarget:self action:@selector(jionStore:) forControlEvents:UIControlEventTouchUpInside];
     [_button addTarget:self action:@selector(jionStoreNoCode:) forControlEvents:UIControlEventTouchUpInside];
     _scrollView.contentSize = CGSizeMake(0, _viewTwo.fHeight+kApplicationStatusBarHeight+_viewTwo.fY);
     

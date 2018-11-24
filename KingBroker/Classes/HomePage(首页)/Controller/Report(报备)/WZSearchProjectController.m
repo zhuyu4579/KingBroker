@@ -268,6 +268,7 @@ static NSString *size = @"20";
     dicty[@"signStatus"]= item.signStatus;
     dicty[@"telphone"]= item.tel;
     dicty[@"orderTelFlag"] = item.orderTelFlag;
+    dicty[@"selfEmployed"] = item.selfEmployed;
     if (_blockItem) {
         _blockItem(dicty);
     }

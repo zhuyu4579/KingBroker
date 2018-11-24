@@ -12,8 +12,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _signStatus.textColor = UIColorRBG(255, 180, 61);
-    _signStatus.backgroundColor = UIColorRBG(255, 247, 205);
+    _signStatus.textColor = UIColorRBG(255, 255, 255);
+    _signStatus.backgroundColor = UIColorRBG(178, 193, 255);
+    _signStatus.layer.cornerRadius = 3.0;
+    _signStatus.layer.masksToBounds = YES;
     _companyName.textColor = UIColorRBG(153, 153, 153);
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -30,10 +32,20 @@
     _projectName.text = item.projectName;
     _companyName.text = item.companyName;
     NSString *type = item.signStatus;
-    if ([type isEqual:@"2"]) {
+    NSString *houseType = item.selfEmployed;
+    if ([houseType isEqual:@"2"]) {
         [_signStatus setHidden:NO];
-    }else {
-        [_signStatus setHidden:YES];
+        _signStatus.text = @" 喜喜直推 ";
+        _signStatus.backgroundColor = UIColorRBG(255, 217, 114);
+    }else{
+        if ([type isEqual:@"2"]) {
+            [_signStatus setHidden:NO];
+            _signStatus.text = @" 已签约 ";
+            _signStatus.backgroundColor = UIColorRBG(178, 193, 255);
+        }else {
+            [_signStatus setHidden:YES];
+        }
     }
+    
 }
 @end

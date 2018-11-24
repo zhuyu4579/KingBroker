@@ -61,8 +61,16 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bq" translatesAutoresizingMaskIntoConstraints="NO" id="aZe-xd-MWo">
+                        <rect key="frame" x="16" y="7" width="51" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="W3h-ba-6km"/>
+                            <constraint firstAttribute="width" constant="51" id="dh0-rh-myU"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="aZe-xd-MWo" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="7" id="2ls-TM-Hdq"/>
                     <constraint firstItem="BBc-gR-scQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="4se-q2-vCr"/>
                     <constraint firstAttribute="trailing" secondItem="M1t-F6-BDv" secondAttribute="trailing" constant="10" id="Acf-bz-bPa"/>
                     <constraint firstAttribute="trailing" secondItem="ve7-hh-aTD" secondAttribute="trailing" constant="12" id="BWo-7P-cou"/>
@@ -75,16 +83,21 @@
                     <constraint firstItem="ve7-hh-aTD" firstAttribute="top" secondItem="M1t-F6-BDv" secondAttribute="bottom" constant="14" id="nIo-Uq-VjJ"/>
                     <constraint firstItem="BBc-gR-scQ" firstAttribute="top" secondItem="M1t-F6-BDv" secondAttribute="bottom" constant="7" id="nh6-C6-gvF"/>
                     <constraint firstItem="Mtw-ZW-Mry" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="o9D-l3-7gT"/>
+                    <constraint firstItem="aZe-xd-MWo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="oa1-T8-bXK"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="cityName" destination="ve7-hh-aTD" id="EkI-oV-Ff3"/>
                 <outlet property="commission" destination="iFE-Cv-pDn" id="fFF-ku-yZ6"/>
                 <outlet property="commissionLabel" destination="BBc-gR-scQ" id="3x4-Ze-E0N"/>
+                <outlet property="houseTypeImage" destination="aZe-xd-MWo" id="jnt-cW-uUe"/>
                 <outlet property="image" destination="Mtw-ZW-Mry" id="Pqt-Hl-DCw"/>
                 <outlet property="labelOne" destination="M1t-F6-BDv" id="g1b-L9-Pqt"/>
             </connections>
-            <point key="canvasLocation" x="-120.5" y="94"/>
+            <point key="canvasLocation" x="-121.59999999999999" y="93.103448275862078"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="bq" width="51" height="20"/>
+    </resources>
 </document>

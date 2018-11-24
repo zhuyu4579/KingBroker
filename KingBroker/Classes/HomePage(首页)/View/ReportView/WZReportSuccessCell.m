@@ -23,7 +23,7 @@
     self.layer.rasterizationScale = [UIScreen mainScreen].scale;
     _image.layer.cornerRadius = 7.0;
     _image.layer.masksToBounds = YES;
-    
+    [_houseTypeImage setHidden:YES];
     _cityName.textColor = UIColorRBG(153, 153, 153);
     _commission.textColor = UIColorRBG(255, 180, 61);
     _commissionLabel.backgroundColor = UIColorRBG(255, 216, 0);
@@ -49,7 +49,12 @@
     NSString *commissionFag = [ user objectForKey:@"commissionFag"];
     
     NSString *url = item.url;
-    
+    NSString *houseType = item.selfEmployed;
+    if ([houseType isEqual:@"2"]) {
+        [_houseTypeImage setHidden:NO];
+    }else{
+         [_houseTypeImage setHidden:YES];
+    }
     [_image sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"bb_5_pic"]];
     _labelOne.text = item.name;
     _projectId = item.id;

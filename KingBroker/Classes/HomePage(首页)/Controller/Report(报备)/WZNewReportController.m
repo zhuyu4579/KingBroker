@@ -1158,6 +1158,7 @@
         _sginStatu = [dicty valueForKey:@"signStatus"];
         _dutyTelphone = [dicty valueForKey:@"telphone"];
         _orderTelFlag = [dicty valueForKey:@"orderTelFlag"];
+        _houseType = [dicty valueForKey:@"selfEmployed"];
         //清除手机号
         //[self setTelphoneType];
         //请求数据
@@ -1496,6 +1497,7 @@
             successVC.reportData = data;
             successVC.status = _sginStatu;
             successVC.telphone = _dutyTelphone;
+            successVC.houseType = _houseType;
             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:successVC];
             [self.navigationController presentViewController:nav animated:YES completion:nil];
         }else{

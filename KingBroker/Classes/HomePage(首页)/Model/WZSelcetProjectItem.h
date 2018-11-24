@@ -21,4 +21,6 @@
 @property(nonatomic,strong)NSString *companyName;
 
 @property(nonatomic,strong)NSString *orderTelFlag;
+
+@property(nonatomic,strong)NSString *selfEmployed;
 @end

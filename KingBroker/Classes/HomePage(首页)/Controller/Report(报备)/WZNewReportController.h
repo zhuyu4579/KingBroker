@@ -14,6 +14,8 @@
 //楼盘名
 @property (nonatomic, copy)UILabel *ItemName;
 @property (nonatomic, copy)NSString *ItemNames;
+//楼盘类型
+@property (nonatomic, copy)NSString *houseType;
 //楼盘是否签约
 @property(nonatomic,strong)NSString *sginStatu;
 //楼盘负责人电话

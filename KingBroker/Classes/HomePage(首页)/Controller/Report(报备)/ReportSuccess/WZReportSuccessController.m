@@ -70,7 +70,17 @@
     NSDictionary *contacts = [_reportData valueForKey:@"contacts"];
     _labelOne.text = [contacts valueForKey:@"projectName"];
      _labelFour.text = [NSString stringWithFormat:@"报备成功，最晚上客时间 %@",[contacts valueForKey:@"boardingEnd"]];
-    
+   if ([_houseType isEqual:@"2"]) {
+       
+        [_labels setHidden:YES];
+        [_labelRed setHidden:NO];
+        [_imageTwo setHidden:YES];
+        [_imageOne setHidden:NO];
+        [_imageViews setHidden:YES];
+        [_label setHidden:YES];
+       _labelRed.text = @"售楼部可能未更新“扫码上客”功能，经纪人可在现场填写“客户报备单”，使用“凭证上客”功能上传纸质报备单，确认上客，审核通过后，上客成功";
+   }else{
+        
     if ([_status isEqual:@"2"]) {
         [_labels setHidden:YES];
         [_labelRed setHidden:YES];
@@ -102,7 +112,7 @@
             _labelRed.text = @"楼盘须与门店签约，签约过期可能影响佣金结算，请及时续约";
         }
     }
-    
+  }
 }
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
     if ([[URL scheme] isEqualToString:@"cilck"]) {
