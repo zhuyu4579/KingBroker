@@ -88,14 +88,18 @@
 @property(nonatomic,strong)WZDetailsViewOne *dView;
 //楼盘动态
 @property(nonatomic,strong)UIView *dynamicView;
-@property(nonatomic,strong)WZDynamictableView *dynamic;
 @property(nonatomic,strong)UILabel *dyname;
 @property(nonatomic,assign)CGFloat dynameHeight;
 //合同有效期
 @property(nonatomic,strong)UILabel *contract;
 //结佣时间
 @property(nonatomic,strong)UILabel *settlement;
-
+//车费报销说明
+@property(nonatomic,strong)UIView *fareView;
+@property(nonatomic,strong)UILabel *fare;
+@property(nonatomic,strong)UIImageView *fareImageOne;
+@property(nonatomic,strong)UIImageView *fareImageTwo;
+@property(nonatomic,assign)CGFloat fareHeight;
 //报备按钮
 @property(nonatomic,strong)UIButton *reportButton;
 
@@ -365,6 +369,27 @@ static NSString * const IDS = @"cells";
     //楼盘简介
     _contents.text = [_houseDatils valueForKey:@"outlining"];
      [UILabel changeSpaceForLabel:_contents withLineSpace:4 WordSpace:1];
+    //车费报销说明
+    NSString *fareReimbursedesc = [_houseDatils valueForKey:@"fareReimbursedesc"];
+    NSArray *fareImglist = [_houseDatils valueForKey:@"fareImglist"];
+    if ([fareReimbursedesc isEqual:@""]||!fareReimbursedesc) {
+        _fare.text = @"暂无说明";
+    }else{
+        _fare.text = fareReimbursedesc;
+    }
+     [UILabel changeSpaceForLabel:_fare withLineSpace:4 WordSpace:1];
+    if (fareImglist.count==0) {
+        [_fareImageOne setHidden:YES];
+        [_fareImageTwo setHidden:YES];
+    }else if(fareImglist.count==1){
+        [_fareImageTwo setHidden:NO];
+        [_fareImageOne sd_setImageWithURL:[NSURL URLWithString:fareImglist[0]]];
+    }else{
+        [_fareImageOne setHidden:NO];
+        [_fareImageTwo setHidden:NO];
+        [_fareImageOne sd_setImageWithURL:[NSURL URLWithString:fareImglist[0]]];
+        [_fareImageTwo sd_setImageWithURL:[NSURL URLWithString:fareImglist[1]]];
+    }
     //合同有效期
     _contract.text = [_houseDatils valueForKey:@"strCollEndTime"];
     //结佣时间
@@ -380,7 +405,8 @@ static NSString * const IDS = @"cells";
     [self setmaidHeight];
     //楼盘动态高度
     [self setDynamicHeight];
-    
+    //车费报销动态高度
+    [self setFareHeights:fareImglist];
     [_reportButton setEnabled:YES];
 }
 #pragma mark -动态修改佣金规则高度
@@ -404,6 +430,7 @@ static NSString * const IDS = @"cells";
         _dynamicView.fY +=n-110;
         _houseIntroduce.fY += n-110;
         _viewFive.fY +=n-110;
+        _fareView.fY +=n-110;
         _scrollView.contentSize = CGSizeMake(0,_houseIntroduce.fY + _houseIntroduce.fHeight+10);
     }else{
         _maidView.fHeight -= 110-n;
@@ -411,6 +438,7 @@ static NSString * const IDS = @"cells";
         _dynamicView.fY -=110-n;
         _houseIntroduce.fY -= 110-n;
         _viewFive.fY -= 110-n;
+        _fareView.fY -= 110-n;
         _scrollView.contentSize = CGSizeMake(0,_houseIntroduce.fY + _houseIntroduce.fHeight+10);
     }
 }
@@ -432,15 +460,39 @@ static NSString * const IDS = @"cells";
         _dynamicView.fHeight +=n-110;
         _houseIntroduce.fY += n-110;
         _viewFive.fY +=n-110;
+        _fareView.fY += n-110;
         _scrollView.contentSize = CGSizeMake(0,_houseIntroduce.fY + _houseIntroduce.fHeight+10);
     }else{
         _dynamicView.fHeight -=110-n;
         _houseIntroduce.fY -= 110-n;
         _viewFive.fY -= 110-n;
+        _fareView.fY -= 110-n;
         _scrollView.contentSize = CGSizeMake(0,_houseIntroduce.fY + _houseIntroduce.fHeight+10);
     }
 }
-
+-(void)setFareHeights:(NSArray *)array{
+    CGFloat a = SCREEN_WIDTH /375.0;
+    CGSize size = [_fare sizeThatFits:CGSizeMake(_dyname.frame.size.width, CGFLOAT_MAX)];
+    CGFloat n = size.height+60;
+    if (array.count>0) {
+        n += 95*a+8;
+    }
+    
+    if (n == _fareHeight) {
+        return;
+    }
+    _fareHeight = n;
+    
+    if(n>110){
+        _fareView.fHeight +=n-110;
+        _houseIntroduce.fY += n-110;
+        _scrollView.contentSize = CGSizeMake(0,_houseIntroduce.fY + _houseIntroduce.fHeight+10);
+    }else{
+         _fareView.fHeight -=110-n;
+        _houseIntroduce.fY -= 110-n;
+        _scrollView.contentSize = CGSizeMake(0,_houseIntroduce.fY + _houseIntroduce.fHeight+10);
+    }
+}
 #pragma mark -设置背景色
 -(void)setNavTitle{
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
@@ -563,9 +615,14 @@ static NSString * const IDS = @"cells";
     [self getUpFive:viewFive];
     [scrollView addSubview:viewFive];
     //车费报销简介
+    UIView *fareView = [[UIView alloc] initWithFrame:CGRectMake(0, viewFive.fY +viewFive.fHeight +10, scrollView.fWidth, 110)];
+    fareView.backgroundColor = [UIColor whiteColor];
+    _fareView = fareView;
+    [self fareViews:fareView];
+    [scrollView addSubview:fareView];
     
     //楼盘简介
-    UIView *houseIntroduce = [[UIView alloc] initWithFrame:CGRectMake(0, viewFive.fY +viewFive.fHeight +10, scrollView.fWidth, 200)];
+    UIView *houseIntroduce = [[UIView alloc] initWithFrame:CGRectMake(0, fareView.fY +fareView.fHeight +10, scrollView.fWidth, 200)];
     houseIntroduce.backgroundColor = [UIColor whiteColor];
     _houseIntroduce = houseIntroduce;
     [self houseIntroduce:houseIntroduce];
@@ -977,6 +1034,58 @@ static NSString * const IDS = @"cells";
     //        make.height.offset(150);
     //    }];
 }
+#pragma mark -车费报销说明
+-(void)fareViews:(UIView *)view{
+    CGFloat n = SCREEN_WIDTH /375.0;
+    UILabel *labelTitle = [[UILabel alloc] init];
+    labelTitle.text = @"车费报销说明";
+    labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    labelTitle.textColor =  UIColorRBG(68, 68, 68);
+    [view addSubview:labelTitle];
+    [labelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).mas_offset(15);
+        make.top.equalTo(view.mas_top).mas_offset(12);
+        make.height.offset(15);
+    }];
+    UIView *ineView = [[UIView alloc] init];
+    ineView.backgroundColor = UIColorRBG(242, 242, 242);
+    [view addSubview:ineView];
+    [ineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(15);
+        make.top.equalTo(labelTitle.mas_bottom).mas_offset(12);
+        make.height.offset(1);
+        make.width.offset(view.fWidth-15);
+    }];
+    UILabel *fare = [[EwenCopyLabel alloc] init];
+    _fare = fare;
+    fare.numberOfLines = 0;
+    fare.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+    fare.textColor =  UIColorRBG(102, 102, 102);
+    [view addSubview:fare];
+    [fare mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).mas_offset(15);
+        make.top.equalTo(ineView.mas_bottom).mas_offset(8);
+        make.width.offset(view.fWidth-30);
+    }];
+    UIImageView *imageViewOne = [[UIImageView alloc] init];
+    _fareImageOne = imageViewOne;
+    [view addSubview:imageViewOne];
+    [imageViewOne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).mas_offset(15);
+        make.top.equalTo(fare.mas_bottom).mas_offset(9);
+        make.width.offset((view.fWidth-45)/2.0);
+        make.height.offset(95*n);
+    }];
+    UIImageView *imageViewTwo = [[UIImageView alloc] init];
+    _fareImageTwo = imageViewTwo;
+    [view addSubview:imageViewOne];
+    [imageViewTwo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view.mas_right).mas_offset(-15);
+        make.top.equalTo(fare.mas_bottom).mas_offset(9);
+        make.width.offset((view.fWidth-45)/2.0);
+        make.height.offset(95*n);
+    }];
+}
 #pragma mark -楼盘简介
 -(void)houseIntroduce:(UIView *)view{
     UILabel *labelTitle = [[UILabel alloc] init];
@@ -1199,7 +1308,8 @@ static NSString * const IDS = @"cells";
     self.buttonViewIneOne.frame = CGRectMake(self.ScLabelOnes.fX-23, self.ScLabelOnes.fY-12, 1, self.ScLabelOnes.fHeight+32);
     self.buttonViewIneTwo.frame = CGRectMake(self.ScLabelTwos.fX-23, self.ScLabelTwos.fY-12, 1, self.ScLabelTwos.fHeight+32);
     _viewFive.fHeight = _ScLabelThrees.fHeight+_ScLabelThrees.fY + 20;
-    _houseIntroduce.fY = _viewFive.fY+_viewFive.fHeight+10;
+    _fareView.fY = _viewFive.fY+_viewFive.fHeight+10;
+    _houseIntroduce.fY = _fareView.fY+_fareView.fHeight+10;
     _scrollView.contentSize = CGSizeMake(0,_houseIntroduce.fY + _houseIntroduce.fHeight+10);
 }
 #pragma mark -相册
