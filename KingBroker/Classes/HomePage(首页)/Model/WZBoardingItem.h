@@ -51,4 +51,6 @@
 @property(nonatomic,strong)NSString *boardingPlane;
 //预计上客时间
 @property(nonatomic,strong)NSString *boardingPlanes;
+//楼盘样式
+@property(nonatomic,strong)NSString *selfEmployed;
 @end

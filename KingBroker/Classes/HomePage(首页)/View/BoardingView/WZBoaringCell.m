@@ -37,31 +37,131 @@
     _boaringTimeTwo.text = item.createDate;
     _boaringTimeThree.text = item.createDate;
     _boaringTimeFour.text = item.createDate;
+    //楼盘类型
+    NSString *selfEmployed = item.selfEmployed;
+  
     //状态
-    NSArray *stateArray = @[@"已报备", @"已上客", @"已成交",@"已失效"];
+    NSArray *stateArray = @[@"已报备", @"上客审核中",@"已上客",@"成交审核中", @"已成交",@"已失效"];
     NSString *state = item.dealStatus;
     //审核状态
     NSString *verify = item.verify;
     int verifys = [verify intValue];
     int states = [state intValue];
-    _stateOne.text = stateArray[states-1];
-    _stateTwo.text = stateArray[states-1];
-    _buttonTwo.backgroundColor = UIColorRBG(255, 224, 0);
-    [_buttonTwo setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    _buttonTwo.enabled = YES;
-    if (states == 3) {
-        if(verifys == 2){
-            _stateTwo.text =  [_SHStatus[0] valueForKey:@"label"];
-            _buttonTwo.backgroundColor = UIColorRBG(221, 221, 221);
-            [_buttonTwo setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
-            _buttonTwo.enabled = NO;
-        }
-    }
-    if(states == 4){
+    
+    //订单状态判断
+    if (states == 1) {
+        //已报备
         if (verifys == 3) {
-            _stateFour.text = stateArray[3];
+            _stateOne.text = stateArray[0];
+            if ([selfEmployed isEqual:@"2"]) {
+                [_buttonOne setHidden:YES];
+                [_buttonOne setEnabled:NO];
+                [_button_one setHidden:NO];
+                [_button_one setEnabled:YES];
+                [_button_ones setHidden:NO];
+                [_button_ones setEnabled:YES];
+                [_houseTypeOne setHidden:NO];
+                _ItemOneX.constant = 80;
+                _boardingButtonX.constant = 10;
+            }else{
+                [_button_one setHidden:YES];
+                [_button_one setEnabled:NO];
+                [_button_ones setHidden:YES];
+                [_button_ones setEnabled:NO];
+                [_buttonOne setHidden:NO];
+                [_buttonOne setEnabled:YES];
+                [_houseTypeOne setHidden:YES];
+                _ItemOneX.constant = 10;
+                _boardingButtonX.constant = 97;
+            }
+        }
+    }else if(states == 2){
+        //上客审核中
+        if (verifys == 2) {
+            _stateOne.text = stateArray[1];
+            [_buttonOne setHidden:YES];
+            [_buttonOne setEnabled:NO];
+            [_button_one setHidden:YES];
+            [_button_one setEnabled:NO];
+            [_button_ones setHidden:YES];
+            [_button_ones setEnabled:NO];
+            if ([selfEmployed isEqual:@"2"]) {
+                [_houseTypeOne setHidden:NO];
+                _ItemOneX.constant = 80;
+            }else{
+                [_houseTypeOne setHidden:YES];
+                _ItemOneX.constant = 10;
+            }
+        }else if(verifys == 3){
+            //上客成功
+            _stateTwo.text = stateArray[2];
+            
+            if ([selfEmployed isEqual:@"2"]) {
+                [_buttonTwo setHidden:YES];
+                [_buttonTwo setEnabled:NO];
+                [_button_two setHidden:NO];
+                [_button_two setEnabled:YES];
+                [_houseTypeTwo setHidden:NO];
+                _ItemTwoX.constant = 80;
+                _buttonTwo.backgroundColor = UIColorRBG(255, 224, 0);
+                [_buttonTwo setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+            }else{
+                [_buttonTwo setHidden:NO];
+                [_buttonTwo setEnabled:YES];
+                [_button_two setHidden:YES];
+                [_button_two setEnabled:NO];
+                [_houseTypeTwo setHidden:YES];
+                _ItemTwoX.constant = 10;
+                _button_two.backgroundColor = UIColorRBG(255, 224, 0);
+                [_button_two setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+            }
+        }
+    }else if (states == 3){
+        //成交审核中
+        if (verifys == 2) {
+            _stateTwo.text = stateArray[3];
+            
+            if ([selfEmployed isEqual:@"2"]) {
+                [_buttonTwo setHidden:YES];
+                [_buttonTwo setEnabled:NO];
+                [_button_two setHidden:NO];
+                [_button_two setEnabled:NO];
+                [_houseTypeTwo setHidden:NO];
+                _ItemTwoX.constant = 80;
+                _buttonTwo.backgroundColor = UIColorRBG(221, 221, 221);
+                [_buttonTwo setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
+            }else{
+                [_buttonTwo setHidden:NO];
+                [_buttonTwo setEnabled:NO];
+                [_button_two setHidden:YES];
+                [_button_two setEnabled:NO];
+                [_houseTypeTwo setHidden:YES];
+                _ItemTwoX.constant = 10;
+                _button_two.backgroundColor = UIColorRBG(221, 221, 221);
+                [_button_two setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
+            }
+        }else if (verifys == 3) {
+            //成交成功
+            if ([selfEmployed isEqual:@"2"]) {
+                [_houseTypeThree setHidden:NO];
+                _ItemThreeX.constant = 80;
+            } else {
+                [_houseTypeThree setHidden:YES];
+                _ItemThreeX.constant = 10;
+            }
+        }
+    }else if(states == 4){
+        //失效
+         _stateFour.text = stateArray[5];
+        if ([selfEmployed isEqual:@"2"]) {
+            [_houseTypeFour setHidden:NO];
+            _ItemFourX.constant = 80;
+        } else {
+            [_houseTypeFour setHidden:YES];
+            _ItemFourX.constant = 10;
         }
     }
+    
     
     //楼盘ID
     _itemIdOne = item.projectId;
@@ -100,6 +200,11 @@
     _viewTwo.layer.cornerRadius = 5.0;
     _viewThree.layer.cornerRadius = 5.0;
     _viewFour.layer.cornerRadius = 5.0;
+    
+    _houseTypeOne.layer.cornerRadius = 8.0;
+    _houseTypeTwo.layer.cornerRadius = 8.0;
+    _houseTypeThree.layer.cornerRadius = 8.0;
+    _houseTypeFour.layer.cornerRadius = 8.0;
     
     _nameOne.textColor = UIColorRBG(51, 51, 51);
     _nameTwo.textColor = UIColorRBG(51, 51, 51);
@@ -147,6 +252,19 @@
     _buttonFour.layer.cornerRadius = 13.0;
     _buttonFour.layer.masksToBounds = YES;
     [_buttonFour setEnlargeEdge:10];
+    
+    _button_one.layer.cornerRadius = 12.5;
+    _button_one.layer.masksToBounds = YES;
+    [_button_one setEnlargeEdge:7];
+    _button_ones.layer.cornerRadius = 12.5;
+    _button_ones.layer.masksToBounds = YES;
+    _button_ones.layer.borderColor = UIColorRBG(255, 209, 49).CGColor;
+    _button_ones.layer.borderWidth = 1;
+    [_button_ones setEnlargeEdge:7];
+    _button_two.layer.cornerRadius = 12.5;
+    _button_two.layer.masksToBounds = YES;
+    [_button_two setEnlargeEdge:10];
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -224,5 +342,21 @@
     report.eatPeoples = _lunchNum;
     report.tags = [_partWay integerValue];
     [Vc.navigationController pushViewController:report animated:YES];
+}
+
+- (IBAction)varochBoarding:(UIButton *)sender {
+    NSLog(@"1w3123");
+    
+}
+
+- (IBAction)launchDeal:(UIButton *)sender {
+    NSLog(@"11123");
+    
+}
+- (IBAction)boardingButton:(UIButton *)sender {
+    
+    if (_boardingBlock) {
+        _boardingBlock(self);
+    }
 }
 @end

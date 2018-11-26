@@ -241,7 +241,12 @@ static NSString *size = @"20";
     }
     self.cell = cell;
     cell.item = item;
-    [cell.buttonOne addTarget:self action:@selector(boaringButtonOne:) forControlEvents:UIControlEventTouchUpInside];
+    __weak typeof(self) weakSelf = self;
+    cell.boardingBlock = ^(WZBoaringCell *cell) {
+        [weakSelf boaringButtonOne:cell];
+    };
+//    [cell.buttonOne addTarget:self action:@selector(boaringButtonOne:) forControlEvents:UIControlEventTouchUpInside];
+    //[cell.button_ones addTarget:self action:@selector(boaringButtonOne:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
 //创建二维码的view
@@ -322,16 +327,14 @@ static NSString *size = @"20";
     [codeView addSubview:closeButton];
 }
 //上客弹出二维码
-- (void)boaringButtonOne:(UIButton *)button {
+- (void)boaringButtonOne:(WZBoaringCell *)cells {
     
-    CGPoint point = button.center;
-    point = [self.tableView convertPoint:point fromView:button.superview];
-    NSIndexPath *indexpath = [self.tableView indexPathForRowAtPoint:point];
-    WZBoaringCell *cell = [self.tableView cellForRowAtIndexPath:indexpath];
+    WZBoaringCell *cell = cells;
     NSString *sginStatus = cell.sginStatus;
     int boardingLimitTime = [cell.boardingLimitTime intValue];
     NSString *orderCreateTime1 = cell.orderCreateTime;
-    long  orderCreateTime = [orderCreateTime1 longLongValue];
+    
+    long orderCreateTime = [orderCreateTime1 longLongValue];
     
     if ([sginStatus isEqual:@"2"]) {
         [_titles setHidden:YES];

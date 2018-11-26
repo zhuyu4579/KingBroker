@@ -8,7 +8,13 @@
 
 #import <UIKit/UIKit.h>
 @class WZBoardingItem;
+@class WZBoaringCell;
+typedef void (^BoardingBlock) (WZBoaringCell *);
+
 @interface WZBoaringCell : UITableViewCell
+
+@property(nonatomic, copy) BoardingBlock boardingBlock;
+
 @property (strong, nonatomic) IBOutlet UIView *viewOne;
 @property (weak, nonatomic) IBOutlet UIView *viewTwo;
 @property (strong, nonatomic) IBOutlet UIView *viewThree;
@@ -20,24 +26,37 @@
 @property (weak, nonatomic) IBOutlet UILabel *ItemNameOne;
 @property (weak, nonatomic) IBOutlet UILabel *boaringTimeOne;
 @property (weak, nonatomic) IBOutlet UILabel *stateOne;
-
+@property (strong, nonatomic) IBOutlet UILabel *houseTypeOne;
 @property (weak, nonatomic) IBOutlet UIButton *buttonOne;
+@property (strong, nonatomic) IBOutlet UIButton *button_one;
+@property (strong, nonatomic) IBOutlet UIButton *button_ones;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *ItemOneX;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *boardingButtonX;
+
 @property (weak, nonatomic) IBOutlet UILabel *nameTwo;
 @property (weak, nonatomic) IBOutlet UILabel *ItemNameTwo;
 @property (weak, nonatomic) IBOutlet UILabel *telephoneTwo;
+@property (weak, nonatomic) IBOutlet UILabel *houseTypeTwo;
+@property (weak, nonatomic) IBOutlet UIButton *button_two;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *ItemTwoX;
 
 
 @property (weak, nonatomic) IBOutlet UILabel *boaringTimeTwo;
 @property (weak, nonatomic) IBOutlet UILabel *stateTwo;
 @property (weak, nonatomic) IBOutlet UIButton *buttonTwo;
+
 @property (weak, nonatomic) IBOutlet UILabel *nameThree;
 @property (weak, nonatomic) IBOutlet UILabel *telephoneThree;
 @property (weak, nonatomic) IBOutlet UILabel *ItemNameThree;
+@property (weak, nonatomic) IBOutlet UILabel *houseTypeThree;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *ItemThreeX;
 
 @property (weak, nonatomic) IBOutlet UILabel *boaringTimeThree;
 @property (weak, nonatomic) IBOutlet UILabel *nameFour;
 @property (weak, nonatomic) IBOutlet UILabel *telephoneFour;
 @property (weak, nonatomic) IBOutlet UILabel *ItemNameFour;
+@property (weak, nonatomic) IBOutlet UILabel *houseTypeFour;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *ItemFourX;
 
 @property (weak, nonatomic) IBOutlet UILabel *boaringTimeFour;
 @property (weak, nonatomic) IBOutlet UILabel *stateFour;
@@ -52,6 +71,11 @@
 
 - (IBAction)startDealButtonTwo:(id)sender;
 - (IBAction)newReportButtonFour:(id)sender;
+- (IBAction)varochBoarding:(UIButton *)sender;
+- (IBAction)launchDeal:(UIButton *)sender;
+//上客按钮点击事件
+- (IBAction)boardingButton:(UIButton *)sender;
+
 //数据模型
 @property(nonatomic,strong)WZBoardingItem *item;
 //审核状态

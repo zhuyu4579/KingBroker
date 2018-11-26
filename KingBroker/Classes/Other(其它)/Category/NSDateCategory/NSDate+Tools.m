@@ -20,13 +20,13 @@
 + (BOOL)dateWithStrings:(NSString *)str dateFormat:(NSString *)dateFormat {
     NSDateFormatter *dfmt = [[NSDateFormatter alloc] init];
     dfmt.dateFormat = dateFormat;
-    
+    [dfmt setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:8]];
     NSDate *datas = [dfmt dateFromString:str];
     
     long timeSp = [datas timeIntervalSince1970]*1000;
-    
     long time = [[NSDate date] timeIntervalSince1970]*1000;
-    if ((time-timeSp)>3600*24) {
+    
+    if ((time-timeSp)>3600*24*1000) {
         return YES;
     }else{
         return NO;

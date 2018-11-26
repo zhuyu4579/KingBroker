@@ -26,7 +26,7 @@
 @property (nonatomic,weak)UILabel *name;
 @property (nonatomic,weak)UILabel *telephone;
 @property (nonatomic,weak)UILabel *ItemName;
-
+@property (nonatomic,weak)UILabel *houseType;
 @property (nonatomic,weak)UIView *ineView;
 @property (nonatomic,weak)UIButton *telephoneButton;
 @property (nonatomic,weak)NSString *codeimage;
@@ -61,7 +61,9 @@
 @property (nonatomic,strong)UILabel *popelSumLable;
 @property (nonatomic,strong)UILabel *modeLable;
 @property (nonatomic,strong)UILabel *provideLunchLable;
-//提交按钮
+@property (nonatomic,strong)UILabel *carCord;
+//按钮
+@property(nonatomic,strong)UIButton *boardingButton;
 @property(nonatomic,strong)UIButton *comButton;
 //订单记录
 @property (nonatomic,strong)NSArray *list;
@@ -179,95 +181,130 @@
     _itemId = [_order valueForKey:@"projectId"];
     //设置按钮
     NSString *verify = [_order valueForKey:@"verify"];
-    //设置打电话按钮
-//    if([_orderTelFlag isEqual:@"1"]){
-//        [_playTelphoneButton setHidden:NO];
-//        [_playTelphoneButton setEnabled:YES];
-//        [_codeButton mas_updateConstraints:^(MASConstraintMaker *make) {
-//            make.right.equalTo(_viewOne.mas_right).with.offset(-75);
-//        }];
-//        [self.view layoutIfNeeded];
-//    }else{
-//        [_playTelphoneButton setHidden:YES];
-//        [_playTelphoneButton setEnabled:NO];
-//        [_codeButton mas_updateConstraints:^(MASConstraintMaker *make) {
-//            make.right.equalTo(_viewOne.mas_right).with.offset(-15);
-//        }];
-//        [self.view layoutIfNeeded];
-//    }
-    
-    //订单记录
+//    NSString *selfEmployed = [_order valueForKey:@"selfEmployed"];
+    [_boardingButton setHidden:YES];
+    [_boardingButton setEnabled:NO];
+    NSString *selfEmployed = @"2";
+    if ([selfEmployed isEqual:@"2"]) {
+        [_houseType setHidden:NO];
+    } else {
+        [_houseType setHidden:YES];
+        
+        [_ItemName mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_viewOne.mas_left).with.offset(15);
+        }];
+    }
+    _imageView1.backgroundColor = [UIColor whiteColor];
+    _stateTitle1.textColor = UIColorRBG(153, 153, 153);
+    _imageView2.backgroundColor = [UIColor whiteColor];
+    _stateTitle2.textColor = UIColorRBG(153, 153, 153);
+    _imageView3.backgroundColor = [UIColor whiteColor];
+    _stateTitle3.textColor = UIColorRBG(153, 153, 153);
+
+    //订单状态
     NSInteger statu = [status integerValue];
     NSInteger ver = [verify integerValue];
-    if (statu == 3 && [verify isEqual:@"2"]) {
-        _comButton.enabled = NO;
-        _comButton.backgroundColor = UIColorRBG(158, 158, 158);
-        [_comButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_comButton setTitle:@"成交审核中" forState:UIControlStateNormal];
-    }
-    
     if (statu == 1) {
         if (ver == 3) {
+            _imageView1.backgroundColor = UIColorRBG(255, 224, 0);
+            _stateTitle1.textColor = UIColorRBG(49, 35, 6);
             _codeButton.enabled = YES;
             [_codeButton setHidden:NO];
             if ([_orderTelFlag isEqual:@"1"]) {
                 [_codeIne setHidden:NO];
             }
-            _imageView1.backgroundColor = UIColorRBG(255, 224, 0);
-            _stateTitle1.textColor = UIColorRBG(49, 35, 6);
-        }else{
-            _imageView1.backgroundColor = [UIColor whiteColor];
-            _stateTitle1.textColor = UIColorRBG(153, 153, 153);
+            if ([selfEmployed isEqual:@"2"]) {
+                [_boardingButton setHidden:NO];
+                [_boardingButton setEnabled:YES];
+                [_comButton mas_updateConstraints:^(MASConstraintMaker *make) {
+              make.left.equalTo(self.view.mas_left).offset(self.view.fWidth/2.0);
+                }];
+               [_comButton removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
+                [_comButton addTarget:self action:@selector(voucherBoarding) forControlEvents:UIControlEventTouchUpInside];
+            }
         }
-    }
-    if (statu == 2) {
-        
-        _imageView1.backgroundColor = UIColorRBG(255, 224, 0);
-        _stateTitle1.textColor = UIColorRBG(49, 35, 6);
-        _comButton.backgroundColor = UIColorRBG(255, 224, 0);
-        _codeButton.enabled = NO;
-        [_codeButton setHidden:YES];
-        [_comButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_comButton setTitle:@"发起成交" forState: UIControlStateNormal];
-        [_comButton removeTarget:self action:@selector(BoardingCilck) forControlEvents:UIControlEventTouchUpInside];
-        [_comButton addTarget:self action:@selector(LaunchDealCilck) forControlEvents:UIControlEventTouchUpInside];
-        if (ver == 3) {
-            _imageView2.backgroundColor = UIColorRBG(255, 224, 0);
-            _stateTitle2.textColor = UIColorRBG(49, 35, 6);
-        }else{
-            _imageView2.backgroundColor = [UIColor whiteColor];
-            _stateTitle2.textColor = UIColorRBG(153, 153, 153);
-        }
-        
-    }
-    if (statu == 3) {
+    } else if (statu == 2){
         _imageView1.backgroundColor = UIColorRBG(255, 224, 0);
         _stateTitle1.textColor = UIColorRBG(49, 35, 6);
         _imageView2.backgroundColor = UIColorRBG(255, 224, 0);
         _stateTitle2.textColor = UIColorRBG(49, 35, 6);
-        if (ver == 3) {
+        _codeButton.enabled = NO;
+        [_codeButton setHidden:YES];
+        if (ver == 2) {
+            [_boardingButton setHidden:YES];
+            [_boardingButton setEnabled:NO];
+            [_comButton setHidden:YES];
+            [_comButton setEnabled:NO];
+            _scrollView.fHeight = self.view.fHeight;
+        }else if(ver == 3){
+            [_comButton setHidden:NO];
+            [_comButton setEnabled:YES];
+            [_comButton setTitle:@"发起成交" forState: UIControlStateNormal];
+             [_comButton removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
+            if ([selfEmployed valueForKey:@"2"]) {
+               
+                
+                [_comButton addTarget:self action:@selector(voucherDealCilck) forControlEvents:UIControlEventTouchUpInside];
+            } else {
+                
+                [_comButton addTarget:self action:@selector(LaunchDealCilck) forControlEvents:UIControlEventTouchUpInside];
+            }
+        }
+        
+    } else if (statu == 3){
+        if (ver == 2) {
+            _imageView1.backgroundColor = UIColorRBG(255, 224, 0);
+            _stateTitle1.textColor = UIColorRBG(49, 35, 6);
+            _imageView2.backgroundColor = UIColorRBG(255, 224, 0);
+            _stateTitle2.textColor = UIColorRBG(49, 35, 6);
+            _codeButton.enabled = NO;
+            [_codeButton setHidden:YES];
+            _comButton.enabled = NO;
+            _comButton.backgroundColor = UIColorRBG(158, 158, 158);
+            [_comButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [_comButton setTitle:@"成交审核中" forState:UIControlStateNormal];
+        }else if(ver == 3){
+            _imageView1.backgroundColor = UIColorRBG(255, 224, 0);
+            _stateTitle1.textColor = UIColorRBG(49, 35, 6);
+            _imageView2.backgroundColor = UIColorRBG(255, 224, 0);
+            _stateTitle2.textColor = UIColorRBG(49, 35, 6);
+            _imageView3.backgroundColor = UIColorRBG(255, 224, 0);
+            _stateTitle3.textColor = UIColorRBG(49, 35, 6);
             _comButton.enabled = NO;
             _comButton.hidden = YES;
             _scrollView.fHeight = self.view.fHeight;
-            _imageView3.backgroundColor = UIColorRBG(255, 224, 0);
-            _stateTitle3.textColor = UIColorRBG(49, 35, 6);
-        }
-        if([verify isEqual:@"4"]){
-            _comButton.backgroundColor = UIColorRBG(255, 224, 0);
-            [_comButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [_comButton setTitle:@"发起成交" forState: UIControlStateNormal];
-            _comButton.enabled = YES;
+            
+        }else if([verify isEqual:@"4"]){
+            _imageView1.backgroundColor = UIColorRBG(255, 224, 0);
+            _stateTitle1.textColor = UIColorRBG(49, 35, 6);
+            _imageView2.backgroundColor = UIColorRBG(255, 224, 0);
+            _stateTitle2.textColor = UIColorRBG(49, 35, 6);
             _imageView3.backgroundColor = [UIColor whiteColor];
             _stateTitle3.textColor = UIColorRBG(153, 153, 153);
+            _comButton.backgroundColor = UIColorRBG(255, 224, 0);
+           
+            [_comButton setHidden:NO];
+            [_comButton setEnabled:YES];
+            [_comButton setTitle:@"发起成交" forState: UIControlStateNormal];
+             [_comButton removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
+            if ([selfEmployed valueForKey:@"2"]) {
+                [_comButton addTarget:self action:@selector(voucherDealCilck) forControlEvents:UIControlEventTouchUpInside];
+            } else {
+                
+                [_comButton addTarget:self action:@selector(LaunchDealCilck) forControlEvents:UIControlEventTouchUpInside];
+            }
+            
+           
         }
+        
+    } else if (statu == 4){
+        [_comButton setHidden:NO];
+        [_comButton setEnabled:YES];
+        [_comButton setTitle:@"重新报备" forState: UIControlStateNormal];
+        [_comButton removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
+        [_comButton addTarget:self action:@selector(NewReportCilck) forControlEvents:UIControlEventTouchUpInside];
     }
-    if (statu == 4) {
-        if (ver == 3) {
-            [_comButton setTitle:@"重新报备" forState: UIControlStateNormal];
-            [_comButton removeTarget:self action:@selector(BoardingCilck) forControlEvents:UIControlEventTouchUpInside];
-            [_comButton addTarget:self action:@selector(NewReportCilck) forControlEvents:UIControlEventTouchUpInside];
-        }
-    }
+   
     //设置条数
     _n = _list.count;
     //删除所有子控件
@@ -277,8 +314,8 @@
     _viewTwo.fHeight += _n*79;
     _ineViewFive.fHeight += 79*(_n-1);
     _viewThree.fY = 141+_viewTwo.fHeight+10;
-    if ((_viewThree.fY+166)>(self.view.fHeight-93)) {
-         _scrollView.contentSize = CGSizeMake(0, _viewThree.fY+166);
+    if ((_viewThree.fY+192)>(self.view.fHeight-93)) {
+         _scrollView.contentSize = CGSizeMake(0, _viewThree.fY+192);
     }
     //根据数据条数绘制记录
     UIView *view = [[UIView alloc] init];
@@ -362,7 +399,8 @@
     NSString *lunchNum = [_order valueForKey:@"lunchNum"];
     
     _provideLunchLable.text = [NSString stringWithFormat:@"用餐人数：%@",lunchNum];
-    
+    NSString *licensePlate = [_order valueForKey:@"licensePlate"];
+    _carCord.text = [NSString stringWithFormat:@"车 牌 号： %@",licensePlate];
     
 }
 #pragma mark -创建控件
@@ -415,33 +453,6 @@
         make.height.mas_offset(12);
     }];
     
-//    //分割线
-//    UIView *ineCode = [[UIView alloc] init];
-//    ineCode.backgroundColor = UIColorRBG(240, 240, 240);
-//    [ineCode setHidden:YES];
-//    _codeIne = ineCode;
-//    [viewOne addSubview:ineCode];
-//    [ineCode mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.equalTo(viewOne.mas_right).with.offset(-50);
-//        make.top.equalTo(viewOne.mas_top).with.offset(16);
-//        make.height.mas_offset(55);
-//        make.width.mas_offset(1);
-//    }];
-//    //打电话
-//    UIButton *playTelphoneButton = [[UIButton alloc] init];
-//    [playTelphoneButton setEnlargeEdge:20];
-//    [playTelphoneButton setBackgroundImage:[UIImage imageNamed:@"ddxq_phone"] forState:UIControlStateNormal];
-//    playTelphoneButton.enabled = NO;
-//    [playTelphoneButton setHidden:YES];
-//    [playTelphoneButton addTarget:self action:@selector(playTelphone) forControlEvents:UIControlEventTouchUpInside];
-//    [viewOne addSubview:playTelphoneButton];
-//    self.playTelphoneButton = playTelphoneButton;
-//    [playTelphoneButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.equalTo(viewOne.mas_right).with.offset(-15);
-//        make.top.equalTo(viewOne.mas_top).with.offset(31);
-//        make.height.mas_offset(23);
-//        make.width.mas_offset(16);
-//    }];
     //二维码
     UIButton *codeButton = [[UIButton alloc] init];
     [codeButton setEnlargeEdge:20];
@@ -458,15 +469,30 @@
         make.width.mas_offset(23);
     }];
     
+    UILabel *houseType = [[UILabel alloc] init];
+    houseType.text = @"  喜喜直推  ";
+    houseType.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:11];
+    houseType.textColor = UIColorRBG(68, 68, 68);
+    houseType.backgroundColor = UIColorRBG(255, 224, 0);
+    houseType.layer.cornerRadius = 8;
+    houseType.layer.masksToBounds = YES;
+    [viewOne addSubview:houseType];
+    self.houseType = houseType;
+    [houseType mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(viewOne.mas_left).with.offset(15);
+        make.top.equalTo(telephone.mas_bottom).with.offset(24);
+        make.height.offset(16);
+    }];
+    
     UILabel *ItemName = [[UILabel alloc] init];
     ItemName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     ItemName.textColor = UIColorRBG(68, 68, 68);
     [viewOne addSubview:ItemName];
     self.ItemName = ItemName;
     [ItemName mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(viewOne.mas_left).with.offset(15);
+        make.left.equalTo(viewOne.mas_left).with.offset(80);
         make.top.equalTo(telephone.mas_bottom).with.offset(25);
-        make.width.mas_offset(250);
+        make.width.mas_offset(240);
         make.height.offset(14);
     }];
     
@@ -647,11 +673,34 @@
     [viewTwo addSubview:ineViewFive];
     _ineViewFive = ineViewFive;
     
-    //确认按钮
+    //按钮一
+    UIButton *boardingButton = [[UIButton alloc] init];
+    [boardingButton setTitle:@"扫码上客" forState: UIControlStateNormal];
+    _boardingButton = boardingButton;
+    [boardingButton setTitleColor: UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+    boardingButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    boardingButton.backgroundColor = UIColorRBG(255, 209, 49);
+    
+    boardingButton.layer.shadowColor = [UIColor blackColor].CGColor;
+    //2.设置阴影偏移范围
+    boardingButton.layer.shadowOffset = CGSizeMake(0, 1);
+    //3.设置阴影颜色的透明度
+    boardingButton.layer.shadowOpacity = 0.05;
+    //4.设置阴影半径
+    boardingButton.layer.shadowRadius = 20;
+    [boardingButton addTarget:self action:@selector(BoardingCilck) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:boardingButton];
+    [boardingButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view.mas_left);
+        make.width.offset(self.view.fWidth/2.0);
+        make.bottom.equalTo(self.view.mas_bottom);
+        make.height.mas_offset(49+JF_BOTTOM_SPACE);
+    }];
+    //按钮二
     UIButton *confirmButton = [[UIButton alloc] init];
     [confirmButton setTitle:@"上客" forState: UIControlStateNormal];
     _comButton = confirmButton;
-    [confirmButton setTitleColor: [UIColor blackColor] forState:UIControlStateNormal];
+    [confirmButton setTitleColor: UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
     confirmButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
     confirmButton.backgroundColor = UIColorRBG(255, 224, 0);
     
@@ -675,7 +724,7 @@
     //创建第三个view
     UIView *viewThree = [[UIView alloc] init];
     viewThree.backgroundColor = [UIColor whiteColor];
-    viewThree.frame = CGRectMake(0,141+viewTwo.fHeight+10,scrollView.fWidth,156);
+    viewThree.frame = CGRectMake(0,141+viewTwo.fHeight+10,scrollView.fWidth,182);
     _viewThree = viewThree;
     [scrollView addSubview:viewThree];
     UIView *ineViews =  [[UIView alloc] init];
@@ -724,7 +773,6 @@
     
     UILabel *label4 = [[UILabel alloc] init];
     _modeLable = label4;
-    
     label4.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
     label4.textColor = UIColorRBG(170, 170, 170);
     [viewThree addSubview:label4];
@@ -745,6 +793,16 @@
         make.height.mas_offset(12);
     }];
     
+    UILabel *label6 = [[UILabel alloc] init];
+    _carCord = label6;
+    label6.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:12];
+    label6.textColor = UIColorRBG(170, 170, 170);
+    [viewThree addSubview:label6];
+    [label6 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(viewThree.mas_left).with.offset(15);
+        make.top.equalTo(label5.mas_bottom).with.offset(15);
+        make.height.mas_offset(12);
+    }];
     scrollView.contentSize = CGSizeMake(0, self.view.fHeight-93-kApplicationStatusBarHeight);
     
     [self setCodeViews];
@@ -822,7 +880,6 @@
     UIView *codeView2 = [[UIView alloc] initWithFrame:CGRectMake(46, 113, 222, 222)];
     codeView2.backgroundColor = UIColorRBG(255, 224, 0);
     [codeView addSubview:codeView2];
-    
     UIImageView *codeImage = [[UIImageView alloc] init];
     codeImage.image = [UIImage imageNamed:@"OR-code_2"];
     [codeView2 addSubview:codeImage];
@@ -891,11 +948,19 @@
     [self loadData];
     [GKCover hide];
 }
+#pragma mark -凭证上客
+-(void)voucherBoarding{
+    
+}
 #pragma mark -楼盘按钮
 -(void)ItemButtons:(UIButton *)button{
     WZHouseDatisController *datis = [[WZHouseDatisController alloc] init];
     datis.ID = _itemId;
     [self.navigationController pushViewController:datis animated:YES];
+}
+#pragma mark -凭证发起成交
+-(void)voucherDealCilck{
+    
 }
 #pragma mark -发起成交
 -(void)LaunchDealCilck{
