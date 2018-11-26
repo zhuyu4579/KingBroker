@@ -11,7 +11,7 @@
 #import "UIView+Frame.h"
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
-
+#import "HXPhotoPicker.h"
 #import "WZVoucherBoardingController.h"
 static const CGFloat kPhotoViewMargin = 15.0;
 @interface WZVoucherBoardingController ()<HXPhotoViewDelegate>
