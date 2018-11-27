@@ -16,6 +16,8 @@
 #import <AFNetworking.h>
 #import <MJRefresh.h>
 #import <MJExtension.h>
+#import "WZVoucherDealController.h"
+#import "WZVoucherBoardingController.h"
 #import <UIImageView+WebCache.h>
 #import "NSString+LCExtension.h"
 #import "WZHouseDatisController.h"
@@ -950,7 +952,9 @@
 }
 #pragma mark -凭证上客
 -(void)voucherBoarding{
-    
+    WZVoucherBoardingController *vb = [[WZVoucherBoardingController alloc] init];
+    vb.ID = _ID;
+    [self.navigationController pushViewController:vb animated:YES];
 }
 #pragma mark -楼盘按钮
 -(void)ItemButtons:(UIButton *)button{

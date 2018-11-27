@@ -10,6 +10,7 @@
 #import "HXPhotoModel.h"
 #import "HXCircleProgressView.h"
 #import "HXPhotoTools.h"
+#import "UIButton+WZEnlargeTouchAre.h"
 @interface HXPhotoSubViewCell ()<UIAlertViewDelegate>
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UIButton *deleteBtn;
@@ -35,6 +36,8 @@
         _imageView = [[UIImageView alloc] init];
         _imageView.clipsToBounds = YES;
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
+        _imageView.layer.cornerRadius = 5.0;
+        _imageView.layer.masksToBounds = YES;
         [_imageView.layer addSublayer:self.bottomMaskLayer];
     }
     return _imageView;
@@ -65,6 +68,7 @@
 - (UIButton *)deleteBtn {
     if (!_deleteBtn) {
         _deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_deleteBtn setEnlargeEdge:7];
         [_deleteBtn setImage:[HXPhotoTools hx_imageNamed:@"hx_compose_delete@2x.png"] forState:UIControlStateNormal];
         [_deleteBtn addTarget:self action:@selector(didDeleteClick) forControlEvents:UIControlEventTouchUpInside];
     }
