@@ -12,7 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WZVoucherBoardingController : UIViewController
 //订单ID
-@property(nonatomic,copy)NSString *ID;
+@property(nonatomic,strong)NSString *ID;
+//上传图片成功回调
+@property(nonatomic,strong)void(^boardingSuccess)(NSString *str);
 @end
 
 NS_ASSUME_NONNULL_END

@@ -7,11 +7,13 @@
 //
 #import <Masonry.h>
 #import <MJRefresh.h>
+#import "WZAlertView.h"
 #import <MJExtension.h>
 #import "UIView+Frame.h"
 #import <SVProgressHUD.h>
 #import <AFNetworking.h>
 #import "HXPhotoPicker.h"
+#import "NSString+LCExtension.h"
 #import "WZVoucherBoardingController.h"
 static const CGFloat kPhotoViewMargin = 15.0;
 @interface WZVoucherBoardingController ()<HXPhotoViewDelegate>
@@ -21,6 +23,8 @@ static const CGFloat kPhotoViewMargin = 15.0;
 @property (strong, nonatomic) UIView *views;
 @property (strong, nonatomic) UIImageView *imageViews;
 @property (strong, nonatomic) UILabel *viewTitle;
+//图片数组
+@property (strong, nonatomic) NSArray<UIImage *> *imageArray;
 @end
 
 @implementation WZVoucherBoardingController
@@ -148,9 +152,65 @@ static const CGFloat kPhotoViewMargin = 15.0;
 - (void)photoView:(HXPhotoView *)photoView imageChangeComplete:(NSArray<UIImage *> *)imageList{
     NSLog(@"11");
     NSLog(@"%@",imageList);
-    
+    _imageArray = imageList;
 }
 -(void)boarding{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    mgr.requestSerializer.timeoutInterval = 30;
     
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"id"] = _ID;
+    
+    NSString *url = [NSString stringWithFormat:@"%@/order/certificateBoard",HTTPURL];
+    [mgr POST:url parameters:paraments constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData){
+        for (int i = 0; i<_imageArray.count; i++) {
+            NSData *imageData = [WZAlertView imageProcessWithImage:_imageArray[i]];//进行图片压缩
+            // 使用日期生成图片名称
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            formatter.dateFormat = @"yyyyMMddHHmmss";
+            NSString *fileName = [NSString stringWithFormat:@"%@.png",[formatter stringFromDate:[NSDate date]]];
+            // 任意的二进制数据MIMEType application/octet-stream
+            [formData appendPartWithFileData:imageData name:@"face" fileName:fileName mimeType:@"image/png"];
+        }
+        
+    }progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        
+        if ([code isEqual:@"200"]) {
+            [SVProgressHUD showInfoWithStatus:@"提交审核成功,等待审核"];
+            if (_boardingSuccess) {
+                _boardingSuccess(@"1");
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+           
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+            if ([code isEqual:@"401"]) {
+                
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+    }];
 }
 @end

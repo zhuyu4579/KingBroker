@@ -183,10 +183,10 @@
     _itemId = [_order valueForKey:@"projectId"];
     //设置按钮
     NSString *verify = [_order valueForKey:@"verify"];
-//    NSString *selfEmployed = [_order valueForKey:@"selfEmployed"];
+    NSString *selfEmployed = [_order valueForKey:@"selfEmployed"];
     [_boardingButton setHidden:YES];
     [_boardingButton setEnabled:NO];
-    NSString *selfEmployed = @"2";
+    //NSString *selfEmployed = @"2";
     if ([selfEmployed isEqual:@"2"]) {
         [_houseType setHidden:NO];
     } else {
@@ -244,8 +244,6 @@
             [_comButton setTitle:@"发起成交" forState: UIControlStateNormal];
              [_comButton removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
             if ([selfEmployed valueForKey:@"2"]) {
-               
-                
                 [_comButton addTarget:self action:@selector(voucherDealCilck) forControlEvents:UIControlEventTouchUpInside];
             } else {
                 
@@ -324,6 +322,7 @@
     view.frame = _viewTwo.bounds;
     view.tag = 80;
     [_viewTwo addSubview:view];
+    NSArray *stateArray = @[@"已报备",@"上客审核中", @"已上客", @"发起成交"    ,@"已成交",@"成交审核未通过",@"已失效"];
     for (int i = 0; i < _n; i++) {
         //绘制记录时间
         UILabel *recordTime = [[UILabel alloc] init];
@@ -349,16 +348,33 @@
             make.width.mas_offset(10);
             make.height.mas_offset(10);
         }];
-        NSArray *stateArray = @[@"已报备", @"已上客", @"发起成交",@"已失效"];
+      
         NSString *state1 = [_list[i] valueForKey:@"dealStatus"];
         NSString *verify = [_list[i] valueForKey:@"verify"];
         int states = [state1 intValue];
+        int verifys = [verify intValue];
         
         UILabel *state = [[UILabel alloc] init];
-        if ([verify isEqual:@"4"]) {
-            state.text = stateArray[3];
-        }else{
-            state.text = stateArray[states-1];
+        if(states == 1){
+            if (verifys == 3) {
+                state.text = stateArray[0];
+            }
+        }else if (states == 2){
+             if (verifys == 2) {
+                state.text = stateArray[1];
+            }else if(verifys == 3){
+                state.text = stateArray[2];
+            }
+        }else if (states == 3){
+            if (verifys == 2) {
+                state.text = stateArray[3];
+            }else if(verifys == 3){
+                state.text = stateArray[4];
+            }else if(verifys == 4){
+                state.text = stateArray[5];
+            }
+        }else if(states == 4){
+            state.text = stateArray[6];
         }
         state.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
         state.textColor = UIColorRBG(49, 35, 6);
@@ -954,7 +970,12 @@
 -(void)voucherBoarding{
     WZVoucherBoardingController *vb = [[WZVoucherBoardingController alloc] init];
     vb.ID = _ID;
-    [self.navigationController pushViewController:vb animated:YES];
+    vb.boardingSuccess = ^(NSString * _Nonnull str) {
+        if ([str isEqual:@"1"]) {
+            [self loadData];
+        }
+    };
+   [self.navigationController pushViewController:vb animated:YES];
 }
 #pragma mark -楼盘按钮
 -(void)ItemButtons:(UIButton *)button{
@@ -964,7 +985,14 @@
 }
 #pragma mark -凭证发起成交
 -(void)voucherDealCilck{
-    
+    WZVoucherDealController *vb = [[WZVoucherDealController alloc] init];
+    vb.ID = _ID;
+    vb.dealSuccess = ^(NSString * _Nonnull str) {
+        if ([str isEqual:@"1"]) {
+            [self loadData];
+        }
+    };
+    [self.navigationController pushViewController:vb animated:YES];
 }
 #pragma mark -发起成交
 -(void)LaunchDealCilck{
@@ -1015,6 +1043,7 @@
     report.setOutCitys = [_order valueForKey:@"departureCity"];
     report.eatPeoples = [_order valueForKey:@"lunchNum"];
     report.tags = [[_order valueForKey:@"partWay"] integerValue];
+    report.houseType = [_order valueForKey:@"selfEmployed"];
     [self.navigationController pushViewController:report animated:YES];
 }
 #pragma mark -打电话

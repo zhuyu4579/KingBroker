@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WZVoucherDealController : UIViewController
 //订单ID
 @property(nonatomic,copy)NSString *ID;
+//上传图片成功回调
+@property(nonatomic,strong)void(^dealSuccess)(NSString *str);
 @end
 
 NS_ASSUME_NONNULL_END

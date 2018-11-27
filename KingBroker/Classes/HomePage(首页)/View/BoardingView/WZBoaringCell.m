@@ -11,8 +11,10 @@
 #import "WZBoaringCell.h"
 #import "WZBoardingItem.h"
 #import "WZNewReportController.h"
+#import "WZVoucherDealController.h"
 #import "WZBoardingDetailsController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
+#import "WZVoucherBoardingController.h"
 #import "UIViewController+WZFindController.h"
 @implementation WZBoaringCell
 -(void)setItem:(WZBoardingItem *)item{
@@ -39,7 +41,7 @@
     _boaringTimeFour.text = item.createDate;
     //楼盘类型
     NSString *selfEmployed = item.selfEmployed;
-  
+    _selfEmployed = selfEmployed;
     //状态
     NSArray *stateArray = @[@"已报备", @"上客审核中",@"已上客",@"成交审核中", @"已成交",@"已失效"];
     NSString *state = item.dealStatus;
@@ -341,17 +343,46 @@
     report.setOutCitys = _departureCity;
     report.eatPeoples = _lunchNum;
     report.tags = [_partWay integerValue];
+    report.houseType = _selfEmployed;
     [Vc.navigationController pushViewController:report animated:YES];
 }
 
 - (IBAction)varochBoarding:(UIButton *)sender {
-    NSLog(@"1w3123");
+     UIViewController *Vc =  [UIViewController viewController:[self superview]];
     
+    WZVoucherBoardingController *vb = [[WZVoucherBoardingController alloc] init];
+    vb.ID = _itemIdOne;
+    vb.boardingSuccess = ^(NSString * _Nonnull str) {
+        if ([str isEqual:@"1"]) {
+            _stateOne.text = @"上客审核中";
+            [_buttonOne setHidden:YES];
+            [_buttonOne setEnabled:NO];
+            [_button_one setHidden:YES];
+            [_button_one setEnabled:NO];
+            [_button_ones setHidden:YES];
+            [_button_ones setEnabled:NO];
+        }
+    };
+    [Vc.navigationController pushViewController:vb animated:YES];
 }
 
 - (IBAction)launchDeal:(UIButton *)sender {
-    NSLog(@"11123");
-    
+    UIViewController *Vc =  [UIViewController viewController:[self superview]];
+    WZVoucherDealController *vb = [[WZVoucherDealController alloc] init];
+    vb.ID = _itemIdTwo;
+    vb.dealSuccess = ^(NSString * _Nonnull str) {
+        if ([str isEqual:@"1"]) {
+            _stateOne.text = @"成交审核中";
+            [_buttonTwo setHidden:YES];
+            [_buttonTwo setEnabled:NO];
+            [_button_two setHidden:NO];
+            [_button_two setEnabled:NO];
+            _buttonTwo.backgroundColor = UIColorRBG(221, 221, 221);
+            [_buttonTwo setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
+        }
+    };
+    [Vc.navigationController pushViewController:vb animated:YES];
+
 }
 - (IBAction)boardingButton:(UIButton *)sender {
     
