@@ -42,6 +42,7 @@
     //楼盘类型
     NSString *selfEmployed = item.selfEmployed;
     _selfEmployed = selfEmployed;
+   
     //状态
     NSArray *stateArray = @[@"已报备", @"上客审核中",@"已上客",@"成交审核中", @"已成交",@"已失效"];
     NSString *state = item.dealStatus;
@@ -49,7 +50,7 @@
     NSString *verify = item.verify;
     int verifys = [verify intValue];
     int states = [state intValue];
-    
+   
     //订单状态判断
     if (states == 1) {
         //已报备
@@ -77,7 +78,8 @@
                 _boardingButtonX.constant = 97;
             }
         }
-    }else if(states == 2){
+    }
+    if(states == 2){
         //上客审核中
         if (verifys == 2) {
             _stateOne.text = stateArray[1];
@@ -105,20 +107,24 @@
                 [_button_two setEnabled:YES];
                 [_houseTypeTwo setHidden:NO];
                 _ItemTwoX.constant = 80;
-                _buttonTwo.backgroundColor = UIColorRBG(255, 224, 0);
-                [_buttonTwo setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
-            }else{
+                _buttonTwoX.constant = 97;
+                _button_two.backgroundColor = UIColorRBG(255, 224, 0);
+                [_button_two setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+            }else {
+            
                 [_buttonTwo setHidden:NO];
                 [_buttonTwo setEnabled:YES];
                 [_button_two setHidden:YES];
                 [_button_two setEnabled:NO];
                 [_houseTypeTwo setHidden:YES];
                 _ItemTwoX.constant = 10;
-                _button_two.backgroundColor = UIColorRBG(255, 224, 0);
-                [_button_two setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+                _buttonTwoX.constant = 10;
+                _buttonTwo.backgroundColor = UIColorRBG(255, 224, 0);
+                [_buttonTwo setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
             }
         }
-    }else if (states == 3){
+    }
+    if (states == 3){
         //成交审核中
         if (verifys == 2) {
             _stateTwo.text = stateArray[3];
@@ -130,8 +136,9 @@
                 [_button_two setEnabled:NO];
                 [_houseTypeTwo setHidden:NO];
                 _ItemTwoX.constant = 80;
-                _buttonTwo.backgroundColor = UIColorRBG(221, 221, 221);
-                [_buttonTwo setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
+                _buttonTwoX.constant = 97;
+                _button_two.backgroundColor = UIColorRBG(221, 221, 221);
+                [_button_two setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
             }else{
                 [_buttonTwo setHidden:NO];
                 [_buttonTwo setEnabled:NO];
@@ -139,8 +146,9 @@
                 [_button_two setEnabled:NO];
                 [_houseTypeTwo setHidden:YES];
                 _ItemTwoX.constant = 10;
-                _button_two.backgroundColor = UIColorRBG(221, 221, 221);
-                [_button_two setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
+                _buttonTwoX.constant = 10;
+                _buttonTwo.backgroundColor = UIColorRBG(221, 221, 221);
+                [_buttonTwo setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
             }
         }else if (verifys == 3) {
             //成交成功
@@ -152,7 +160,8 @@
                 _ItemThreeX.constant = 10;
             }
         }
-    }else if(states == 4){
+    }
+    if(states == 4){
         //失效
          _stateFour.text = stateArray[5];
         if ([selfEmployed isEqual:@"2"]) {
@@ -204,10 +213,13 @@
     _viewFour.layer.cornerRadius = 5.0;
     
     _houseTypeOne.layer.cornerRadius = 8.0;
+    _houseTypeOne.layer.masksToBounds = YES;
     _houseTypeTwo.layer.cornerRadius = 8.0;
+    _houseTypeTwo.layer.masksToBounds = YES;
     _houseTypeThree.layer.cornerRadius = 8.0;
+    _houseTypeThree.layer.masksToBounds = YES;
     _houseTypeFour.layer.cornerRadius = 8.0;
-    
+    _houseTypeFour.layer.masksToBounds = YES;
     _nameOne.textColor = UIColorRBG(51, 51, 51);
     _nameTwo.textColor = UIColorRBG(51, 51, 51);
     _nameThree.textColor = UIColorRBG(51, 51, 51);
@@ -310,7 +322,7 @@
         
         if ([code isEqual:@"200"]) {
             UILabel *label = [button.superview viewWithTag:30];
-            label.text =  [_SHStatus[0] valueForKey:@"label"];
+            label.text =  @"成交审核中";
             button.backgroundColor = UIColorRBG(221, 221, 221);
             [button setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
             button.enabled = NO;
@@ -351,7 +363,7 @@
      UIViewController *Vc =  [UIViewController viewController:[self superview]];
     
     WZVoucherBoardingController *vb = [[WZVoucherBoardingController alloc] init];
-    vb.ID = _itemIdOne;
+    vb.ID = _boaringId;
     vb.boardingSuccess = ^(NSString * _Nonnull str) {
         if ([str isEqual:@"1"]) {
             _stateOne.text = @"上客审核中";
@@ -367,9 +379,10 @@
 }
 
 - (IBAction)launchDeal:(UIButton *)sender {
+    
     UIViewController *Vc =  [UIViewController viewController:[self superview]];
     WZVoucherDealController *vb = [[WZVoucherDealController alloc] init];
-    vb.ID = _itemIdTwo;
+    vb.ID = _boaringId;
     vb.dealSuccess = ^(NSString * _Nonnull str) {
         if ([str isEqual:@"1"]) {
             _stateOne.text = @"成交审核中";
@@ -377,8 +390,8 @@
             [_buttonTwo setEnabled:NO];
             [_button_two setHidden:NO];
             [_button_two setEnabled:NO];
-            _buttonTwo.backgroundColor = UIColorRBG(221, 221, 221);
-            [_buttonTwo setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
+            _button_two.backgroundColor = UIColorRBG(221, 221, 221);
+            [_button_two setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
         }
     };
     [Vc.navigationController pushViewController:vb animated:YES];

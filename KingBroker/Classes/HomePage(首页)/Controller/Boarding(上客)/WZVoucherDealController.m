@@ -6,6 +6,7 @@
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
 #import <Masonry.h>
+#import "GKCover.h"
 #import <MJRefresh.h>
 #import "WZAlertView.h"
 #import <MJExtension.h>
@@ -155,6 +156,22 @@ static const CGFloat kPhotoViewMargin = 15.0;
     _imageArray = imageList;
 }
 -(void)voucherDeal{
+   
+    if (_imageArray.count == 0) {
+        [SVProgressHUD showInfoWithStatus:@"请上传凭证"];
+        return;
+    }
+    //添加遮罩
+    UIView *view = [[UIView alloc] init];
+    [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+    [SVProgressHUD showWithStatus:@"提交中"];
+    
+    //延迟请求数据
+    [self performSelector:@selector(loadData) withObject:self afterDelay:0.5];
+    
+}
+-(void)loadData{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     //创建会话请求
@@ -190,6 +207,8 @@ static const CGFloat kPhotoViewMargin = 15.0;
         NSString *code = [responseObject valueForKey:@"code"];
         
         if ([code isEqual:@"200"]) {
+            [GKCover hide];
+            [SVProgressHUD dismiss];
             [SVProgressHUD showInfoWithStatus:@"发起成交成功,等待审核"];
             if (_dealSuccess) {
                 _dealSuccess(@"1");
@@ -197,6 +216,8 @@ static const CGFloat kPhotoViewMargin = 15.0;
             [self.navigationController popViewControllerAnimated:YES];
             
         }else{
+            [GKCover hide];
+            [SVProgressHUD dismiss];
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                 [SVProgressHUD showInfoWithStatus:msg];
@@ -210,6 +231,8 @@ static const CGFloat kPhotoViewMargin = 15.0;
             }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [GKCover hide];
+        [SVProgressHUD dismiss];
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
 }

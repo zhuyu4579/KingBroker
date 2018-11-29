@@ -44,6 +44,7 @@ typedef void (^BoardingBlock) (WZBoaringCell *);
 @property (weak, nonatomic) IBOutlet UILabel *boaringTimeTwo;
 @property (weak, nonatomic) IBOutlet UILabel *stateTwo;
 @property (weak, nonatomic) IBOutlet UIButton *buttonTwo;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonTwoX;
 
 @property (weak, nonatomic) IBOutlet UILabel *nameThree;
 @property (weak, nonatomic) IBOutlet UILabel *telephoneThree;

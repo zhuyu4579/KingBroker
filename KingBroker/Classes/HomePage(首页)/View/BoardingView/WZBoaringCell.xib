@@ -162,21 +162,14 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="ItemFourX" destination="7XW-Xk-BMe" id="qK4-28-pjT"/>
                 <outlet property="ItemNameOne" destination="3iH-7i-v08" id="QxU-iv-guZ"/>
                 <outlet property="ItemOneX" destination="U8M-38-1MU" id="1Tf-zt-HwP"/>
-                <outlet property="ItemThreeX" destination="Q1p-cC-ZAO" id="HNW-0x-st1"/>
-                <outlet property="ItemTwoX" destination="Orc-Bv-9de" id="kK0-L0-PWQ"/>
                 <outlet property="boardingButtonX" destination="Zgo-eP-b4b" id="wXX-go-v1L"/>
                 <outlet property="boaringTimeOne" destination="nlc-fp-Pzf" id="45i-oJ-nGg"/>
                 <outlet property="buttonOne" destination="MFq-tW-NPm" id="nnc-rq-7Lk"/>
                 <outlet property="button_one" destination="DXe-4e-ecy" id="h5T-LC-2F3"/>
                 <outlet property="button_ones" destination="7X4-X0-b0j" id="B4Y-wX-sbO"/>
-                <outlet property="button_two" destination="LfC-nV-NFj" id="Tmr-eJ-2y0"/>
-                <outlet property="houseTypeFour" destination="hhP-aG-DIn" id="7S6-rg-hWl"/>
                 <outlet property="houseTypeOne" destination="OdW-Xf-VOl" id="MFg-dm-Cav"/>
-                <outlet property="houseTypeThree" destination="I95-5W-UrH" id="8YC-gV-QZJ"/>
-                <outlet property="houseTypeTwo" destination="XeU-wj-Cah" id="S8G-bb-adt"/>
                 <outlet property="nameOne" destination="0e0-sG-0Yv" id="Axm-OX-WNz"/>
                 <outlet property="stateOne" destination="ojA-Db-fud" id="ACc-ZW-yGc"/>
                 <outlet property="telephoneOne" destination="8pw-0c-Dvu" id="rsQ-u5-L9e"/>
@@ -235,7 +228,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lIp-BP-8g4">
-                                <rect key="frame" x="255" y="95" width="80" height="25"/>
+                                <rect key="frame" x="168" y="95" width="80" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="be9-uK-exa"/>
                                     <constraint firstAttribute="width" constant="80" id="ukM-yt-lni"/>
@@ -286,14 +279,14 @@
                                     <color key="titleColor" red="0.19215686269999999" green="0.13725490200000001" blue="0.023529411760000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
-                                    <action selector="launchDeal:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="cQR-pr-woO"/>
+                                    <action selector="launchDeal:" destination="u5m-Jy-8ry" eventType="touchUpInside" id="aKG-CK-6LE"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="FIg-3w-cph" firstAttribute="top" secondItem="gGe-Dm-AzN" secondAttribute="bottom" constant="20" id="AU0-ZN-FjU"/>
-                            <constraint firstAttribute="trailing" secondItem="lIp-BP-8g4" secondAttribute="trailing" constant="10" id="B00-e3-6tB"/>
+                            <constraint firstAttribute="trailing" secondItem="lIp-BP-8g4" secondAttribute="trailing" constant="97" id="B00-e3-6tB"/>
                             <constraint firstAttribute="trailing" secondItem="LfC-nV-NFj" secondAttribute="trailing" constant="10" id="BSY-vv-CXd"/>
                             <constraint firstItem="ce0-Mt-e9D" firstAttribute="top" secondItem="Kza-8j-0He" secondAttribute="top" constant="15" id="F6z-Ez-FYh"/>
                             <constraint firstItem="LfC-nV-NFj" firstAttribute="top" secondItem="gGe-Dm-AzN" secondAttribute="bottom" constant="10" id="OV4-EG-VuA"/>
@@ -323,8 +316,12 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="ItemNameTwo" destination="Sjd-Wt-24d" id="Hz0-6u-laa"/>
+                <outlet property="ItemTwoX" destination="Orc-Bv-9de" id="2sC-Wd-Ylj"/>
                 <outlet property="boaringTimeTwo" destination="FIg-3w-cph" id="mdI-NL-BUE"/>
                 <outlet property="buttonTwo" destination="lIp-BP-8g4" id="2So-CX-1cj"/>
+                <outlet property="buttonTwoX" destination="B00-e3-6tB" id="XK8-Y7-RvX"/>
+                <outlet property="button_two" destination="LfC-nV-NFj" id="zgd-xj-dJs"/>
+                <outlet property="houseTypeTwo" destination="XeU-wj-Cah" id="fGo-5T-8Pg"/>
                 <outlet property="nameTwo" destination="ce0-Mt-e9D" id="4Mr-AH-a0t"/>
                 <outlet property="stateTwo" destination="yxr-pJ-b26" id="YZN-gV-hWq"/>
                 <outlet property="telephoneTwo" destination="Z4m-h6-J1q" id="SjC-zH-wbo"/>
@@ -432,7 +429,9 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="ItemNameThree" destination="5Ui-7d-WPs" id="0YW-MA-YwW"/>
+                <outlet property="ItemThreeX" destination="Q1p-cC-ZAO" id="miL-xC-HsM"/>
                 <outlet property="boaringTimeThree" destination="85c-4k-Tnu" id="4MR-5B-DGJ"/>
+                <outlet property="houseTypeThree" destination="I95-5W-UrH" id="cmX-37-df6"/>
                 <outlet property="nameThree" destination="F24-fW-sXL" id="bBy-aT-6wX"/>
                 <outlet property="telephoneThree" destination="7sQ-So-uOh" id="eh9-Dz-qRc"/>
             </connections>
@@ -556,9 +555,11 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="ItemFourX" destination="7XW-Xk-BMe" id="tKM-xy-XAB"/>
                 <outlet property="ItemNameFour" destination="cuX-bv-euw" id="yFb-sP-VKH"/>
                 <outlet property="boaringTimeFour" destination="6cN-GS-HfF" id="Sid-8n-d49"/>
                 <outlet property="buttonFour" destination="rOl-BV-t2W" id="O0r-AV-x5C"/>
+                <outlet property="houseTypeFour" destination="hhP-aG-DIn" id="mUZ-cd-JVG"/>
                 <outlet property="nameFour" destination="5b8-yv-Pjp" id="8NR-25-Fxl"/>
                 <outlet property="stateFour" destination="pSa-Ib-A7J" id="V6x-IQ-e0I"/>
                 <outlet property="telephoneFour" destination="Ap8-aP-on9" id="mPR-PD-IAS"/>

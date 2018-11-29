@@ -243,7 +243,7 @@
             [_comButton setEnabled:YES];
             [_comButton setTitle:@"发起成交" forState: UIControlStateNormal];
              [_comButton removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
-            if ([selfEmployed valueForKey:@"2"]) {
+            if ([selfEmployed isEqual:@"2"]) {
                 [_comButton addTarget:self action:@selector(voucherDealCilck) forControlEvents:UIControlEventTouchUpInside];
             } else {
                 
@@ -287,7 +287,7 @@
             [_comButton setEnabled:YES];
             [_comButton setTitle:@"发起成交" forState: UIControlStateNormal];
              [_comButton removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
-            if ([selfEmployed valueForKey:@"2"]) {
+            if ([selfEmployed isEqual:@"2"]) {
                 [_comButton addTarget:self action:@selector(voucherDealCilck) forControlEvents:UIControlEventTouchUpInside];
             } else {
                 

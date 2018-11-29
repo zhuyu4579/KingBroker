@@ -381,7 +381,7 @@ static NSString *HXPhotoSubViewCellId = @"photoSubViewCellId";
                 }
             }
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        alertController.view.tintColor = UIColorRBG(255, 224, 0);
+        alertController.view.tintColor = UIColorRBG(51, 51, 51);
         
         [alertController addAction:[UIAlertAction actionWithTitle:[NSBundle hx_localizedStringForKey:@"相机"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self goCameraViewController];
