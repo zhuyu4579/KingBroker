@@ -29,7 +29,7 @@
 #import "WZGoodHouseCollectionView.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZNewJionStoreController.h"
-
+#import "WZSupportHouseDatisController.h"
 @interface WZPagesViewController ()<WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate,CLLocationManagerDelegate>
 @property(nonatomic,strong)UIView *cycleView;
 @property (nonatomic, strong)NSMutableArray *tags;
@@ -436,15 +436,23 @@
     NSString *parameters = [data valueForKey:@"parameters"];
     NSInteger type = [[data valueForKey:@"type"] integerValue];
     NSString *url = [data valueForKey:@"url"];
+    NSString *selfEmployed = [data valueForKey:@"selfEmployed"];
     if (type == 1) {
         WZNEWHTMLController *html = [[WZNEWHTMLController alloc] init];
         html.url = url;
         [self.navigationController pushViewController:html animated:YES];
     } else if(type == 2){
         if (uuid&&![uuid isEqual:@""]) {
-            WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
-            houseDatis.ID = parameters;
-            [self.navigationController pushViewController:houseDatis animated:YES];
+            if ([selfEmployed isEqual:@"2"]) {
+                WZSupportHouseDatisController *houseDatis = [[WZSupportHouseDatisController alloc] init];
+                houseDatis.ID = parameters;
+                [self.navigationController pushViewController:houseDatis animated:YES];
+            }else{
+                WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
+                houseDatis.ID = parameters;
+                [self.navigationController pushViewController:houseDatis animated:YES];
+            }
+          
         }else{
             [NSString isCode:self.navigationController code:@"401"];
         }

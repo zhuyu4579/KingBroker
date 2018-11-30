@@ -15,10 +15,13 @@
 #import <WXApiObject.h>
 #import <WebKit/WebKit.h>
 #import "UIView+Frame.h"
+#import "WZHousePageController.h"
 #import "NSString+LCExtension.h"
 #import "WZNavigationController.h"
 #import "WZHouseNoteController.h"
-
+#import "WZVideoTokerController.h"
+#import "WZHouseDatisController.h"
+#import "WZSupportHouseDatisController.h"
 @interface WZHouseNoteController ()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
 @property(nonatomic,strong)WKWebView *webView;
 @property(nonatomic,strong)UIProgressView *pV;
@@ -67,6 +70,10 @@
     [[webView configuration].userContentController addScriptMessageHandler:self name:@"black"];
     [[webView configuration].userContentController addScriptMessageHandler:self name:@"login"];
     
+    [[webView configuration].userContentController addScriptMessageHandler:self name:@"videoToker"];
+    [[webView configuration].userContentController addScriptMessageHandler:self name:@"houseList"];
+    [[webView configuration].userContentController addScriptMessageHandler:self name:@"houseDetails"];
+    
      [[webView configuration].userContentController addScriptMessageHandler:self name:@"WXFriends"];
      [[webView configuration].userContentController addScriptMessageHandler:self name:@"WXFriendsCircle"];
      [[webView configuration].userContentController addScriptMessageHandler:self name:@"WXVideoShare"];
@@ -109,7 +116,7 @@
         decisionHandler(WKNavigationActionPolicyAllow);
     }else{
         //跳转分享页面
-        NSString *param = navigationAction.request.URL.query;
+       // NSString *param = navigationAction.request.URL.query;
       
         decisionHandler(WKNavigationActionPolicyCancel);
         
@@ -141,6 +148,16 @@
     }else if([message.name isEqualToString:@"WXVideoShare"]){
         NSString *url = [message.body valueForKey:@"url"];
         [self downloadVideo:url];
+    }else if([message.name isEqualToString:@"videoToker"]){
+        
+        [self videoToker];
+    }else if([message.name isEqualToString:@"houseList"]){
+        
+        [self houseList];
+    }else if([message.name isEqualToString:@"houseDetails"]){
+        
+        NSDictionary *data = message.body;
+        [self houseDetails:data];
     }
     
 }
@@ -174,6 +191,10 @@
     [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"black"];
     [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"login"];
     
+    [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"videoToker"];
+    [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"houseList"];
+    [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"houseDetails"];
+    
      [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"WYFriends"];
      [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"WYFriendsCircle"];
      [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"WXFriends"];
@@ -186,6 +207,51 @@
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     
 }
+//跳转视频拓客
+-(void)videoToker{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    if (uuid&&![uuid isEqual:@""]) {
+        WZVideoTokerController *videoToker = [[WZVideoTokerController alloc] init];
+        [self.navigationController pushViewController:videoToker animated:YES];
+    }else{
+        [NSString isCode:self.navigationController code:@"401"];
+    }
+}
+//跳转楼盘列表
+-(void)houseList{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    if (uuid&&![uuid isEqual:@""]) {
+        WZHousePageController *house = [[WZHousePageController alloc] init];
+        house.status = 0;
+        [self.navigationController pushViewController:house animated:YES];
+    }else{
+        [NSString isCode:self.navigationController code:@"401"];
+    }
+}
+//跳转楼盘详情页
+-(void)houseDetails:(NSDictionary *)dicty{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    if (uuid&&![uuid isEqual:@""]) {
+        NSString *selfEmployed = [dicty  valueForKey:@"selfEmployed"];
+        
+        if ([selfEmployed isEqual:@"2"]) {
+            WZSupportHouseDatisController *houseDatis = [[WZSupportHouseDatisController alloc] init];
+            houseDatis.ID =  [dicty valueForKey:@"id"];
+            [self.navigationController pushViewController:houseDatis animated:YES];
+        }else{
+            WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
+            houseDatis.ID =  [dicty valueForKey:@"id"];
+            [self.navigationController pushViewController:houseDatis animated:YES];
+            
+        }
+    }else{
+        [NSString isCode:self.navigationController code:@"401"];
+    }
+}
+
 //分享到微信
 -(void)WXShare:(NSString *)url{
     //1.创建多媒体消息结构体
