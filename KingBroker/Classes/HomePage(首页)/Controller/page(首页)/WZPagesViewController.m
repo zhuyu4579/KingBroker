@@ -30,6 +30,7 @@
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZNewJionStoreController.h"
 #import "WZSupportHouseDatisController.h"
+#import "UILabel+ChangeLineSpaceAndWordSpace.h"
 @interface WZPagesViewController ()<WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate,CLLocationManagerDelegate>
 @property(nonatomic,strong)UIView *cycleView;
 @property (nonatomic, strong)NSMutableArray *tags;
@@ -45,7 +46,7 @@
 @property(nonatomic,strong)NSString *lnglat;
 //
 @property(nonatomic,strong)UIView *updateView;
-
+@property(nonatomic,strong)UIView *dutyView;
 @end
 
 @implementation WZPagesViewController
@@ -62,7 +63,8 @@
     [self setViewController];
     //获取最新版本
     [self findversion];
-    
+    //声明
+    [self loadDutyState];
     
 }
 
@@ -624,6 +626,188 @@
 //关闭
 -(void)closeVersion{
     [GKCover hide];
+}
+#pragma mark -请求数据责任声明
+-(void)loadDutyState{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 10;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/userGlobalInfo/getInfo",HTTPURL];
+    [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+    
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSString *statementValue = [data valueForKey:@"statementValue"];
+            if (![statementValue isEqual:@"1"]) {
+                [self dutyState];
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+}
+#pragma mark - 责任声明
+-(void)dutyState{
+    UIView *view = [[UIView alloc] init];
+    view.fSize = CGSizeMake(345, 574);
+    _dutyView = view;
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.frame = CGRectMake(0, 0, view.fWidth, view.fHeight);
+    imageView.image = [UIImage imageNamed:@"sy_tcsm"];
+    [view addSubview:imageView];
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.text = @"责任声明";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:20];
+    label.textColor = UIColorRBG(54, 51, 50);
+    [view addSubview:label];
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(view.mas_top).offset(30);
+        make.height.offset(20);
+    }];
+    
+    UILabel *labelOne = [[UILabel alloc] init];
+    labelOne.text = @"为了您能获得更优质的服务，我们推出喜喜直推楼盘";
+    labelOne.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+    labelOne.textColor = UIColorRBG(102, 102, 102);
+    labelOne.numberOfLines = 0;
+    [view addSubview:labelOne];
+    [labelOne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(label.mas_bottom).offset(38);
+        make.width.offset(view.fWidth-46);
+    }];
+    [UILabel changeSpaceForLabel:labelOne withLineSpace:1 WordSpace:1];
+    
+    UILabel *labelTwo = [[UILabel alloc] init];
+    labelTwo.text = @"1.喜喜直推是房喜喜平台全新上线的“实验室功能”，主要用于新模式新功能的测试。";
+    labelTwo.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+    labelTwo.textColor = UIColorRBG(102, 102, 102);
+    labelTwo.numberOfLines = 0;
+    [view addSubview:labelTwo];
+    [labelTwo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(labelOne.mas_bottom).offset(8);
+        make.width.offset(view.fWidth-46);
+    }];
+    [UILabel changeSpaceForLabel:labelTwo withLineSpace:1 WordSpace:1];
+    
+    UILabel *labelThree = [[UILabel alloc] init];
+    labelThree.numberOfLines = 0;
+    [view addSubview:labelThree];
+    [labelThree mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(labelTwo.mas_bottom).offset(8);
+        make.width.offset(view.fWidth-46);
+    }];
+    NSString *cLabelString = @"2.标注为“喜喜直推”的楼盘，请直接在APP内进行客户报备。将由房喜喜平台跟进楼盘信息确认、客户报备、带看直至结佣的全过程并提供相应服务。";
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:cLabelString attributes:@{NSFontAttributeName: [UIFont fontWithName:@"PingFang-SC-Regular" size: 13],NSForegroundColorAttributeName: UIColorRBG(102, 102, 102),NSKernAttributeName:@(1.0)}];
+    NSMutableParagraphStyle * paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle1 setLineSpacing:1];
+    [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle1 range:NSMakeRange(0, [cLabelString length])];
+    
+    [string addAttributes:@{NSForegroundColorAttributeName: UIColorRBG(252, 143, 2)} range:NSMakeRange(6, 4)];
+    
+    [string addAttributes:@{NSForegroundColorAttributeName:UIColorRBG(252, 143, 2)} range:NSMakeRange(19, 4)];
+    
+    labelThree.attributedText = string;
+    
+    UILabel *labelFour = [[UILabel alloc] init];
+    labelFour.numberOfLines = 0;
+    [view addSubview:labelFour];
+    [labelFour mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(labelThree.mas_bottom).offset(8);
+        make.width.offset(view.fWidth-46);
+    }];
+    NSString *test3 = @"3.喜喜直推楼盘，售楼部可能未更新“扫码上客”功能，经纪人可在现场填写“客户报备单”，使用“凭证上客”功能上传纸质报备单，完成带看确认。为便于房喜喜开展服务，现场报备单上，请标注“房喜喜”字样，未正确标注的客户可能不被判定有效，敬请重视。";
+    NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:test3 attributes:@{NSFontAttributeName: [UIFont fontWithName:@"PingFang-SC-Regular" size: 13],NSForegroundColorAttributeName: UIColorRBG(102, 102, 102),NSKernAttributeName:@(1.0)}];
+    NSMutableParagraphStyle * paragraphStyle2 = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle2 setLineSpacing:1];
+    [string2 addAttribute:NSParagraphStyleAttributeName value:paragraphStyle2 range:NSMakeRange(0, [test3 length])];
+    
+    [string2 addAttributes:@{NSForegroundColorAttributeName: UIColorRBG(252, 143, 2)} range:NSMakeRange(31, 11)];
+    
+    [string2 addAttributes:@{NSForegroundColorAttributeName:UIColorRBG(252, 143, 2)} range:NSMakeRange(46, 4)];
+    
+     [string2 addAttributes:@{NSForegroundColorAttributeName:UIColorRBG(252, 143, 2)} range:NSMakeRange(90, 3)];
+    
+    labelFour.attributedText = string2;
+    
+    UILabel *labelFive = [[UILabel alloc] init];
+    labelFive.text = @"4.由售楼部现场直接发放的带看奖励、车费报销、补贴等款项由带看经纪人直接领取，房喜喜平台不代结代领，也不收取平台服务费用。";
+    labelFive.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+    labelFive.textColor = UIColorRBG(102, 102, 102);
+    labelFive.numberOfLines = 0;
+    [view addSubview:labelFive];
+    [labelFive mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(labelFour.mas_bottom).offset(8);
+        make.width.offset(view.fWidth-46);
+    }];
+    [UILabel changeSpaceForLabel:labelFive withLineSpace:1 WordSpace:1];
+    
+    UIButton *button = [[UIButton alloc] init];
+    [button setTitle:@"我已同意" forState:UIControlStateNormal];
+    [button setTitleColor:UIColorRBG(255, 255, 255) forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:18];
+    button.backgroundColor = UIColorRBG(252, 213, 2);
+    button.layer.cornerRadius = 22;
+    button.layer.masksToBounds = YES;
+    [button addTarget:self action:@selector(dutyStateButton) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:button];
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.bottom.equalTo(view.mas_bottom).offset(-66);
+        make.height.offset(45);
+        make.width.offset(view.fWidth-52);
+    }];
+    
+    [GKCover coverFrom:[UIApplication sharedApplication].keyWindow
+           contentView:view
+                 style:GKCoverStyleTranslucent
+             showStyle:GKCoverShowStyleBottom
+             animStyle:GKCoverAnimStyleBottom
+              notClick:NO
+     ];
+   
+}
+#pragma mark - 我已阅读
+-(void)dutyStateButton{
+    [GKCover hide];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 10;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/userGlobalInfo/agreeInfo",HTTPURL];
+    [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
 }
 #pragma mark - 更新版本
 -(void)updataVersions{

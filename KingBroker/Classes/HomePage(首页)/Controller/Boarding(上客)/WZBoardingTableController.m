@@ -333,19 +333,23 @@ static NSString *size = @"20";
     NSString *sginStatus = cell.sginStatus;
     int boardingLimitTime = [cell.boardingLimitTime intValue];
     NSString *orderCreateTime1 = cell.orderCreateTime;
-    
+    NSString *selfEmployed = cell.selfEmployed;
     long orderCreateTime = [orderCreateTime1 longLongValue];
-    
-    if ([sginStatus isEqual:@"2"]) {
+    if ([selfEmployed isEqual:@"2"]) {
         [_titles setHidden:YES];
     }else{
-        [_titles setHidden:NO];
-        if([sginStatus isEqual:@"1"]){
-            _titles.text = @"楼盘须与门店签约，未签约可能会影响佣金结算，请及时签约";
+        if ([sginStatus isEqual:@"2"]) {
+            [_titles setHidden:YES];
         }else{
-            _titles.text = @"楼盘须与门店签约，签约过期可能影响佣金结算，请及时续约";
+            [_titles setHidden:NO];
+            if([sginStatus isEqual:@"1"]){
+                _titles.text = @"楼盘须与门店签约，未签约可能会影响佣金结算，请及时签约";
+            }else{
+                _titles.text = @"楼盘须与门店签约，签约过期可能影响佣金结算，请及时续约";
+            }
         }
     }
+    
     _names.text = cell.nameOne.text;
     _telephones.text = cell.telephoneOne.text;
     _ItemNames.text = cell.ItemNameOne.text;

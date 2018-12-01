@@ -122,7 +122,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [labelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(imageViews.mas_right).offset(5);
         make.top.equalTo(view.mas_bottom).offset(12);
-        make.height.offset(12);
+        make.width.offset(scrollView.fWidth-48);
     }];
     
     UIButton *boaringButton = [[UIButton alloc] init];

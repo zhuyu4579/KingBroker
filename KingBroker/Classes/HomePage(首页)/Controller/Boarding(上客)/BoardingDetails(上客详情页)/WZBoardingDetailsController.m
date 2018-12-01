@@ -929,16 +929,22 @@
 }
 #pragma mark -二维码
 -(void)codeButtons{
-    if ([_sginStatus isEqual:@"2"]) {
+   NSString *selfEmployed = [_order valueForKey:@"selfEmployed"];
+    if ([selfEmployed isEqual:@"2"]) {
         [_titles setHidden:YES];
-    }else{
-        [_titles setHidden:NO];
-        if([_sginStatus isEqual:@"1"]){
-            _titles.text = @"楼盘须与门店签约，未签约可能会影响佣金结算，请及时签约";
+    } else {
+        if ([_sginStatus isEqual:@"2"]) {
+            [_titles setHidden:YES];
         }else{
-            _titles.text = @"楼盘须与门店签约，签约过期可能影响佣金结算，请及时续约";
+            [_titles setHidden:NO];
+            if([_sginStatus isEqual:@"1"]){
+                _titles.text = @"楼盘须与门店签约，未签约可能会影响佣金结算，请及时签约";
+            }else{
+                _titles.text = @"楼盘须与门店签约，签约过期可能影响佣金结算，请及时续约";
+            }
         }
     }
+    
     int boardingLimitTime = [[_order valueForKey:@"boardingLimitTime"] intValue];
     
     long orderCreateTime = [[_order valueForKey:@"orderCreateTime"] longLongValue];
