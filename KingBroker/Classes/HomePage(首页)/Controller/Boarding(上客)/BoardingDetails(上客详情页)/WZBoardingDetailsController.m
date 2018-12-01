@@ -218,6 +218,7 @@
             if ([selfEmployed isEqual:@"2"]) {
                 [_boardingButton setHidden:NO];
                 [_boardingButton setEnabled:YES];
+                [_comButton setTitle:@"凭证上客" forState: UIControlStateNormal];
                 [_comButton mas_updateConstraints:^(MASConstraintMaker *make) {
               make.left.equalTo(self.view.mas_left).offset(self.view.fWidth/2.0);
                 }];
@@ -827,16 +828,22 @@
 }
 #pragma mark -上客按钮
 -(void)BoardingCilck{
-    if ([_sginStatus isEqual:@"2"]) {
+    NSString *selfEmployed = [_order valueForKey:@"selfEmployed"];
+    if ([selfEmployed isEqual:@"2"]) {
         [_titles setHidden:YES];
-    }else{
-        [_titles setHidden:NO];
-        if([_sginStatus isEqual:@"1"]){
-            _titles.text = @"楼盘须与门店签约，未签约可能会影响佣金结算，请及时签约";
+    } else {
+        if ([_sginStatus isEqual:@"2"]) {
+            [_titles setHidden:YES];
         }else{
-            _titles.text = @"楼盘须与门店签约，签约过期可能影响佣金结算，请及时续约";
+            [_titles setHidden:NO];
+            if([_sginStatus isEqual:@"1"]){
+                _titles.text = @"楼盘须与门店签约，未签约可能会影响佣金结算，请及时签约";
+            }else{
+                _titles.text = @"楼盘须与门店签约，签约过期可能影响佣金结算，请及时续约";
+            }
         }
     }
+    
     int boardingLimitTime = [[_order valueForKey:@"boardingLimitTime"] intValue];
     
     long orderCreateTime = [[_order valueForKey:@"orderCreateTime"] longLongValue];

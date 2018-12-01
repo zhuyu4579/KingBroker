@@ -57,7 +57,14 @@ static NSString * const ID = @"Cell";
     UIButton *share = [[UIButton alloc] init];
     [share setBackgroundImage:[UIImage imageNamed:@"lpxq_share"] forState:UIControlStateNormal];
     [share addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
-    [share setEnlargeEdgeWithTop:10 right:0 bottom:10 left:10];
+    [share setEnlargeEdge:20];
+    if ([_type isEqual:@"2"]) {
+        [share setHidden:YES];
+        [share setEnabled:NO];
+    } else {
+        [share setHidden:NO];
+        [share setEnabled:YES];
+    }
     [naView addSubview:share];
     [share mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(naView.mas_right).offset(-15);
@@ -373,7 +380,7 @@ static NSString * const ID = @"Cell";
 //    NSIndexPath *indexPath = [_photoView indexPathForItemAtPoint:CGPointMake(newTargetOffset, 0)];
     _indexPath = newTargetOffset;
     // 设置页码
-    _pageControl.currentPage = newTargetOffset;
+    _pageControl.currentPage = newTargetOffset/pageWidth;
 //    NSInteger currentIndex = newTargetOffset/pageWidth +1;
    
 }

@@ -14,4 +14,5 @@
 
 @property(nonatomic,strong)NSString *titles;
 
+@property(nonatomic,strong)NSString *type;
 @end

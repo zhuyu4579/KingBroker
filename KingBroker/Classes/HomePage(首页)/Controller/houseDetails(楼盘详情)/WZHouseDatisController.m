@@ -23,6 +23,7 @@
 #import "WZPeripheryItem.h"
 #import "WZHouseDetilItem.h"
 #import "WZDynamictableView.h"
+#import "WZHuxingPhotosController.h"
 #import <UIImageView+WebCache.h>
 #import "NSString+LCExtension.h"
 #import "WZMainUnitCollection.h"
@@ -1071,6 +1072,11 @@ static NSString * const IDS = @"cells";
     }];
     UIImageView *imageViewOne = [[UIImageView alloc] init];
     _fareImageOne = imageViewOne;
+    imageViewOne.userInteractionEnabled = YES;//打开用户交互
+    //初始化一个手势
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(findFareImageView)];
+    //为图片添加手势
+    [imageViewOne addGestureRecognizer:singleTap];
     [view addSubview:imageViewOne];
     [imageViewOne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).mas_offset(15);
@@ -1080,13 +1086,28 @@ static NSString * const IDS = @"cells";
     }];
     UIImageView *imageViewTwo = [[UIImageView alloc] init];
     _fareImageTwo = imageViewTwo;
-    [view addSubview:imageViewOne];
+    imageViewTwo.userInteractionEnabled = YES;//打开用户交互
+    //为图片添加手势
+    UITapGestureRecognizer *singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(findFareImageView)];
+    [imageViewTwo addGestureRecognizer:singleTap2];
+    [view addSubview:imageViewTwo];
     [imageViewTwo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(view.mas_right).mas_offset(-15);
         make.top.equalTo(fare.mas_bottom).mas_offset(9);
         make.width.offset((view.fWidth-45)/2.0);
         make.height.offset(95*n);
     }];
+}
+#pragma mark -查看图片
+-(void)findFareImageView{
+    NSArray *fareImglist = [_houseDatils valueForKey:@"fareImglist"];
+    if (fareImglist.count == 0) {
+        return;
+    }
+    WZHuxingPhotosController *photos = [[WZHuxingPhotosController alloc] init];
+    photos.item = fareImglist;
+    photos.type = @"2";
+    [self.navigationController pushViewController:photos animated:YES];
 }
 #pragma mark -楼盘简介
 -(void)houseIntroduce:(UIView *)view{
