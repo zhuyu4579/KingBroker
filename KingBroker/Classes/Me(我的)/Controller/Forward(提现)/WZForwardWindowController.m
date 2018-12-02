@@ -388,9 +388,16 @@
         [SVProgressHUD dismiss];
         
         if ([code isEqual:@"200"]) {
-            WZForwardSuccessController *forwardSuccess = [[WZForwardSuccessController alloc] init];
-            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:forwardSuccess];
-            [self.navigationController presentViewController:nav animated:YES completion:nil];
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSString *isBool = [data valueForKey:@"bool"];
+            if ([isBool isEqual:@"0"]) {
+                WZForwardSuccessController *forwardSuccess = [[WZForwardSuccessController alloc] init];
+                WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:forwardSuccess];
+                [self.navigationController presentViewController:nav animated:YES completion:nil];
+            } else {
+                [SVProgressHUD showInfoWithStatus:[data valueForKey:@"message"]];
+            }
+            
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){

@@ -20,7 +20,7 @@
     self.navigationItem.title = @"提现";
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"发起提现申请成功，等待平台处理，预计\n3~5个工作日到账";
+    label.text = @"发起提现申请成功，等待平台处理";
     label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     label.textColor = UIColorRBG(135, 133, 139);
     label.numberOfLines = 0;

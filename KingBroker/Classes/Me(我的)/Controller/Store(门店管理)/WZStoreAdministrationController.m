@@ -29,6 +29,7 @@
     [self.view addSubview:pV];
     //创造通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeAlerts) name:@"BoaringVC" object:nil];
+    [self createWebView];
 }
 //关闭二维码
 -(void)closeAlerts{
@@ -106,7 +107,8 @@
     
     if ([message.name isEqualToString:@"black"]) {
         
-        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        //[self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController popViewControllerAnimated:YES];
     }else if([message.name isEqualToString:@"login"]){
         [NSString isCode:self.navigationController code:@"401"];
     }
@@ -147,7 +149,7 @@
     
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-    [self createWebView];
+    
 }
 
 

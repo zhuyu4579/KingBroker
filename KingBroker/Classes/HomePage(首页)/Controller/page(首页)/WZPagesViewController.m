@@ -761,7 +761,7 @@
     [UILabel changeSpaceForLabel:labelFive withLineSpace:1 WordSpace:1];
     
     UIButton *button = [[UIButton alloc] init];
-    [button setTitle:@"我已同意" forState:UIControlStateNormal];
+    [button setTitle:@"我已阅读" forState:UIControlStateNormal];
     [button setTitleColor:UIColorRBG(255, 255, 255) forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:18];
     button.backgroundColor = UIColorRBG(252, 213, 2);
