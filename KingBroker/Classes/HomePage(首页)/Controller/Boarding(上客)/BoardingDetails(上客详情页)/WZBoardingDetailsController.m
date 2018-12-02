@@ -981,14 +981,27 @@
 }
 #pragma mark -凭证上客
 -(void)voucherBoarding{
-    WZVoucherBoardingController *vb = [[WZVoucherBoardingController alloc] init];
-    vb.ID = _ID;
-    vb.boardingSuccess = ^(NSString * _Nonnull str) {
-        if ([str isEqual:@"1"]) {
-            [self loadData];
+    int boardingLimitTime = [[_order valueForKey:@"boardingLimitTime"] intValue];
+    
+    long orderCreateTime = [[_order valueForKey:@"orderCreateTime"] longLongValue];
+    if (orderCreateTime != 0 ) {
+        NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
+        NSTimeInterval time=[date timeIntervalSince1970]*1000;
+        long time1 = time - orderCreateTime;
+        if (time1 >boardingLimitTime*60*1000) {
+            WZVoucherBoardingController *vb = [[WZVoucherBoardingController alloc] init];
+            vb.ID = _ID;
+            vb.boardingSuccess = ^(NSString * _Nonnull str) {
+                if ([str isEqual:@"1"]) {
+                    [self loadData];
+                }
+            };
+            [self.navigationController pushViewController:vb animated:YES];
+        }else{
+            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"报备%d分钟后才能上客",boardingLimitTime]];
         }
-    };
-   [self.navigationController pushViewController:vb animated:YES];
+    }
+    
 }
 #pragma mark -楼盘按钮
 -(void)ItemButtons:(UIButton *)button{

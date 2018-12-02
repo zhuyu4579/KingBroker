@@ -360,22 +360,34 @@
 }
 
 - (IBAction)varochBoarding:(UIButton *)sender {
-     UIViewController *Vc =  [UIViewController viewController:[self superview]];
-    
-    WZVoucherBoardingController *vb = [[WZVoucherBoardingController alloc] init];
-    vb.ID = _boaringId;
-    vb.boardingSuccess = ^(NSString * _Nonnull str) {
-        if ([str isEqual:@"1"]) {
-            _stateOne.text = @"上客审核中";
-            [_buttonOne setHidden:YES];
-            [_buttonOne setEnabled:NO];
-            [_button_one setHidden:YES];
-            [_button_one setEnabled:NO];
-            [_button_ones setHidden:YES];
-            [_button_ones setEnabled:NO];
+    int boardingLimitTime = [_boardingLimitTime intValue];
+    NSString *orderCreateTime1 = _orderCreateTime;
+    long orderCreateTime = [orderCreateTime1 longLongValue];
+    if (orderCreateTime != 0 ) {
+        NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
+        NSTimeInterval time=[date timeIntervalSince1970]*1000;
+        long time1 = time - orderCreateTime;
+        if (time1 >boardingLimitTime*60*1000) {
+            UIViewController *Vc =  [UIViewController viewController:[self superview]];
+            WZVoucherBoardingController *vb = [[WZVoucherBoardingController alloc] init];
+            vb.ID = _boaringId;
+            vb.boardingSuccess = ^(NSString * _Nonnull str) {
+                if ([str isEqual:@"1"]) {
+                    _stateOne.text = @"上客审核中";
+                    [_buttonOne setHidden:YES];
+                    [_buttonOne setEnabled:NO];
+                    [_button_one setHidden:YES];
+                    [_button_one setEnabled:NO];
+                    [_button_ones setHidden:YES];
+                    [_button_ones setEnabled:NO];
+                }
+            };
+            [Vc.navigationController pushViewController:vb animated:YES];
+        }else{
+            [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"报备%d分钟后才能上客",boardingLimitTime]];
         }
-    };
-    [Vc.navigationController pushViewController:vb animated:YES];
+    }
+    
 }
 
 - (IBAction)launchDeal:(UIButton *)sender {
