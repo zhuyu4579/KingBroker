@@ -398,7 +398,7 @@
     [viewTwo addSubview:myStoreView];
     UIView *myGeneration= [self createViewClass:@selector(myGenerations) image:[UIImage imageNamed:@"wd_icon10"] title:@"我的总代" fY:58 size:CGSizeMake(19, 21)];
     [viewTwo addSubview:myGeneration];
-    UIView *myCollectionView = [self createViewClass:@selector(myCollection) image:[UIImage imageNamed:@"wd_icon6"] title:@"我的楼盘" fY:117 size:CGSizeMake(19, 19)];
+    UIView *myCollectionView = [self createViewClass:@selector(myCollection) image:[UIImage imageNamed:@"wd_icon6"] title:@"收藏楼盘" fY:117 size:CGSizeMake(19, 19)];
     [viewTwo addSubview:myCollectionView];
     UIView *questionView = [self createViewClass:@selector(question) image:[UIImage imageNamed:@"wd_icon7"] title:@"问题小秘" fY:176 size:CGSizeMake(18, 22)];
     [viewTwo addSubview:questionView];
