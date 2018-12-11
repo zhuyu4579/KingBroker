@@ -206,6 +206,7 @@
 		1F77530D20A45316003E1C07 /* WZBelongedStoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F77530C20A45316003E1C07 /* WZBelongedStoreController.m */; };
 		1F859B782117E42600FCA5F3 /* WZRegistarSetPWController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F859B772117E42600FCA5F3 /* WZRegistarSetPWController.m */; };
 		1F859B7B21181BFF00FCA5F3 /* WZJionStoreAndStoreHeadController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F859B7A21181BFF00FCA5F3 /* WZJionStoreAndStoreHeadController.m */; };
+		1F8A1D6521BF53CE004B7B3D /* WZMyGenerationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A1D6421BF53CE004B7B3D /* WZMyGenerationController.m */; };
 		1F8C357B2115381D002E0C8B /* WZLoginAndRegistarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F8C357A2115381D002E0C8B /* WZLoginAndRegistarController.m */; };
 		1FD9C49C207DB91700BB0298 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C49A207DB91700BB0298 /* Main.storyboard */; };
 		1FD9C49E207DB91700BB0298 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C49D207DB91700BB0298 /* Assets.xcassets */; };
@@ -693,6 +694,8 @@
 		1F859B772117E42600FCA5F3 /* WZRegistarSetPWController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZRegistarSetPWController.m; sourceTree = "<group>"; };
 		1F859B7921181BFF00FCA5F3 /* WZJionStoreAndStoreHeadController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZJionStoreAndStoreHeadController.h; sourceTree = "<group>"; };
 		1F859B7A21181BFF00FCA5F3 /* WZJionStoreAndStoreHeadController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZJionStoreAndStoreHeadController.m; sourceTree = "<group>"; };
+		1F8A1D6321BF53CE004B7B3D /* WZMyGenerationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZMyGenerationController.h; sourceTree = "<group>"; };
+		1F8A1D6421BF53CE004B7B3D /* WZMyGenerationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZMyGenerationController.m; sourceTree = "<group>"; };
 		1F8C35792115381D002E0C8B /* WZLoginAndRegistarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZLoginAndRegistarController.h; sourceTree = "<group>"; };
 		1F8C357A2115381D002E0C8B /* WZLoginAndRegistarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZLoginAndRegistarController.m; sourceTree = "<group>"; };
 		1FD9C491207DB91700BB0298 /* KingBroker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KingBroker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1233,6 +1236,47 @@
 			path = HXWeiboPhotoPicker;
 			sourceTree = "<group>";
 		};
+		1F8A1D5F21BF517F004B7B3D /* MyGeneration(我的总代) */ = {
+			isa = PBXGroup;
+			children = (
+				1F8A1D6021BF51B3004B7B3D /* Controller */,
+				1F8A1D6121BF51C1004B7B3D /* Model */,
+				1F8A1D6221BF51C9004B7B3D /* View */,
+			);
+			path = "MyGeneration(我的总代)";
+			sourceTree = "<group>";
+		};
+		1F8A1D6021BF51B3004B7B3D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1F8A1D6621BF5D6B004B7B3D /* generationMan */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		1F8A1D6121BF51C1004B7B3D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1F8A1D6221BF51C9004B7B3D /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1F8A1D6621BF5D6B004B7B3D /* generationMan */ = {
+			isa = PBXGroup;
+			children = (
+				1F8A1D6321BF53CE004B7B3D /* WZMyGenerationController.h */,
+				1F8A1D6421BF53CE004B7B3D /* WZMyGenerationController.m */,
+			);
+			path = generationMan;
+			sourceTree = "<group>";
+		};
 		1FD9C488207DB91700BB0298 = {
 			isa = PBXGroup;
 			children = (
@@ -1270,6 +1314,7 @@
 			children = (
 				1FD9C4B0207DBD2B00BB0298 /* Man */,
 				1FD9C4BA207DBD2B00BB0298 /* Me(我的) */,
+				1F8A1D5F21BF517F004B7B3D /* MyGeneration(我的总代) */,
 				1FD9C4F5207DBD2B00BB0298 /* JionStore(加入门店) */,
 				1FD9C50B207DBD2B00BB0298 /* Setting(设置) */,
 				1FD9C511207DBD2B00BB0298 /* ShoppingMall(商城) */,
@@ -2421,6 +2466,7 @@
 				1F75C56221ABE84B002B8CF2 /* HXDatePhotoToolManager.m in Sources */,
 				1F47F49D20CA1FF80012F5EF /* WZLBCollectionView.m in Sources */,
 				1F3885A720A5718600402B23 /* AMapTipAnnotation.m in Sources */,
+				1F8A1D6521BF53CE004B7B3D /* WZMyGenerationController.m in Sources */,
 				1FD9C644207DBD2C00BB0298 /* WZHouseDatisController.m in Sources */,
 				1F75C56B21ABE84B002B8CF2 /* HXPhotoConfiguration.m in Sources */,
 				1F75C55F21ABE84B002B8CF2 /* HXPhotoModel.m in Sources */,

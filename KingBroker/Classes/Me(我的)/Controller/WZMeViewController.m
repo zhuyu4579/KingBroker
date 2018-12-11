@@ -5,29 +5,29 @@
 //  Created by 朱玉隆 on 2018/3/13.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
-#import "WZMeViewController.h"
-#import "UIBarButtonItem+Item.h"
-#import "WZSetTableController.h"
-#import "WZLoginAndRegistarController.h"
-#import "WZNavigationController.h"
+#import <Masonry.h>
 #import "UIView+Frame.h"
-#import "WZNewJionStoreController.h"
-#import "UIButton+WZEnlargeTouchAre.h"
-#import "WZBoaringController.h"
-#import "WZHousePageController.h"
-#import "WZAuthenticationController.h"
-#import "WZQuestionController.h"
-#import "WZSetPersonalInforMationController.h"
-#import <UIImageView+WebCache.h>
 #import <AFNetworking.h>
 #import <SVProgressHUD.h>
-#import <Masonry.h>
+#import "WZMeViewController.h"
+#import "WZBoaringController.h"
+#import "WZForwardController.h"
 #import "WZSettingController.h"
 #import "NSString+LCExtension.h"
-#import "WZBelongedStoreController.h"
-#import "WZForwardController.h"
+#import "WZQuestionController.h"
+#import <UIImageView+WebCache.h>
+#import "UIBarButtonItem+Item.h"
+#import "WZSetTableController.h"
+#import "WZHousePageController.h"
+#import "WZNavigationController.h"
 #import "WZInvitePrizeController.h"
+#import "WZMyGenerationController.h"
+#import "WZNewJionStoreController.h"
+#import "WZBelongedStoreController.h"
+#import "UIButton+WZEnlargeTouchAre.h"
+#import "WZAuthenticationController.h"
+#import "WZLoginAndRegistarController.h"
+#import "WZSetPersonalInforMationController.h"
 @interface WZMeViewController ()
 //主view
 @property(nonatomic,strong)UIScrollView *scrollView;
@@ -379,10 +379,10 @@
         make.left.equalTo(_scrollView.mas_left).offset(15);
         make.top.equalTo(viewOne.mas_bottom).offset(12);
         make.width.offset(_scrollView.fWidth-30);
-        make.height.offset(176);
+        make.height.offset(236);
     }];
     UIImageView *imageViewTwo = [[UIImageView alloc] init];
-    imageViewTwo.image = [UIImage imageNamed:@"background_wty2"];
+    imageViewTwo.image = [UIImage imageNamed:@"background_wty3"];
     imageViewTwo.layer.shadowColor = UIColorRBG(255, 185, 76).CGColor;
     imageViewTwo.layer.shadowOpacity = 0.05f;
     imageViewTwo.layer.shadowRadius = 20.0f;
@@ -392,13 +392,15 @@
         make.left.equalTo(viewTwo.mas_left);
         make.top.equalTo(viewTwo.mas_top);
         make.width.offset(_scrollView.fWidth-30);
-        make.height.offset(176);
+        make.height.offset(236);
     }];
     UIView *myStoreView = [self createViewClass:@selector(myStore) image:[UIImage imageNamed:@"wd_icon5"] title:@"我的门店" fY:0 size:CGSizeMake(19, 18)];
     [viewTwo addSubview:myStoreView];
-    UIView *myCollectionView = [self createViewClass:@selector(myCollection) image:[UIImage imageNamed:@"wd_icon6"] title:@"我的楼盘" fY:58 size:CGSizeMake(19, 19)];
+    UIView *myGeneration= [self createViewClass:@selector(myGenerations) image:[UIImage imageNamed:@"wd_icon10"] title:@"我的总代" fY:58 size:CGSizeMake(19, 21)];
+    [viewTwo addSubview:myGeneration];
+    UIView *myCollectionView = [self createViewClass:@selector(myCollection) image:[UIImage imageNamed:@"wd_icon6"] title:@"我的楼盘" fY:117 size:CGSizeMake(19, 19)];
     [viewTwo addSubview:myCollectionView];
-    UIView *questionView = [self createViewClass:@selector(question) image:[UIImage imageNamed:@"wd_icon7"] title:@"问题小秘" fY:117 size:CGSizeMake(18, 22)];
+    UIView *questionView = [self createViewClass:@selector(question) image:[UIImage imageNamed:@"wd_icon7"] title:@"问题小秘" fY:176 size:CGSizeMake(18, 22)];
     [viewTwo addSubview:questionView];
     
     UIView *viewThree = [[UIView alloc] init];
@@ -436,7 +438,7 @@
     
     UIView *inviteView = [self createViewClass:@selector(setting) image:[UIImage imageNamed:@"wd_icon8"] title:@"设置" fY:0 size:CGSizeMake(19, 19)];
     [viewFour addSubview:inviteView];
-    
+    _scrollView.contentSize = CGSizeMake(0, 676);
 }
 #pragma mark -创建分类
 -(UIView *)createViewClass:(SEL)sel image:(UIImage *)image title:(NSString *)title fY:(CGFloat)fY size:(CGSize)size{
@@ -559,6 +561,15 @@
     if (_uuid&&![_uuid isEqual:@""]) {
         WZBelongedStoreController *boaring = [[WZBelongedStoreController alloc] init];
         [self.navigationController pushViewController:boaring animated:YES];
+    }else{
+        [NSString isCode:self.navigationController code:@"401"];
+    }
+}
+#pragma mark -我的总代
+-(void)myGenerations{
+    if (_uuid&&![_uuid isEqual:@""]) {
+        WZMyGenerationController *myGeneration = [[WZMyGenerationController alloc] init];
+        [self.navigationController pushViewController:myGeneration animated:YES];
     }else{
         [NSString isCode:self.navigationController code:@"401"];
     }

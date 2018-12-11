@@ -139,8 +139,6 @@
     _cycleView.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:_cycleView];
     
-   
-    
     //创建按钮栏
     UIView *buttons = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight, SCREEN_WIDTH, 200)];
     buttons.backgroundColor = [UIColor whiteColor];
@@ -669,7 +667,7 @@
     [view addSubview:imageView];
     
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"责任声明";
+    label.text = @"用户协议更新";
     label.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:20];
     label.textColor = UIColorRBG(54, 51, 50);
     [view addSubview:label];
