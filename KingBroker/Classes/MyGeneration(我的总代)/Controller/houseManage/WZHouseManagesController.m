@@ -1,22 +1,22 @@
 //
-//  WZHouseManegeController.m
+//  WZHouseManagesController.m
 //  KingBroker
 //
 //  Created by 朱玉隆 on 2018/12/11.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
 #import <Masonry.h>
 #import <MJRefresh.h>
 #import <MJExtension.h>
 #import "UIView+Frame.h"
 #import <AFNetworking.h>
 #import <SVProgressHUD.h>
-#import "NSString+LCExtension.h"
 #import "UIBarButtonItem+Item.h"
-#import "WZHouseManegeController.h"
+#import "NSString+LCExtension.h"
+#import "WZAddHousesController.h"
+#import "WZHouseManagesController.h"
 
-@interface WZHouseManegeController (){
+@interface WZHouseManagesController (){
     //页数
     NSInteger current;
 }
@@ -31,19 +31,18 @@
 
 @end
 static  NSString * const ID = @"cell";
-//查询条数
 static NSString *size = @"20";
-
-@implementation WZHouseManegeController
+@implementation WZHouseManagesController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setNoData];
     self.navigationItem.title = @"楼盘管理";
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButtons:self action:@selector(addHouse) title:@"添加楼盘"];
-    [self setNoData];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //注册cell
-    //[self.tableView registerNib:[UINib nibWithNibName:@"" bundle:nil] forCellReuseIdentifier:ID];
+    [self.tableView registerNib:[UINib nibWithNibName:@"WZSelectProjectCell" bundle:nil] forCellReuseIdentifier:ID];
     _projectListArray = [NSMutableArray array];
     current = 1;
     _isRequestFinish = YES;
@@ -105,7 +104,6 @@ static NSString *size = @"20";
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-   
     paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"size"] = size;
     NSString *url = [NSString stringWithFormat:@"%@",HTTPURL];
@@ -186,6 +184,7 @@ static NSString *size = @"20";
     }];
     
 }
+
 #pragma mark - Table view data source
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 120;
@@ -196,16 +195,23 @@ static NSString *size = @"20";
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-   
+//    WZSelcetProjectItem *item = _projectListArrays[indexPath.row];
+//    cell.item = item;
     return cell;
 }
 //选择数据
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-   // WZSelectProjectCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    //WZSelectProjectCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
 }
-#pragma mark -添加楼盘
+#pragma mark-添加楼盘
 -(void)addHouse{
+    WZAddHousesController *addHouse = [[WZAddHousesController alloc] init];
+    [self.navigationController pushViewController:addHouse animated:YES];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
     
 }
 @end

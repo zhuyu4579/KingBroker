@@ -1,5 +1,5 @@
 //
-//  WZHouseManegeController.h
+//  WZAddHousesController.h
 //  KingBroker
 //
 //  Created by 朱玉隆 on 2018/12/11.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WZHouseManegeController : UITableViewController
+@interface WZAddHousesController : UIViewController
 
 @end
 

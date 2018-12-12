@@ -258,6 +258,8 @@
             
             //查询未读消息
             [self setloadData];
+            //上传设备ID
+            [self receivingNotification];
             //将数据传入加入门店中
             WZNewJionStoreController *store = [[WZNewJionStoreController alloc] init];
             store.types = @"1";
@@ -292,6 +294,35 @@
         button.enabled = YES;
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
+}
+#pragma mark -上传设备ID
+-(void)receivingNotification{
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //获取设备ID
+    NSString *deviceId = [user objectForKey:@"deviceId"];
+    
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 10;
+    
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"appType"] = @"1";
+    paraments[@"deviceCode"] = deviceId;
+    paraments[@"deviceType"] = @"IOS";
+    NSString *url = [NSString stringWithFormat:@"%@/app/loginCallback",HTTPURL];
+    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+    
 }
 #pragma mark -查询未读消息
 -(void)setloadData{

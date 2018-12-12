@@ -569,8 +569,6 @@
 #pragma mark -登录
 -(void)logins:(UIButton *)button{
     [self touches];
-    
-    
     NSString *name = _loginName.text;
     if (name.length != 11 || [name isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"用户名格式不正确"];
@@ -782,7 +780,7 @@
     }];
     
 }
-#pragma mark -开启接收通知
+#pragma mark -上传设备ID
 -(void)receivingNotification{
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];

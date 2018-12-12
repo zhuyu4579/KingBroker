@@ -7,7 +7,7 @@
 //
 #import <Masonry.h>
 #import "UIView+Frame.h"
-
+#import "WZHouseManagesController.h"
 #import "WZMyGenerationController.h"
 
 @interface WZMyGenerationController ()
@@ -132,7 +132,8 @@
 }
 #pragma mark -楼盘管理
 -(void)houseManages{
-    
+    WZHouseManagesController *houseManage = [[WZHouseManagesController alloc] init];
+    [self.navigationController pushViewController:houseManage animated:YES];
 }
 #pragma mark -添加楼盘
 -(void)addHouses{
