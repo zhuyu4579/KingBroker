@@ -112,6 +112,7 @@
 		1F54D2C5215F1EE8005FA945 /* CCPScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F54D2C4215F1EE8005FA945 /* CCPScrollView.m */; };
 		1F59227121C0968D0098F926 /* WZHouseManagesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F59226F21C0968D0098F926 /* WZHouseManagesCell.m */; };
 		1F59227221C0968D0098F926 /* WZHouseManagesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F59227021C0968D0098F926 /* WZHouseManagesCell.xib */; };
+		1F59227521C09C770098F926 /* WZHouseManageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F59227421C09C770098F926 /* WZHouseManageItem.m */; };
 		1F5B74F5214F5C94007CA432 /* WZTitleCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B74F4214F5C94007CA432 /* WZTitleCollectionViewCell.m */; };
 		1F5B831E2081ECEF0083DEC2 /* WZQuestionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B831C2081ECEF0083DEC2 /* WZQuestionController.m */; };
 		1F5B831F2081ECEF0083DEC2 /* WZQuestionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B831D2081ECEF0083DEC2 /* WZQuestionController.xib */; };
@@ -527,6 +528,8 @@
 		1F59226E21C0968D0098F926 /* WZHouseManagesCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZHouseManagesCell.h; sourceTree = "<group>"; };
 		1F59226F21C0968D0098F926 /* WZHouseManagesCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZHouseManagesCell.m; sourceTree = "<group>"; };
 		1F59227021C0968D0098F926 /* WZHouseManagesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZHouseManagesCell.xib; sourceTree = "<group>"; };
+		1F59227321C09C770098F926 /* WZHouseManageItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZHouseManageItem.h; sourceTree = "<group>"; };
+		1F59227421C09C770098F926 /* WZHouseManageItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZHouseManageItem.m; sourceTree = "<group>"; };
 		1F5B74F3214F5C94007CA432 /* WZTitleCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZTitleCollectionViewCell.h; sourceTree = "<group>"; };
 		1F5B74F4214F5C94007CA432 /* WZTitleCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZTitleCollectionViewCell.m; sourceTree = "<group>"; };
 		1F5B831B2081ECEF0083DEC2 /* WZQuestionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZQuestionController.h; sourceTree = "<group>"; };
@@ -1280,6 +1283,8 @@
 		1F8A1D6121BF51C1004B7B3D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1F59227321C09C770098F926 /* WZHouseManageItem.h */,
+				1F59227421C09C770098F926 /* WZHouseManageItem.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2596,6 +2601,7 @@
 				1FD9C675207DBD2C00BB0298 /* WZDetailsViewOne.m in Sources */,
 				1F77530620A415C6003E1C07 /* WZCollectHouseCell.m in Sources */,
 				1F3D658320B29704003AEF39 /* WZSelectProjectsController.m in Sources */,
+				1F59227521C09C770098F926 /* WZHouseManageItem.m in Sources */,
 				1FD9C67B207DBD2C00BB0298 /* WZCyclePhotoView.m in Sources */,
 				1F75C55421ABE84B002B8CF2 /* HXPhotoView.m in Sources */,
 				1F75C4F821ABDFCC002B8CF2 /* WZVoucherDealController.m in Sources */,

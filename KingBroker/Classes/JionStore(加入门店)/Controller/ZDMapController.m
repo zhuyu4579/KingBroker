@@ -52,7 +52,7 @@
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
-    self.navigationItem.title = @"门店位置";
+    self.navigationItem.title = @"选择位置";
     self.navigationController.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(selectPoint) title:@"确定"];
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -89,8 +89,9 @@
     CGPoint touchPoint = [gest locationInView:_mapView];
     CLLocationCoordinate2D touchMapCoordinate = [_mapView convertPoint:touchPoint toCoordinateFromView:_mapView];
     _point.coordinate = touchMapCoordinate;
-     [_mapView setCenterCoordinate:touchMapCoordinate animated:YES];
+    [_mapView setCenterCoordinate:touchMapCoordinate animated:YES];
     [_mapView addAnnotation:_point];
+    [_mapView selectAnnotation:_point animated:YES];
     //编译坐标的位置
      [self setLocationWithLatitude:touchMapCoordinate.latitude AndLongitude:touchMapCoordinate.longitude];
 }
@@ -100,6 +101,7 @@
     NSString *latitudeStr = [NSString stringWithFormat:@"%f",latitude];
     NSString *longitudeStr = [NSString stringWithFormat:@"%f",longitude];
     _points = [NSString stringWithFormat:@"%@,%@",longitudeStr,latitudeStr];
+    
     AMapReGeocodeSearchRequest *regeo = [[AMapReGeocodeSearchRequest alloc] init];
     regeo.location = [AMapGeoPoint locationWithLatitude:latitude longitude:longitude];
     regeo.requireExtension = YES;
@@ -125,6 +127,7 @@
         _adCode = adCode;
         _address = [NSString stringWithFormat:@"%@%@%@",province,city,district];
         _township.text = regeo.formattedAddress;
+        _point.title = _address;
     }
 }
 //确认按钮
@@ -206,8 +209,9 @@
             annotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:reuseIndetifier];
         }
-        annotationView.image = [UIImage imageNamed:@"addr"];
-        annotationView.fSize = CGSizeMake(28, 55);
+        annotationView.image = [UIImage imageNamed:@"lpxq_place"];
+        annotationView.fSize = CGSizeMake(22, 31);
+        annotationView.canShowCallout= YES;
         //设置中心点偏移，使得标注底部中间点成为经纬度对应点
         annotationView.centerOffset = CGPointMake(0, -18);
         return annotationView;
@@ -388,8 +392,8 @@
     addrView.layer.shadowOffset = CGSizeMake(0,0);
     [self.view addSubview:addrView];
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.frame = CGRectMake(10, 10, 22, 42);
-    imageView.image = [UIImage imageNamed:@"addr"];
+    imageView.frame = CGRectMake(10, 17, 22, 25);
+    imageView.image = [UIImage imageNamed:@"zd_dw"];
     [addrView addSubview:imageView];
     UILabel *cityName = [[UILabel alloc] initWithFrame:CGRectMake(42, 12, addrView.fWidth - 72, 16)];
     cityName.textColor = UIColorRBG(68, 68, 68);

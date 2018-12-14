@@ -11,6 +11,8 @@
 #import "UIView+Frame.h"
 #import <AFNetworking.h>
 #import <SVProgressHUD.h>
+#import "WZHouseManageItem.h"
+#import "WZHouseManagesCell.h"
 #import "UIBarButtonItem+Item.h"
 #import "NSString+LCExtension.h"
 #import "WZAddHousesController.h"
@@ -42,10 +44,8 @@ static NSString *size = @"20";
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButtons:self action:@selector(addHouse) title:@"添加楼盘"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //注册cell
-    [self.tableView registerNib:[UINib nibWithNibName:@"WZSelectProjectCell" bundle:nil] forCellReuseIdentifier:ID];
-    _projectListArray = [NSMutableArray array];
-    current = 1;
-    _isRequestFinish = YES;
+    [self.tableView registerNib:[UINib nibWithNibName:@"WZHouseManagesCell" bundle:nil] forCellReuseIdentifier:ID];
+    
     [self headerRefresh];
 }
 //下拉刷新
@@ -67,7 +67,7 @@ static NSString *size = @"20";
     // 设置颜色
     header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
     self.tableView.mj_header = header;
-    [self loadData];
+    
     //创建上拉加载
     MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopic)];
     footer.mj_h +=JF_BOTTOM_SPACE + 20;
@@ -128,7 +128,7 @@ static NSString *size = @"20";
             }else{
                 [_viewNo setHidden:NO];
             }
-            //_projectListArrays = [WZSelcetProjectItem mj_objectArrayWithKeyValuesArray:_projectListArray];
+            _projectListArrays = [WZHouseManageItem mj_objectArrayWithKeyValuesArray:_projectListArray];
             [self.tableView reloadData];
             [self.tableView.mj_header endRefreshing];
             
@@ -194,14 +194,14 @@ static NSString *size = @"20";
     return _projectListArrays.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-//    WZSelcetProjectItem *item = _projectListArrays[indexPath.row];
-//    cell.item = item;
+    WZHouseManagesCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    WZHouseManageItem *item = _projectListArrays[indexPath.row];
+    cell.item = item;
     return cell;
 }
 //选择数据
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    //WZSelectProjectCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    WZHouseManagesCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
 }
 #pragma mark-添加楼盘
@@ -212,6 +212,9 @@ static NSString *size = @"20";
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    
+    _projectListArray = [NSMutableArray array];
+    current = 1;
+    _isRequestFinish = YES;
+    [self loadData];
 }
 @end
