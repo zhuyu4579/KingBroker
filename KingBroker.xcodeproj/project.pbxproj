@@ -113,6 +113,8 @@
 		1F59227121C0968D0098F926 /* WZHouseManagesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F59226F21C0968D0098F926 /* WZHouseManagesCell.m */; };
 		1F59227221C0968D0098F926 /* WZHouseManagesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F59227021C0968D0098F926 /* WZHouseManagesCell.xib */; };
 		1F59227521C09C770098F926 /* WZHouseManageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F59227421C09C770098F926 /* WZHouseManageItem.m */; };
+		1F5B2B8221C34A8E00DEE13F /* WZAddHouseTwoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B2B8121C34A8E00DEE13F /* WZAddHouseTwoController.m */; };
+		1F5B2B8521C3834400DEE13F /* WZAddHouseThreeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B2B8421C3834400DEE13F /* WZAddHouseThreeController.m */; };
 		1F5B74F5214F5C94007CA432 /* WZTitleCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B74F4214F5C94007CA432 /* WZTitleCollectionViewCell.m */; };
 		1F5B831E2081ECEF0083DEC2 /* WZQuestionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B831C2081ECEF0083DEC2 /* WZQuestionController.m */; };
 		1F5B831F2081ECEF0083DEC2 /* WZQuestionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B831D2081ECEF0083DEC2 /* WZQuestionController.xib */; };
@@ -530,6 +532,10 @@
 		1F59227021C0968D0098F926 /* WZHouseManagesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZHouseManagesCell.xib; sourceTree = "<group>"; };
 		1F59227321C09C770098F926 /* WZHouseManageItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZHouseManageItem.h; sourceTree = "<group>"; };
 		1F59227421C09C770098F926 /* WZHouseManageItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZHouseManageItem.m; sourceTree = "<group>"; };
+		1F5B2B8021C34A8E00DEE13F /* WZAddHouseTwoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZAddHouseTwoController.h; sourceTree = "<group>"; };
+		1F5B2B8121C34A8E00DEE13F /* WZAddHouseTwoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAddHouseTwoController.m; sourceTree = "<group>"; };
+		1F5B2B8321C3834400DEE13F /* WZAddHouseThreeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZAddHouseThreeController.h; sourceTree = "<group>"; };
+		1F5B2B8421C3834400DEE13F /* WZAddHouseThreeController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAddHouseThreeController.m; sourceTree = "<group>"; };
 		1F5B74F3214F5C94007CA432 /* WZTitleCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZTitleCollectionViewCell.h; sourceTree = "<group>"; };
 		1F5B74F4214F5C94007CA432 /* WZTitleCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZTitleCollectionViewCell.m; sourceTree = "<group>"; };
 		1F5B831B2081ECEF0083DEC2 /* WZQuestionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZQuestionController.h; sourceTree = "<group>"; };
@@ -1320,6 +1326,10 @@
 			children = (
 				1F8A1D7421BF930D004B7B3D /* WZAddHousesController.h */,
 				1F8A1D7521BF930D004B7B3D /* WZAddHousesController.m */,
+				1F5B2B8021C34A8E00DEE13F /* WZAddHouseTwoController.h */,
+				1F5B2B8121C34A8E00DEE13F /* WZAddHouseTwoController.m */,
+				1F5B2B8321C3834400DEE13F /* WZAddHouseThreeController.h */,
+				1F5B2B8421C3834400DEE13F /* WZAddHouseThreeController.m */,
 			);
 			path = addHouse;
 			sourceTree = "<group>";
@@ -2697,6 +2707,7 @@
 				1FD9C679207DBD2C00BB0298 /* WZDynamictableView.m in Sources */,
 				1FD9C60D207DBD2C00BB0298 /* UIView+Frame.m in Sources */,
 				1F77530220A41567003E1C07 /* WZCollectTableView.m in Sources */,
+				1F5B2B8521C3834400DEE13F /* WZAddHouseThreeController.m in Sources */,
 				1F676363214A3ABE005F1E37 /* WZGoodHouseCollectionView.m in Sources */,
 				1F75C56A21ABE84B002B8CF2 /* HXDatePhotoPreviewBottomView.m in Sources */,
 				1F859B782117E42600FCA5F3 /* WZRegistarSetPWController.m in Sources */,
@@ -2758,6 +2769,7 @@
 				1FD9C655207DBD2C00BB0298 /* WZReportSuccessCell.m in Sources */,
 				1F09951320F4453900524361 /* WZStoreAdministrationController.m in Sources */,
 				1FD9C659207DBD2C00BB0298 /* WZRecommendCell.m in Sources */,
+				1F5B2B8221C34A8E00DEE13F /* WZAddHouseTwoController.m in Sources */,
 				1FD9C612207DBD2C00BB0298 /* Foundation+Log.m in Sources */,
 				1F67636B214A3C4C005F1E37 /* WZGoodHouseItem.m in Sources */,
 				1F4D6DC520F5A95F008A9514 /* WZSharePhoneCell.m in Sources */,

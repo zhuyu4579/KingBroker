@@ -13,7 +13,9 @@
 #import "HXPhotoPicker.h"
 #import <SVProgressHUD.h>
 #import "ZDMapController.h"
+#import "WZNavigationController.h"
 #import "WZAddHousesController.h"
+#import "WZAddHouseTwoController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 @interface WZAddHousesController ()<UITextFieldDelegate,UITextViewDelegate,HXPhotoViewDelegate>
 @property(nonatomic,strong)UIScrollView *scrollView;
@@ -90,7 +92,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSString *tel = [ user objectForKey:@"username"];
     //创建UIScrollView
     UIScrollView *meScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(self.view.fX,0, self.view.fWidth, self.view.fHeight-49-JF_BOTTOM_SPACE)];
-    meScrollView.backgroundColor = UIColorRBG(248,247,242);
+    meScrollView.backgroundColor = UIColorRBG(247,247,247);
     meScrollView.bounces = NO;
     meScrollView.showsVerticalScrollIndicator = NO;
     meScrollView.showsHorizontalScrollIndicator = NO;
@@ -280,7 +282,9 @@ static const CGFloat kPhotoViewMargin = 15.0;
 
 #pragma mark-下一步
 -(void)nextSubmission{
-    
+    WZAddHouseTwoController *addHouseTwo = [[WZAddHouseTwoController alloc] init];
+    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:addHouseTwo];
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 #pragma mark - 懒加载
 - (NSMutableArray *)selectedMarkArray {

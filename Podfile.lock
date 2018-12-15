@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
+  - AliyunOSSiOS (2.10.5)
   - AMap2DMap-NO-IDFA (5.6.0):
     - AMapFoundation-NO-IDFA (~> 1.4)
   - AMapFoundation-NO-IDFA (1.5.3)
@@ -35,6 +36,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 3.2.0)
+  - AliyunOSSiOS (~> 2.10.5)
   - AMap2DMap-NO-IDFA (~> 5.6.0)
   - AMapSearch-NO-IDFA (~> 5.7.0)
   - BRPickerView (~> 2.1.2)
@@ -50,6 +52,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  AliyunOSSiOS: 53df437f24309bdfbe2df21b4f6be4f75474f00a
   AMap2DMap-NO-IDFA: 277965383679f1a4676df7e1a0439a1e14d0599a
   AMapFoundation-NO-IDFA: 128ccf9249abc9de1661b935f01d116700583691
   AMapSearch-NO-IDFA: 612a92f75ff20544f42d376dfcf3c034da4ad0b6
@@ -64,6 +67,6 @@ SPEC CHECKSUMS:
   UMCSecurityPlugins: 0831a08f3988f3cea9f1d3a7626cd9bee4fef150
   WechatOpenSDK: 676feec516a11173eafd1fe64b10d27babf28701
 
-PODFILE CHECKSUM: b5ce7651ad72b3894e3f649a33441dc1a0b29bc2
+PODFILE CHECKSUM: f93fddf4a4f88114aac5cf32603b60cdacfa136f
 
 COCOAPODS: 1.4.0

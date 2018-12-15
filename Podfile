@@ -19,4 +19,5 @@ target 'KingBroker' do
    pod 'UMCCommon', '~> 1.5.2'
    pod 'UMCSecurityPlugins', '~> 1.0.6'	
    pod 'UMCAnalytics', '~> 5.5.0'
+   pod 'AliyunOSSiOS', '~> 2.10.5'
 end

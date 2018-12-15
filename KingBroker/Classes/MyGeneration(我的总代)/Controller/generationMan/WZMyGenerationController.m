@@ -7,6 +7,7 @@
 //
 #import <Masonry.h>
 #import "UIView+Frame.h"
+#import "WZAddHousesController.h"
 #import "WZHouseManagesController.h"
 #import "WZMyGenerationController.h"
 
@@ -137,7 +138,8 @@
 }
 #pragma mark -添加楼盘
 -(void)addHouses{
-    
+    WZAddHousesController *houseManage = [[WZAddHousesController alloc] init];
+    [self.navigationController pushViewController:houseManage animated:YES];
 }
 #pragma mark -发布悬赏
 -(void)releaseReward{
