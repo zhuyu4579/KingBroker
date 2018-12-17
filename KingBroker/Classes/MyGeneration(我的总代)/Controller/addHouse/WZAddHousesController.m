@@ -13,6 +13,8 @@
 #import "HXPhotoPicker.h"
 #import <SVProgressHUD.h>
 #import "ZDMapController.h"
+#import "WZOSSImageUploader.h"
+#import "NSString+LCExtension.h"
 #import "WZNavigationController.h"
 #import "WZAddHousesController.h"
 #import "WZAddHouseTwoController.h"
@@ -32,6 +34,10 @@
 @property(nonatomic,strong)NSString *houseAdCode;
 //楼盘地址
 @property(nonatomic,strong)UITextField *houseAddr;
+//总价
+@property(nonatomic,strong)UITextField *totalPrice;
+//均价
+@property(nonatomic,strong)UITextField *averagePrice;
 // 标签数组
 @property (nonatomic, strong) NSArray *markArray;
 // 选中标签数组(数字)
@@ -73,6 +79,8 @@
 @property (weak, nonatomic) HXPhotoView *photoView;
 //图片数组
 @property (strong, nonatomic) NSArray<UIImage *> *imageArray;
+//图片地址
+@property (strong, nonatomic) NSArray *imageArrays;
 @end
 static const CGFloat kPhotoViewMargin = 15.0;
 @implementation WZAddHousesController
@@ -83,6 +91,12 @@ static const CGFloat kPhotoViewMargin = 15.0;
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
     //创建view
     [self createView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushD) name:@"pushD" object:nil];
+}
+//返回根目录
+-(void)pushD{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark-创建view
 -(void)createView{
@@ -112,14 +126,14 @@ static const CGFloat kPhotoViewMargin = 15.0;
     UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, 21+34*n, meScrollView.fWidth, 99)];
     viewTwo.backgroundColor = [UIColor whiteColor];
     [meScrollView addSubview:viewTwo];
-    UIView *viewTwo_one = [self createViewOne:@"公司名称" contents:@"杭州境宽地产融合平台" fY:0];
+    UIView *viewTwo_one = [self createViewOne:@"公司名称" contents:@"杭州境宽地产融合平台" fY:0 isDel:@"" unit:@"" setKeyboard:@""];
     [viewTwo addSubview:viewTwo_one];
     UITextField *companyName = [viewTwo_one viewWithTag:20];
     _companyName = companyName;
     UIView *ineTwo = [[UIView alloc] initWithFrame:CGRectMake(15, 49, viewTwo.fWidth-30, 1)];
     ineTwo.backgroundColor = UIColorRBG(240, 240, 240);
     [viewTwo addSubview:ineTwo];
-    UIView *viewTwo_two = [self createViewOne:@"楼盘名称" contents:@"" fY:50];
+    UIView *viewTwo_two = [self createViewOne:@"楼盘名称" contents:@"" fY:50 isDel:@"" unit:@"" setKeyboard:@""];
     [viewTwo addSubview:viewTwo_two];
     UITextField *houseName = [viewTwo_one viewWithTag:20];
     _houseName = houseName;
@@ -136,13 +150,30 @@ static const CGFloat kPhotoViewMargin = 15.0;
     UIView *ineThree = [[UIView alloc] initWithFrame:CGRectMake(15, 49, viewThree.fWidth-30, 1)];
     ineThree.backgroundColor = UIColorRBG(240, 240, 240);
     [viewThree addSubview:ineThree];
-    UIView *viewThree_two = [self createViewOne:@"楼盘地址" contents:@"" fY:50];
+    UIView *viewThree_two = [self createViewOne:@"楼盘地址" contents:@"" fY:50 isDel:@"" unit:@"" setKeyboard:@""];
     [viewThree addSubview:viewThree_two];
     UITextField *houseAddr = [viewThree_two viewWithTag:20];
     _houseAddr = houseAddr;
     
+    //新增总价/均价
+    UIView *priceView = [[UIView alloc] initWithFrame:CGRectMake(0, viewThree.fY+viewThree.fHeight+8, meScrollView.fWidth, 99)];
+    priceView.backgroundColor = [UIColor whiteColor];
+    [meScrollView addSubview:priceView];
+    
+    UIView *viewPrice_one = [self createViewOne:@"总价" contents:@"" fY:0 isDel:@"2" unit:@"万元/套起" setKeyboard:@"1"];
+    [priceView addSubview:viewPrice_one];
+    UITextField *totalPrice = [viewPrice_one viewWithTag:20];
+    _totalPrice = totalPrice;
+    UIView *inePrice = [[UIView alloc] initWithFrame:CGRectMake(15, 49, viewTwo.fWidth-30, 1)];
+    inePrice.backgroundColor = UIColorRBG(240, 240, 240);
+    [priceView addSubview:inePrice];
+    UIView *viewPrice_two = [self createViewOne:@"均价" contents:@"" fY:50 isDel:@"2" unit:@"万元/平起" setKeyboard:@"1"];
+    [priceView addSubview:viewPrice_two];
+    UITextField *averagePrice = [viewPrice_two viewWithTag:20];
+    _averagePrice = averagePrice;
+    
     //第四个view
-    UIView *viewFour = [[UIView alloc] initWithFrame:CGRectMake(0, viewThree.fY+viewThree.fHeight+8, meScrollView.fWidth, 130)];
+    UIView *viewFour = [[UIView alloc] initWithFrame:CGRectMake(0, priceView.fY+priceView.fHeight+8, meScrollView.fWidth, 130)];
     viewFour.backgroundColor = [UIColor whiteColor];
     [meScrollView addSubview:viewFour];
     
@@ -178,7 +209,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     viewFive.backgroundColor = [UIColor whiteColor];
     [meScrollView addSubview:viewFive];
     
-    UIView *viewFive_one = [self createViewOne:@"佣金" contents:@"" fY:0];
+    UIView *viewFive_one = [self createViewOne:@"佣金" contents:@"" fY:0 isDel:@"" unit:@"" setKeyboard:@""];
     [viewFive addSubview:viewFive_one];
     UITextField *commission = [viewFive_one viewWithTag:20];
     _commission = commission;
@@ -187,7 +218,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     ineFive.backgroundColor = UIColorRBG(240, 240, 240);
     [viewFive addSubview:ineFive];
     
-    UIView *viewFive_two = [self createViewOne:@"结佣时间" contents:@"" fY:50];
+    UIView *viewFive_two = [self createViewOne:@"结佣时间" contents:@"" fY:50 isDel:@"" unit:@"" setKeyboard:@""];
     [viewFive addSubview:viewFive_two];
     UITextField *commissionTime = [viewFive_two viewWithTag:20];
     _CommissionTime = commissionTime;
@@ -207,7 +238,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     viewSix.backgroundColor = [UIColor whiteColor];
     [meScrollView addSubview:viewSix];
     
-    UIView *viewSix_one = [self createViewOne:@"渠道负责人" contents:name fY:0];
+    UIView *viewSix_one = [self createViewOne:@"渠道负责人" contents:name fY:0 isDel:@"" unit:@"" setKeyboard:@""];
     [viewSix addSubview:viewSix_one];
     UITextField *realName = [viewSix_one viewWithTag:20];
     _realName = realName;
@@ -216,7 +247,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     ineSix.backgroundColor = UIColorRBG(240, 240, 240);
     [viewSix addSubview:ineSix];
     
-    UIView *viewSix_two = [self createViewOne:@"联系电话" contents:tel fY:50];
+    UIView *viewSix_two = [self createViewOne:@"联系电话" contents:tel fY:50 isDel:@"" unit:@"" setKeyboard:@"1"];
     [viewSix addSubview:viewSix_two];
     UITextField *telphone = [viewSix_two viewWithTag:20];
     _telphone = telphone;
@@ -283,8 +314,163 @@ static const CGFloat kPhotoViewMargin = 15.0;
 #pragma mark-下一步
 -(void)nextSubmission{
     WZAddHouseTwoController *addHouseTwo = [[WZAddHouseTwoController alloc] init];
+    //addHouseTwo.projectId = [[responseObject valueForKey:@"data"] valueForKey:@"id"];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:addHouseTwo];
     [self.navigationController presentViewController:nav animated:YES completion:nil];
+    return;
+    //公司名称
+    NSString *companyName = _companyName.text;
+    companyName = [companyName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([companyName isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"公司名称不能为空"];
+        return;
+    }
+    //楼盘名称
+    NSString *houseName = _houseName.text;
+    houseName = [houseName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([houseName isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"楼盘名称不能为空"];
+        return;
+    }
+    //楼盘位置
+    NSString *houseAddress = _houseAddress.text;
+    houseAddress = [houseAddress stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([houseAddress isEqual:@""]||[houseAddress isEqual:@"点击选择"]) {
+        [SVProgressHUD showInfoWithStatus:@"楼盘位置不能为空"];
+        return;
+    }
+    //楼盘地址
+    NSString *houseAddr = _houseAddr.text;
+    houseAddr = [houseAddr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([houseAddr isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"楼盘地址不能为空"];
+        return;
+    }
+    //楼盘类型
+    if(_selectedMarkArray.count == 0){
+        [SVProgressHUD showInfoWithStatus:@"楼盘类型不能为空"];
+        return;
+    }
+    NSString *houseType =_selectedMarkArray[0];
+    for (int i = 1; i<_selectedMarkArray.count; i++) {
+        houseType = [NSString stringWithFormat:@"%@,%@",houseType,_selectedMarkArray[i]];
+    }
+    //佣金
+    NSString *commission = _commission.text;
+    commission = [commission stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([commission isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"佣金不能为空"];
+        return;
+    }
+    //结佣时间
+    NSString *commissionTime = _CommissionTime.text;
+    commissionTime = [commissionTime stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([commissionTime isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"佣金时间不能为空"];
+        return;
+    }
+    //佣金规则
+    NSString *commissionRule = _commissionTextView.text;
+    commissionRule = [commissionRule stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([commissionRule isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"佣金规则不能为空"];
+        return;
+    }
+    //渠道负责人
+    NSString *dutyName = _realName.text;
+    dutyName = [dutyName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([dutyName isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"渠道负责人不能为空"];
+        return;
+    }
+    //联系电话
+    NSString *telphone = _telphone.text;
+    telphone = [telphone stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([telphone isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"联系电话不能为空"];
+        return;
+    }
+    //楼盘动态
+    NSString *dynamic = _houseDynamic.text;
+    dynamic = [dynamic stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([dynamic isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"楼盘动态不能为空"];
+        return;
+    }
+    //楼盘简介
+    NSString *outlining = _houseIntroduce.text;
+    outlining = [outlining stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([outlining isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"楼盘简介不能为空"];
+        return;
+    }
+    //报备说明
+    NSString *reportDescribe = _reportExplain.text;
+    reportDescribe = [reportDescribe stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([reportDescribe isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"楼盘简介不能为空"];
+        return;
+    }
+    //展示图
+    if (_imageArrays.count == 0) {
+        [SVProgressHUD showInfoWithStatus:@"展示图上传失败,请重新选择图片"];
+        return;
+    }
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"id"] = @"";
+    paraments[@"name"] = houseName;
+    paraments[@"companyName"] = companyName ;
+    paraments[@"lnglat"] = _houseLnglat;
+    paraments[@"adcode"] = _houseAdCode;
+    paraments[@"address"] = houseAddr;
+    paraments[@"type"] = houseType;
+    paraments[@"commission"] = commission;
+    paraments[@"settlement"] = commissionTime;
+    paraments[@"commissionRule"] = commissionRule;
+    paraments[@"chargeMan"] = dutyName;
+    paraments[@"telphone"] = telphone;
+    paraments[@"dynamic"] = dynamic;
+    paraments[@"reportDescribe"] = reportDescribe;
+    paraments[@"showUrl"] = _imageArrays[0];
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/upbaseInfoCreateOrUpdate",HTTPURL];
+    NSLog(@"%@",paraments);
+    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            WZAddHouseTwoController *addHouseTwo = [[WZAddHouseTwoController alloc] init];
+            addHouseTwo.projectId = [[responseObject valueForKey:@"data"] valueForKey:@"id"];
+            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:addHouseTwo];
+            [self.navigationController presentViewController:nav animated:YES completion:nil];
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+            if ([code isEqual:@"401"]) {
+                
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
+            
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+    }];
+    
 }
 #pragma mark - 懒加载
 - (NSMutableArray *)selectedMarkArray {
@@ -350,7 +536,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
 }
 
 #pragma mark -抽取第一个view
--(UIView *)createViewOne:(NSString *)title contents:(NSString *)str fY:(CGFloat)fY{
+-(UIView *)createViewOne:(NSString *)title contents:(NSString *)str fY:(CGFloat)fY isDel:(NSString *)isDel unit:(NSString *)unit setKeyboard:(NSString *)keyboard{
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, fY, _scrollView.fWidth, 49)];
     UILabel *labelTitle = [[UILabel alloc] init];
     NSMutableAttributedString *stringOne = [[NSMutableAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName: [UIFont fontWithName:@"PingFang-SC-Medium" size: 13],NSForegroundColorAttributeName:UIColorRBG(51, 51, 51)}];
@@ -369,15 +555,44 @@ static const CGFloat kPhotoViewMargin = 15.0;
     content.text = str;
     content.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     content.delegate = self;
-    content.keyboardType = UIKeyboardTypeDefault;
+    if ([keyboard isEqual:@"1"]) {
+        content.keyboardType = UIKeyboardTypeDecimalPad;
+    }else{
+        content.keyboardType = UIKeyboardTypeDefault;
+    }
+    
     content.clearButtonMode = UITextFieldViewModeWhileEditing;
     [view addSubview:content];
-    [content mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(view.mas_left).offset(106);
-        make.top.equalTo(view.mas_top).offset(1);
-        make.height.offset(48);
-        make.width.offset(view.fWidth-121);
+    if ([isDel isEqual:@"1"]||[isDel isEqual:@"2"]) {
+        [content mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(view.mas_left).offset(106);
+            make.top.equalTo(view.mas_top).offset(1);
+            make.height.offset(48);
+            make.width.offset(view.fWidth-170);
+        }];
+    }else{
+        [content mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(view.mas_left).offset(106);
+            make.top.equalTo(view.mas_top).offset(1);
+            make.height.offset(48);
+            make.width.offset(view.fWidth-121);
+        }];
+    }
+    UILabel *labelUnit = [[UILabel alloc] init];
+    NSMutableAttributedString *stringTwo = [[NSMutableAttributedString alloc] initWithString:unit attributes:@{NSFontAttributeName: [UIFont fontWithName:@"PingFang-SC-Medium" size: 12],NSForegroundColorAttributeName:UIColorRBG(51, 51, 51)}];
+    labelUnit.attributedText = stringTwo;
+    [view addSubview:labelUnit];
+    [labelUnit mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view.mas_right).offset(-15);
+        make.top.equalTo(view.mas_top).offset(19);
+        make.height.offset(12);
     }];
+    if ([isDel isEqual:@"2"]) {
+        [labelUnit setHidden:NO];
+    }else{
+        [labelUnit setHidden:YES];
+    }
+    
     return view;
 }
 #pragma mark -抽取第二个View
@@ -609,6 +824,44 @@ static const CGFloat kPhotoViewMargin = 15.0;
 - (void)photoView:(HXPhotoView *)photoView imageChangeComplete:(NSArray<UIImage *> *)imageList{
     
     _imageArray = imageList;
+    [self findUploadData:imageList];
+}
+//获取文件上传信息
+-(void)findUploadData:(NSArray<UIImage *> *)imageList{
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    //NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/sysAttachment/getStsInfo",HTTPURL];
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *dacty = [responseObject valueForKey:@"data"];
+            if (imageList.count == 0) {
+                _imageArrays = nil;
+                return ;
+            }
+            [WZOSSImageUploader asyncUploadImages:imageList data:dacty complete:^(NSArray<NSString *> * _Nonnull names, UploadImageState state) {
+                NSLog(@"%ld",(long)state);
+                NSLog(@"%@",names);
+                _imageArrays = names;
+            }];
+        }else{
+            [SVProgressHUD showInfoWithStatus:@"获取上传凭证失败"];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+       
+    }];
 }
 //获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
@@ -631,9 +884,11 @@ static const CGFloat kPhotoViewMargin = 15.0;
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    _scrollView.contentSize = CGSizeMake(0, _viewTen.fY+_viewTen.fHeight);
     [self.view endEditing:YES];
 }
 -(void)touches{
+    _scrollView.contentSize = CGSizeMake(0, _viewTen.fY+_viewTen.fHeight);
     [self.view endEditing:YES];
 }
 @end

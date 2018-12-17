@@ -12,7 +12,9 @@
 #import <AFNetworking.h>
 #import "HXPhotoPicker.h"
 #import <SVProgressHUD.h>
+#import "WZOSSImageUploader.h"
 #import "UIBarButtonItem+Item.h"
+#import "NSString+LCExtension.h"
 #import "WZNavigationController.h"
 #import "WZAddHouseTwoController.h"
 #import "WZAddHouseThreeController.h"
@@ -39,6 +41,8 @@
 @property (weak, nonatomic) HXPhotoView *photoView;
 //图片数组
 @property (strong, nonatomic) NSArray<UIImage *> *imageArray;
+//图片数组
+@property (strong, nonatomic) NSArray *imageArrays;
 @end
 static const CGFloat kPhotoViewMargin = 15.0;
 @implementation WZAddHouseTwoController
@@ -144,11 +148,70 @@ static const CGFloat kPhotoViewMargin = 15.0;
 #pragma mark-跳过
 -(void)skip{
     WZAddHouseThreeController *addHouseThree = [[WZAddHouseThreeController alloc] init];
+    addHouseThree.projectId = _projectId;
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:addHouseThree];
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 #pragma mark-下一步
 -(void)nextSubmission{
+    
+    NSString *houseType =@"";
+    if (_selectedMarkArray.count>0) {
+        houseType =_selectedMarkArray[0];
+        for (int i = 1; i<_selectedMarkArray.count; i++) {
+            houseType = [NSString stringWithFormat:@"%@,%@",houseType,_selectedMarkArray[i]];
+        }
+    }
+    if (_imageArrays.count>0) {
+        if (_imageArrays.count != _imageArray.count) {
+            [SVProgressHUD showInfoWithStatus:@"图片上传失败,请重新选择图片"];
+            return;
+        }
+    }
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"projectId"] = _projectId;
+    paraments[@"developer"] = _developerName.text;
+    paraments[@"houseNum"] = _surpluNum.text ;
+    paraments[@"buildingFeature"] = houseType;
+    paraments[@"fareReimburseDesc"] = _fareReimbur.text;
+    paraments[@"fareImglist"] = _imageArrays;
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/upsupplementCreateOrUpdate",HTTPURL];
+    NSLog(@"%@",paraments);
+    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            WZAddHouseThreeController *addHouseThree = [[WZAddHouseThreeController alloc] init];
+            addHouseThree.projectId = _projectId;
+            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:addHouseThree];
+            [self.navigationController presentViewController:nav animated:YES completion:nil];
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+            if ([code isEqual:@"401"]) {
+                
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
+            
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+    }];
     
 }
 #pragma mark - 懒加载
@@ -371,7 +434,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         make.height.offset(15);
     }];
     UILabel *labelTitles = [[UILabel alloc] init];
-    labelTitles.text = @"(仅限1张，建议图片长：宽=3：2)";
+    labelTitles.text = @"(建议图片长：宽=3：2)";
     labelTitles.textColor = UIColorRBG(204, 204, 204);
     labelTitles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size: 13];
     [view addSubview:labelTitles];
@@ -404,6 +467,45 @@ static const CGFloat kPhotoViewMargin = 15.0;
 - (void)photoView:(HXPhotoView *)photoView imageChangeComplete:(NSArray<UIImage *> *)imageList{
     
     _imageArray = imageList;
+    [self findUploadData:imageList];
+}
+//获取文件上传信息
+-(void)findUploadData:(NSArray<UIImage *> *)imageList{
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    //NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/sysAttachment/getStsInfo",HTTPURL];
+    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *dacty = [responseObject valueForKey:@"data"];
+            NSLog(@"%@",dacty);
+            if (imageList.count == 0) {
+                _imageArrays = nil;
+                return ;
+            }
+            [WZOSSImageUploader asyncUploadImages:imageList data:dacty complete:^(NSArray<NSString *> * _Nonnull names, UploadImageState state) {
+                NSLog(@"%ld",(long)state);
+                NSLog(@"%@",names);
+                _imageArrays = names;
+            }];
+        }else{
+            [SVProgressHUD showInfoWithStatus:@"获取上传凭证失败"];
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
 }
 //获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
@@ -426,9 +528,11 @@ static const CGFloat kPhotoViewMargin = 15.0;
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
     [self.view endEditing:YES];
 }
 -(void)touches{
+    _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
     [self.view endEditing:YES];
 }
 -(void)viewWillAppear:(BOOL)animated{

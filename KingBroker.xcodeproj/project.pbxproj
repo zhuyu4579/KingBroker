@@ -64,6 +64,7 @@
 		1F489C4F20CE9669005889D8 /* WZUpdateStoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F489C4D20CE9669005889D8 /* WZUpdateStoreController.m */; };
 		1F489C5020CE9669005889D8 /* WZUpdateStoreController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F489C4E20CE9669005889D8 /* WZUpdateStoreController.xib */; };
 		1F48C14B2159D01200497E1B /* WZVideoDailtelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F48C14A2159D01200497E1B /* WZVideoDailtelController.m */; };
+		1F48E03921C4FC120021E385 /* WZOSSImageUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F48E03821C4FC120021E385 /* WZOSSImageUploader.m */; };
 		1F48F18521588AC4003CE6DC /* LMHWaterFallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F48F18321588AC3003CE6DC /* LMHWaterFallLayout.m */; };
 		1F48F18921588CDB003CE6DC /* WZLabelVideoListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F48F18721588CDB003CE6DC /* WZLabelVideoListCell.m */; };
 		1F48F18A21588CDB003CE6DC /* WZLabelVideoListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F48F18821588CDB003CE6DC /* WZLabelVideoListCell.xib */; };
@@ -204,6 +205,7 @@
 		1F75C57921ABE84B002B8CF2 /* HXCustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F75C55021ABE84A002B8CF2 /* HXCustomNavigationController.m */; };
 		1F75C57A21ABE84B002B8CF2 /* UIFont+HXExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F75C55121ABE84A002B8CF2 /* UIFont+HXExtension.m */; };
 		1F75C57B21ABE84B002B8CF2 /* HXCustomCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F75C55221ABE84A002B8CF2 /* HXCustomCameraViewController.m */; };
+		1F766C4A21C77A5F00AE777B /* WZAddHouseSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F766C4921C77A5F00AE777B /* WZAddHouseSuccessController.m */; };
 		1F77530220A41567003E1C07 /* WZCollectTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F77530120A41567003E1C07 /* WZCollectTableView.m */; };
 		1F77530620A415C6003E1C07 /* WZCollectHouseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F77530420A415C6003E1C07 /* WZCollectHouseCell.m */; };
 		1F77530720A415C6003E1C07 /* WZCollectHouseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F77530520A415C6003E1C07 /* WZCollectHouseCell.xib */; };
@@ -445,6 +447,8 @@
 		1F489C4E20CE9669005889D8 /* WZUpdateStoreController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZUpdateStoreController.xib; sourceTree = "<group>"; };
 		1F48C1492159D01200497E1B /* WZVideoDailtelController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZVideoDailtelController.h; sourceTree = "<group>"; };
 		1F48C14A2159D01200497E1B /* WZVideoDailtelController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZVideoDailtelController.m; sourceTree = "<group>"; };
+		1F48E03721C4FC120021E385 /* WZOSSImageUploader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZOSSImageUploader.h; sourceTree = "<group>"; };
+		1F48E03821C4FC120021E385 /* WZOSSImageUploader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZOSSImageUploader.m; sourceTree = "<group>"; };
 		1F48F18321588AC3003CE6DC /* LMHWaterFallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMHWaterFallLayout.m; sourceTree = "<group>"; };
 		1F48F18421588AC4003CE6DC /* LMHWaterFallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMHWaterFallLayout.h; sourceTree = "<group>"; };
 		1F48F18621588CDB003CE6DC /* WZLabelVideoListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZLabelVideoListCell.h; sourceTree = "<group>"; };
@@ -697,6 +701,8 @@
 		1F75C55021ABE84A002B8CF2 /* HXCustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXCustomNavigationController.m; sourceTree = "<group>"; };
 		1F75C55121ABE84A002B8CF2 /* UIFont+HXExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+HXExtension.m"; sourceTree = "<group>"; };
 		1F75C55221ABE84A002B8CF2 /* HXCustomCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HXCustomCameraViewController.m; sourceTree = "<group>"; };
+		1F766C4821C77A5F00AE777B /* WZAddHouseSuccessController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZAddHouseSuccessController.h; sourceTree = "<group>"; };
+		1F766C4921C77A5F00AE777B /* WZAddHouseSuccessController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAddHouseSuccessController.m; sourceTree = "<group>"; };
 		1F77530020A41567003E1C07 /* WZCollectTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZCollectTableView.h; sourceTree = "<group>"; };
 		1F77530120A41567003E1C07 /* WZCollectTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZCollectTableView.m; sourceTree = "<group>"; };
 		1F77530320A415C6003E1C07 /* WZCollectHouseCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZCollectHouseCell.h; sourceTree = "<group>"; };
@@ -1291,6 +1297,8 @@
 			children = (
 				1F59227321C09C770098F926 /* WZHouseManageItem.h */,
 				1F59227421C09C770098F926 /* WZHouseManageItem.m */,
+				1F48E03721C4FC120021E385 /* WZOSSImageUploader.h */,
+				1F48E03821C4FC120021E385 /* WZOSSImageUploader.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1330,6 +1338,8 @@
 				1F5B2B8121C34A8E00DEE13F /* WZAddHouseTwoController.m */,
 				1F5B2B8321C3834400DEE13F /* WZAddHouseThreeController.h */,
 				1F5B2B8421C3834400DEE13F /* WZAddHouseThreeController.m */,
+				1F766C4821C77A5F00AE777B /* WZAddHouseSuccessController.h */,
+				1F766C4921C77A5F00AE777B /* WZAddHouseSuccessController.m */,
 			);
 			path = addHouse;
 			sourceTree = "<group>";
@@ -2548,6 +2558,7 @@
 				1F75C56E21ABE84B002B8CF2 /* HXDownloadProgressView.m in Sources */,
 				1FD9C664207DBD2C00BB0298 /* CollectionViewCell.m in Sources */,
 				1FD9C670207DBD2C00BB0298 /* WZHospitalTableView.m in Sources */,
+				1F48E03921C4FC120021E385 /* WZOSSImageUploader.m in Sources */,
 				1F1C33142084C499001FE5EF /* WZFindHouseListItem.m in Sources */,
 				1FD9C62E207DBD2C00BB0298 /* WZNewsTableViewController.m in Sources */,
 				1F47F4A320CA20FC0012F5EF /* WZLunBoItem.m in Sources */,
@@ -2734,6 +2745,7 @@
 				1F48F18521588AC4003CE6DC /* LMHWaterFallLayout.m in Sources */,
 				1F63B1AE20E4B6BB009587C1 /* WZSharesCell.m in Sources */,
 				1FD9C65A207DBD2C00BB0298 /* WZPageButtonView.m in Sources */,
+				1F766C4A21C77A5F00AE777B /* WZAddHouseSuccessController.m in Sources */,
 				1F09949920EE0FDC00524361 /* WZHouseCollectController.m in Sources */,
 				1F3885AA20A5719000402B23 /* POIAnnotation.m in Sources */,
 				1FD9C629207DBD2C00BB0298 /* WZSetTableController.m in Sources */,

@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WZAddHouseThreeController : UIViewController
-
+//项目ID
+@property(nonatomic,strong)NSString *projectId;
 @end
 
 NS_ASSUME_NONNULL_END
