@@ -18,9 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) IBOutlet UILabel *commission;
 @property (strong, nonatomic) IBOutlet UIButton *previewButton;
 @property (strong, nonatomic) IBOutlet UIButton *editButton;
-
 @property (strong, nonatomic) IBOutlet UIButton *groundingButton;
-
+@property(nonatomic,strong)NSString *ID;
 @property(nonatomic,strong)WZHouseManageItem *item;
 
 - (IBAction)previews:(UIButton *)sender;

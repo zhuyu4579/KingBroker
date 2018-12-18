@@ -11,7 +11,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WZHouseManageItem : NSObject
-
+@property(nonatomic,strong)NSString *averagePrice;
+@property(nonatomic,strong)NSString *commission;
+@property(nonatomic,strong)NSString *id;
+@property(nonatomic,strong)NSString *name;
+@property(nonatomic,strong)NSString *companyName;
+@property(nonatomic,strong)NSString *totalPrice;
+@property(nonatomic,strong)NSString *url;
+@property(nonatomic,strong)NSString *status;
 @end
 
 NS_ASSUME_NONNULL_END

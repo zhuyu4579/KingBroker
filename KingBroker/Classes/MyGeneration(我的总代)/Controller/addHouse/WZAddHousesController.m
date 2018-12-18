@@ -135,7 +135,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [viewTwo addSubview:ineTwo];
     UIView *viewTwo_two = [self createViewOne:@"楼盘名称" contents:@"" fY:50 isDel:@"" unit:@"" setKeyboard:@""];
     [viewTwo addSubview:viewTwo_two];
-    UITextField *houseName = [viewTwo_one viewWithTag:20];
+    UITextField *houseName = [viewTwo_two viewWithTag:20];
     _houseName = houseName;
     
     //第三个view
@@ -288,7 +288,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [nextButton setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
     nextButton.backgroundColor = UIColorRBG(255, 224, 0);
     nextButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size: 15];
-    [nextButton addTarget:self action:@selector(nextSubmission) forControlEvents:UIControlEventTouchUpInside];
+    [nextButton addTarget:self action:@selector(nextSubmission:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:nextButton];
     [nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left);
@@ -312,12 +312,8 @@ static const CGFloat kPhotoViewMargin = 15.0;
 }
 
 #pragma mark-下一步
--(void)nextSubmission{
-    WZAddHouseTwoController *addHouseTwo = [[WZAddHouseTwoController alloc] init];
-    //addHouseTwo.projectId = [[responseObject valueForKey:@"data"] valueForKey:@"id"];
-    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:addHouseTwo];
-    [self.navigationController presentViewController:nav animated:YES completion:nil];
-    return;
+-(void)nextSubmission:(UIButton *)button{
+
     //公司名称
     NSString *companyName = _companyName.text;
     companyName = [companyName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -362,6 +358,20 @@ static const CGFloat kPhotoViewMargin = 15.0;
         [SVProgressHUD showInfoWithStatus:@"佣金不能为空"];
         return;
     }
+    //总价
+    NSString *totalPrice = _totalPrice.text;
+    totalPrice = [totalPrice stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([totalPrice isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"总价不能为空"];
+        return;
+    }
+    //均价
+    NSString *averagePrice = _averagePrice.text;
+    averagePrice = [averagePrice stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([averagePrice isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"均价不能为空"];
+        return;
+    }
     //结佣时间
     NSString *commissionTime = _CommissionTime.text;
     commissionTime = [commissionTime stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -404,6 +414,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         [SVProgressHUD showInfoWithStatus:@"楼盘简介不能为空"];
         return;
     }
+    
     //报备说明
     NSString *reportDescribe = _reportExplain.text;
     reportDescribe = [reportDescribe stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -416,6 +427,9 @@ static const CGFloat kPhotoViewMargin = 15.0;
         [SVProgressHUD showInfoWithStatus:@"展示图上传失败,请重新选择图片"];
         return;
     }
+    
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+    [SVProgressHUD showWithStatus:@"提交中"];
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
@@ -436,18 +450,24 @@ static const CGFloat kPhotoViewMargin = 15.0;
     paraments[@"adcode"] = _houseAdCode;
     paraments[@"address"] = houseAddr;
     paraments[@"type"] = houseType;
+    paraments[@"totalPrice"] = totalPrice;
+    paraments[@"averagePrice"] = averagePrice;
     paraments[@"commission"] = commission;
     paraments[@"settlement"] = commissionTime;
     paraments[@"commissionRule"] = commissionRule;
     paraments[@"chargeMan"] = dutyName;
     paraments[@"telphone"] = telphone;
     paraments[@"dynamic"] = dynamic;
+    paraments[@"outlining"]=outlining;
     paraments[@"reportDescribe"] = reportDescribe;
     paraments[@"showUrl"] = _imageArrays[0];
     NSString *url = [NSString stringWithFormat:@"%@/proProject/upbaseInfoCreateOrUpdate",HTTPURL];
     NSLog(@"%@",paraments);
+    button.enabled = NO;
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
+        [SVProgressHUD dismiss];
+        button.enabled = YES;
         if ([code isEqual:@"200"]) {
             WZAddHouseTwoController *addHouseTwo = [[WZAddHouseTwoController alloc] init];
             addHouseTwo.projectId = [[responseObject valueForKey:@"data"] valueForKey:@"id"];
@@ -468,6 +488,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
             
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        button.enabled = YES;
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
     

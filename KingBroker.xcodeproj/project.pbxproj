@@ -111,6 +111,7 @@
 		1F5230DD2196C3E0006151C9 /* EwenCopyLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5230DC2196C3E0006151C9 /* EwenCopyLabel.m */; };
 		1F533D9620C914ED0053FE4E /* WZAlbumPhonesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F533D9520C914ED0053FE4E /* WZAlbumPhonesViewController.m */; };
 		1F54D2C5215F1EE8005FA945 /* CCPScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F54D2C4215F1EE8005FA945 /* CCPScrollView.m */; };
+		1F57BB7A21C89405003464F7 /* WZGroundSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F57BB7921C89405003464F7 /* WZGroundSuccessController.m */; };
 		1F59227121C0968D0098F926 /* WZHouseManagesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F59226F21C0968D0098F926 /* WZHouseManagesCell.m */; };
 		1F59227221C0968D0098F926 /* WZHouseManagesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F59227021C0968D0098F926 /* WZHouseManagesCell.xib */; };
 		1F59227521C09C770098F926 /* WZHouseManageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F59227421C09C770098F926 /* WZHouseManageItem.m */; };
@@ -531,6 +532,8 @@
 		1F533D9520C914ED0053FE4E /* WZAlbumPhonesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAlbumPhonesViewController.m; sourceTree = "<group>"; };
 		1F54D2C3215F1EE7005FA945 /* CCPScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPScrollView.h; sourceTree = "<group>"; };
 		1F54D2C4215F1EE8005FA945 /* CCPScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCPScrollView.m; sourceTree = "<group>"; };
+		1F57BB7821C89405003464F7 /* WZGroundSuccessController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZGroundSuccessController.h; sourceTree = "<group>"; };
+		1F57BB7921C89405003464F7 /* WZGroundSuccessController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZGroundSuccessController.m; sourceTree = "<group>"; };
 		1F59226E21C0968D0098F926 /* WZHouseManagesCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZHouseManagesCell.h; sourceTree = "<group>"; };
 		1F59226F21C0968D0098F926 /* WZHouseManagesCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZHouseManagesCell.m; sourceTree = "<group>"; };
 		1F59227021C0968D0098F926 /* WZHouseManagesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZHouseManagesCell.xib; sourceTree = "<group>"; };
@@ -1325,6 +1328,8 @@
 			children = (
 				1F8A1D7021BF9024004B7B3D /* WZHouseManagesController.h */,
 				1F8A1D7121BF9024004B7B3D /* WZHouseManagesController.m */,
+				1F57BB7821C89405003464F7 /* WZGroundSuccessController.h */,
+				1F57BB7921C89405003464F7 /* WZGroundSuccessController.m */,
 			);
 			path = houseManage;
 			sourceTree = "<group>";
@@ -2781,6 +2786,7 @@
 				1FD9C655207DBD2C00BB0298 /* WZReportSuccessCell.m in Sources */,
 				1F09951320F4453900524361 /* WZStoreAdministrationController.m in Sources */,
 				1FD9C659207DBD2C00BB0298 /* WZRecommendCell.m in Sources */,
+				1F57BB7A21C89405003464F7 /* WZGroundSuccessController.m in Sources */,
 				1F5B2B8221C34A8E00DEE13F /* WZAddHouseTwoController.m in Sources */,
 				1FD9C612207DBD2C00BB0298 /* Foundation+Log.m in Sources */,
 				1F67636B214A3C4C005F1E37 /* WZGoodHouseItem.m in Sources */,

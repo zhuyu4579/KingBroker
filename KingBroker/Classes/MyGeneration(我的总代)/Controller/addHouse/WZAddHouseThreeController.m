@@ -164,7 +164,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [nextButton setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
     nextButton.backgroundColor = UIColorRBG(255, 224, 0);
     nextButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size: 15];
-    [nextButton addTarget:self action:@selector(nextSubmission) forControlEvents:UIControlEventTouchUpInside];
+    [nextButton addTarget:self action:@selector(nextSubmission:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:nextButton];
     [nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left);
@@ -205,7 +205,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 #pragma mark-保存
--(void)nextSubmission{
+-(void)nextSubmission:(UIButton *)button{
     
     NSMutableArray *apartmentArray = [NSMutableArray array];
     NSMutableDictionary *apartOne = [NSMutableDictionary dictionary];
@@ -257,6 +257,8 @@ static const CGFloat kPhotoViewMargin = 15.0;
         }
         [apartmentArray addObject:dictionary];
     }
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+    [SVProgressHUD showWithStatus:@"保存中"];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     
@@ -277,9 +279,11 @@ static const CGFloat kPhotoViewMargin = 15.0;
     
     NSString *url = [NSString stringWithFormat:@"%@/proProject/upsupplementCreateOrUpdate",HTTPURL];
     NSLog(@"%@",paraments);
-    
+    button.enabled = NO;
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
+        [SVProgressHUD dismiss];
+        button.enabled = YES;
         if ([code isEqual:@"200"]) {
             WZAddHouseSuccessController *addHouseThree = [[WZAddHouseSuccessController alloc] init];
             WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:addHouseThree];
@@ -299,6 +303,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
             
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        button.enabled = YES;
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
 }

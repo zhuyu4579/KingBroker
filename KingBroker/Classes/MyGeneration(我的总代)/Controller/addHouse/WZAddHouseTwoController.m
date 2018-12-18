@@ -135,7 +135,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [nextButton setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
     nextButton.backgroundColor = UIColorRBG(255, 224, 0);
     nextButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size: 15];
-    [nextButton addTarget:self action:@selector(nextSubmission) forControlEvents:UIControlEventTouchUpInside];
+    [nextButton addTarget:self action:@selector(nextSubmission:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:nextButton];
     [nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left);
@@ -153,7 +153,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 #pragma mark-下一步
--(void)nextSubmission{
+-(void)nextSubmission:(UIButton *)button{
     
     NSString *houseType =@"";
     if (_selectedMarkArray.count>0) {
@@ -168,6 +168,10 @@ static const CGFloat kPhotoViewMargin = 15.0;
             return;
         }
     }
+    
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+    [SVProgressHUD showWithStatus:@"保存中"];
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     
@@ -188,8 +192,11 @@ static const CGFloat kPhotoViewMargin = 15.0;
     paraments[@"fareImglist"] = _imageArrays;
     NSString *url = [NSString stringWithFormat:@"%@/proProject/upsupplementCreateOrUpdate",HTTPURL];
     NSLog(@"%@",paraments);
+    button.enabled = NO;
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
+        [SVProgressHUD dismiss];
+        button.enabled = YES;
         if ([code isEqual:@"200"]) {
             WZAddHouseThreeController *addHouseThree = [[WZAddHouseThreeController alloc] init];
             addHouseThree.projectId = _projectId;
@@ -210,6 +217,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
             
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        button.enabled = YES;
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
     
@@ -276,10 +284,10 @@ static const CGFloat kPhotoViewMargin = 15.0;
     
     if (btn.isSelected) {
         
-        [self.selectedMarkArray addObject:[NSString stringWithFormat:@"%ld",btn.tag]];
+        [self.selectedMarkArray addObject:[NSString stringWithFormat:@"%ld",(long)btn.tag]];
     } else {
         
-        [self.selectedMarkArray removeObject:[NSString stringWithFormat:@"%ld",btn.tag]];
+        [self.selectedMarkArray removeObject:[NSString stringWithFormat:@"%ld",(long)btn.tag]];
         
     }
     
@@ -401,7 +409,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
 -(void)textViewDidChange:(UITextView *)textView{
     NSString *text = textView.text;
     if (textView == _fareReimbur) {
-        _fareReimburSum.text = [NSString stringWithFormat:@"%ld/100",text.length];
+        _fareReimburSum.text = [NSString stringWithFormat:@"%lu/100",(unsigned long)text.length];
         if (text.length == 100) {
             textView.editable = NO;
         }

@@ -106,7 +106,9 @@ static NSString *size = @"20";
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"current"] = [NSString stringWithFormat:@"%ld",(long)current];
     paraments[@"size"] = size;
-    NSString *url = [NSString stringWithFormat:@"%@",HTTPURL];
+    paraments[@"keyword"] = @"";
+    paraments[@"search"] = @"1";
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/userCompanyProjectPage",HTTPURL];
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
