@@ -61,7 +61,7 @@
         make.height.offset(67*n);
     }];
     UIButton *vipButton = [[UIButton alloc] init];
-    [vipButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    [vipButton setBackgroundImage:[UIImage imageNamed:@"zd_tg"] forState:UIControlStateNormal];
     [vipButton addTarget:self action:@selector(buyVip) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:vipButton];
     [vipButton mas_makeConstraints:^(MASConstraintMaker *make) {

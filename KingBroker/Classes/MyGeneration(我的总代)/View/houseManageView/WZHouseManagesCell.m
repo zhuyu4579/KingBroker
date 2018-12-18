@@ -15,6 +15,7 @@
 #import "WZHouseManagesCell.h"
 #import "NSString+LCExtension.h"
 #import "WZNavigationController.h"
+#import "WZPreviewHouseController.h"
 #import "WZGroundSuccessController.h"
 #import "UIViewController+WZFindController.h"
 @implementation WZHouseManagesCell
@@ -72,6 +73,10 @@
 }
 
 - (IBAction)previews:(UIButton *)sender {
+    UIViewController *vc = [UIViewController viewController:self.superview.superview];
+    WZPreviewHouseController *houseThree = [[WZPreviewHouseController alloc] init];
+    houseThree.ID = _ID;
+    [vc.navigationController pushViewController:houseThree animated:YES];
 }
 
 - (IBAction)editHouse:(UIButton *)sender {
@@ -120,42 +125,58 @@
             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
         }];
     }else if([test isEqual:@"下架"]){
-        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-        NSString *uuid = [ user objectForKey:@"uuid"];
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"确认楼盘下架" message:@"你确认要下架铂金公馆楼盘吗？下架后，楼盘信息将不在经喜APP展示"  preferredStyle:UIAlertControllerStyleAlert];
         
-        AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-        
-        mgr.requestSerializer.timeoutInterval = 20;
-        //防止返回值为null
-        ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
-        mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-        [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-        //2.拼接参数
-        NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-        paraments[@"id"] = _ID;
-        
-        NSString *url = [NSString stringWithFormat:@"%@",HTTPURL];
-        NSLog(@"%@",paraments);
-        
-        [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-            NSString *code = [responseObject valueForKey:@"code"];
-            if ([code isEqual:@"200"]) {
-                
-            }else{
-                NSString *msg = [responseObject valueForKey:@"msg"];
-                if(![code isEqual:@"401"] && ![msg isEqual:@""]){
-                    [SVProgressHUD showInfoWithStatus:msg];
-                }
-                if ([code isEqual:@"401"]) {
-                    
-                    [NSString isCode:vc.navigationController code:code];
-                }
-                
-            }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"确认下架" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
             
-            [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-        }];
+            NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+            NSString *uuid = [ user objectForKey:@"uuid"];
+            
+            AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+            
+            mgr.requestSerializer.timeoutInterval = 20;
+            //防止返回值为null
+            ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+            mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+            [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+            //2.拼接参数
+            NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+            paraments[@"id"] = _ID;
+            
+            NSString *url = [NSString stringWithFormat:@"%@/proProject/uprojectDownApply",HTTPURL];
+            NSLog(@"%@",paraments);
+            
+            [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+                NSString *code = [responseObject valueForKey:@"code"];
+                if ([code isEqual:@"200"]) {
+                    
+                }else{
+                    NSString *msg = [responseObject valueForKey:@"msg"];
+                    if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                        [SVProgressHUD showInfoWithStatus:msg];
+                    }
+                    if ([code isEqual:@"401"]) {
+                        
+                        [NSString isCode:vc.navigationController code:code];
+                    }
+                    
+                }
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                
+                [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+            }];
+                                                              }];
+        UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"暂不下架" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                                                       
+                                                               }];
+        [cancelAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+        [defaultAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+        
+        [alert addAction:defaultAction];
+        [alert addAction:cancelAction];
+        [vc presentViewController:alert animated:YES completion:nil];
+        
+        
     }
 }
 @end

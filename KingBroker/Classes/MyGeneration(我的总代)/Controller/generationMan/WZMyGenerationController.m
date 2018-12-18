@@ -10,9 +10,9 @@
 #import "WZAddHousesController.h"
 #import "WZHouseManagesController.h"
 #import "WZMyGenerationController.h"
-
+#import "WZJoinGenerationController.h"
 @interface WZMyGenerationController ()
-
+@property(nonatomic,strong)UIView *viewNo;
 @end
 
 @implementation WZMyGenerationController
@@ -21,6 +21,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
     self.navigationItem.title = @"我的总代";
+    
     //创建view
     [self createView];
 }
@@ -75,6 +76,52 @@
     }];
     UIView *releaseReward = [self createViewClass:@selector(releaseReward) image:[UIImage imageNamed:@"zd_icon6"] title:@"发布悬赏" fY:0 size:CGSizeMake(17, 22)];
     [viewFour addSubview:releaseReward];
+    
+    [self joinGeneration];
+}
+//创建加入总代
+-(void)joinGeneration{
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor whiteColor];
+    view.frame = self.view.frame;
+    [view setHidden:YES];
+    _viewNo = view;
+    [self.view addSubview:view];
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = [UIImage imageNamed:@"zd_WDZDK"];
+    [view addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(view.mas_top).offset(160);
+        make.width.offset(181);
+        make.height.offset(150);
+    }];
+    UILabel *label = [[UILabel alloc] init];
+    label.text = @"太低调了，连个总代都没有";
+    label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
+    label.textColor = UIColorRBG(158, 158, 158);
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 0;
+    [view addSubview:label];
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(imageView.mas_bottom).offset(29);
+    }];
+    UIButton *joinGeneration = [[UIButton alloc] init];
+    joinGeneration.backgroundColor = UIColorRBG(255, 224, 0);
+    [joinGeneration setTitle:@"我是总代" forState:UIControlStateNormal];
+    [joinGeneration setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
+    joinGeneration.titleLabel.font =  [UIFont fontWithName:@"PingFang-SC-Medium" size: 15];
+    joinGeneration.layer.cornerRadius = 22;
+    joinGeneration.layer.masksToBounds = YES;
+    [joinGeneration addTarget:self action:@selector(joinGenerations) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:joinGeneration];
+    [joinGeneration mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(label.mas_bottom).offset(89);
+        make.width.offset(215);
+        make.height.offset(44);
+    }];
 }
 #pragma mark -创建分类
 -(UIView *)createViewClass:(SEL)sel image:(UIImage *)image title:(NSString *)title fY:(CGFloat)fY size:(CGSize)size{
@@ -119,6 +166,12 @@
     }];
     return view;
 }
+#pragma mark -加入总代
+-(void)joinGenerations{
+    WZJoinGenerationController *joinGen = [[WZJoinGenerationController alloc] init];
+     [self.navigationController pushViewController:joinGen animated:YES];
+}
+
 #pragma mark -公司信息
 -(void)companyInformations{
     
