@@ -1,8 +1,8 @@
 //
-//  WZAddHouseTwoController.m
+//  WZEditHouseViewTwoController.m
 //  KingBroker
 //
-//  Created by 朱玉隆 on 2018/12/14.
+//  Created by 朱玉隆 on 2018/12/18.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
 #import <Masonry.h>
@@ -16,10 +16,10 @@
 #import "UIBarButtonItem+Item.h"
 #import "NSString+LCExtension.h"
 #import "WZNavigationController.h"
-#import "WZAddHouseTwoController.h"
-#import "WZAddHouseThreeController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
-@interface WZAddHouseTwoController ()<UITextFieldDelegate,UITextViewDelegate,HXPhotoViewDelegate>
+#import "WZEditHouseViewTwoController.h"
+
+@interface WZEditHouseViewTwoController ()<UITextFieldDelegate,UITextViewDelegate,HXPhotoViewDelegate>
 @property(nonatomic,strong)UIScrollView *scrollView;
 @property(nonatomic,strong)UIView *viewFour;
 //开发商
@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSArray *markArray;
 // 选中标签数组(数字)
 @property (nonatomic, strong) NSMutableArray *selectedMarkArray;
+@property(nonatomic,strong)NSString *buildingFeature;
 //楼盘简介
 @property (nonatomic, retain) UITextView *fareReimbur;
 //文本提示语
@@ -43,22 +44,22 @@
 @property (strong, nonatomic) NSArray<UIImage *> *imageArray;
 //图片数组
 @property (strong, nonatomic) NSArray *imageArrays;
+
 @end
 static const CGFloat kPhotoViewMargin = 15.0;
-@implementation WZAddHouseTwoController
+@implementation WZEditHouseViewTwoController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"添加楼盘";
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(skip) title:@"跳过"];
+    
     //创建view
     [self createView];
 }
 #pragma mark -创建view
 -(void)createView{
     //创建UIScrollView
-    UIScrollView *meScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(self.view.fX,0, self.view.fWidth, self.view.fHeight-49-JF_BOTTOM_SPACE)];
+    UIScrollView *meScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(self.view.fX,0, self.view.fWidth, self.view.fHeight-134-JF_BOTTOM_SPACE-kApplicationStatusBarHeight)];
     meScrollView.backgroundColor = UIColorRBG(247,247,247);
     meScrollView.bounces = NO;
     meScrollView.showsVerticalScrollIndicator = NO;
@@ -69,15 +70,18 @@ static const CGFloat kPhotoViewMargin = 15.0;
     UIView *viewOne = [[UIView alloc] initWithFrame:CGRectMake(0, 1, meScrollView.fWidth, 99)];
     viewOne.backgroundColor = [UIColor whiteColor];
     [meScrollView addSubview:viewOne];
-    
-    UIView *viewOne_one = [self createViewOne:@"开发商" contents:@"" fY:0];
+    //开发商
+    NSString *developer = [_data valueForKey:@"developer"];
+    UIView *viewOne_one = [self createViewOne:@"开发商" contents:developer fY:0];
     [viewOne addSubview:viewOne_one];
     UITextField *developerName = [viewOne_one viewWithTag:20];
     _developerName = developerName;
     UIView *ineOne = [[UIView alloc] initWithFrame:CGRectMake(15, 49, viewOne.fWidth-30, 1)];
     ineOne.backgroundColor = UIColorRBG(240, 240, 240);
     [viewOne addSubview:ineOne];
-    UIView *viewOne_two = [self createViewOne:@"剩余套数" contents:@"" fY:50];
+    //剩余套数
+    NSString *houseNum = [_data valueForKey:@"houseNum"];
+    UIView *viewOne_two = [self createViewOne:@"剩余套数" contents:houseNum fY:50];
     [viewOne addSubview:viewOne_two];
     UITextField *surpluNum = [viewOne_two viewWithTag:20];
     _surpluNum = surpluNum;
@@ -118,10 +122,17 @@ static const CGFloat kPhotoViewMargin = 15.0;
     UIView *viewThree = [[UIView alloc] initWithFrame:CGRectMake(0, viewTwo.fY+viewTwo.fHeight+8, meScrollView.fWidth, 159)];
     viewThree.backgroundColor = [UIColor whiteColor];
     [meScrollView addSubview:viewThree];
+    //车费报销说明
+    NSString *fareReimbursedesc = [_data valueForKey:@"fareReimbursedesc"];
     [self createReadView:viewThree title:@"车费报销说明" placeholder:@"输入车费报销说明" sum:@"0/100"];
     _fareReimbur = [viewThree viewWithTag:40];
     _fareReimburLabels = [viewThree viewWithTag:50];
     _fareReimburSum = [viewThree viewWithTag:60];
+    if(![fareReimbursedesc isEqual:@""]&&fareReimbursedesc){
+        _fareReimbur.text = fareReimbursedesc;
+        [_fareReimburLabels setHidden:YES];
+        _fareReimburSum.text = [NSString stringWithFormat:@"%ld/100",fareReimbursedesc.length];
+    }
     
     //第四个view
     UIView *viewFour = [[UIView alloc] initWithFrame:CGRectMake(0, viewThree.fY+viewThree.fHeight+8, meScrollView.fWidth, 166)];
@@ -129,9 +140,10 @@ static const CGFloat kPhotoViewMargin = 15.0;
     _viewFour = viewFour;
     [meScrollView addSubview:viewFour];
     [self ctreatePhotographView:viewFour title:@"车费报销图片"];
+    
     //提交按钮
     UIButton *nextButton = [[UIButton alloc] init];
-    [nextButton setTitle:@"下一步（图片信息）" forState:UIControlStateNormal];
+    [nextButton setTitle:@"保存" forState:UIControlStateNormal];
     [nextButton setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
     nextButton.backgroundColor = UIColorRBG(255, 224, 0);
     nextButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size: 15];
@@ -145,22 +157,11 @@ static const CGFloat kPhotoViewMargin = 15.0;
     }];
     meScrollView.contentSize = CGSizeMake(0, viewFour.fY+viewFour.fHeight);
 }
-#pragma mark-跳过
--(void)skip{
-    WZAddHouseThreeController *addHouseThree = [[WZAddHouseThreeController alloc] init];
-    addHouseThree.projectId = _projectId;
-    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:addHouseThree];
-    [self.navigationController presentViewController:nav animated:YES completion:nil];
-}
+
 #pragma mark-下一步
 -(void)nextSubmission:(UIButton *)button{
-    
-    NSString *houseType =@"";
     if (_selectedMarkArray.count>0) {
-        houseType =_selectedMarkArray[0];
-        for (int i = 1; i<_selectedMarkArray.count; i++) {
-            houseType = [NSString stringWithFormat:@"%@,%@",houseType,_selectedMarkArray[i]];
-        }
+         _buildingFeature =[_selectedMarkArray componentsJoinedByString:@","];
     }
     if (_imageArrays.count>0) {
         if (_imageArrays.count != _imageArray.count) {
@@ -184,10 +185,10 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    paraments[@"projectId"] = _projectId;
+    paraments[@"projectId"] = [_data valueForKey:@"id"];
     paraments[@"developer"] = _developerName.text;
     paraments[@"houseNum"] = _surpluNum.text ;
-    paraments[@"buildingFeature"] = houseType;
+    paraments[@"buildingFeature"] = _buildingFeature;
     paraments[@"fareReimburseDesc"] = _fareReimbur.text;
     paraments[@"fareImglist"] = _imageArrays;
     NSString *url = [NSString stringWithFormat:@"%@/proProject/upsupplementCreateOrUpdate",HTTPURL];
@@ -198,10 +199,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         [SVProgressHUD dismiss];
         button.enabled = YES;
         if ([code isEqual:@"200"]) {
-            WZAddHouseThreeController *addHouseThree = [[WZAddHouseThreeController alloc] init];
-            addHouseThree.projectId = _projectId;
-            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:addHouseThree];
-            [self.navigationController presentViewController:nav animated:YES completion:nil];
+           
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -232,6 +230,13 @@ static const CGFloat kPhotoViewMargin = 15.0;
 
 #pragma mark -创建多选按钮
 -(void)createMultipleButton:(UIView *)view{
+    NSString *buildingFeature = [_data valueForKey:@"buildingFeature"];
+    _buildingFeature = buildingFeature;
+    if (![buildingFeature isEqual:@""]&&buildingFeature) {
+        NSArray *arrays = [buildingFeature componentsSeparatedByString:@","];
+        _selectedMarkArray = arrays;
+    }
+   
     NSArray *array = @[@"新盘首开", @"可托管", @"实景样板房",@"", @"LOFT", @"现房",@"小户型",@"可餐饮"];
     _markArray = array;
     CGFloat top = 0;
@@ -249,10 +254,13 @@ static const CGFloat kPhotoViewMargin = 15.0;
         UIButton *btn = [[UIButton alloc] init];
         [btn setBackgroundImage:[UIImage imageNamed:@"bb_choose_2"] forState:UIControlStateNormal];
         [btn setBackgroundImage:[UIImage imageNamed:@"bb_icon"] forState:UIControlStateSelected];
+        if ([buildingFeature containsString:[NSString stringWithFormat:@"%ld",i+1]]) {
+            btn.selected = YES;
+        }
         if (i>3) {
-           btn.tag = i;
+            btn.tag = i;
         }else{
-           btn.tag = i+1;
+            btn.tag = i+1;
         }
         
         [btn setEnlargeEdgeWithTop:10 right:40 bottom:10 left:10];
@@ -391,7 +399,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     if (textView == _fareReimbur) {
         [_fareReimburLabels setHidden:YES];
     }
-
+    
 }
 
 //结束编辑
@@ -401,7 +409,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         if (textView == _fareReimbur) {
             [_fareReimburLabels setHidden:NO];
         }
-       
+        
     }
     _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
     
@@ -414,7 +422,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
             textView.editable = NO;
         }
     }
-
+    
 }
 #pragma mark -懒加载
 - (HXPhotoManager *)manager {
@@ -469,6 +477,18 @@ static const CGFloat kPhotoViewMargin = 15.0;
     photoView.backgroundColor = [UIColor whiteColor];
     [view addSubview:photoView];
     self.photoView = photoView;
+    NSMutableArray *array = [_data valueForKey:@"fareImglist"];
+    _imageArrays = array;
+    if (array.count==1) {
+        HXCustomAssetModel *assetModel = [HXCustomAssetModel assetWithNetworkImageURL:[NSURL URLWithString:array[0]] selected:YES];
+        [self.manager addCustomAssetModel:@[assetModel]];
+    }
+    if (array.count==2) {
+        HXCustomAssetModel *assetModel = [HXCustomAssetModel assetWithNetworkImageURL:[NSURL URLWithString:array[0]] selected:YES];
+        HXCustomAssetModel *assetModel2 = [HXCustomAssetModel assetWithNetworkImageURL:[NSURL URLWithString:array[1]] selected:YES];
+        [self.manager addCustomAssetModel:@[assetModel,assetModel2]];
+    }
+    
     [self.photoView refreshView];
 }
 //获取图片数组
@@ -543,9 +563,4 @@ static const CGFloat kPhotoViewMargin = 15.0;
     _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
     [self.view endEditing:YES];
 }
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
 @end
