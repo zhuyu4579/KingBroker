@@ -76,6 +76,8 @@
 		1F4ABECD2080D42400DEA9A8 /* WZAuthenticationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4ABECB2080D42400DEA9A8 /* WZAuthenticationController.xib */; };
 		1F4ADFED21A2A2D90093C80B /* WZFindGoodHouseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4ADFEC21A2A2D90093C80B /* WZFindGoodHouseController.m */; };
 		1F4B6D2B20CF6B0600E7F7F9 /* WZAuthenSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4B6D2A20CF6B0600E7F7F9 /* WZAuthenSuccessController.m */; };
+		1F4CC74B21CA465100612136 /* WZCompanyInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4CC74A21CA465100612136 /* WZCompanyInfoController.m */; };
+		1F4CC74E21CA490F00612136 /* WZVipServiceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4CC74D21CA490F00612136 /* WZVipServiceController.m */; };
 		1F4D6DC520F5A95F008A9514 /* WZSharePhoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4D6DC320F5A95F008A9514 /* WZSharePhoneCell.m */; };
 		1F4D6DC620F5A95F008A9514 /* WZSharePhoneCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F4D6DC420F5A95F008A9514 /* WZSharePhoneCell.xib */; };
 		1F4D6DCA20F5AC4C008A9514 /* WZSharePhoneCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F4D6DC920F5AC4C008A9514 /* WZSharePhoneCollectionView.m */; };
@@ -475,6 +477,10 @@
 		1F4ADFEC21A2A2D90093C80B /* WZFindGoodHouseController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZFindGoodHouseController.m; sourceTree = "<group>"; };
 		1F4B6D2920CF6B0600E7F7F9 /* WZAuthenSuccessController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZAuthenSuccessController.h; sourceTree = "<group>"; };
 		1F4B6D2A20CF6B0600E7F7F9 /* WZAuthenSuccessController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAuthenSuccessController.m; sourceTree = "<group>"; };
+		1F4CC74921CA465100612136 /* WZCompanyInfoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZCompanyInfoController.h; sourceTree = "<group>"; };
+		1F4CC74A21CA465100612136 /* WZCompanyInfoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZCompanyInfoController.m; sourceTree = "<group>"; };
+		1F4CC74C21CA490F00612136 /* WZVipServiceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZVipServiceController.h; sourceTree = "<group>"; };
+		1F4CC74D21CA490F00612136 /* WZVipServiceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZVipServiceController.m; sourceTree = "<group>"; };
 		1F4D6DC220F5A95F008A9514 /* WZSharePhoneCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZSharePhoneCell.h; sourceTree = "<group>"; };
 		1F4D6DC320F5A95F008A9514 /* WZSharePhoneCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZSharePhoneCell.m; sourceTree = "<group>"; };
 		1F4D6DC420F5A95F008A9514 /* WZSharePhoneCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZSharePhoneCell.xib; sourceTree = "<group>"; };
@@ -1355,6 +1361,10 @@
 				1F8A1D6421BF53CE004B7B3D /* WZMyGenerationController.m */,
 				1F57BB7E21C8C237003464F7 /* WZJoinGenerationController.h */,
 				1F57BB7F21C8C237003464F7 /* WZJoinGenerationController.m */,
+				1F4CC74921CA465100612136 /* WZCompanyInfoController.h */,
+				1F4CC74A21CA465100612136 /* WZCompanyInfoController.m */,
+				1F4CC74C21CA490F00612136 /* WZVipServiceController.h */,
+				1F4CC74D21CA490F00612136 /* WZVipServiceController.m */,
 			);
 			path = generationMan;
 			sourceTree = "<group>";
@@ -2694,6 +2704,7 @@
 				1F504ECA2154987B00AA06D6 /* WZVideoTokerController.m in Sources */,
 				1FD9C614207DBD2C00BB0298 /* NSString+LCExtension.m in Sources */,
 				1F57BB8021C8C237003464F7 /* WZJoinGenerationController.m in Sources */,
+				1F4CC74B21CA465100612136 /* WZCompanyInfoController.m in Sources */,
 				1F63B1C420E72DDB009587C1 /* WZFrowardItem.m in Sources */,
 				1F57BB8A21C8CBAE003464F7 /* WZEditHouseViewTwoController.m in Sources */,
 				1F60A9A72150EF7D002ED860 /* WZNewViewCell.m in Sources */,
@@ -2748,6 +2759,7 @@
 				1FD9C652207DBD2C00BB0298 /* WZTelephoneTableView.m in Sources */,
 				1F3D658A20B29BBF003AEF39 /* WZSelectProjectCell.m in Sources */,
 				1FFA9FAC20E32D6300F34B3B /* WZShareController.m in Sources */,
+				1F4CC74E21CA490F00612136 /* WZVipServiceController.m in Sources */,
 				1F504EDC2154A1B200AA06D6 /* WZTokerVideoItem.m in Sources */,
 				1FD9C65F207DBD2C00BB0298 /* WZTypeTableView.m in Sources */,
 				1F8C357B2115381D002E0C8B /* WZLoginAndRegistarController.m in Sources */,

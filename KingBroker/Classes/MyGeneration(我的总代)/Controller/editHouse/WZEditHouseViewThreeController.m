@@ -138,21 +138,21 @@ static const CGFloat kPhotoViewMargin = 15.0;
      NSArray *dataSources = @[@[@"一室", @"两室", @"三室", @"四室", @"五室", @"五室以上"], @[@"一厅", @"两厅", @"三厅", @"四厅", @"五厅", @"五厅以上"],@[@"一卫", @"两卫", @"三卫", @"四卫", @"五卫", @"五卫以上"]];
     _room = [data1 valueForKey:@"room"];
     NSString *rooms = @"";
-    if (![_room isEqual:@""]&&_room) {
+    if (![_room isEqual:@""]&&_room&&![_room isEqual:@"0"]) {
         NSInteger n = [_room integerValue];
-        rooms = dataSources[0][n];
+        rooms = dataSources[0][n-1];
     }
     _living = [data1 valueForKey:@"living"];
     NSString *livings = @"";
-    if (![_living isEqual:@""]&&_living) {
+    if (![_living isEqual:@""]&&_living&&![_living isEqual:@"0"]) {
         NSInteger n = [_living integerValue];
-        livings = dataSources[1][n];
+        livings = dataSources[1][n-1];
     }
     _toilet = [data1 valueForKey:@"toilet"];
     NSString *toilets = @"";
-    if (![_toilet isEqual:@""]&&_toilet) {
+    if (![_toilet isEqual:@""]&&_toilet&&![_toilet isEqual:@"0"]) {
         NSInteger n = [_toilet integerValue];
-        toilets = dataSources[2][n];
+        toilets = dataSources[2][n-1];
     }
     UIView *viewOne_two = [self createViewClass:@selector(selectApartment:) image:[UIImage imageNamed:@"bb_more_unfold"] title:@"户型" fY:50 size:CGSizeMake(9, 15)];
     [viewFour addSubview:viewOne_two];
@@ -444,21 +444,21 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSArray *dataSources = @[@[@"一室", @"两室", @"三室", @"四室", @"五室", @"五室以上"], @[@"一厅", @"两厅", @"三厅", @"四厅", @"五厅", @"五厅以上"],@[@"一卫", @"两卫", @"三卫", @"四卫", @"五卫", @"五卫以上"]];
     NSString *room = [photoDitcy valueForKey:@"room"];
     NSString *rooms = @"";
-    if (![_room isEqual:@""]&&_room) {
-        NSInteger n = [_room integerValue];
-        rooms = dataSources[0][n];
+    if (![room isEqual:@""]&&room&&![room isEqual:@"0"]) {
+        NSInteger n = [room integerValue];
+        rooms = dataSources[0][n-1];
     }
     NSString *living = [photoDitcy valueForKey:@"living"];
     NSString *livings = @"";
-    if (![_living isEqual:@""]&&_living) {
-        NSInteger n = [_living integerValue];
-        livings = dataSources[1][n];
+    if (![living isEqual:@""]&&living&&![living isEqual:@"0"]) {
+        NSInteger n = [living integerValue];
+        livings = dataSources[1][n-1];
     }
     NSString *toilet = [photoDitcy valueForKey:@"toilet"];
     NSString *toilets = @"";
-    if (![_toilet isEqual:@""]&&_toilet) {
-        NSInteger n = [_toilet integerValue];
-        toilets = dataSources[2][n];
+    if (![toilet isEqual:@""]&&toilet&&![toilet isEqual:@"0"]) {
+        NSInteger n = [toilet integerValue];
+        toilets = dataSources[2][n-1];
     }
    
     UIView *viewOne_two = [self createViewClass:@selector(selectApartment:) image:[UIImage imageNamed:@"bb_more_unfold"] title:@"户型" fY:50 size:CGSizeMake(9, 15)];

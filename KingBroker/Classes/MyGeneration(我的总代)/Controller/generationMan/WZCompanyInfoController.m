@@ -1,8 +1,8 @@
 //
-//  WZJoinGenerationController.m
+//  WZCompanyInfoController.m
 //  KingBroker
 //
-//  Created by 朱玉隆 on 2018/12/18.
+//  Created by 朱玉隆 on 2018/12/19.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
 #import <Masonry.h>
@@ -13,9 +13,11 @@
 #import <SVProgressHUD.h>
 #import "ZDMapController.h"
 #import "NSString+LCExtension.h"
-#import "WZJoinGenerationController.h"
+#import "WZCompanyInfoController.h"
 
-@interface WZJoinGenerationController ()<UITextFieldDelegate>
+@interface WZCompanyInfoController ()<UITextFieldDelegate>
+//公司ID
+@property(nonatomic,strong)NSString *ID;
 //公司名称
 @property(nonatomic,strong)UITextField *companyName;
 //楼盘位置
@@ -26,13 +28,15 @@
 @property(nonatomic,strong)NSString *houseAdCode;
 //楼盘地址
 @property(nonatomic,strong)UITextField *houseAddr;
+
 @end
 
-@implementation WZJoinGenerationController
+@implementation WZCompanyInfoController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"我是总代";
+    self.navigationItem.title = @"公司信息";
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
     UIView *viewOne = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+52, self.view.fWidth, 50)];
     viewOne.backgroundColor = [UIColor whiteColor];
@@ -42,7 +46,7 @@
     UITextField *companyName = [viewTwo_one viewWithTag:20];
     _companyName = companyName;
     
-    UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, viewOne.fY+viewOne.fHeight+8, self.view.fWidth, self.view.fHeight-viewOne.fY-viewOne.fHeight-57)];
+    UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, viewOne.fY+viewOne.fHeight+8, self.view.fWidth, self.view.fHeight-viewOne.fY-viewOne.fHeight-8)];
     viewTwo.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:viewTwo];
     
@@ -61,20 +65,7 @@
     UIView *ineFour = [[UIView alloc] initWithFrame:CGRectMake(15, 99, viewTwo.fWidth-30, 1)];
     ineFour.backgroundColor = UIColorRBG(240, 240, 240);
     [viewTwo addSubview:ineFour];
-    //提交按钮
-    UIButton *nextButton = [[UIButton alloc] init];
-    [nextButton setTitle:@"确定" forState:UIControlStateNormal];
-    [nextButton setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
-    nextButton.backgroundColor = UIColorRBG(255, 224, 0);
-    nextButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size: 15];
-    [nextButton addTarget:self action:@selector(submission) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:nextButton];
-    [nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view.mas_left);
-        make.bottom.equalTo(self.view.mas_bottom);
-        make.width.offset(self.view.fWidth);
-        make.height.offset(49);
-    }];
+   
 }
 #pragma mark-选择楼盘位置
 -(void)selectAddress{
@@ -138,9 +129,9 @@
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
-            [self.navigationController popViewControllerAnimated:YES];
+            [SVProgressHUD showInfoWithStatus:@"保存成功"];
             //将总代数据保存
-            #warning -将总代数据保存
+        #warning -将总代数据保存
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){

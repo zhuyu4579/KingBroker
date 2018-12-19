@@ -7,10 +7,13 @@
 //
 #import <Masonry.h>
 #import "UIView+Frame.h"
+#import "WZNavigationController.h"
+#import "WZVipServiceController.h"
 #import "WZAddHousesController.h"
 #import "WZHouseManagesController.h"
 #import "WZMyGenerationController.h"
 #import "WZJoinGenerationController.h"
+#import "WZCompanyInfoController.h"
 @interface WZMyGenerationController ()
 @property(nonatomic,strong)UIView *viewNo;
 @end
@@ -49,7 +52,7 @@
     
     UIView *memberService = [self createViewClass:@selector(memberServices) image:[UIImage imageNamed:@"zd_icon2"] title:@"会员服务" fY:0 size:CGSizeMake(20, 16)];
     [viewTwo addSubview:memberService];
-    UIView *totalWallet = [self createViewClass:@selector(totalWallets) image:[UIImage imageNamed:@"zd_icon3"] title:@"总代钱包" fY:51 size:CGSizeMake(19, 20)];
+    UIView *totalWallet = [self createViewClass:@selector(totalWallets) image:[UIImage imageNamed:@"zd_icon3"] title:@"悬赏帐户" fY:51 size:CGSizeMake(19, 20)];
     [viewTwo addSubview:totalWallet];
     
     UIView *viewThree = [[UIView alloc] init];
@@ -174,13 +177,24 @@
 
 #pragma mark -公司信息
 -(void)companyInformations{
-    
+    WZCompanyInfoController *houseManage = [[WZCompanyInfoController alloc] init];
+    [self.navigationController pushViewController:houseManage animated:YES];
 }
 #pragma mark -会员服务
 -(void)memberServices{
-    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    NSString *url = [NSString stringWithFormat:@"%@/vip/index.html",HTTPH5];
+    WZVipServiceController *vips = [[WZVipServiceController alloc] init];
+    if ([url containsString:@"?"]) {
+        vips.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
+    } else {
+        vips.url = [NSString stringWithFormat:@"%@?uuid=%@",url,uuid];
+    }
+    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:vips];
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
-#pragma mark -总代钱包
+#pragma mark -悬赏帐户
 -(void)totalWallets{
     
 }
