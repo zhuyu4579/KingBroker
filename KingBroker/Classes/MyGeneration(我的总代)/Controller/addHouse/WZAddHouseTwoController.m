@@ -154,7 +154,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
 }
 #pragma mark-下一步
 -(void)nextSubmission:(UIButton *)button{
-    
+   
     NSString *houseType =@"";
     if (_selectedMarkArray.count>0) {
         houseType =_selectedMarkArray[0];
@@ -162,12 +162,12 @@ static const CGFloat kPhotoViewMargin = 15.0;
             houseType = [NSString stringWithFormat:@"%@,%@",houseType,_selectedMarkArray[i]];
         }
     }
-    if (_imageArrays.count>0) {
-        if (_imageArrays.count != _imageArray.count) {
-            [SVProgressHUD showInfoWithStatus:@"图片上传失败,请重新选择图片"];
-            return;
-        }
+    
+    if (_imageArrays.count != _imageArray.count) {
+        [SVProgressHUD showInfoWithStatus:@"图片上传失败,请重新选择图片"];
+        return;
     }
+    
     
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD showWithStatus:@"保存中"];
@@ -178,8 +178,12 @@ static const CGFloat kPhotoViewMargin = 15.0;
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
     mgr.requestSerializer.timeoutInterval = 20;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
     //防止返回值为null
-    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     //2.拼接参数

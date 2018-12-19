@@ -208,7 +208,7 @@ static NSString * const IDS = @"cells";
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             _houseDatils = [responseObject valueForKey:@"data"];
-            
+            NSLog(@"%@",_houseDatils);
             [self setData];
             
         }else{

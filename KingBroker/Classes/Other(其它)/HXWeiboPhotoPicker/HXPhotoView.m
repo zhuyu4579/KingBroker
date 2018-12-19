@@ -560,8 +560,9 @@ static NSString *HXPhotoSubViewCellId = @"photoSubViewCellId";
  */
 - (void)cellDidDeleteClcik:(UICollectionViewCell *)cell {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    
+    HXPhotoModel *model = self.dataList[indexPath.item];
     if (self.manager.configuration.requestImageAfterFinishingSelection) {
+        [self.imageList addObject:model.thumbPhoto];
         if (indexPath.item < self.imageList.count) {
             [self.imageList removeObjectAtIndex:indexPath.item];
         }
@@ -572,7 +573,7 @@ static NSString *HXPhotoSubViewCellId = @"photoSubViewCellId";
             self.imageChangeCompleteBlock(self.imageList);
         }
     }
-    HXPhotoModel *model = self.dataList[indexPath.item];
+    
     [self.manager afterSelectedListdeletePhotoModel:model];
     if ((model.type == HXPhotoModelMediaTypePhoto || model.type == HXPhotoModelMediaTypePhotoGif) || (model.type == HXPhotoModelMediaTypeCameraPhoto || model.type == HXPhotoModelMediaTypeLivePhoto)) {
         [self.photos removeObject:model];

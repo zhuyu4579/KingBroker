@@ -123,15 +123,15 @@ static const CGFloat kPhotoViewMargin = 15.0;
     viewThree.backgroundColor = [UIColor whiteColor];
     [meScrollView addSubview:viewThree];
     //车费报销说明
-    NSString *fareReimbursedesc = [_data valueForKey:@"fareReimbursedesc"];
+    NSString *fareReimburseDesc = [_data valueForKey:@"fareReimburseDesc"];
     [self createReadView:viewThree title:@"车费报销说明" placeholder:@"输入车费报销说明" sum:@"0/100"];
     _fareReimbur = [viewThree viewWithTag:40];
     _fareReimburLabels = [viewThree viewWithTag:50];
     _fareReimburSum = [viewThree viewWithTag:60];
-    if(![fareReimbursedesc isEqual:@""]&&fareReimbursedesc){
-        _fareReimbur.text = fareReimbursedesc;
+    if(![fareReimburseDesc isEqual:@""]&&fareReimburseDesc){
+        _fareReimbur.text = fareReimburseDesc;
         [_fareReimburLabels setHidden:YES];
-        _fareReimburSum.text = [NSString stringWithFormat:@"%ld/100",fareReimbursedesc.length];
+        _fareReimburSum.text = [NSString stringWithFormat:@"%ld/100",fareReimburseDesc.length];
     }
     
     //第四个view
@@ -160,14 +160,14 @@ static const CGFloat kPhotoViewMargin = 15.0;
 
 #pragma mark-下一步
 -(void)nextSubmission:(UIButton *)button{
+    
     if (_selectedMarkArray.count>0) {
          _buildingFeature =[_selectedMarkArray componentsJoinedByString:@","];
     }
-    if (_imageArrays.count>0) {
-        if (_imageArrays.count != _imageArray.count) {
-            [SVProgressHUD showInfoWithStatus:@"图片上传失败,请重新选择图片"];
-            return;
-        }
+    
+    if (_imageArrays.count != _imageArray.count) {
+        [SVProgressHUD showInfoWithStatus:@"图片上传失败,请重新选择图片"];
+        return;
     }
     
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
@@ -179,8 +179,11 @@ static const CGFloat kPhotoViewMargin = 15.0;
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
     mgr.requestSerializer.timeoutInterval = 20;
-    //防止返回值为null
-    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     //2.拼接参数
@@ -199,7 +202,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         [SVProgressHUD dismiss];
         button.enabled = YES;
         if ([code isEqual:@"200"]) {
-           
+            [SVProgressHUD showInfoWithStatus:@"保存成功"];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -479,6 +482,8 @@ static const CGFloat kPhotoViewMargin = 15.0;
     self.photoView = photoView;
     NSMutableArray *array = [_data valueForKey:@"fareImglist"];
     _imageArrays = array;
+    NSLog(@"%@",_imageArrays);
+    
     if (array.count==1) {
         HXCustomAssetModel *assetModel = [HXCustomAssetModel assetWithNetworkImageURL:[NSURL URLWithString:array[0]] selected:YES];
         [self.manager addCustomAssetModel:@[assetModel]];
@@ -491,11 +496,12 @@ static const CGFloat kPhotoViewMargin = 15.0;
     
     [self.photoView refreshView];
 }
+
 //获取图片数组
 - (void)photoView:(HXPhotoView *)photoView imageChangeComplete:(NSArray<UIImage *> *)imageList{
-    
     _imageArray = imageList;
     [self findUploadData:imageList];
+   
 }
 //获取文件上传信息
 -(void)findUploadData:(NSArray<UIImage *> *)imageList{

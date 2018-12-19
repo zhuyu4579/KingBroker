@@ -37,7 +37,13 @@
 @property(nonatomic,strong)UITextField *price;
 //展示图
 @property (strong, nonatomic) HXPhotoManager *manager;
-@property (weak, nonatomic) HXPhotoView *photoView;
+@property (strong, nonatomic) HXPhotoView *photoView;
+@property (strong, nonatomic) HXPhotoManager *managerTwos;
+@property (strong, nonatomic) HXPhotoView *photoViewTwos;
+@property (strong, nonatomic) HXPhotoManager *managerThrees;
+@property (strong, nonatomic) HXPhotoView *photoViewThrees;
+@property (strong, nonatomic) HXPhotoManager *managerFours;
+@property (strong, nonatomic) HXPhotoView *photoViewFours;
 //楼盘图
 @property (weak, nonatomic) NSMutableArray *photoViewOne;
 @property (weak, nonatomic) NSMutableArray *photoViewTwo;
@@ -142,7 +148,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [viewFour addSubview:pohtoView];
     [self ctreatePhotographView:pohtoView title:@"户型图" tag:100];
     NSArray * array = @[@"0"];
-    [_imageArrays3 addObjectsFromArray:array];
+    [_imageArrays3 addObject:array];
     NSLog(@"%@",_imageArrays3);
     UIView *ineFive = [[UIView alloc] initWithFrame:CGRectMake(15, 360, viewFour.fWidth-30, 1)];
     ineFive.backgroundColor = UIColorRBG(240, 240, 240);
@@ -219,11 +225,13 @@ static const CGFloat kPhotoViewMargin = 15.0;
     apartOne[@"area"] = _area.text;
     apartOne[@"price"] = _price.text;
     NSArray *imageArrayOne = _imageArrays3[0];
-    if (imageArrayOne.count!=0) {
+    if (imageArrayOne.count>0&&![imageArrayOne[0] isEqual:@"0"]) {
         NSString *apartPhoto = imageArrayOne[0];
         if (![apartPhoto isEqual:@"0"]) {
             apartOne[@"housePic"] = _imageArrays3[0];
         }
+    }else{
+        apartOne[@"housePic"] =nil;
     }
     [apartmentArray addObject:apartOne];
     NSUInteger n = _scrollView.subviews.count-4;
@@ -249,7 +257,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
             dictionary[@"toilet"] = [_apartmentLabelNum.text substringFromIndex:2];
         }
         
-        if (imageArray.count!=0) {
+        if (imageArray.count!=0 && ![imageArray[0] isEqual:@"0"]) {
             NSString *apartPhoto = imageArrayOne[0];
             if (![apartPhoto isEqual:@"0"]) {
                 dictionary[@"housePic"] = imageArray;
@@ -265,6 +273,11 @@ static const CGFloat kPhotoViewMargin = 15.0;
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
     mgr.requestSerializer.timeoutInterval = 20;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
     //防止返回值为null
     ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
@@ -277,7 +290,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     paraments[@"prototypePic"] = _imageArrays2;
     paraments[@"list"] = apartmentArray;
     
-    NSString *url = [NSString stringWithFormat:@"%@/proProject/upsupplementCreateOrUpdate",HTTPURL];
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/uppictureInfoCreateOrUpdate",HTTPURL];
     NSLog(@"%@",paraments);
     button.enabled = NO;
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
@@ -354,7 +367,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [view addSubview:pohtoView];
     [self ctreatePhotographView:pohtoView title:@"户型图" tag:101+n];
     NSArray * array = @[@"0"];
-    [_imageArrays3 addObjectsFromArray:array];
+    [_imageArrays3 addObject:array];
     
     _viewFour.fY += 367;
     _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
@@ -513,7 +526,51 @@ static const CGFloat kPhotoViewMargin = 15.0;
     }];
     return view;
 }
-
+#pragma mark -懒加载
+- (HXPhotoManager *)manager {
+    if (!_manager) {
+        _manager = [[HXPhotoManager alloc] initWithType:HXPhotoManagerSelectedTypePhoto];
+        _manager.configuration.saveSystemAblum = YES;
+        _manager.configuration.photoMaxNum = 9; //
+        _manager.configuration.videoMaxNum = 0;  //
+        _manager.configuration.maxNum = 9;
+        _manager.configuration.reverseDate = YES;
+    }
+    return _manager;
+}
+- (HXPhotoManager *)managerTwos {
+    if (!_managerTwos) {
+        _managerTwos = [[HXPhotoManager alloc] initWithType:HXPhotoManagerSelectedTypePhoto];
+        _managerTwos.configuration.saveSystemAblum = YES;
+        _managerTwos.configuration.photoMaxNum = 9; //
+        _managerTwos.configuration.videoMaxNum = 0;  //
+        _managerTwos.configuration.maxNum = 9;
+        _managerTwos.configuration.reverseDate = YES;
+    }
+    return _managerTwos;
+}
+- (HXPhotoManager *)managerThrees {
+    if (!_managerThrees) {
+        _managerThrees = [[HXPhotoManager alloc] initWithType:HXPhotoManagerSelectedTypePhoto];
+        _managerThrees.configuration.saveSystemAblum = YES;
+        _managerThrees.configuration.photoMaxNum = 9; //
+        _managerThrees.configuration.videoMaxNum = 0;  //
+        _managerThrees.configuration.maxNum = 9;
+        _managerThrees.configuration.reverseDate = YES;
+    }
+    return _managerThrees;
+}
+- (HXPhotoManager *)managerFours {
+    if (!_managerFours) {
+        _managerFours = [[HXPhotoManager alloc] initWithType:HXPhotoManagerSelectedTypePhoto];
+        _managerFours.configuration.saveSystemAblum = YES;
+        _managerFours.configuration.photoMaxNum = 3; //
+        _managerFours.configuration.videoMaxNum = 0;  //
+        _managerFours.configuration.maxNum = 3;
+        _managerFours.configuration.reverseDate = YES;
+    }
+    return _managerFours;
+}
 #pragma mark -创建图片拍照
 -(void)ctreatePhotographView:(UIView *)view title:(NSString *)title tag:(NSInteger)tag{
     UILabel *labelTitle = [[UILabel alloc] init];
@@ -539,56 +596,111 @@ static const CGFloat kPhotoViewMargin = 15.0;
     ine.backgroundColor = UIColorRBG(240, 240, 240);
     [view addSubview:ine];
     
-   HXPhotoManager *manager = [[HXPhotoManager alloc] initWithType:HXPhotoManagerSelectedTypePhoto];
-    //        _manager.configuration.openCamera = NO;
-    manager.configuration.saveSystemAblum = YES;
-    if (tag>=100) {
-        manager.configuration.photoMaxNum = 3;
-    }else{
-        manager.configuration.photoMaxNum = 9;
-    }
-   // manager.configuration.photoMaxNum = 9; //
-    manager.configuration.videoMaxNum = 0;  //
-    manager.configuration.maxNum = 9;
-    manager.configuration.reverseDate = YES;
-    
     CGFloat width = view.fWidth;
-    HXPhotoView *photoView = [HXPhotoView photoManager:manager];
-    photoView.frame = CGRectMake(kPhotoViewMargin, 53, width - kPhotoViewMargin * 2, 0);
-    photoView.lineCount = 3;
-    photoView.spacing = 24;
-    photoView.previewStyle = HXPhotoViewPreViewShowStyleDark;
-    photoView.outerCamera = YES;
-    photoView.delegate = self;
-    photoView.deleteImageName = @"delete";
-    photoView.addImageName = @"camera";
-    photoView.tag = tag;
-    //    photoView.showAddCell = NO;
-    photoView.backgroundColor = [UIColor whiteColor];
-    [view addSubview:photoView];
-    _photoView = photoView;
-    [_photoView refreshView];
+    if (tag == 10) {
+        _photoView = [HXPhotoView photoManager:self.manager];
+        _photoView.frame = CGRectMake(kPhotoViewMargin, 53, width - kPhotoViewMargin * 2, 0);
+        _photoView.lineCount = 3;
+        _photoView.spacing = 24;
+        _photoView.previewStyle = HXPhotoViewPreViewShowStyleDark;
+        _photoView.outerCamera = YES;
+        _photoView.delegate = self;
+        _photoView.deleteImageName = @"delete";
+        _photoView.addImageName = @"camera";
+        _photoView.tag = tag;
+        _photoView.backgroundColor = [UIColor whiteColor];
+        [view addSubview:_photoView];
+        [_photoView refreshView];
+    }else if (tag == 11){
+        _photoViewTwos = [HXPhotoView photoManager:self.managerTwos];
+        _photoViewTwos.frame = CGRectMake(kPhotoViewMargin, 53, width - kPhotoViewMargin * 2, 0);
+        _photoViewTwos.lineCount = 3;
+        _photoViewTwos.spacing = 24;
+        _photoViewTwos.previewStyle = HXPhotoViewPreViewShowStyleDark;
+        _photoViewTwos.outerCamera = YES;
+        _photoViewTwos.delegate = self;
+        _photoViewTwos.deleteImageName = @"delete";
+        _photoViewTwos.addImageName = @"camera";
+        _photoViewTwos.tag = tag;
+        _photoViewTwos.backgroundColor = [UIColor whiteColor];
+        [view addSubview:_photoViewTwos];
+        [_photoViewTwos refreshView];
+    }else if (tag == 12){
+        _photoViewThrees = [HXPhotoView photoManager:self.managerThrees];
+        _photoViewThrees.frame = CGRectMake(kPhotoViewMargin, 53, width - kPhotoViewMargin * 2, 0);
+        _photoViewThrees.lineCount = 3;
+        _photoViewThrees.spacing = 24;
+        _photoViewThrees.previewStyle = HXPhotoViewPreViewShowStyleDark;
+        _photoViewThrees.outerCamera = YES;
+        _photoViewThrees.delegate = self;
+        _photoViewThrees.deleteImageName = @"delete";
+        _photoViewThrees.addImageName = @"camera";
+        _photoViewThrees.tag = tag;
+        _photoViewThrees.backgroundColor = [UIColor whiteColor];
+        [view addSubview:_photoViewThrees];
+        [_photoViewThrees refreshView];
+    }else {
+        _photoViewFours = [HXPhotoView photoManager:self.managerFours];
+        _photoViewFours.frame = CGRectMake(kPhotoViewMargin, 53, width - kPhotoViewMargin * 2, 0);
+        _photoViewFours.lineCount = 3;
+        _photoViewFours.spacing = 24;
+        _photoViewFours.previewStyle = HXPhotoViewPreViewShowStyleDark;
+        _photoViewFours.outerCamera = YES;
+        _photoViewFours.delegate = self;
+        _photoViewFours.deleteImageName = @"delete";
+        _photoViewFours.addImageName = @"camera";
+        _photoViewFours.tag = tag;
+        _photoViewFours.backgroundColor = [UIColor whiteColor];
+        [view addSubview:_photoViewFours];
+        [_photoViewFours refreshView];
+    }
 }
 //修改view的高度
 - (void)photoView:(HXPhotoView *)photoView updateFrame:(CGRect)frame
 {
+
+    NSInteger m = _scrollView.subviews.count-4;
     NSInteger tag = photoView.tag;
+    NSInteger h = frame.size.height+68;
+    
     if(tag == 10){
-        _viewOne.fHeight = frame.size.height+68;
-        _viewTwo.fY += frame.size.height+68 - 166;
-        _viewThree.fY += frame.size.height+68 - 166;
-        _viewFour.fY += frame.size.height+68 - 166;
-        _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
-    }else if(tag == 11){
-        _viewTwo.fHeight = frame.size.height+68;
-        _viewThree.fY += frame.size.height+68 - 166;
-        _viewFour.fY += frame.size.height+68 - 166;
-        _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
-    }else if(tag == 12){
-        _viewThree.fHeight = frame.size.height+68;
-        _viewFour.fY += frame.size.height+68 - 166;
-        _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
+        NSInteger n = h - _viewOne.fHeight;
+        _viewOne.fHeight += n;
+        _viewTwo.fY += n;
+        _viewThree.fY += n;
+        _viewFour.fY += n;
+        if(m>0){
+            for (int i = 1; i<=m; i++) {
+                UIView *view = [_scrollView viewWithTag:(100+i)];
+                view.fY += n;
+            }
+        }
     }
+    if(tag == 11){
+        NSInteger n = h - _viewTwo.fHeight;
+        _viewTwo.fHeight += n;
+        _viewThree.fY += n;
+        _viewFour.fY += n;
+        if(m>0){
+            for (int i = 1; i<=m; i++) {
+                UIView *view = [_scrollView viewWithTag:(100+i)];
+                view.fY += n;
+            }
+        }
+    }
+    if(tag == 12){
+        NSInteger n = h - _viewThree.fHeight;
+        _viewThree.fHeight += n;
+        _viewFour.fY += n;
+        if(m>0){
+            for (int i = 1; i<=m; i++) {
+                UIView *view = [_scrollView viewWithTag:(100+i)];
+                view.fY += n;
+            }
+        }
+    }
+    
+    _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
 }
 //获取图片数组
 - (void)photoView:(HXPhotoView *)photoView imageChangeComplete:(NSArray<UIImage *> *)imageList{

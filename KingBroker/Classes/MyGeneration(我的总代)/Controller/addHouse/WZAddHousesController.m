@@ -437,6 +437,11 @@ static const CGFloat kPhotoViewMargin = 15.0;
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
     mgr.requestSerializer.timeoutInterval = 20;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
     //防止返回值为null
     ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
