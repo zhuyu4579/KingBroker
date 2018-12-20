@@ -121,7 +121,7 @@
     forWaryButton.backgroundColor = UIColorRBG(248, 248, 248);
     forWaryButton.layer.borderColor = UIColorRBG(221, 221, 221).CGColor;
     forWaryButton.layer.borderWidth = 1.0;
-    forWaryButton.layer.cornerRadius = 4.0;
+    forWaryButton.layer.cornerRadius = 22.0;
     forWaryButton.layer.masksToBounds = YES;
     [forWaryButton addTarget:self action:@selector(forWaryButtons) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:forWaryButton];

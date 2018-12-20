@@ -104,6 +104,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *name = [ user objectForKey:@"name"];
     NSString *tel = [ user objectForKey:@"username"];
+    NSString *companyNames = [ user objectForKey:@"companyName"];
     //创建UIScrollView
     UIScrollView *meScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(self.view.fX,0, self.view.fWidth, self.view.fHeight-49-JF_BOTTOM_SPACE)];
     meScrollView.backgroundColor = UIColorRBG(247,247,247);
@@ -126,7 +127,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0, 21+34*n, meScrollView.fWidth, 99)];
     viewTwo.backgroundColor = [UIColor whiteColor];
     [meScrollView addSubview:viewTwo];
-    UIView *viewTwo_one = [self createViewOne:@"公司名称" contents:@"杭州境宽地产融合平台" fY:0 isDel:@"" unit:@"" setKeyboard:@""];
+    UIView *viewTwo_one = [self createViewOne:@"公司名称" contents:companyNames fY:0 isDel:@"" unit:@"" setKeyboard:@""];
     [viewTwo addSubview:viewTwo_one];
     UITextField *companyName = [viewTwo_one viewWithTag:20];
     _companyName = companyName;

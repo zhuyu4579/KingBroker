@@ -65,7 +65,8 @@
     UIView *ineFour = [[UIView alloc] initWithFrame:CGRectMake(15, 99, viewTwo.fWidth-30, 1)];
     ineFour.backgroundColor = UIColorRBG(240, 240, 240);
     [viewTwo addSubview:ineFour];
-   
+    //获取总代信息
+    [self findGeneration];
 }
 #pragma mark-选择楼盘位置
 -(void)selectAddress{
@@ -77,7 +78,57 @@
         _houseAddress.text = [address valueForKey:@"address"];
         _houseLnglat = [address valueForKey:@"lnglat"];
         _houseAdCode = [address valueForKey:@"adcode"];
+        [self submission];
     };
+}
+#pragma mark -总代信息查询
+-(void)findGeneration{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 20;
+    //申明返回的结果是json类型
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //申明请求的数据是json类型
+    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/userCompany/userCompanyName",HTTPURL];
+    
+    [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        NSString *code = [responseObject valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            _ID = [data valueForKey:@"id"];
+            _companyName.text = [data valueForKey:@"companyName"];
+            _houseAddress.textColor = UIColorRBG(51, 51, 51);
+            _houseAddress.text = [data valueForKey:@"position"];
+            _houseLnglat = [data valueForKey:@"lnglat"];
+            _houseAddr.text = [data valueForKey:@"address"];
+        }else{
+            NSString *msg = [responseObject valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+            if ([code isEqual:@"401"]) {
+                
+                [NSString isCode:self.navigationController code:code];
+                //更新指定item
+                UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                item.badgeValue= nil;
+            }
+            
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+    }];
 }
 #pragma mark -提交
 -(void)submission{
@@ -119,7 +170,7 @@
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    paraments[@"id"] = @"";
+    paraments[@"id"] = _ID;
     paraments[@"companyName"] = companyName ;
     paraments[@"lnglat"] = _houseLnglat;
     paraments[@"adcode"] = _houseAdCode;
@@ -131,7 +182,10 @@
         if ([code isEqual:@"200"]) {
             [SVProgressHUD showInfoWithStatus:@"保存成功"];
             //将总代数据保存
-        #warning -将总代数据保存
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:[data valueForKey:@"companyName"] forKey:@"companyName"];
+            [defaults synchronize];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -268,6 +322,9 @@
     [textField resignFirstResponder];
     
     return YES;
+}
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    [self submission];
 }
 //文本框编辑时
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{

@@ -138,9 +138,12 @@
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
-            [self.navigationController popViewControllerAnimated:YES];
             //将总代数据保存
-            #warning -将总代数据保存
+            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:[data valueForKey:@"companyName"] forKey:@"companyName"];
+            [defaults synchronize];
+            [self.navigationController popViewControllerAnimated:YES];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){

@@ -501,6 +501,16 @@ static NSString * const IDS = @"cells";
 }
 #pragma mark -创建模块
 -(void)getUpScreen{
+    UILabel *titles = [[UILabel alloc] init];
+    titles.text = @"楼盘信息由发布方提供，信息真伪与平台无关";
+    titles.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:10];
+    titles.textColor = UIColorRBG(153, 153, 153);
+    [self.view addSubview:titles];
+    [titles mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-62);
+        make.height.offset(10);
+    }];
     //下滑view
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49-JF_BOTTOM_SPACE)];
     scrollView.backgroundColor = [UIColor clearColor];
