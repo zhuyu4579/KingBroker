@@ -282,6 +282,7 @@
             [defaults setObject:[regis valueForKey:@"realtorStatus"] forKey:@"realtorStatus"];
             [defaults setObject:[regis valueForKey:@"idcardStatus"] forKey:@"idcardStatus"];
             [defaults setObject:[regis valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
+            [defaults setObject:[regis valueForKey:@"companyName"] forKey:@"companyName"];
             [defaults synchronize];
             
         }else{

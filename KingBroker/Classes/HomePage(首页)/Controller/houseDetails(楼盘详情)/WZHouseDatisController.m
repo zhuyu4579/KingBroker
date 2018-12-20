@@ -112,7 +112,7 @@
 @property(nonatomic,strong)NSArray *telphoneArray;
 //分享内容
 @property(nonatomic,strong)NSDictionary *detailShareContents;
-
+@property(nonatomic,strong)UILabel *titles;
 @end
 static NSString * const ID = @"cell";
 static NSString * const IDS = @"cells";
@@ -502,19 +502,10 @@ static NSString * const IDS = @"cells";
 }
 #pragma mark -创建模块
 -(void)getUpScreen{
-    UILabel *titles = [[UILabel alloc] init];
-    titles.text = @"楼盘信息由发布方提供，信息真伪与平台无关";
-    titles.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:10];
-    titles.textColor = UIColorRBG(153, 153, 153);
-    [self.view addSubview:titles];
-    [titles mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view.mas_centerX);
-        make.bottom.equalTo(self.view.mas_bottom).offset(-62);
-        make.height.offset(10);
-    }];
+
     //下滑view
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49-JF_BOTTOM_SPACE)];
-    scrollView.backgroundColor = [UIColor clearColor];
+    scrollView.backgroundColor = UIColorRBG(247, 247, 247);
     [self.view addSubview:scrollView];
     self.scrollView = scrollView;
     scrollView.bounces = YES;
@@ -641,7 +632,20 @@ static NSString * const IDS = @"cells";
     [self houseIntroduce:houseIntroduce];
     [scrollView addSubview:houseIntroduce];
     
+    UILabel *titles = [[UILabel alloc] init];
+    titles.text = @"楼盘信息由发布方提供，信息真伪与平台无关";
+    titles.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:10];
+    titles.textColor = UIColorRBG(153, 153, 153);
+    [titles setHidden:YES];
+    _titles = titles;
+    [self.view addSubview:titles];
+    [titles mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-63);
+        make.height.offset(10);
+    }];
     scrollView.contentSize = CGSizeMake(0,houseIntroduce.fY + houseIntroduce.fHeight+10);
+    
 }
 
 #pragma mark -图片
@@ -901,6 +905,15 @@ static NSString * const IDS = @"cells";
         _navView.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha: 0.5];
         [_popButton setBackgroundImage:[UIImage imageNamed:@"lpxq_more_unfold"] forState:UIControlStateNormal];
         [_shareButtons setBackgroundImage:[UIImage imageNamed:@"lpxq_share"] forState:UIControlStateNormal];
+    }
+    
+    CGFloat height = scrollView.frame.size.height;
+    CGFloat contentYoffset = scrollView.contentOffset.y;
+    CGFloat distanceFromBottom = scrollView.contentSize.height - contentYoffset;
+    if (distanceFromBottom < height-34) {
+        [_titles setHidden:NO];
+    }else{
+        [_titles setHidden:YES];
     }
 }
 #pragma mark -结佣时间

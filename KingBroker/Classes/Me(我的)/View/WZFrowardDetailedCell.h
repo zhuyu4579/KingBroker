@@ -10,6 +10,8 @@
 @class WZFrowardItem;
 @interface WZFrowardDetailedCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *titleName;
+@property (strong, nonatomic) IBOutlet UILabel *title;
+
 @property (strong, nonatomic) IBOutlet UILabel *time;
 @property (strong, nonatomic) IBOutlet UILabel *money;
 @property(nonatomic,strong)WZFrowardItem *item;

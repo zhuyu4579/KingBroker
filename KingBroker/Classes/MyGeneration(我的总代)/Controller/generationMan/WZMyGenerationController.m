@@ -7,6 +7,7 @@
 //
 #import <Masonry.h>
 #import "UIView+Frame.h"
+#import "WZRewardWalletController.h"
 #import "WZNavigationController.h"
 #import "WZVipServiceController.h"
 #import "WZAddHousesController.h"
@@ -52,7 +53,7 @@
     
     UIView *memberService = [self createViewClass:@selector(memberServices) image:[UIImage imageNamed:@"zd_icon2"] title:@"会员服务" fY:0 size:CGSizeMake(20, 16)];
     [viewTwo addSubview:memberService];
-    UIView *totalWallet = [self createViewClass:@selector(totalWallets) image:[UIImage imageNamed:@"zd_icon3"] title:@"悬赏帐户" fY:51 size:CGSizeMake(19, 20)];
+    UIView *totalWallet = [self createViewClass:@selector(totalWallets) image:[UIImage imageNamed:@"zd_icon3"] title:@"悬赏账户" fY:51 size:CGSizeMake(19, 20)];
     [viewTwo addSubview:totalWallet];
     
     UIView *viewThree = [[UIView alloc] init];
@@ -172,7 +173,7 @@
 #pragma mark -加入总代
 -(void)joinGenerations{
     WZJoinGenerationController *joinGen = [[WZJoinGenerationController alloc] init];
-     [self.navigationController pushViewController:joinGen animated:YES];
+    [self.navigationController pushViewController:joinGen animated:YES];
 }
 
 #pragma mark -公司信息
@@ -194,9 +195,10 @@
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:vips];
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
-#pragma mark -悬赏帐户
+#pragma mark -悬赏账户
 -(void)totalWallets{
-    
+    WZRewardWalletController *RewardWallet = [[WZRewardWalletController alloc] init];
+    [self.navigationController pushViewController:RewardWallet animated:YES];
 }
 #pragma mark -楼盘管理
 -(void)houseManages{
@@ -215,7 +217,13 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *companyFlag = [ user objectForKey:@"companyFlag"];
+    if ([companyFlag isEqual:@"1"]) {
+        [_viewNo setHidden:YES];
+    }else{
+        [_viewNo setHidden:NO];
+    }
 }
 
 @end

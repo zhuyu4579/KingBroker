@@ -135,7 +135,7 @@
     }];
     
     UIButton *meButton = [[UIButton alloc] init];
-    [meButton setTitle:@"我的楼盘" forState:UIControlStateNormal];
+    [meButton setTitle:@"收藏楼盘" forState:UIControlStateNormal];
     meButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:18];
     [meButton setTitleColor:UIColorRBG(85, 85, 85) forState:UIControlStateNormal];
     [meButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateSelected];

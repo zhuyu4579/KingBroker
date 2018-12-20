@@ -12,7 +12,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _titleName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+    _title.textColor = UIColorRBG(51, 51, 51);
     _titleName.textColor = UIColorRBG(51, 51, 51);
     _time.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
     _time.textColor = UIColorRBG(153, 153, 153);
@@ -22,8 +22,14 @@
 -(void)setItem:(WZFrowardItem *)item{
     _item = item;
     _titleName.text = item.name;
+    _title.text = item.title;
     _time.text = item.createDate;
     _money.text = item.price;
+    if ([item.price containsString:@"+"]) {
+        _money.textColor = UIColorRBG(255, 162, 0);
+    } else {
+        _money.textColor = UIColorRBG(51, 51, 51);
+    }
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

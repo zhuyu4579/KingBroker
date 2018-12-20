@@ -146,6 +146,8 @@
                 [defaults setObject:[_loginItem valueForKey:@"addr"] forKey:@"addr"];
                 //门店负责人
                 [defaults setObject:[_loginItem valueForKey:@"dutyFlag"] forKey:@"dutyFlag"];
+                //是否是总代
+                [defaults setObject:[_loginItem valueForKey:@"companyFlag"] forKey:@"companyFlag"];
                 [defaults synchronize];
                 [self storeState];
             }else{

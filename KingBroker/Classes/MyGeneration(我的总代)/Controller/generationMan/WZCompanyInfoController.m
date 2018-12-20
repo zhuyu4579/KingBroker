@@ -182,9 +182,8 @@
         if ([code isEqual:@"200"]) {
             [SVProgressHUD showInfoWithStatus:@"保存成功"];
             //将总代数据保存
-            NSDictionary *data = [responseObject valueForKey:@"data"];
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setObject:[data valueForKey:@"companyName"] forKey:@"companyName"];
+            [defaults setObject:companyName forKey:@"companyName"];
             [defaults synchronize];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];

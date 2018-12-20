@@ -10,6 +10,7 @@
 
 @interface WZFrowardItem : NSObject
 @property(nonatomic,strong)NSString *name;
+@property(nonatomic,strong)NSString *title;
 @property(nonatomic,strong)NSString *createDate;
 @property(nonatomic,strong)NSString *price;
 @end

@@ -139,9 +139,9 @@
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             //将总代数据保存
-            NSDictionary *data = [responseObject valueForKey:@"data"];
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setObject:[data valueForKey:@"companyName"] forKey:@"companyName"];
+            [defaults setObject:companyName forKey:@"companyName"];
+            [defaults setObject:@"1" forKey:@"companyFlag"];
             [defaults synchronize];
             [self.navigationController popViewControllerAnimated:YES];
         }else{

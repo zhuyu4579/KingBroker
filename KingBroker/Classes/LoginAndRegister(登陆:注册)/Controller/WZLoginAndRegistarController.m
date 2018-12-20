@@ -613,6 +613,7 @@
             [defaults setObject:[data valueForKey:@"cityId"] forKey:@"cityId"];
             [defaults setObject:[data valueForKey:@"storeId"] forKey:@"storeId"];
             [defaults setObject:[data valueForKey:@"realtorStatus"] forKey:@"realtorStatus"];
+            [defaults setObject:[data valueForKey:@"companyName"] forKey:@"companyName"];
             [defaults setObject:[data valueForKey:@"idcardStatus"] forKey:@"idcardStatus"];
             [defaults setObject:[data valueForKey:@"commissionFag"] forKey:@"commissionFag"];
             [defaults setObject:[data valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
