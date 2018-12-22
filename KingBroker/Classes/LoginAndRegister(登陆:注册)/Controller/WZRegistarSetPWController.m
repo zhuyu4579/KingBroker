@@ -283,6 +283,7 @@
             [defaults setObject:[regis valueForKey:@"idcardStatus"] forKey:@"idcardStatus"];
             [defaults setObject:[regis valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
             [defaults setObject:[regis valueForKey:@"companyName"] forKey:@"companyName"];
+            [defaults setObject:[regis valueForKey:@"companyFlag"] forKey:@"companyFlag"];
             [defaults synchronize];
             
         }else{

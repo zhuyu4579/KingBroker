@@ -74,6 +74,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
 }
 #pragma mark-创建View
 -(void)createView{
+    CGFloat n = SCREEN_WIDTH / 375.0;
     //创建UIScrollView
     UIScrollView *meScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(self.view.fX,0, self.view.fWidth, self.view.fHeight-49-JF_BOTTOM_SPACE)];
     meScrollView.backgroundColor = UIColorRBG(247,247,247);
@@ -83,28 +84,28 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [self.view addSubview:meScrollView];
     self.scrollView = meScrollView;
     //第一个view
-    UIView *viewOne = [[UIView alloc] initWithFrame:CGRectMake(0, 1, meScrollView.fWidth, 166)];
+    UIView *viewOne = [[UIView alloc] initWithFrame:CGRectMake(0, 1, meScrollView.fWidth, 166*n)];
     viewOne.backgroundColor = [UIColor whiteColor];
     _viewOne = viewOne;
     [meScrollView addSubview:viewOne];
     [self ctreatePhotographView:viewOne title:@"楼盘图" tag:10];
     
     //第二个view
-    UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0,viewOne.fY+viewOne.fHeight+8, meScrollView.fWidth, 166)];
+    UIView *viewTwo = [[UIView alloc] initWithFrame:CGRectMake(0,viewOne.fY+viewOne.fHeight+8, meScrollView.fWidth, 166*n)];
     viewTwo.backgroundColor = [UIColor whiteColor];
     _viewTwo = viewTwo;
     [meScrollView addSubview:viewTwo];
     [self ctreatePhotographView:viewTwo title:@"沙盘图" tag:11];
     
     //第三个view
-    UIView *viewThree = [[UIView alloc] initWithFrame:CGRectMake(0, viewTwo.fY+viewTwo.fHeight+8, meScrollView.fWidth, 166)];
+    UIView *viewThree = [[UIView alloc] initWithFrame:CGRectMake(0, viewTwo.fY+viewTwo.fHeight+8, meScrollView.fWidth, 166*n)];
     viewThree.backgroundColor = [UIColor whiteColor];
     _viewThree = viewThree;
     [meScrollView addSubview:viewThree];
     [self ctreatePhotographView:viewThree title:@"样板间图" tag:12];
     
     //第四个view
-    UIView *viewFour = [[UIView alloc] initWithFrame:CGRectMake(0, viewThree.fY+viewThree.fHeight+8, meScrollView.fWidth, 408)];
+    UIView *viewFour = [[UIView alloc] initWithFrame:CGRectMake(0, viewThree.fY+viewThree.fHeight+8, meScrollView.fWidth, 408+160*(n-1))];
     viewFour.backgroundColor = [UIColor whiteColor];
     _viewFour = viewFour;
     [meScrollView addSubview:viewFour];
@@ -144,13 +145,13 @@ static const CGFloat kPhotoViewMargin = 15.0;
     ineFour.backgroundColor = UIColorRBG(240, 240, 240);
     [viewFour addSubview:ineFour];
     
-    UIView *pohtoView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, viewFour.fWidth, 160)];
+    UIView *pohtoView = [[UIView alloc] initWithFrame:CGRectMake(0, 200, viewFour.fWidth, 160*n)];
     [viewFour addSubview:pohtoView];
     [self ctreatePhotographView:pohtoView title:@"户型图" tag:100];
     NSArray * array = @[@"0"];
     [_imageArrays3 addObject:array];
     NSLog(@"%@",_imageArrays3);
-    UIView *ineFive = [[UIView alloc] initWithFrame:CGRectMake(15, 360, viewFour.fWidth-30, 1)];
+    UIView *ineFive = [[UIView alloc] initWithFrame:CGRectMake(15, 200+160*n, viewFour.fWidth-30, 1)];
     ineFive.backgroundColor = UIColorRBG(240, 240, 240);
     [viewFour addSubview:ineFive];
     
@@ -322,6 +323,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
 }
 #pragma mark-添加户型
 -(void)addApartments{
+    CGFloat s = SCREEN_WIDTH / 375.0;
     NSUInteger n = _scrollView.subviews.count-4;
     //view
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _viewFour.fY, _scrollView.fWidth, 359)];
@@ -369,11 +371,12 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSArray * array = @[@"0"];
     [_imageArrays3 addObject:array];
     
-    _viewFour.fY += 367;
+    _viewFour.fY += 367+160*(s-1);
     _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
 }
 #pragma mark-删除户型
 -(void)deleteHousePhotos:(UIButton *)button{
+    CGFloat s = SCREEN_WIDTH / 375.0;
     NSUInteger n = _scrollView.subviews.count-4;
     NSInteger tag = button.superview.superview.tag;
     NSInteger m = n - (tag - 100);
@@ -386,7 +389,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         view.fY -= 367;
     }
     [view removeFromSuperview];
-    _viewFour.fY -=367;
+    _viewFour.fY -= 367+160*(s-1);
     _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
     
 }

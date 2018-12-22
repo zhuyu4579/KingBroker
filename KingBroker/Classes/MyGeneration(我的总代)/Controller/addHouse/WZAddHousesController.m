@@ -278,7 +278,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     _reportExplainLabels = [viewNine viewWithTag:50];
     _reportExplainSum = [viewNine viewWithTag:60];
     //第十个view
-    UIView *viewTen = [[UIView alloc] initWithFrame:CGRectMake(0, viewNine.fY+viewNine.fHeight+8, meScrollView.fWidth, 166)];
+    UIView *viewTen = [[UIView alloc] initWithFrame:CGRectMake(0, viewNine.fY+viewNine.fHeight+8, meScrollView.fWidth, 166*n)];
     _viewTen = viewTen;
     viewTen.backgroundColor = [UIColor whiteColor];
     [meScrollView addSubview:viewTen];

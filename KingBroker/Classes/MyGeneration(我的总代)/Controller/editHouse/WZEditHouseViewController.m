@@ -95,6 +95,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
 }
 #pragma mark-创建view
 -(void)createView{
+    CGFloat n = SCREEN_WIDTH / 375.0;
     //创建UIScrollView
     UIScrollView *meScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(self.view.fX,0, self.view.fWidth, self.view.fHeight-134-JF_BOTTOM_SPACE-kApplicationStatusBarHeight)];
     meScrollView.backgroundColor = UIColorRBG(247,247,247);
@@ -298,7 +299,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [_reportExplainLabels setHidden:YES];
     _reportExplainSum.text = [NSString stringWithFormat:@"%ld/100",reportDescribe.length];
     //第十个view
-    UIView *viewTen = [[UIView alloc] initWithFrame:CGRectMake(0, viewNine.fY+viewNine.fHeight+8, meScrollView.fWidth, 166)];
+    UIView *viewTen = [[UIView alloc] initWithFrame:CGRectMake(0, viewNine.fY+viewNine.fHeight+8, meScrollView.fWidth, 166*n)];
     _viewTen = viewTen;
     viewTen.backgroundColor = [UIColor whiteColor];
     [meScrollView addSubview:viewTen];

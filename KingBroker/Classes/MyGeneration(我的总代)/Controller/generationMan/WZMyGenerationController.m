@@ -185,13 +185,11 @@
 -(void)memberServices{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
-    NSString *url = [NSString stringWithFormat:@"%@/vip/index.html",HTTPH5];
+   
     WZVipServiceController *vips = [[WZVipServiceController alloc] init];
-    if ([url containsString:@"?"]) {
-        vips.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
-    } else {
-        vips.url = [NSString stringWithFormat:@"%@?uuid=%@",url,uuid];
-    }
+    
+    vips.url = [NSString stringWithFormat:@"%@/vip/index.html?uuid=%@",HTTPH5,uuid];
+    
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:vips];
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
@@ -212,7 +210,15 @@
 }
 #pragma mark -发布悬赏
 -(void)releaseReward{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
     
+    WZVipServiceController *vips = [[WZVipServiceController alloc] init];
+
+    vips.url = [NSString stringWithFormat:@"%@/vip/publicaward.html?uuid=%@",HTTPH5,uuid];
+    
+    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:vips];
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

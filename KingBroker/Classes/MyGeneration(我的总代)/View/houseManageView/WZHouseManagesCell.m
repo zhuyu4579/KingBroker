@@ -45,11 +45,17 @@
     }else{
          _prices.text = item.averagePrice;
     }
+    [_editButton setEnabled:YES];
+    [_editButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
+    _editButton.layer.borderColor = UIColorRBG(251, 221, 49).CGColor;
+    [_groundingButton setEnabled:YES];
+    [_groundingButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
+    _groundingButton.layer.borderColor = UIColorRBG(251, 221, 49).CGColor;
+    
     NSString *stuta = item.status;
     if ([stuta isEqual:@"0"]||[stuta isEqual:@"3"]) {
         _stutas.text = @"未上架";
-    }
-    if ([stuta isEqual:@"1"]) {
+    }else if ([stuta isEqual:@"1"]) {
         _stutas.text = @"上架审核中";
         [_editButton setEnabled:NO];
         [_editButton setTitleColor:UIColorRBG(204, 204, 204) forState:UIControlStateNormal];
@@ -57,8 +63,7 @@
         [_groundingButton setEnabled:NO];
         [_groundingButton setTitleColor:UIColorRBG(204, 204, 204) forState:UIControlStateNormal];
         _groundingButton.layer.borderColor = UIColorRBG(204, 204, 204).CGColor;
-    }
-    if ([stuta isEqual:@"2"]) {
+    }else if ([stuta isEqual:@"2"]) {
         _stutas.text = @"已上架";
         [_editButton setEnabled:NO];
         [_editButton setTitleColor:UIColorRBG(204, 204, 204) forState:UIControlStateNormal];
@@ -74,14 +79,14 @@
 }
 
 - (IBAction)previews:(UIButton *)sender {
-    UIViewController *vc = [UIViewController viewController:self.superview.superview];
+    UIViewController *vc = [UIViewController viewController:self.superview];
     WZPreviewHouseController *houseThree = [[WZPreviewHouseController alloc] init];
     houseThree.ID = _ID;
     [vc.navigationController pushViewController:houseThree animated:YES];
 }
 
 - (IBAction)editHouse:(UIButton *)sender {
-    UIViewController *vc = [UIViewController viewController:self.superview.superview];
+    UIViewController *vc = [UIViewController viewController:self.superview];
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
@@ -104,7 +109,6 @@
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             NSDictionary *data = [responseObject valueForKey:@"data"];
-            
             WZEditHouseController *editHouse = [[WZEditHouseController alloc] init];
             editHouse.data = data;
             [vc.navigationController pushViewController:editHouse animated:YES];
@@ -130,7 +134,7 @@
 
 - (IBAction)groundHouse:(UIButton *)sender {
     NSString *test = sender.titleLabel.text;
-     UIViewController *vc = [UIViewController viewController:self.superview.superview];
+     UIViewController *vc = [UIViewController viewController:self.superview];
     if ([test isEqual:@"申请上架"]) {
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         NSString *uuid = [ user objectForKey:@"uuid"];
