@@ -8,6 +8,8 @@
 #import <Masonry.h>
 #import "UIView+Frame.h"
 #import "UIBarButtonItem+Item.h"
+#import "WZNavigationController.h"
+#import "WZVipServiceController.h"
 #import "WZGroundSuccessController.h"
 
 @interface WZGroundSuccessController ()
@@ -78,7 +80,15 @@
 }
 #pragma mark -跳转会员
 -(void)buyVip{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
     
+    WZVipServiceController *vips = [[WZVipServiceController alloc] init];
+    
+    vips.url = [NSString stringWithFormat:@"%@/vip/index.html?uuid=%@",HTTPH5,uuid];
+    
+    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:vips];
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
    
 }
 @end

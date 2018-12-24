@@ -8,6 +8,11 @@
 #import <WebKit/WebKit.h>
 #import "UIView+Frame.h"
 #import "NSString+LCExtension.h"
+#import "WZHousePageController.h"
+#import "WZNavigationController.h"
+#import "WZVideoTokerController.h"
+#import "WZHouseDatisController.h"
+#import "WZSupportHouseDatisController.h"
 #import "WZStoreAdministrationController.h"
 
 @interface WZStoreAdministrationController()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
@@ -70,6 +75,10 @@
     
     [webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     
+    [[webView configuration].userContentController addScriptMessageHandler:self name:@"videoToker"];
+    [[webView configuration].userContentController addScriptMessageHandler:self name:@"houseList"];
+    [[webView configuration].userContentController addScriptMessageHandler:self name:@"houseDetails"];
+    
     [[webView configuration].userContentController addScriptMessageHandler:self name:@"black"];
     [[webView configuration].userContentController addScriptMessageHandler:self name:@"login"];
 }
@@ -111,9 +120,20 @@
         [self.navigationController popViewControllerAnimated:YES];
     }else if([message.name isEqualToString:@"login"]){
         [NSString isCode:self.navigationController code:@"401"];
+    }else if([message.name isEqualToString:@"videoToker"]){
+        
+        [self videoToker];
+    }else if([message.name isEqualToString:@"houseList"]){
+        
+        [self houseList];
+    }else if([message.name isEqualToString:@"houseDetails"]){
+        
+        NSDictionary *data = message.body;
+        [self houseDetails:data];
     }
     
 }
+
 - (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
@@ -134,6 +154,50 @@
     }])];
     [self presentViewController:alertController animated:YES completion:nil];
 }
+//跳转视频拓客
+-(void)videoToker{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    if (uuid&&![uuid isEqual:@""]) {
+        WZVideoTokerController *videoToker = [[WZVideoTokerController alloc] init];
+        [self.navigationController pushViewController:videoToker animated:YES];
+    }else{
+        [NSString isCode:self.navigationController code:@"401"];
+    }
+}
+//跳转楼盘列表
+-(void)houseList{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    if (uuid&&![uuid isEqual:@""]) {
+        WZHousePageController *house = [[WZHousePageController alloc] init];
+        house.status = 0;
+        [self.navigationController pushViewController:house animated:YES];
+    }else{
+        [NSString isCode:self.navigationController code:@"401"];
+    }
+}
+//跳转楼盘详情页
+-(void)houseDetails:(NSDictionary *)dicty{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    if (uuid&&![uuid isEqual:@""]) {
+        NSString *selfEmployed = [dicty  valueForKey:@"selfEmployed"];
+        
+        if ([selfEmployed isEqual:@"2"]) {
+            WZSupportHouseDatisController *houseDatis = [[WZSupportHouseDatisController alloc] init];
+            houseDatis.ID =  [dicty valueForKey:@"id"];
+            [self.navigationController pushViewController:houseDatis animated:YES];
+        }else{
+            WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
+            houseDatis.ID =  [dicty valueForKey:@"id"];
+            [self.navigationController pushViewController:houseDatis animated:YES];
+            
+        }
+    }else{
+        [NSString isCode:self.navigationController code:@"401"];
+    }
+}
 //监听值改变时就会调用
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     self.title = _webView.title;
@@ -144,6 +208,9 @@
     [_webView removeObserver:self forKeyPath:@"title"];
     [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
     [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"closeWindow"];
+    [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"videoToker"];
+    [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"houseList"];
+    [[_webView configuration].userContentController removeScriptMessageHandlerForName:@"houseDetails"];
 }
 -(void)viewWillAppear:(BOOL)animated{
     

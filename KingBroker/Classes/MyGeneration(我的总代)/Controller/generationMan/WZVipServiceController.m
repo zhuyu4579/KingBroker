@@ -99,10 +99,75 @@
     
     
 }
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    // NOTE: ------  对alipays:相关的scheme处理 -------
+    // NOTE: 若遇到支付宝相关scheme，则跳转到本地支付宝App
+    NSString* reqUrl = request.URL.absoluteString;
+    NSLog(@"222");
+    if ([reqUrl hasPrefix:@"alipays://"] || [reqUrl hasPrefix:@"alipay://"]) {
+        // NOTE: 跳转支付宝App
+        BOOL bSucc = [[UIApplication sharedApplication]openURL:request.URL];
+        
+        // NOTE: 如果跳转失败，则跳转itune下载支付宝App
+        if (!bSucc) {
+
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"未检测到支付宝客户端，请安装后重试。"  preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"立即安装" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+                // NOTE: 跳转itune下载支付宝App
+                NSString* urlStr = @"https://itunes.apple.com/cn/app/zhi-fu-bao-qian-bao-yu-e-bao/id333206289?mt=8";
+                NSURL *downloadUrl = [NSURL URLWithString:urlStr];
+                [[UIApplication sharedApplication]openURL:downloadUrl];
+            }];
+            UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"取消安装" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                
+            }];
+            [cancelAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+            [defaultAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+            
+            [alert addAction:defaultAction];
+            [alert addAction:cancelAction];
+            [self presentViewController:alert animated:YES completion:nil];
+            
+        }
+        return NO;
+    }
+    return YES;
+}
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
     
     NSString *url = navigationAction.request.URL.absoluteString;
+    NSLog(@"111");
+    if ([url hasPrefix:@"alipays://"] || [url hasPrefix:@"alipay://"]) {
+        // NOTE: 跳转支付宝App
+        BOOL bSucc = [[UIApplication sharedApplication]openURL:navigationAction.request.URL];
+        
+        // NOTE: 如果跳转失败，则跳转itune下载支付宝App
+        if (!bSucc) {
+            
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"未检测到支付宝客户端，请安装后重试。"  preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"立即安装" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+                // NOTE: 跳转itune下载支付宝App
+                NSString* urlStr = @"https://itunes.apple.com/cn/app/zhi-fu-bao-qian-bao-yu-e-bao/id333206289?mt=8";
+                NSURL *downloadUrl = [NSURL URLWithString:urlStr];
+                [[UIApplication sharedApplication]openURL:downloadUrl];
+            }];
+            UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"取消安装" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                
+            }];
+            [cancelAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+            [defaultAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+            
+            [alert addAction:defaultAction];
+            [alert addAction:cancelAction];
+            [self presentViewController:alert animated:YES completion:nil];
+            
+        }
+        
+    }
     if ([url rangeOfString:@"share.html"].location == NSNotFound) {
         
         NSURL *URL = navigationAction.request.URL;

@@ -43,6 +43,8 @@
 	<string>1.0</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>alipayshare</string>
+		<string>alipay</string>
 		<string>weixin</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
@@ -51,6 +53,18 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>alipay.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInscureHTTPLoads</key>
+				<true/>
+				<key>NSTemporaryExceptionMinimumTLSVersion</key>
+				<string>TSLv1.1</string>
+			</dict>
+		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>使用APP时需要相机拍照上传经纪人身份实名认证，管理者身份名片认证的资料和修改个人信息头像的资料，您是否允许打开相机？</string>

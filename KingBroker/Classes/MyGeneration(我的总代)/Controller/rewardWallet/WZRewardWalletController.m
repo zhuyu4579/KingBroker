@@ -12,6 +12,8 @@
 #import <SVProgressHUD.h>
 #import "UIBarButtonItem+Item.h"
 #import "NSString+LCExtension.h"
+#import "WZNavigationController.h"
+#import "WZVipServiceController.h"
 #import "WZRewardWalletController.h"
 #import "WZRewardsDetilsController.h"
 @interface WZRewardWalletController ()
@@ -133,8 +135,15 @@
 }
 //发布悬赏
 -(void)ReleaseRewardButtons{
-    // WZForwardDetailedController *detailedVC = [[WZForwardDetailedController alloc] init];
-    // [self.navigationController pushViewController:detailedVC animated:YES];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    
+    WZVipServiceController *vips = [[WZVipServiceController alloc] init];
+    
+    vips.url = [NSString stringWithFormat:@"%@/vip/publicaward.html?uuid=%@",HTTPH5,uuid];
+    
+    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:vips];
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
