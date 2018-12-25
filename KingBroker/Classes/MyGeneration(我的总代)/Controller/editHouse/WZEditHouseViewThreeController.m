@@ -26,6 +26,7 @@
 @property(nonatomic,strong)UIView *viewTwo;
 @property(nonatomic,strong)UIView *viewThree;
 @property(nonatomic,strong)UIView *viewFour;
+@property(nonatomic,strong)UIView *viewFive;
 //户型名称
 @property(nonatomic,strong)UITextField *apartmentName;
 //户型
@@ -71,6 +72,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [super viewDidLoad];
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
     _imageArrays3 = [NSMutableArray array];
+    NSLog(@"%@",_data);
     //创建view
     [self createView];
 }
@@ -204,13 +206,19 @@ static const CGFloat kPhotoViewMargin = 15.0;
     ineFive.backgroundColor = UIColorRBG(240, 240, 240);
     [viewFour addSubview:ineFive];
     
+    //第五个view
+    UIView *viewFive = [[UIView alloc] initWithFrame:CGRectMake(0, viewFour.fY+viewFour.fHeight+1, meScrollView.fWidth, 50)];
+    viewFive.backgroundColor = [UIColor whiteColor];
+    _viewFive = viewFive;
+    [meScrollView addSubview:viewFive];
+    
     UIButton *addApartment = [[UIButton alloc] init];
     [addApartment setBackgroundImage:[UIImage imageNamed:@"zd_tjhx"] forState:UIControlStateNormal];
     [addApartment addTarget:self action:@selector(addApartments) forControlEvents:UIControlEventTouchUpInside];
-    [viewFour addSubview:addApartment];
+    [viewFive addSubview:addApartment];
     [addApartment mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(viewFour.mas_centerX);
-        make.bottom.equalTo(viewFour.mas_bottom).offset(-15);
+        make.centerX.equalTo(viewFive.mas_centerX);
+        make.bottom.equalTo(viewFive.mas_bottom).offset(-15);
         make.width.offset(85);
         make.height.offset(24);
     }];
@@ -232,7 +240,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         make.width.offset(self.view.fWidth);
         make.height.offset(49);
     }];
-    meScrollView.contentSize = CGSizeMake(0, viewFour.fY+viewFour.fHeight);
+    meScrollView.contentSize = CGSizeMake(0, viewFive.fY+viewFive.fHeight);
 }
 
 #pragma mark-选择户型
@@ -248,12 +256,12 @@ static const CGFloat kPhotoViewMargin = 15.0;
         UIView *view = button.superview;
         UILabel *aparetment = [view viewWithTag:30];
         UILabel *apareNum = [view viewWithTag:40];
-        
+        NSLog(@"%@",selectValue);
         if (selectValue) {
             aparetment.textColor = UIColorRBG(51, 51, 51);
             aparetment.text = [NSString stringWithFormat:@"%@%@%@",selectValue[0],selectValue[1],selectValue[2]];
             apareNum.text = [NSString stringWithFormat:@"%@%@%@",[data1 valueForKey:selectValue[0]],[data2 valueForKey:selectValue[1]],[data3 valueForKey:selectValue[2]]];
-            
+            NSLog(@"%@",apareNum.text);
         }
         
     }];
@@ -269,7 +277,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         _living = [_apartmentLabelNum.text substringWithRange:NSMakeRange(1,1)];
         _toilet = [_apartmentLabelNum.text substringFromIndex:2];
     }
-    
+    NSLog(@"%@",_apartmentLabelNum.text);
     apartOne[@"id"] = @"";
     apartOne[@"room"] = _room;
     apartOne[@"living"] = _living;
@@ -296,6 +304,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         UIView *viewFour = [view viewWithTag:1114];
         UITextField *apartmentName = [viewOne viewWithTag:20];
         UILabel *apartNum = [viewTwo viewWithTag:40];
+        NSLog(@"%@",apartNum.text);
         UITextField *area = [viewThree viewWithTag:20];
         UITextField *price = [viewFour viewWithTag:20];
         NSArray *imageArray = _imageArrays3[1+i];
@@ -305,9 +314,9 @@ static const CGFloat kPhotoViewMargin = 15.0;
         dictionary[@"area"] = area.text;
         dictionary[@"price"] = price.text;
         if (![apartNum.text isEqual:@""]) {
-            dictionary[@"room"] = [_apartmentLabelNum.text substringToIndex:1];
-            dictionary[@"living"] = [_apartmentLabelNum.text substringWithRange:NSMakeRange(1,1)];
-            dictionary[@"toilet"] = [_apartmentLabelNum.text substringFromIndex:2];
+            dictionary[@"room"] = [apartNum.text substringToIndex:1];
+            dictionary[@"living"] = [apartNum.text substringWithRange:NSMakeRange(1,1)];
+            dictionary[@"toilet"] = [apartNum.text substringFromIndex:2];
         }
         
         if (imageArray.count!=0 && ![imageArray[0] isEqual:@"0"]) {
@@ -375,9 +384,9 @@ static const CGFloat kPhotoViewMargin = 15.0;
 #pragma mark-添加户型
 -(void)addApartments{
     CGFloat s = SCREEN_WIDTH / 375.0;
-    NSUInteger n = _scrollView.subviews.count-4;
+    NSUInteger n = _scrollView.subviews.count-5;
     //view
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _viewFour.fY, _scrollView.fWidth, 359+160*(s-1))];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _viewFive.fY+8, _scrollView.fWidth, 359+160*(s-1))];
     view.backgroundColor = [UIColor whiteColor];
     view.tag = 101+n;
     [_scrollView addSubview:view];
@@ -422,15 +431,15 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSArray * array = @[@"0"];
     [_imageArrays3 addObject:array];
     
-    _viewFour.fY += 367+160*(s-1);
-    _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
+    _viewFive.fY += 368+160*(s-1);
+    _scrollView.contentSize = CGSizeMake(0, _viewFive.fY+_viewFive.fHeight);
 }
 #pragma mark-添加户型2
 -(void)addApartmen:(NSDictionary *)photoDitcy{
     CGFloat s = SCREEN_WIDTH / 375.0;
-    NSUInteger n = _scrollView.subviews.count-4;
+    NSUInteger n = _scrollView.subviews.count-5;
     //view
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _viewFour.fY, _scrollView.fWidth, 359+160*(s-1))];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, _viewFive.fY+8, _scrollView.fWidth, 359+160*(s-1))];
     view.backgroundColor = [UIColor whiteColor];
     view.tag = 101+n;
     [_scrollView addSubview:view];
@@ -508,13 +517,13 @@ static const CGFloat kPhotoViewMargin = 15.0;
         [_imageArrays3 addObject:array];
     }
     NSLog(@"%@",_imageArrays3);
-    _viewFour.fY += 367+160*(s-1);
-    _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
+    _viewFive.fY += 368+160*(s-1);
+    _scrollView.contentSize = CGSizeMake(0, _viewFive.fY+_viewFive.fHeight);
 }
 #pragma mark-删除户型
 -(void)deleteHousePhotos:(UIButton *)button{
     CGFloat s = SCREEN_WIDTH / 375.0;
-    NSUInteger n = _scrollView.subviews.count-4;
+    NSUInteger n = _scrollView.subviews.count-5;
     NSInteger tag = button.superview.superview.tag;
     NSInteger m = n - (tag - 100);
     UIView *view = button.superview.superview;
@@ -523,11 +532,11 @@ static const CGFloat kPhotoViewMargin = 15.0;
     for (int i = 1; i<= m; i++) {
         UIView *view = [_scrollView viewWithTag:(tag+i)];
         [view setTag:(tag+i -1)];
-        view.fY -= 367;
+        view.fY -= 368+160*(s-1);
     }
     [view removeFromSuperview];
-    _viewFour.fY -=367+160*(s-1);
-    _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
+    _viewFive.fY -=368+160*(s-1);
+    _scrollView.contentSize = CGSizeMake(0, _viewFive.fY+_viewFive.fHeight);
     
 }
 
@@ -747,7 +756,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         _photoView.outerCamera = YES;
         _photoView.delegate = self;
         _photoView.deleteImageName = @"delete";
-        _photoView.addImageName = @"camera";
+        _photoView.addImageName = @"zd_camera";
         _photoView.tag = tag;
         _photoView.backgroundColor = [UIColor whiteColor];
         [view addSubview:_photoView];
@@ -816,7 +825,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
 //修改view的高度
 - (void)photoView:(HXPhotoView *)photoView updateFrame:(CGRect)frame
 {
-    NSInteger m = _scrollView.subviews.count-4;
+    NSInteger m = _scrollView.subviews.count-5;
     NSInteger tag = photoView.tag;
     NSInteger h = frame.size.height+68;
     
@@ -826,6 +835,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         _viewTwo.fY += n;
         _viewThree.fY += n;
         _viewFour.fY += n;
+        _viewFive.fY += n;
         if(m>0){
             for (int i = 1; i<=m; i++) {
                 UIView *view = [_scrollView viewWithTag:(100+i)];
@@ -838,6 +848,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         _viewTwo.fHeight += n;
         _viewThree.fY += n;
         _viewFour.fY += n;
+        _viewFive.fY += n;
         if(m>0){
             for (int i = 1; i<=m; i++) {
                 UIView *view = [_scrollView viewWithTag:(100+i)];
@@ -849,6 +860,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         NSInteger n = h - _viewThree.fHeight;
         _viewThree.fHeight += n;
         _viewFour.fY += n;
+        _viewFive.fY += n;
         if(m>0){
             for (int i = 1; i<=m; i++) {
                 UIView *view = [_scrollView viewWithTag:(100+i)];
@@ -857,13 +869,16 @@ static const CGFloat kPhotoViewMargin = 15.0;
         }
     }
     
-    _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
+    _scrollView.contentSize = CGSizeMake(0, _viewFive.fY+_viewFive.fHeight);
 }
 //获取图片数组
-- (void)photoView:(HXPhotoView *)photoView imageChangeComplete:(NSArray<UIImage *> *)imageList{
-    
+-(void)photoListViewControllerDidDone:(HXPhotoView *)photoView allList:(NSArray<HXPhotoModel *> *)allList photos:(NSArray<HXPhotoModel *> *)photos videos:(NSArray<HXPhotoModel *> *)videos original:(BOOL)isOriginal {
     NSInteger tag = photoView.tag;
-    NSLog(@"%@",imageList);
+    NSMutableArray<UIImage *> *imageList = [NSMutableArray array];
+    for (HXPhotoModel *modelOne in allList) {
+        NSSLog(@"%@",modelOne.thumbPhoto);
+        [imageList addObject:modelOne.thumbPhoto];
+    }
     [self findUploadData:imageList tag:tag];
 }
 //获取文件上传信息
@@ -885,6 +900,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSString *url = [NSString stringWithFormat:@"%@/sysAttachment/getStsInfo",HTTPURL];
     [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
+         NSLog(@"%@",code);
         if ([code isEqual:@"200"]) {
             NSDictionary *dacty = [responseObject valueForKey:@"data"];
             
@@ -924,7 +940,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
                 }
             }];
         }else{
-            [SVProgressHUD showInfoWithStatus:@"获取上传凭证失败"];
+           [SVProgressHUD showInfoWithStatus:@"获取上传凭证失败"];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -933,12 +949,12 @@ static const CGFloat kPhotoViewMargin = 15.0;
 //获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     textField.returnKeyType = UIReturnKeyDone;
-    _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight+220);
+    _scrollView.contentSize = CGSizeMake(0, _viewFive.fY+_viewFive.fHeight+220);
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
+    _scrollView.contentSize = CGSizeMake(0, _viewFive.fY+_viewFive.fHeight);
     return YES;
 }
 //文本框编辑时
@@ -951,11 +967,11 @@ static const CGFloat kPhotoViewMargin = 15.0;
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
+    _scrollView.contentSize = CGSizeMake(0, _viewFive.fY+_viewFive.fHeight);
     [self.view endEditing:YES];
 }
 -(void)touches{
-    _scrollView.contentSize = CGSizeMake(0, _viewFour.fY+_viewFour.fHeight);
+    _scrollView.contentSize = CGSizeMake(0, _viewFive.fY+_viewFive.fHeight);
     [self.view endEditing:YES];
 }
 

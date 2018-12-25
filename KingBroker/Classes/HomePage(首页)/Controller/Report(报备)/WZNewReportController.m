@@ -827,7 +827,7 @@
         make.left.equalTo(customNameLabel.mas_right).with.offset(40);
         make.top.equalTo(cusNameView.mas_top).with.offset(5);
         make.height.mas_offset(43);
-        make.width.mas_offset(view.fWidth-120);
+        make.width.mas_offset(view.fWidth-180);
     }];
     //下划线
     UIView  *ineOne = [[UIView alloc] init];

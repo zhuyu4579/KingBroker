@@ -306,7 +306,7 @@ static NSString * const IDS = @"cells";
     [_dView.JoinButton setHidden:YES];
     [_dView.JoinButton setEnabled:NO];
     [_dView.Commission setHidden:NO];
-    _dView.Commission.text = [NSString stringWithFormat:@"佣金：%@",[_houseDatils valueForKey:@"commission"]];
+    _dView.Commission.text = [NSString stringWithFormat:@"佣：%@",[_houseDatils valueForKey:@"commission"]];
     
     //地址
     _dView.address.text = [_houseDatils valueForKey:@"address"];

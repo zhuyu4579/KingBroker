@@ -81,7 +81,7 @@
     //创建UIScrollView
     UIScrollView *meScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(self.view.fX,0, self.view.fWidth, self.view.fHeight-49-JF_BOTTOM_SPACE)];
     meScrollView.backgroundColor = UIColorRBG(248,247,242);
-    meScrollView.bounces = NO;
+    meScrollView.bounces = YES;
     meScrollView.showsVerticalScrollIndicator = NO;
     meScrollView.showsHorizontalScrollIndicator = NO;
    

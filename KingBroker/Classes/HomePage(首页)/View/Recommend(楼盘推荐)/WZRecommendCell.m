@@ -69,7 +69,7 @@
             [_joinButton setEnabled:NO];
             [_Commission setHidden:NO];
             if([commissionFag isEqual:@"0"]){
-                 _Commission.text = [NSString stringWithFormat:@"佣金：%@" ,item.commission];
+                 _Commission.text = [NSString stringWithFormat:@"佣：%@" ,item.commission];
             }else{
                 _Commission.text = @"请咨询负责人";
             }

@@ -37,7 +37,7 @@
         
         [_commsion setHidden:NO];
         if([commissionFag isEqual:@"0"]){
-            _commsion.text = [NSString stringWithFormat:@"佣金：%@" ,item.commission];
+            _commsion.text = [NSString stringWithFormat:@"佣：%@" ,item.commission];
         }else{
             _commsion.text = @"请咨询负责人";
         }

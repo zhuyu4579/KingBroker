@@ -38,7 +38,7 @@
         
         [_houseCommission setHidden:NO];
         if([commissionFag isEqual:@"0"]){
-            _houseCommission.text = [NSString stringWithFormat:@"佣金：%@" ,item.commission];
+            _houseCommission.text = [NSString stringWithFormat:@"佣：%@" ,item.commission];
         }else{
             _houseCommission.text = @"请咨询负责人";
         }

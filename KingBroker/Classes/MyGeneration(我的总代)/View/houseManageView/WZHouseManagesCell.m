@@ -70,7 +70,7 @@
         _editButton.layer.borderColor = UIColorRBG(204, 204, 204).CGColor;
         [_groundingButton setTitle:@"下架" forState:UIControlStateNormal];
     }
-    _commission.text = item.commission;
+    _commission.text = [NSString stringWithFormat:@"佣：%@",item.commission];
     _ID = item.id;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

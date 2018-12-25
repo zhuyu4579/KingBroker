@@ -40,7 +40,7 @@
 @property (strong, nonatomic) HXPhotoManager *manager;
 @property (weak, nonatomic) HXPhotoView *photoView;
 //图片数组
-@property (strong, nonatomic) NSArray<UIImage *> *imageArray;
+@property (strong, nonatomic) NSMutableArray<UIImage *> *imageArray;
 //图片数组
 @property (strong, nonatomic) NSArray *imageArrays;
 @end
@@ -53,6 +53,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithButton:self action:@selector(skip) title:@"跳过"];
     //创建view
+    
     [self createView];
 }
 #pragma mark -创建view
@@ -163,7 +164,10 @@ static const CGFloat kPhotoViewMargin = 15.0;
             houseType = [NSString stringWithFormat:@"%@,%@",houseType,_selectedMarkArray[i]];
         }
     }
-    
+    if(_fareReimbur.text.length>100){
+        [SVProgressHUD showInfoWithStatus:@"车费报销说明字数超过最大限制"];
+        return;
+    }
     if (_imageArrays.count != _imageArray.count) {
         [SVProgressHUD showInfoWithStatus:@"图片上传失败,请重新选择图片"];
         return;
@@ -415,9 +419,6 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSString *text = textView.text;
     if (textView == _fareReimbur) {
         _fareReimburSum.text = [NSString stringWithFormat:@"%lu/100",(unsigned long)text.length];
-        if (text.length == 100) {
-            textView.editable = NO;
-        }
     }
 
 }
@@ -469,7 +470,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     photoView.outerCamera = YES;
     photoView.delegate = self;
     photoView.deleteImageName = @"delete";
-    photoView.addImageName = @"camera";
+    photoView.addImageName = @"zd_camera";
     //    photoView.showAddCell = NO;
     photoView.backgroundColor = [UIColor whiteColor];
     [view addSubview:photoView];
@@ -477,10 +478,13 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [self.photoView refreshView];
 }
 //获取图片数组
-- (void)photoView:(HXPhotoView *)photoView imageChangeComplete:(NSArray<UIImage *> *)imageList{
-    
-    _imageArray = imageList;
-    [self findUploadData:imageList];
+-(void)photoListViewControllerDidDone:(HXPhotoView *)photoView allList:(NSArray<HXPhotoModel *> *)allList photos:(NSArray<HXPhotoModel *> *)photos videos:(NSArray<HXPhotoModel *> *)videos original:(BOOL)isOriginal {
+    _imageArray = [NSMutableArray array];
+    for (HXPhotoModel *modelOne in allList) {
+        NSSLog(@"%@",modelOne.thumbPhoto);
+        [_imageArray addObject:modelOne.thumbPhoto];
+    }
+    [self findUploadData:_imageArray];
 }
 //获取文件上传信息
 -(void)findUploadData:(NSArray<UIImage *> *)imageList{

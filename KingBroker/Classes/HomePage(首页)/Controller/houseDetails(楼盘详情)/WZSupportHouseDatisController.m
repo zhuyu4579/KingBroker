@@ -327,7 +327,7 @@ static NSString * const IDS = @"cells";
         [_dView.JoinButton setEnabled:NO];
         [_dView.Commission setHidden:NO];
         if([commissionFag isEqual:@"0"]){
-            _dView.Commission.text = [NSString stringWithFormat:@"佣金：%@",[_houseDatils valueForKey:@"commission"]];
+            _dView.Commission.text = [NSString stringWithFormat:@"佣：%@",[_houseDatils valueForKey:@"commission"]];
             _reportButton.enabled = YES;
         }else{
             _dView.Commission.text = @"请咨询负责人";

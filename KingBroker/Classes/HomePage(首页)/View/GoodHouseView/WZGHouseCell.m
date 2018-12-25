@@ -40,7 +40,7 @@
     if ([realtorStatus isEqual:@"2"]) {
         [_commissionButton setEnabled:NO];
         if([commissionFag isEqual:@"0"]){
-            [_commissionButton setTitle:[NSString stringWithFormat:@" 佣金：%@ " ,item.commission] forState:UIControlStateNormal];
+            [_commissionButton setTitle:[NSString stringWithFormat:@" 佣：%@ " ,item.commission] forState:UIControlStateNormal];
         }else{
              [_commissionButton setTitle:@"请咨询负责人" forState:UIControlStateNormal];
         }

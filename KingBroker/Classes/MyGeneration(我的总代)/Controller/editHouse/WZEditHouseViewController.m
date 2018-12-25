@@ -78,7 +78,7 @@
 @property (strong, nonatomic) HXPhotoManager *manager;
 @property (weak, nonatomic) HXPhotoView *photoView;
 //图片数组
-@property (strong, nonatomic) NSArray<UIImage *> *imageArray;
+@property (strong, nonatomic) NSMutableArray<UIImage *> *imageArray;
 //图片地址
 @property (strong, nonatomic) NSMutableArray *imageArrays;
 @property (strong, nonatomic) NSString *showUrl;
@@ -89,7 +89,8 @@ static const CGFloat kPhotoViewMargin = 15.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
-    NSLog(@"%@",_data);
+//    NSLog(@"%@",_data);
+    
     //创建view
     [self createView];
 }
@@ -238,7 +239,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     _commissionLabels = [commissionRule viewWithTag:50];
     [_commissionLabels setHidden:YES];
     _commissionLabelSum = [commissionRule viewWithTag:60];
-    _commissionLabelSum.text = [NSString stringWithFormat:@"%ld/100",commissionRules.length];
+    _commissionLabelSum.text = [NSString stringWithFormat:@"%lu/100",(unsigned long)commissionRules.length];
     //第六个view
     UIView *viewSix = [[UIView alloc] initWithFrame:CGRectMake(0, viewFive.fY+viewFive.fHeight+8, meScrollView.fWidth, 99)];
     viewSix.backgroundColor = [UIColor whiteColor];
@@ -271,7 +272,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     _houseDynamicSum = [viewSeven viewWithTag:60];
     _houseDynamic.text = dynamic;
     [_houseDynamicLabels setHidden:YES];
-    _houseDynamicSum.text = [NSString stringWithFormat:@"%ld/200",dynamic.length];
+    _houseDynamicSum.text = [NSString stringWithFormat:@"%lu/200",(unsigned long)dynamic.length];
     //第八个view
     UIView *viewEight = [[UIView alloc] initWithFrame:CGRectMake(0, viewSeven.fY+viewSeven.fHeight+8, meScrollView.fWidth, 223)];
     viewEight.backgroundColor = [UIColor whiteColor];
@@ -284,7 +285,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     _houseIntroduceSum = [viewEight viewWithTag:60];
     _houseIntroduce.text = outlining;
     [_houseIntroduceLabels setHidden:YES];
-    _houseIntroduceSum.text = [NSString stringWithFormat:@"%ld/1000",outlining.length];
+    _houseIntroduceSum.text = [NSString stringWithFormat:@"%lu/1000",(unsigned long)outlining.length];
     //第九个view
     UIView *viewNine = [[UIView alloc] initWithFrame:CGRectMake(0, viewEight.fY+viewEight.fHeight+8, meScrollView.fWidth, 159)];
     viewNine.backgroundColor = [UIColor whiteColor];
@@ -297,7 +298,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     _reportExplainSum = [viewNine viewWithTag:60];
     _reportExplain.text = reportDescribe;
     [_reportExplainLabels setHidden:YES];
-    _reportExplainSum.text = [NSString stringWithFormat:@"%ld/100",reportDescribe.length];
+    _reportExplainSum.text = [NSString stringWithFormat:@"%lu/100",(unsigned long)reportDescribe.length];
     //第十个view
     UIView *viewTen = [[UIView alloc] initWithFrame:CGRectMake(0, viewNine.fY+viewNine.fHeight+8, meScrollView.fWidth, 166*n)];
     _viewTen = viewTen;
@@ -405,6 +406,11 @@ static const CGFloat kPhotoViewMargin = 15.0;
     if ([commissionRule isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"佣金规则不能为空"];
         return;
+    }else{
+        if (commissionRule.length>100) {
+            [SVProgressHUD showInfoWithStatus:@"佣金规则字数超过最大限制"];
+            return;
+        }
     }
     //渠道负责人
     NSString *dutyName = _realName.text;
@@ -426,6 +432,11 @@ static const CGFloat kPhotoViewMargin = 15.0;
     if ([dynamic isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"楼盘动态不能为空"];
         return;
+    }else{
+        if (dynamic.length>200) {
+            [SVProgressHUD showInfoWithStatus:@"楼盘动态字数超过最大限制"];
+            return;
+        }
     }
     //楼盘简介
     NSString *outlining = _houseIntroduce.text;
@@ -433,6 +444,11 @@ static const CGFloat kPhotoViewMargin = 15.0;
     if ([outlining isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"楼盘简介不能为空"];
         return;
+    }else{
+        if (outlining.length>1000) {
+            [SVProgressHUD showInfoWithStatus:@"楼盘简介字数超过最大限制"];
+            return;
+        }
     }
     
     //报备说明
@@ -441,6 +457,11 @@ static const CGFloat kPhotoViewMargin = 15.0;
     if ([reportDescribe isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"楼盘简介不能为空"];
         return;
+    }else{
+        if (reportDescribe.length>100) {
+            [SVProgressHUD showInfoWithStatus:@"报备说明字数超过最大限制"];
+            return;
+        }
     }
     //展示图
     if (_imageArrays.count == 0) {
@@ -575,10 +596,10 @@ static const CGFloat kPhotoViewMargin = 15.0;
     
     if (btn.isSelected) {
         
-        [self.selectedMarkArray addObject:[NSString stringWithFormat:@"%ld",btn.tag]];
+        [self.selectedMarkArray addObject:[NSString stringWithFormat:@"%ld",(long)btn.tag]];
     } else {
         
-        [self.selectedMarkArray removeObject:[NSString stringWithFormat:@"%ld",btn.tag]];
+        [self.selectedMarkArray removeObject:[NSString stringWithFormat:@"%ld",(long)btn.tag]];
         
     }
     
@@ -790,28 +811,20 @@ static const CGFloat kPhotoViewMargin = 15.0;
 -(void)textViewDidChange:(UITextView *)textView{
     NSString *text = textView.text;
     if (textView == _commissionTextView) {
-        _commissionLabelSum.text = [NSString stringWithFormat:@"%ld/100",text.length];
-        if (text.length == 100) {
-            textView.editable = NO;
-        }
+        _commissionLabelSum.text = [NSString stringWithFormat:@"%lu/100",(unsigned long)text.length];
+       
     }
     if (textView == _houseDynamic){
-        _houseDynamicSum.text = [NSString stringWithFormat:@"%ld/200",text.length];
-        if (text.length == 200) {
-            textView.editable = NO;
-        }
+        _houseDynamicSum.text = [NSString stringWithFormat:@"%lu/200",(unsigned long)text.length];
+        
     }
     if (textView == _houseIntroduce){
-        _houseIntroduceSum.text = [NSString stringWithFormat:@"%ld/1000",text.length];
-        if (text.length == 1000) {
-            textView.editable = NO;
-        }
+        _houseIntroduceSum.text = [NSString stringWithFormat:@"%lu/1000",(unsigned long)text.length];
+        
     }
     if (textView == _reportExplain){
-        _reportExplainSum.text = [NSString stringWithFormat:@"%ld/100",text.length];
-        if (text.length == 100) {
-            textView.editable = NO;
-        }
+        _reportExplainSum.text = [NSString stringWithFormat:@"%lu/100",(unsigned long)text.length];
+       
     }
 }
 #pragma mark -懒加载
@@ -862,7 +875,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     photoView.outerCamera = YES;
     photoView.delegate = self;
     photoView.deleteImageName = @"delete";
-    photoView.addImageName = @"camera";
+    photoView.addImageName = @"zd_camera";
     //photoView.showAddCell = NO;
     photoView.backgroundColor = [UIColor whiteColor];
     [view addSubview:photoView];
@@ -875,11 +888,13 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [self.photoView refreshView];
 }
 //获取图片数组
-- (void)photoView:(HXPhotoView *)photoView imageChangeComplete:(NSArray<UIImage *> *)imageList{
-    
-    _imageArray = imageList;
-    
-    [self findUploadData:imageList];
+-(void)photoListViewControllerDidDone:(HXPhotoView *)photoView allList:(NSArray<HXPhotoModel *> *)allList photos:(NSArray<HXPhotoModel *> *)photos videos:(NSArray<HXPhotoModel *> *)videos original:(BOOL)isOriginal {
+    _imageArray = [NSMutableArray array];
+    for (HXPhotoModel *modelOne in allList) {
+        NSSLog(@"%@",modelOne.thumbPhoto);
+        [_imageArray addObject:modelOne.thumbPhoto];
+    }
+    [self findUploadData:_imageArray];
 }
 //获取文件上传信息
 -(void)findUploadData:(NSArray<UIImage *> *)imageList{
@@ -907,8 +922,6 @@ static const CGFloat kPhotoViewMargin = 15.0;
                 return ;
             }
             [WZOSSImageUploader asyncUploadImages:imageList data:dacty complete:^(NSArray<NSString *> * _Nonnull names, UploadImageState state) {
-                NSLog(@"%ld",(long)state);
-                NSLog(@"%@",names);
                 _imageArrays = names;
             }];
         }else{
