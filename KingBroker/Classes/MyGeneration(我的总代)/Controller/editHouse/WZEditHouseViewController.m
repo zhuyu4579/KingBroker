@@ -891,7 +891,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
 -(void)photoListViewControllerDidDone:(HXPhotoView *)photoView allList:(NSArray<HXPhotoModel *> *)allList photos:(NSArray<HXPhotoModel *> *)photos videos:(NSArray<HXPhotoModel *> *)videos original:(BOOL)isOriginal {
     _imageArray = [NSMutableArray array];
     for (HXPhotoModel *modelOne in allList) {
-        NSSLog(@"%@",modelOne.thumbPhoto);
+//        NSSLog(@"%@",modelOne.thumbPhoto);
         [_imageArray addObject:modelOne.thumbPhoto];
     }
     [self findUploadData:_imageArray];

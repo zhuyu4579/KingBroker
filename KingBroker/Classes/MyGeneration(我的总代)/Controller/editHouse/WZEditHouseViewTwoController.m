@@ -539,7 +539,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
                 _imageArrays = names;
             }];
         }else{
-           // [SVProgressHUD showInfoWithStatus:@"获取上传凭证失败"];
+            [SVProgressHUD showInfoWithStatus:@"获取上传凭证失败"];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         

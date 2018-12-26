@@ -876,7 +876,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSInteger tag = photoView.tag;
     NSMutableArray<UIImage *> *imageList = [NSMutableArray array];
     for (HXPhotoModel *modelOne in allList) {
-        NSSLog(@"%@",modelOne.thumbPhoto);
+//        NSSLog(@"%@",modelOne.thumbPhoto);
         [imageList addObject:modelOne.thumbPhoto];
     }
     [self findUploadData:imageList tag:tag];
