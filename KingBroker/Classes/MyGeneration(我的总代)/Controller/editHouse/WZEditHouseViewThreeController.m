@@ -72,7 +72,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [super viewDidLoad];
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
     _imageArrays3 = [NSMutableArray array];
-    NSLog(@"%@",_data);
+//    NSLog(@"%@",_data);
     //创建view
     [self createView];
 }
@@ -256,12 +256,12 @@ static const CGFloat kPhotoViewMargin = 15.0;
         UIView *view = button.superview;
         UILabel *aparetment = [view viewWithTag:30];
         UILabel *apareNum = [view viewWithTag:40];
-        NSLog(@"%@",selectValue);
+//        NSLog(@"%@",selectValue);
         if (selectValue) {
             aparetment.textColor = UIColorRBG(51, 51, 51);
             aparetment.text = [NSString stringWithFormat:@"%@%@%@",selectValue[0],selectValue[1],selectValue[2]];
             apareNum.text = [NSString stringWithFormat:@"%@%@%@",[data1 valueForKey:selectValue[0]],[data2 valueForKey:selectValue[1]],[data3 valueForKey:selectValue[2]]];
-            NSLog(@"%@",apareNum.text);
+//            NSLog(@"%@",apareNum.text);
         }
         
     }];
@@ -277,7 +277,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         _living = [_apartmentLabelNum.text substringWithRange:NSMakeRange(1,1)];
         _toilet = [_apartmentLabelNum.text substringFromIndex:2];
     }
-    NSLog(@"%@",_apartmentLabelNum.text);
+//    NSLog(@"%@",_apartmentLabelNum.text);
     apartOne[@"id"] = @"";
     apartOne[@"room"] = _room;
     apartOne[@"living"] = _living;
@@ -304,7 +304,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         UIView *viewFour = [view viewWithTag:1114];
         UITextField *apartmentName = [viewOne viewWithTag:20];
         UILabel *apartNum = [viewTwo viewWithTag:40];
-        NSLog(@"%@",apartNum.text);
+//        NSLog(@"%@",apartNum.text);
         UITextField *area = [viewThree viewWithTag:20];
         UITextField *price = [viewFour viewWithTag:20];
         NSArray *imageArray = _imageArrays3[1+i];
@@ -354,7 +354,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     paraments[@"list"] = apartmentArray;
     
     NSString *url = [NSString stringWithFormat:@"%@/proProject/uppictureInfoCreateOrUpdate",HTTPURL];
-    NSLog(@"%@",paraments);
+//    NSLog(@"%@",paraments);
     button.enabled = NO;
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
@@ -516,7 +516,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         NSArray * array = @[@"0"];
         [_imageArrays3 addObject:array];
     }
-    NSLog(@"%@",_imageArrays3);
+//    NSLog(@"%@",_imageArrays3);
     _viewFive.fY += 368+160*(s-1);
     _scrollView.contentSize = CGSizeMake(0, _viewFive.fY+_viewFive.fHeight);
 }
@@ -900,7 +900,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSString *url = [NSString stringWithFormat:@"%@/sysAttachment/getStsInfo",HTTPURL];
     [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
-         NSLog(@"%@",code);
+//         NSLog(@"%@",code);
         if ([code isEqual:@"200"]) {
             NSDictionary *dacty = [responseObject valueForKey:@"data"];
             

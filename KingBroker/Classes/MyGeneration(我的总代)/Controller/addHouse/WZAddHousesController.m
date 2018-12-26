@@ -490,7 +490,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     paraments[@"reportDescribe"] = reportDescribe;
     paraments[@"showUrl"] = _imageArrays[0];
     NSString *url = [NSString stringWithFormat:@"%@/proProject/upbaseInfoCreateOrUpdate",HTTPURL];
-    NSLog(@"%@",paraments);
+//    NSLog(@"%@",paraments);
     button.enabled = NO;
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
@@ -895,8 +895,8 @@ static const CGFloat kPhotoViewMargin = 15.0;
                 return ;
             }
             [WZOSSImageUploader asyncUploadImages:imageList data:dacty complete:^(NSArray<NSString *> * _Nonnull names, UploadImageState state) {
-                NSLog(@"%ld",(long)state);
-                NSLog(@"%@",names);
+//                NSLog(@"%ld",(long)state);
+//                NSLog(@"%@",names);
                 _imageArrays = names;
             }];
         }else{

@@ -103,7 +103,7 @@
     paraments[@"id"] = _ID;
     
     NSString *url = [NSString stringWithFormat:@"%@/proProject/userCompanyProjectInfo",HTTPURL];
-    NSLog(@"%@",paraments);
+//    NSLog(@"%@",paraments);
     
     [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
@@ -151,7 +151,7 @@
         paraments[@"id"] = _ID;
       
         NSString *url = [NSString stringWithFormat:@"%@/proProject/uprojectputawayApply",HTTPURL];
-        NSLog(@"%@",paraments);
+//        NSLog(@"%@",paraments);
         
         [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
             NSString *code = [responseObject valueForKey:@"code"];
@@ -194,7 +194,7 @@
             paraments[@"id"] = _ID;
             
             NSString *url = [NSString stringWithFormat:@"%@/proProject/uprojectDownApply",HTTPURL];
-            NSLog(@"%@",paraments);
+//            NSLog(@"%@",paraments);
             
             [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
                 NSString *code = [responseObject valueForKey:@"code"];

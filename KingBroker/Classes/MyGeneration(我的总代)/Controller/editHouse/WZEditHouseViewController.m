@@ -506,7 +506,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     paraments[@"reportDescribe"] = reportDescribe;
     paraments[@"showUrl"] = _showUrl;
     NSString *url = [NSString stringWithFormat:@"%@/proProject/upbaseInfoCreateOrUpdate",HTTPURL];
-    NSLog(@"%@",paraments);
+//    NSLog(@"%@",paraments);
     button.enabled = NO;
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];

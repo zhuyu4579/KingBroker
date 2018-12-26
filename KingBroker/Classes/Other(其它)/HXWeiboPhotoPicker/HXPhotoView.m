@@ -503,7 +503,7 @@ static NSString *HXPhotoSubViewCellId = @"photoSubViewCellId";
  @param model 照片模型
  */
 - (void)cameraDidNextClick:(HXPhotoModel *)model {
-    NSLog(@"111");
+    
     // 判断类型
     if (model.type == HXPhotoModelMediaTypeCameraPhoto) {
         // 当选择图片个数没有达到最大个数时就添加到选中数组中

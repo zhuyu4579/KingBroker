@@ -501,7 +501,7 @@ static NSString *const appSecret = @"b5a606ec885dd1ed01abdece86a9322b";
         [NSString isCode:self.window.rootViewController.navigationController code:@"401"];
         return;
     }
-    NSLog(@"%@",userInfo);
+//    NSLog(@"%@",userInfo);
     //跳转页面
     if([viewType isEqual:@"1"]){
         if([param isEqual:@"111"]){

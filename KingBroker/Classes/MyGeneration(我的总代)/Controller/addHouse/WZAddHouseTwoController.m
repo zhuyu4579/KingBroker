@@ -200,7 +200,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     paraments[@"fareReimburseDesc"] = _fareReimbur.text;
     paraments[@"fareImglist"] = _imageArrays;
     NSString *url = [NSString stringWithFormat:@"%@/proProject/upsupplementCreateOrUpdate",HTTPURL];
-    NSLog(@"%@",paraments);
+//    NSLog(@"%@",paraments);
     button.enabled = NO;
     [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         NSString *code = [responseObject valueForKey:@"code"];
@@ -507,14 +507,14 @@ static const CGFloat kPhotoViewMargin = 15.0;
         NSString *code = [responseObject valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             NSDictionary *dacty = [responseObject valueForKey:@"data"];
-            NSLog(@"%@",dacty);
+//            NSLog(@"%@",dacty);
             if (imageList.count == 0) {
                 _imageArrays = nil;
                 return ;
             }
             [WZOSSImageUploader asyncUploadImages:imageList data:dacty complete:^(NSArray<NSString *> * _Nonnull names, UploadImageState state) {
-                NSLog(@"%ld",(long)state);
-                NSLog(@"%@",names);
+//                NSLog(@"%ld",(long)state);
+//                NSLog(@"%@",names);
                 _imageArrays = names;
             }];
         }else{

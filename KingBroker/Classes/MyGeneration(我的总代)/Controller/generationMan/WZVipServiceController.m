@@ -104,7 +104,7 @@
     // NOTE: ------  对alipays:相关的scheme处理 -------
     // NOTE: 若遇到支付宝相关scheme，则跳转到本地支付宝App
     NSString* reqUrl = request.URL.absoluteString;
-    NSLog(@"222");
+    
     if ([reqUrl hasPrefix:@"alipays://"] || [reqUrl hasPrefix:@"alipay://"]) {
         // NOTE: 跳转支付宝App
         BOOL bSucc = [[UIApplication sharedApplication]openURL:request.URL];
@@ -139,7 +139,7 @@
 {
     
     NSString *url = navigationAction.request.URL.absoluteString;
-    NSLog(@"111");
+    
     if ([url hasPrefix:@"alipays://"] || [url hasPrefix:@"alipay://"]) {
         // NOTE: 跳转支付宝App
         BOOL bSucc = [[UIApplication sharedApplication]openURL:navigationAction.request.URL];
