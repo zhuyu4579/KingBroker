@@ -25,7 +25,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
 @property (strong, nonatomic) UIImageView *imageViews;
 @property (strong, nonatomic) UILabel *viewTitle;
 //图片数组
-@property (strong, nonatomic) NSArray<UIImage *> *imageArray;
+@property (strong, nonatomic) NSMutableArray<UIImage *> *imageArray;
 @end
 
 @implementation WZVoucherBoardingController
@@ -150,9 +150,12 @@ static const CGFloat kPhotoViewMargin = 15.0;
     }];
 }
 //获取图片数组
-- (void)photoView:(HXPhotoView *)photoView imageChangeComplete:(NSArray<UIImage *> *)imageList{
-  
-    _imageArray = imageList;
+-(void)photoListViewControllerDidDone:(HXPhotoView *)photoView allList:(NSArray<HXPhotoModel *> *)allList photos:(NSArray<HXPhotoModel *> *)photos videos:(NSArray<HXPhotoModel *> *)videos original:(BOOL)isOriginal{
+    _imageArray = [NSMutableArray array];
+    for (HXPhotoModel *modelOne in allList) {
+        [_imageArray addObject:modelOne.thumbPhoto];
+    }
+    
 }
 -(void)boarding{
     

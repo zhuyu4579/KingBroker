@@ -673,7 +673,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
 //修改view的高度
 - (void)photoView:(HXPhotoView *)photoView updateFrame:(CGRect)frame
 {
-
+    
     NSInteger m = _scrollView.subviews.count-5;
     NSInteger tag = photoView.tag;
     NSInteger h = frame.size.height+68;
