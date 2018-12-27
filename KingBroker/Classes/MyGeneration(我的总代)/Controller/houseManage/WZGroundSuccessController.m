@@ -45,7 +45,7 @@
     UILabel *title2 = [[UILabel alloc] init];
     title2.textColor = UIColorRBG(100, 100, 100);
     title2.font =  [UIFont fontWithName:@"PingFang-SC-Medium" size: 14];
-    title2.text = @"提交成功";
+    title2.text = @"平台审核通过后，楼盘上架";
     [self.view addSubview:title2];
     [title2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);

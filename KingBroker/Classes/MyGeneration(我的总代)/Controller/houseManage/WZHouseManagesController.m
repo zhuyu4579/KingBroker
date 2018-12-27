@@ -203,7 +203,7 @@ static NSString *size = @"20";
 }
 //选择数据
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    WZHouseManagesCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+//    WZHouseManagesCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
 }
 #pragma mark-添加楼盘

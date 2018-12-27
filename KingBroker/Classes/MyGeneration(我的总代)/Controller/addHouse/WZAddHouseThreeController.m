@@ -152,9 +152,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSArray * array = @[@"0"];
     [_imageArrays3 addObject:array];
 //    NSLog(@"%@",_imageArrays3);
-    UIView *ineFive = [[UIView alloc] initWithFrame:CGRectMake(15, 200+160*n, viewFour.fWidth-30, 1)];
-    ineFive.backgroundColor = UIColorRBG(240, 240, 240);
-    [viewFour addSubview:ineFive];
+    
     
     //第五个view
     UIView *viewFive = [[UIView alloc] initWithFrame:CGRectMake(0, viewFour.fY+viewFour.fHeight+1, meScrollView.fWidth, 50)];
@@ -241,7 +239,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         apartOne[@"housePic"] =nil;
     }
     [apartmentArray addObject:apartOne];
-    NSUInteger n = _scrollView.subviews.count-4;
+    NSUInteger n = _scrollView.subviews.count-5;
     for (int i=0; i<n; i++) {
         UIView *view = [_scrollView viewWithTag:(101+i)];
         UIView *viewOne = [view viewWithTag:1111];
@@ -461,20 +459,28 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [button setBackgroundImage:[UIImage imageNamed:@"bb_delete-1"] forState:UIControlStateNormal];
     [button setEnlargeEdge:10];
     [button addTarget:self action:@selector(deleteHousePhotos:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [view addSubview:button];
     if ([isDel isEqual:@"1"]) {
         [button setEnabled:YES];
         [button setHidden:NO];
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(view.mas_right).offset(-15);
+            make.top.equalTo(view.mas_top).offset(17);
+            make.width.offset(15);
+            make.height.offset(15);
+        }];
     }else{
         [button setEnabled:NO];
         [button setHidden:YES];
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(view.mas_right).offset(15);
+            make.top.equalTo(view.mas_top).offset(17);
+            make.width.offset(15);
+            make.height.offset(15);
+        }];
     }
-    [view addSubview:button];
-    [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(view.mas_right).offset(-15);
-        make.top.equalTo(view.mas_top).offset(17);
-        make.width.offset(15);
-        make.height.offset(15);
-    }];
+    
     
     return view;
 }
@@ -629,7 +635,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         _photoViewTwos.outerCamera = YES;
         _photoViewTwos.delegate = self;
         _photoViewTwos.deleteImageName = @"delete";
-        _photoViewTwos.addImageName = @"camera";
+        _photoViewTwos.addImageName = @"zd_camera";
         _photoViewTwos.tag = tag;
         _photoViewTwos.backgroundColor = [UIColor whiteColor];
         [view addSubview:_photoViewTwos];
@@ -643,7 +649,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         _photoViewThrees.outerCamera = YES;
         _photoViewThrees.delegate = self;
         _photoViewThrees.deleteImageName = @"delete";
-        _photoViewThrees.addImageName = @"camera";
+        _photoViewThrees.addImageName = @"zd_camera";
         _photoViewThrees.tag = tag;
         _photoViewThrees.backgroundColor = [UIColor whiteColor];
         [view addSubview:_photoViewThrees];
@@ -657,7 +663,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         _photoViewFours.outerCamera = YES;
         _photoViewFours.delegate = self;
         _photoViewFours.deleteImageName = @"delete";
-        _photoViewFours.addImageName = @"camera";
+        _photoViewFours.addImageName = @"zd_camera";
         _photoViewFours.tag = tag;
         _photoViewFours.backgroundColor = [UIColor whiteColor];
         [view addSubview:_photoViewFours];

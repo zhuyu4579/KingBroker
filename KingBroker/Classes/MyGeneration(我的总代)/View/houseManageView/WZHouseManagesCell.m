@@ -40,10 +40,10 @@
     _item = item;
     [_houseImageView sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"zw_icon2"]];
     _houseName.text = item.name;
-    if ([item.averagePrice isEqual:@""]) {
-        _prices.text = item.totalPrice;
+    if ([item.totalPrice isEqual:@""]||!item.totalPrice) {
+        _prices.text = item.averagePrice;
     }else{
-         _prices.text = item.averagePrice;
+         _prices.text = item.totalPrice;
     }
     [_editButton setEnabled:YES];
     [_editButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
@@ -175,7 +175,7 @@
             [SVProgressHUD showInfoWithStatus:@"网络不给力"];
         }];
     }else if([test isEqual:@"下架"]){
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"确认楼盘下架" message:@"你确认要下架铂金公馆楼盘吗？下架后，楼盘信息将不在经喜APP展示"  preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"确认楼盘下架" message:[NSString stringWithFormat:@"你确认要下架%@吗？下架后，楼盘信息将不在经喜APP展示" ,_houseName.text] preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"确认下架" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
             
@@ -199,7 +199,14 @@
             [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
                 NSString *code = [responseObject valueForKey:@"code"];
                 if ([code isEqual:@"200"]) {
-                    
+                    _stutas.text = @"未上架";
+                    [_editButton setEnabled:YES];
+                    [_editButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
+                    _editButton.layer.borderColor = UIColorRBG(251, 221, 49).CGColor;
+                    [_groundingButton setEnabled:YES];
+                    [_groundingButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
+                    _groundingButton.layer.borderColor = UIColorRBG(251, 221, 49).CGColor;
+                    [_groundingButton setTitle:@"申请上架" forState:UIControlStateNormal];
                 }else{
                     NSString *msg = [responseObject valueForKey:@"msg"];
                     if(![code isEqual:@"401"] && ![msg isEqual:@""]){
