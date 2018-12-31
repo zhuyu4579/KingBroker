@@ -142,11 +142,14 @@
     
     vips.url = [NSString stringWithFormat:@"%@/vip/publicaward.html?uuid=%@",HTTPH5,uuid];
     
-    WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:vips];
-    [self.navigationController presentViewController:nav animated:YES completion:nil];
+    //WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:vips];
+    //[self.navigationController presentViewController:nav animated:YES completion:nil];
+     [self.navigationController pushViewController:vips animated:YES];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+       [self.navigationController setNavigationBarHidden:NO animated:animated];
     [self loadData];
 }
+
 @end

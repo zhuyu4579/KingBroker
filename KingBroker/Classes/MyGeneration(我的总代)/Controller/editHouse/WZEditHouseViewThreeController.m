@@ -139,22 +139,22 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [viewFour addSubview:ineOne];
     //户型数据
      NSArray *dataSources = @[@[@"一室", @"两室", @"三室", @"四室", @"五室", @"五室以上"], @[@"一厅", @"两厅", @"三厅", @"四厅", @"五厅", @"五厅以上"],@[@"一卫", @"两卫", @"三卫", @"四卫", @"五卫", @"五卫以上"]];
-    _room = [data1 valueForKey:@"room"];
+    NSString *room = [data1 valueForKey:@"room"];
     NSString *rooms = @"";
-    if (![_room isEqual:@""]&&_room&&![_room isEqual:@"0"]) {
-        NSInteger n = [_room integerValue];
+    if (![room isEqual:@""]&&room&&![room isEqual:@"0"]) {
+        NSInteger n = [room integerValue];
         rooms = dataSources[0][n-1];
     }
-    _living = [data1 valueForKey:@"living"];
+    NSString *living = [data1 valueForKey:@"living"];
     NSString *livings = @"";
-    if (![_living isEqual:@""]&&_living&&![_living isEqual:@"0"]) {
-        NSInteger n = [_living integerValue];
+    if (![living isEqual:@""]&&living&&![living isEqual:@"0"]) {
+        NSInteger n = [living integerValue];
         livings = dataSources[1][n-1];
     }
-    _toilet = [data1 valueForKey:@"toilet"];
+    NSString *toilet = [data1 valueForKey:@"toilet"];
     NSString *toilets = @"";
-    if (![_toilet isEqual:@""]&&_toilet&&![_toilet isEqual:@"0"]) {
-        NSInteger n = [_toilet integerValue];
+    if (![toilet isEqual:@""]&&toilet&&![toilet isEqual:@"0"]) {
+        NSInteger n = [toilet integerValue];
         toilets = dataSources[2][n-1];
     }
     UIView *viewOne_two = [self createViewClass:@selector(selectApartment:) image:[UIImage imageNamed:@"bb_more_unfold"] title:@"户型" fY:50 size:CGSizeMake(9, 15)];
@@ -166,7 +166,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         _apartmentLabel.textColor = UIColorRBG(51, 51, 51);
     }
     _apartmentLabelNum = [viewOne_two viewWithTag:40];
-    
+    _apartmentLabelNum.text = [NSString stringWithFormat:@"%@%@%@",room,living,toilet];
     UIView *ineTwo = [[UIView alloc] initWithFrame:CGRectMake(15, 99, viewFour.fWidth-30, 1)];
     ineTwo.backgroundColor = UIColorRBG(240, 240, 240);
     [viewFour addSubview:ineTwo];
@@ -248,20 +248,25 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSDictionary *data1 = @{@"一室":@"1", @"两室":@"2", @"三室":@"3", @"四室":@"4", @"五室":@"5", @"五室以上":@"6"};
     NSDictionary *data3 = @{@"一卫":@"1", @"两卫":@"2", @"三卫":@"3", @"四卫":@"4", @"五卫":@"5", @"五卫以上":@"6"};
     NSDictionary *data2 = @{@"一厅":@"1", @"两厅":@"2", @"三厅":@"3", @"四厅":@"4", @"五厅":@"5", @"五厅以上":@"6"};
-    
-    [BRStringPickerView showStringPickerWithTitle:@"选择户型" dataSource:dataSources defaultSelValue:@[@"三室",@"两厅",@"两卫"] resultBlock:^(id selectValue) {
-        UIView *view = button.superview;
-        UILabel *aparetment = [view viewWithTag:30];
-        UILabel *apareNum = [view viewWithTag:40];
-//        NSLog(@"%@",selectValue);
-        if (selectValue) {
-            aparetment.textColor = UIColorRBG(51, 51, 51);
-            aparetment.text = [NSString stringWithFormat:@"%@%@%@",selectValue[0],selectValue[1],selectValue[2]];
-            apareNum.text = [NSString stringWithFormat:@"%@%@%@",[data1 valueForKey:selectValue[0]],[data2 valueForKey:selectValue[1]],[data3 valueForKey:selectValue[2]]];
-//            NSLog(@"%@",apareNum.text);
-        }
+    UIView *view = button.superview;
+    UILabel *aparetment = [view viewWithTag:30];
+    UILabel *apareNum = [view viewWithTag:40];
+    [BRStringPickerView showStringPickerWithTitle:@"选择户型" dataSource:dataSources defaultSelValue:@[@"三室",@"两厅",@"两卫"]  isAutoSelect:NO themeColor:nil cancelTitle:@"清空" resultBlock:^(id selectValue) {
+
+        //        NSLog(@"%@",selectValue);
+                if (selectValue) {
+                    aparetment.textColor = UIColorRBG(51, 51, 51);
+                    aparetment.text = [NSString stringWithFormat:@"%@%@%@",selectValue[0],selectValue[1],selectValue[2]];
+                    apareNum.text = [NSString stringWithFormat:@"%@%@%@",[data1 valueForKey:selectValue[0]],[data2 valueForKey:selectValue[1]],[data3 valueForKey:selectValue[2]]];
+        //            NSLog(@"%@",apareNum.text);
+                }
+    } cancelBlock:^{
+        aparetment.textColor = UIColorRBG(204, 204, 204);
+        aparetment.text = @"选择户型";
+        apareNum.text = @"";
         
     }];
+
 }
 
 #pragma mark-保存
@@ -269,7 +274,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     
     NSMutableArray *apartmentArray = [NSMutableArray array];
     NSMutableDictionary *apartOne = [NSMutableDictionary dictionary];
-    if (![_apartmentLabelNum.text isEqual:@""]) {
+    if (![_apartmentLabelNum.text isEqual:@""]&&_apartmentLabelNum.text&&_apartmentLabelNum.text.length==3) {
         _room = [_apartmentLabelNum.text substringToIndex:1];
         _living = [_apartmentLabelNum.text substringWithRange:NSMakeRange(1,1)];
         _toilet = [_apartmentLabelNum.text substringFromIndex:2];
@@ -310,7 +315,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         dictionary[@"name"] = apartmentName.text;
         dictionary[@"area"] = area.text;
         dictionary[@"price"] = price.text;
-        if (![apartNum.text isEqual:@""]) {
+        if (![apartNum.text isEqual:@""]&&apartNum.text) {
             dictionary[@"room"] = [apartNum.text substringToIndex:1];
             dictionary[@"living"] = [apartNum.text substringWithRange:NSMakeRange(1,1)];
             dictionary[@"toilet"] = [apartNum.text substringFromIndex:2];

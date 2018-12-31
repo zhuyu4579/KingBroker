@@ -195,19 +195,24 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSDictionary *data1 = @{@"一室":@"1", @"两室":@"2", @"三室":@"3", @"四室":@"4", @"五室":@"5", @"五室以上":@"6"};
     NSDictionary *data3 = @{@"一卫":@"1", @"两卫":@"2", @"三卫":@"3", @"四卫":@"4", @"五卫":@"5", @"五卫以上":@"6"};
     NSDictionary *data2 = @{@"一厅":@"1", @"两厅":@"2", @"三厅":@"3", @"四厅":@"4", @"五厅":@"5", @"五厅以上":@"6"};
-    
-    [BRStringPickerView showStringPickerWithTitle:@"选择户型" dataSource:dataSources defaultSelValue:@[@"三室",@"两厅",@"两卫"] resultBlock:^(id selectValue) {
-        UIView *view = button.superview;
-        UILabel *aparetment = [view viewWithTag:30];
-        UILabel *apareNum = [view viewWithTag:40];
+    UIView *view = button.superview;
+    UILabel *aparetment = [view viewWithTag:30];
+    UILabel *apareNum = [view viewWithTag:40];
+    [BRStringPickerView showStringPickerWithTitle:@"选择户型" dataSource:dataSources defaultSelValue:@[@"三室",@"两厅",@"两卫"]  isAutoSelect:NO themeColor:nil cancelTitle:@"清空" resultBlock:^(id selectValue) {
         
+        //        NSLog(@"%@",selectValue);
         if (selectValue) {
             aparetment.textColor = UIColorRBG(51, 51, 51);
             aparetment.text = [NSString stringWithFormat:@"%@%@%@",selectValue[0],selectValue[1],selectValue[2]];
             apareNum.text = [NSString stringWithFormat:@"%@%@%@",[data1 valueForKey:selectValue[0]],[data2 valueForKey:selectValue[1]],[data3 valueForKey:selectValue[2]]];
+            //            NSLog(@"%@",apareNum.text);
         }
-        
+    } cancelBlock:^{
+        aparetment.textColor = UIColorRBG(204, 204, 204);
+        aparetment.text = @"选择户型";
+        apareNum.text = @"";
     }];
+    
 }
 #pragma mark-跳过
 -(void)skip{
@@ -220,7 +225,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     
     NSMutableArray *apartmentArray = [NSMutableArray array];
     NSMutableDictionary *apartOne = [NSMutableDictionary dictionary];
-    if (![_apartmentLabelNum.text isEqual:@""]) {
+    if (![_apartmentLabelNum.text isEqual:@""]&&_apartmentLabelNum.text&&_apartmentLabelNum.text.length==3) {
             apartOne[@"room"] = [_apartmentLabelNum.text substringToIndex:1];
             apartOne[@"living"] = [_apartmentLabelNum.text substringWithRange:NSMakeRange(1,1)];
             apartOne[@"toilet"] = [_apartmentLabelNum.text substringFromIndex:2];
@@ -256,7 +261,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         dictionary[@"name"] = apartmentName.text;
         dictionary[@"area"] = area.text;
         dictionary[@"price"] = price.text;
-        if (![apartNum.text isEqual:@""]) {
+        if (![apartNum.text isEqual:@""]&&apartNum.text) {
             dictionary[@"room"] = [apartNum.text substringToIndex:1];
             dictionary[@"living"] = [apartNum.text substringWithRange:NSMakeRange(1,1)];
             dictionary[@"toilet"] = [apartNum.text substringFromIndex:2];

@@ -9,7 +9,7 @@
 #import "WZCyclePhotoView.h"
 #import "UIView+Frame.h"
 #define CC_CYCLEINDEX_CALCULATE(x,y) (x+y)%y  //计算循环索引
-#define CC_DEFAULT_DURATION_TIME 2.0f         //默认持续时间
+#define CC_DEFAULT_DURATION_TIME 5.0f         //默认持续时间
 #define CC_DEFAULT_DURATION_FRAME CGRectMake(0,0,[UIScreen mainScreen].bounds.size.width,190)
 
 BOOL flag = true;

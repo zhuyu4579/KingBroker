@@ -132,8 +132,7 @@ static NSString * const IDS = @"cells";
     [self getUpScreen];
     //创建分享和报备按钮
     [self getUpButton];
-    //点击楼盘统计
-    [self editClickNum];
+    
     [self headerRefresh];
     //分享弹框
     [self shareTasks];
@@ -143,31 +142,37 @@ static NSString * const IDS = @"cells";
     [self findCoustrom];
     
     [self findShare];
+    //点击详情统计
+    [self clickDeil];
 }
-
--(void)editClickNum{
+-(void)clickDeil{
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
+    
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
-    mgr.requestSerializer.timeoutInterval = 30;
+    mgr.requestSerializer.timeoutInterval = 20;
     
     mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    //防止返回值为null
-    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
     [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"id"] = _ID;
-    NSString *url = [NSString stringWithFormat:@"%@/proProject/editClickNum",HTTPURL];
-    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+    
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/projectclickNum",HTTPURL];
+    
+    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+        if (error.code ==-1001) {
+            [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+        }
     }];
+    
 }
+
 //下拉刷新
 -(void)headerRefresh{
     //创建下拉刷新
@@ -632,7 +637,7 @@ static NSString * const IDS = @"cells";
     [scrollView addSubview:houseIntroduce];
     
     UILabel *titles = [[UILabel alloc] init];
-    titles.text = @"楼盘信息由发布方提供，信息真伪与平台无关";
+    titles.text = @"楼盘信息仅供参考，最终以售楼部公示为准";
     titles.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:10];
     titles.textColor = UIColorRBG(153, 153, 153);
     [titles setHidden:YES];
@@ -1618,7 +1623,7 @@ static NSString * const IDS = @"cells";
     [_playTelphoneButton addTarget:self action:@selector(playPhones) forControlEvents:UIControlEventTouchUpInside];
 }
 -(void)playTelphone:(UIButton *)button{
-    
+    [self editClickNum];
     NSString *phone = [_telphoneArray[0] valueForKey:@"linkTelphone"];
     if (![phone isEqual:@""]) {
         NSString *callPhone = [NSString stringWithFormat:@"telprompt://%@", phone];
@@ -1630,6 +1635,30 @@ static NSString * const IDS = @"cells";
         [self hideViews];
     }
     
+}
+#pragma mark -打电话点击
+-(void)editClickNum{
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ user objectForKey:@"uuid"];
+    //创建会话请求
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    
+    mgr.requestSerializer.timeoutInterval = 30;
+    
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
+    //防止返回值为null
+    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
+    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
+    //2.拼接参数
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"id"] = _ID;
+    NSString *url = [NSString stringWithFormat:@"%@/proProject/projectTelNum",HTTPURL];
+    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
 }
 //查询分享数据
 -(void)findShare{

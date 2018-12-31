@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
 @property (nonatomic, strong) UIColor *themeColor;
 @property (nonatomic, copy) BRStringResultBlock resultBlock;
 @property (nonatomic, copy) BRStringCancelBlock cancelBlock;
-
+@property (nonatomic, strong) NSString *cancelTitle;
 @end
 
 @implementation BRStringPickerView
@@ -65,20 +65,35 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
                        themeColor:(UIColor *)themeColor
                       resultBlock:(BRStringResultBlock)resultBlock
                       cancelBlock:(BRStringCancelBlock)cancelBlock {
-    BRStringPickerView *strPickerView = [[BRStringPickerView alloc]initWithTitle:title dataSource:dataSource defaultSelValue:defaultSelValue isAutoSelect:isAutoSelect themeColor:themeColor resultBlock:resultBlock cancelBlock:cancelBlock];
+    BRStringPickerView *strPickerView = [[BRStringPickerView alloc]initWithTitle:title dataSource:dataSource defaultSelValue:defaultSelValue isAutoSelect:isAutoSelect themeColor:themeColor cancelTitle:@"取消" resultBlock:resultBlock cancelBlock:cancelBlock];
     if (strPickerView->isDataSourceValid) {
         [strPickerView showWithAnimation:YES];
     } else {
         NSLog(@"数据源不合法！参数异常，请检查字符串选择器数据源的格式");
     }
 }
-
++ (void)showStringPickerWithTitle:(NSString *)title
+                       dataSource:(id)dataSource
+                  defaultSelValue:(id)defaultSelValue
+                     isAutoSelect:(BOOL)isAutoSelect
+                       themeColor:(UIColor *)themeColor
+                      cancelTitle:(NSString *)cancelTitle
+                      resultBlock:(BRStringResultBlock)resultBlock
+                      cancelBlock:(BRStringCancelBlock)cancelBlock{
+    BRStringPickerView *strPickerView = [[BRStringPickerView alloc]initWithTitle:title dataSource:dataSource defaultSelValue:defaultSelValue isAutoSelect:isAutoSelect themeColor:themeColor cancelTitle:cancelTitle resultBlock:resultBlock cancelBlock:cancelBlock];
+    if (strPickerView->isDataSourceValid) {
+        [strPickerView showWithAnimation:YES];
+    } else {
+        NSLog(@"数据源不合法！参数异常，请检查字符串选择器数据源的格式");
+    }
+}
 #pragma mark - 初始化自定义字符串选择器
 - (instancetype)initWithTitle:(NSString *)title
                    dataSource:(id)dataSource
               defaultSelValue:(id)defaultSelValue
                  isAutoSelect:(BOOL)isAutoSelect
                    themeColor:(UIColor *)themeColor
+                   cancelTitle:(NSString *)cancelTitle
                   resultBlock:(BRStringResultBlock)resultBlock
                   cancelBlock:(BRStringCancelBlock)cancelBlock {
     if (self = [super init]) {
@@ -87,6 +102,7 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
         self.themeColor = themeColor;
         self.resultBlock = resultBlock;
         self.cancelBlock = cancelBlock;
+        self.cancelTitle = cancelTitle;
         isDataSourceValid = YES;
         [self configDataSource:dataSource defaultSelValue:defaultSelValue];
         if (isDataSourceValid) {
@@ -170,6 +186,7 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
 - (void)initUI {
     [super initUI];
     self.titleLabel.text = self.title;
+    [self.leftBtn setTitle:self.cancelTitle forState:UIControlStateNormal];
     // 添加字符串选择器
     [self.alertView addSubview:self.pickerView];
     if (self.themeColor && [self.themeColor isKindOfClass:[UIColor class]]) {
@@ -180,9 +197,9 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
 #pragma mark - 背景视图的点击事件
 - (void)didTapBackgroundView:(UITapGestureRecognizer *)sender {
     [self dismissWithAnimation:NO];
-    if (self.cancelBlock) {
-        self.cancelBlock();
-    }
+//    if (self.cancelBlock) {
+//        self.cancelBlock();
+//    }
 }
 
 #pragma mark - 弹出视图方法

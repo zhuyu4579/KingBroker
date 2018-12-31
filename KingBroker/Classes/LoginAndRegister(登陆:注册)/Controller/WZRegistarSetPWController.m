@@ -258,8 +258,7 @@
             
             //查询未读消息
             [self setloadData];
-            //上传设备ID
-            [self receivingNotification];
+            
             //将数据传入加入门店中
             WZNewJionStoreController *store = [[WZNewJionStoreController alloc] init];
             store.types = @"1";
@@ -285,7 +284,8 @@
             [defaults setObject:[regis valueForKey:@"companyName"] forKey:@"companyName"];
             [defaults setObject:[regis valueForKey:@"companyFlag"] forKey:@"companyFlag"];
             [defaults synchronize];
-            
+            //上传设备ID
+            [self receivingNotification];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){

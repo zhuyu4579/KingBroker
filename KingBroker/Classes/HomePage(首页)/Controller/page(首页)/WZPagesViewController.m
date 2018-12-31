@@ -272,6 +272,7 @@
     }
     //初始化轮播图
     self.cyclePlayView = [[WZCyclePhotoView alloc] initWithImages:array withFrame:CGRectMake(15, 0, _cycleView.fWidth-15, _cycleView.fHeight)];
+    self.cyclePlayView.pageChangeTime = 5.0;
     self.cyclePlayView.delegate = self;
     //[self.cyclePlayView.timer  invalidate];
     self.cyclePlayView.backgroundColor = [UIColor whiteColor];

@@ -89,7 +89,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     viewTwo.backgroundColor = [UIColor whiteColor];
     [meScrollView addSubview:viewTwo];
     UILabel *labelTitle = [[UILabel alloc] init];
-    NSMutableAttributedString *stringOne = [[NSMutableAttributedString alloc] initWithString:@"楼盘类型" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"PingFang-SC-Medium" size: 15],NSForegroundColorAttributeName:UIColorRBG(51, 51, 51)}];
+    NSMutableAttributedString *stringOne = [[NSMutableAttributedString alloc] initWithString:@"楼盘特色" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"PingFang-SC-Medium" size: 15],NSForegroundColorAttributeName:UIColorRBG(51, 51, 51)}];
     labelTitle.attributedText = stringOne;
     [viewTwo addSubview:labelTitle];
     [labelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -241,16 +241,14 @@ static const CGFloat kPhotoViewMargin = 15.0;
 
 #pragma mark -创建多选按钮
 -(void)createMultipleButton:(UIView *)view{
-    NSArray *array = @[@"新盘首开", @"可托管", @"实景样板房",@"", @"LOFT", @"现房",@"小户型",@"可餐饮"];
+    NSArray *array = @[@"新盘首开", @"可托管", @"实景样板房", @"LOFT", @"现房",@"小户型",@"可餐饮",@"精装修"];
     _markArray = array;
     CGFloat top = 0;
     CGFloat height = 44;
     CGFloat width = view.fWidth/4.0;
     NSInteger maxCol = 4;
     for (NSInteger i = 0; i < 8; i++) {
-        if (i==3) {
-            continue;
-        }
+        
         NSInteger col = i % maxCol; //列
         NSInteger row = i / maxCol; //行
         UIView *btnView = [[UIView alloc] initWithFrame:CGRectMake(col * width, top + row * height, width, height)];
@@ -258,11 +256,9 @@ static const CGFloat kPhotoViewMargin = 15.0;
         UIButton *btn = [[UIButton alloc] init];
         [btn setBackgroundImage:[UIImage imageNamed:@"bb_choose_2"] forState:UIControlStateNormal];
         [btn setBackgroundImage:[UIImage imageNamed:@"bb_icon"] forState:UIControlStateSelected];
-        if (i>3) {
-           btn.tag = i;
-        }else{
+       
            btn.tag = i+1;
-        }
+        
         
         [btn setEnlargeEdgeWithTop:10 right:40 bottom:10 left:10];
         [btn addTarget:self action:@selector(chooseMark:) forControlEvents:UIControlEventTouchUpInside];
@@ -279,7 +275,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         labelTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size: 13];
         [btnView addSubview:labelTitle];
         [labelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(btn.mas_right).offset(10);
+            make.left.equalTo(btn.mas_right).offset(5);
             make.top.equalTo(btnView.mas_top).offset(18);
             make.height.offset(13);
         }];

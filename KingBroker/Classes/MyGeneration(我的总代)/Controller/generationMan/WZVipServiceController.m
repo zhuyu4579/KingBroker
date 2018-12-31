@@ -196,6 +196,7 @@
     
     if ([message.name isEqualToString:@"black"]) {
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController popViewControllerAnimated:YES];
     }else if([message.name isEqualToString:@"login"]){
         [NSString isCode:self.navigationController code:@"401"];
     }else if([message.name isEqualToString:@"WYFriends"]){
