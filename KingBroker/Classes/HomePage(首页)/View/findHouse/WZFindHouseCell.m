@@ -153,7 +153,7 @@
                 NSString *collect = [data valueForKey:@"collect"];
                 if ([collect isEqual:@"1"]) {
                     but.selected = YES;
-                    [SVProgressHUD showInfoWithStatus:@"加入我的楼盘成功"];
+                    [SVProgressHUD showInfoWithStatus:@"收藏楼盘成功"];
                 }else{
                     but.selected = NO;
                 }

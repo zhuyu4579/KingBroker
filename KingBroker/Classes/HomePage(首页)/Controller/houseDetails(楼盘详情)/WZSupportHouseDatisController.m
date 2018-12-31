@@ -1395,7 +1395,7 @@ static NSString * const IDS = @"cells";
                 NSString *collect = [data valueForKey:@"collect"];
                 if ([collect isEqual:@"1"]) {
                     _likeButton.selected = YES;
-                    [SVProgressHUD showInfoWithStatus:@"加入我的楼盘成功"];
+                    [SVProgressHUD showInfoWithStatus:@"收藏楼盘成功"];
                 }else{
                     _likeButton.selected = NO;
                 }

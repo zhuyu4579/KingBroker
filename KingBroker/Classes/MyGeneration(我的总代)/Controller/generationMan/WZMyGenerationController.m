@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
-    self.navigationItem.title = @"我的总代";
+    self.navigationItem.title = @"我是总代";
     
     //创建view
     [self createView];

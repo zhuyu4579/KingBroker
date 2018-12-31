@@ -743,7 +743,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         make.height.offset(15);
     }];
     UILabel *labelTitles = [[UILabel alloc] init];
-    labelTitles.text = @"(建议图片长：宽=3：2)";
+    labelTitles.text = @"(建议图片长:宽=3:2)";
     labelTitles.textColor = UIColorRBG(204, 204, 204);
     labelTitles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size: 13];
     [view addSubview:labelTitles];

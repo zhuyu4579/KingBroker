@@ -73,7 +73,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [meScrollView addSubview:viewOne];
     //开发商
     NSString *developer = [_data valueForKey:@"developer"];
-    UIView *viewOne_one = [self createViewOne:@"开发商" contents:developer fY:0];
+    UIView *viewOne_one = [self createViewOne:@"开发商" contents:developer fY:0 setKeyboard:@"0"];
     [viewOne addSubview:viewOne_one];
     UITextField *developerName = [viewOne_one viewWithTag:20];
     _developerName = developerName;
@@ -82,7 +82,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [viewOne addSubview:ineOne];
     //剩余套数
     NSString *houseNum = [_data valueForKey:@"houseNum"];
-    UIView *viewOne_two = [self createViewOne:@"剩余套数" contents:houseNum fY:50];
+    UIView *viewOne_two = [self createViewOne:@"剩余套数" contents:houseNum fY:50 setKeyboard:@"1"];
     [viewOne addSubview:viewOne_two];
     UITextField *surpluNum = [viewOne_two viewWithTag:20];
     _surpluNum = surpluNum;
@@ -303,7 +303,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
 }
 
 #pragma mark -抽取第一个view
--(UIView *)createViewOne:(NSString *)title contents:(NSString *)str fY:(CGFloat)fY{
+-(UIView *)createViewOne:(NSString *)title contents:(NSString *)str fY:(CGFloat)fY setKeyboard:(NSString *)keyboard{
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, fY, _scrollView.fWidth, 49)];
     UILabel *labelTitle = [[UILabel alloc] init];
     NSMutableAttributedString *stringOne = [[NSMutableAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName: [UIFont fontWithName:@"PingFang-SC-Medium" size: 13],NSForegroundColorAttributeName:UIColorRBG(51, 51, 51)}];
@@ -322,7 +322,12 @@ static const CGFloat kPhotoViewMargin = 15.0;
     content.text = str;
     content.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
     content.delegate = self;
-    content.keyboardType = UIKeyboardTypeDefault;
+    if ([keyboard isEqual:@"1"]) {
+        content.keyboardType = UIKeyboardTypeNumberPad;
+    }else{
+        content.keyboardType = UIKeyboardTypeDefault;
+    }
+    
     content.clearButtonMode = UITextFieldViewModeWhileEditing;
     [view addSubview:content];
     [content mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -448,7 +453,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         make.height.offset(15);
     }];
     UILabel *labelTitles = [[UILabel alloc] init];
-    labelTitles.text = @"(建议图片长：宽=3：2)";
+    labelTitles.text = @"(建议图片长:宽=3:2)";
     labelTitles.textColor = UIColorRBG(204, 204, 204);
     labelTitles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size: 13];
     [view addSubview:labelTitles];

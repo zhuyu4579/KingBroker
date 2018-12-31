@@ -398,7 +398,7 @@
     }];
     UIView *myStoreView = [self createViewClass:@selector(myStore) image:[UIImage imageNamed:@"wd_icon5"] title:@"我的门店" fY:0 size:CGSizeMake(19, 18)];
     [viewTwo addSubview:myStoreView];
-    UIView *myGeneration= [self createViewClass:@selector(myGenerations) image:[UIImage imageNamed:@"wd_icon10"] title:@"我的总代" fY:58 size:CGSizeMake(19, 21)];
+    UIView *myGeneration= [self createViewClass:@selector(myGenerations) image:[UIImage imageNamed:@"wd_icon10"] title:@"我是总代" fY:58 size:CGSizeMake(19, 21)];
     [viewTwo addSubview:myGeneration];
     UIView *myCollectionView = [self createViewClass:@selector(myCollection) image:[UIImage imageNamed:@"wd_icon6"] title:@"收藏楼盘" fY:117 size:CGSizeMake(19, 19)];
     [viewTwo addSubview:myCollectionView];
@@ -567,7 +567,7 @@
         [NSString isCode:self.navigationController code:@"401"];
     }
 }
-#pragma mark -我的总代
+#pragma mark -我是总代
 -(void)myGenerations{
     if (_uuid&&![_uuid isEqual:@""]) {
         WZMyGenerationController *myGeneration = [[WZMyGenerationController alloc] init];
