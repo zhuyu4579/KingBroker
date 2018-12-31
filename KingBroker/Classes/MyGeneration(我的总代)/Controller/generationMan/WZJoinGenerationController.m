@@ -32,7 +32,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"我是总代";
+    self.navigationItem.title = @"完善信息";
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
     UIView *viewOne = [[UIView alloc] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+52, self.view.fWidth, 50)];
     viewOne.backgroundColor = [UIColor whiteColor];

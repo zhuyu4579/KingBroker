@@ -101,7 +101,7 @@
         make.height.offset(150);
     }];
     UILabel *label = [[UILabel alloc] init];
-    label.text = @"太低调了，连个总代都没有";
+    label.text = @"太低调了，连个公司都没有";
     label.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:13];
     label.textColor = UIColorRBG(158, 158, 158);
     label.textAlignment = NSTextAlignmentCenter;
@@ -113,7 +113,7 @@
     }];
     UIButton *joinGeneration = [[UIButton alloc] init];
     joinGeneration.backgroundColor = UIColorRBG(255, 224, 0);
-    [joinGeneration setTitle:@"我是总代" forState:UIControlStateNormal];
+    [joinGeneration setTitle:@"完善信息" forState:UIControlStateNormal];
     [joinGeneration setTitleColor:UIColorRBG(49, 35, 6) forState:UIControlStateNormal];
     joinGeneration.titleLabel.font =  [UIFont fontWithName:@"PingFang-SC-Medium" size: 15];
     joinGeneration.layer.cornerRadius = 22;
