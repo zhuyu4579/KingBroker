@@ -51,7 +51,7 @@
     [_groundingButton setEnabled:YES];
     [_groundingButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
     _groundingButton.layer.borderColor = UIColorRBG(251, 221, 49).CGColor;
-    
+    [_groundingButton setTitle:@"申请上架" forState:UIControlStateNormal];
     NSString *stuta = item.status;
     if ([stuta isEqual:@"0"]||[stuta isEqual:@"3"]) {
         _stutas.text = @"未上架";

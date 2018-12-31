@@ -32,7 +32,8 @@
 @property(nonatomic,strong)NSString *points;
 //选择的位置城市
 @property(nonatomic,strong)NSString *address;
-
+//选择的位置城市
+@property(nonatomic,strong)NSString *addr;
 //城市区编码
 @property(nonatomic,strong)NSString *adCode;
 //位置显示
@@ -128,6 +129,8 @@
         _address = [NSString stringWithFormat:@"%@%@%@",province,city,district];
         _township.text = regeo.formattedAddress;
         _point.title = _address;
+        _addr = [NSString stringWithFormat:@"%@%@%@",address.township,address.streetNumber.street,address.streetNumber.number];
+        
     }
 }
 //确认按钮
@@ -141,7 +144,7 @@
      dicty[@"lnglat"] = _points;
      dicty[@"address"] = _address;
      dicty[@"adcode"] = _adCode;
-    
+     dicty[@"addr"] = _addr;
     if (_addrBlock) {
         _addrBlock(dicty);
     }

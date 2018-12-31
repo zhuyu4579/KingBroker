@@ -78,6 +78,7 @@
         _houseAddress.text = [address valueForKey:@"address"];
         _houseLnglat = [address valueForKey:@"lnglat"];
         _houseAdCode = [address valueForKey:@"adcode"];
+        _houseAddr.text = [address valueForKey:@"addr"];
         [self submission];
     };
 }
