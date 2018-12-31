@@ -35,7 +35,7 @@
     UILabel *title = [[UILabel alloc] init];
     title.textColor = UIColorRBG(85, 85, 85);
     title.font =  [UIFont fontWithName:@"PingFang-SC-Medium" size: 17];
-    title.text = @"提交成功";
+    title.text = @"申请上架提交成功";
     [self.view addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
@@ -45,12 +45,14 @@
     UILabel *title2 = [[UILabel alloc] init];
     title2.textColor = UIColorRBG(100, 100, 100);
     title2.font =  [UIFont fontWithName:@"PingFang-SC-Medium" size: 14];
-    title2.text = @"平台审核通过后，楼盘上架";
+    title2.text = @"等待平台审核，审核通过后，我们将发送\n短信至您的手机";
+    title2.numberOfLines = 0;
+    title2.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:title2];
     [title2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
         make.top.equalTo(title.mas_bottom).offset(11);
-        make.height.offset(14);
+        make.width.offset(self.view.fWidth - 30);
     }];
     
     UIImageView *imageViewTwo = [[UIImageView alloc] init];

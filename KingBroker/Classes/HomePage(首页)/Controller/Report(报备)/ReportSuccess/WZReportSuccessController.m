@@ -359,10 +359,9 @@
 }
 #pragma mark -完成
 -(void)success{
-    WZTabBarController *tar = [[WZTabBarController alloc] init];
-    tar.selectedViewController = [tar.viewControllers objectAtIndex:0];
-    [self.navigationController presentViewController:tar animated:YES completion:nil];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"pushReport" object:self];
+    
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

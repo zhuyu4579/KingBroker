@@ -78,7 +78,7 @@
         make.width.offset(self.view.fWidth);
         make.height.offset(50);
     }];
-    UIView *releaseReward = [self createViewClass:@selector(releaseReward) image:[UIImage imageNamed:@"zd_icon6"] title:@"发布悬赏" fY:0 size:CGSizeMake(17, 22)];
+    UIView *releaseReward = [self createViewClass:@selector(releaseReward) image:[UIImage imageNamed:@"zd_icon6"] title:@"我的悬赏" fY:0 size:CGSizeMake(17, 22)];
     [viewFour addSubview:releaseReward];
     
     [self joinGeneration];
@@ -208,14 +208,14 @@
     WZAddHousesController *houseManage = [[WZAddHousesController alloc] init];
     [self.navigationController pushViewController:houseManage animated:YES];
 }
-#pragma mark -发布悬赏
+#pragma mark -我的悬赏
 -(void)releaseReward{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     
     WZVipServiceController *vips = [[WZVipServiceController alloc] init];
 
-    vips.url = [NSString stringWithFormat:@"%@/vip/publicaward.html?uuid=%@",HTTPH5,uuid];
+    vips.url = [NSString stringWithFormat:@"%@/vip/publicbymyself.html?uuid=%@",HTTPH5,uuid];
     
     //WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:vips];
     //[self.navigationController presentViewController:nav animated:YES completion:nil];

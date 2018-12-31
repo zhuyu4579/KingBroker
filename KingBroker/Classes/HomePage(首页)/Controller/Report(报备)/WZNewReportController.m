@@ -79,7 +79,11 @@
     if(![_itemId isEqual:@""]&&_itemId){
         [self loadTimeData];
     }
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushReport) name:@"pushReport" object:nil];
+}
+#pragma mark -返回首页
+-(void)pushReport{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 #pragma mark -创建控件
 -(void)createControl{

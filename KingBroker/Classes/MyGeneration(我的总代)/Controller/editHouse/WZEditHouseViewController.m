@@ -398,7 +398,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSString *commissionTime = _CommissionTime.text;
     commissionTime = [commissionTime stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if ([commissionTime isEqual:@""]) {
-        [SVProgressHUD showInfoWithStatus:@"佣金时间不能为空"];
+        [SVProgressHUD showInfoWithStatus:@"结佣时间不能为空"];
         return;
     }
     //佣金规则
@@ -854,7 +854,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         make.height.offset(15);
     }];
     UILabel *labelTitles = [[UILabel alloc] init];
-    labelTitles.text = @"(仅限1张，建议图片长：宽=3：2)";
+    labelTitles.text = @"(仅限1张，建议图片长:宽=3:2)";
     labelTitles.textColor = UIColorRBG(204, 204, 204);
     labelTitles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size: 13];
     [view addSubview:labelTitles];
