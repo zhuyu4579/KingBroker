@@ -188,16 +188,16 @@ static const CGFloat kPhotoViewMargin = 15.0;
         make.height.offset(15);
     }];
     
-    UILabel *labelTitles = [[UILabel alloc] init];
-    labelTitles.text = @"(多选)";
-    labelTitles.textColor = UIColorRBG(204, 204, 204);
-    labelTitles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size: 13];
-    [viewFour addSubview:labelTitles];
-    [labelTitles mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(labelTitle.mas_right).offset(10);
-        make.top.equalTo(viewFour.mas_top).offset(16);
-        make.height.offset(13);
-    }];
+//    UILabel *labelTitles = [[UILabel alloc] init];
+//    labelTitles.text = @"(多选)";
+//    labelTitles.textColor = UIColorRBG(204, 204, 204);
+//    labelTitles.font = [UIFont fontWithName:@"PingFang-SC-Medium" size: 13];
+//    [viewFour addSubview:labelTitles];
+//    [labelTitles mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(labelTitle.mas_right).offset(10);
+//        make.top.equalTo(viewFour.mas_top).offset(16);
+//        make.height.offset(13);
+//    }];
     UIView *ineFour = [[UIView alloc] initWithFrame:CGRectMake(15, 42, viewFour.fWidth-30, 1)];
     ineFour.backgroundColor = UIColorRBG(240, 240, 240);
     [viewFour addSubview:ineFour];
@@ -331,6 +331,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         _houseAddress.text = [address valueForKey:@"address"];
         _houseLnglat = [address valueForKey:@"lnglat"];
         _houseAdCode = [address valueForKey:@"adcode"];
+        _houseAddr.text = [address valueForKey:@"addr"];
     };
 }
 

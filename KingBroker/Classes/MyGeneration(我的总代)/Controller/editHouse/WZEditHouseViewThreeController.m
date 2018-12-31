@@ -138,7 +138,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     ineOne.backgroundColor = UIColorRBG(240, 240, 240);
     [viewFour addSubview:ineOne];
     //户型数据
-     NSArray *dataSources = @[@[@"一室", @"两室", @"三室", @"四室", @"五室", @"五室以上"], @[@"一厅", @"两厅", @"三厅", @"四厅", @"五厅", @"五厅以上"],@[@"一卫", @"两卫", @"三卫", @"四卫", @"五卫", @"五卫以上"]];
+     NSArray *dataSources = @[@[@"一室", @"两室", @"三室", @"四室", @"五室", @"五室以上"], @[@"0厅",@"一厅", @"两厅", @"三厅", @"四厅", @"五厅", @"五厅以上"],@[@"0卫",@"一卫", @"两卫", @"三卫", @"四卫", @"五卫", @"五卫以上"]];
     NSString *room = [data1 valueForKey:@"room"];
     NSString *rooms = @"";
     if (![room isEqual:@""]&&room&&![room isEqual:@"0"]) {
@@ -149,13 +149,13 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSString *livings = @"";
     if (![living isEqual:@""]&&living&&![living isEqual:@"0"]) {
         NSInteger n = [living integerValue];
-        livings = dataSources[1][n-1];
+        livings = dataSources[1][n];
     }
     NSString *toilet = [data1 valueForKey:@"toilet"];
     NSString *toilets = @"";
     if (![toilet isEqual:@""]&&toilet&&![toilet isEqual:@"0"]) {
         NSInteger n = [toilet integerValue];
-        toilets = dataSources[2][n-1];
+        toilets = dataSources[2][n];
     }
     UIView *viewOne_two = [self createViewClass:@selector(selectApartment:) image:[UIImage imageNamed:@"bb_more_unfold"] title:@"户型" fY:50 size:CGSizeMake(9, 15)];
     [viewFour addSubview:viewOne_two];
@@ -244,10 +244,10 @@ static const CGFloat kPhotoViewMargin = 15.0;
 -(void)selectApartment:(UIButton *)button{
     [self touches];
     // 自定义多列字符串
-    NSArray *dataSources = @[@[@"一室", @"两室", @"三室", @"四室", @"五室", @"五室以上"], @[@"一厅", @"两厅", @"三厅", @"四厅", @"五厅", @"五厅以上"],@[@"一卫", @"两卫", @"三卫", @"四卫", @"五卫", @"五卫以上"]];
+    NSArray *dataSources = @[@[@"一室", @"两室", @"三室", @"四室", @"五室", @"五室以上"], @[@"0厅",@"一厅", @"两厅", @"三厅", @"四厅", @"五厅", @"五厅以上"],@[@"0卫",@"一卫", @"两卫", @"三卫", @"四卫", @"五卫", @"五卫以上"]];
     NSDictionary *data1 = @{@"一室":@"1", @"两室":@"2", @"三室":@"3", @"四室":@"4", @"五室":@"5", @"五室以上":@"6"};
-    NSDictionary *data3 = @{@"一卫":@"1", @"两卫":@"2", @"三卫":@"3", @"四卫":@"4", @"五卫":@"5", @"五卫以上":@"6"};
-    NSDictionary *data2 = @{@"一厅":@"1", @"两厅":@"2", @"三厅":@"3", @"四厅":@"4", @"五厅":@"5", @"五厅以上":@"6"};
+    NSDictionary *data3 = @{@"0卫":@"0",@"一卫":@"1", @"两卫":@"2", @"三卫":@"3", @"四卫":@"4", @"五卫":@"5", @"五卫以上":@"6"};
+    NSDictionary *data2 = @{@"0厅":@"0",@"一厅":@"1", @"两厅":@"2", @"三厅":@"3", @"四厅":@"4", @"五厅":@"5", @"五厅以上":@"6"};
     UIView *view = button.superview;
     UILabel *aparetment = [view viewWithTag:30];
     UILabel *apareNum = [view viewWithTag:40];
@@ -453,7 +453,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     ineOne.backgroundColor = UIColorRBG(240, 240, 240);
     [view addSubview:ineOne];
     //户型数据
-    NSArray *dataSources = @[@[@"一室", @"两室", @"三室", @"四室", @"五室", @"五室以上"], @[@"一厅", @"两厅", @"三厅", @"四厅", @"五厅", @"五厅以上"],@[@"一卫", @"两卫", @"三卫", @"四卫", @"五卫", @"五卫以上"]];
+    NSArray *dataSources = @[@[@"一室", @"两室", @"三室", @"四室", @"五室", @"五室以上"], @[@"0厅",@"一厅", @"两厅", @"三厅", @"四厅", @"五厅", @"五厅以上"],@[@"0卫",@"一卫", @"两卫", @"三卫", @"四卫", @"五卫", @"五卫以上"]];
     NSString *room = [photoDitcy valueForKey:@"room"];
     NSString *rooms = @"";
     if (![room isEqual:@""]&&room&&![room isEqual:@"0"]) {
@@ -464,13 +464,13 @@ static const CGFloat kPhotoViewMargin = 15.0;
     NSString *livings = @"";
     if (![living isEqual:@""]&&living&&![living isEqual:@"0"]) {
         NSInteger n = [living integerValue];
-        livings = dataSources[1][n-1];
+        livings = dataSources[1][n];
     }
     NSString *toilet = [photoDitcy valueForKey:@"toilet"];
     NSString *toilets = @"";
     if (![toilet isEqual:@""]&&toilet&&![toilet isEqual:@"0"]) {
         NSInteger n = [toilet integerValue];
-        toilets = dataSources[2][n-1];
+        toilets = dataSources[2][n];
     }
    
     UIView *viewOne_two = [self createViewClass:@selector(selectApartment:) image:[UIImage imageNamed:@"bb_more_unfold"] title:@"户型" fY:50 size:CGSizeMake(9, 15)];
