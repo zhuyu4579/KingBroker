@@ -9,6 +9,7 @@
 #import "UIView+Frame.h"
 #import <AFNetworking.h>
 #import <SVProgressHUD.h>
+#import "WZTabBarController.h"
 #import "WZMeViewController.h"
 #import "WZBoaringController.h"
 #import "WZForwardController.h"
@@ -74,6 +75,7 @@
     [self setUpMeView];
     //创造通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(meRefresh) name:@"MeRefresh" object:nil];
+
 }
 
 //创建控件

@@ -7,6 +7,7 @@
 //
 #import <Masonry.h>
 #import "GKCover.h"
+#import "AppDelegate.h"
 #import "WZAlertView.h"
 #import "UIView+Frame.h"
 #import <AFNetworking.h>
@@ -99,6 +100,7 @@
     _codeType = @"0";
     //创建控件
     [self createControl];
+ 
 }
 #pragma mark - 创建控件
 -(void)createControl{
@@ -1156,8 +1158,11 @@
             if ([_types isEqual:@"1"]) {
                 //跳转至我的页面
                 WZTabBarController *tar = [[WZTabBarController alloc] init];
-                tar.selectedViewController = [tar.viewControllers objectAtIndex:2];
-                [self.navigationController presentViewController:tar animated:YES completion:nil];
+                
+                AppDelegate *appdelegateE = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                appdelegateE.window.rootViewController = tar;
+                tar.selectedIndex = 2;
+            [self.presentingViewController.presentingViewController dismissViewControllerAnimated:NO completion:nil];
             }else{
                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
             }

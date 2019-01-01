@@ -15,6 +15,7 @@
 #import <WXApiObject.h>
 #import <WebKit/WebKit.h>
 #import "UIView+Frame.h"
+#import "WZShareController.h"
 #import "WZHousePageController.h"
 #import "NSString+LCExtension.h"
 #import "WZNavigationController.h"
@@ -184,8 +185,15 @@
         decisionHandler(WKNavigationActionPolicyAllow);
     }else{
         //跳转分享页面
-        // NSString *param = navigationAction.request.URL.query;
-        
+        NSString *param = navigationAction.request.URL.query;
+        if(param.length>0){
+            NSString *ID = [param substringFromIndex:3];
+            
+            WZShareController *shareVC= [[WZShareController alloc] init];
+            shareVC.ID = ID;
+            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:shareVC];
+            [self.navigationController presentViewController:nav animated:YES completion:nil];
+        }
         decisionHandler(WKNavigationActionPolicyCancel);
         
     }

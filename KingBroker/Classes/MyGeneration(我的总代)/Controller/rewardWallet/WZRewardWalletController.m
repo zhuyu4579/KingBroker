@@ -21,6 +21,8 @@
 @property(nonatomic,strong)UILabel *moneys;
 //总金额
 @property(nonatomic,strong)NSString *price;
+//是否是vip
+@property(nonatomic,strong)NSString *combomealFlag;
 @end
 
 @implementation WZRewardWalletController
@@ -64,7 +66,7 @@
             if(![amount isEqual:@""]||amount){
                 _moneys.text = [NSString stringWithFormat:@"¥%@",amount];
             }
-            
+            _combomealFlag = [data valueForKey:@"combomealFlag"];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -137,14 +139,38 @@
 -(void)ReleaseRewardButtons{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
+    if ([_combomealFlag isEqual:@"1"]) {
+        WZVipServiceController *vips = [[WZVipServiceController alloc] init];
+        
+        vips.url = [NSString stringWithFormat:@"%@/vip/publicaward.html?uuid=%@",HTTPH5,uuid];
+        
+        [self.navigationController pushViewController:vips animated:YES];
+    }else{
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"不是会员身份" message:@"你需要成为VIP会员，才能发布悬赏" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"购买会员" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            WZVipServiceController *vips = [[WZVipServiceController alloc] init];
+            
+            vips.url = [NSString stringWithFormat:@"%@/vip/index.html?uuid=%@",HTTPH5,uuid];
+            
+            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:vips];
+            [self.navigationController presentViewController:nav animated:YES completion:nil];
+        }];
+        UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"我知道了" style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+            
+        }];
+        [cancelAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+        [defaultAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+        
+        [alert addAction:defaultAction];
+        [alert addAction:cancelAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        
+    }
+   
     
-    WZVipServiceController *vips = [[WZVipServiceController alloc] init];
     
-    vips.url = [NSString stringWithFormat:@"%@/vip/publicaward.html?uuid=%@",HTTPH5,uuid];
-    
-    //WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:vips];
-    //[self.navigationController presentViewController:nav animated:YES completion:nil];
-     [self.navigationController pushViewController:vips animated:YES];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

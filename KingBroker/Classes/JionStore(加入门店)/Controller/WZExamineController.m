@@ -5,7 +5,7 @@
 //  Created by 朱玉隆 on 2018/3/22.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
+#import "AppDelegate.h"
 #import "WZExamineController.h"
 #import "WZTabBarController.h"
 #import "UIView+Frame.h"
@@ -115,13 +115,24 @@
 #pragma mark -跳转去首页
 -(void)jumpHomePage:(UIButton *)button{
     WZTabBarController *tar = [[WZTabBarController alloc] init];
-    [self.navigationController presentViewController:tar animated:YES completion:nil];
+   
+    AppDelegate *appdelegateE = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        appdelegateE.window.rootViewController = tar;
+        tar.selectedIndex = 0;
+    
+    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:NO completion:nil];
+
 }
 #pragma mark -跳转我的页面
 -(void)EditPersonalInformation:(UIButton *)button{
+    
     WZTabBarController *tar = [[WZTabBarController alloc] init];
-    tar.selectedViewController = [tar.viewControllers objectAtIndex:2];
-    [self.navigationController presentViewController:tar animated:YES completion:nil];
+    
+    AppDelegate *appdelegateE = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    appdelegateE.window.rootViewController = tar;
+    tar.selectedIndex = 2;
+    
+    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:NO completion:nil];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
