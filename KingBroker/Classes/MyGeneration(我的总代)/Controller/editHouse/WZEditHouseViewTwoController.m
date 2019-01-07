@@ -206,7 +206,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         [SVProgressHUD dismiss];
         button.enabled = YES;
         if ([code isEqual:@"200"]) {
-            [SVProgressHUD showInfoWithStatus:@"修改成功，审核通过后，楼盘信息将会更新"];
+            [SVProgressHUD showInfoWithStatus:@"修改成功"];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){

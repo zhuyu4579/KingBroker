@@ -506,6 +506,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     paraments[@"outlining"]=outlining;
     paraments[@"reportDescribe"] = reportDescribe;
     paraments[@"showUrl"] = _showUrl;
+    paraments[@"averagePriceUnit"] = @"2";
     NSString *url = [NSString stringWithFormat:@"%@/proProject/upbaseInfoCreateOrUpdate",HTTPURL];
 //    NSLog(@"%@",paraments);
     button.enabled = NO;
@@ -514,7 +515,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         [SVProgressHUD dismiss];
         button.enabled = YES;
         if ([code isEqual:@"200"]) {
-            [SVProgressHUD showInfoWithStatus:@"修改成功，审核通过后，楼盘信息将会更新"];
+            [SVProgressHUD showInfoWithStatus:@"修改成功"];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
