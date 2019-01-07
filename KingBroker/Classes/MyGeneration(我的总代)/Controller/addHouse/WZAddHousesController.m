@@ -169,7 +169,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     UIView *inePrice = [[UIView alloc] initWithFrame:CGRectMake(15, 49, viewTwo.fWidth-30, 1)];
     inePrice.backgroundColor = UIColorRBG(240, 240, 240);
     [priceView addSubview:inePrice];
-    UIView *viewPrice_two = [self createViewOne:@"均价" contents:@"" fY:50 isDel:@"2" unit:@"万元/平起" setKeyboard:@"1"];
+    UIView *viewPrice_two = [self createViewOne:@"均价" contents:@"" fY:50 isDel:@"2" unit:@"元/平起" setKeyboard:@"1"];
     [priceView addSubview:viewPrice_two];
     UITextField *averagePrice = [viewPrice_two viewWithTag:20];
     _averagePrice = averagePrice;
@@ -364,17 +364,17 @@ static const CGFloat kPhotoViewMargin = 15.0;
     //总价
     NSString *totalPrice = _totalPrice.text;
     totalPrice = [totalPrice stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if ([totalPrice isEqual:@""]) {
-        [SVProgressHUD showInfoWithStatus:@"总价不能为空"];
-        return;
-    }
+//    if ([totalPrice isEqual:@""]) {
+//        [SVProgressHUD showInfoWithStatus:@"总价不能为空"];
+//        return;
+//    }
     //均价
     NSString *averagePrice = _averagePrice.text;
     averagePrice = [averagePrice stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if ([averagePrice isEqual:@""]) {
-        [SVProgressHUD showInfoWithStatus:@"均价不能为空"];
-        return;
-    }
+//    if ([averagePrice isEqual:@""]) {
+//        [SVProgressHUD showInfoWithStatus:@"均价不能为空"];
+//        return;
+//    }
     //结佣时间
     NSString *commissionTime = _CommissionTime.text;
     commissionTime = [commissionTime stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];

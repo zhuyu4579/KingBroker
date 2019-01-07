@@ -168,7 +168,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
     [priceView addSubview:inePrice];
     //获取数据
     NSString *averagePrices = [_data valueForKey:@"averagePrice"];
-    UIView *viewPrice_two = [self createViewOne:@"均价" contents:averagePrices fY:50 isDel:@"2" unit:@"万元/平起" setKeyboard:@"1"];
+    UIView *viewPrice_two = [self createViewOne:@"均价" contents:averagePrices fY:50 isDel:@"2" unit:@"元/平起" setKeyboard:@"1"];
     [priceView addSubview:viewPrice_two];
     UITextField *averagePrice = [viewPrice_two viewWithTag:20];
     _averagePrice = averagePrice;
@@ -383,17 +383,17 @@ static const CGFloat kPhotoViewMargin = 15.0;
     //总价
     NSString *totalPrice = _totalPrice.text;
     totalPrice = [totalPrice stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if ([totalPrice isEqual:@""]) {
-        [SVProgressHUD showInfoWithStatus:@"总价不能为空"];
-        return;
-    }
+//    if ([totalPrice isEqual:@""]) {
+//        [SVProgressHUD showInfoWithStatus:@"总价不能为空"];
+//        return;
+//    }
     //均价
     NSString *averagePrice = _averagePrice.text;
     averagePrice = [averagePrice stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if ([averagePrice isEqual:@""]) {
-        [SVProgressHUD showInfoWithStatus:@"均价不能为空"];
-        return;
-    }
+//    if ([averagePrice isEqual:@""]) {
+//        [SVProgressHUD showInfoWithStatus:@"均价不能为空"];
+//        return;
+//    }
     //结佣时间
     NSString *commissionTime = _CommissionTime.text;
     commissionTime = [commissionTime stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -514,7 +514,7 @@ static const CGFloat kPhotoViewMargin = 15.0;
         [SVProgressHUD dismiss];
         button.enabled = YES;
         if ([code isEqual:@"200"]) {
-            [SVProgressHUD showInfoWithStatus:@"保存成功"];
+            [SVProgressHUD showInfoWithStatus:@"修改成功，审核通过后，楼盘信息将会更新"];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){

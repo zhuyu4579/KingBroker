@@ -177,7 +177,7 @@
     
 }
 - (IBAction)JoinStore:(UIButton *)sender {
-    UIViewController *vc = [UIViewController viewController:self.superview.superview.superview.superview];
+    UIViewController *vc = [UIViewController viewController:self.superview.superview.superview.superview.superview];
     WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
     WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
     JionStore.jionType = @"1";

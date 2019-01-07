@@ -65,9 +65,6 @@
         _groundingButton.layer.borderColor = UIColorRBG(204, 204, 204).CGColor;
     }else if ([stuta isEqual:@"2"]) {
         _stutas.text = @"已上架";
-        [_editButton setEnabled:NO];
-        [_editButton setTitleColor:UIColorRBG(204, 204, 204) forState:UIControlStateNormal];
-        _editButton.layer.borderColor = UIColorRBG(204, 204, 204).CGColor;
         [_groundingButton setTitle:@"下架" forState:UIControlStateNormal];
     }
     _commission.text = [NSString stringWithFormat:@"佣：%@",item.commission];

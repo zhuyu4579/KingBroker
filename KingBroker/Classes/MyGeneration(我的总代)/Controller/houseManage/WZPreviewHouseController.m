@@ -299,7 +299,7 @@ static NSString * const IDS = @"cells";
         }
     }
     NSString *houseSum = [_houseDatils valueForKey:@"houseNum"];
-    if (![houseSum isEqual:@""]&&houseSum) {
+    if (![houseSum isEqual:@""]&&houseSum&&![houseSum isEqual:@"0"]) {
         _dView.houseSum.text = [NSString stringWithFormat:@"%@套",houseSum];
     }
     

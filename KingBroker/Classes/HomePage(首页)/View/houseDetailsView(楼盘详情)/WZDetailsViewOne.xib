@@ -259,7 +259,7 @@
                 <outlet property="runTageOne" destination="9xm-Vh-NF5" id="9I3-UR-f7H"/>
                 <outlet property="runTageTwo" destination="LTw-QE-Bfc" id="HYP-z1-e54"/>
             </connections>
-            <point key="canvasLocation" x="33.5" y="126.5"/>
+            <point key="canvasLocation" x="129" y="-167"/>
         </view>
     </objects>
     <resources>
