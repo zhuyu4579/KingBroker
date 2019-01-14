@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,23 +18,35 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="540"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J77-ED-Px0">
-                        <rect key="frame" x="0.0" y="130" width="375" height="280"/>
+                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="5" translatesAutoresizingMaskIntoConstraints="NO" id="ayP-PJ-GMW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="540"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J77-ED-Px0">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="540"/>
+                            </imageView>
+                        </subviews>
                         <constraints>
-                            <constraint firstAttribute="height" constant="280" id="rto-2C-owv"/>
+                            <constraint firstItem="J77-ED-Px0" firstAttribute="centerX" secondItem="ayP-PJ-GMW" secondAttribute="centerX" id="0Zg-YX-fYq"/>
+                            <constraint firstAttribute="bottom" secondItem="J77-ED-Px0" secondAttribute="bottom" id="MTb-cI-q8H"/>
+                            <constraint firstAttribute="trailing" secondItem="J77-ED-Px0" secondAttribute="trailing" id="Phl-mL-uhj"/>
+                            <constraint firstItem="J77-ED-Px0" firstAttribute="top" secondItem="ayP-PJ-GMW" secondAttribute="top" id="VMs-SY-gsO"/>
+                            <constraint firstItem="J77-ED-Px0" firstAttribute="leading" secondItem="ayP-PJ-GMW" secondAttribute="leading" id="aYS-0h-a4M"/>
+                            <constraint firstItem="J77-ED-Px0" firstAttribute="centerY" secondItem="ayP-PJ-GMW" secondAttribute="centerY" id="cyN-ZR-o5O"/>
                         </constraints>
-                    </imageView>
+                    </scrollView>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="J77-ED-Px0" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="MjL-ZW-5je"/>
-                <constraint firstItem="J77-ED-Px0" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="NUs-J9-fyX"/>
-                <constraint firstAttribute="trailing" secondItem="J77-ED-Px0" secondAttribute="trailing" id="dSf-yJ-tD6"/>
-                <constraint firstItem="J77-ED-Px0" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="qth-2X-213"/>
+                <constraint firstAttribute="bottom" secondItem="ayP-PJ-GMW" secondAttribute="bottom" id="9C9-8W-kgj"/>
+                <constraint firstItem="ayP-PJ-GMW" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Nar-3D-cOP"/>
+                <constraint firstItem="ayP-PJ-GMW" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="dL1-Ah-chL"/>
+                <constraint firstAttribute="trailing" secondItem="ayP-PJ-GMW" secondAttribute="trailing" id="raY-VK-uhw"/>
             </constraints>
             <connections>
+                <outlet property="mainContentView" destination="ayP-PJ-GMW" id="GNu-62-83b"/>
                 <outlet property="photo" destination="J77-ED-Px0" id="yVa-TD-pyZ"/>
             </connections>
+            <point key="canvasLocation" x="53.600000000000001" y="69.265367316341838"/>
         </collectionViewCell>
     </objects>
 </document>

@@ -10,5 +10,5 @@
 
 @interface WZHuxingPhotosCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UIImageView *photo;
-
+@property (nonatomic, strong)IBOutlet UIScrollView *mainContentView;
 @end

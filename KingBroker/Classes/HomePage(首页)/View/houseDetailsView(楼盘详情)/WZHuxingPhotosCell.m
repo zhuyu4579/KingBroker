@@ -7,55 +7,53 @@
 //
 #import "UIView+Frame.h"
 #import "WZHuxingPhotosCell.h"
-@interface WZHuxingPhotosCell(){
-    CGFloat _lastScale;
-    float _lastTransX, _lastTransY;
+#import "UIViewController+WZFindController.h"
+@interface WZHuxingPhotosCell()<UIScrollViewDelegate, UIGestureRecognizerDelegate> {
+    
+    CGSize _containerSize;
+    BOOL _isZooming;
+    BOOL _isDragging;
+    BOOL _bodyIsInCenter;
+    
+    CGPoint _gestureInteractionStartPoint;
+    BOOL _isGestureInteraction;
+    
+    
+    UIInterfaceOrientation _statusBarOrientationBefore;
 }
-
+@property (nonatomic, assign) BOOL doubleTap;
 @end
 @implementation WZHuxingPhotosCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    _doubleTap = NO;
+    _mainContentView.delegate = self;
+    _mainContentView.showsHorizontalScrollIndicator = NO;
+    _mainContentView.showsVerticalScrollIndicator = NO;
+    _mainContentView.decelerationRate = UIScrollViewDecelerationRateFast;
+    _mainContentView.maximumZoomScale = 3;
+    _mainContentView.minimumZoomScale = 1;
+    _mainContentView.alwaysBounceHorizontal = NO;
+    _mainContentView.alwaysBounceVertical = NO;
+    _mainContentView.layer.masksToBounds = NO;
+    if (@available(iOS 11.0, *)){ _mainContentView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+     self.mainContentView.contentSize = CGSizeMake( self.photo.fWidth, self.photo.fHeight);
     _photo.userInteractionEnabled = YES;//打开用户交互
     [_photo setMultipleTouchEnabled:YES];
-    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)];
-    
-    [_photo addGestureRecognizer:pinch];
-    // 移动手势
-//    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panView:)];
-//    [panGestureRecognizer setMinimumNumberOfTouches:1];
-//    [panGestureRecognizer setMaximumNumberOfTouches:1];
-//    [_photo addGestureRecognizer:panGestureRecognizer];
-    
     //添加点击事件同样是类方法 -> 作用是再次点击回到初始大小
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideImageView:)];
-    [_photo addGestureRecognizer:tapGestureRecognizer];
+    [self.photo addGestureRecognizer:tapGestureRecognizer];
+    
 }
 
-//-(void) panView:(UIPanGestureRecognizer *)panGestureRecognizer
-//{
-//    CGPoint translatedPoint = [panGestureRecognizer translationInView:self];
-//
-//    if([panGestureRecognizer state] == UIGestureRecognizerStateBegan) {
-//        _lastTransX = 0.0;
-//        _lastTransY = 0.0;
-//    }
-//
-//    CGAffineTransform trans = CGAffineTransformMakeTranslation(translatedPoint.x - _lastTransX, translatedPoint.y - _lastTransY);
-//    CGAffineTransform newTransform = CGAffineTransformConcat(_photo.transform, trans);
-//    _lastTransX = translatedPoint.x;
-//    _lastTransY = translatedPoint.y;
-//    _photo.transform = newTransform;
-//
-//
-//}
 - (void)hideImageView:(UITapGestureRecognizer *)tap{
     //恢复
     [UIView animateWithDuration:0.4 animations:^{
         
     [tap view].transform = CGAffineTransformIdentity;
-        
+    self.mainContentView.contentSize = CGSizeMake( self.photo.fWidth, self.photo.fHeight);
     } completion:^(BOOL finished) {
         
     }];
@@ -67,13 +65,36 @@
     return YES;
     
 }
-- (void)pinch:(UIPinchGestureRecognizer *)recognizer{
-    
-    UIView *view = recognizer.view;
-    if (recognizer.state == UIGestureRecognizerStateBegan || recognizer.state == UIGestureRecognizerStateChanged) {
-        view.transform = CGAffineTransformScale(view.transform, recognizer.scale, recognizer.scale);
-        recognizer.scale = 1;
-    }
-    
+
+#pragma mark - <UIScrollViewDelegate>
+//返回需要缩放的视图控件 缩放过程中
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    return self.photo;
 }
+
+//开始缩放
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view{
+    //NSLog(@"开始缩放");
+}
+//结束缩放
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale{
+    //NSLog(@"结束缩放");
+}
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    // 延中心点缩放
+    CGFloat imageScaleWidth = scrollView.zoomScale * self.photo.fWidth;
+    CGFloat imageScaleHeight = scrollView.zoomScale * self.photo.fHeight;
+    
+    CGFloat imageX = 0;
+    CGFloat imageY = 0;
+    //    if (imageScaleWidth < self.frame.size.width) {
+    imageX = floorf((self.frame.size.width - imageScaleWidth) / 2.0);
+    //    }
+    //    if (imageScaleHeight < self.frame.size.height) {
+    imageY = floorf((self.frame.size.height - imageScaleHeight) / 2.0);
+    //    }
+    self.photo.frame = CGRectMake(imageX, imageY, imageScaleWidth, imageScaleHeight);
+}
+
+
 @end

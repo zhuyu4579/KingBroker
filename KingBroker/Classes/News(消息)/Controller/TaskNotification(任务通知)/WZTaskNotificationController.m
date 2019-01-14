@@ -37,7 +37,7 @@ static  NSString * const ID = @"cell";
 static NSString *size = @"20";
 
 @implementation WZTaskNotificationController
-
+#pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
@@ -52,12 +52,17 @@ static NSString *size = @"20";
     [self.tableView registerNib:[UINib nibWithNibName:@"WZNewViewCell" bundle:nil] forCellReuseIdentifier:ID];
     //设置分割线
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _isRequestFinish = YES;
-    _listArray = [NSMutableArray array];
-    current = 1;
     
     [self headerRefresh];
     
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    _isRequestFinish = YES;
+    _listArray = [NSMutableArray array];
+    current = 1;
+    [self loadDate];
 }
 //一键已读
 -(void)readAll{
@@ -332,11 +337,5 @@ static NSString *size = @"20";
     }];
     
 }
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-    _listArray = [NSMutableArray array];
-    current = 1;
-    [self loadDate];
-}
+
 @end
