@@ -132,6 +132,7 @@
 		1F5B83252081FC260083DEC2 /* WZSetInfertionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5B83242081FC260083DEC2 /* WZSetInfertionView.m */; };
 		1F5B83272081FC370083DEC2 /* WZSetInfertionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F5B83262081FC370083DEC2 /* WZSetInfertionView.xib */; };
 		1F5E316721EC2A7C007E4CD9 /* WZNODataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5E316621EC2A7C007E4CD9 /* WZNODataView.m */; };
+		1F5E316B21EC3D5A007E4CD9 /* WZLoadDateSeviceOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5E316A21EC3D5A007E4CD9 /* WZLoadDateSeviceOne.m */; };
 		1F5E8C55219EB46E006A0A1A /* AliyunEmasServices-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F5E8C54219EB46E006A0A1A /* AliyunEmasServices-Info.plist */; };
 		1F5E8C5E219ECD43006A0A1A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5E8C5D219ECD43006A0A1A /* libz.tbd */; };
 		1F5E8C60219ECD51006A0A1A /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5E8C5F219ECD50006A0A1A /* libresolv.tbd */; };
@@ -582,6 +583,8 @@
 		1F5B83262081FC370083DEC2 /* WZSetInfertionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZSetInfertionView.xib; sourceTree = "<group>"; };
 		1F5E316521EC2A7C007E4CD9 /* WZNODataView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZNODataView.h; sourceTree = "<group>"; };
 		1F5E316621EC2A7C007E4CD9 /* WZNODataView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZNODataView.m; sourceTree = "<group>"; };
+		1F5E316921EC3D5A007E4CD9 /* WZLoadDateSeviceOne.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZLoadDateSeviceOne.h; sourceTree = "<group>"; };
+		1F5E316A21EC3D5A007E4CD9 /* WZLoadDateSeviceOne.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZLoadDateSeviceOne.m; sourceTree = "<group>"; };
 		1F5E8C54219EB46E006A0A1A /* AliyunEmasServices-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AliyunEmasServices-Info.plist"; sourceTree = "<group>"; };
 		1F5E8C5D219ECD43006A0A1A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		1F5E8C5F219ECD50006A0A1A /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
@@ -1205,6 +1208,15 @@
 			path = "NOData(无数据View)";
 			sourceTree = "<group>";
 		};
+		1F5E316821EC3CBA007E4CD9 /* LoadDateSevice(请求数据） */ = {
+			isa = PBXGroup;
+			children = (
+				1F5E316921EC3D5A007E4CD9 /* WZLoadDateSeviceOne.h */,
+				1F5E316A21EC3D5A007E4CD9 /* WZLoadDateSeviceOne.m */,
+			);
+			path = "LoadDateSevice(请求数据）";
+			sourceTree = "<group>";
+		};
 		1F5F55BD21A7AC45004FB1C0 /* page(首页) */ = {
 			isa = PBXGroup;
 			children = (
@@ -1596,6 +1608,7 @@
 		1FD9C4C0207DBD2B00BB0298 /* Other(其它) */ = {
 			isa = PBXGroup;
 			children = (
+				1F5E316821EC3CBA007E4CD9 /* LoadDateSevice(请求数据） */,
 				1F5E316421EC29F7007E4CD9 /* NOData(无数据View) */,
 				1F75C4FF21ABE809002B8CF2 /* HXWeiboPhotoPicker */,
 				1FD9C4C1207DBD2B00BB0298 /* ToolDemo(工具模型) */,
@@ -2690,6 +2703,7 @@
 				1F493FCA21952B530046B04E /* DropMenuView.m in Sources */,
 				1FD9C673207DBD2C00BB0298 /* WZCollectionViewCell.m in Sources */,
 				1F3F3E372123C06A005F28EC /* WZNewReportController.m in Sources */,
+				1F5E316B21EC3D5A007E4CD9 /* WZLoadDateSeviceOne.m in Sources */,
 				1FD9C62B207DBD2C00BB0298 /* WZTaskNotificationController.m in Sources */,
 				1F09951A20F48D4500524361 /* WZShareVideoController.m in Sources */,
 				1FD9C69A207DDEFB00BB0298 /* WZCollectionHeaderView.m in Sources */,

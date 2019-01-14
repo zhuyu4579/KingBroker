@@ -17,6 +17,7 @@
 #import "WZCyclePhotoView.h"
 #import "WZPageButtonView.h"
 #import "WZTaskController.h"
+#import "WZLoadDateSeviceOne.h"
 #import "WZFindHouseListItem.h"
 #import "WZNEWHTMLController.h"
 #import "WZRecommendTableView.h"
@@ -32,35 +33,74 @@
 #import "WZSupportHouseDatisController.h"
 #import "UILabel+ChangeLineSpaceAndWordSpace.h"
 @interface WZPagesViewController ()<WZCyclePhotoViewClickActionDeleage,UIScrollViewDelegate,CLLocationManagerDelegate>
-@property(nonatomic,strong)UIView *cycleView;
-@property (nonatomic, strong)NSMutableArray *tags;
-@property (nonatomic, strong)WZCyclePhotoView *cyclePlayView;
-@property (nonatomic, strong)WZRecommendTableView *recommendTV;
-@property (nonatomic, strong)WZGoodHouseCollectionView *goodHouseCollectView;
+//导航栏
+@property(nonatomic,strong)UIView *titleView;
+//标题
+@property(nonatomic,strong)UIImageView *imageViewTitle;
+//滚动视图
 @property (nonatomic, strong)UIScrollView *scrollView;
-//动态模块
+//下啦刷新
+@property (nonatomic, strong)MJRefreshNormalHeader *header;
+//轮播图view
+@property(nonatomic,strong)UIView *cycleView;
+//轮播图
+@property (nonatomic, strong)WZCyclePhotoView *cyclePlayView;
+//优选view
+@property(nonatomic,strong)UIView *goodHouseView;
+//优选标题
+@property(nonatomic,strong)UIImageView *goodHouseImage;
+@property(nonatomic,strong)UILabel *goodHouseTitle;
+@property(nonatomic,strong)UILabel *goodHouseTitleE;
+//推荐view
+@property(nonatomic,strong)UIView *recommendView;
+//推荐标题
+@property(nonatomic,strong)UIImageView *recommendImage;
+@property(nonatomic,strong)UILabel *recommendTitle;
+@property(nonatomic,strong)UILabel *recommendTitleE;
+//推荐
+@property (nonatomic, strong)WZRecommendTableView *recommendTV;
+//优选
+@property (nonatomic, strong)WZGoodHouseCollectionView *goodHouseCollectView;
+@property(nonatomic,strong)UICollectionViewFlowLayout *layouts;
+//按钮动态模块
 @property (nonatomic, strong)WZPageButtonView *pageView;
 //使用定位
 @property (nonatomic , strong)CLLocationManager *locationManager;
 //定位
 @property(nonatomic,strong)NSString *lnglat;
-//
+//更新
 @property(nonatomic,strong)UIView *updateView;
+//责任声明
 @property(nonatomic,strong)UIView *dutyView;
 @end
 
 @implementation WZPagesViewController
-
+#pragma mark -初始化
 - (void)viewDidLoad {
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
-    
     self.view.backgroundColor = UIColorRBG(247, 247, 247);
-    //创建控件
-    [self setViewController];
+    
+    [self.view addSubview:self.titleView];
+    [self.titleView addSubview:self.imageViewTitle];
+    [self.view addSubview:self.scrollView];
+    [self.scrollView addSubview:self.cycleView];
+    [self.scrollView addSubview:self.pageView];
+    [self.scrollView addSubview:self.goodHouseView];
+    self.scrollView.mj_header = self.header;
+    [self.goodHouseView addSubview:self.goodHouseImage];
+    [self.goodHouseView addSubview:self.goodHouseTitle];
+    [self.goodHouseView addSubview:self.goodHouseTitleE];
+    [self.goodHouseView addSubview:self.goodHouseCollectView];
+    [self.scrollView addSubview:self.recommendView];
+    [self.recommendView addSubview:self.recommendImage];
+    [self.recommendView addSubview:self.recommendTitle];
+    [self.recommendView addSubview:self.recommendTitleE];
+    [self.recommendView addSubview:self.recommendTV];
+    
     //获取最新版本
     [self findversion];
     //声明
@@ -68,17 +108,83 @@
     
 }
 
-//开启定位
--(void)locate{
-    //定位初始化
-    _locationManager=[[CLLocationManager alloc] init];
-    _locationManager.delegate=self;
-    _locationManager.desiredAccuracy=kCLLocationAccuracyBest;
-    _locationManager.distanceFilter=10;
-    [_locationManager requestWhenInUseAuthorization];//使用程序其间允许访问位置数据（iOS8定位需要）
-    [_locationManager startUpdatingLocation];//开启定位
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    float n = [UIScreen mainScreen].bounds.size.width/375.0;
+    self.titleView.frame = CGRectMake(0, 0, self.view.fWidth, kApplicationStatusBarHeight+44);
+    self.imageViewTitle.frame = CGRectMake(15, kApplicationStatusBarHeight+9, 118, 27);
+    self.scrollView.frame = CGRectMake(0, kApplicationStatusBarHeight+44, SCREEN_WIDTH, self.view.fHeight - JF_BOTTOM_SPACE-44-kApplicationStatusBarHeight);
+    self.cycleView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 190*n);
+    self.pageView.frame = CGRectMake(0, self.cycleView.fHeight, SCREEN_WIDTH, 200);
+    self.goodHouseView.frame = CGRectMake(0, self.pageView.fY+self.pageView.fHeight+10, SCREEN_WIDTH, 288*n);
+    self.goodHouseCollectView.frame = CGRectMake(0, 43, self.goodHouseView.fWidth, 288*n-43);
+    self.recommendView.frame = CGRectMake(0, self.goodHouseView.fY+self.goodHouseView.fHeight+10, SCREEN_WIDTH, 964);
+    self.recommendTV.frame = CGRectMake(0, 48, self.recommendView.fWidth, 915);
+    self.scrollView.contentSize = CGSizeMake(0, self.recommendView.fY+self.recommendView.fHeight);
+    
+    [self setloadData];
+    
+    [self dictList];
+    
+    //查询banner数据
+    [self loadBanner];
+    //查询动态消息
+    [self loadNewsAnnounceme];
+    //查询优选楼盘数据
+    [self goodHouseLoadData];
+    //查询e为你推荐数据
+    [self loadDateTask];
 }
-//获取定位信息
+
+-(void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+    
+    [self.goodHouseImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.goodHouseView.mas_centerX);
+        make.top.equalTo(self.goodHouseView.mas_top).offset(20);
+        make.width.offset(190);
+        make.height.offset(3);
+    }];
+    [self.goodHouseTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.goodHouseView.mas_centerX);
+        make.top.equalTo(self.goodHouseView.mas_top).offset(15);
+        make.height.offset(14);
+    }];
+    [self.goodHouseTitleE mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.goodHouseView.mas_centerX);
+        make.top.equalTo(self.goodHouseTitle.mas_bottom).offset(6);
+        make.height.offset(9);
+    }];
+    [self.recommendImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.recommendView.mas_centerX);
+        make.top.equalTo(self.recommendView.mas_top).offset(20);
+        make.width.offset(190);
+        make.height.offset(3);
+    }];
+    [self.recommendTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.recommendView.mas_centerX);
+        make.top.equalTo(self.recommendView.mas_top).offset(15);
+        make.height.offset(14);
+    }];
+    [self.recommendTitleE mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.recommendView.mas_centerX);
+        make.top.equalTo(self.recommendTitle.mas_bottom).offset(6);
+        make.height.offset(9);
+    }];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.cyclePlayView.timer invalidate];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+}
+
+#pragma mark -CLLocationManagerDelegate
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
     NSString *lnglat = @"";
     if (locations.count != 0) {
@@ -90,346 +196,12 @@
     }else{
         [SVProgressHUD showInfoWithStatus:@"定位失败"];
     }
-    _lnglat = lnglat;
-    
+    self.lnglat = lnglat;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:lnglat forKey:@"lnglat"];
     [defaults synchronize];
 }
-
-#pragma mark -创建首页控件
--(void)setViewController{
-    float n = [UIScreen mainScreen].bounds.size.width/375.0;
-    //导航栏
-    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.fWidth, kApplicationStatusBarHeight+44)];
-    titleView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:titleView];
-    //标题
-    UIImageView *imageViewTitle = [[UIImageView alloc] initWithFrame:CGRectMake(15, kApplicationStatusBarHeight+9, 118, 27)];
-    imageViewTitle.image = [UIImage imageNamed:@"sy_title"];
-    [titleView addSubview:imageViewTitle];
-    
-    //创建一个滚动视图
-    _scrollView = [ [UIScrollView alloc ] initWithFrame:CGRectMake(0, kApplicationStatusBarHeight+44, SCREEN_WIDTH, self.view.fHeight - JF_BOTTOM_SPACE-93-kApplicationStatusBarHeight)];
-    
-    [self.view addSubview:_scrollView];
-    _scrollView.delegate = self;
-    _scrollView.bounces = YES;
-    _scrollView.showsVerticalScrollIndicator = NO;
-    _scrollView.showsHorizontalScrollIndicator = NO;
-    _scrollView.backgroundColor = UIColorRBG(242, 242, 242);
-    //创建下拉刷新
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic:)];
-    // 设置文字
-    [header setTitle:@"刷新完毕..." forState:MJRefreshStateIdle];
-    [header setTitle:@"下拉刷新" forState:MJRefreshStatePulling];
-    [header setTitle:@"刷新中..." forState:MJRefreshStateRefreshing];
-    // 隐藏时间
-    header.lastUpdatedTimeLabel.hidden = YES;
-    header.mj_h = 60;
-    // 设置字体
-    header.stateLabel.font = [UIFont systemFontOfSize:15];
-    header.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:14];
-    
-    //设置颜色
-    header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
-    _scrollView.mj_header = header;
-    //创建轮播图view
-    _cycleView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, SCREEN_WIDTH, 190*n)];
-    _cycleView.backgroundColor = [UIColor whiteColor];
-    [_scrollView addSubview:_cycleView];
-    
-    //创建按钮栏
-    UIView *buttons = [[UIView alloc] initWithFrame:CGRectMake(0, _cycleView.fHeight, SCREEN_WIDTH, 200)];
-    buttons.backgroundColor = [UIColor whiteColor];
-    [_scrollView addSubview:buttons];
-    WZPageButtonView *pageView = [WZPageButtonView pageButtons];
-    pageView.frame = buttons.bounds;
-    _pageView = pageView;
-    [buttons addSubview:pageView];
-    //创建优质楼盘
-    UIView *goodHouseView = [[UIView alloc] initWithFrame:CGRectMake(0, buttons.fY+buttons.fHeight+10, SCREEN_WIDTH, 288*n)];
-    goodHouseView.backgroundColor = [UIColor whiteColor];
-    [_scrollView addSubview:goodHouseView];
-    //创建为你推荐图标
-    UIImageView *imageTitle = [[UIImageView alloc] init];
-    imageTitle.image = [UIImage imageNamed:@"sy_pic"];
-    [goodHouseView addSubview:imageTitle];
-    [imageTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(goodHouseView.mas_centerX);
-        make.top.equalTo(goodHouseView.mas_top).offset(20);
-        make.width.offset(190);
-        make.height.offset(3);
-    }];
-    UILabel *goodHouseTitle = [[UILabel alloc] init];
-    goodHouseTitle.text = @"优选楼盘";
-    goodHouseTitle.textColor = UIColorRBG(51, 51, 51);
-    goodHouseTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
-    [goodHouseView addSubview:goodHouseTitle];
-    [goodHouseTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(goodHouseView.mas_centerX);
-        make.top.equalTo(goodHouseView.mas_top).offset(15);
-        make.height.offset(14);
-    }];
-    UILabel *subTitle = [[UILabel alloc] init];
-    subTitle.textColor = UIColorRBG(102, 102, 102);
-    subTitle.text = @"OPTIMIZING BUILDINGS";
-    subTitle.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
-    [goodHouseView addSubview:subTitle];
-    [subTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(goodHouseView.mas_centerX);
-        make.top.equalTo(goodHouseTitle.mas_bottom).offset(6);
-        make.height.offset(9);
-    }];
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    //设置布局方向为垂直流布局
-    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    layout.sectionInset = UIEdgeInsetsMake(15, 15, 15, 15);
-    layout.minimumLineSpacing = 20;
-    layout.minimumInteritemSpacing = 10;
-    layout.itemSize = CGSizeMake(100*n, 100*n);
-    WZGoodHouseCollectionView *goodHouseCollectView = [[WZGoodHouseCollectionView alloc] initWithFrame:CGRectMake(0, 43, goodHouseView.fWidth, 288*n-43) collectionViewLayout:layout];
-    goodHouseCollectView.backgroundColor = [UIColor clearColor];
-    _goodHouseCollectView = goodHouseCollectView;
-    //禁止滑动
-    goodHouseCollectView.scrollEnabled = NO;
-    [goodHouseView addSubview:goodHouseCollectView];
-    
-    //创建为你推荐
-    UIView *Recommend = [[UIView alloc] initWithFrame:CGRectMake(0, goodHouseView.fY+goodHouseView.fHeight+10, SCREEN_WIDTH, 964)];
-    Recommend.backgroundColor = [UIColor whiteColor];
-    [_scrollView addSubview:Recommend];
-    //创建为你推荐图标
-    UIImageView *recommendImage = [[UIImageView alloc] init];
-    recommendImage.image = [UIImage imageNamed:@"sy_pic"];
-    [Recommend addSubview:recommendImage];
-    [recommendImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(Recommend.mas_centerX);
-        make.top.equalTo(Recommend.mas_top).offset(20);
-        make.width.offset(190);
-        make.height.offset(3);
-    }];
-    //创建为你推荐标题
-    UILabel *recommendLable = [[UILabel alloc] init];
-    recommendLable.text = @"为你推荐";
-    recommendLable.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
-    recommendLable.textColor = UIColorRBG(51, 51, 51);
-    [Recommend addSubview:recommendLable];
-    [recommendLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(Recommend.mas_centerX);
-        make.top.equalTo(Recommend.mas_top).offset(15);
-        make.height.offset(14);
-    }];
-    UILabel *subTitles = [[UILabel alloc] init];
-    subTitles.textColor = UIColorRBG(102, 102, 102);
-    subTitles.text = @"RECOMMEND TO YOU";
-    subTitles.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
-    [Recommend addSubview:subTitles];
-    [subTitles mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(Recommend.mas_centerX);
-        make.top.equalTo(recommendLable.mas_bottom).offset(6);
-        make.height.offset(9);
-    }];
-    //创建为你推荐房源view62
-    _recommendTV = [[WZRecommendTableView alloc] initWithFrame:CGRectMake(0, 48, Recommend.fWidth, 915)];
-    
-    [Recommend addSubview:_recommendTV];
-    
-    _scrollView.contentSize = CGSizeMake(0, Recommend.fY+Recommend.fHeight);
-    
-}
-#pragma mark -查询banner
--(void)loadBanner{
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
-    //创建会话请求
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    
-    mgr.requestSerializer.timeoutInterval = 10;
-    //申明返回的结果是json类型
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    //申明请求的数据是json类型
-    mgr.requestSerializer = [AFJSONRequestSerializer serializer];
-    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    NSString *url = [NSString stringWithFormat:@"%@/banner/read/list",HTTPURL];
-    [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-        NSString *code = [responseObject valueForKey:@"code"];
-        
-        if ([code isEqual:@"200"]) {
-            NSDictionary *data = [responseObject valueForKey:@"data"];
-            NSArray  *rows = [data valueForKey:@"rows"];
-            [self setBanner:rows];
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-}
-#pragma mark -加载banner图
--(void)setBanner:(NSArray *)array{
-    if (_cycleView.subviews.count>0) {
-        [_cycleView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    }
-    //初始化轮播图
-    self.cyclePlayView = [[WZCyclePhotoView alloc] initWithImages:array withFrame:CGRectMake(15, 0, _cycleView.fWidth-15, _cycleView.fHeight)];
-    self.cyclePlayView.pageChangeTime = 5.0;
-    self.cyclePlayView.delegate = self;
-    //[self.cyclePlayView.timer  invalidate];
-    self.cyclePlayView.backgroundColor = [UIColor whiteColor];
-    [_cycleView addSubview:self.cyclePlayView];
-}
--(void)viewWillDisappear:(BOOL)animated{
-    [_cyclePlayView.timer invalidate];
-}
-#pragma mark -查询最新动态公告
--(void)loadNewsAnnounceme{
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
-    //创建会话请求
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    
-    mgr.requestSerializer.timeoutInterval = 10;
-    //申明返回的结果是json类型
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    //申明请求的数据是json类型
-    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
-    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    NSString *url = [NSString stringWithFormat:@"%@/userMessage/announcement",HTTPURL];
-    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-        NSString *code = [responseObject valueForKey:@"code"];
-        
-        if ([code isEqual:@"200"]) {
-            NSDictionary *data = [responseObject valueForKey:@"data"];
-            
-            _pageView.anNewLabel.text = [data valueForKey:@"title"];
-            
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-}
-#pragma mark -查询优选楼盘
--(void)goodHouseLoadData{
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
-    //创建会话请求
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    
-    mgr.requestSerializer.timeoutInterval = 10;
-    //申明返回的结果是json类型
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    //申明请求的数据是json类型
-    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
-    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    NSString *url = [NSString stringWithFormat:@"%@/projectLabel/selectLabelList",HTTPURL];
-    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-        NSString *code = [responseObject valueForKey:@"code"];
-        
-        if ([code isEqual:@"200"]) {
-            NSDictionary *data = [responseObject valueForKey:@"data"];
-            NSArray *rows = [data valueForKey:@"rows"];
-            if (rows.count>0) {
-                _goodHouseCollectView.houseArray = [WZGoodHouseItem mj_objectArrayWithKeyValuesArray:rows];
-                [_goodHouseCollectView reloadData];
-            }
-        }else{
-            NSString *msg = [responseObject valueForKey:@"msg"];
-            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
-                [SVProgressHUD showInfoWithStatus:msg];
-            }
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-}
-#pragma mark -请求数据查询为你推荐
--(void)loadDateTask{
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
-    //创建会话请求
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    
-    mgr.requestSerializer.timeoutInterval = 10;
-    //申明返回的结果是json类型
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    
-    //申明请求的数据是json类型
-    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
-    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    paraments[@"location"] = _lnglat;
-    paraments[@"num"] = @"6";
-    NSString *url = [NSString stringWithFormat:@"%@/proProject/recommend/projectList",HTTPURL];
-    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-        NSString *code = [responseObject valueForKey:@"code"];
-        if ([code isEqual:@"200"]) {
-            NSDictionary *data = [responseObject valueForKey:@"data"];
-            NSArray *rows = [data valueForKey:@"rows"];
-            if (rows.count != 0) {
-                _recommendTV.listArray = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:rows];
-                [_recommendTV  reloadData];
-            }
-            [_scrollView.mj_header endRefreshing];
-        }else{
-            NSString *msg = [responseObject valueForKey:@"msg"];
-            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
-                [SVProgressHUD showInfoWithStatus:msg];
-            }
-            [_scrollView.mj_header endRefreshing];
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-        [_scrollView.mj_header endRefreshing];
-    }];
-}
-
-//点击模块
--(void)Tacks{
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
-    NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
-    
-    if(uuid){
-        if([realtorStatus isEqual:@"2"]){
-            //跳转
-            WZTaskController *task = [[WZTaskController alloc] init];
-            task.url = [NSString stringWithFormat:@"%@/apptask/getuuid.html",HTTPH5];
-            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
-            [self.navigationController presentViewController:nav animated:YES completion:nil];
-            
-        }else if([realtorStatus isEqual:@"0"] ||[realtorStatus isEqual:@"3"]){
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"未加入门店" message:@"你还没有加入经纪门店，不能进行更多操作"  preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"暂不加入" style:UIAlertActionStyleCancel
-                                                                  handler:^(UIAlertAction * action) {
-                                                                      
-                                                                  }];
-            UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
-                                                                   handler:^(UIAlertAction * action) {
-                                                                       WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
-                                                                       WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore];
-                                                                       JionStore.jionType = @"1";
-                                                                       [self presentViewController:nav animated:YES completion:nil];
-                                                                   }];
-            [cancelAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
-            [defaultAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
-            
-            [alert addAction:defaultAction];
-            [alert addAction:cancelAction];
-            [self presentViewController:alert animated:YES completion:nil];
-        }else{
-            [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
-            [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
-        }
-    }else{
-        [NSString isCode:self.navigationController code:@"401"];
-    }
-    
-}
-#pragma mark -点击图片事件
+#pragma mark -WZCyclePhotoViewClickActionDeleage点击图片
 - (void)cyclePageClickAction:(NSDictionary *)data
 {
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -453,7 +225,7 @@
                 houseDatis.ID = parameters;
                 [self.navigationController pushViewController:houseDatis animated:YES];
             }
-          
+            
         }else{
             [NSString isCode:self.navigationController code:@"401"];
         }
@@ -471,56 +243,112 @@
         }else{
             [NSString isCode:self.navigationController code:@"401"];
         }
-       
+        
     }else if(type == 4){
         //活动详情页
-//        if (uuid&&![uuid isEqual:@""]) {
-            //跳转
-            WZHouseNoteController *task = [[WZHouseNoteController alloc] init];
-            if ([url containsString:@"?"]) {
-                task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
-            } else {
-                task.url = [NSString stringWithFormat:@"%@?uuid=%@",url,uuid];
-            }
-            WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
-            [self.navigationController presentViewController:nav animated:YES completion:nil];
-//        }else{
-//            [NSString isCode:self.navigationController code:@"401"];
-//        }
-        
+        //        if (uuid&&![uuid isEqual:@""]) {
+        //跳转
+        WZHouseNoteController *task = [[WZHouseNoteController alloc] init];
+        if ([url containsString:@"?"]) {
+            task.url = [NSString stringWithFormat:@"%@&uuid=%@",url,uuid];
+        } else {
+            task.url = [NSString stringWithFormat:@"%@?uuid=%@",url,uuid];
+        }
+        WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:task];
+        [self.navigationController presentViewController:nav animated:YES completion:nil];
     }
     
 }
-#pragma mark -去刷新或者加载数据
--(void)loadNewTopic:(id)refrech{
-    [_scrollView.mj_header beginRefreshing];
-    [self goodHouseLoadData];
-    [self loadDateTask];
-    [self loadNewsAnnounceme];
-    [self loadBanner];
+#pragma mark -加载数据
+-(void)loadBanner{
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    [WZLoadDateSeviceOne postUserInfosSuccess:^(NSDictionary *dic) {
+        NSString *code = [dic valueForKey:@"code"];
+        
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [dic valueForKey:@"data"];
+            NSArray  *rows = [data valueForKey:@"rows"];
+            //加载banner
+            [self setBanner:rows];
+        }
+    } andFail:^(NSString *str) {
+        
+    } parament:paraments URL:@"/banner/read/list"];
+    
 }
-//获取版本号
+-(void)loadNewsAnnounceme{
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    [WZLoadDateSeviceOne getUserInfosSuccess:^(NSDictionary *dic) {
+         NSString *code = [dic valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [dic valueForKey:@"data"];
+            _pageView.anNewLabel.text = [data valueForKey:@"title"];
+        }
+    } andFail:^(NSString *str) {
+        
+    } parament:paraments URL:@"/userMessage/announcement"];
+    
+}
+-(void)goodHouseLoadData{
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    [WZLoadDateSeviceOne getUserInfosSuccess:^(NSDictionary *dic) {
+        NSString *code = [dic valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [dic valueForKey:@"data"];
+            NSArray *rows = [data valueForKey:@"rows"];
+            if (rows.count>0) {
+                _goodHouseCollectView.houseArray = [WZGoodHouseItem mj_objectArrayWithKeyValuesArray:rows];
+                [_goodHouseCollectView reloadData];
+            }
+        }else{
+            NSString *msg = [dic valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+        }
+    } andFail:^(NSString *str) {
+        
+    } parament:paraments URL:@"/projectLabel/selectLabelList"];
+    
+}
+-(void)loadDateTask{
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"location"] = _lnglat;
+    paraments[@"num"] = @"6";
+    [WZLoadDateSeviceOne postUserInfosSuccess:^(NSDictionary *dic) {
+        NSString *code = [dic valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [dic valueForKey:@"data"];
+            NSArray *rows = [data valueForKey:@"rows"];
+            if (rows.count != 0) {
+                _recommendTV.listArray = [WZFindHouseListItem mj_objectArrayWithKeyValuesArray:rows];
+                [_recommendTV  reloadData];
+            }
+        }else{
+            NSString *msg = [dic valueForKey:@"msg"];
+            if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                [SVProgressHUD showInfoWithStatus:msg];
+            }
+        }
+        [_scrollView.mj_header endRefreshing];
+    } andFail:^(NSString *str) {
+        [_scrollView.mj_header endRefreshing];
+    } parament:paraments URL:@"/proProject/recommend/projectList"];
+    
+}
+
 -(void)findversion{
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [user objectForKey:@"uuid"];
     //当前版本
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *appVersion = [user objectForKey:@"appVersion"];
     
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    
-    mgr.requestSerializer.timeoutInterval = 30;
-    
-    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = @"2";
     paraments[@"app"] = @"2";
-    NSString *url = [NSString stringWithFormat:@"%@/version/versionUp",HTTPURL];
-    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-        NSString *code = [responseObject valueForKey:@"code"];
+    [WZLoadDateSeviceOne getUserInfosSuccess:^(NSDictionary *dic) {
+        NSString *code = [dic valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
-            NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSDictionary *data = [dic valueForKey:@"data"];
             //最新版本号
             NSString *newVersion = [data valueForKey:@"version"];
             NSString *downAddress = [data valueForKey:@"downAddress"];
@@ -550,9 +378,297 @@
             [defaults setObject:downAddress forKey:@"downAddress"];
             [defaults synchronize];
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } andFail:^(NSString *str) {
         
-    }];
+    } parament:paraments URL:@"/version/versionUp"];
+    
+}
+-(void)loadDutyState{
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    [WZLoadDateSeviceOne postUserInfosSuccess:^(NSDictionary *dic) {
+        NSString *code = [dic valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [dic valueForKey:@"data"];
+            NSString *statementValue = [data valueForKey:@"statementValue"];
+            if (![statementValue isEqual:@"1"]) {
+                [self dutyState];
+            }
+        }
+    } andFail:^(NSString *str) {
+        
+    } parament:paraments URL:@"/userGlobalInfo/getInfo"];
+    
+}
+
+-(void)dictList{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *version = [user objectForKey:@"version"];
+    if (!version) {
+        version = @"0";
+    }
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    paraments[@"version"] = version;
+    paraments[@"type"] = @"1";
+    [WZLoadDateSeviceOne getUserInfosSuccess:^(NSDictionary *dic) {
+        NSDictionary *data = [dic valueForKey:@"data"];
+        NSMutableArray *array = [data valueForKey:@"dictGroups"];
+        //数据持久化
+        if (array) {
+            NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
+            NSString *fileName = [path stringByAppendingPathComponent:@"dictGroup.plist"];
+            [array writeToFile:fileName atomically:YES];
+        }
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:[data valueForKey:@"version"] forKey:@"version"];
+        [defaults synchronize];
+        
+    } andFail:^(NSString *str) {
+        
+    } parament:paraments URL:@"/version/dictList"];
+    
+}
+
+-(void)setloadData{
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    
+    [WZLoadDateSeviceOne getUserInfosSuccess:^(NSDictionary *dic) {
+        NSString *code = [dic valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [dic valueForKey:@"data"];
+            NSString *count = [data valueForKey:@"count"] ;
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:count forKey:@"newCount"];
+            [defaults synchronize];
+            
+            NSInteger counts = [count integerValue];
+            
+            UITabBarItem *item =[self.tabBarController.tabBar.items objectAtIndex:1];
+            
+            if (counts<100&&counts>0) {
+                item.badgeValue= [NSString stringWithFormat:@"%ld",(long)counts];
+            }else if(counts>=100){
+                item.badgeValue= [NSString stringWithFormat:@"99+"];
+            }else{
+                item.badgeValue = nil;
+            }
+        }
+        
+    } andFail:^(NSString *str) {
+        
+    } parament:paraments URL:@"/version/dictList"];
+    
+}
+#pragma mark -点击事件
+-(void)setBanner:(NSArray *)array{
+    if (self.cycleView.subviews.count>0) {
+        [self.cycleView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    }
+    //初始化轮播图
+    self.cyclePlayView = [[WZCyclePhotoView alloc] initWithImages:array withFrame:CGRectMake(15, 0, self.cycleView.fWidth-15, self.cycleView.fHeight)];
+    self.cyclePlayView.pageChangeTime = 5.0;
+    self.cyclePlayView.delegate = self;
+    //[self.cyclePlayView.timer  invalidate];
+    self.cyclePlayView.backgroundColor = [UIColor whiteColor];
+    [self.cycleView addSubview:self.cyclePlayView];
+}
+-(void)loadNewTopic:(id)refrech{
+    [_scrollView.mj_header beginRefreshing];
+    [self goodHouseLoadData];
+    [self loadDateTask];
+    [self loadNewsAnnounceme];
+    [self loadBanner];
+}
+
+-(void)dutyStateButton{
+    [GKCover hide];
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    [WZLoadDateSeviceOne postUserInfosSuccess:^(NSDictionary *dic) {
+    } andFail:^(NSString *str) {
+    } parament:paraments URL:@"/userGlobalInfo/agreeInfo"];
+}
+
+-(void)updataVersions{
+    UIApplication *application = [UIApplication sharedApplication];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *downAddress = [ user objectForKey:@"downAddress"];
+    [application openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?mt=8",downAddress]]];
+}
+
+#pragma mark - getter控件懒加载
+//定位
+-(CLLocationManager *)locationManager{
+    if (!_locationManager) {
+        //定位初始化
+        _locationManager=[[CLLocationManager alloc] init];
+        _locationManager.delegate=self;
+        _locationManager.desiredAccuracy=kCLLocationAccuracyBest;
+        _locationManager.distanceFilter=10;
+        [_locationManager requestWhenInUseAuthorization];//使用程序其间允许访问位置数据（iOS8定位需要）
+        [_locationManager startUpdatingLocation];//开启定位
+    }
+    return _locationManager;
+}
+//导航栏
+-(UIView *)titleView{
+    if (!_titleView) {
+        _titleView = [[UIView alloc] init];
+        _titleView.backgroundColor = [UIColor whiteColor];
+    }
+    return _titleView;
+}
+//导航栏标题图片
+-(UIImageView *)imageViewTitle{
+    if (!_imageViewTitle) {
+        _imageViewTitle = [[UIImageView alloc] init];
+        _imageViewTitle.image = [UIImage imageNamed:@"sy_title"];
+    }
+    return _imageViewTitle;
+}
+//滚动视图
+-(UIScrollView *)scrollView{
+    if (!_scrollView) {
+        _scrollView = [ [UIScrollView alloc ] init];
+        _scrollView.delegate = self;
+        _scrollView.bounces = YES;
+        _scrollView.showsVerticalScrollIndicator = NO;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+        _scrollView.backgroundColor = UIColorRBG(242, 242, 242);
+    }
+    return _scrollView;
+}
+//下拉刷新
+-(MJRefreshNormalHeader *)header{
+    if (!_header) {
+        _header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopic:)];
+        // 设置文字
+        [_header setTitle:@"刷新完毕..." forState:MJRefreshStateIdle];
+        [_header setTitle:@"下拉刷新" forState:MJRefreshStatePulling];
+        [_header setTitle:@"刷新中..." forState:MJRefreshStateRefreshing];
+        // 隐藏时间
+        _header.lastUpdatedTimeLabel.hidden = YES;
+        _header.mj_h = 60;
+        // 设置字体
+        _header.stateLabel.font = [UIFont systemFontOfSize:15];
+        _header.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:14];
+        //设置颜色
+        _header.lastUpdatedTimeLabel.textColor = [UIColor grayColor];
+    }
+    return _header;
+}
+//轮播图View
+-(UIView *)cycleView{
+    if (!_cycleView) {
+        _cycleView = [[UIView alloc] init];
+        _cycleView.backgroundColor = [UIColor whiteColor];
+    }
+    return _cycleView;
+}
+//按钮
+-(WZPageButtonView *)pageView{
+    if (!_pageView) {
+        _pageView = [WZPageButtonView pageButtons];
+        _pageView.backgroundColor = [UIColor whiteColor];
+    }
+    return _pageView;
+}
+//优选
+-(UIView *)goodHouseView{
+    if (!_goodHouseView) {
+        _goodHouseView = [[UIView alloc] init];
+        _goodHouseView.backgroundColor = [UIColor whiteColor];
+    }
+    return _goodHouseView;
+}
+//优选标题
+-(UIImageView *)goodHouseImage{
+    if (!_goodHouseImage) {
+        _goodHouseImage = [[UIImageView alloc] init];
+        _goodHouseImage.image = [UIImage imageNamed:@"sy_pic"];
+    }
+    return _goodHouseImage;
+}
+-(UILabel *)goodHouseTitle{
+    if (!_goodHouseTitle) {
+        _goodHouseTitle = [[UILabel alloc] init];
+        _goodHouseTitle.text = @"优选楼盘";
+        _goodHouseTitle.textColor = UIColorRBG(51, 51, 51);
+        _goodHouseTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+    }
+    return _goodHouseTitle;
+}
+-(UILabel *)goodHouseTitleE{
+    if (!_goodHouseTitleE) {
+        _goodHouseTitleE = [[UILabel alloc] init];
+        _goodHouseTitleE.textColor = UIColorRBG(102, 102, 102);
+        _goodHouseTitleE.text = @"OPTIMIZING BUILDINGS";
+        _goodHouseTitleE.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
+    }
+    return _goodHouseTitleE;
+}
+//优选layout
+-(UICollectionViewFlowLayout *)layouts{
+    if (!_layouts) {
+        float n = [UIScreen mainScreen].bounds.size.width/375.0;
+        _layouts = [[UICollectionViewFlowLayout alloc] init];
+        //设置布局方向为垂直流布局
+        _layouts.scrollDirection = UICollectionViewScrollDirectionVertical;
+        _layouts.sectionInset = UIEdgeInsetsMake(15, 15, 15, 15);
+        _layouts.minimumLineSpacing = 20;
+        _layouts.minimumInteritemSpacing = 10;
+        _layouts.itemSize = CGSizeMake(100*n, 100*n);
+    }
+    return _layouts;
+}
+//优选
+-(WZGoodHouseCollectionView *)goodHouseCollectView{
+    if (!_goodHouseCollectView) {
+        _goodHouseCollectView = [[WZGoodHouseCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.layouts];
+        
+        _goodHouseCollectView.backgroundColor = [UIColor clearColor];
+        //禁止滑动
+        _goodHouseCollectView.scrollEnabled = NO;
+    }
+    return _goodHouseCollectView;
+}
+//推荐
+-(UIView *)recommendView{
+    if (!_recommendView) {
+        _recommendView = [[UIView alloc] init];
+        _recommendView.backgroundColor = [UIColor whiteColor];
+    }
+    return _recommendView;
+}
+//推荐标题
+-(UIImageView *)recommendImage{
+    if(!_recommendImage){
+        _recommendImage = [[UIImageView alloc] init];
+        _recommendImage.image = [UIImage imageNamed:@"sy_pic"];
+    }
+    return _recommendImage;
+}
+-(UILabel *)recommendTitle{
+    if (!_recommendTitle) {
+        _recommendTitle = [[UILabel alloc] init];
+        _recommendTitle.text = @"为你推荐";
+        _recommendTitle.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:15];
+        _recommendTitle.textColor = UIColorRBG(51, 51, 51);
+    }
+    return _recommendTitle;
+}
+-(UILabel *)recommendTitleE{
+    if (!_recommendTitleE) {
+        _recommendTitleE = [[UILabel alloc] init];
+        _recommendTitleE.textColor = UIColorRBG(102, 102, 102);
+        _recommendTitleE.text = @"RECOMMEND TO YOU";
+        _recommendTitleE.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
+    }
+    return _recommendTitleE;
+}
+-(WZRecommendTableView *)recommendTV{
+    if (!_recommendTV) {
+     _recommendTV = [[WZRecommendTableView alloc] init];
+    }
+    return _recommendTV;
 }
 
 #pragma mark - 创建更新弹窗
@@ -622,42 +738,11 @@
     
     [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:YES];
 }
-//关闭
 -(void)closeVersion{
     [GKCover hide];
 }
-#pragma mark -请求数据责任声明
--(void)loadDutyState{
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
-    //创建会话请求
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    
-    mgr.requestSerializer.timeoutInterval = 10;
-    //申明返回的结果是json类型
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    
-    //申明请求的数据是json类型
-    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
-    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    
-    NSString *url = [NSString stringWithFormat:@"%@/userGlobalInfo/getInfo",HTTPURL];
-    [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-        NSString *code = [responseObject valueForKey:@"code"];
-    
-        if ([code isEqual:@"200"]) {
-            NSDictionary *data = [responseObject valueForKey:@"data"];
-            NSString *statementValue = [data valueForKey:@"statementValue"];
-            if (![statementValue isEqual:@"1"]) {
-                [self dutyState];
-            }
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-}
-#pragma mark - 责任声明
+
+#pragma mark - 创建责任声明
 -(void)dutyState{
     UIView *view = [[UIView alloc] init];
     view.fSize = CGSizeMake(345, 574);
@@ -784,135 +869,9 @@
      ];
    
 }
-#pragma mark - 我已阅读
--(void)dutyStateButton{
-    [GKCover hide];
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
-    //创建会话请求
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    
-    mgr.requestSerializer.timeoutInterval = 10;
-    //申明返回的结果是json类型
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    
-    //申明请求的数据是json类型
-    mgr.requestSerializer=[AFJSONRequestSerializer serializer];
-    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    
-    NSString *url = [NSString stringWithFormat:@"%@/userGlobalInfo/agreeInfo",HTTPURL];
-    [mgr POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
 
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-}
-#pragma mark - 更新版本
--(void)updataVersions{
-    UIApplication *application = [UIApplication sharedApplication];
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *downAddress = [ user objectForKey:@"downAddress"];
-    [application openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?mt=8",downAddress]]];
-}
 
-#pragma mark-获取字典
--(void)dictList{
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
-    NSString *version = [user objectForKey:@"version"];
-    if (!version) {
-        version = @"0";
-    }
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    
-    mgr.requestSerializer.timeoutInterval = 30;
-    
-    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    //2.拼接参数
-    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    paraments[@"version"] = version;
-    paraments[@"type"] = @"1";
-    NSString *url = [NSString stringWithFormat:@"%@/version/dictList",HTTPURL];
-    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-        NSDictionary *data = [responseObject valueForKey:@"data"];
-        NSMutableArray *array = [data valueForKey:@"dictGroups"];
-        //数据持久化
-        if (array) {
-            NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-            NSString *fileName = [path stringByAppendingPathComponent:@"dictGroup.plist"];
-            [array writeToFile:fileName atomically:YES];
-        }
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:[data valueForKey:@"version"] forKey:@"version"];
-        [defaults synchronize];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-}
 
-#pragma mark -不显示导航条
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-    //定位当前位置信息
-    [self locate];
-    [self loadDateTask];
-    [self setloadData];
-    [self goodHouseLoadData];
-    [self dictList];
-    [self loadNewsAnnounceme];
-    [self loadBanner];
-}
-#pragma mark-查询未读消息
--(void)setloadData{
-    
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
-    //创建会话请求
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    
-    mgr.requestSerializer.timeoutInterval = 20;
-    //防止返回值为null
-    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
-    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    NSString *url = [NSString stringWithFormat:@"%@/userMessage/read/notreadCount",HTTPURL];
-    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-        NSString *code = [responseObject valueForKey:@"code"];
-        
-        if ([code isEqual:@"200"]) {
-            NSDictionary *data = [responseObject valueForKey:@"data"];
-            NSString *count = [data valueForKey:@"count"] ;
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setObject:count forKey:@"newCount"];
-            [defaults synchronize];
-            
-            NSInteger counts = [count integerValue];
-            
-            UITabBarItem *item =[self.tabBarController.tabBar.items objectAtIndex:1];
-            
-            if (counts<100&&counts>0) {
-                item.badgeValue= [NSString stringWithFormat:@"%ld",(long)counts];
-            }else if(counts>=100){
-                item.badgeValue= [NSString stringWithFormat:@"99+"];
-            }else{
-                item.badgeValue = nil;
-            }
-        }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-    
-}
--(void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-}
 #pragma mark -将数据写入文件
 -(void)loadDateURl:(NSArray *)array plistName:(NSString *)plistName name:(NSString *)name{
     NSMutableArray *marray = [NSMutableArray array];
