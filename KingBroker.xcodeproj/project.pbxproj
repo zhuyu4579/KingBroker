@@ -25,7 +25,6 @@
 		1F09DDC92087100A00C4D0A3 /* WZSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F09DDC72087100A00C4D0A3 /* WZSettingController.m */; };
 		1F09DDCA2087100A00C4D0A3 /* WZSettingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F09DDC82087100A00C4D0A3 /* WZSettingController.xib */; };
 		1F0AB38B20AC57BE00AC967E /* WZLikeProjectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0AB38A20AC57BE00AC967E /* WZLikeProjectItem.m */; };
-		1F170AEC20A189A60090A5A8 /* UIScrollView+UITouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F170AEB20A189A50090A5A8 /* UIScrollView+UITouch.m */; };
 		1F19C5B92151EB060016A1C2 /* WZHuxingPhotosController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F19C5B82151EB060016A1C2 /* WZHuxingPhotosController.m */; };
 		1F19C5BD2151F42A0016A1C2 /* WZHuxingPhotosCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F19C5BB2151F42A0016A1C2 /* WZHuxingPhotosCell.m */; };
 		1F19C5BE2151F42A0016A1C2 /* WZHuxingPhotosCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F19C5BC2151F42A0016A1C2 /* WZHuxingPhotosCell.xib */; };
@@ -230,6 +229,7 @@
 		1F8A1D7221BF9024004B7B3D /* WZHouseManagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A1D7121BF9024004B7B3D /* WZHouseManagesController.m */; };
 		1F8A1D7621BF930D004B7B3D /* WZAddHousesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A1D7521BF930D004B7B3D /* WZAddHousesController.m */; };
 		1F8C357B2115381D002E0C8B /* WZLoginAndRegistarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F8C357A2115381D002E0C8B /* WZLoginAndRegistarController.m */; };
+		1FA28D6A21ED7A6B00E4E10D /* NSObject+Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FA28D6921ED7A6B00E4E10D /* NSObject+Property.m */; };
 		1FD9C49C207DB91700BB0298 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C49A207DB91700BB0298 /* Main.storyboard */; };
 		1FD9C49E207DB91700BB0298 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C49D207DB91700BB0298 /* Assets.xcassets */; };
 		1FD9C4A1207DB91700BB0298 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C49F207DB91700BB0298 /* LaunchScreen.storyboard */; };
@@ -243,17 +243,12 @@
 		1FD9C60D207DBD2C00BB0298 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4D8207DBD2B00BB0298 /* UIView+Frame.m */; };
 		1FD9C60E207DBD2C00BB0298 /* UIView+Bounds.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4DA207DBD2B00BB0298 /* UIView+Bounds.m */; };
 		1FD9C610207DBD2C00BB0298 /* UIView+Center.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4E0207DBD2B00BB0298 /* UIView+Center.m */; };
-		1FD9C611207DBD2C00BB0298 /* UIButton+Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4E1207DBD2B00BB0298 /* UIButton+Button.m */; };
-		1FD9C612207DBD2C00BB0298 /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4E2207DBD2B00BB0298 /* Foundation+Log.m */; };
 		1FD9C613207DBD2C00BB0298 /* NSDate+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4E4207DBD2B00BB0298 /* NSDate+Tools.m */; };
 		1FD9C614207DBD2C00BB0298 /* NSString+LCExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4E6207DBD2B00BB0298 /* NSString+LCExtension.m */; };
-		1FD9C615207DBD2C00BB0298 /* NSObject+Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4E7207DBD2B00BB0298 /* NSObject+Property.m */; };
-		1FD9C616207DBD2C00BB0298 /* UIImageView+JMCyclePhotoViewExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4E8207DBD2B00BB0298 /* UIImageView+JMCyclePhotoViewExt.m */; };
 		1FD9C617207DBD2C00BB0298 /* UIBarButtonItem+Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4E9207DBD2B00BB0298 /* UIBarButtonItem+Item.m */; };
 		1FD9C618207DBD2C00BB0298 /* UIViewController+WZFindController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4EA207DBD2B00BB0298 /* UIViewController+WZFindController.m */; };
 		1FD9C619207DBD2C00BB0298 /* UIImage+Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4EC207DBD2B00BB0298 /* UIImage+Tools.m */; };
 		1FD9C61A207DBD2C00BB0298 /* UIButton+WZEnlargeTouchAre.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4EF207DBD2B00BB0298 /* UIButton+WZEnlargeTouchAre.m */; };
-		1FD9C61B207DBD2C00BB0298 /* UIBarButtonItem+LCExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4F1207DBD2B00BB0298 /* UIBarButtonItem+LCExtension.m */; };
 		1FD9C61C207DBD2C00BB0298 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4F2207DBD2B00BB0298 /* main.m */; };
 		1FD9C61D207DBD2C00BB0298 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C4F4207DBD2B00BB0298 /* AppDelegate.m */; };
 		1FD9C61E207DBD2C00BB0298 /* WZExamineController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C4F8207DBD2B00BB0298 /* WZExamineController.xib */; };
@@ -286,7 +281,6 @@
 		1FD9C63C207DBD2C00BB0298 /* WZDealTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C547207DBD2B00BB0298 /* WZDealTableController.m */; };
 		1FD9C63D207DBD2C00BB0298 /* WZAddCustomerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C54E207DBD2B00BB0298 /* WZAddCustomerController.m */; };
 		1FD9C63E207DBD2C00BB0298 /* WZReportSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C552207DBD2B00BB0298 /* WZReportSuccessController.m */; };
-		1FD9C63F207DBD2C00BB0298 /* WZReportController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C553207DBD2B00BB0298 /* WZReportController.m */; };
 		1FD9C640207DBD2C00BB0298 /* WZPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C555207DBD2B00BB0298 /* WZPickerView.m */; };
 		1FD9C641207DBD2C00BB0298 /* WZHouseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C55A207DBD2B00BB0298 /* WZHouseController.m */; };
 		1FD9C642207DBD2C00BB0298 /* WZFindHouseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C55B207DBD2B00BB0298 /* WZFindHouseTableView.m */; };
@@ -342,8 +336,6 @@
 		1FD9C67A207DBD2C00BB0298 /* WZMainUnitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5C8207DBD2B00BB0298 /* WZMainUnitCell.m */; };
 		1FD9C67B207DBD2C00BB0298 /* WZCyclePhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C5C9207DBD2B00BB0298 /* WZCyclePhotoView.m */; };
 		1FD9C69A207DDEFB00BB0298 /* WZCollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C699207DDEFB00BB0298 /* WZCollectionHeaderView.m */; };
-		1FD9C69D207DECC500BB0298 /* ViewOneReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C69C207DECC500BB0298 /* ViewOneReport.m */; };
-		1FD9C6A0207DED0F00BB0298 /* WZBatchReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C69F207DED0F00BB0298 /* WZBatchReport.m */; };
 		1FFA9FA920E1CBCD00F34B3B /* WZTaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFA9FA820E1CBCD00F34B3B /* WZTaskController.m */; };
 		1FFA9FAC20E32D6300F34B3B /* WZShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FFA9FAB20E32D6300F34B3B /* WZShareController.m */; };
 		731B820F5E7CEC81175CC671 /* libPods-KingBroker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A97EFF16D9DB12DDDDB58E31 /* libPods-KingBroker.a */; };
@@ -384,8 +376,6 @@
 		1F09DDC82087100A00C4D0A3 /* WZSettingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WZSettingController.xib; sourceTree = "<group>"; };
 		1F0AB38920AC57BE00AC967E /* WZLikeProjectItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZLikeProjectItem.h; sourceTree = "<group>"; };
 		1F0AB38A20AC57BE00AC967E /* WZLikeProjectItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZLikeProjectItem.m; sourceTree = "<group>"; };
-		1F170AEA20A189A50090A5A8 /* UIScrollView+UITouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+UITouch.h"; sourceTree = "<group>"; };
-		1F170AEB20A189A50090A5A8 /* UIScrollView+UITouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+UITouch.m"; sourceTree = "<group>"; };
 		1F19C5B72151EB060016A1C2 /* WZHuxingPhotosController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZHuxingPhotosController.h; sourceTree = "<group>"; };
 		1F19C5B82151EB060016A1C2 /* WZHuxingPhotosController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZHuxingPhotosController.m; sourceTree = "<group>"; };
 		1F19C5BA2151F42A0016A1C2 /* WZHuxingPhotosCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZHuxingPhotosCell.h; sourceTree = "<group>"; };
@@ -763,6 +753,8 @@
 		1F8A1D7521BF930D004B7B3D /* WZAddHousesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZAddHousesController.m; sourceTree = "<group>"; };
 		1F8C35792115381D002E0C8B /* WZLoginAndRegistarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZLoginAndRegistarController.h; sourceTree = "<group>"; };
 		1F8C357A2115381D002E0C8B /* WZLoginAndRegistarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZLoginAndRegistarController.m; sourceTree = "<group>"; };
+		1FA28D6821ED7A6B00E4E10D /* NSObject+Property.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Property.h"; sourceTree = "<group>"; };
+		1FA28D6921ED7A6B00E4E10D /* NSObject+Property.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Property.m"; sourceTree = "<group>"; };
 		1FD9C491207DB91700BB0298 /* KingBroker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KingBroker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FD9C49B207DB91700BB0298 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1FD9C49D207DB91700BB0298 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -778,8 +770,6 @@
 		1FD9C4C4207DBD2B00BB0298 /* UIView+Dimension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Dimension.m"; sourceTree = "<group>"; };
 		1FD9C4C5207DBD2B00BB0298 /* WZSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZSlider.h; sourceTree = "<group>"; };
 		1FD9C4C6207DBD2B00BB0298 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		1FD9C4C8207DBD2B00BB0298 /* UIImageView+JMCyclePhotoViewExt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+JMCyclePhotoViewExt.h"; sourceTree = "<group>"; };
-		1FD9C4C9207DBD2B00BB0298 /* NSObject+Property.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Property.h"; sourceTree = "<group>"; };
 		1FD9C4CA207DBD2B00BB0298 /* NSString+LCExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LCExtension.h"; sourceTree = "<group>"; };
 		1FD9C4CC207DBD2B00BB0298 /* UIColor+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Tools.h"; sourceTree = "<group>"; };
 		1FD9C4CD207DBD2B00BB0298 /* UIColor+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Tools.m"; sourceTree = "<group>"; };
@@ -787,28 +777,21 @@
 		1FD9C4D2207DBD2B00BB0298 /* UIImage+Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Image.m"; sourceTree = "<group>"; };
 		1FD9C4D3207DBD2B00BB0298 /* UIViewController+WZFindController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+WZFindController.h"; sourceTree = "<group>"; };
 		1FD9C4D4207DBD2B00BB0298 /* UIBarButtonItem+Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Item.h"; sourceTree = "<group>"; };
-		1FD9C4D5207DBD2B00BB0298 /* UIBarButtonItem+LCExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+LCExtension.h"; sourceTree = "<group>"; };
 		1FD9C4D8207DBD2B00BB0298 /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
 		1FD9C4D9207DBD2B00BB0298 /* UIView+Center.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Center.h"; sourceTree = "<group>"; };
 		1FD9C4DA207DBD2B00BB0298 /* UIView+Bounds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Bounds.m"; sourceTree = "<group>"; };
 		1FD9C4DD207DBD2B00BB0298 /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
 		1FD9C4DF207DBD2B00BB0298 /* UIView+Bounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Bounds.h"; sourceTree = "<group>"; };
 		1FD9C4E0207DBD2B00BB0298 /* UIView+Center.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Center.m"; sourceTree = "<group>"; };
-		1FD9C4E1207DBD2B00BB0298 /* UIButton+Button.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Button.m"; sourceTree = "<group>"; };
-		1FD9C4E2207DBD2B00BB0298 /* Foundation+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation+Log.m"; sourceTree = "<group>"; };
 		1FD9C4E4207DBD2B00BB0298 /* NSDate+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Tools.m"; sourceTree = "<group>"; };
 		1FD9C4E5207DBD2B00BB0298 /* NSDate+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Tools.h"; sourceTree = "<group>"; };
 		1FD9C4E6207DBD2B00BB0298 /* NSString+LCExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LCExtension.m"; sourceTree = "<group>"; };
-		1FD9C4E7207DBD2B00BB0298 /* NSObject+Property.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Property.m"; sourceTree = "<group>"; };
-		1FD9C4E8207DBD2B00BB0298 /* UIImageView+JMCyclePhotoViewExt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+JMCyclePhotoViewExt.m"; sourceTree = "<group>"; };
 		1FD9C4E9207DBD2B00BB0298 /* UIBarButtonItem+Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Item.m"; sourceTree = "<group>"; };
 		1FD9C4EA207DBD2B00BB0298 /* UIViewController+WZFindController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+WZFindController.m"; sourceTree = "<group>"; };
 		1FD9C4EC207DBD2B00BB0298 /* UIImage+Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Tools.m"; sourceTree = "<group>"; };
 		1FD9C4ED207DBD2B00BB0298 /* UIImage+Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Tools.h"; sourceTree = "<group>"; };
 		1FD9C4EE207DBD2B00BB0298 /* UIImage+Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Image.h"; sourceTree = "<group>"; };
 		1FD9C4EF207DBD2B00BB0298 /* UIButton+WZEnlargeTouchAre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+WZEnlargeTouchAre.m"; sourceTree = "<group>"; };
-		1FD9C4F0207DBD2B00BB0298 /* UIButton+Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Button.h"; sourceTree = "<group>"; };
-		1FD9C4F1207DBD2B00BB0298 /* UIBarButtonItem+LCExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+LCExtension.m"; sourceTree = "<group>"; };
 		1FD9C4F2207DBD2B00BB0298 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1FD9C4F3207DBD2B00BB0298 /* King.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = King.pch; sourceTree = "<group>"; };
 		1FD9C4F4207DBD2B00BB0298 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -863,12 +846,10 @@
 		1FD9C547207DBD2B00BB0298 /* WZDealTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZDealTableController.m; sourceTree = "<group>"; };
 		1FD9C548207DBD2B00BB0298 /* WZBoaringController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZBoaringController.h; sourceTree = "<group>"; };
 		1FD9C549207DBD2B00BB0298 /* WZCompleteTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZCompleteTableController.h; sourceTree = "<group>"; };
-		1FD9C54C207DBD2B00BB0298 /* WZReportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZReportController.h; sourceTree = "<group>"; };
 		1FD9C54E207DBD2B00BB0298 /* WZAddCustomerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZAddCustomerController.m; sourceTree = "<group>"; };
 		1FD9C54F207DBD2B00BB0298 /* WZAddCustomerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZAddCustomerController.h; sourceTree = "<group>"; };
 		1FD9C551207DBD2B00BB0298 /* WZReportSuccessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZReportSuccessController.h; sourceTree = "<group>"; };
 		1FD9C552207DBD2B00BB0298 /* WZReportSuccessController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZReportSuccessController.m; sourceTree = "<group>"; };
-		1FD9C553207DBD2B00BB0298 /* WZReportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZReportController.m; sourceTree = "<group>"; };
 		1FD9C555207DBD2B00BB0298 /* WZPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZPickerView.m; sourceTree = "<group>"; };
 		1FD9C556207DBD2B00BB0298 /* WZPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZPickerView.h; sourceTree = "<group>"; };
 		1FD9C557207DBD2B00BB0298 /* WZPagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZPagesViewController.h; sourceTree = "<group>"; };
@@ -967,10 +948,6 @@
 		1FD9C5C9207DBD2B00BB0298 /* WZCyclePhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZCyclePhotoView.m; sourceTree = "<group>"; };
 		1FD9C698207DDEFB00BB0298 /* WZCollectionHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZCollectionHeaderView.h; sourceTree = "<group>"; };
 		1FD9C699207DDEFB00BB0298 /* WZCollectionHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZCollectionHeaderView.m; sourceTree = "<group>"; };
-		1FD9C69B207DECC500BB0298 /* ViewOneReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewOneReport.h; sourceTree = "<group>"; };
-		1FD9C69C207DECC500BB0298 /* ViewOneReport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewOneReport.m; sourceTree = "<group>"; };
-		1FD9C69E207DED0F00BB0298 /* WZBatchReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZBatchReport.h; sourceTree = "<group>"; };
-		1FD9C69F207DED0F00BB0298 /* WZBatchReport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZBatchReport.m; sourceTree = "<group>"; };
 		1FFA9FA720E1CBCD00F34B3B /* WZTaskController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZTaskController.h; sourceTree = "<group>"; };
 		1FFA9FA820E1CBCD00F34B3B /* WZTaskController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZTaskController.m; sourceTree = "<group>"; };
 		1FFA9FAA20E32D6300F34B3B /* WZShareController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZShareController.h; sourceTree = "<group>"; };
@@ -1641,27 +1618,18 @@
 				1FD9C4E3207DBD2B00BB0298 /* NSDateCategory */,
 				1FD9C4CB207DBD2B00BB0298 /* UIColorCategory */,
 				1FD9C4EB207DBD2B00BB0298 /* UIImageCategory */,
-				1FD9C4C8207DBD2B00BB0298 /* UIImageView+JMCyclePhotoViewExt.h */,
-				1FD9C4E8207DBD2B00BB0298 /* UIImageView+JMCyclePhotoViewExt.m */,
-				1FD9C4C9207DBD2B00BB0298 /* NSObject+Property.h */,
-				1FD9C4E7207DBD2B00BB0298 /* NSObject+Property.m */,
 				1FD9C4D1207DBD2B00BB0298 /* UIButton+WZEnlargeTouchAre.h */,
 				1FD9C4EF207DBD2B00BB0298 /* UIButton+WZEnlargeTouchAre.m */,
 				1FD9C4D3207DBD2B00BB0298 /* UIViewController+WZFindController.h */,
 				1FD9C4EA207DBD2B00BB0298 /* UIViewController+WZFindController.m */,
 				1FD9C4D4207DBD2B00BB0298 /* UIBarButtonItem+Item.h */,
 				1FD9C4E9207DBD2B00BB0298 /* UIBarButtonItem+Item.m */,
-				1FD9C4E2207DBD2B00BB0298 /* Foundation+Log.m */,
 				1FD9C4CA207DBD2B00BB0298 /* NSString+LCExtension.h */,
 				1FD9C4E6207DBD2B00BB0298 /* NSString+LCExtension.m */,
+				1FA28D6821ED7A6B00E4E10D /* NSObject+Property.h */,
+				1FA28D6921ED7A6B00E4E10D /* NSObject+Property.m */,
 				1FD9C4EE207DBD2B00BB0298 /* UIImage+Image.h */,
 				1FD9C4D2207DBD2B00BB0298 /* UIImage+Image.m */,
-				1FD9C4E1207DBD2B00BB0298 /* UIButton+Button.m */,
-				1FD9C4F0207DBD2B00BB0298 /* UIButton+Button.h */,
-				1FD9C4F1207DBD2B00BB0298 /* UIBarButtonItem+LCExtension.m */,
-				1FD9C4D5207DBD2B00BB0298 /* UIBarButtonItem+LCExtension.h */,
-				1F170AEA20A189A50090A5A8 /* UIScrollView+UITouch.h */,
-				1F170AEB20A189A50090A5A8 /* UIScrollView+UITouch.m */,
 				1F77530920A42CA9003E1C07 /* ZDAlertView.h */,
 				1F77530820A42CA9003E1C07 /* ZDAlertView.m */,
 				1F3BDA1F21A3ACD90070E308 /* UILabel+ChangeLineSpaceAndWordSpace.h */,
@@ -1682,12 +1650,12 @@
 		1FD9C4D6207DBD2B00BB0298 /* UIViewCategory */ = {
 			isa = PBXGroup;
 			children = (
+				1FD9C4DD207DBD2B00BB0298 /* UIView+Frame.h */,
 				1FD9C4D8207DBD2B00BB0298 /* UIView+Frame.m */,
 				1FD9C4D9207DBD2B00BB0298 /* UIView+Center.h */,
-				1FD9C4DA207DBD2B00BB0298 /* UIView+Bounds.m */,
-				1FD9C4DD207DBD2B00BB0298 /* UIView+Frame.h */,
-				1FD9C4DF207DBD2B00BB0298 /* UIView+Bounds.h */,
 				1FD9C4E0207DBD2B00BB0298 /* UIView+Center.m */,
+				1FD9C4DF207DBD2B00BB0298 /* UIView+Bounds.h */,
+				1FD9C4DA207DBD2B00BB0298 /* UIView+Bounds.m */,
 				1F2846352088858C007CFC7C /* UIView+WZView.h */,
 				1F2846362088858C007CFC7C /* UIView+WZView.m */,
 			);
@@ -1706,8 +1674,8 @@
 		1FD9C4EB207DBD2B00BB0298 /* UIImageCategory */ = {
 			isa = PBXGroup;
 			children = (
-				1FD9C4EC207DBD2B00BB0298 /* UIImage+Tools.m */,
 				1FD9C4ED207DBD2B00BB0298 /* UIImage+Tools.h */,
+				1FD9C4EC207DBD2B00BB0298 /* UIImage+Tools.m */,
 			);
 			path = UIImageCategory;
 			sourceTree = "<group>";
@@ -2047,12 +2015,6 @@
 				1FD9C54D207DBD2B00BB0298 /* addCustomer(选择客户) */,
 				1FD9C550207DBD2B00BB0298 /* ReportSuccess */,
 				1FD9C554207DBD2B00BB0298 /* ItemPopup */,
-				1FD9C54C207DBD2B00BB0298 /* WZReportController.h */,
-				1FD9C553207DBD2B00BB0298 /* WZReportController.m */,
-				1FD9C69B207DECC500BB0298 /* ViewOneReport.h */,
-				1FD9C69C207DECC500BB0298 /* ViewOneReport.m */,
-				1FD9C69E207DED0F00BB0298 /* WZBatchReport.h */,
-				1FD9C69F207DED0F00BB0298 /* WZBatchReport.m */,
 				1F3F3E352123C06A005F28EC /* WZNewReportController.h */,
 				1F3F3E362123C06A005F28EC /* WZNewReportController.m */,
 				1F3D658120B29704003AEF39 /* WZSelectProjectsController.h */,
@@ -2625,7 +2587,6 @@
 				1FD9C61C207DBD2C00BB0298 /* main.m in Sources */,
 				1F75C56621ABE84B002B8CF2 /* UIButton+HXExtension.m in Sources */,
 				1F54D2C5215F1EE8005FA945 /* CCPScrollView.m in Sources */,
-				1FD9C616207DBD2C00BB0298 /* UIImageView+JMCyclePhotoViewExt.m in Sources */,
 				1F75C57621ABE84B002B8CF2 /* NSDate+HXExtension.m in Sources */,
 				1FD9C642207DBD2C00BB0298 /* WZFindHouseTableView.m in Sources */,
 				1F75C56221ABE84B002B8CF2 /* HXDatePhotoToolManager.m in Sources */,
@@ -2682,11 +2643,11 @@
 				1F63E6E920A67BD0001A1B75 /* WZApplyStorePersonController.m in Sources */,
 				1FD9C618207DBD2C00BB0298 /* UIViewController+WZFindController.m in Sources */,
 				1FD9C62F207DBD2C00BB0298 /* WZNewItem.m in Sources */,
-				1FD9C63F207DBD2C00BB0298 /* WZReportController.m in Sources */,
 				1F75C55821ABE84B002B8CF2 /* HXCircleProgressView.m in Sources */,
 				1F75C56821ABE84B002B8CF2 /* HXPhoto3DTouchViewController.m in Sources */,
 				1FD9C63A207DBD2C00BB0298 /* WZBoardingDetailsController.m in Sources */,
 				1F09949620EE0F7500524361 /* WZHousePageController.m in Sources */,
+				1FA28D6A21ED7A6B00E4E10D /* NSObject+Property.m in Sources */,
 				1FD9C64B207DBD2C00BB0298 /* WZAlbumsItem.m in Sources */,
 				1FD9C64A207DBD2C00BB0298 /* WZScreenItem.m in Sources */,
 				1FD9C645207DBD2C00BB0298 /* WZAlbumsViewController.m in Sources */,
@@ -2694,7 +2655,6 @@
 				1F4A267E21363B9300C794FC /* WZValidateCodeController.m in Sources */,
 				1FD9C66F207DBD2C00BB0298 /* WZShoppingTableView.m in Sources */,
 				1FD9C656207DBD2C00BB0298 /* WZAddCustormCell.m in Sources */,
-				1F170AEC20A189A60090A5A8 /* UIScrollView+UITouch.m in Sources */,
 				1F75C57A21ABE84B002B8CF2 /* UIFont+HXExtension.m in Sources */,
 				1F8A1D7221BF9024004B7B3D /* WZHouseManagesController.m in Sources */,
 				1F75C57321ABE84B002B8CF2 /* HXCustomCollectionReusableView.m in Sources */,
@@ -2766,12 +2726,10 @@
 				1FD9C625207DBD2C00BB0298 /* WZNoCodeView.m in Sources */,
 				1FD9C63D207DBD2C00BB0298 /* WZAddCustomerController.m in Sources */,
 				1F63B1C720E776C1009587C1 /* WZForwardSuccessController.m in Sources */,
-				1FD9C615207DBD2C00BB0298 /* NSObject+Property.m in Sources */,
 				1FD9C649207DBD2C00BB0298 /* WZTypeItem.m in Sources */,
 				1F1B789720864CCB00BC6007 /* WZReportItems.m in Sources */,
 				1FD9C607207DBD2C00BB0298 /* WZSlider.m in Sources */,
 				1F75C57421ABE84B002B8CF2 /* UIImageView+HXExtension.m in Sources */,
-				1FD9C61B207DBD2C00BB0298 /* UIBarButtonItem+LCExtension.m in Sources */,
 				1FD9C637207DBD2C00BB0298 /* WZBoaringController.m in Sources */,
 				1F63B1B320E5E51D009587C1 /* WZForwardController.m in Sources */,
 				1FD9C634207DBD2C00BB0298 /* LaunchIntroductionView.m in Sources */,
@@ -2813,7 +2771,6 @@
 				1F60A9AE2150FEAB002ED860 /* WZHDMapController.m in Sources */,
 				1F19C5BD2151F42A0016A1C2 /* WZHuxingPhotosCell.m in Sources */,
 				1F75C56021ABE84B002B8CF2 /* UIView+HXExtension.m in Sources */,
-				1FD9C6A0207DED0F00BB0298 /* WZBatchReport.m in Sources */,
 				1FD9C650207DBD2C00BB0298 /* WZReportSuccessTableView.m in Sources */,
 				1FD9C672207DBD2C00BB0298 /* WZSchoolTableView.m in Sources */,
 				1F5156DE217D61EE0089D482 /* WZAllPhotoCell.m in Sources */,
@@ -2842,13 +2799,11 @@
 				1F676367214A3C29005F1E37 /* WZGoodHouseCell.m in Sources */,
 				1FD9C667207DBD2C00BB0298 /* CollectionViewHeaderView.m in Sources */,
 				1F75C56C21ABE84B002B8CF2 /* HXDatePhotoViewPresentTransition.m in Sources */,
-				1FD9C611207DBD2C00BB0298 /* UIButton+Button.m in Sources */,
 				1F63B1AA20E4B68A009587C1 /* WZSharesCollectionView.m in Sources */,
 				1F06AF15208AC8A400E774F0 /* WZablumController.m in Sources */,
 				1FD9C619207DBD2C00BB0298 /* UIImage+Tools.m in Sources */,
 				1F451C7720B6E58100075240 /* WZTaskCell.m in Sources */,
 				1FD9C66C207DBD2C00BB0298 /* WZAllTableViewCell.m in Sources */,
-				1FD9C69D207DECC500BB0298 /* ViewOneReport.m in Sources */,
 				1FD9C613207DBD2C00BB0298 /* NSDate+Tools.m in Sources */,
 				1F48F18521588AC4003CE6DC /* LMHWaterFallLayout.m in Sources */,
 				1F63B1AE20E4B6BB009587C1 /* WZSharesCell.m in Sources */,
@@ -2892,7 +2847,6 @@
 				1FD9C659207DBD2C00BB0298 /* WZRecommendCell.m in Sources */,
 				1F57BB7A21C89405003464F7 /* WZGroundSuccessController.m in Sources */,
 				1F5B2B8221C34A8E00DEE13F /* WZAddHouseTwoController.m in Sources */,
-				1FD9C612207DBD2C00BB0298 /* Foundation+Log.m in Sources */,
 				1F67636B214A3C4C005F1E37 /* WZGoodHouseItem.m in Sources */,
 				1F4D6DC520F5A95F008A9514 /* WZSharePhoneCell.m in Sources */,
 			);

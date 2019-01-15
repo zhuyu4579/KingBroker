@@ -4,7 +4,7 @@
 //
 //  Created by 朱玉隆 on 2018/3/13.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
-//
+//  首页
 
 #import "GKCover.h"
 #import <Masonry.h>
@@ -122,11 +122,10 @@
     self.recommendView.frame = CGRectMake(0, self.goodHouseView.fY+self.goodHouseView.fHeight+10, SCREEN_WIDTH, 964);
     self.recommendTV.frame = CGRectMake(0, 48, self.recommendView.fWidth, 915);
     self.scrollView.contentSize = CGSizeMake(0, self.recommendView.fY+self.recommendView.fHeight);
-    
+    //查询更新版本
     [self setloadData];
-    
+    //查询字典
     [self dictList];
-    
     //查询banner数据
     [self loadBanner];
     //查询动态消息
