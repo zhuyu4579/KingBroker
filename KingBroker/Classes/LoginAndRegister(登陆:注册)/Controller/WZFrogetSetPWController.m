@@ -280,13 +280,14 @@
 //文本框编辑时
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     NSString * toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+   textField.text = toBeString;
     if (_loginPassWord == textField||_loginPassWordTwo == textField) {
         if (toBeString.length>16) {
             return NO;
         }
     }
     
-    return YES;
+    return NO;
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

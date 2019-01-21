@@ -53,13 +53,14 @@
 //文本框编辑时
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     NSString * toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    textField.text = toBeString;
     if (_passWord == textField) {
         if (toBeString.length>16) {
             return NO;
         }
     }
     
-    return YES;
+    return NO;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

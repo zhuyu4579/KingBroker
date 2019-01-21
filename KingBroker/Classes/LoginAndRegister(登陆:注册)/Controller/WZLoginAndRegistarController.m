@@ -7,15 +7,17 @@
 //  登录/注册
 #import <Masonry.h>
 #import "UIView+Frame.h"
-#import <SVProgressHUD.h>
 #import <AFNetworking.h>
+#import <SVProgressHUD.h>
 #import "WZNEWHTMLController.h"
-#import "WZForgetPassWordController.h"
+#import <CloudPushSDK/CloudPushSDK.h>
 #import "WZRegistarSetPWController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
+#import "WZForgetPassWordController.h"
 #import "WZLoginAndRegistarController.h"
-#import <CloudPushSDK/CloudPushSDK.h>
+
 @interface WZLoginAndRegistarController ()<UITextFieldDelegate>
+//下拉页面
 @property(nonatomic,strong)UIScrollView *scrollView;
 //登录下划线
 @property(nonatomic,strong)UIButton *loginButton;
@@ -23,14 +25,14 @@
 //注册下划线
 @property(nonatomic,strong)UIButton *registarButton;
 @property(nonatomic,strong)UIView *ineRegistar;
-//登录模块
+#pragma mark-login
 @property(nonatomic,strong)UIView *loginView;
-//注册模块
-@property(nonatomic,strong)UIView *registarView;
 //登录的用户名
 @property(nonatomic,strong)UITextField *loginName;
 //登录的密码
 @property(nonatomic,strong)UITextField *loginPassWord;
+#pragma mark-regist
+@property(nonatomic,strong)UIView *registarView;
 //注册的用户名
 @property(nonatomic,strong)UITextField *registarName;
 //注册的验证码
@@ -46,7 +48,7 @@
 @end
 
 @implementation WZLoginAndRegistarController
-
+#pragma mark -life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     [SVProgressHUD setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.9]];
@@ -58,6 +60,71 @@
     //创建控件
     [self createControl];
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+#pragma mark -UITextFieldDelegate
+//获取焦点
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    textField.returnKeyType = UIReturnKeyDone;
+    if(textField==_inviteCode){
+        _scrollView.contentSize = CGSizeMake(0, self.view.fHeight+100);
+    }
+}
+// 失去焦点
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    if(textField==_inviteCode){
+        _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight);
+    }
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+//文本框编辑时
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    NSString * toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    textField.text = toBeString;
+    if (_loginPassWord == textField) {
+        if (toBeString.length>16) {
+            return NO;
+        }
+    }
+    if (_loginName == textField||_registarName == textField) {
+        if (toBeString.length>11) {
+            return NO;
+        }
+    }
+    if (_registarYZM == textField) {
+        if (toBeString.length>6) {
+            return NO;
+        }
+    }
+    
+    return NO;
+}
+
+#pragma mark -touchesBegan
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [_loginName resignFirstResponder];
+    [_loginPassWord resignFirstResponder];
+    [_registarName resignFirstResponder];
+    [_registarYZM resignFirstResponder];
+    [_inviteCode resignFirstResponder];
+    
+}
+-(void)touches{
+    [_loginName resignFirstResponder];
+    [_loginPassWord resignFirstResponder];
+    [_registarName resignFirstResponder];
+    [_registarYZM resignFirstResponder];
+    [_inviteCode resignFirstResponder];
+}
+#pragma mark -response
+
 #pragma mark - 创建控件
 -(void)createControl{
     _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
@@ -242,6 +309,7 @@
     [[loginPassWord valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
     loginPassWord.clearButtonMode = UITextFieldViewModeWhileEditing;
     [loginPassWord setSecureTextEntry:YES];
+    
     _loginPassWord = loginPassWord;
     [loginView addSubview:loginPassWord];
     [loginPassWord mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -819,64 +887,5 @@
     [super didReceiveMemoryWarning];
     
 }
-//获取焦点
--(void)textFieldDidBeginEditing:(UITextField *)textField{
-    textField.returnKeyType = UIReturnKeyDone;
-    if(textField==_inviteCode){
-         _scrollView.contentSize = CGSizeMake(0, self.view.fHeight+100);
-    }
-}
-// 失去焦点
-- (void)textFieldDidEndEditing:(UITextField *)textField{
-    if(textField==_inviteCode){
-        _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight);
-    }
-}
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
-//文本框编辑时
--(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    NSString * toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    if (_loginPassWord == textField) {
-        if (toBeString.length>16) {
-            return NO;
-        }
-    }
-    if (_loginName == textField||_registarName == textField) {
-        if (toBeString.length>11) {
-            return NO;
-        }
-    }
-    if (_registarYZM == textField) {
-        if (toBeString.length>6) {
-            return NO;
-        }
-    }
 
-    return YES;
-}
-#pragma mark -不显示导航条
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-}
-#pragma mark -软件盘收回
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [_loginName resignFirstResponder];
-    [_loginPassWord resignFirstResponder];
-    [_registarName resignFirstResponder];
-    [_registarYZM resignFirstResponder];
-    [_inviteCode resignFirstResponder];
-    
-}
--(void)touches{
-    [_loginName resignFirstResponder];
-    [_loginPassWord resignFirstResponder];
-    [_registarName resignFirstResponder];
-    [_registarYZM resignFirstResponder];
-    [_inviteCode resignFirstResponder];
-}
 @end

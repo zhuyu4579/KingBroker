@@ -8,7 +8,6 @@
 
 #import "WZAddCustomerController.h"
 #import "WZAddCustormCell.h"
-#import "WZReportController.h"
 #import "UIView+Frame.h"
 #import "UIBarButtonItem+Item.h"
 #import "WZCustomerItem.h"

@@ -8,7 +8,7 @@
 
 #import "WZLBCollectionView.h"
 #import "WZLBCollectionViewCell.h"
-#import "WZLunBoItem.h"
+#import "WZHouseDetilItem.h"
 #import "WZAlbumPhonesViewController.h"
 #import "UIViewController+WZFindController.h"
 @interface WZLBCollectionView ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,UIScrollViewDelegate>
@@ -40,7 +40,7 @@ static NSString * const ID = @"cell";
 //返回每个item
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     WZLBCollectionViewCell *cell  = [collectionView dequeueReusableCellWithReuseIdentifier:ID forIndexPath:indexPath];
-    WZLunBoItem *item = _arrayDatas[indexPath.row];
+    WZLunBoItems *item = _arrayDatas[indexPath.row];
     cell.item = item;
     return cell;
 }

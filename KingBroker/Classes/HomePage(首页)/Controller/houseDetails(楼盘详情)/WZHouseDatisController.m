@@ -668,7 +668,7 @@ static NSString * const IDS = @"cells";
     UICollectionView *LBCV = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, imageView.fWidth, imageView.fHeight) collectionViewLayout:layout];
     LBCV.backgroundColor = [UIColor whiteColor];
     LBCV.showsHorizontalScrollIndicator = NO;//隐藏滚动条
-    LBCV.pagingEnabled = YES;
+    LBCV.pagingEnabled = NO;
     LBCV.delegate = self;
     LBCV.dataSource = self;
     //注册cell
