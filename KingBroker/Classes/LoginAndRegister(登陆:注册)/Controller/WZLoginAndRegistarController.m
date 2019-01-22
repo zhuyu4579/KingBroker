@@ -9,6 +9,7 @@
 #import "UIView+Frame.h"
 #import <AFNetworking.h>
 #import <SVProgressHUD.h>
+#import "WZLoadDateSeviceOne.h"
 #import "WZNEWHTMLController.h"
 #import <CloudPushSDK/CloudPushSDK.h>
 #import "WZRegistarSetPWController.h"
@@ -19,30 +20,78 @@
 @interface WZLoginAndRegistarController ()<UITextFieldDelegate>
 //下拉页面
 @property(nonatomic,strong)UIScrollView *scrollView;
-//登录下划线
+//关闭按钮
+@property(nonatomic,strong)UIButton *closeButton;
+//登录图标
+@property(nonatomic,strong)UIImageView *loginImageView;
+//登录页签
 @property(nonatomic,strong)UIButton *loginButton;
+//登录页签下划线
 @property(nonatomic,strong)UIView *ineLogin;
-//注册下划线
+//页签中间线
+@property(nonatomic,strong)UILabel *Midline;
+//注册页签
 @property(nonatomic,strong)UIButton *registarButton;
+//注册页签下划线
 @property(nonatomic,strong)UIView *ineRegistar;
+//历史用户名
+@property(nonatomic,strong)NSString *oldName;
 #pragma mark-login
 @property(nonatomic,strong)UIView *loginView;
+//登录label
+@property(nonatomic,strong)UILabel *loginNameLabel;
 //登录的用户名
 @property(nonatomic,strong)UITextField *loginName;
+//登录用户名下滑线
+@property(nonatomic,strong)UIView *loginNameIne;
+//登录label
+@property(nonatomic,strong)UILabel *loginPassWordLabel;
 //登录的密码
 @property(nonatomic,strong)UITextField *loginPassWord;
+//登录密码下滑线
+@property(nonatomic,strong)UIView *loginPassWordIne;
+//显示密码按钮
+@property(nonatomic,strong)UIButton *showLoginPWButton;
+//显示密码按钮下滑线
+@property(nonatomic,strong)UIView *showLoginPWIne;
+//登录按钮
+@property(nonatomic,strong)UIButton *loginAction;
+//忘记密码按钮
+@property(nonatomic,strong)UIButton *forgetPWAction;
+//忘记密码按钮下划线
+@property(nonatomic,strong)UIView *forgetPWIne;
+
 #pragma mark-regist
 @property(nonatomic,strong)UIView *registarView;
+//注册用户名Label
+@property(nonatomic , strong)UILabel *registarNameLabel;
 //注册的用户名
 @property(nonatomic,strong)UITextField *registarName;
+//用户名下滑线
+@property(nonatomic,strong)UIView *registarNameIne;
+//注册验证码Label
+@property(nonatomic , strong)UILabel *verificationCodeLabel;
 //注册的验证码
-@property(nonatomic,strong)UITextField *registarYZM;
+@property(nonatomic,strong)UITextField *verificationCode;
+//验证码下滑线
+@property(nonatomic,strong)UIView *verificationCodeIne;
+//注册邀请码Label
+@property(nonatomic , strong)UILabel *inviteCodeLabelOne;
+@property(nonatomic , strong)UILabel *inviteCodeLabelTwo;
 //注册的邀请码
 @property(nonatomic,strong)UITextField *inviteCode;
+//邀请码下滑线
+@property(nonatomic,strong)UIView *inviteCodeIne;
 //注册-获取验证码
-@property(nonatomic,strong)UIButton *YZMButton;
+@property(nonatomic,strong)UIButton *findVerificationCode;
 //注册-选中协议
 @property(nonatomic,strong)UIButton *selectAgreement;
+//协议label
+@property(nonatomic , strong)UILabel *agreementLabel;
+//查看协议
+@property(nonatomic,strong)UIButton *seeAgreement;
+//下一步
+@property(nonatomic,strong)UIButton *nextButton;
 //定时器
 @property(nonatomic,weak)NSTimer *timer;
 @end
@@ -55,16 +104,264 @@
     [SVProgressHUD setInfoImage:[UIImage imageNamed:@""]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
-    
     self.view.backgroundColor = [UIColor whiteColor];
-    //创建控件
-    [self createControl];
+    
+    //页面表头模块
+    [self.view addSubview:self.scrollView];
+    [self.scrollView addSubview:self.closeButton];
+    [self.scrollView addSubview:self.loginImageView];
+    [self.scrollView addSubview:self.loginButton];
+    [self.scrollView addSubview:self.ineLogin];
+    [self.scrollView addSubview:self.Midline];
+    [self.scrollView addSubview:self.registarButton];
+    [self.scrollView addSubview:self.ineRegistar];
+    //页面登录模块
+    [self.scrollView addSubview:self.loginView];
+    [self.loginView addSubview:self.loginNameLabel];
+    [self.loginView addSubview:self.loginName];
+    [self.loginView addSubview:self.loginNameIne];
+    [self.loginView addSubview:self.loginPassWordLabel];
+    [self.loginView addSubview:self.loginPassWord];
+    [self.loginView addSubview:self.loginPassWordIne];
+    [self.loginView addSubview:self.showLoginPWButton];
+    [self.loginView addSubview:self.showLoginPWIne];
+    [self.loginView addSubview:self.loginAction];
+    [self.loginView addSubview:self.forgetPWAction];
+    [self.loginView addSubview:self.forgetPWIne];
+    //页面注册模块
+    [self.scrollView addSubview:self.registarView];
+    [self.registarView addSubview:self.registarNameLabel];
+    [self.registarView addSubview:self.registarName];
+    [self.registarView addSubview:self.registarNameIne];
+    [self.registarView addSubview:self.verificationCodeLabel];
+    [self.registarView addSubview:self.verificationCode];
+    [self.registarView addSubview:self.verificationCodeIne];
+    [self.registarView addSubview:self.findVerificationCode];
+    [self.registarView addSubview:self.inviteCodeLabelOne];
+    [self.registarView addSubview:self.inviteCodeLabelTwo];
+    [self.registarView addSubview:self.inviteCode];
+    [self.registarView addSubview:self.inviteCodeIne];
+    [self.registarView addSubview:self.selectAgreement];
+    [self.registarView addSubview:self.agreementLabel];
+    [self.registarView addSubview:self.seeAgreement];
+    [self.registarView addSubview:self.nextButton];
+    //默认选择页签
+    [self defaultSelcetPage];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+    self.scrollView.frame = self.view.bounds;
+    self.scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight);
 }
+-(void)viewDidLayoutSubviews{
+    //设置约束
+    [self.closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.scrollView.mas_left).offset(15);
+        make.top.equalTo(self.scrollView.mas_top).mas_offset(22);
+        make.height.offset(15);
+        make.width.offset(15);
+    }];
+    [self.loginImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.scrollView.mas_centerX);
+        make.top.equalTo(self.scrollView.mas_top).mas_offset(50);
+        make.height.offset(109);
+        make.width.offset(109);
+    }];
+    [self.loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.scrollView.mas_left).offset(59);
+        make.top.equalTo(self.loginImageView.mas_bottom).mas_offset(32);
+        make.height.offset(27);
+        make.width.offset(35);
+    }];
+    [self.ineLogin mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.scrollView.mas_left).offset(59);
+        make.top.equalTo(self.loginButton.mas_bottom);
+        make.height.offset(2);
+        make.width.offset(35);
+    }];
+    [self.Midline mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.loginButton.mas_right).offset(26);
+        make.top.equalTo(self.loginImageView.mas_bottom).mas_offset(40);
+        make.height.offset(9);
+    }];
+    [self.registarButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.Midline.mas_right).offset(26);
+        make.top.equalTo(self.loginImageView.mas_bottom).mas_offset(32);
+        make.height.offset(27);
+        make.width.offset(35);
+    }];
+    [self.ineRegistar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.Midline.mas_right).offset(26);
+        make.top.equalTo(self.registarButton.mas_bottom);
+        make.height.offset(2);
+        make.width.offset(35);
+    }];
+    //登录模块
+    [self.loginView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.scrollView.mas_left);
+        make.top.equalTo(self.ineLogin.mas_bottom);
+        make.height.offset(300);
+        make.width.offset(self.scrollView.fWidth);
+    }];
+    [self.loginNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.loginView.mas_left).offset(57);
+        make.top.equalTo(self.loginView.mas_top).offset(37);
+        make.height.offset(12);
+    }];
+    [self.loginName mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.loginView.mas_left).offset(57);
+        make.top.equalTo(self.loginNameLabel.mas_bottom);
+        make.height.offset(38);
+        make.width.offset(self.scrollView.fWidth-107);
+    }];
+    [self.loginNameIne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.loginView.mas_left).offset(57);
+        make.top.equalTo(self.loginName.mas_bottom);
+        make.height.offset(1);
+        make.width.offset(self.scrollView.fWidth-107);
+    }];
+    [self.loginPassWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.loginView.mas_left).offset(57);
+        make.top.equalTo(self.loginNameIne.mas_bottom).offset(31);
+        make.height.offset(12);
+    }];
+    [self.loginPassWord mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.loginView.mas_left).offset(57);
+        make.top.equalTo(self.loginPassWordLabel.mas_bottom);
+        make.height.offset(38);
+        make.width.offset(self.scrollView.fWidth-138);
+    }];
+    [self.loginPassWordIne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.loginView.mas_left).offset(57);
+        make.top.equalTo(self.loginPassWord.mas_bottom);
+        make.height.offset(1);
+        make.width.offset(self.scrollView.fWidth-138);
+    }];
+    [self.showLoginPWButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.loginPassWord.mas_right).offset(11);
+        make.top.equalTo(self.loginPassWordLabel.mas_bottom).offset(17);
+        make.height.offset(7);
+        make.width.offset(14);
+    }];
+    [self.showLoginPWIne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.loginPassWordIne.mas_right).offset(6);
+        make.top.equalTo(self.loginPassWord.mas_bottom);
+        make.height.offset(1);
+        make.width.offset(25);
+    }];
+    [self.loginAction mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.loginView.mas_left).offset(57);
+        make.top.equalTo(self.loginPassWordIne.mas_bottom).offset(60);
+        make.height.offset(45);
+        make.width.offset(109);
+    }];
+    [self.forgetPWAction mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.loginAction.mas_right).offset(16);
+        make.top.equalTo(self.loginPassWordIne.mas_bottom).offset(72);
+        make.height.offset(11);
+    }];
+    [self.forgetPWIne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.loginAction.mas_right).offset(16);
+        make.top.equalTo(self.forgetPWAction.mas_bottom).offset(3);
+        make.height.offset(1);
+        make.width.offset(43);
+    }];
+    //注册
+    [self.registarView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.scrollView.mas_left);
+        make.top.equalTo(self.ineLogin.mas_bottom);
+        make.height.offset(350);
+        make.width.offset(self.scrollView.fWidth);
+    }];
+    [self.registarNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.registarView.mas_left).offset(57);
+        make.top.equalTo(self.registarView.mas_top).offset(37);
+        make.height.offset(12);
+    }];
+    [self.registarName mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.registarView.mas_left).offset(57);
+        make.top.equalTo(self.registarNameLabel.mas_bottom);
+        make.height.offset(38);
+        make.width.offset(self.scrollView.fWidth-107);
+    }];
+    [self.registarNameIne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.registarView.mas_left).offset(57);
+        make.top.equalTo(self.registarName.mas_bottom);
+        make.height.offset(1);
+        make.width.offset(self.scrollView.fWidth-107);
+    }];
+    [self.verificationCodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.registarView.mas_left).offset(57);
+        make.top.equalTo(self.registarNameIne.mas_bottom).offset(31);
+        make.height.offset(12);
+    }];
+    [self.verificationCode mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.registarView.mas_left).offset(57);
+        make.top.equalTo(self.verificationCodeLabel.mas_bottom);
+        make.height.offset(38);
+        make.width.offset(self.scrollView.fWidth-205);
+    }];
+    [self.verificationCodeIne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.registarView.mas_left).offset(57);
+        make.top.equalTo(self.verificationCode.mas_bottom);
+        make.height.offset(1);
+        make.width.offset(self.scrollView.fWidth-205);
+    }];
+    [self.findVerificationCode mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.verificationCode.mas_right).offset(18);
+        make.top.equalTo(self.verificationCodeLabel.mas_bottom).offset(13);
+        make.height.offset(24);
+        make.width.offset(80);
+    }];
+    [self.inviteCodeLabelOne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.registarView.mas_left).offset(57);
+        make.top.equalTo(self.verificationCodeIne.mas_bottom).offset(31);
+        make.height.offset(12);
+    }];
+    [self.inviteCodeLabelTwo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.inviteCodeLabelOne.mas_right).offset(16);
+        make.top.equalTo(self.verificationCodeIne.mas_bottom).offset(32);
+        make.height.offset(12);
+    }];
+    [self.inviteCode mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.registarView.mas_left).offset(57);
+        make.top.equalTo(self.inviteCodeLabelOne.mas_bottom);
+        make.height.offset(38);
+        make.width.offset(self.scrollView.fWidth-107);
+    }];
+    [self.inviteCodeIne mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.registarView.mas_left).offset(57);
+        make.top.equalTo(self.inviteCode.mas_bottom);
+        make.height.offset(1);
+        make.width.offset(self.scrollView.fWidth-107);
+    }];
+    [self.selectAgreement mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.registarView.mas_left).offset(58);
+        make.top.equalTo(self.inviteCodeIne.mas_bottom).offset(17);
+        make.height.offset(14);
+        make.width.offset(14);
+    }];
+    [self.agreementLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.selectAgreement.mas_right).offset(7);
+        make.top.equalTo(self.inviteCodeIne.mas_bottom).offset(19);
+        make.height.offset(11);
+    }];
+    [self.seeAgreement mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.agreementLabel.mas_right);
+        make.top.equalTo(self.inviteCodeIne.mas_bottom).offset(14);
+        make.height.offset(21);
+        make.width.offset(110);
+    }];
+    [self.nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.registarView.mas_left).offset(57);
+        make.top.equalTo(self.seeAgreement.mas_bottom).offset(30);
+        make.height.offset(45);
+        make.width.offset(109);
+    }];
+}
+
 #pragma mark -UITextFieldDelegate
 //获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
@@ -98,7 +395,7 @@
             return NO;
         }
     }
-    if (_registarYZM == textField) {
+    if (_verificationCode == textField) {
         if (toBeString.length>6) {
             return NO;
         }
@@ -112,7 +409,7 @@
     [_loginName resignFirstResponder];
     [_loginPassWord resignFirstResponder];
     [_registarName resignFirstResponder];
-    [_registarYZM resignFirstResponder];
+    [_verificationCode resignFirstResponder];
     [_inviteCode resignFirstResponder];
     
 }
@@ -120,484 +417,31 @@
     [_loginName resignFirstResponder];
     [_loginPassWord resignFirstResponder];
     [_registarName resignFirstResponder];
-    [_registarYZM resignFirstResponder];
+    [_verificationCode resignFirstResponder];
     [_inviteCode resignFirstResponder];
 }
-#pragma mark -response
-
-#pragma mark - 创建控件
--(void)createControl{
-    _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    _scrollView.backgroundColor = [UIColor whiteColor];
-    _scrollView.bounces = NO;
-    _scrollView.showsVerticalScrollIndicator = NO;
-    _scrollView.showsHorizontalScrollIndicator = NO;
-    [self.view addSubview:_scrollView];
-    //关闭按钮
-    UIButton *closeButton = [[UIButton alloc] init];
-    [closeButton setBackgroundImage:[UIImage imageNamed:@"close_login"] forState:UIControlStateNormal];
-    [closeButton addTarget:self action:@selector(closeButton) forControlEvents:UIControlEventTouchUpInside];
-    [closeButton setEnlargeEdge:44];
-    [_scrollView addSubview:closeButton];
-    [closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_scrollView.mas_left).offset(15);
-        make.top.equalTo(_scrollView.mas_top).mas_offset(22);
-        make.height.offset(15);
-        make.width.offset(15);
-    }];
-    //图标
-    UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = [UIImage imageNamed:@"logo"];
-    [_scrollView addSubview:imageView];
-    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(_scrollView.mas_centerX);
-        make.top.equalTo(_scrollView.mas_top).mas_offset(50);
-        make.height.offset(109);
-        make.width.offset(109);
-    }];
-    //登录/注册页签
-    UIButton *loginButton = [[UIButton alloc] init];
-    [loginButton setEnlargeEdge:44];
-    [loginButton setTitle:@"登录" forState:UIControlStateNormal];
-    [loginButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
-    loginButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
-    [loginButton addTarget:self action:@selector(loginButton:) forControlEvents:UIControlEventTouchUpInside];
-    _loginButton = loginButton;
-    [_scrollView addSubview:loginButton];
-    [loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_scrollView.mas_left).offset(59);
-        make.top.equalTo(imageView.mas_bottom).mas_offset(32);
-        make.height.offset(27);
-        make.width.offset(35);
-    }];
-    //划线
-    UIView *ineLogin = [[UIView alloc] init];
-    ineLogin.backgroundColor = [UIColor clearColor];
-    _ineLogin = ineLogin;
-    [_scrollView addSubview:ineLogin];
-    [ineLogin mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_scrollView.mas_left).offset(59);
-        make.top.equalTo(loginButton.mas_bottom);
-        make.height.offset(2);
-        make.width.offset(35);
-    }];
-    //中间线
-    UILabel *ines = [[UILabel alloc] init];
-    ines.text = @"/";
-    ines.textColor = UIColorRBG(153, 153, 153);
-    [_scrollView addSubview:ines];
-    [ines mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(loginButton.mas_right).offset(26);
-        make.top.equalTo(imageView.mas_bottom).mas_offset(40);
-        make.height.offset(9);
-    }];
-    //登录/注册页签
-    UIButton *registarButton = [[UIButton alloc] init];
-    [registarButton setEnlargeEdge:44];
-    [registarButton setTitle:@"注册" forState:UIControlStateNormal];
-    [registarButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
-    registarButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
-     [registarButton addTarget:self action:@selector(registarButton:) forControlEvents:UIControlEventTouchUpInside];
-    _registarButton = registarButton;
-    [_scrollView addSubview:registarButton];
-    [registarButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(ines.mas_right).offset(26);
-        make.top.equalTo(imageView.mas_bottom).mas_offset(32);
-        make.height.offset(27);
-        make.width.offset(35);
-    }];
-    //划线
-    UIView *ineRegistar = [[UIView alloc] init];
-    ineRegistar.backgroundColor = [UIColor clearColor];
-    _ineRegistar = ineRegistar;
-    [_scrollView addSubview:ineRegistar];
-    [ineRegistar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(ines.mas_right).offset(26);
-        make.top.equalTo(registarButton.mas_bottom);
-        make.height.offset(2);
-        make.width.offset(35);
-    }];
-    //登录
-    [self login];
-    //注册
-    [self registar];
+#pragma mark - Method
+-(void)defaultSelcetPage{
     if ([_type isEqual:@"0"]) {
-        [loginButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-        ineLogin.backgroundColor = UIColorRBG(255, 204, 0);
+        [_loginButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
+        _ineLogin.backgroundColor = UIColorRBG(255, 204, 0);
         [_loginView setHidden:NO];
         
     }else{
-        [registarButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
-        ineRegistar.backgroundColor = UIColorRBG(255, 204, 0);
+        [_registarButton setTitleColor:UIColorRBG(51, 51, 51) forState:UIControlStateNormal];
+        _ineRegistar.backgroundColor = UIColorRBG(255, 204, 0);
         [_registarView setHidden:NO];
         
     }
-    _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight);
-
-}
-#pragma mark -创建登录模块
--(void)login{
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *oldName = [ user objectForKey:@"oldName"];
-    UIView *loginView = [[UIView alloc] init];
-    _loginView = loginView;
-    [loginView setHidden:YES];
-    [_scrollView addSubview:loginView];
-    [loginView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_scrollView.mas_left);
-        make.top.equalTo(_ineLogin.mas_bottom);
-        make.height.offset(300);
-        make.width.offset(_scrollView.fWidth);
-    }];
-    UILabel *nameLabel = [[UILabel alloc] init];
-    nameLabel.text = @"用户名";
-    nameLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    nameLabel.textColor = UIColorRBG(51, 51, 51);
-    [loginView addSubview:nameLabel];
-    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(loginView.mas_left).offset(57);
-        make.top.equalTo(loginView.mas_top).offset(37);
-        make.height.offset(12);
-    }];
-    UITextField *loginName = [[UITextField alloc] init];
-    loginName.placeholder = @"请输入用户名";
-    if (![oldName isEqual:@""] || oldName) {
-        loginName.text = oldName;
-    }
-    loginName.textColor = UIColorRBG(49, 35, 6);
-    loginName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    loginName.delegate = self;
-    loginName.keyboardType = UIKeyboardTypeNumberPad;
-    [[loginName valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
-    loginName.clearButtonMode = UITextFieldViewModeWhileEditing;
-    loginName.clearsOnBeginEditing = NO;
-    _loginName = loginName;
-    [loginView addSubview:loginName];
-    [loginName mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(loginView.mas_left).offset(57);
-        make.top.equalTo(nameLabel.mas_bottom);
-        make.height.offset(38);
-        make.width.offset(_scrollView.fWidth-107);
-    }];
-    //下划线
-    UIView  *loginIne = [[UIView alloc] init];
-    loginIne.backgroundColor = UIColorRBG(255, 245, 177);
-    [loginView addSubview:loginIne];
-    [loginIne mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(loginView.mas_left).offset(57);
-        make.top.equalTo(loginName.mas_bottom);
-        make.height.offset(1);
-        make.width.offset(_scrollView.fWidth-107);
-    }];
-    //密码
-    UILabel *passwordLabel = [[UILabel alloc] init];
-    passwordLabel.text = @"密码";
-    passwordLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    passwordLabel.textColor = UIColorRBG(51, 51, 51);
-    [loginView addSubview:passwordLabel];
-    [passwordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(loginView.mas_left).offset(57);
-        make.top.equalTo(loginIne.mas_bottom).offset(31);
-        make.height.offset(12);
-    }];
-    UITextField *loginPassWord = [[UITextField alloc] init];
-    loginPassWord.placeholder = @"请输入密码";
-    loginPassWord.textColor = UIColorRBG(49, 35, 6);
-    loginPassWord.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    loginPassWord.delegate = self;
-    loginPassWord.keyboardType = UIKeyboardTypeASCIICapable;
-    [[loginPassWord valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
-    loginPassWord.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [loginPassWord setSecureTextEntry:YES];
+  
     
-    _loginPassWord = loginPassWord;
-    [loginView addSubview:loginPassWord];
-    [loginPassWord mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(loginView.mas_left).offset(57);
-        make.top.equalTo(passwordLabel.mas_bottom);
-        make.height.offset(38);
-        make.width.offset(_scrollView.fWidth-138);
-    }];
-    //下划线
-    UIView  *loginInes = [[UIView alloc] init];
-    loginInes.backgroundColor = UIColorRBG(255, 245, 177);
-    [loginView addSubview:loginInes];
-    [loginInes mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(loginView.mas_left).offset(57);
-        make.top.equalTo(loginPassWord.mas_bottom);
-        make.height.offset(1);
-        make.width.offset(_scrollView.fWidth-138);
-    }];
-    //显示密码
-    UIButton *showPw = [[UIButton alloc] init];
-    [showPw setBackgroundImage:[UIImage imageNamed:@"zc_icon_2"] forState:UIControlStateNormal];
-    [showPw setBackgroundImage:[UIImage imageNamed:@"zc_icon_1"] forState:UIControlStateSelected];
-    [showPw addTarget:self action:@selector(showPw:) forControlEvents:UIControlEventTouchUpInside];
-    [showPw setEnlargeEdgeWithTop:10 right:20 bottom:20 left:10];
-    [loginView addSubview:showPw];
-    [showPw mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(loginPassWord.mas_right).offset(11);
-        make.top.equalTo(passwordLabel.mas_bottom).offset(17);
-        make.height.offset(7);
-        make.width.offset(14);
-    }];
-    //下划线
-    UIView  *showIne = [[UIView alloc] init];
-    showIne.backgroundColor = UIColorRBG(255, 245, 177);
-    [loginView addSubview:showIne];
-    [showIne mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(loginInes.mas_right).offset(6);
-        make.top.equalTo(loginPassWord.mas_bottom);
-        make.height.offset(1);
-        make.width.offset(25);
-    }];
-    //登录按钮
-    UIButton *loginButton = [[UIButton alloc] init];
-    [loginButton setBackgroundImage:[UIImage imageNamed:@"zc_button"] forState:UIControlStateNormal];
-    [loginButton setTitle:@"登录" forState:UIControlStateNormal];
-    [loginButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    loginButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    loginButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 10, 0);
-    [loginButton addTarget:self action:@selector(logins:) forControlEvents:UIControlEventTouchUpInside];
-    [loginView addSubview:loginButton];
-    [loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(loginView.mas_left).offset(57);
-        make.top.equalTo(loginInes.mas_bottom).offset(60);
-        make.height.offset(45);
-        make.width.offset(109);
-    }];
-    //忘记密码
-    UIButton *findPassWord = [[UIButton alloc] init];
-    [findPassWord setTitle:@"忘记密码" forState:UIControlStateNormal];
-    [findPassWord setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
-    findPassWord.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:11];
-    [findPassWord addTarget:self action:@selector(forgetPw) forControlEvents:UIControlEventTouchUpInside];
-    [loginView addSubview:findPassWord];
-    [findPassWord mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(loginButton.mas_right).offset(16);
-        make.top.equalTo(loginInes.mas_bottom).offset(72);
-        make.height.offset(11);
-    }];
-    //下划线
-    UIView  *findIne = [[UIView alloc] init];
-    findIne.backgroundColor = UIColorRBG(255, 245, 177);
-    [loginView addSubview:findIne];
-    [findIne mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(loginButton.mas_right).offset(16);
-        make.top.equalTo(findPassWord.mas_bottom).offset(3);
-        make.height.offset(1);
-        make.width.offset(43);
-    }];
 }
-
-#pragma mark -创建注册模块
--(void)registar{
-    UIView *registarView = [[UIView alloc] init];
-    _registarView = registarView;
-    [registarView setHidden:YES];
-    [_scrollView addSubview:registarView];
-    [registarView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_scrollView.mas_left);
-        make.top.equalTo(_ineLogin.mas_bottom);
-        make.height.offset(350);
-        make.width.offset(_scrollView.fWidth);
-    }];
-    UILabel *telLabel = [[UILabel alloc] init];
-    telLabel.text = @"手机号";
-    telLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    telLabel.textColor = UIColorRBG(51, 51, 51);
-    [registarView addSubview:telLabel];
-    [telLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarView.mas_left).offset(57);
-        make.top.equalTo(registarView.mas_top).offset(37);
-        make.height.offset(12);
-    }];
-    UITextField *telphone = [[UITextField alloc] init];
-    telphone.placeholder = @"请输入手机号";
-    telphone.textColor = UIColorRBG(49, 35, 6);
-    telphone.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    telphone.delegate = self;
-    telphone.keyboardType = UIKeyboardTypeNumberPad;
-    [[telphone valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
-    telphone.clearButtonMode = UITextFieldViewModeWhileEditing;
-    telphone.clearsOnBeginEditing = NO;
-    _registarName = telphone;
-    [registarView addSubview:telphone];
-    [telphone mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarView.mas_left).offset(57);
-        make.top.equalTo(telLabel.mas_bottom);
-        make.height.offset(38);
-        make.width.offset(_scrollView.fWidth-107);
-    }];
-    //下划线
-    UIView  *registarIne = [[UIView alloc] init];
-    registarIne.backgroundColor = UIColorRBG(255, 245, 177);
-    [registarView addSubview:registarIne];
-    [registarIne mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarView.mas_left).offset(57);
-        make.top.equalTo(telphone.mas_bottom);
-        make.height.offset(1);
-        make.width.offset(_scrollView.fWidth-107);
-    }];
-    UILabel *YZMLabel = [[UILabel alloc] init];
-    YZMLabel.text = @"验证码";
-    YZMLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    YZMLabel.textColor = UIColorRBG(51, 51, 51);
-    [registarView addSubview:YZMLabel];
-    [YZMLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarView.mas_left).offset(57);
-        make.top.equalTo(registarIne.mas_bottom).offset(31);
-        make.height.offset(12);
-    }];
-    //验证码
-    UITextField *registarYZM = [[UITextField alloc] init];
-    registarYZM.placeholder = @"请输入验证码";
-    registarYZM.textColor = UIColorRBG(49, 35, 6);
-    registarYZM.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    registarYZM.delegate = self;
-    registarYZM.keyboardType = UIKeyboardTypeNumberPad;
-    [[registarYZM valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
-    registarYZM.clearButtonMode = UITextFieldViewModeWhileEditing;
-    _registarYZM = registarYZM;
-    [registarView addSubview:registarYZM];
-    [registarYZM mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarView.mas_left).offset(57);
-        make.top.equalTo(YZMLabel.mas_bottom);
-        make.height.offset(38);
-        make.width.offset(_scrollView.fWidth-205);
-    }];
-    //下划线
-    UIView  *registarInes = [[UIView alloc] init];
-    registarInes.backgroundColor = UIColorRBG(255, 245, 177);
-    [registarView addSubview:registarInes];
-    [registarInes mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarView.mas_left).offset(57);
-        make.top.equalTo(registarYZM.mas_bottom);
-        make.height.offset(1);
-        make.width.offset(_scrollView.fWidth-205);
-    }];
-    //获取验证码
-    UIButton *findYZM = [[UIButton alloc] init];
-    [findYZM setTitle:@"获取验证码" forState:UIControlStateNormal];
-    [findYZM setTitleColor:UIColorRBG(255, 204, 0) forState:UIControlStateNormal];
-    findYZM.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    findYZM.layer.cornerRadius = 12;
-    findYZM.layer.masksToBounds = YES;
-    findYZM.layer.borderColor = UIColorRBG(255, 204, 0).CGColor;
-    findYZM.layer.borderWidth = 1.0;
-    [findYZM addTarget:self action:@selector(findYZM:) forControlEvents:UIControlEventTouchUpInside];
-    _YZMButton = findYZM;
-    [registarView addSubview:findYZM];
-    [findYZM mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarYZM.mas_right).offset(18);
-        make.top.equalTo(YZMLabel.mas_bottom).offset(13);
-        make.height.offset(24);
-        make.width.offset(80);
-    }];
-   
-    //邀请码
-    UILabel *inviteLabel = [[UILabel alloc] init];
-    inviteLabel.text = @"邀请人";
-    inviteLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    inviteLabel.textColor = UIColorRBG(51, 51, 51);
-    [registarView addSubview:inviteLabel];
-    [inviteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarView.mas_left).offset(57);
-        make.top.equalTo(registarInes.mas_bottom).offset(31);
-        make.height.offset(12);
-    }];
-    UILabel *inviteLabels = [[UILabel alloc] init];
-    inviteLabels.text = @"(选填)";
-    inviteLabels.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    inviteLabels.textColor = UIColorRBG(204, 204, 204);
-    [registarView addSubview:inviteLabels];
-    [inviteLabels mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(inviteLabel.mas_right).offset(16);
-        make.top.equalTo(registarInes.mas_bottom).offset(32);
-        make.height.offset(12);
-    }];
-    UITextField *inviteCode = [[UITextField alloc] init];
-    inviteCode.placeholder = @"请输入邀请码";
-    inviteCode.textColor = UIColorRBG(49, 35, 6);
-    inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-    inviteCode.delegate = self;
-    inviteCode.keyboardType = UIKeyboardTypeDefault;
-    [[inviteCode valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
-    inviteCode.clearButtonMode = UITextFieldViewModeWhileEditing;
-    inviteCode.clearsOnBeginEditing = NO;
-    _inviteCode = inviteCode;
-    [registarView addSubview:inviteCode];
-    [inviteCode mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarView.mas_left).offset(57);
-        make.top.equalTo(inviteLabel.mas_bottom);
-        make.height.offset(38);
-        make.width.offset(_scrollView.fWidth-107);
-    }];
-    //下划线
-    UIView  *inviteIne = [[UIView alloc] init];
-    inviteIne.backgroundColor = UIColorRBG(255, 245, 177);
-    [registarView addSubview:inviteIne];
-    [inviteIne mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarView.mas_left).offset(57);
-        make.top.equalTo(inviteCode.mas_bottom);
-        make.height.offset(1);
-        make.width.offset(_scrollView.fWidth-107);
-    }];
-    
-    //同意协议按钮
-    UIButton *selectAgreement = [[UIButton alloc] init];
-    [selectAgreement setBackgroundImage:[UIImage imageNamed:@"ZC_YES_1"] forState:UIControlStateNormal];
-    [selectAgreement setBackgroundImage:[UIImage imageNamed:@"ZC_YES"] forState:UIControlStateSelected];
-    [selectAgreement addTarget:self action:@selector(selectAgreement:) forControlEvents:UIControlEventTouchUpInside];
-    [selectAgreement setEnlargeEdgeWithTop:17 right:30 bottom:30 left:44];
-    _selectAgreement = selectAgreement;
-    [registarView addSubview:selectAgreement];
-    [selectAgreement mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarView.mas_left).offset(58);
-        make.top.equalTo(inviteIne.mas_bottom).offset(17);
-        make.height.offset(14);
-        make.width.offset(14);
-    }];
-    UILabel *aLabel = [[UILabel alloc] init];
-    aLabel.text = @"我已同意";
-    aLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
-    aLabel.textColor = UIColorRBG(199, 199, 205);
-    [registarView addSubview:aLabel];
-    [aLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(selectAgreement.mas_right).offset(7);
-        make.top.equalTo(inviteIne.mas_bottom).offset(19);
-        make.height.offset(11);
-    }];
-    //查看协议
-    UIButton *findAgreement = [[UIButton alloc] init];
-    [findAgreement setTitle:@"《经喜用户服务协议》" forState:UIControlStateNormal];
-    [findAgreement setTitleColor:UIColorRBG(68, 68, 68) forState:UIControlStateNormal];
-    findAgreement.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
-    [findAgreement addTarget:self action:@selector(findAgreement) forControlEvents:UIControlEventTouchUpInside];
-    [registarView addSubview:findAgreement];
-    [findAgreement mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(aLabel.mas_right);
-        make.top.equalTo(inviteIne.mas_bottom).offset(14);
-        make.height.offset(21);
-        make.width.offset(110);
-    }];
-    //下一步
-    UIButton *nextButton = [[UIButton alloc] init];
-    [nextButton setBackgroundImage:[UIImage imageNamed:@"zc_button"] forState:UIControlStateNormal];
-    [nextButton setTitle:@"下一步" forState:UIControlStateNormal];
-    [nextButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    nextButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
-    nextButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 10, 0);
-    [nextButton addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
-    [registarView addSubview:nextButton];
-    [nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(registarView.mas_left).offset(57);
-        make.top.equalTo(findAgreement.mas_bottom).offset(30);
-        make.height.offset(45);
-        make.width.offset(109);
-    }];
+#pragma mark -response
+//关闭页面
+-(void)closeButtons{
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
-#pragma mark -点击切换登录模块
+//点击切换登录模块
 -(void)loginButton:(UIButton *)button{
     [self touches];
     [_registarButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
@@ -606,9 +450,9 @@
     _ineLogin.backgroundColor = UIColorRBG(255, 204, 0);
     [_registarView setHidden:YES];
     [_loginView setHidden:NO];
-   
+    
 }
-#pragma mark -点击切换注册模块
+//点击切换注册模块
 -(void)registarButton:(UIButton *)button{
     [self touches];
     [_loginButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
@@ -617,9 +461,9 @@
     _ineRegistar.backgroundColor = UIColorRBG(255, 204, 0);
     [_loginView setHidden:YES];
     [_registarView setHidden:NO];
-     
+    
 }
-#pragma mark -登录-显示密码
+
 -(void)showPw:(UIButton *)button{
     button.selected = !button.selected;
     if (!button.selected) {
@@ -628,13 +472,7 @@
         [_loginPassWord setSecureTextEntry:NO];
     }
 }
-#pragma mark -登录-忘记密码
--(void)forgetPw{
-    [self touches];
-    WZForgetPassWordController *fPW = [[WZForgetPassWordController alloc] init];
-    [self.navigationController pushViewController:fPW animated:YES];
-}
-#pragma mark -登录
+//登录
 -(void)logins:(UIButton *)button{
     [self touches];
     NSString *name = _loginName.text;
@@ -650,28 +488,22 @@
     //进行数据请求
     button.enabled = NO;
     
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    
-    mgr.requestSerializer.timeoutInterval = 10;
-    
-    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"username"] = name;
     paraments[@"password"] = passWord;
     
-    //3.发送请求
-    NSString *url = [NSString stringWithFormat:@"%@/app/login.api",HTTPURL];
-    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-        //解析数据
-        NSString *code = [responseObject valueForKey:@"code"];
+    [WZLoadDateSeviceOne postUserInfosSuccess:^(NSDictionary *dic) {
         button.enabled = YES;
+        //解析数据
+        NSString *code = [dic valueForKey:@"code"];
+        
         if ([code isEqual:@"200"]) {
-           NSDictionary *data = [responseObject valueForKey:@"data"];
+            NSDictionary *data = [dic valueForKey:@"data"];
             [CloudPushSDK addAlias:[data valueForKey:@"id"] withCallback:^(CloudPushCallbackResult *res) {
                 NSLog(@"绑定别名成功");
             }];
-           
+            
             //数据持久化
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:[data valueForKey:@"uuid"] forKey:@"uuid"];
@@ -682,7 +514,7 @@
             [defaults setObject:[data valueForKey:@"storeId"] forKey:@"storeId"];
             [defaults setObject:[data valueForKey:@"realtorStatus"] forKey:@"realtorStatus"];
             [defaults setObject:[data valueForKey:@"companyName"] forKey:@"companyName"];
-             [defaults setObject:[data valueForKey:@"companyFlag"] forKey:@"companyFlag"];
+            [defaults setObject:[data valueForKey:@"companyFlag"] forKey:@"companyFlag"];
             [defaults setObject:[data valueForKey:@"idcardStatus"] forKey:@"idcardStatus"];
             [defaults setObject:[data valueForKey:@"commissionFag"] forKey:@"commissionFag"];
             [defaults setObject:[data valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
@@ -690,31 +522,36 @@
             [self receivingNotification];
             [self closeButton];
         }else{
-            NSString *msg = [responseObject valueForKey:@"msg"];
+            NSString *msg = [dic valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                 [SVProgressHUD showInfoWithStatus:msg];
             }
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
+    } andFail:^(NSString *str) {
         button.enabled = YES;
-    }];
+    } parament:paraments URL:@"/app/login.api"];
     
 }
-#pragma mark -注册-选择协议
+//忘记密码
+-(void)forgetPw{
+    [self touches];
+    WZForgetPassWordController *fPW = [[WZForgetPassWordController alloc] init];
+    [self.navigationController pushViewController:fPW animated:YES];
+}
+//注册-选择协议
 -(void)selectAgreement:(UIButton *)button{
     button.selected = !button.selected;
 }
-#pragma mark -注册-查看协议
--(void)findAgreement{
+//注册-查看协议
+-(void)seeAgreements{
     [self touches];
     WZNEWHTMLController *html = [[WZNEWHTMLController alloc] init];
     html.url = [NSString stringWithFormat:@"%@/apph5/agreement.html",HTTPH5];
     [self.navigationController pushViewController:html animated:YES];
 }
-#pragma mark -获取验证码
--(void)findYZM:(UIButton *)button{
+
+//获取验证码
+-(void)findVerificationCodes:(UIButton *)button{
     [self touches];
     NSString *telphone = _registarName.text;
     if ([telphone isEqual:@""]) {
@@ -726,37 +563,30 @@
         [SVProgressHUD showInfoWithStatus:@"手机号格式错误"];
         return;
     }
-    //修改按钮内容倒计时一分钟
-    [self openCountdown];
-    //创建会话请求
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    
-    mgr.requestSerializer.timeoutInterval = 10;
-    
-    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = @"1";
     paraments[@"telphone"] = telphone;
-    NSString *url = [NSString stringWithFormat:@"%@/app/read/sendSmsByType",HTTPURL];
-    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
+    
+    //修改按钮内容倒计时一分钟
+    [self openCountdown];
+    
+    [WZLoadDateSeviceOne getUserInfosSuccess:^(NSDictionary *dic) {
         
-        NSString *code = [responseObject valueForKey:@"code"];
+        NSString *code = [dic valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             [SVProgressHUD showInfoWithStatus:@"已发送"];
         }else{
-            NSString *msg = [responseObject valueForKey:@"msg"];
+            NSString *msg = [dic valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                 [SVProgressHUD showInfoWithStatus:msg];
             }
         }
+    } andFail:^(NSString *str) {
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-    }];
+    } parament:paraments URL:@"/app/read/sendSmsByType"];
     
 }
-#pragma mark -验证码倒计时
+//验证码倒计时
 -(void)openCountdown{
     
     __block NSInteger time = 59; //倒计时时间
@@ -772,29 +602,29 @@
             dispatch_source_cancel(_timer);
             dispatch_async(dispatch_get_main_queue(), ^{
                 //设置按钮的样式
-                [_YZMButton setTitle:@"重新发送" forState:UIControlStateNormal];
-                [_YZMButton setTitleColor:UIColorRBG(255, 204, 0) forState:UIControlStateNormal];
-                _YZMButton.userInteractionEnabled = YES;
-                _YZMButton.layer.borderColor = UIColorRBG(255, 204, 0).CGColor;
-                _YZMButton.layer.borderWidth = 1.0;
+                [_findVerificationCode setTitle:@"重新发送" forState:UIControlStateNormal];
+                [_findVerificationCode setTitleColor:UIColorRBG(255, 204, 0) forState:UIControlStateNormal];
+                _findVerificationCode.userInteractionEnabled = YES;
+                _findVerificationCode.layer.borderColor = UIColorRBG(255, 204, 0).CGColor;
+                _findVerificationCode.layer.borderWidth = 1.0;
             });
             
         }else{
             int seconds = time % 60;
             dispatch_async(dispatch_get_main_queue(), ^{
-                _YZMButton.userInteractionEnabled = NO;
+                _findVerificationCode.userInteractionEnabled = NO;
                 //设置按钮显示读秒效果
-                [_YZMButton setTitle:[NSString stringWithFormat:@"还剩%.2ds", seconds] forState:UIControlStateNormal];
-                [_YZMButton setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
-                _YZMButton.layer.borderColor = UIColorRBG(204, 204, 204).CGColor;
-                _YZMButton.layer.borderWidth = 1.0;
+                [_findVerificationCode setTitle:[NSString stringWithFormat:@"还剩%.2ds", seconds] forState:UIControlStateNormal];
+                [_findVerificationCode setTitleColor:UIColorRBG(102, 102, 102) forState:UIControlStateNormal];
+                _findVerificationCode.layer.borderColor = UIColorRBG(204, 204, 204).CGColor;
+                _findVerificationCode.layer.borderWidth = 1.0;
             });
             time--;
         }
     });
     dispatch_resume(_timer);
 }
-#pragma mark -下一步
+//下一步
 -(void)next{
     [self touches];
     NSString *telphone = _registarName.text;
@@ -807,7 +637,7 @@
         [SVProgressHUD showInfoWithStatus:@"手机号格式错误"];
         return;
     }
-    NSString *YZM = _registarYZM.text;
+    NSString *YZM = _verificationCode.text;
     if (YZM.length != 6) {
         [SVProgressHUD showInfoWithStatus:@"验证码格式不正确"];
         return;
@@ -816,22 +646,13 @@
         [SVProgressHUD showInfoWithStatus:@"请同意协议"];
         return;
     }
-    //创建会话请求
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    
-    mgr.requestSerializer.timeoutInterval = 10;
-    
-    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = @"1";
     paraments[@"telphone"] = telphone;
     paraments[@"smsCode"] = YZM;
     paraments[@"parentPhone"] = _inviteCode.text;
-    NSString *url = [NSString stringWithFormat:@"%@/app/checkSmsCode",HTTPURL];
-    [mgr GET:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary * _Nullable responseObject) {
-        
-        NSString *code = [responseObject valueForKey:@"code"];
+    [WZLoadDateSeviceOne getUserInfosSuccess:^(NSDictionary *dic) {
+        NSString *code = [dic valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             WZRegistarSetPWController *registar = [[WZRegistarSetPWController alloc] init];
             registar.telphone = telphone;
@@ -839,53 +660,393 @@
             registar.inviteCode = _inviteCode.text;
             [self.navigationController pushViewController:registar animated:YES];
         }else{
-            NSString *msg = [responseObject valueForKey:@"msg"];
+            NSString *msg = [dic valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
                 [SVProgressHUD showInfoWithStatus:msg];
             }
         }
+    } andFail:^(NSString *str) {
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-    }];
+    } parament:paraments URL:@"/app/checkSmsCode"];
     
 }
-#pragma mark -上传设备ID
+//上传设备ID
 -(void)receivingNotification{
-    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
     //获取设备ID
     NSString *deviceId = [user objectForKey:@"deviceId"];
     
-    //创建会话请求
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    
-    mgr.requestSerializer.timeoutInterval = 10;
-    
-    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    //防止返回值为null
-    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
-    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"appType"] = @"1";
     paraments[@"deviceCode"] = deviceId;
     paraments[@"deviceType"] = @"IOS";
-    NSString *url = [NSString stringWithFormat:@"%@/app/loginCallback",HTTPURL];
-    [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
+    [WZLoadDateSeviceOne postUserInfosSuccess:^(NSDictionary *dic) {
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } andFail:^(NSString *str) {
         
-    }];
+    } parament:paraments URL:@"/app/loginCallback"];
     
 }
-#pragma mark -关闭页面
--(void)closeButton{
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+
+#pragma mark -getter
+//滑动
+-(UIScrollView *)scrollView{
+    if (!_scrollView) {
+        _scrollView = [[UIScrollView alloc] init];
+        _scrollView.backgroundColor = [UIColor whiteColor];
+        _scrollView.bounces = NO;
+        _scrollView.showsVerticalScrollIndicator = NO;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+    }
+    return _scrollView;
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
+//页面关闭按钮
+-(UIButton *)closeButton{
+    if(!_closeButton){
+        _closeButton = [[UIButton alloc] init];
+        [_closeButton setBackgroundImage:[UIImage imageNamed:@"close_login"] forState:UIControlStateNormal];
+        [_closeButton addTarget:self action:@selector(closeButtons) forControlEvents:UIControlEventTouchUpInside];
+        [_closeButton setEnlargeEdge:44];
+    }
+    return _closeButton;
+}
+//登录页图标
+-(UIImageView *)loginImageView{
+    if (!_loginImageView) {
+        _loginImageView = [[UIImageView alloc] init];
+        _loginImageView.image = [UIImage imageNamed:@"logo"];
+    }
+    return _loginImageView;
+}
+//登录页签
+-(UIButton *)loginButton{
+    if (!_loginButton) {
+        _loginButton = [[UIButton alloc] init];
+        [_loginButton setEnlargeEdge:44];
+        [_loginButton setTitle:@"登录" forState:UIControlStateNormal];
+        [_loginButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
+        _loginButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
+        [_loginButton addTarget:self action:@selector(loginButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _loginButton;
+}
+//登录页签下划线
+-(UIView *)ineLogin{
+    if (!_ineLogin) {
+        _ineLogin = [[UIView alloc] init];
+        _ineLogin.backgroundColor = [UIColor clearColor];
+    }
+    return _ineLogin;
+}
+//页签中间线
+-(UILabel *)Midline{
+    if (!_Midline) {
+        _Midline = [[UILabel alloc] init];
+        _Midline.text = @"/";
+        _Midline.textColor = UIColorRBG(153, 153, 153);
+    }
+    return _Midline;
+}
+//注册页签
+-(UIButton *)registarButton{
+    if (!_registarButton) {
+        _registarButton = [[UIButton alloc] init];
+        [_registarButton setEnlargeEdge:44];
+        [_registarButton setTitle:@"注册" forState:UIControlStateNormal];
+        [_registarButton setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
+        _registarButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:17];
+        [_registarButton addTarget:self action:@selector(registarButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _registarButton;
+}
+//注册页签下划线
+-(UIView *)ineRegistar{
+    if (!_ineRegistar) {
+        _ineRegistar = [[UIView alloc] init];
+        _ineRegistar.backgroundColor = [UIColor clearColor];
+    }
+    return _ineRegistar;
+}
+//登录模块
+-(UIView *)loginView{
+    if (!_loginView) {
+        _loginView = [[UIView alloc] init];
+        [_loginView setHidden:YES];
+    }
+    return _loginView;
+}
+-(UILabel *)loginNameLabel{
+    if (!_loginNameLabel) {
+        _loginNameLabel = [[UILabel alloc] init];
+        _loginNameLabel.text = @"用户名";
+        _loginNameLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+        _loginNameLabel.textColor = UIColorRBG(51, 51, 51);
+    }
+    return _loginNameLabel;
+}
+-(UITextField *)loginName{
+    if (!_loginName) {
+        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+        _oldName = [user objectForKey:@"oldName"];
+        _loginName = [[UITextField alloc] init];
+        _loginName.placeholder = @"请输入用户名";
+        if (![_oldName isEqual:@""] || _oldName) {
+            _loginName.text = _oldName;
+        }
+        _loginName.textColor = UIColorRBG(49, 35, 6);
+        _loginName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+        _loginName.delegate = self;
+        _loginName.keyboardType = UIKeyboardTypeNumberPad;
+        [[_loginName valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
+        _loginName.clearButtonMode = UITextFieldViewModeWhileEditing;
+        _loginName.clearsOnBeginEditing = NO;
+    }
+    return _loginName;
+}
+-(UIView *)loginNameIne{
+    if (!_loginNameIne) {
+        _loginNameIne = [[UIView alloc] init];
+        _loginNameIne.backgroundColor = UIColorRBG(255, 245, 177);
+    }
+    return _loginNameIne;
+}
+-(UILabel *)loginPassWordLabel{
+    if (!_loginPassWordLabel) {
+        _loginPassWordLabel = [[UILabel alloc] init];
+        _loginPassWordLabel.text = @"密码";
+        _loginPassWordLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+        _loginPassWordLabel.textColor = UIColorRBG(51, 51, 51);
+    }
+    return _loginPassWordLabel;
+}
+-(UITextField *)loginPassWord{
+    if (!_loginPassWord) {
+        _loginPassWord = [[UITextField alloc] init];
+        _loginPassWord.placeholder = @"请输入密码";
+        _loginPassWord.textColor = UIColorRBG(49, 35, 6);
+        _loginPassWord.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+        _loginPassWord.delegate = self;
+        _loginPassWord.keyboardType = UIKeyboardTypeASCIICapable;
+        [[_loginPassWord valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
+        _loginPassWord.clearButtonMode = UITextFieldViewModeWhileEditing;
+        [_loginPassWord setSecureTextEntry:YES];
+    }
+    return _loginPassWord;
+}
+-(UIView *)loginPassWordIne{
+    if (!_loginPassWordIne) {
+        _loginPassWordIne = [[UIView alloc] init];
+        _loginPassWordIne.backgroundColor = UIColorRBG(255, 245, 177);
+    }
+    return _loginPassWordIne;
+}
+-(UIButton *)showLoginPWButton{
+    if (!_showLoginPWButton) {
+        _showLoginPWButton = [[UIButton alloc] init];
+        [_showLoginPWButton setBackgroundImage:[UIImage imageNamed:@"zc_icon_2"] forState:UIControlStateNormal];
+        [_showLoginPWButton setBackgroundImage:[UIImage imageNamed:@"zc_icon_1"] forState:UIControlStateSelected];
+        [_showLoginPWButton addTarget:self action:@selector(showPw:) forControlEvents:UIControlEventTouchUpInside];
+        [_showLoginPWButton setEnlargeEdgeWithTop:10 right:20 bottom:20 left:10];
+    }
+    return _showLoginPWButton;
+}
+-(UIView *)showLoginPWIne{
+    if (!_showLoginPWIne) {
+        _showLoginPWIne = [[UIView alloc] init];
+        _showLoginPWIne.backgroundColor = UIColorRBG(255, 245, 177);
+    }
+    return _showLoginPWIne;
+}
+-(UIButton *)loginAction{
+    if (!_loginAction) {
+        _loginAction = [[UIButton alloc] init];
+        [_loginAction setBackgroundImage:[UIImage imageNamed:@"zc_button"] forState:UIControlStateNormal];
+        [_loginAction setTitle:@"登录" forState:UIControlStateNormal];
+        [_loginAction setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        _loginAction.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
+        _loginAction.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 10, 0);
+        [_loginAction addTarget:self action:@selector(logins:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _loginAction;
+}
+-(UIButton *)forgetPWAction{
+    if (!_forgetPWAction) {
+        _forgetPWAction = [[UIButton alloc] init];
+        [_forgetPWAction setTitle:@"忘记密码" forState:UIControlStateNormal];
+        [_forgetPWAction setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
+        _forgetPWAction.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:11];
+        [_forgetPWAction addTarget:self action:@selector(forgetPw) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _forgetPWAction;
+}
+-(UIView *)forgetPWIne{
+    if (!_forgetPWIne) {
+        _forgetPWIne = [[UIView alloc] init];
+        _forgetPWIne.backgroundColor = UIColorRBG(255, 245, 177);
+    }
+    return _forgetPWIne;
+}
+//注册模块
+-(UIView *)registarView{
+    if (!_registarView) {
+        _registarView = [[UIView alloc] init];
+        [_registarView setHidden:YES];
+    }
+    return _registarView;
+}
+-(UILabel *)registarNameLabel{
+    if (!_registarNameLabel) {
+        _registarNameLabel = [[UILabel alloc] init];
+        _registarNameLabel.text = @"手机号";
+        _registarNameLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+        _registarNameLabel.textColor = UIColorRBG(51, 51, 51);
+    }
+    return _registarNameLabel;
+}
+-(UITextField *)registarName{
+    if (!_registarName) {
+        _registarName = [[UITextField alloc] init];
+        _registarName.placeholder = @"请输入手机号";
+        _registarName.textColor = UIColorRBG(49, 35, 6);
+        _registarName.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+        _registarName.delegate = self;
+        _registarName.keyboardType = UIKeyboardTypeNumberPad;
+        [[_registarName valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
+        _registarName.clearButtonMode = UITextFieldViewModeWhileEditing;
+        _registarName.clearsOnBeginEditing = NO;
+    }
+    return _registarName;
+}
+-(UIView *)registarNameIne{
+    if (!_registarNameIne) {
+        _registarNameIne = [[UIView alloc] init];
+        _registarNameIne.backgroundColor = UIColorRBG(255, 245, 177);
+    }
+    return  _registarNameIne;
+}
+-(UILabel *)verificationCodeLabel{
+    if (!_verificationCodeLabel) {
+        _verificationCodeLabel = [[UILabel alloc] init];
+        _verificationCodeLabel.text = @"验证码";
+        _verificationCodeLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+        _verificationCodeLabel.textColor = UIColorRBG(51, 51, 51);
+    }
+    return _verificationCodeLabel;
+}
+-(UITextField *)verificationCode{
+    if (!_verificationCode) {
+        _verificationCode = [[UITextField alloc] init];
+        _verificationCode.placeholder = @"请输入验证码";
+        _verificationCode.textColor = UIColorRBG(49, 35, 6);
+        _verificationCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+        _verificationCode.delegate = self;
+        _verificationCode.keyboardType = UIKeyboardTypeNumberPad;
+        [[_verificationCode valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
+        _verificationCode.clearButtonMode = UITextFieldViewModeWhileEditing;
+    }
+    return _verificationCode;
+}
+-(UIView *)verificationCodeIne{
+    if (!_verificationCodeIne) {
+        _verificationCodeIne = [[UIView alloc] init];
+        _verificationCodeIne.backgroundColor = UIColorRBG(255, 245, 177);
+    }
+    return _verificationCodeIne;
+}
+-(UIButton *)findVerificationCode{
+    if (!_findVerificationCode) {
+        _findVerificationCode = [[UIButton alloc] init];
+        [_findVerificationCode setTitle:@"获取验证码" forState:UIControlStateNormal];
+        [_findVerificationCode setTitleColor:UIColorRBG(255, 204, 0) forState:UIControlStateNormal];
+        _findVerificationCode.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+        _findVerificationCode.layer.cornerRadius = 12;
+        _findVerificationCode.layer.masksToBounds = YES;
+        _findVerificationCode.layer.borderColor = UIColorRBG(255, 204, 0).CGColor;
+        _findVerificationCode.layer.borderWidth = 1.0;
+        [_findVerificationCode addTarget:self action:@selector(findVerificationCodes:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _findVerificationCode;
+}
+-(UILabel *)inviteCodeLabelOne{
+    if (!_inviteCodeLabelOne) {
+        _inviteCodeLabelOne = [[UILabel alloc] init];
+        _inviteCodeLabelOne.text = @"邀请人";
+        _inviteCodeLabelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+        _inviteCodeLabelOne.textColor = UIColorRBG(51, 51, 51);
+    }
+    return _inviteCodeLabelOne;
+}
+-(UILabel *)inviteCodeLabelTwo{
+    if (!_inviteCodeLabelTwo) {
+        _inviteCodeLabelTwo = [[UILabel alloc] init];
+        _inviteCodeLabelTwo.text = @"(选填)";
+        _inviteCodeLabelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+        _inviteCodeLabelTwo.textColor = UIColorRBG(204, 204, 204);
+    }
+    return _inviteCodeLabelTwo;
+}
+-(UITextField *)inviteCode{
+    if (!_inviteCode) {
+        _inviteCode = [[UITextField alloc] init];
+        _inviteCode.placeholder = @"请输入邀请码";
+        _inviteCode.textColor = UIColorRBG(49, 35, 6);
+        _inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
+        _inviteCode.delegate = self;
+        _inviteCode.keyboardType = UIKeyboardTypeDefault;
+        [[_inviteCode valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
+        _inviteCode.clearButtonMode = UITextFieldViewModeWhileEditing;
+        _inviteCode.clearsOnBeginEditing = NO;
+    }
+    return _inviteCode;
+}
+-(UIView *)inviteCodeIne{
+    if (!_inviteCodeIne) {
+        _inviteCodeIne = [[UIView alloc] init];
+        _inviteCodeIne.backgroundColor = UIColorRBG(255, 245, 177);
+    }
+    return _inviteCodeIne;
+}
+-(UIButton *)selectAgreement{
+    if (!_selectAgreement) {
+        _selectAgreement = [[UIButton alloc] init];
+        [_selectAgreement setBackgroundImage:[UIImage imageNamed:@"ZC_YES_1"] forState:UIControlStateNormal];
+        [_selectAgreement setBackgroundImage:[UIImage imageNamed:@"ZC_YES"] forState:UIControlStateSelected];
+        [_selectAgreement addTarget:self action:@selector(selectAgreement:) forControlEvents:UIControlEventTouchUpInside];
+        [_selectAgreement setEnlargeEdgeWithTop:17 right:30 bottom:30 left:44];
+        _selectAgreement.selected = YES;
+    }
+    return _selectAgreement;
+}
+-(UILabel *)agreementLabel{
+    if (!_agreementLabel) {
+        _agreementLabel = [[UILabel alloc] init];
+        _agreementLabel.text = @"我已同意";
+        _agreementLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
+        _agreementLabel.textColor = UIColorRBG(199, 199, 205);
+    }
+    return _agreementLabel;
+}
+-(UIButton *)seeAgreement{
+    if (!_seeAgreement) {
+        _seeAgreement = [[UIButton alloc] init];
+        [_seeAgreement setTitle:@"《经喜用户服务协议》" forState:UIControlStateNormal];
+        [_seeAgreement setTitleColor:UIColorRBG(68, 68, 68) forState:UIControlStateNormal];
+        _seeAgreement.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:11];
+        [_seeAgreement addTarget:self action:@selector(seeAgreements) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _seeAgreement;
+}
+-(UIButton *)nextButton{
+    if (!_nextButton) {
+        _nextButton = [[UIButton alloc] init];
+        [_nextButton setBackgroundImage:[UIImage imageNamed:@"zc_button"] forState:UIControlStateNormal];
+        [_nextButton setTitle:@"下一步" forState:UIControlStateNormal];
+        [_nextButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        _nextButton.titleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
+        _nextButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 10, 0);
+        [_nextButton addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _nextButton;
 }
 
 @end
