@@ -130,6 +130,8 @@
         }else if (data.length>200*1024) {//0.25M-0.5M
             imageData=UIImageJPEGRepresentation(image, 0.6);
         }
+    }else{
+        imageData = data;
     }
     return imageData;
 }

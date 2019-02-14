@@ -69,11 +69,13 @@ static NSString *size = @"20";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self performSelector:@selector(setCorrectFocus) withObject:NULL afterDelay:0.5];
 }
--(void) setCorrectFocus {
-    [self.searchBar becomeFirstResponder];
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+//    [self performSelector:@selector(setCorrectFocus) withObject:NULL afterDelay:0.5];
+     [self.searchBar becomeFirstResponder];
 }
+
 //下拉刷新
 -(void)headerRefresh{
     //创建下拉刷新

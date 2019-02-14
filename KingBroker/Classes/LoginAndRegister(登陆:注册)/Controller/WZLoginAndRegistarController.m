@@ -487,7 +487,7 @@
     }
     //进行数据请求
     button.enabled = NO;
-    
+    NSLog(@"111");
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"username"] = name;
@@ -520,7 +520,7 @@
             [defaults setObject:[data valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
             [defaults synchronize];
             [self receivingNotification];
-            [self closeButton];
+            [self closeButtons];
         }else{
             NSString *msg = [dic valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){

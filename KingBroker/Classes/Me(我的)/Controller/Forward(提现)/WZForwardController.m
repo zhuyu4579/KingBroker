@@ -195,6 +195,7 @@
     [password setSecureTextEntry:YES];
     password.clearButtonMode = UITextFieldViewModeWhileEditing;
     password.delegate = self;
+    [password becomeFirstResponder];
     _password = password;
     [view addSubview:password];
     [password mas_makeConstraints:^(MASConstraintMaker *make) {

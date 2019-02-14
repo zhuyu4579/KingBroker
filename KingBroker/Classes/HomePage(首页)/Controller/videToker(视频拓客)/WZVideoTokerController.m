@@ -67,16 +67,16 @@
     layout.sectionInset = UIEdgeInsetsMake(10, 15, 10, 15);
     layout.minimumLineSpacing = 10;
     layout.minimumInteritemSpacing = 10;
-    
-    if (@available(iOS 10.0, *)) {
-        if (@available(iOS 11.0, *)) {
-            layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
-        }else{
-            layout.itemSize = CGSizeMake(100*n, 23);
-        }
-    } else{
-       layout.estimatedItemSize = CGSizeMake(80, 23);
-    }
+    layout.itemSize = CGSizeMake(100*n, 23);
+//    if (@available(iOS 10.0, *)) {
+//        if (@available(iOS 11.0, *)) {
+//            layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
+//        }else{
+//            layout.itemSize = CGSizeMake(100*n, 23);
+//        }
+//    } else{
+//       layout.estimatedItemSize = CGSizeMake(80, 23);
+//    }
    
     WZTokerLabelCollectionView *collectionView = [[WZTokerLabelCollectionView alloc] initWithFrame:CGRectMake(0, 25, _titleView.fWidth, _titleView.fHeight-25) collectionViewLayout:layout];
     collectionView.backgroundColor = [UIColor whiteColor];

@@ -1109,7 +1109,7 @@
     _reportType = @"0";
     [_labelIne setHidden:NO];
     [_labelInes setHidden:YES];
-    [self findSubView:self.view];
+    [self.view endEditing:YES];
     [_addCustomerView setHidden:YES];
   
     NSUInteger n = _scrollView.subviews.count-4;
@@ -1132,7 +1132,7 @@
     [_labelIne setHidden:YES];
     [_labelInes setHidden:NO];
     
-    [self findSubView:self.view];
+    [self.view endEditing:YES];
     [_addCustomerView setHidden:NO];
   
     NSUInteger n = _scrollView.subviews.count-4;
@@ -1518,7 +1518,7 @@
 }
 #pragma mark -预计上客时间
 -(void)loadTimeButton:(UIButton *)button{
-    [self findSubView:self.view];
+    [self.view endEditing:YES];
     if ([_ItemName.text isEqual:@"选择报备楼盘"]||[_ItemName.text isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"请先选择楼盘"];
         return;
@@ -1651,23 +1651,9 @@
 }
 #pragma mark -软件盘收回
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [self findSubView:self.view];
+      [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
 }
--(void)findSubView:(UIView*)view
-{
-    _scrollView.contentSize=CGSizeMake(0,  _otherView.fY+_otherView.fHeight+20);
-    for (id object in [view subviews]) {
-        if ([object isKindOfClass:[UIView class]]) {
-            UIView * view = (UIView *)object;
-            [self findSubView:view];
-        }
-        if ([object isKindOfClass:[UITextField class]]) {
-            UITextField * view = (UITextField *)object;
-            [view resignFirstResponder];
-        }
-    }
-    
-}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     

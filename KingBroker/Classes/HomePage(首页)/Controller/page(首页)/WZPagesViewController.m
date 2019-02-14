@@ -134,6 +134,8 @@
     [self goodHouseLoadData];
     //查询e为你推荐数据
     [self loadDateTask];
+    //定位
+    [self openlocation];
 }
 
 -(void)viewDidLayoutSubviews{
@@ -259,6 +261,15 @@
     
 }
 #pragma mark -加载数据
+-(void)openlocation{
+    //定位初始化
+    _locationManager=[[CLLocationManager alloc] init];
+    _locationManager.delegate=self;
+    _locationManager.desiredAccuracy= kCLLocationAccuracyNearestTenMeters;
+    _locationManager.distanceFilter=10;
+    [_locationManager requestWhenInUseAuthorization];//使用程序其间允许访问位置数据（iOS8定位需要）
+    [_locationManager startUpdatingLocation];//开启定位
+}
 -(void)loadBanner{
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     [WZLoadDateSeviceOne postUserInfosSuccess:^(NSDictionary *dic) {
@@ -430,7 +441,7 @@
 -(void)setloadData{
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     
-    [WZLoadDateSeviceOne getUserInfosSuccess:^(NSDictionary *dic) {
+    [WZLoadDateSeviceOne postUserInfosSuccess:^(NSDictionary *dic) {
         NSString *code = [dic valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             NSDictionary *data = [dic valueForKey:@"data"];
@@ -454,7 +465,7 @@
         
     } andFail:^(NSString *str) {
         
-    } parament:paraments URL:@"/version/dictList"];
+    } parament:paraments URL:@"/userMessage/read/readAllCount"];
     
 }
 #pragma mark -点击事件
@@ -494,19 +505,7 @@
 }
 
 #pragma mark - getter控件懒加载
-//定位
--(CLLocationManager *)locationManager{
-    if (!_locationManager) {
-        //定位初始化
-        _locationManager=[[CLLocationManager alloc] init];
-        _locationManager.delegate=self;
-        _locationManager.desiredAccuracy=kCLLocationAccuracyBest;
-        _locationManager.distanceFilter=10;
-        [_locationManager requestWhenInUseAuthorization];//使用程序其间允许访问位置数据（iOS8定位需要）
-        [_locationManager startUpdatingLocation];//开启定位
-    }
-    return _locationManager;
-}
+
 //导航栏
 -(UIView *)titleView{
     if (!_titleView) {

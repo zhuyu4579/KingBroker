@@ -193,11 +193,12 @@ static const CGFloat kPhotoViewMargin = 15.0;
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"id"] = _ID;
-    
+    NSLog(@"%@",_imageArray);
     NSString *url = [NSString stringWithFormat:@"%@/order/certificateBoard",HTTPURL];
     [mgr POST:url parameters:paraments constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData){
         for (int i = 0; i<_imageArray.count; i++) {
             NSData *imageData = [WZAlertView imageProcessWithImage:_imageArray[i]];//进行图片压缩
+            NSLog(@"%lu",(unsigned long)imageData.length);
             // 使用日期生成图片名称
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             formatter.dateFormat = @"yyyyMMddHHmmss";

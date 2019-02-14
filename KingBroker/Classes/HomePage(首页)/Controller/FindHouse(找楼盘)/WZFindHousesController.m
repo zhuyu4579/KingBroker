@@ -17,7 +17,7 @@
 #import "UIBarButtonItem+Item.h"
 #import "WZHouseDatisController.h"
 #import "WZFindHousesController.h"
-
+#import "WZSupportHouseDatisController.h"
 @interface WZFindHousesController ()<UISearchBarDelegate>{
     //页数
     NSInteger current;
@@ -256,10 +256,20 @@ static  NSString * const ID = @"cells";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     WZFindHouseCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    //点击跳转详情页
-    WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
-    houseDatis.ID =  cell.ID;
-    [self.navigationController pushViewController:houseDatis animated:YES];
+    NSString *selfEmployed = cell.selfEmployed;
+    
+    if ([selfEmployed isEqual:@"2"]) {
+        WZSupportHouseDatisController *houseDatis = [[WZSupportHouseDatisController alloc] init];
+        houseDatis.ID =  cell.ID;
+        [self.navigationController pushViewController:houseDatis animated:YES];
+    }else{
+        //点击跳转详情页
+        WZHouseDatisController *houseDatis = [[WZHouseDatisController alloc] init];
+        houseDatis.ID =  cell.ID;
+        [self.navigationController pushViewController:houseDatis animated:YES];
+        
+    }
+    
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
