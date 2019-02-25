@@ -75,13 +75,7 @@
 @property(nonatomic,strong)UITextField *verificationCode;
 //验证码下滑线
 @property(nonatomic,strong)UIView *verificationCodeIne;
-//注册邀请码Label
-@property(nonatomic , strong)UILabel *inviteCodeLabelOne;
-@property(nonatomic , strong)UILabel *inviteCodeLabelTwo;
-//注册的邀请码
-@property(nonatomic,strong)UITextField *inviteCode;
-//邀请码下滑线
-@property(nonatomic,strong)UIView *inviteCodeIne;
+
 //注册-获取验证码
 @property(nonatomic,strong)UIButton *findVerificationCode;
 //注册-选中协议
@@ -137,10 +131,6 @@
     [self.registarView addSubview:self.verificationCode];
     [self.registarView addSubview:self.verificationCodeIne];
     [self.registarView addSubview:self.findVerificationCode];
-    [self.registarView addSubview:self.inviteCodeLabelOne];
-    [self.registarView addSubview:self.inviteCodeLabelTwo];
-    [self.registarView addSubview:self.inviteCode];
-    [self.registarView addSubview:self.inviteCodeIne];
     [self.registarView addSubview:self.selectAgreement];
     [self.registarView addSubview:self.agreementLabel];
     [self.registarView addSubview:self.seeAgreement];
@@ -315,42 +305,21 @@
         make.height.offset(24);
         make.width.offset(80);
     }];
-    [self.inviteCodeLabelOne mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.registarView.mas_left).offset(57);
-        make.top.equalTo(self.verificationCodeIne.mas_bottom).offset(31);
-        make.height.offset(12);
-    }];
-    [self.inviteCodeLabelTwo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.inviteCodeLabelOne.mas_right).offset(16);
-        make.top.equalTo(self.verificationCodeIne.mas_bottom).offset(32);
-        make.height.offset(12);
-    }];
-    [self.inviteCode mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.registarView.mas_left).offset(57);
-        make.top.equalTo(self.inviteCodeLabelOne.mas_bottom);
-        make.height.offset(38);
-        make.width.offset(self.scrollView.fWidth-107);
-    }];
-    [self.inviteCodeIne mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.registarView.mas_left).offset(57);
-        make.top.equalTo(self.inviteCode.mas_bottom);
-        make.height.offset(1);
-        make.width.offset(self.scrollView.fWidth-107);
-    }];
+    
     [self.selectAgreement mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.registarView.mas_left).offset(58);
-        make.top.equalTo(self.inviteCodeIne.mas_bottom).offset(17);
+        make.top.equalTo(self.verificationCodeIne.mas_bottom).offset(17);
         make.height.offset(14);
         make.width.offset(14);
     }];
     [self.agreementLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.selectAgreement.mas_right).offset(7);
-        make.top.equalTo(self.inviteCodeIne.mas_bottom).offset(19);
+        make.top.equalTo(self.verificationCodeIne.mas_bottom).offset(19);
         make.height.offset(11);
     }];
     [self.seeAgreement mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.agreementLabel.mas_right);
-        make.top.equalTo(self.inviteCodeIne.mas_bottom).offset(14);
+        make.top.equalTo(self.verificationCodeIne.mas_bottom).offset(14);
         make.height.offset(21);
         make.width.offset(110);
     }];
@@ -366,15 +335,11 @@
 //获取焦点
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     textField.returnKeyType = UIReturnKeyDone;
-    if(textField==_inviteCode){
-        _scrollView.contentSize = CGSizeMake(0, self.view.fHeight+100);
-    }
+  
 }
 // 失去焦点
 - (void)textFieldDidEndEditing:(UITextField *)textField{
-    if(textField==_inviteCode){
-        _scrollView.contentSize = CGSizeMake(0, self.view.fHeight-kApplicationStatusBarHeight);
-    }
+   
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -410,7 +375,7 @@
     [_loginPassWord resignFirstResponder];
     [_registarName resignFirstResponder];
     [_verificationCode resignFirstResponder];
-    [_inviteCode resignFirstResponder];
+    
     
 }
 -(void)touches{
@@ -418,7 +383,7 @@
     [_loginPassWord resignFirstResponder];
     [_registarName resignFirstResponder];
     [_verificationCode resignFirstResponder];
-    [_inviteCode resignFirstResponder];
+    
 }
 #pragma mark - Method
 -(void)defaultSelcetPage{
@@ -646,18 +611,21 @@
         [SVProgressHUD showInfoWithStatus:@"请同意协议"];
         return;
     }
+    //剪切板内容
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"type"] = @"1";
     paraments[@"telphone"] = telphone;
     paraments[@"smsCode"] = YZM;
-    paraments[@"parentPhone"] = _inviteCode.text;
+    paraments[@"parentPhone"] = pasteboard.string;
     [WZLoadDateSeviceOne getUserInfosSuccess:^(NSDictionary *dic) {
         NSString *code = [dic valueForKey:@"code"];
         if ([code isEqual:@"200"]) {
             WZRegistarSetPWController *registar = [[WZRegistarSetPWController alloc] init];
             registar.telphone = telphone;
             registar.YZM = YZM;
-            registar.inviteCode = _inviteCode.text;
+            registar.inviteCode = pasteboard.string;
             [self.navigationController pushViewController:registar animated:YES];
         }else{
             NSString *msg = [dic valueForKey:@"msg"];
@@ -967,45 +935,7 @@
     }
     return _findVerificationCode;
 }
--(UILabel *)inviteCodeLabelOne{
-    if (!_inviteCodeLabelOne) {
-        _inviteCodeLabelOne = [[UILabel alloc] init];
-        _inviteCodeLabelOne.text = @"邀请人";
-        _inviteCodeLabelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-        _inviteCodeLabelOne.textColor = UIColorRBG(51, 51, 51);
-    }
-    return _inviteCodeLabelOne;
-}
--(UILabel *)inviteCodeLabelTwo{
-    if (!_inviteCodeLabelTwo) {
-        _inviteCodeLabelTwo = [[UILabel alloc] init];
-        _inviteCodeLabelTwo.text = @"(选填)";
-        _inviteCodeLabelTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-        _inviteCodeLabelTwo.textColor = UIColorRBG(204, 204, 204);
-    }
-    return _inviteCodeLabelTwo;
-}
--(UITextField *)inviteCode{
-    if (!_inviteCode) {
-        _inviteCode = [[UITextField alloc] init];
-        _inviteCode.placeholder = @"请输入邀请码";
-        _inviteCode.textColor = UIColorRBG(49, 35, 6);
-        _inviteCode.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:12];
-        _inviteCode.delegate = self;
-        _inviteCode.keyboardType = UIKeyboardTypeDefault;
-        [[_inviteCode valueForKey:@"_clearButton"] setImage:[UIImage imageNamed:@"close_dl"] forState:UIControlStateNormal];
-        _inviteCode.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _inviteCode.clearsOnBeginEditing = NO;
-    }
-    return _inviteCode;
-}
--(UIView *)inviteCodeIne{
-    if (!_inviteCodeIne) {
-        _inviteCodeIne = [[UIView alloc] init];
-        _inviteCodeIne.backgroundColor = UIColorRBG(255, 245, 177);
-    }
-    return _inviteCodeIne;
-}
+
 -(UIButton *)selectAgreement{
     if (!_selectAgreement) {
         _selectAgreement = [[UIButton alloc] init];

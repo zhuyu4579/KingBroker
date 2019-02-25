@@ -106,6 +106,7 @@
     //声明
     [self loadDutyState];
     
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -122,7 +123,7 @@
     self.recommendView.frame = CGRectMake(0, self.goodHouseView.fY+self.goodHouseView.fHeight+10, SCREEN_WIDTH, 964);
     self.recommendTV.frame = CGRectMake(0, 48, self.recommendView.fWidth, 915);
     self.scrollView.contentSize = CGSizeMake(0, self.recommendView.fY+self.recommendView.fHeight);
-    //查询更新版本
+    //查询未读消息
     [self setloadData];
     //查询字典
     [self dictList];
@@ -441,8 +442,9 @@
 -(void)setloadData{
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     
-    [WZLoadDateSeviceOne postUserInfosSuccess:^(NSDictionary *dic) {
+    [WZLoadDateSeviceOne getUserInfosSuccess:^(NSDictionary *dic) {
         NSString *code = [dic valueForKey:@"code"];
+            
         if ([code isEqual:@"200"]) {
             NSDictionary *data = [dic valueForKey:@"data"];
             NSString *count = [data valueForKey:@"count"] ;
@@ -465,7 +467,7 @@
         
     } andFail:^(NSString *str) {
         
-    } parament:paraments URL:@"/userMessage/read/readAllCount"];
+    } parament:paraments URL:@"/userMessage/read/notreadCount"];
     
 }
 #pragma mark -点击事件
@@ -867,8 +869,6 @@
      ];
    
 }
-
-
 
 #pragma mark -将数据写入文件
 -(void)loadDateURl:(NSArray *)array plistName:(NSString *)plistName name:(NSString *)name{

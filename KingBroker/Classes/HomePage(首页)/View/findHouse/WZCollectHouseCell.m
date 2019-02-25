@@ -23,49 +23,33 @@
     _item = item;
     //设置ID
     _ID = item.id;
-    _projectName.text = item.name;
-    if(item.name.length>10){
-        [_projectName mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.offset(140);
+    _houseItemName.text = item.name;
+    if(item.name.length>11){
+        [_houseItemName mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.offset(174);
         }];
     }
-    _distance.text = item.distance;
     
     if ([realtorStatus isEqual:@"2"]) {
         [_JoinStoreButton setHidden:YES];
         [_JoinStoreButton setEnabled:NO];
         
-        [_commsion setHidden:NO];
+        [_houseCommission setHidden:NO];
         if([commissionFag isEqual:@"0"]){
-            _commsion.text = [NSString stringWithFormat:@"佣：%@" ,item.commission];
+            _houseCommission.text = [NSString stringWithFormat:@"佣：%@" ,item.commission];
         }else{
-            _commsion.text = @"请咨询负责人";
+            _houseCommission.text = @"请咨询负责人";
         }
     }else{
         [_JoinStoreButton setTitle:@"加入门店可见佣金" forState:UIControlStateNormal];
         [_JoinStoreButton setEnabled:YES];
     }
-    
-    _cityName.text = item.cityName;
-    _companyName.text = item.companyName;
-    NSString *houseType = item.selfEmployed;
-    _selfEmployed = houseType;
-    if ([houseType isEqual:@"1"]) {
-        [_houseTypeImage setHidden:YES];
-        _houseTypeY.constant = 43.5;
-        [_companyView setHidden:NO];
-    }else if([houseType isEqual:@"2"]){
-        [_houseTypeImage setHidden:NO];
-        _houseTypeY.constant = 16;
-        [_companyView setHidden:YES];
-    }
     //总价
     NSString *totalPrice = item.totalPrice;
-    
     if (totalPrice && ![totalPrice isEqual:@""]) {
-        _prices.text = totalPrice;
+        _housePrice.text = totalPrice;
     }else{
-        _prices.text = item.averagePrice;
+        _housePrice.text = item.averagePrice;
     }
     
     NSString *collect = item.collect;
@@ -74,17 +58,27 @@
     }else{
         _houseCollectionButton.selected = YES;
     }
-    
-    [_projectIamge sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"zw_icon2"]];
-    if (item.tage.count!=0) {
-        for (int i = 0; i<item.tage.count; i++) {
-            if (i == 0) {
-                _labelOne.text = [NSString stringWithFormat:@" %@ " ,item.tage[0]];
-            }else if(i==1){
-                _labelTwo.text = [NSString stringWithFormat:@" %@ " ,item.tage[1]];
-            }else if(i==2){
-                _labelThree.text = [NSString stringWithFormat:@" %@ " ,item.tage[2]];
-            }
+    _cityName.text = item.areaName;
+    _companyName.text = item.companyName;
+    NSString *houseType = item.selfEmployed;
+    _selfEmployed = houseType;
+    if ([houseType isEqual:@"1"]) {
+        [_xxztView setHidden:YES];
+        [_companyView setHidden:NO];
+    }else if([houseType isEqual:@"2"]){
+        [_xxztView setHidden:NO];
+        [_companyView setHidden:YES];
+    }
+    [_houseImage sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"zw_icon2"]];
+    _houseLabelOne.text = @"";
+    _houseLabelTwo.text = @"";
+    _houseLabelThree.text = @"";
+    if (item.tage.count != 0) {
+        _houseLabelOne.text = [NSString stringWithFormat:@" %@ " ,item.tage[0]];
+        if(item.tage.count > 1){
+            _houseLabelTwo.text = [NSString stringWithFormat:@" %@ " ,item.tage[1]];
+        }else if(item.tage.count > 2){
+            _houseLabelThree.text = [NSString stringWithFormat:@" %@ " ,item.tage[2]];
         }
     }
     NSString *runTag = item.runTag;
@@ -94,32 +88,65 @@
     }else{
         [_labelTag setHidden:YES];
     }
+    _isTasking = item.isTasking;
+    if ([_isTasking isEqual:@"1"]) {
+        [_taskButton setHidden:NO];
+        [_taskButton setEnabled:YES];
+    }else{
+        [_taskButton setHidden:YES];
+        [_taskButton setEnabled:NO];
+    }
+    _houseTypeOnes.text = @"";
+    _houseTypeTwos.text = @"";
+    _houseTypeLabelOne.text = @"";
+    _houseTypeLabelTwo.text = @"";
+    if (item.typeList.count >0) {
+        _houseTypeOnes.text = [NSString stringWithFormat:@" %@ ",item.typeList[0]];
+        _houseTypeLabelOne.text = [NSString stringWithFormat:@" %@ ",item.typeList[0]];
+        if (item.typeList.count>1) {
+            _houseTypeTwos.text = [NSString stringWithFormat:@" %@ ",item.typeList[0]];
+            _houseTypeLabelTwo.text = [NSString stringWithFormat:@" %@ ",item.typeList[0]];
+        }
+    }
 }
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.backgroundColor = [UIColor clearColor];
-    [_houseTypeImage setHidden:YES];
-    _projectName.textColor = UIColorRBG(51, 51, 51);
-    _labelOne.backgroundColor = UIColorRBG(255, 252, 238);
-    _labelOne.textColor = UIColorRBG(255, 202, 118);
-    _labelTwo.backgroundColor = UIColorRBG(255, 252, 238);
-    _labelTwo.textColor = UIColorRBG(255, 202, 118);
-    _labelThree.backgroundColor = UIColorRBG(255, 252, 238);
-    _labelThree.textColor = UIColorRBG(255, 202, 118);
-    
-     _commsion.textColor = UIColorRBG(254, 193, 0);
-    [_JoinStoreButton setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
+    _houseImage.layer.cornerRadius = 2.0;
+    _houseImage.layer.masksToBounds = YES;
+    _houseItemName.textColor = UIColorRBG(51, 51, 51);
+    _houseLabelOne.backgroundColor = UIColorRBG(255, 252, 238);
+    _houseLabelOne.textColor = UIColorRBG(255, 202, 118);
+    _houseLabelTwo.backgroundColor = UIColorRBG(255, 252, 238);
+    _houseLabelTwo.textColor = UIColorRBG(255, 202, 118);
+    _houseLabelThree.backgroundColor = UIColorRBG(255, 252, 238);
+    _houseLabelThree.textColor = UIColorRBG(255, 202, 118);
     
     _labelTag.backgroundColor = UIColorRBG(135, 148, 227);
     _labelTag.layer.cornerRadius = 2.0;
     _labelTag.layer.masksToBounds = YES;
     
-    [_commsion setHidden:YES];
-     _prices.textColor = UIColorRBG(102, 102, 102);
+    _houseCommission.textColor = UIColorRBG(250, 87, 65);
+    [_JoinStoreButton setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
+    [_houseCommission setHidden:YES];
+    
+    _housePrice.textColor = UIColorRBG(102, 102, 102);
+    _companyName.textColor = UIColorRBG(153, 153, 153);
     _cityName.textColor = UIColorRBG(102, 102, 102);
-    _companyName.textColor = UIColorRBG(153,153,153);
-    _distance.textColor = UIColorRBG(170, 170, 170);
     [_houseCollectionButton setEnlargeEdge:40];
+    
+    _houseTypeLabelOne.textColor = UIColorRBG(109, 122, 128);
+    _houseTypeLabelOne.layer.borderWidth = 1.0;
+    _houseTypeLabelOne.layer.borderColor = UIColorRBG(109, 122, 128).CGColor;
+    _houseTypeLabelTwo.textColor = UIColorRBG(109, 122, 128);
+    _houseTypeLabelTwo.layer.borderWidth = 1.0;
+    _houseTypeLabelTwo.layer.borderColor = UIColorRBG(109, 122, 128).CGColor;
+    _houseTypeOnes.textColor = UIColorRBG(109, 122, 128);
+    _houseTypeOnes.layer.borderWidth = 1.0;
+    _houseTypeOnes.layer.borderColor = UIColorRBG(109, 122, 128).CGColor;
+    _houseTypeTwos.textColor = UIColorRBG(109, 122, 128);
+    _houseTypeTwos.layer.borderWidth = 1.0;
+    _houseTypeTwos.layer.borderColor = UIColorRBG(109, 122, 128).CGColor;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -174,6 +201,9 @@
         but.enabled = YES;
     }];
     
+    
+}
+- (IBAction)taskButtons:(UIButton *)sender {
     
 }
 - (IBAction)JoinStore:(UIButton *)sender {

@@ -10,4 +10,6 @@
 
 @interface UIImage (Image)
 +(UIImage *)imageOriginalWithName:(NSString *)imageName;
+//压缩图片
++(UIImage *)handleImageWithURLStr:(NSString *)imageURLStr;
 @end

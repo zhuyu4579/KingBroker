@@ -10,6 +10,9 @@
 #import <AFNetworking.h>
 #import <SVProgressHUD.h>
 #import "WZablumController.h"
+#import "WZNewJionStoreController.h"
+#import "WZNavigationController.h"
+#import "WZUpdateCardController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZValidateCodeController.h"
 #import "WZReadPassWordController.h"
@@ -33,51 +36,38 @@
     self.view.backgroundColor = UIColorRBG(242, 242, 242);
     self.navigationItem.title = @"设置";
     self.cacha.textColor = UIColorRBG(102, 102, 102);
-    _authenStatus.textColor = UIColorRBG(102, 102, 102);
     _telphone.textColor = UIColorRBG(102, 102, 102);
     [_authenImage sizeToFit];
     [self.ExitLogon setTitleColor:UIColorRBG(153, 153, 153) forState:UIControlStateNormal];
     
      _cacha.text = [self sizeStr];
     
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSInteger idcardStatus = [[user objectForKey:@"idcardStatus"] integerValue];
+    
+    NSInteger businessCardStatus = [[user objectForKey:@"businessCardStatus"] integerValue];
+    NSLog(@"%ld",(long)businessCardStatus);
     NSString *username = [user objectForKey:@"username"];
-    NSString *name = [user objectForKey:@"name"];
     if(username.length>0){
         NSString *top = [username substringToIndex:3];
         NSString *bottom = [username substringFromIndex:7];
         _telphone.text = [NSString stringWithFormat:@"%@****%@",top,bottom];
     }
-    if (idcardStatus == 0||idcardStatus == 3) {
-        _authenStatus.text = @"手持身份证";
-       
-        if (idcardStatus == 3) {
-            _authenStatus.text = @"手持身份证";
-            _authenImage.image = [UIImage imageNamed:@"authenticated"];
+    if (businessCardStatus == 0||businessCardStatus == 3) {
+        
+        if (businessCardStatus == 3) {
+            _authenImage.image = [UIImage imageNamed:@"authenticated-1"];
         }
-    }else if(idcardStatus == 1){
-        _authenStatus.text = @"审核中";
-    }else{
-        if(name.length>1){
-            NSString *realnames = [name substringFromIndex:1];
-            _authenStatus.text = [NSString stringWithFormat:@"*%@",realnames];
-            
-        }else{
-            _authenStatus.text = @"";
-        }
+    }else if(businessCardStatus == 2){
+        
         _authenImage.image = [UIImage imageNamed:@"authenticated2"];
         
     }
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
-}
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 //退出登录
@@ -131,7 +121,7 @@
             
             NSDictionary *dic = [userDefaults dictionaryRepresentation];
             for (NSString *key in dic) {
-                if (![key isEqual:@"oldName"] &&![key isEqual:@"appVersion"]&&![key isEqual:@"deviceId"]) {
+                if (![key isEqual:@"oldName"] &&![key isEqual:@"appVersion"]&&![key isEqual:@"deviceId"]&&![key isEqual:@"timeOne"]) {
                     [userDefaults removeObjectForKey:key];
                 }
             }
@@ -187,22 +177,49 @@
 }
 
 
-//实名认证
+//上传名片
 - (IBAction)authenAction:(UIButton *)sender {
     
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSInteger idcardStatus = [[user objectForKey:@"idcardStatus"] integerValue];
     
-        if (idcardStatus == 0||idcardStatus == 3) {
+    NSInteger businessCardStatus = [[user objectForKey:@"businessCardStatus"] integerValue];
+    NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
+    if([realtorStatus isEqual:@"2"]){
+        if (businessCardStatus == 0||businessCardStatus == 3) {
+            WZUpdateCardController *updateCard = [[WZUpdateCardController alloc] init];
+            [self.navigationController pushViewController:updateCard animated:YES];
             
-            WZAuthenticationController *authen = [[WZAuthenticationController alloc] init];
-            [self.navigationController pushViewController:authen animated:YES];
-           
-        }else if(idcardStatus == 2){
-            WZAuthenSuccessController *authenSuccess = [[WZAuthenSuccessController alloc] init];
-            [self.navigationController pushViewController:authenSuccess animated:YES];
+        }else if(businessCardStatus == 1){
+            [SVProgressHUD showInfoWithStatus:@"审核中"];
         }
+        
+    }else if([realtorStatus isEqual:@"0"] ||[realtorStatus isEqual:@"3"]){
+        [self store];
+    }else{
+        [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
+        [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
+    }
+   
     
+}
+-(void)store{
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"未加入门店" message:@"你还没有加入经纪门店，不能进行更多操作"  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"暂不加入" style:UIAlertActionStyleCancel
+                                                          handler:^(UIAlertAction * action) {
+                                                              
+                                                          }];
+    UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action) {
+                                                               WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
+                                                               WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore]; JionStore.jionType = @"1";
+                                                               [self.navigationController presentViewController:nav animated:YES completion:nil];
+                                                           }];
+    [cancelAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+    [defaultAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+    [alert addAction:defaultAction];
+    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 //自定义清除缓存
 -(NSInteger)getfileSize:(NSString *)DirectoryPath{

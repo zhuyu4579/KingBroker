@@ -132,8 +132,9 @@
         titleLabel.frame = CGRectMake(labelX, labelY, labelW, labelH);
         
         titleLabel.text = objArray[i];
-        
+       
         [self.ccpScrollView addSubview:titleLabel];
+        
         
     }
     

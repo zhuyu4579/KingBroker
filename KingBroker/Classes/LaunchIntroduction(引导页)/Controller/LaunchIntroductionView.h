@@ -21,6 +21,10 @@
  */
 @property (nonatomic, strong) UIColor *nomalColor;
 /**
+ 隐藏引导页回调
+ */
+@property(nonatomic,strong)void(^hideBlock)(NSString *str);
+/**
  *  不带按钮的引导页，滑动到最后一页，再向右滑直接隐藏引导页
  *
  *  @param imageNames 背景图片数组
@@ -58,6 +62,7 @@
  @return LaunchIntroductionView对象
  */
 +(instancetype)sharedWithStoryboard:(NSString *)storyboardName images:(NSArray *) imageNames buttonImage:(NSString *) buttonImageName buttonFrame:(CGRect ) frame;
+
 
 
 @end

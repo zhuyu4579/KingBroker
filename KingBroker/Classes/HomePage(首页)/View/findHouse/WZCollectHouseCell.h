@@ -9,30 +9,45 @@
 #import <UIKit/UIKit.h>
 @class WZFindHouseListItem;
 @interface WZCollectHouseCell : UITableViewCell
-@property (strong, nonatomic) IBOutlet UIImageView *projectIamge;
-@property (strong, nonatomic) IBOutlet UILabel *projectName;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *houseTypeY;
-@property (strong, nonatomic) IBOutlet UIImageView *houseTypeImage;
-@property (strong, nonatomic) IBOutlet UIView *companyView;
+@property (weak, nonatomic) IBOutlet UIImageView *houseImage;
 
 @property (strong, nonatomic) IBOutlet UILabel *labelTag;
 
-@property (strong, nonatomic) IBOutlet UILabel *prices;
-@property (strong, nonatomic) IBOutlet UILabel *labelOne;
-@property (strong, nonatomic) IBOutlet UILabel *labelTwo;
-@property (strong, nonatomic) IBOutlet UILabel *labelThree;
-@property (strong, nonatomic) IBOutlet UILabel *commsion;
+@property (weak, nonatomic) IBOutlet UILabel *houseItemName;
+//运营标签
+@property (weak, nonatomic) IBOutlet UILabel *houseLabelOne;
+@property (weak, nonatomic) IBOutlet UILabel *houseLabelTwo;
+@property (strong, nonatomic) IBOutlet UILabel *houseLabelThree;
+//佣金
+@property (strong, nonatomic) IBOutlet UILabel *houseCommission;
+//所在地
 @property (strong, nonatomic) IBOutlet UILabel *cityName;
-@property (strong, nonatomic) IBOutlet UILabel *companyName;
-//距离
-@property (strong, nonatomic) IBOutlet UILabel *distance;
-
-@property (strong, nonatomic) IBOutlet UIButton *JoinStoreButton;
+//单价
+@property (strong, nonatomic) IBOutlet UILabel *housePrice;
 @property (strong, nonatomic) IBOutlet UIButton *houseCollectionButton;
+@property (strong, nonatomic) IBOutlet UIButton *JoinStoreButton;
+//公司名称view
+@property (strong, nonatomic) IBOutlet UIView *companyView;
+@property (strong, nonatomic) IBOutlet UILabel *companyName;
+@property (strong, nonatomic) IBOutlet UILabel *houseTypeLabelOne;
+@property (strong, nonatomic) IBOutlet UILabel *houseTypeLabelTwo;
+//喜喜直推view
+@property (strong, nonatomic) IBOutlet UIView *xxztView;
+@property (strong, nonatomic) IBOutlet UILabel *houseTypeOnes;
+@property (strong, nonatomic) IBOutlet UILabel *houseTypeTwos;
+//悬赏按钮
+@property (strong, nonatomic) IBOutlet UIButton *taskButton;
+
 @property(nonatomic,strong)NSString *ID;
+//是否是自营
 @property(nonatomic,strong)NSString *selfEmployed;
+//是否有悬赏
+@property(nonatomic,strong)NSString *isTasking;
 @property(nonatomic,strong)WZFindHouseListItem *item;
 - (IBAction)JoinStore:(UIButton *)sender;
 - (IBAction)houseCollectionClick:(id)sender;
 @property(nonatomic,strong)void(^deleteblock)(UITableViewCell *cell);
+
+- (IBAction)taskButtons:(UIButton *)sender;
+
 @end

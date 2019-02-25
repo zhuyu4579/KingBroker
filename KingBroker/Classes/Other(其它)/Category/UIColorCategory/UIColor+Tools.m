@@ -78,4 +78,12 @@
     UIGraphicsEndImageContext();
     return theImage;  
 }
+//字符串换颜色
++(NSMutableAttributedString *)changeSomeText:(NSString *)str inText:(NSString *)result withColor:(UIColor *)color {
+    NSMutableAttributedString *attributeStr = [[NSMutableAttributedString alloc] initWithString:result];
+    NSRange colorRange = NSMakeRange([[attributeStr string] rangeOfString:str].location,[[attributeStr string] rangeOfString:str].length);
+    [attributeStr addAttribute:NSForegroundColorAttributeName value:color range:colorRange];
+    
+    return attributeStr;
+}
 @end

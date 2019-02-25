@@ -14,6 +14,8 @@
 #import "WZForwardController.h"
 #import "UIBarButtonItem+Item.h"
 #import "NSString+LCExtension.h"
+#import "WZNewJionStoreController.h"
+#import "WZNavigationController.h"
 #import "WZForwardDetailedController.h"
 #import "WZForwardWindowController.h"
 #import "WZAuthenticationController.h"
@@ -140,18 +142,45 @@
 //提现
 -(void)forWaryButtons{
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSInteger idcardStatus = [[user objectForKey:@"idcardStatus"] integerValue];
-    
-    if (idcardStatus == 0||idcardStatus == 3) {
-        //实名认证
-        [self authentication];
-    }else if(idcardStatus == 2){
-        //验证输入密码
-        [self validatePassWord];
-    }else if(idcardStatus == 1){
-        [SVProgressHUD showInfoWithStatus:@"实名认证中"];
+    NSInteger businessCardStatus = [[user objectForKey:@"businessCardStatus"] integerValue];
+    NSString *realtorStatus = [ user objectForKey:@"realtorStatus"];
+    if([realtorStatus isEqual:@"2"]){
+        if (businessCardStatus == 0||businessCardStatus == 3) {
+            //名片认证
+            [self authentication];
+        }else if(businessCardStatus == 2){
+            //验证输入密码
+            [self validatePassWord];
+        }else if(businessCardStatus == 1){
+            [SVProgressHUD showInfoWithStatus:@"名片认证中"];
+        }
+    }else if([realtorStatus isEqual:@"0"] ||[realtorStatus isEqual:@"3"]){
+        [self store];
+    }else{
+        [SVProgressHUD showInfoWithStatus:@"加入门店审核中"];
+        [SVProgressHUD setMaximumDismissTimeInterval:2.0f];
     }
+    
   
+}
+-(void)store{
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"未加入门店" message:@"你还没有加入经纪门店，不能进行更多操作"  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"暂不加入" style:UIAlertActionStyleCancel
+                                                          handler:^(UIAlertAction * action) {
+                                                              
+                                                          }];
+    UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"加入门店" style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action) {
+                                                               WZNewJionStoreController *JionStore = [[WZNewJionStoreController alloc] init];
+                                                               WZNavigationController *nav = [[WZNavigationController alloc] initWithRootViewController:JionStore]; JionStore.jionType = @"1";
+                                                               [self.navigationController presentViewController:nav animated:YES completion:nil];
+                                                           }];
+    [cancelAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+    [defaultAction setValue:UIColorRBG(255, 168, 0) forKey:@"_titleTextColor"];
+    [alert addAction:defaultAction];
+    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 //验证输入密码提示框
 -(void)validatePassWord{
@@ -291,15 +320,15 @@
         [SVProgressHUD showInfoWithStatus:@"网络不给力"];
     }];
 }
-//实名认证
+//名片认证
 -(void)authentication{
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"" message:@"使用提现功能需实名认证"  preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"" message:@"使用提现功能需上传名片"  preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel
                                                           handler:^(UIAlertAction * action) {
                                                               
                                                           }];
-    UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"实名认证" style:UIAlertActionStyleDefault
+    UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"上传名片" style:UIAlertActionStyleDefault
                                                            handler:^(UIAlertAction * action) {
                                                                WZAuthenticationController *authen = [[WZAuthenticationController alloc] init];
                                                                [self.navigationController pushViewController:authen animated:YES];

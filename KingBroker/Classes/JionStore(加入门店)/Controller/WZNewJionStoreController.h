@@ -13,4 +13,8 @@
 @property(nonatomic,strong)NSString *types;
 //判断是加入门店还是门店负责人
 @property(nonatomic,strong)NSString *jionType;
+//是否显示红包
+@property(nonatomic,strong)NSString *warnFlag;
+//显示红包金额
+@property(nonatomic,strong)NSString *rewardPrice;
 @end

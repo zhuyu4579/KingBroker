@@ -30,6 +30,8 @@
 @property(nonatomic,strong)UILabel *ZFBName;
 //账号Id
 @property(nonatomic,strong)NSString *ID;
+//姓名
+@property(nonatomic,strong)NSString *name;
 @end
 
 @implementation WZForwardWindowController
@@ -75,6 +77,7 @@
             }
             _waring.text = [NSString stringWithFormat:@"可提现金额%@元",_detailPrice];
             _ZFBName.text = [data valueForKey:@"payAccount"];
+            _name = [data valueForKey:@"accountName"];
         }else{
             NSString *msg = [responseObject valueForKey:@"msg"];
             if(![code isEqual:@"401"] && ![msg isEqual:@""]){
@@ -294,6 +297,7 @@
     addZFB.navigationItem.title = @"修改支付宝账号";
     addZFB.ZFBNames = _ZFBName.text;
     addZFB.ID = _ID;
+    addZFB.name =_name;
     [self.navigationController pushViewController:addZFB animated:YES];
 }
 //全部提现

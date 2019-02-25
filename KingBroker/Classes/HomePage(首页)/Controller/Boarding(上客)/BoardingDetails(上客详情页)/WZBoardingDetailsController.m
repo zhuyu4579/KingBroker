@@ -1067,8 +1067,6 @@
     report.loadTimes = [_order valueForKey:@"boardingPlanes"];
     report.peopleSums = [_order valueForKey:@"partPersonNum"];
     report.setOutCitys = [_order valueForKey:@"departureCity"];
-    report.eatPeoples = [_order valueForKey:@"lunchNum"];
-    report.tags = [[_order valueForKey:@"partWay"] integerValue];
     report.houseType = [_order valueForKey:@"selfEmployed"];
     [self.navigationController pushViewController:report animated:YES];
 }

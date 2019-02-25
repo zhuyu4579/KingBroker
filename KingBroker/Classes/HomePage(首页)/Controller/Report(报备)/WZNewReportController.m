@@ -46,8 +46,6 @@
 @property (nonatomic, strong)UILabel *loadTime;
 //出行人数
 @property (nonatomic, strong)UITextField *peopleSum;
-//用餐人数
-@property (nonatomic, strong)UITextField *eatPeople;
 //出发城市
 @property (nonatomic, strong)UITextField *setOutCity;
 //车牌号
@@ -471,7 +469,7 @@
         make.width.offset(85);
     }];
     //其他view
-    UIView *otherView = [[UIView alloc] initWithFrame:CGRectMake(0, views.fHeight+views.fY+8, _scrollView.fWidth, 318)];
+    UIView *otherView = [[UIView alloc] initWithFrame:CGRectMake(0, views.fHeight+views.fY+8, _scrollView.fWidth, 215)];
     otherView.backgroundColor = [UIColor whiteColor];
     _otherView = otherView;
     [_scrollView addSubview:otherView];
@@ -573,47 +571,8 @@
         make.height.mas_offset(1);
         make.width.mas_offset(_otherView.fWidth-30);
     }];
-    //创建第二个view中的用餐人数
-    UILabel *eatPeopleLabel = [[UILabel alloc] init];
-    eatPeopleLabel.text = @"用餐人数";
-    eatPeopleLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    eatPeopleLabel.textColor = UIColorRBG(51, 51, 51);
-    [_otherView addSubview:eatPeopleLabel];
-    [eatPeopleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_otherView.mas_left).with.offset(15);
-        make.top.equalTo(ineView4.mas_bottom).with.offset(20);
-        make.height.mas_offset(13);
-    }];
-    UITextField *eatPeople = [[UITextField alloc] init];
-    eatPeople.placeholder = @"输入用餐人数";
-    if (![_eatPeoples isEqual:@""]) {
-        eatPeople.text = _eatPeoples;
-    }
-    eatPeople.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    eatPeople.textColor = UIColorRBG(68, 68, 68);
-    eatPeople.delegate = self;
-    //键盘设置
-    eatPeople.keyboardType = UIKeyboardTypeNumberPad;
-    _eatPeople = eatPeople;
-    [_otherView addSubview:eatPeople];
-    [eatPeople mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(eatPeopleLabel.mas_right).with.offset(40);
-        make.top.equalTo(ineView4.mas_bottom).with.offset(0);
-        make.height.mas_offset(53);
-        make.width.mas_offset(_otherView.fWidth-121);
-    }];
-    
-    //绘制线
-    UIView *ineView5 = [[UIView alloc] init];
-    ineView5.backgroundColor =UIColorRBG(242, 242, 242);
-    [_otherView addSubview:ineView5];
-    [ineView5 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_otherView.mas_left).with.offset(15);
-        make.top.equalTo(eatPeople.mas_bottom);
-        make.height.mas_offset(1);
-        make.width.mas_offset(_otherView.fWidth-30);
-    }];
-    
+   
+
     UILabel *setOutCityLabel = [[UILabel alloc] init];
     setOutCityLabel.text = @"出发城市";
     setOutCityLabel.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
@@ -621,7 +580,7 @@
     [_otherView addSubview:setOutCityLabel];
     [setOutCityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_otherView.mas_left).with.offset(15);
-        make.top.equalTo(ineView5.mas_bottom).with.offset(20);
+        make.top.equalTo(ineView4.mas_bottom).with.offset(20);
         make.height.mas_offset(13);
     }];
     
@@ -639,7 +598,7 @@
     [_otherView addSubview:_setOutCity];
     [_setOutCity mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(setOutCityLabel.mas_right).with.offset(40);
-        make.top.equalTo(ineView5.mas_bottom);
+        make.top.equalTo(ineView4.mas_bottom);
         make.width.mas_offset(_otherView.fWidth-121);
         make.height.mas_offset(53);
     }];
@@ -654,119 +613,6 @@
         make.width.mas_offset(_otherView.fWidth-30);
     }];
 
-    UIView *viewFour = [[UIView alloc] init];
-    viewFour.backgroundColor = [UIColor whiteColor];
-    [_otherView addSubview:viewFour];
-    [viewFour mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_otherView.mas_left);
-        make.top.equalTo(ineView6.mas_bottom);
-        make.height.mas_offset(53);
-        make.width.mas_offset(_otherView.fWidth);
-    }];
-    
-    UILabel *modeLable = [[UILabel alloc] init];
-    modeLable.text = @"到达方式";
-    modeLable.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    modeLable.textColor = UIColorRBG(51, 51, 51);
-    [viewFour addSubview:modeLable];
-    [modeLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(viewFour.mas_left).with.offset(15);
-        make.top.equalTo(viewFour.mas_top).with.offset(20);
-        make.height.mas_offset(13);
-    }];
-    //方式按钮
-    UIButton *modeButtonOne = [[UIButton alloc] init];
-    [modeButtonOne setEnlargeEdge:30];
-    [modeButtonOne setBackgroundImage:[UIImage imageNamed:@"choose_2"] forState:UIControlStateNormal];
-    [modeButtonOne setBackgroundImage:[UIImage imageNamed:@"bb_icon"] forState:UIControlStateSelected];
-    modeButtonOne.tag = 20;
-    if (_tags == 1) {
-         modeButtonOne.selected = YES;
-    }
-    [modeButtonOne addTarget:self action:@selector(modeButton:) forControlEvents:UIControlEventTouchUpInside];
-    [viewFour addSubview:modeButtonOne];
-    [modeButtonOne mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(modeLable.mas_right).with.offset(40);
-        make.top.equalTo(viewFour.mas_top).with.offset(17);
-        make.height.mas_offset(19);
-        make.width.mas_offset(19);
-    }];
-    UILabel *modeOne = [[UILabel alloc] init];
-    modeOne.text = @"自驾";
-    modeOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    modeOne.textColor = UIColorRBG(68, 68, 68);
-    [viewFour addSubview:modeOne];
-    [modeOne mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(modeButtonOne.mas_right).with.offset(10);
-        make.top.equalTo(viewFour.mas_top).with.offset(20);
-        make.height.mas_offset(13);
-    }];
-    
-    UIButton *modeButtonTwo = [[UIButton alloc] init];
-    [modeButtonTwo setEnlargeEdge:30];
-    [modeButtonTwo setBackgroundImage:[UIImage imageNamed:@"choose_2"] forState:UIControlStateNormal];
-    [modeButtonTwo setBackgroundImage:[UIImage imageNamed:@"bb_icon"] forState:UIControlStateSelected];
-    modeButtonTwo.tag = 21;
-    if (_tags == 2) {
-        modeButtonTwo.selected = YES;
-    }
-    [modeButtonTwo addTarget:self action:@selector(modeButton:) forControlEvents:UIControlEventTouchUpInside];
-    [viewFour addSubview:modeButtonTwo];
-    [modeButtonTwo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(modeOne.mas_right).with.offset(23);
-        make.top.equalTo(viewFour.mas_top).with.offset(17);
-        make.height.mas_offset(19);
-        make.width.mas_offset(19);
-    }];
-    UILabel *modeTwo = [[UILabel alloc] init];
-    modeTwo.text = @"班车";
-    modeTwo.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    modeTwo.textColor = UIColorRBG(68, 68, 68);
-    [viewFour addSubview:modeTwo];
-    [modeTwo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(modeButtonTwo.mas_right).with.offset(10);
-        make.top.equalTo(viewFour.mas_top).with.offset(20);
-        make.height.mas_offset(13);
-    }];
-    
-    UIButton *modeButtonThree = [[UIButton alloc] init];
-    [modeButtonThree setEnlargeEdge:30];
-    [modeButtonThree setBackgroundImage:[UIImage imageNamed:@"choose_2"] forState:UIControlStateNormal];
-    [modeButtonThree setBackgroundImage:[UIImage imageNamed:@"bb_icon"] forState:UIControlStateSelected];
-    modeButtonThree.tag = 22;
-    if (_tags == 0) {
-        modeButtonThree.selected = YES;
-    }
-    [modeButtonThree addTarget:self action:@selector(modeButton:) forControlEvents:UIControlEventTouchUpInside];
-    [viewFour addSubview:modeButtonThree];
-    [modeButtonThree mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(modeTwo.mas_right).with.offset(24);
-        make.top.equalTo(viewFour.mas_top).with.offset(17);
-        make.height.mas_offset(19);
-        make.width.mas_offset(19);
-    }];
-    UILabel *modeThree = [[UILabel alloc] init];
-    modeThree.text = @"其他";
-    modeThree.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
-    modeThree.textColor = UIColorRBG(68, 68, 68);
-    [viewFour addSubview:modeThree];
-    [modeThree mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(modeButtonThree.mas_right).with.offset(10);
-        make.top.equalTo(viewFour.mas_top).with.offset(20);
-        make.height.mas_offset(13);
-    }];
-    
-    //绘制线
-    UIView *ineView7 = [[UIView alloc] init];
-    ineView7.backgroundColor =UIColorRBG(242, 242, 242);
-    [_otherView addSubview:ineView7];
-    [ineView7 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_otherView.mas_left).with.offset(15);
-        make.top.equalTo(eatPeople.mas_bottom).offset(107);
-        make.height.mas_offset(1);
-        make.width.mas_offset(_otherView.fWidth-30);
-    }];
-    
     UILabel *carCard = [[UILabel alloc] init];
     carCard.text = @"车 牌 号 ";
     carCard.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:13];
@@ -774,7 +620,7 @@
     [_otherView addSubview:carCard];
     [carCard mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_otherView.mas_left).with.offset(15);
-        make.top.equalTo(ineView7.mas_bottom).with.offset(20);
+        make.top.equalTo(ineView6.mas_bottom).with.offset(20);
         make.height.mas_offset(13);
     }];
     
@@ -792,7 +638,7 @@
     [_otherView addSubview:_carCards];
     [_carCards mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(carCard.mas_right).with.offset(40);
-        make.top.equalTo(ineView7.mas_bottom);
+        make.top.equalTo(ineView6.mas_bottom);
         make.width.mas_offset(_otherView.fWidth-121);
         make.height.mas_offset(53);
     }];
@@ -1435,19 +1281,13 @@
         [SVProgressHUD showInfoWithStatus:@"出行人数不能为空"];
         return;
     }
-    //用餐人数
-    NSString *lunchNum = _eatPeople.text;
     //出发城市
     NSString *departureCity = _setOutCity.text;
     if ([departureCity isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"出发城市不能为空"];
         return;
     }
-    NSString *partWay = [NSString stringWithFormat:@"%ld",(long)_tags];
-    if ([partWay isEqual:@""]) {
-        [SVProgressHUD showInfoWithStatus:@"请选择到达方式"];
-        return;
-    }
+   
     //参数
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
@@ -1460,8 +1300,6 @@
     order[@"boardingPlane"] = boardingPlane;
     order[@"departureCity"] = departureCity;
     order[@"partPersonNum"] = partPersonNum;
-    order[@"partWay"] = partWay;
-    order[@"lunchNum"] = lunchNum;
     order[@"licensePlate"] = _carCards.text;
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"order"] = order;
@@ -1544,18 +1382,6 @@
         
     };
     
-}
-#pragma mark -到达方式
--(void)modeButton:(UIButton *)button{
-    for (int i = 0; i<3; i++) {
-        if (button.tag == 20+i) {
-            button.selected = YES;
-            _tags = button.tag;
-            continue;
-        }
-        UIButton *but = (UIButton *)[self.view viewWithTag:20+i];
-        but.selected = NO;
-    }
 }
 
 #pragma mark -点击键盘return收回键盘

@@ -37,4 +37,10 @@
 @property(nonatomic,strong)NSString *runTag;
 //是否是自营楼盘
 @property(nonatomic,strong)NSString *selfEmployed;
+//楼盘类型
+@property(nonatomic,strong)NSArray *typeList;
+//区县名称
+@property(nonatomic,strong)NSString *areaName;
+//是否有悬赏
+@property(nonatomic,strong)NSString *isTasking;
 @end

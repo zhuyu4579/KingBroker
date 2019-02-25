@@ -23,5 +23,7 @@
  设置按钮背景颜色
  */
 + (UIImage *) imageWithColor: (UIColor *)color;
-
+//
+//字符串替换部分颜色
++(NSMutableAttributedString *)changeSomeText:(NSString *)str inText:(NSString *)result withColor:(UIColor *)color;
 @end

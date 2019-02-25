@@ -50,7 +50,7 @@
         }];
         NSDictionary *dic = [userDefaults dictionaryRepresentation];
         for (NSString *key in dic) {
-            if (![key isEqual:@"oldName"]&&![key isEqual:@"appVersion"]&&![key isEqual:@"deviceId"]) {
+            if (![key isEqual:@"oldName"]&&![key isEqual:@"appVersion"]&&![key isEqual:@"deviceId"]&&![key isEqual:@"timeOne"]) {
                 [userDefaults removeObjectForKey:key];
             }
         }

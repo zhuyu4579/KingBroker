@@ -33,14 +33,10 @@
 @property (nonatomic, strong)NSString *loadTimes;
 //出行人数
 @property (nonatomic, strong)NSString *peopleSums;
-//用餐人数
-@property (nonatomic, strong)NSString *eatPeoples;
 //出发城市
 @property (nonatomic, strong)NSString *setOutCitys;
 //出发城市
 @property (nonatomic, strong)NSString *carsCard;
-//出行方式
-@property(nonatomic,assign)NSInteger tags;
 
 @property (nonatomic, copy)NSString *telphones;
 //其他报备入口类型

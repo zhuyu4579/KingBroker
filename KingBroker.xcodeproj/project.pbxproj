@@ -32,6 +32,8 @@
 		1F1B78942086199D00BC6007 /* WZBoardingItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B78932086199D00BC6007 /* WZBoardingItem.m */; };
 		1F1B789720864CCB00BC6007 /* WZReportItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B789620864CCB00BC6007 /* WZReportItems.m */; };
 		1F1B789A2086501100BC6007 /* WZReporListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1B78992086501100BC6007 /* WZReporListItem.m */; };
+		1F1BA683221D0690005CC058 /* WZInvitationCodesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1BA682221D0690005CC058 /* WZInvitationCodesController.m */; };
+		1F1BA686221D32B0005CC058 /* WZUpdateCardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1BA685221D32B0005CC058 /* WZUpdateCardController.m */; };
 		1F1C33142084C499001FE5EF /* WZFindHouseListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1C33132084C499001FE5EF /* WZFindHouseListItem.m */; };
 		1F20C413214B410300FE8CC4 /* WZGoodHouseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F20C412214B410300FE8CC4 /* WZGoodHouseTableView.m */; };
 		1F20C417214B412F00FE8CC4 /* WZGHouseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F20C415214B412F00FE8CC4 /* WZGHouseCell.m */; };
@@ -268,7 +270,6 @@
 		1FD9C62B207DBD2C00BB0298 /* WZTaskNotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C51E207DBD2B00BB0298 /* WZTaskNotificationController.m */; };
 		1FD9C62C207DBD2C00BB0298 /* WZAnnouncemeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C522207DBD2B00BB0298 /* WZAnnouncemeController.m */; };
 		1FD9C62D207DBD2C00BB0298 /* WZSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C525207DBD2B00BB0298 /* WZSystemController.m */; };
-		1FD9C62E207DBD2C00BB0298 /* WZNewsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C527207DBD2B00BB0298 /* WZNewsTableViewController.m */; };
 		1FD9C62F207DBD2C00BB0298 /* WZNewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD9C529207DBD2B00BB0298 /* WZNewItem.m */; };
 		1FD9C631207DBD2C00BB0298 /* WZAnnouCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C52D207DBD2B00BB0298 /* WZAnnouCell.xib */; };
 		1FD9C632207DBD2C00BB0298 /* WZNewViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD9C52E207DBD2B00BB0298 /* WZNewViewCell.xib */; };
@@ -390,6 +391,10 @@
 		1F1B789620864CCB00BC6007 /* WZReportItems.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZReportItems.m; sourceTree = "<group>"; };
 		1F1B78982086501100BC6007 /* WZReporListItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZReporListItem.h; sourceTree = "<group>"; };
 		1F1B78992086501100BC6007 /* WZReporListItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZReporListItem.m; sourceTree = "<group>"; };
+		1F1BA681221D0690005CC058 /* WZInvitationCodesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZInvitationCodesController.h; sourceTree = "<group>"; };
+		1F1BA682221D0690005CC058 /* WZInvitationCodesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZInvitationCodesController.m; sourceTree = "<group>"; };
+		1F1BA684221D32B0005CC058 /* WZUpdateCardController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZUpdateCardController.h; sourceTree = "<group>"; };
+		1F1BA685221D32B0005CC058 /* WZUpdateCardController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZUpdateCardController.m; sourceTree = "<group>"; };
 		1F1C33122084C499001FE5EF /* WZFindHouseListItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZFindHouseListItem.h; sourceTree = "<group>"; };
 		1F1C33132084C499001FE5EF /* WZFindHouseListItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZFindHouseListItem.m; sourceTree = "<group>"; };
 		1F20C411214B410300FE8CC4 /* WZGoodHouseTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZGoodHouseTableView.h; sourceTree = "<group>"; };
@@ -822,12 +827,10 @@
 		1FD9C514207DBD2B00BB0298 /* WZMallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZMallViewController.m; sourceTree = "<group>"; };
 		1FD9C51E207DBD2B00BB0298 /* WZTaskNotificationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZTaskNotificationController.m; sourceTree = "<group>"; };
 		1FD9C51F207DBD2B00BB0298 /* WZTaskNotificationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZTaskNotificationController.h; sourceTree = "<group>"; };
-		1FD9C520207DBD2B00BB0298 /* WZNewsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZNewsTableViewController.h; sourceTree = "<group>"; };
 		1FD9C522207DBD2B00BB0298 /* WZAnnouncemeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZAnnouncemeController.m; sourceTree = "<group>"; };
 		1FD9C523207DBD2B00BB0298 /* WZAnnouncemeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZAnnouncemeController.h; sourceTree = "<group>"; };
 		1FD9C525207DBD2B00BB0298 /* WZSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZSystemController.m; sourceTree = "<group>"; };
 		1FD9C526207DBD2B00BB0298 /* WZSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZSystemController.h; sourceTree = "<group>"; };
-		1FD9C527207DBD2B00BB0298 /* WZNewsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZNewsTableViewController.m; sourceTree = "<group>"; };
 		1FD9C529207DBD2B00BB0298 /* WZNewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZNewItem.m; sourceTree = "<group>"; };
 		1FD9C52A207DBD2B00BB0298 /* WZNewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZNewItem.h; sourceTree = "<group>"; };
 		1FD9C52D207DBD2B00BB0298 /* WZAnnouCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WZAnnouCell.xib; sourceTree = "<group>"; };
@@ -1557,6 +1560,10 @@
 				1F46104420BBA12D00216FDB /* WZPhonesController.m */,
 				1F4E41E3215B3B820039A151 /* WZInvitePrizeController.h */,
 				1F4E41E4215B3B820039A151 /* WZInvitePrizeController.m */,
+				1F1BA681221D0690005CC058 /* WZInvitationCodesController.h */,
+				1F1BA682221D0690005CC058 /* WZInvitationCodesController.m */,
+				1F1BA684221D32B0005CC058 /* WZUpdateCardController.h */,
+				1F1BA685221D32B0005CC058 /* WZUpdateCardController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1857,8 +1864,6 @@
 				1FD9C51D207DBD2B00BB0298 /* TaskNotification(任务通知) */,
 				1FD9C521207DBD2B00BB0298 /* AnnouncementNews(公告消息) */,
 				1FD9C524207DBD2B00BB0298 /* SystemBulletin(系统通知) */,
-				1FD9C520207DBD2B00BB0298 /* WZNewsTableViewController.h */,
-				1FD9C527207DBD2B00BB0298 /* WZNewsTableViewController.m */,
 				1F46104620BC26C400216FDB /* WZNEWHTMLController.h */,
 				1F46104720BC26C400216FDB /* WZNEWHTMLController.m */,
 				1F632EBF212CFFC00063AC4A /* WZNewsController.h */,
@@ -2604,6 +2609,7 @@
 				1F75C55F21ABE84B002B8CF2 /* HXPhotoModel.m in Sources */,
 				1F6013A621A9215700468730 /* WZDetailsViewTwo.m in Sources */,
 				1F676372214A67C4005F1E37 /* WZGoodHouseController.m in Sources */,
+				1F1BA683221D0690005CC058 /* WZInvitationCodesController.m in Sources */,
 				1F504EE42154CCE400AA06D6 /* WZTokerVItem.m in Sources */,
 				1F1B7891208584CD00BC6007 /* WZMainUnitItem.m in Sources */,
 				1F4E41E5215B3B820039A151 /* WZInvitePrizeController.m in Sources */,
@@ -2626,7 +2632,6 @@
 				1FD9C670207DBD2C00BB0298 /* WZHospitalTableView.m in Sources */,
 				1F48E03921C4FC120021E385 /* WZOSSImageUploader.m in Sources */,
 				1F1C33142084C499001FE5EF /* WZFindHouseListItem.m in Sources */,
-				1FD9C62E207DBD2C00BB0298 /* WZNewsTableViewController.m in Sources */,
 				1F47F4A320CA20FC0012F5EF /* WZLunBoItem.m in Sources */,
 				1FD9C657207DBD2C00BB0298 /* WZRecommendTableView.m in Sources */,
 				1F3D658E20B2A35C003AEF39 /* WZSearchProjectController.m in Sources */,
@@ -2745,6 +2750,7 @@
 				1FD9C62D207DBD2C00BB0298 /* WZSystemController.m in Sources */,
 				1F5156E3217D61EE0089D482 /* WZAllPhotosCollectionView.m in Sources */,
 				1F632EC5212D00140063AC4A /* WZNewsCell.m in Sources */,
+				1F1BA686221D32B0005CC058 /* WZUpdateCardController.m in Sources */,
 				1F63B1B920E72875009587C1 /* WZForwardWindowController.m in Sources */,
 				1F28463120887C4F007CFC7C /* WZCustomerItem.m in Sources */,
 				1F57BB8421C8CA9A003464F7 /* WZEditHouseController.m in Sources */,

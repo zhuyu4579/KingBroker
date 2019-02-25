@@ -25,12 +25,11 @@
     //设置ID
     _ID = item.id;
     _houseItemName.text = item.name;
-    if(item.name.length>10){
+    if(item.name.length>11){
         [_houseItemName mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.offset(140);
+            make.width.offset(174);
         }];
     }
-    _distance.text = item.distance;
     
     if ([realtorStatus isEqual:@"2"]) {
         [_JoinStoreButton setHidden:YES];
@@ -60,17 +59,15 @@
     }else{
         _houseCollectionButton.selected = YES;
     }
-    _cityName.text = item.cityName;
+    _cityName.text = item.areaName;
     _companyName.text = item.companyName;
     NSString *houseType = item.selfEmployed;
     _selfEmployed = houseType;
     if ([houseType isEqual:@"1"]) {
-        [_houseTypeImage setHidden:YES];
-        _houseTypeY.constant = 43.5;
+        [_xxztView setHidden:YES];
         [_companyView setHidden:NO];
     }else if([houseType isEqual:@"2"]){
-        [_houseTypeImage setHidden:NO];
-        _houseTypeY.constant = 16;
+        [_xxztView setHidden:NO];
         [_companyView setHidden:YES];
     }
     [_houseImage sd_setImageWithURL:[NSURL URLWithString:item.url] placeholderImage:[UIImage imageNamed:@"zw_icon2"]];
@@ -92,11 +89,33 @@
     }else{
         [_labelTag setHidden:YES];
     }
+    _isTasking = item.isTasking;
+    if ([_isTasking isEqual:@"1"]) {
+        [_taskButton setHidden:NO];
+        [_taskButton setEnabled:YES];
+    }else{
+        [_taskButton setHidden:YES];
+        [_taskButton setEnabled:NO];
+    }
+    _houseTypeOnes.text = @"";
+    _houseTypeTwos.text = @"";
+    _houseTypeLabelOne.text = @"";
+    _houseTypeLabelTwo.text = @"";
+    if (item.typeList.count >0) {
+        _houseTypeOnes.text = [NSString stringWithFormat:@" %@ ",item.typeList[0]];
+        _houseTypeLabelOne.text = [NSString stringWithFormat:@" %@ ",item.typeList[0]];
+        if (item.typeList.count>1) {
+            _houseTypeTwos.text = [NSString stringWithFormat:@" %@ ",item.typeList[0]];
+            _houseTypeLabelTwo.text = [NSString stringWithFormat:@" %@ ",item.typeList[0]];
+        }
+    }
 }
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.backgroundColor = [UIColor clearColor];
-    [_houseTypeImage setHidden:YES];
+    
+    _houseImage.layer.cornerRadius = 2.0;
+    _houseImage.layer.masksToBounds = YES;
     _houseItemName.textColor = UIColorRBG(51, 51, 51);
     _houseLabelOne.backgroundColor = UIColorRBG(255, 252, 238);
     _houseLabelOne.textColor = UIColorRBG(255, 202, 118);
@@ -109,16 +128,27 @@
     _labelTag.layer.cornerRadius = 2.0;
     _labelTag.layer.masksToBounds = YES;
     
-    _houseCommission.textColor = UIColorRBG(254, 193, 0);
+    _houseCommission.textColor = UIColorRBG(250, 87, 65);
     [_JoinStoreButton setTitleColor:UIColorRBG(254, 193, 0) forState:UIControlStateNormal];
     [_houseCommission setHidden:YES];
     
     _housePrice.textColor = UIColorRBG(102, 102, 102);
     _companyName.textColor = UIColorRBG(153, 153, 153);
-    _distance.textColor = UIColorRBG(170, 170, 170);
     _cityName.textColor = UIColorRBG(102, 102, 102);
     [_houseCollectionButton setEnlargeEdge:40];
     
+    _houseTypeLabelOne.textColor = UIColorRBG(109, 122, 128);
+    _houseTypeLabelOne.layer.borderWidth = 1.0;
+    _houseTypeLabelOne.layer.borderColor = UIColorRBG(109, 122, 128).CGColor;
+    _houseTypeLabelTwo.textColor = UIColorRBG(109, 122, 128);
+    _houseTypeLabelTwo.layer.borderWidth = 1.0;
+    _houseTypeLabelTwo.layer.borderColor = UIColorRBG(109, 122, 128).CGColor;
+    _houseTypeOnes.textColor = UIColorRBG(109, 122, 128);
+    _houseTypeOnes.layer.borderWidth = 1.0;
+    _houseTypeOnes.layer.borderColor = UIColorRBG(109, 122, 128).CGColor;
+    _houseTypeTwos.textColor = UIColorRBG(109, 122, 128);
+    _houseTypeTwos.layer.borderWidth = 1.0;
+    _houseTypeTwos.layer.borderColor = UIColorRBG(109, 122, 128).CGColor;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -171,6 +201,9 @@
         }];
     
     
+}
+
+- (IBAction)taskButtons:(UIButton *)sender {
 }
 - (IBAction)JoinStore:(UIButton *)sender {
     UIViewController *vc = [UIViewController viewController:self.superview.superview.superview.superview.superview];

@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 +(void)getUserInfosSuccess:(SuccessHandler)success andFail:(FailHandler) fail parament:(NSDictionary *)parament URL:(NSString *)url;
 +(void)postUserInfosSuccess:(SuccessHandler)success andFail:(FailHandler) fail parament:(NSDictionary *)parament URL:(NSString *)url;
++(void)postUpdatePhotoSuccess:(SuccessHandler)success andFail:(FailHandler)fail parament:(NSDictionary *)parament URL:(NSString *)url imageArray:(NSArray *)imageArray;
 @end
 
 NS_ASSUME_NONNULL_END

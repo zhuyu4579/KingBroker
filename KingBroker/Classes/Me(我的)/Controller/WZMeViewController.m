@@ -9,6 +9,7 @@
 #import "UIView+Frame.h"
 #import <AFNetworking.h>
 #import <SVProgressHUD.h>
+#import "WZLoadDateSeviceOne.h"
 #import "WZTabBarController.h"
 #import "WZMeViewController.h"
 #import "WZBoaringController.h"
@@ -27,6 +28,7 @@
 #import "WZBelongedStoreController.h"
 #import "UIButton+WZEnlargeTouchAre.h"
 #import "WZAuthenticationController.h"
+#import "WZInvitationCodesController.h"
 #import "WZLoginAndRegistarController.h"
 #import "WZSetPersonalInforMationController.h"
 @interface WZMeViewController ()
@@ -60,10 +62,12 @@
 @property(nonatomic,assign)UIButton *loginButton;
 //编辑按钮
 @property(nonatomic,assign)UIButton *editButton;
+//邀请码按钮
+@property(nonatomic,strong)UIButton *invitationButton;
 @end
 
 @implementation WZMeViewController
-
+#pragma mark -lift cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
      self.view.backgroundColor = UIColorRBG(248,247,242);
@@ -78,7 +82,23 @@
 
 }
 
-//创建控件
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [self loadData];
+    [self setloadData];
+    [self getParentCodeFlag];
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+//推送刷新
+-(void)meRefresh{
+    [self loadData];
+    [self setloadData];
+}
+#pragma mark -创建控件
 -(void)setUpMeView{
     //创建UIScrollView
     UIScrollView *meScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(self.view.fX,0, self.view.fWidth, self.view.fHeight-49-JF_BOTTOM_SPACE)];
@@ -96,84 +116,125 @@
     [self setViews];
    
 }
-//推送刷新
--(void)meRefresh{
-    [self loadData];
-    [self setloadData];
-}
-//获取数据
+
+#pragma mark-获取数据
 -(void)loadData{
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     NSString *userId = [ user objectForKey:@"userId"];
     NSString *username = [ user objectForKey:@"username"];
+    
      _uuid = uuid;
      if (![uuid isEqual:@""] && uuid) {
          [self logins];
-        //创建会话请求
-        AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+         //2.拼接参数
+         NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+         paraments[@"username"] = username;
+         paraments[@"userId"] = userId;
+         
+         [WZLoadDateSeviceOne postUserInfosSuccess:^(NSDictionary *dic) {
+             NSString *code = [dic valueForKey:@"code"];
+             if ([code isEqual:@"200"]) {
+                 _loginItem = [dic valueForKey:@"data"];
+
+                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                 [defaults setObject:[_loginItem valueForKey:@"realtorStatus"] forKey:@"realtorStatus"];
+                 [defaults setObject:[_loginItem valueForKey:@"idcardStatus"] forKey:@"idcardStatus"];
+                 [defaults setObject:[_loginItem valueForKey:@"businessCardStatus"] forKey:@"businessCardStatus"];
+                 
+                 [defaults setObject:[_loginItem valueForKey:@"storeId"] forKey:@"storeId"];
+                 [defaults setObject:[_loginItem valueForKey:@"cityId"] forKey:@"cityId"];
+                 [defaults setObject:[_loginItem valueForKey:@"commissionFag"] forKey:@"commissionFag"];
+                 [defaults setObject:[_loginItem valueForKey:@"realname"] forKey:@"realname"];
+                 [defaults setObject:[_loginItem valueForKey:@"name"] forKey:@"name"];
+                 [defaults setObject:[_loginItem valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
+                 //门店名称
+                 [defaults setObject:[_loginItem valueForKey:@"storeName"] forKey:@"storeName"];
+                 //门店编码
+                 [defaults setObject:[_loginItem valueForKey:@"storeCode"] forKey:@"storeCode"];
+                 //门店位置
+                 [defaults setObject:[_loginItem valueForKey:@"cityName"] forKey:@"cityName"];
+                 //门店地址
+                 [defaults setObject:[_loginItem valueForKey:@"addr"] forKey:@"addr"];
+                 //门店负责人
+                 [defaults setObject:[_loginItem valueForKey:@"dutyFlag"] forKey:@"dutyFlag"];
+                 //是否是总代
+                 [defaults setObject:[_loginItem valueForKey:@"companyFlag"] forKey:@"companyFlag"];
+                 [defaults synchronize];
+                 [self storeState];
+             }else{
+                 NSString *msg = [dic valueForKey:@"msg"];
+                 if(![code isEqual:@"401"] && ![msg isEqual:@""]){
+                     [SVProgressHUD showInfoWithStatus:msg];
+                 }
+                 if ([code isEqual:@"401"]) {
+                     [NSString isCode:self.navigationController code:code];
+                     //更新指定item
+                     UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
+                     item.badgeValue= nil;
+                 }
+
+             }
+         } andFail:^(NSString *str) {
+
+         } parament:paraments URL:@"/sysUser/myInfo"];
         
-        mgr.requestSerializer.timeoutInterval = 20;
-        //防止返回值为null
-        ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
-        mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-        [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-        //2.拼接参数
-        NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-        paraments[@"username"] = username;
-        paraments[@"userId"] = userId;
-        
-        NSString *url = [NSString stringWithFormat:@"%@/sysUser/myInfo",HTTPURL];
-        [mgr POST:url parameters:paraments progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-            NSString *code = [responseObject valueForKey:@"code"];
-            if ([code isEqual:@"200"]) {
-                _loginItem = [responseObject valueForKey:@"data"];
-                
-                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                [defaults setObject:[_loginItem valueForKey:@"realtorStatus"] forKey:@"realtorStatus"];
-                [defaults setObject:[_loginItem valueForKey:@"idcardStatus"] forKey:@"idcardStatus"];
-                [defaults setObject:[_loginItem valueForKey:@"storeId"] forKey:@"storeId"];
-                [defaults setObject:[_loginItem valueForKey:@"cityId"] forKey:@"cityId"];
-                [defaults setObject:[_loginItem valueForKey:@"commissionFag"] forKey:@"commissionFag"];
-                [defaults setObject:[_loginItem valueForKey:@"realname"] forKey:@"realname"];
-                [defaults setObject:[_loginItem valueForKey:@"name"] forKey:@"name"];
-                [defaults setObject:[_loginItem valueForKey:@"invisibleLinkmanFlag"] forKey:@"invisibleLinkmanFlag"];
-                //门店名称
-                [defaults setObject:[_loginItem valueForKey:@"storeName"] forKey:@"storeName"];
-                //门店编码
-                [defaults setObject:[_loginItem valueForKey:@"storeCode"] forKey:@"storeCode"];
-                //门店位置
-                [defaults setObject:[_loginItem valueForKey:@"cityName"] forKey:@"cityName"];
-                //门店地址
-                [defaults setObject:[_loginItem valueForKey:@"addr"] forKey:@"addr"];
-                //门店负责人
-                [defaults setObject:[_loginItem valueForKey:@"dutyFlag"] forKey:@"dutyFlag"];
-                //是否是总代
-                [defaults setObject:[_loginItem valueForKey:@"companyFlag"] forKey:@"companyFlag"];
-                [defaults synchronize];
-                [self storeState];
-            }else{
-                NSString *msg = [responseObject valueForKey:@"msg"];
-                if(![code isEqual:@"401"] && ![msg isEqual:@""]){
-                    [SVProgressHUD showInfoWithStatus:msg];
-                }
-                if ([code isEqual:@"401"]) {
-                   [NSString isCode:self.navigationController code:code];
-                    //更新指定item
-                    UITabBarItem *item = [self.tabBarController.tabBar.items objectAtIndex:1];;
-                    item.badgeValue= nil;
-                }
-               
-            }
-    
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            [SVProgressHUD showInfoWithStatus:@"网络不给力"];
-            
-        }];
     }else{
         [self nologins];
     }
     
+}
+//查询未读消息
+-(void)setloadData{
+    
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    [WZLoadDateSeviceOne getUserInfosSuccess:^(NSDictionary *dic) {
+        NSString *code = [dic valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSDictionary *data = [dic valueForKey:@"data"];
+            
+            NSString *count = [data valueForKey:@"count"] ;
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:count forKey:@"newCount"];
+            [defaults synchronize];
+            
+            NSInteger counts = [count integerValue];
+            
+            UITabBarItem *item =[self.tabBarController.tabBar.items objectAtIndex:1];
+            
+            if (counts<100&&counts>0) {
+                item.badgeValue= [NSString stringWithFormat:@"%ld",(long)counts];
+            }else if(counts>=100){
+                item.badgeValue= [NSString stringWithFormat:@"99+"];
+            }else{
+                item.badgeValue = nil;
+            }
+        }
+    } andFail:^(NSString *str) {
+        
+    } parament:paraments URL:@"/userMessage/read/notreadCount"];
+    
+}
+//查询是否填写邀请码
+-(void)getParentCodeFlag{
+    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
+    [WZLoadDateSeviceOne getUserInfosSuccess:^(NSDictionary *dic) {
+        NSString *code = [dic valueForKey:@"code"];
+        if ([code isEqual:@"200"]) {
+            NSString *data = [dic valueForKey:@"data"];
+            NSString *warnFlag = [data valueForKey:@"warnFlag"];
+            if ([warnFlag isEqual:@"1"]) {
+                [_invitationButton setHidden:NO];
+                [_invitationButton setEnabled:YES];
+            }else if([warnFlag isEqual:@"0"]){
+                [_invitationButton setHidden:YES];
+                [_invitationButton setEnabled:NO];
+            }
+        }
+    } andFail:^(NSString *str) {
+        
+    } parament:paraments URL:@"/sysUser/getParentCodeFlag"];
 }
 //登录后判断加入门店状态
 -(void)storeState{
@@ -320,6 +381,20 @@
         make.top.equalTo(loginSuccessView.mas_top).offset(kApplicationStatusBarHeight+64);
         make.height.offset(19);
         make.width.offset(17);
+    }];
+    //邀请按钮
+    UIButton *invitationButton = [[UIButton alloc] init];
+    [invitationButton setBackgroundImage:[UIImage imageNamed:@"wd_xf_button"] forState:UIControlStateNormal];
+    [invitationButton addTarget:self action:@selector(invitationButtons) forControlEvents:UIControlEventTouchUpInside];
+    _invitationButton = invitationButton;
+    [invitationButton setHidden:YES];
+    [invitationButton setEnabled:NO];
+    [self.view addSubview:invitationButton];
+    [invitationButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.view.mas_right);
+        make.top.equalTo(loginSuccessView.mas_top).offset(kApplicationStatusBarHeight+450);
+        make.height.offset(61);
+        make.width.offset(47);
     }];
 }
 #pragma mark - 未登录
@@ -486,7 +561,11 @@
     }];
     return view;
 }
-
+#pragma mark -填写邀请码
+-(void)invitationButtons{
+    WZInvitationCodesController *code = [[WZInvitationCodesController alloc] init];
+    [self.navigationController pushViewController:code animated:YES];
+}
 #pragma mark -跳转所属门店
 -(void)BelongedStore{
     WZBelongedStoreController *boaring = [[WZBelongedStoreController alloc] init];
@@ -614,58 +693,7 @@
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 
-#pragma mark -不显示导航条
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-    [self loadData];
-    [self setloadData];
-}
-#pragma mark -查询未读消息
--(void)setloadData{
-    
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *uuid = [ user objectForKey:@"uuid"];
-    //创建会话请求
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    
-    mgr.requestSerializer.timeoutInterval = 20;
-    //防止返回值为null
-    ((AFJSONResponseSerializer *)mgr.responseSerializer).removesKeysWithNullValues = YES;
-    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", @"text/plain", nil];
-    [mgr.requestSerializer setValue:uuid forHTTPHeaderField:@"uuid"];
-    NSString *url = [NSString stringWithFormat:@"%@/userMessage/read/notreadCount",HTTPURL];
-    [mgr GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable responseObject) {
-        NSString *code = [responseObject valueForKey:@"code"];
-        
-        if ([code isEqual:@"200"]) {
-            NSDictionary *data = [responseObject valueForKey:@"data"];
-            
-            NSString *count = [data valueForKey:@"count"] ;
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setObject:count forKey:@"newCount"];
-            [defaults synchronize];
-           
-            NSInteger counts = [count integerValue];
-            
-            UITabBarItem *item =[self.tabBarController.tabBar.items objectAtIndex:1];
-            
-            if (counts<100&&counts>0) {
-                item.badgeValue= [NSString stringWithFormat:@"%ld",(long)counts];
-            }else if(counts>=100){
-                item.badgeValue= [NSString stringWithFormat:@"99+"];
-            }else{
-                item.badgeValue = nil;
-            }
-        }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-    
-}
--(void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
+
+
+
 @end

@@ -14,7 +14,6 @@
 //缓存数据
 @property (weak, nonatomic) IBOutlet UILabel *cacha;
 //实名认证
-@property (strong, nonatomic) IBOutlet UILabel *authenStatus;
 @property (strong, nonatomic) IBOutlet UILabel *telphone;
 @property (strong, nonatomic) IBOutlet UIImageView *authenImage;
 //退出登录

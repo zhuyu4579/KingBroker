@@ -5,7 +5,9 @@
 //  Created by 朱玉隆 on 2018/3/13.
 //  Copyright © 2018年 朱玉隆. All rights reserved.
 //
-
+#import "GKCover.h"
+#import <Masonry.h>
+#import "UIView+Frame.h"
 #import "AppDelegate.h"
 #import "LaunchIntroductionView.h"
 #import "WZTabBarController.h"
@@ -60,8 +62,22 @@ static NSString *const appSecret = @"b5a606ec885dd1ed01abdece86a9322b";
     LaunchIntroductionView *launchView =  [LaunchIntroductionView sharedWithImages:@[@"picture",@"picture_2",@"picture_3",@"picture_4"]];
     launchView.currentColor = [UIColor blackColor];
     launchView.nomalColor = UIColorRBG(158, 158, 158);
+    launchView.hideBlock = ^(NSString *str) {
+        
+        if ([str isEqual:@"1"]) {
+            NSLog(@"12233");
+            //领取红包页面
+            NSUserDefaults *TimeOfBootCount = [NSUserDefaults standardUserDefaults];
+            if (![TimeOfBootCount valueForKey:@"timeOne"]) {
+                [TimeOfBootCount setValue:@"One" forKey:@"timeOne"];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self newRedEnvelope];
+                });
+            }
+        }
+    };
     [self setloadData];
-    
+   
     //阿里推送
     // APNs注册，获取deviceToken并上报
     [self registerAPNS:application];
@@ -378,6 +394,54 @@ static NSString *const appSecret = @"b5a606ec885dd1ed01abdece86a9322b";
 //    }
 //
 //}
+#pragma mark -新人红包
+-(void)newRedEnvelope{
+    UIView *view = [[UIView alloc] init];
+    view.fSize = CGSizeMake(339, 445);
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = [UIImage imageNamed:@"xr_read"];
+    [view addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left);
+        make.top.equalTo(view.mas_top);
+        make.width.offset(view.fWidth);
+        make.height.offset(377);
+    }];
+    
+    UIButton *button = [[UIButton alloc] init];
+    
+    [button addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:button];
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(view.mas_top).offset(278);
+        make.width.offset(view.fWidth);
+        make.height.offset(40);
+    }];
+    
+    UIButton *closeButton = [[UIButton alloc] init];
+    [closeButton setBackgroundImage:[UIImage imageNamed:@"closes"] forState:UIControlStateNormal];
+    [closeButton addTarget:self action:@selector(closeVersion) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:closeButton];
+    [closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(view.mas_centerX);
+        make.top.equalTo(imageView.mas_bottom).offset(35);
+        make.width.offset(30);
+        make.height.offset(30);
+    }];
+    [GKCover translucentWindowCenterCoverContent:view animated:YES notClick:NO];
+}
+#pragma mark -关闭红包
+-(void)closeVersion{
+    [GKCover hide];
+}
+#pragma mark -跳转登录页面
+-(void)login{
+    [GKCover hide];
+    //跳转登录页面
+    [NSString isCode:self.window.rootViewController code:@"401"];
+}
 //查询未读消息
 -(void)setloadData{
     
@@ -498,7 +562,7 @@ static NSString *const appSecret = @"b5a606ec885dd1ed01abdece86a9322b";
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
     if (!uuid) {
-        [NSString isCode:self.window.rootViewController.navigationController code:@"401"];
+        [NSString isCode:self.window.rootViewController code:@"401"];
         return;
     }
 //    NSLog(@"%@",userInfo);

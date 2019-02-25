@@ -16,4 +16,5 @@
 +(void)isCode:(id)target code:(NSString *)code;
 //校验身份证号码
 +(BOOL)validateIDCardNumber:(NSString *)value;
+
 @end

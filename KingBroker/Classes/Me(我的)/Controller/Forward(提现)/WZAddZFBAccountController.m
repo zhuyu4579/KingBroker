@@ -16,6 +16,8 @@
 #import "WZAddZFBAccountController.h"
 
 @interface WZAddZFBAccountController ()<UITextFieldDelegate>
+//姓名
+@property(nonatomic,strong)UITextField *names;
 //支付宝账号
 @property(nonatomic,strong)UITextField *ZFBName;
 @end
@@ -37,13 +39,10 @@
 }
 //创建内容
 -(void)createContents{
-    
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *realname = [user objectForKey:@"name"];
-    
+   
     UILabel *lanbelOne = [[UILabel alloc] init];
     lanbelOne.textColor = UIColorRBG(135, 134, 140);
-    lanbelOne.text = @"为了资金安全，只能绑定当前实名认证人的支付宝帐号";
+    lanbelOne.text = @"为了资金安全，只能绑定当前名片审核通过人的支付宝";
     lanbelOne.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:14];
     [self.view addSubview:lanbelOne];
     [lanbelOne mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -70,15 +69,23 @@
         make.top.equalTo(view.mas_top).offset(15);
         make.height.offset(16);
     }];
-    UILabel *name = [[UILabel alloc] init];
-    name.text = realname;
-    name.font = [UIFont fontWithName:@"PingFang-SC-Medium" size:16];
+    UITextField *name = [[UITextField alloc] init];
+    name.placeholder = @"输入真实姓名";
     name.textColor = UIColorRBG(51, 51, 51);
+    name.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:16];
+    name.keyboardType = UIKeyboardTypeDefault;
+    name.clearButtonMode = UITextFieldViewModeWhileEditing;
+    name.delegate = self;
+    if (![_name isEqual:@""]) {
+        name.text = _name;
+    }
+    _names = name;
     [view addSubview:name];
     [name mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(nameLabel.mas_right).offset(28);
-        make.top.equalTo(view.mas_top).offset(15);
-        make.height.offset(16);
+        make.top.equalTo(view.mas_top);
+        make.height.offset(46);
+        make.right.equalTo(view.mas_right);
     }];
     //猥琐的分割线
     UIView *ineOne = [[UIView alloc] init];
@@ -86,7 +93,7 @@
     [view addSubview:ineOne];
     [ineOne mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(view.mas_left).offset(15);
-        make.top.equalTo(name.mas_bottom).offset(15);
+        make.top.equalTo(name.mas_bottom);
         make.height.offset(1);
         make.width.offset(view.fWidth-15);
     }];
@@ -101,7 +108,7 @@
         make.height.offset(16);
     }];
     UITextField *ZFBName = [[UITextField alloc] init];
-    ZFBName.placeholder = @"点击输入";
+    ZFBName.placeholder = @"输入支付宝账户";
     ZFBName.textColor = UIColorRBG(51, 51, 51);
     ZFBName.font = [UIFont fontWithName:@"PingFang-SC-Regular" size:16];
     ZFBName.keyboardType = UIKeyboardTypeDefault;
@@ -136,6 +143,11 @@
 }
 //确定
 -(void)confirmZFB:(UIButton *)button{
+    NSString *name = _names.text;
+    if ([name isEqual:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"姓名不能为空"];
+        return;
+    }
     NSString *str = _ZFBName.text;
     if ([str isEqual:@""]) {
         [SVProgressHUD showInfoWithStatus:@"支付宝账号不能为空"];
@@ -143,7 +155,7 @@
     }
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *uuid = [ user objectForKey:@"uuid"];
-    NSString *realname = [user objectForKey:@"name"];
+    
     //创建会话请求
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     
@@ -158,7 +170,7 @@
     //2.拼接参数
     NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
     paraments[@"payAccount"] = str;
-    paraments[@"accountName"] = realname;
+    paraments[@"accountName"] = name;
     paraments[@"payeeType"] = @"1";
     paraments[@"type"] = @"1";
     paraments[@"id"] = _ID;
@@ -175,11 +187,6 @@
         [SVProgressHUD dismiss];
         if ([code isEqual:@"200"]) {
             [SVProgressHUD showInfoWithStatus:@"绑定成功"];
-//            for (UIViewController *subVC in self.navigationController.viewControllers) {
-//                if ([subVC isKindOfClass:[WZForwardController class]]) {
-//                    [self.navigationController popToViewController:(WZForwardController *)subVC animated:YES];
-//                }
-//            }
             if ([_ID isEqual:@""]) {
                 WZForwardWindowController *forward = [[WZForwardWindowController alloc] init];
                 [self.navigationController pushViewController:forward animated:YES];

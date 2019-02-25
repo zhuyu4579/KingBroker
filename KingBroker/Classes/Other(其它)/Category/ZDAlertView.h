@@ -26,4 +26,5 @@
 @property (nonatomic,strong)UIViewController *Vc;
 
 +(NSData *)imageProcessWithImage:(UIImage *)image;
+
 @end

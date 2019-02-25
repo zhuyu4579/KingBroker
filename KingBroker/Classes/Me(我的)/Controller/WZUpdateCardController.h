@@ -1,0 +1,17 @@
+//
+//  WZUpdateCardController.h
+//  KingBroker
+//
+//  Created by 朱玉隆 on 2019/2/20.
+//  Copyright © 2019 朱玉隆. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface WZUpdateCardController : UIViewController
+
+@end
+
+NS_ASSUME_NONNULL_END

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface WZAddZFBAccountController : UIViewController
+//名字
+@property(nonatomic,strong)NSString *name;
 //支付宝账号
 @property(nonatomic,strong)NSString *ZFBNames;
 //支付宝账号ID

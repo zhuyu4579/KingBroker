@@ -159,7 +159,11 @@ NSString *storyboard;
         });
         
     }];
+    if (_hideBlock) {
+        _hideBlock(@"1");
+    }   
 }
+
 #pragma mark - scrollView Delegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     int cuttentIndex = (int)(scrollView.contentOffset.x + kScreen_width/2)/kScreen_width;

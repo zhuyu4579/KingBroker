@@ -353,8 +353,6 @@
     report.loadTimes = _boardingPlane;
     report.peopleSums = _partPersonNum;
     report.setOutCitys = _departureCity;
-    report.eatPeoples = _lunchNum;
-    report.tags = [_partWay integerValue];
     report.houseType = _selfEmployed;
     [Vc.navigationController pushViewController:report animated:YES];
 }
